@@ -1,7 +1,7 @@
 # DiaSynth
 Currently all parts works but it is still under construction (By december it should be "completed").<br/>
 <br/>
-It is continuation of project Music-analyser (https://github.com/RadStr/Music-Analyser).<br/>
+It is continuation of project [Music-analyser](https://github.com/RadStr/Music-Analyser).<br/>
 <br/>
 Is is a school project which contains, audio player, audio synthesizer (using diagrams) and audio analyzer contained in one GUI. Written in java.<br/>
 It is using 2 libraries with following licenses.<br/>

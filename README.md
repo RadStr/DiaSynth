@@ -1,5 +1,9 @@
-# Music-Analyser (Later known under the name DiaSynth) 
-is a school project which contains, audio player, audio synthesizer (using diagrams) and audio analyzer contained in one GUI. Written in java.<br/>
+# DiaSynth
+Currently all parts works but it is still under construction (By december it should be "completed").<br/>
+<br/>
+It is continuation of project Music-analyser (https://github.com/RadStr/Music-Analyser).<br/>
+<br/>
+Is is a school project which contains, audio player, audio synthesizer (using diagrams) and audio analyzer contained in one GUI. Written in java.<br/>
 It is using 2 libraries with following licenses.<br/>
 The MP3SPI package (http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.<br/>
 Which are the files in libs directory under the names:<br/>

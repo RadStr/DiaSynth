@@ -5,13 +5,13 @@ It is continuation of project [Music-analyser](https://github.com/RadStr/Music-A
 <br/>
 Is is a school project which contains, audio player, audio synthesizer (using diagrams) and audio analyzer contained in one GUI. Written in java.<br/>
 It is using 2 libraries with following licenses.<br/>
-The MP3SPI package (http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.<br/>
+The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.<br/>
 Which are the files in libs directory under the names:<br/>
 -mp3spi1.9.5.jar<br/>
 -tritonus_share.jar<br/>
 -jl1.0.1.jar<br/>
 <br/>
-JTransforms (https://sites.google.com/site/piotrwendykier/software/jtransforms) is distributed under the terms of the BSD-2-Clause license.<br/>
+[JTransforms](https://sites.google.com/site/piotrwendykier/software/jtransforms) is distributed under the terms of the BSD-2-Clause license.<br/>
 Copyright is found in the LICENSE file taken from https://github.com/wendykierp/JTransforms<br/>
 Which are the files in libs directory under the names starting with JTransforms<br/>
 <br/>

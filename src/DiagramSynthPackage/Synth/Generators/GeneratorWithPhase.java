@@ -1,0 +1,208 @@
+package DiagramSynthPackage.Synth.Generators;
+
+import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.PhaseInputPort;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.FrequencyInputPort;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import DiagramSynthPackage.Synth.SynthDiagram;
+import DiagramSynthPackage.Synth.Unit;
+
+public abstract class GeneratorWithPhase extends Generator {
+    public GeneratorWithPhase(Unit u) {
+        super(u);
+    }
+
+    public GeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+        super(panelWithUnits);
+    }
+
+
+    @Override
+    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+        return createInputPorts(this, panelWithUnits, neutralValues);
+    }
+
+    public static InputPort[] createInputPorts(Unit u, JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+        InputPort[] inputPorts = new InputPort[3];
+        ShapedPanel shapedPanel = u.getShapedPanel();
+        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+            inputPorts[0] = new AmplitudeInputPort(u, shapedPanel, 0, panelWithUnits, neutralValues[0]);
+            inputPorts[1] = new FrequencyInputPort(u, shapedPanel, 1, panelWithUnits, neutralValues[1]);
+            inputPorts[2] = new PhaseInputPort(u, shapedPanel, 2, panelWithUnits, neutralValues[2]);
+        }
+        else {
+            inputPorts[0] = new AmplitudeInputPort(u, shapedPanel, 0, panelWithUnits);
+            inputPorts[1] = new FrequencyInputPort(u, shapedPanel, 1, panelWithUnits);
+            inputPorts[2] = new PhaseInputPort(u, shapedPanel, 2, panelWithUnits);
+        }
+        return inputPorts;
+    }
+
+
+    public double generateSampleConst(double timeInSecs, int diagramFrequency,
+                                      double amp, double freq) {
+        return generateSampleConst(timeInSecs, diagramFrequency, amp, freq, 0);
+    }
+
+    /**
+     * @param phase is in radians
+     * @return
+     */
+    public abstract double generateSampleConst(double timeInSecs, int diagramFrequency,
+                                               double amp, double freq, double phase);
+
+
+    public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
+                                   double carrierFreq, double modulatingWaveAmp,
+                                   double modulatingWaveFreq, double currentInputFreq) {
+        return generateSampleFM(timeInSecs, diagramFrequency, amp,
+                carrierFreq, modulatingWaveAmp, modulatingWaveFreq, currentInputFreq, 0);
+    }
+
+
+    // https://ccrma.stanford.edu/~jos/sasp/Frequency_Modulation_FM_Synthesis.html
+    // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
+    // https://www.sfu.ca/sonic-studio-webdav/handbook/Frequency_Modulation.html
+    // https://www.sfu.ca/sonic-studio-webdav/handbook/Graphics/Frequency_Modulation2.gif
+    // https://web.sonoma.edu/esee/courses/ee442/lectures/sp2017/lect08_angle_mod.pdf - page 9, 13
+    public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
+                                   double carrierFreq, double modulatingWaveAmp,
+                                   double modulatingWaveFreq, double currentInputFreq, double phase) {
+// TODO: RML
+// TODO: DODELAT
+//        if(modulatingWaveFreq != 0) {
+//            phase += (currentInputFreq + modulatingWaveAmp * (carrierFreq - 1)) / modulatingWaveFreq;
+//        }
+// TODO: RML
+// TODO: DODELAT
+        if(modulatingWaveFreq != 0) {
+            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
+        }
+        return generateSampleConst(timeInSecs, diagramFrequency, amp, carrierFreq, phase);
+    }
+
+    // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
+    // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.
+    // But I guess I should implement it, so it behaves correctly, even if it produces weird results
+    // Rewritten it
+    @Override
+    public void calculateSamples() {
+        // TODO: SYNTH - HNED TED
+        if(inputPorts.length <= 2) {     // It doesn't contain phase
+            super.calculateSamples();
+            return;
+        }
+
+        SynthDiagram diagram = panelWithUnits.getSynthDiagram();
+        int timeInSamples = diagram.getTimeInSamples();
+        int diagramFrequency = diagram.getOutputFrequency();
+        double[] amps = inputPorts[0].getValues();
+        double[] freqs = inputPorts[1].getValues();
+        double[] phases = inputPorts[2].getValues();
+        boolean isFreqConst = inputPorts[1].getIsConst();
+
+        double timeInSeconds = timeInSamples / (double)diagramFrequency;
+        double timeJump = 1 / (double)diagramFrequency;
+
+
+        if(inputPorts[2].getIsConst()) {
+            calculateSamples(isFreqConst, timeInSeconds, timeJump, diagramFrequency, amps, freqs, phases[0]);
+        }
+        else {
+            calculateSamples(isFreqConst, timeInSeconds, timeJump, diagramFrequency, amps, freqs, phases);
+        }
+    }
+
+
+    /**
+     * Phase is in degrees
+     * @param isFreqConst
+     * @param timeInSeconds
+     * @param timeJump
+     * @param diagramFrequency
+     * @param amps
+     * @param freqs
+     * @param phase
+     */
+    private void calculateSamples(boolean isFreqConst, double timeInSeconds, double timeJump,
+                                  int diagramFrequency, double[] amps, double[] freqs, double phase) {
+        phase = Math.toRadians(phase);
+
+        // I don't want to perform fm when the noise gen is connected to input port since, it doesn't really make sense.
+        // It basically says now for n samples create wave at frequency x and after that phase to random value, and that in loop
+        // it just does clipping nothing else
+        if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
+            for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i], phase);
+            }
+        }
+        else {
+            double[] modWaveAmps = inputPorts[1].getModulatingWaveAmps();
+            double[] modWaveFreqs = inputPorts[1].getModulatingWaveFreqs();
+
+            if (inputPorts[1].isBinaryPlus()) {
+                double carrierFreq = inputPorts[1].getConstant();
+                if (carrierFreq != Double.MAX_VALUE) {
+                    for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                        results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                                carrierFreq, modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                    }
+                }
+                else {
+                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
+                    for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                        results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                                carrierWaveFreqs[i], modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                    }
+                }
+            }
+            else {
+                // This makes much more sense, also gives ok results
+                for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                    results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                            0, modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                }
+            }
+        }
+    }
+
+
+    private void calculateSamples(boolean isFreqConst, double timeInSeconds, double timeJump,
+                                    int diagramFrequency, double[] amps, double[] freqs, double[] phases) {
+        if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
+            for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i], phases[i]);
+            }
+        }
+        else {
+            double[] modWaveAmps = inputPorts[1].getModulatingWaveAmps();
+            double[] modWaveFreqs = inputPorts[1].getModulatingWaveFreqs();
+
+            if (inputPorts[1].isBinaryPlus()) {
+                double carrierFreq = inputPorts[1].getConstant();
+                if (carrierFreq != Double.MAX_VALUE) {
+                    for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                        results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                                carrierFreq, modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                    }
+                }
+                else {
+                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
+                    for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                        results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                                carrierWaveFreqs[i], modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                    }
+                }
+            }
+            else {
+                // This makes much more sense, also gives ok results
+                for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
+                    results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
+                            0, modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                }
+            }
+        }
+    }
+}

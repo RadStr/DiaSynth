@@ -3371,6 +3371,46 @@ public class Program {
     }
 
 
+    // From documentation (this are the values we want convert to):
+//	if n is even then
+//	 a[2*k] = Re[k], 0<=k<n/2
+//	 a[2*k+1] = Im[k], 0<k<n/2
+//	 a[1] = Re[n/2]
+//
+//
+//	if n is odd then
+//	 a[2*k] = Re[k], 0<=k<(n+1)/2
+//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
+//	 a[1] = Im[(n-1)/2]
+    /**
+     * This method is inverse to convertResultsOfFFTToRealRealForward, but it doesn't preserve imaginary values,
+     * it just puts the measures to the real parts of the array and sets the imaginary part to 0.
+     * @param fftMeasures
+     * @param result
+     * @return
+     */
+    public static double[] convertFFTAmplitudesToClassicFFTArr(double[] fftMeasures, double[] result) {
+        if(result.length % 2 == 0) {			// It's even
+            result[0] = fftMeasures[0];
+            result[1] = fftMeasures[fftMeasures.length - 1];
+            for(int i = 2, j = 2; i < fftMeasures.length; i++, j++) {
+                result[j] = fftMeasures[i];
+                j++;
+                result[j] = 0;
+            }
+        } else {
+            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
+                result[j] = fftMeasures[i];
+                j++;
+                result[j] = 0;
+            }
+        }
+
+        return result;
+    }
+
+
+
     public static int getBinCountRealForward(int windowSize) {
         int binCount;
 
@@ -3829,32 +3869,6 @@ public class Program {
         return results;
     }
 
-
-    // TODO: remove later - just for testing
-    private double[] convertGivenRealForwardFFTToClassic(double[] fftResult) {
-        double[] result;
-        if(fftResult.length % 2 == 0) {			// It's even
-            result = new double[fftResult.length + 2];
-            result[0] = fftResult[0];
-            result[1] = 0;
-            for(int i = 2; i < fftResult.length; i++) {
-                result[i] = fftResult[i];
-            }
-            result[result.length - 2] = fftResult[1];
-            result[result.length - 1] = 0;
-        } else {
-            result = new double[fftResult.length + 1];
-            result[0] = fftResult[0];
-            result[1] = 0;
-            for(int i = 2; i < fftResult.length - 1; i++) {
-                result[i] = fftResult[i];
-            }
-            result[result.length - 2] = fftResult[fftResult.length - 1];
-            result[result.length - 1] = fftResult[1];
-        }
-
-        return result;
-    }
 
 
     /**

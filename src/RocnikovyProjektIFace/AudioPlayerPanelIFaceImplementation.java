@@ -760,6 +760,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         addAudioOperationsWithoutWave(audioModJMenu);
         audioModJMenu.addSeparator();
 
+        JMenu fftJMenu = new JMenu("FFT Test");
+        addFFTWindowOperations(fftJMenu);
+        menuBar.add(fftJMenu);
+
         addFilters(audioModJMenu);
         audioModJMenu.addSeparator();
 
@@ -3377,6 +3381,29 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
+    private void addFFTWindowOperations(JMenu menu) {
+        JMenuItem menuItem = new JMenuItem("FFT window");
+        menuItem.setToolTipText("Creates fft window");
+
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FFTWindowPanel fftWindowPanel = new FFTWindowPanel(new double[1024], 1024,
+                        0, (int)outputAudioFormat.getSampleRate(), 1);
+                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
+                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if(result == JOptionPane.OK_OPTION) {
+                    double[] wave = fftWindowPanel.getIFFTResult();
+                    addWave(new DoubleWave(wave, (int)outputAudioFormat.getSampleRate(), 1,
+                            "Doesn't matter I don't create file anyways", false));
+                }
+            }
+        });
+
+        menu.add(menuItem);
+    }
+
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addAudioOperationsWithoutWave(JMenu menu) {
         WithoutInputWavePluginIFace op;
@@ -3463,7 +3490,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     // Hot to get menu items : https://stackoverflow.com/questions/24850424/get-jmenuitems-from-jmenubar
     private void setEnabledAllMenus(boolean enable) {
         JMenuBar bar = this.thisFrame.getJMenuBar();
-        for(int i = 1; i < bar.getMenuCount(); i++) {
+        for(int i = 2; i < bar.getMenuCount(); i++) {
             JMenu menu = bar.getMenu(i);
             menu.setEnabled(enable);
             // Disabling only menus is better - it is enough and I don't have to deal with the problem when calling setEnabledWithWaveMenuItems

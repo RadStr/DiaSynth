@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace;
 
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
@@ -11,6 +12,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 public class FFTWindowPanel extends JPanel implements MouseMotionListener, MouseListener {
+    public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
+        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
+    }
+
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
         for (int i = 0; i < song.length; i++) {
             song[i] = 0;
@@ -476,6 +481,37 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             }
         }
     }
+
+
+    public static void getIFFT(double[] fftArr, DoubleFFT_1D fft) {
+        fft.realInverse(fftArr, true);
+    }
+
+    public double[] getIFFTResult() {
+        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+        for(int i = 0; i < fftResult.length; i++) {
+            fftResult[i] = fftResult[i] * (fftMeasures.length / 4);
+        }
+        getIFFT(fftResult, fft);
+        return fftResult;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

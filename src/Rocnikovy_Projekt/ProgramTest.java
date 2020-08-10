@@ -263,18 +263,17 @@ public class ProgramTest {
         for (int k = 0; k < 10; k++) {
             System.out.println();
         }
+        // Test FFT window visualisation 2
+        freq = sampleRate / (double)windowSize;
+        freq *= windowSize / 2 - 1;      // Chooses the harmonics of fft if whole number, if not then the fft gets confused
+        result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
+            startIndex, windowSize, windowWidth, windowHeight);
+        System.out.println("createFFTWindowTest:\t" + result);
+        for (int k = 0; k < 10; k++) {
+            System.out.println();
+        }
+
 // TODO: RML
-//        // Test FFT window visualisation 2
-//        freq = sampleRate / (double)windowSize;
-//        freq *= windowSize / 2 - 1;      // Chooses the harmonics of fft if whole number, if not then the fft gets confused
-//        result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
-//            startIndex, windowSize, windowWidth, windowHeight);
-//        System.out.println("createFFTWindowTest:\t" + result);
-//        for (int k = 0; k < 10; k++) {
-//            System.out.println();
-//        }
-//
-//
 //        // Spectrogram test 1
 //        int lenInSecs = 50;
 //        windowSize = 1024;windowSize = 200;                 // TODO:

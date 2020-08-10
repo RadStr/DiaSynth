@@ -35,7 +35,6 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
         Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
-        normalizeAndSetMeasureStrings();
 
         BIN_COUNT = Integer.toString(binCount).length();
         MAX_MEASURE = BIN_COUNT + 3;      // BIN_COUNT + .xx

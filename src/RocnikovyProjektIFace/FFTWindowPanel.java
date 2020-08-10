@@ -10,13 +10,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////// JESTE TO MUSIM NEJAK ZOBECNIT PROTOZE KDYZ JE BINSIZE 0 TAK PROBLEM (V getBinAtPos) A ASI NECHCI ABY
-//////////////////////// ABY SE TO CHVALO RELATIVNE TAKZE TO ZMENIT NA ABSOLUTNI, TY VECI S RELATIVITOU CO BUDE
-//////////////////////// NUTNY ZMENIT JSOU OZNACENY JAKO TODO: RELATIVE
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 public class FFTWindowPanel extends JPanel implements MouseMotionListener, MouseListener {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
         for (int i = 0; i < song.length; i++) {
@@ -42,7 +35,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
         Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
-        setMaxEnergyAndNormalizeMeasures();
+        normalizeAndSetMeasureStrings();
 
         BIN_COUNT = Integer.toString(binCount).length();
         MAX_MEASURE = BIN_COUNT + 3;      // BIN_COUNT + .xx
@@ -112,7 +105,6 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
     private final DoubleFFT_1D fft;
     private final double freqJump;
-    private double maxEnergy;                   // TODO: RELATIVE
 
     private final String[] bins;
     private final String[] fftMeasuresString;
@@ -132,34 +124,20 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
     private Point oldMouseLoc;
 
-
-    // TODO: RELATIVE
-    /**
-     * Sets max energy and also updates values based on that if max energy changed
-     */
-    private void setMaxEnergyAndNormalizeMeasures() {
-        // Find maxEnergy for normalization
-        double oldMaxEnergy = maxEnergy;
-        maxEnergy = 0;
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] > maxEnergy) {
-                maxEnergy = fftMeasures[i];
-            }
-        }
-
-        if(maxEnergy != oldMaxEnergy) {
-            normalizeAndSetMeasureStrings();
-        }
-    }
-
-    // TODO: RELATIVE
     private void normalizeAndSetMeasureStrings() {
         // Normalization and getting string representation
         for (int i = 0; i < fftMeasures.length; i++) {
-            if(maxEnergy != 0) {
-                fftMeasures[i] /= maxEnergy;
-            }
+            fftMeasures[i] *= 2;
+            fftMeasures[i] /= (fftMeasures.length / 2);
             fftMeasuresString[i] = String.format("%.2f", fftMeasures[i]);
+        }
+    }
+
+    public static void normalizeFFTResultsRealForward(double[] fftMeasures) {
+        // Normalization and getting string representation
+        for (int i = 0; i < fftMeasures.length; i++) {
+            fftMeasures[i] *= 2;
+            fftMeasures[i] /= (fftMeasures.length / 2);
         }
     }
 
@@ -406,7 +384,6 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         }
 
         fftMeasuresString[bin] = String.format("%.2f", fftMeasures[bin]);
-        setMaxEnergyAndNormalizeMeasures();             // TODO: RELATIVE
     }
 
 

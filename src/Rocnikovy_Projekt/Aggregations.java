@@ -1,5 +1,8 @@
 package Rocnikovy_Projekt;
 
+// TODO: ABS_MIN and ABS_MAX aren't in all performAggregation methods
+//  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
+
 /**
  * Enumeration representing the possible aggregation of n values.
  */
@@ -9,9 +12,19 @@ public enum Aggregations {
             return Integer.MAX_VALUE;
         }
     },
+    ABS_MIN {
+        public int defaultValueForMod() {
+            return Integer.MAX_VALUE;
+        }
+    },
     MAX {
         public int defaultValueForMod() {
             return Integer.MIN_VALUE;
+        }
+    },
+    ABS_MAX {
+        public int defaultValueForMod() {
+            return 0;
         }
     },
     AVG {

@@ -488,26 +488,49 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         fft.realInverse(fftArr, true);
     }
 
+
     public double[] getIFFTResult() {
-        double sum = Program.performAggregation(fftMeasures, Aggregations.SUM);
-        sum *= fftMeasures.length;
         Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
 
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] = fftResult[i] * (fftMeasures.length/* / 4*/);
-            if(sum > fftMeasures.length) {
-                fftResult[i] *= (fftMeasures.length / sum);
-                //fftResult[i] /= fftMeasures.length;
-            }
+            fftResult[i] = fftResult[i] * (fftMeasures.length);
         }
         getIFFT(fftResult, fft);
-
-        ProgramTest.debugPrint("IFFT");
-        for(int i = 0; i < fftResult.length; i++) {
-            ProgramTest.debugPrint("index:", i, fftResult[i]);
-        }
+        normalize(fftResult);
 
         return fftResult;
+    }
+
+// TODO: REMOVE
+//    public double[] getIFFTResult() {
+//        double sum = Program.performAggregation(fftMeasures, Aggregations.SUM);
+//        sum *= fftMeasures.length;
+//        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+//
+//        for(int i = 0; i < fftResult.length; i++) {
+//            fftResult[i] = fftResult[i] * (fftMeasures.length/* / 4*/);
+//            if(sum > fftMeasures.length) {
+//                fftResult[i] *= (fftMeasures.length / sum);
+//                //fftResult[i] /= fftMeasures.length;
+//            }
+//        }
+//        getIFFT(fftResult, fft);
+//
+//        ProgramTest.debugPrint("IFFT");
+//        for(int i = 0; i < fftResult.length; i++) {
+//            ProgramTest.debugPrint("index:", i, fftResult[i]);
+//        }
+//
+//        return fftResult;
+//    }
+
+
+    public static void normalize(double[] arr) {
+        double max = Program.performAggregation(arr, Aggregations.ABS_MAX);
+
+        for(int i = 0; i < arr.length; i++) {
+            arr[i] /= max;
+        }
     }
 
 

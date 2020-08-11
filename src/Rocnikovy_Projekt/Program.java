@@ -1865,6 +1865,23 @@ public class Program {
         int endIndex = startIndex + len;
         for (int i = startIndex; i < endIndex; i++) {
             switch(agg) {               // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                case ABS_MAX:
+                    {
+                        double abs = Math.abs(samples[i]);
+                        if (specialValue < abs) {
+                            specialValue = abs;
+                        }
+                        break;
+                    }
+                case ABS_MIN:
+                    {
+                        double abs = Math.abs(samples[i]);
+                        if (specialValue > abs) {
+                            specialValue = abs;
+                        }
+                        break;
+                    }
+
                 case MAX:
                     if (specialValue < samples[i]) {
                         specialValue = samples[i];

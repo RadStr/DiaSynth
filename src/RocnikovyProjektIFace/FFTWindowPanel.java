@@ -18,9 +18,6 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        for (int i = 0; i < song.length; i++) {
-            song[i] = 0;
-        }
         this.freqJump = freqJump;
 
         fftResult = new double[windowSize];
@@ -132,8 +129,11 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     private void normalizeAndSetMeasureStrings() {
         // Normalization and getting string representation
         for (int i = 0; i < fftMeasures.length; i++) {
-            fftMeasures[i] *= 2;
-            fftMeasures[i] /= (fftMeasures.length / 2);
+            // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
+            // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
+//            fftMeasures[i] *= 2;
+//            fftMeasures[i] /= (fftMeasures.length / 2);
+            fftMeasures[i] /= fftMeasures.length;
             fftMeasuresString[i] = String.format("%.2f", fftMeasures[i]);
         }
     }
@@ -500,29 +500,6 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
         return fftResult;
     }
-
-// TODO: REMOVE
-//    public double[] getIFFTResult() {
-//        double sum = Program.performAggregation(fftMeasures, Aggregations.SUM);
-//        sum *= fftMeasures.length;
-//        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
-//
-//        for(int i = 0; i < fftResult.length; i++) {
-//            fftResult[i] = fftResult[i] * (fftMeasures.length/* / 4*/);
-//            if(sum > fftMeasures.length) {
-//                fftResult[i] *= (fftMeasures.length / sum);
-//                //fftResult[i] /= fftMeasures.length;
-//            }
-//        }
-//        getIFFT(fftResult, fft);
-//
-//        ProgramTest.debugPrint("IFFT");
-//        for(int i = 0; i < fftResult.length; i++) {
-//            ProgramTest.debugPrint("index:", i, fftResult[i]);
-//        }
-//
-//        return fftResult;
-//    }
 
 
     public static void normalize(double[] arr) {

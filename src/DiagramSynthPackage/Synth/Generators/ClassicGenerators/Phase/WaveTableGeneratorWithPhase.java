@@ -28,10 +28,7 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
     }
 
     private void setDefaultWaveTable() {
-        double[] sine = new double[512];
-        for(int i = 0; i < sine.length; i++) {
-            sine[i] = Math.sin(2 * Math.PI * (i / (double)512));
-        }
+        double[] sine = SineGeneratorWithPhase.createSine(512, 1,1, 0);
         setWaveTable(sine, null);
     }
 

@@ -3,6 +3,7 @@ package RocnikovyProjektIFace;
 
 import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
+import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import PartsConnectingGUI.ChangeJMenuBarIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithShouldConvertFlag;
@@ -3388,7 +3389,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FFTWindowPanel fftWindowPanel = new FFTWindowPanel(new double[1024], 1024,
+                //double[] arr = new double[1024];
+                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,90, 0);
+                // TODO: Just testing correctness of createSine
+//                addWave(new DoubleWave(arr, (int)outputAudioFormat.getSampleRate(), 1,
+//                        "Doesn't matter I don't create file anyways", false));
+                // TODO: Just testing correctness of createSine
+
+
+                FFTWindowPanel fftWindowPanel = new FFTWindowPanel(arr, 1024,
                         0, (int)outputAudioFormat.getSampleRate(), 1);
                 int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

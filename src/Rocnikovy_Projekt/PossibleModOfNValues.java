@@ -7,5 +7,6 @@ public enum PossibleModOfNValues {
     MIN,
     MAX,
     AVG,
-    RMS
+    RMS,
+    SUM
 }

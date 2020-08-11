@@ -1,7 +1,9 @@
 package RocnikovyProjektIFace;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import Rocnikovy_Projekt.PossibleModOfNValues;
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.swing.*;
@@ -488,12 +490,44 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
     public double[] getIFFTResult() {
+        double sum = getArrSum(fftMeasures);
+        sum *= fftMeasures.length;
         Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] = fftResult[i] * (fftMeasures.length / 4);
+            fftResult[i] = fftResult[i] * (fftMeasures.length/* / 4*/);
+            if(sum > fftMeasures.length) {
+                fftResult[i] *= (fftMeasures.length / sum);
+                //fftResult[i] /= fftMeasures.length;
+            }
         }
         getIFFT(fftResult, fft);
+
+        ProgramTest.debugPrint("IFFT");
+        for(int i = 0; i < fftResult.length; i++) {
+            ProgramTest.debugPrint("index:", i, fftResult[i]);
+        }
+
         return fftResult;
+    }
+
+
+    public static double convertNSamplesToOneByPerformingMod(double[] arr, PossibleModOfNValues mod) {
+        return convertNSamplesToOneByPerformingMod(arr, 0, arr.length, mod);
+    }
+
+    public static double convertNSamplesToOneByPerformingMod(double[] arr, int startIndex, int endIndex,
+                                                             PossibleModOfNValues mod) {
+        return 0;
+    }
+
+
+    public static double getArrSum(double[] arr) {
+        double sum = 0;
+        for(int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
     }
 
 

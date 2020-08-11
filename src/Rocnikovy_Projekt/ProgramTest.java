@@ -149,10 +149,10 @@ public class ProgramTest {
 
         System.out.println("convertBytesToSamplesTest():\t" + convertBytesToSamplesTest());
         System.out.println("reverseArrTest():\t" + reverseArrTest());
-        System.out.println("convertNSamplesToOneByPerformingModTestAvg():\t" + convertNSamplesToOneByPerformingModTestAvg());
-        System.out.println("convertNSamplesToOneByPerformingModTestRms():\t" + convertNSamplesToOneByPerformingModTestRms());
-        System.out.println("convertNSamplesToOneByPerformingModTestMin():\t" + convertNSamplesToOneByPerformingModTestMin());
-        System.out.println("convertNSamplesToOneByPerformingModTestMax():\t" + convertNSamplesToOneByPerformingModTestMax());
+        System.out.println("performAggregationTestAvg():\t" + performAggregationTestAvg());
+        System.out.println("performAggregationTestRms():\t" + performAggregationTestRms());
+        System.out.println("performAggregationTestMin():\t" + performAggregationTestMin());
+        System.out.println("performAggregationTestMax():\t" + performAggregationTestMax());
 
 
         Random random = new Random();
@@ -201,13 +201,13 @@ public class ProgramTest {
 
         bais = new ByteArrayInputStream(song);
         isBigEndian = false;
-        System.out.println("convertNSamplesToOneByTakingTheRMStestBoth with little endian:\t" +
-            convertNSamplesToOneByTakingTheRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8, isBigEndian, isSigned, song.length));
+        System.out.println("performAggregationRMStestBoth with little endian:\t" +
+            performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8, isBigEndian, isSigned, song.length));
 
         bais = new ByteArrayInputStream(song);
         isBigEndian = true;
-        System.out.println("convertNSamplesToOneByTakingTheRMStestBoth with big endian:\t" +
-            convertNSamplesToOneByTakingTheRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8, isBigEndian, isSigned, song.length));
+        System.out.println("performAggregationRMStestBoth with big endian:\t" +
+            performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8, isBigEndian, isSigned, song.length));
 
 
         convertBytesToNormalizedSamplesTests();
@@ -362,8 +362,8 @@ public class ProgramTest {
             InputStream is = new ByteArrayInputStream(audioWithFreqfreq);
             SongPartWithAverageValueOfSamples[] spwavos = new SongPartWithAverageValueOfSamples[0];
             try {
-                spwavos = Program.takeSongPartsAndAddMod(is, sizeOfOneSongPart, frameSize, isBigEndian, isSigned,
-                    sampleSize, false, PossibleModOfNValues.AVG);
+                spwavos = Program.takeSongPartsAndAddAggregation(is, sizeOfOneSongPart, frameSize, isBigEndian, isSigned,
+                    sampleSize, false, Aggregations.AVG);
             } catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION\t");
                 return false;
@@ -593,11 +593,11 @@ public class ProgramTest {
      * @return Returns true if the outputs of the methods are equal, otherwise returns false.
      * @throws IOException is thrown when error with input stream occurred
      */
-    public boolean convertNSamplesToOneByTakingTheRMStestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels,
-                                                              int sampleSize, boolean isBigEndian, boolean isSigned,
-                                                              int byteLength) throws IOException {
-        if (program.convertNSamplesToOneByPerformingMod(stream, numberOfChannels, sampleSize, isBigEndian, isSigned, byteLength, PossibleModOfNValues.RMS) ==
-            program.convertNSamplesToOneByPerformingMod(samplesFromStream, sampleSize, isBigEndian, isSigned, PossibleModOfNValues.RMS)) {
+    public boolean performAggregationRMStestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels,
+                                                 int sampleSize, boolean isBigEndian, boolean isSigned,
+                                                 int byteLength) throws IOException {
+        if (program.performAggregation(stream, numberOfChannels, sampleSize, isBigEndian, isSigned, byteLength, Aggregations.RMS) ==
+            program.performAggregation(samplesFromStream, sampleSize, isBigEndian, isSigned, Aggregations.RMS)) {
             return true;
         } else {
             return false;
@@ -657,12 +657,12 @@ public class ProgramTest {
 
 
     /**
-     * Tests the convertNSamplesToOneByPerformingMod method with mod = MAX
+     * Tests the performAggregation method with mod = MAX
      *
      * @return Returns true if the output equals the expected output
      * @throws IOException can be thrown only if the sample size is invalid
      */
-    public boolean convertNSamplesToOneByPerformingModTestMax() throws IOException {
+    public boolean performAggregationTestMax() throws IOException {
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -675,7 +675,7 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.MAX) == 5) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) == 5) {
             isBigEndian = false;
             samples[0] = 1;
             samples[1] = 0;
@@ -685,7 +685,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.MAX) == 5) {
+            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) == 5) {
                 return true;
             } else {
                 return false;
@@ -697,12 +697,12 @@ public class ProgramTest {
 
 
     /**
-     * Tests the convertNSamplesToOneByPerformingMod method with mod = MIN
+     * Tests the performAggregation method with mod = MIN
      *
      * @return Returns true if the output equals the expected output
      * @throws IOException can be thrown only if the sample size is invalid
      */
-    public boolean convertNSamplesToOneByPerformingModTestMin() throws IOException {
+    public boolean performAggregationTestMin() throws IOException {
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -715,7 +715,7 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.MIN) == 1) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) == 1) {
             isBigEndian = false;
             samples[0] = 3;
             samples[1] = 0;
@@ -725,7 +725,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.MIN) == 1) {
+            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) == 1) {
                 return true;
             } else {
                 return false;
@@ -737,12 +737,12 @@ public class ProgramTest {
 
 
     /**
-     * Tests the convertNSamplesToOneByPerformingMod method with mod = AVG
+     * Tests the performAggregation method with mod = AVG
      *
      * @return Returns true if the output equals the expected output
      * @throws IOException can be thrown only if the sample size is invalid
      */
-    public boolean convertNSamplesToOneByPerformingModTestAvg() throws IOException {
+    public boolean performAggregationTestAvg() throws IOException {
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -754,7 +754,7 @@ public class ProgramTest {
         samples[5] = 3;
         samples[6] = 0;
         samples[7] = 4;
-        if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.AVG) ==
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) ==
             ((1 + 2 + 3 + 4) / 4.0)) {
             isBigEndian = false;
             samples[0] = 1;
@@ -765,7 +765,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.AVG) ==
+            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) ==
                 ((1 + 2 + 3 + 4) / 4.0)) {
                 return true;
             } else {
@@ -777,12 +777,12 @@ public class ProgramTest {
     }
 
     /**
-     * Tests the convertNSamplesToOneByPerformingMod method with mod = RMS
+     * Tests the performAggregation method with mod = RMS
      *
      * @return Returns true if the output equals the expected output
      * @throws IOException can be thrown only if the sample size is invalid
      */
-    public boolean convertNSamplesToOneByPerformingModTestRms() throws IOException {
+    public boolean performAggregationTestRms() throws IOException {
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -795,7 +795,7 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.RMS) ==
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) ==
             Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0))) {
             isBigEndian = false;
             samples[0] = 1;
@@ -806,7 +806,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            if (program.convertNSamplesToOneByPerformingMod(samples, 2, isBigEndian, isSigned, PossibleModOfNValues.RMS) ==
+            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) ==
                 Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0))) {
                 return true;
             } else {

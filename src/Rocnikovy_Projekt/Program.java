@@ -1,4 +1,14 @@
 package Rocnikovy_Projekt;
+// When I talk about compiler I mean JVM
+// TODO: Remove the next 2 lines after clean up
+// When I didn't have much knowledge I did copy-pasting to make the code faster, but now after 2 years I see that
+// it was very bad decision and also to compiler optimizes it anyways
+
+
+// TODO: Copy pasted - REMOVE ALL THESE, sometimes can be found under:
+// TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+
+
 
 // TODO: !!!!!!!!!!!!!!!!!!! Prepsat veskery kod kde se kopiruje na System.arraycopy
 
@@ -905,7 +915,7 @@ public class Program {
 ////                        if(song.length != 0) {                              // TODO:
 //                            //        byte[] first3MinsOfSong = song[0];
 //                            ByteArrayInputStream bais = new ByteArrayInputStream(first3MinsOfSong);
-//                            SongPartWithAverageValueOfSamples[] result = takeSongPartsAndAddMod(bais, sampleRate, frameSize, isBigEndian, isSigned, sampleSizeInBytes, false, PossibleModOfNValues.AVG);
+//                            SongPartWithAverageValueOfSamples[] result = takeSongPartsAndAddAggregation(bais, sampleRate, frameSize, isBigEndian, isSigned, sampleSizeInBytes, false, Aggregations.AVG);
 //                            double[] values = takeValuesFromSongParts(result);
 //                            normalizeToDoublesBetweenMinusOneAndOne(values, sampleSizeInBits, isSigned);     // normalization
 //                            INDArray arr = Nd4j.create(values);
@@ -1665,9 +1675,9 @@ public class Program {
 
     // TODO: Nejak nebere k uvahu pocet kanalu ale tvari se ze jo protoze bere frameSize
     /**
-     * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the modification mod for each part
-     * The output is sorted by the int value (which depends on the mod argument), if the output is sorted depends on the value of variable returnSorted.
-     * If the song is multi-channel (for example stereo), then the mod int is calculated as it was mono
+     * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the aggregation agg for each part
+     * The output is sorted by the int value (which depends on the agg argument), if the output is sorted depends on the value of variable returnSorted.
+     * If the song is multi-channel (for example stereo), then the agg int is calculated as it was mono
      *
      * @param audioStream                 is the input stream with the audio samples.
      * @param numberOfFramesInOneSongPart is the total number of frames in 1 song part
@@ -1675,17 +1685,17 @@ public class Program {
      * @param isBigEndian                 is boolean variable, which is true if the samples are big endian and false if little endian
      * @param isSigned                    is boolean variable, which is true if the samples are signed, false if unsigned.
      * @param sampleSize                  is the size of 1 sample
-     * @param returnSorted                if true, then the output is sorted by the int value, which is based on the mod, else the output is not sorted, that
+     * @param returnSorted                if true, then the output is sorted by the int value, which is based on the agg, else the output is not sorted, that
      *                                    means if we connected all the song parts from the result in the order as they are in the array, then it would be
      *                                    same as the original input stream
-     * @param mod                         represents the modification - what int will be added to each song part.
-     * @return Returns the array of type SongPartWithAverageValueOfSamples which contains the song parts with the int based on the mod argument.
-     * @throws IOException is thrown when error in reading the input stream occurred, or when the method is called with invalid mod.
+     * @param agg                         represents the aggregation - what double will be added to each song part.
+     * @return Returns the array of type SongPartWithAverageValueOfSamples which contains the song parts with the int based on the agg argument.
+     * @throws IOException is thrown when error in reading the input stream occurred, or when the method is called with invalid agg.
      */
-    public static SongPartWithAverageValueOfSamples[] takeSongPartsAndAddMod(InputStream audioStream,
-                                                                             int numberOfFramesInOneSongPart, int frameSize,
-                                                                             boolean isBigEndian, boolean isSigned, int sampleSize,
-                                                                             boolean returnSorted, PossibleModOfNValues mod) throws IOException {
+    public static SongPartWithAverageValueOfSamples[] takeSongPartsAndAddAggregation(InputStream audioStream,
+                                                                                     int numberOfFramesInOneSongPart, int frameSize,
+                                                                                     boolean isBigEndian, boolean isSigned, int sampleSize,
+                                                                                     boolean returnSorted, Aggregations agg) throws IOException {
         ArrayList<SongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
         int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
         byte[] songPart = new byte[size];
@@ -1698,22 +1708,7 @@ public class Program {
                 break;
             }
             double specialValue;
-            switch (mod) {                // TODO: If the compiler doesn't optimize the cases outside the loop, then it is really inefficient and should be rewritten
-                case RMS:
-                    specialValue = convertNSamplesToOneByPerformingMod(songPart, sampleSize, isBigEndian, isSigned, PossibleModOfNValues.RMS);
-                    break;
-                case AVG:
-                    specialValue = convertNSamplesToOneByPerformingMod(songPart, sampleSize, isBigEndian, isSigned, PossibleModOfNValues.AVG);
-                    break;
-                case MAX:
-                    specialValue = convertNSamplesToOneByPerformingMod(songPart, sampleSize, isBigEndian, isSigned, PossibleModOfNValues.MAX);
-                    break;
-                case MIN:
-                    specialValue = convertNSamplesToOneByPerformingMod(songPart, sampleSize, isBigEndian, isSigned, PossibleModOfNValues.MIN);
-                    break;
-                default:
-                    throw new IOException();
-            }
+            specialValue = performAggregation(songPart, sampleSize, isBigEndian, isSigned, agg);
             if (bytesReadSum != songPart.length) {// TODO: !!!!!!!!!!!!!!!!!!
                 // TODO: Here I take the last window i nthe other cases I don't so I guess that I should just drop it
    /*
@@ -1738,26 +1733,9 @@ public class Program {
         return arr;
     }
 
-    /**
-     * Returns default value for given modification.
-     *
-     * @param mod is the modification
-     * @return Returns default value for given modification.
-     */
-    private static int defaultValueForMod(PossibleModOfNValues mod) {
-        if (mod == PossibleModOfNValues.MAX) {
-            return Integer.MIN_VALUE;
-        } else if (mod == PossibleModOfNValues.MIN) {
-            return Integer.MAX_VALUE;
-        } else if (mod == PossibleModOfNValues.AVG || mod == PossibleModOfNValues.RMS) {
-            return 0;
-        }
-        return 0;
-    }
-
 
     /**
-     * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the modification mod for each part.
+     * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the aggregation mod for each part.
      * The output is sorted by the int value (which depends on the mod argument).
      * If the output is sorted depends on the value of variable returnSorted.
      * The mod value is calculated of the original (non-normalized) values.
@@ -1772,11 +1750,12 @@ public class Program {
      * @param returnSorted                if true, then the output is sorted by the int value, which depends on the mod, else the output is not sorted, that
      *                                    means if we connected all the song parts from the result in the order as they are in the array, then it would be
      *                                    same as the original input stream
-     * @param mod                         represents the modification - what int will be added to each song part.
+     * @param mod                         represents the aggregation - what int will be added to each song part.
      * @return Returns the array of type NormalizedSongPartWithAverageValueOfSamples which contains the song parts in form of normalized samples, which are stored in 1D double array.
      * Together with the int based on the mod argument.
      * @throws IOException is thrown when error in reading the input stream occurred, or if the value in argument mod is invalid
      */
+    @Deprecated
     public static NormalizedSongPartWithAverageValueOfSamples[] takeNormalizedSongPartsAndAddMod(InputStream audioStream,
                                                                                                  int numberOfFramesInOneSongPart,
                                                                                                  int frameSize,
@@ -1784,7 +1763,7 @@ public class Program {
                                                                                                  int sampleSize,
                                                                                                  boolean isSigned,
                                                                                                  boolean returnSorted,
-                                                                                                 PossibleModOfNValues mod) throws IOException {
+                                                                                                 Aggregations mod) throws IOException {
         ArrayList<NormalizedSongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
         int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
         byte[] songPart = new byte[size];
@@ -1858,39 +1837,63 @@ public class Program {
     }
 
 
+
+    public static double performAggregation(double[] arr, Aggregations agg) {
+        return performAggregation(arr, 0, arr.length, agg);
+    }
+
+
     /**
      * Compresses the audio:
-     * (1) if mod = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if mod = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if mod = AVG then by taking the average value of samples
-     * (4) if mod = RMS then by taking the RMS of samples
+     * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
+     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (3) if agg = AVG then by taking the average value of samples
+     * (4) if agg = RMS then by taking the RMS of samples
+     * (5) if agg = SUM then by taking the sum of samples
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      *
      * @param samples     is double array with samples from one channel
      * @param startIndex
      * @param len
-     * @param mod         represents the modification (operation) which will be performed on the len samples
+     * @param agg         represents the aggregation which will be performed on the len samples
      * @return Returns double which is result of the performed operation on len samples.
      */
-    public static double convertNSamplesToOneByPerformingMod(double[] samples, int startIndex, int len, PossibleModOfNValues mod) {
-        double specialValue = defaultValueForMod(mod);
+    public static double performAggregation(double[] samples, int startIndex, int len, Aggregations agg) {
+        double specialValue = agg.defaultValueForMod();
 
         int endIndex = startIndex + len;
         for (int i = startIndex; i < endIndex; i++) {
-            if (mod == PossibleModOfNValues.MAX) {                // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
-                if (specialValue < samples[i]) {
-                    specialValue = samples[i];
-                }
-            } else if (mod == PossibleModOfNValues.MIN) {
-                if (specialValue > samples[i]) {
-                    specialValue = samples[i];
-                }
-            } else if (mod == PossibleModOfNValues.RMS) {
-                specialValue = specialValue + (samples[i] * samples[i]) / samples.length;
-            } else if (mod == PossibleModOfNValues.AVG) {
-                specialValue = specialValue + samples[i] / samples.length;
+            switch(agg) {               // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                case MAX:
+                    if (specialValue < samples[i]) {
+                        specialValue = samples[i];
+                    }
+                    break;
+                case MIN:
+                    if (specialValue > samples[i]) {
+                        specialValue = samples[i];
+                    }
+                    break;
+                case RMS:
+                    specialValue += (samples[i] * samples[i]);
+                    break;
+                case AVG:
+                case SUM:
+                    specialValue += samples[i];
+                    break;
             }
+        }
+
+
+        switch(agg) {
+            case RMS:
+                specialValue /= len;
+                specialValue = Math.sqrt(specialValue);
+                break;
+            case AVG:
+                specialValue /= len;
+                break;
         }
 
         return specialValue;
@@ -1933,10 +1936,11 @@ public class Program {
     // TODO: Akorat neivm jestli to pak nebude pomalejsi
     /**
      * Compresses the audio:
-     * (1) if mod = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if mod = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if mod = AVG then by taking the average value of samples
-     * (4) if mod = RMS then by taking the RMS of samples
+     * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
+     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (3) if agg = AVG then by taking the average value of samples
+     * (4) if agg = RMS then by taking the RMS of samples
+     * (5) if agg = SUM then by taking the sum of samples
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      *
@@ -1944,58 +1948,76 @@ public class Program {
      * @param sampleSize  is the size of one sample
      * @param isBigEndian is boolean variable, which is true if the samples are big endian and false if little endian
      * @param isSigned    is boolean variable, which is true if samples are signed, false if unsigned
-     * @param mod         represents the modification (operation) which will be performed on the n samples
+     * @param agg         represents the aggregation which will be performed on the n samples
      * @return Returns double which is result of the performed operation on n samples.
      * @throws IOException is thrown when the method calculateMask fails - invalid sample size
      */
-    public static double convertNSamplesToOneByPerformingMod(byte[] samples, int sampleSize, boolean isBigEndian,
-                                                             boolean isSigned, PossibleModOfNValues mod) throws IOException {
+    public static double performAggregation(byte[] samples, int sampleSize, boolean isBigEndian,
+                                            boolean isSigned, Aggregations agg) throws IOException {
         int n = samples.length / sampleSize;
 
         int mask = calculateMask(sampleSize);
-        double specialValue = defaultValueForMod(mod);
+        double specialValue = agg.defaultValueForMod();
 
         int sample;
         int index = 0;
+
+        // TODO: Copy-pasted - probably to make it easier for compiler, but it should probably recognize it, the code is just too old
         if (isBigEndian) {
             for (int j = 0; j < n; j++) {
                 sample = convertBytesToSampleSizeIntBigEndian(samples, sampleSize, mask, index, isSigned);
-                if (mod == PossibleModOfNValues.MAX) {                // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
-                    if (specialValue < sample) {
-                        specialValue = sample;
-                    }
-                } else if (mod == PossibleModOfNValues.MIN) {
-                    if (specialValue > sample) {
-                        specialValue = sample;
-                    }
-                } else if (mod == PossibleModOfNValues.RMS) {
-                    specialValue = specialValue + (double) (sample * sample) / n;
-                } else if (mod == PossibleModOfNValues.AVG) {
-                    specialValue = specialValue + (double) sample / n;
+                switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                    case MAX:
+                        if (specialValue < sample) {
+                            specialValue = sample;
+                        }
+                        break;
+                    case MIN:
+                        if (specialValue > sample) {
+                            specialValue = sample;
+                        }
+                        break;
+                    case RMS:
+                        specialValue = specialValue + (double) (sample * sample) / n;
+                        break;
+                    case AVG:
+                        specialValue = specialValue + (double) sample / n;
+                        break;
+                    case SUM:
+                        specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                        break;
                 }
                 index = index + sampleSize;
             }
         } else {
             for (int j = 0; j < n; j++) {
                 sample = convertBytesToSampleSizeIntLittleEndian(samples, sampleSize, mask, index, isSigned);
-                if (mod == PossibleModOfNValues.MAX) {                // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
-                    if (specialValue < sample) {
-                        specialValue = sample;
-                    }
-                } else if (mod == PossibleModOfNValues.MIN) {
-                    if (specialValue > sample) {
-                        specialValue = sample;
-                    }
-                } else if (mod == PossibleModOfNValues.RMS) {
-                    specialValue = specialValue + (double) (sample * sample) / n;
-                } else if (mod == PossibleModOfNValues.AVG) {
-                    specialValue = specialValue + (double) sample / n;
+                switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                    case MAX:
+                        if (specialValue < sample) {
+                            specialValue = sample;
+                        }
+                        break;
+                    case MIN:
+                        if (specialValue > sample) {
+                            specialValue = sample;
+                        }
+                        break;
+                    case RMS:
+                        specialValue = specialValue + (double) (sample * sample) / n;
+                        break;
+                    case AVG:
+                        specialValue = specialValue + (double) sample / n;
+                        break;
+                    case SUM:
+                        specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                        break;
                 }
                 index = index + sampleSize;
             }
         }
 
-        if (mod == PossibleModOfNValues.RMS) {
+        if (agg == Aggregations.RMS) {
             specialValue = Math.sqrt(specialValue);
         }
 
@@ -2005,31 +2027,25 @@ public class Program {
 
     /**
      * Compresses the audio:
-     * (1) if mod = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if mod = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if mod = AVG then by taking the average value of samples
-     * (4) if mod = RMS then by taking the RMS of samples
-     *
+     * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
+     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (3) if agg = AVG then by taking the average value of samples
+     * (4) if agg = RMS then by taking the RMS of samples
+     * (5) if agg = SUM then by taking the sum of samples
      * @param stream           is the input stream containing samples.
      * @param numberOfChannels represents number of channels.
      * @param sampleSize       is the size of one sample in bytes.
      * @param isBigEndian      is true if the samples are big endian, false otherwise.
      * @param isSigned         true if the samples are signed numbers, false otherwise.
      * @param byteLength       is the total length of the input stream. (The value is the same as onlyAudioSizeInBytes property in the class)
-     * @return Returns double value which represents the result of the modification performed on samples given in input stream.
+     * @return Returns double value which represents the result of the aggregation performed on samples given in input stream.
      * @throws IOException is thrown where error with input stream occurred, or the argument sampleSize is invalid.
      */
-    public static double convertNSamplesToOneByPerformingMod(InputStream stream, int numberOfChannels, int sampleSize,
-                                                             boolean isBigEndian, boolean isSigned, int byteLength, PossibleModOfNValues mod) throws IOException {
+    public static double performAggregation(InputStream stream, int numberOfChannels, int sampleSize,
+                                            boolean isBigEndian, boolean isSigned, int byteLength,
+                                            Aggregations agg) throws IOException {
         int n = byteLength / sampleSize;
-        double specialValue = 0;
-        if (mod == PossibleModOfNValues.MAX) {
-            specialValue = Integer.MIN_VALUE;
-        } else if (mod == PossibleModOfNValues.MIN) {
-            specialValue = Integer.MAX_VALUE;
-        } else if (mod == PossibleModOfNValues.AVG || mod == PossibleModOfNValues.RMS) {
-            specialValue = 0;
-        }
+        double specialValue = agg.defaultValueForMod();
         int bytesRead = 0;
         int sample;
 
@@ -2043,18 +2059,27 @@ public class Program {
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = convertBytesToSampleSizeIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    if (mod == PossibleModOfNValues.MAX) {                // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
-                        if (specialValue < sample) {
-                            specialValue = sample;
-                        }
-                    } else if (mod == PossibleModOfNValues.MIN) {
-                        if (specialValue > sample) {
-                            specialValue = sample;
-                        }
-                    } else if (mod == PossibleModOfNValues.RMS) {
-                        specialValue = specialValue + (double) (sample * sample) / n;
-                    } else if (mod == PossibleModOfNValues.AVG) {
-                        specialValue = specialValue + (double) sample / n;
+                    // TODO: Copy pasted
+                    switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                        case MAX:
+                            if (specialValue < sample) {
+                                specialValue = sample;
+                            }
+                            break;
+                        case MIN:
+                            if (specialValue > sample) {
+                                specialValue = sample;
+                            }
+                            break;
+                        case RMS:
+                            specialValue = specialValue + (double) (sample * sample) / n;
+                            break;
+                        case AVG:
+                            specialValue = specialValue + (double) sample / n;
+                            break;
+                        case SUM:
+                            specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                            break;
                     }
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -2065,30 +2090,40 @@ public class Program {
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = convertBytesToSampleSizeIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    if (mod == PossibleModOfNValues.MAX) {                // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
-                        if (specialValue < sample) {
-                            specialValue = sample;
-                        }
-                    } else if (mod == PossibleModOfNValues.MIN) {
-                        if (specialValue > sample) {
-                            specialValue = sample;
-                        }
-                    } else if (mod == PossibleModOfNValues.RMS) {
-                        specialValue = specialValue + (double) (sample * sample) / n;
-                    } else if (mod == PossibleModOfNValues.AVG) {
-                        specialValue = specialValue + (double) sample / n;
+                    switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                        case MAX:
+                            if (specialValue < sample) {
+                                specialValue = sample;
+                            }
+                            break;
+                        case MIN:
+                            if (specialValue > sample) {
+                                specialValue = sample;
+                            }
+                            break;
+                        case RMS:
+                            specialValue = specialValue + (double) (sample * sample) / n;
+                            break;
+                        case AVG:
+                            specialValue = specialValue + (double) sample / n;
+                            break;
+                        case SUM:
+                            specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                            break;
                     }
                     arrIndex = arrIndex + sampleSize;
                 }
             }
         }
 
-        if (mod == PossibleModOfNValues.RMS) {
+        if (agg == Aggregations.RMS) {
             specialValue = Math.sqrt(specialValue);
         }
 
         return specialValue;
     }
+
+
 
 
     /**
@@ -3181,20 +3216,21 @@ public class Program {
 
 
     /**
-     * Performs modification (compression) mod to all channels. For all channels do respectively, take n samples
-     * perform the mod action on them, add the given number to the result, continue until the end of the channel is reached.
+     * Performs aggregation (compression) agg to all channels. For all channels do respectively, take n samples
+     * perform the agg action on them, add the given number to the result, continue until the end of the channel is reached.
      * @param channels is 2D byte array, where 1 array corresponds to 1 channel.
-     * @param n is the number of samples to perform 1 modification to.
+     * @param n is the number of samples to perform 1 aggregation to.
      * @param sampleSize is the size of 1 sample in bytes.
      * @param isBigEndian is true if the samples are in big endian, false otherwise.
      * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @param mod is the type of modification to be performed.
+     * @param agg is the type of aggregation to be performed.
      * @return Returns 2D array which corresponds to the modified channels.
-     * @throws IOException is thrown when the given mod is not supported.
+     * @throws IOException is thrown when the given agg is not supported.
      */
+    @Deprecated
     public static byte[][] forEachChannelModifySamplesMoreChannels(byte[][] channels, int n, int sampleSize,
                                                                    boolean isBigEndian, boolean isSigned,
-                                                                   PossibleModOfNValues mod) throws IOException {
+                                                                   Aggregations agg) throws IOException {
         byte[][] modChannels = new byte[channels.length][];
         ArrayList<Byte> moddedChannel = new ArrayList<>();
         byte[] samples = new byte[n * sampleSize];
@@ -3205,18 +3241,7 @@ public class Program {
                     samples[j] =  channels[i][index];
                     index++;
                 }
-                int newSample;
-                if(mod == PossibleModOfNValues.AVG) {
-                    newSample = (int) convertNSamplesToOneByPerformingMod(samples, sampleSize, isBigEndian, isSigned, mod);
-                } else if(mod == PossibleModOfNValues.MIN) {
-                    newSample = (int) convertNSamplesToOneByPerformingMod(samples, sampleSize, isBigEndian, isSigned, mod);
-                } else if(mod == PossibleModOfNValues.MAX) {
-                    newSample = (int) convertNSamplesToOneByPerformingMod(samples, sampleSize, isBigEndian, isSigned, mod);
-                } else if(mod == PossibleModOfNValues.RMS) {
-                    newSample = (int) convertNSamplesToOneByPerformingMod(samples, sampleSize, isBigEndian, isSigned, mod);
-                } else {
-                    throw new IOException();
-                }
+                int newSample = (int) performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
 
                 byte[] arr = convertIntToByteArr(sampleSize, newSample, isBigEndian);
                 for(int k = 0; k < arr.length; k++) {
@@ -3235,23 +3260,24 @@ public class Program {
 
 
     /**
-     * Performs modification (compression) mod to channel. Take n samples
-     * perform the mod action on them, add the given number to the result, continue until the end of the channel is reached.
+     * Performs aggregation (compression) agg to channel. Take n samples
+     * perform the agg action on them, add the given number to the result, continue until the end of the channel is reached.
      * @param mono is 1D byte array with samples of the mono audio.
-     * @param n is the number of samples to perform 1 modification to.
+     * @param n is the number of samples to perform 1 aggregation to.
      * @param sampleSize is the size of 1 sample in bytes.
      * @param isBigEndian is true if the samples are in big endian, false otherwise.
      * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @param mod is the type of modification to be performed.
+     * @param agg is the type of aggregation to be performed.
      * @return Returns the modified 1D byte array.
      * @throws IOException
      */
+    @Deprecated
     public static byte[] forEachChannelModifySamplesOneChannel(byte[] mono, int n, int sampleSize,
                                                                boolean isBigEndian, boolean isSigned,
-                                                               PossibleModOfNValues mod) throws IOException {
+                                                               Aggregations agg) throws IOException {
         byte[][] channel = new byte[1][];
         channel[0] = mono;
-        byte[][] result = forEachChannelModifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, mod);
+        byte[][] result = forEachChannelModifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, agg);
         return result[0];
     }
 
@@ -4679,19 +4705,19 @@ public class Program {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// TODO: Nove pridany veci, ktery se hodi - ziskani informaci o skladbe.
     /**
-     * Returns all operations from PossibleModOfNValues performed on given array.
+     * Returns all operations from Aggregations performed on given array.
      * @param samples is the given array with samples.
      * @param sampleSize is the size of 1 sample.
      * @param isBigEndian true if the given samples are in big endian, false if in little endian.
      * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @return Returns array with mods in PossibleModOfNValues order (given by calling PossibleModOfNValues.values()).
+     * @return Returns array with mods in Aggregations order (given by calling Aggregations.values()).
      * @throws IOException is thrown when the sample size is <= 0 or > 4
      */
     public static int[] getAllMods(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
-        int[] arr = new int[PossibleModOfNValues.values().length];
+        int[] arr = new int[Aggregations.values().length];
         int index = 0;
-        for (PossibleModOfNValues m : PossibleModOfNValues.values()) {
-            arr[index] = (int) convertNSamplesToOneByPerformingMod(samples, sampleSize, isBigEndian, isSigned, m);
+        for (Aggregations agg : Aggregations.values()) {
+            arr[index] = (int) performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
             index++;
         }
         return arr;

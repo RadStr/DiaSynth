@@ -206,8 +206,15 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        tryChangeBin(e);
-        oldMouseLoc = e.getPoint();
+        if(isRightClick) {
+            setBinMeasure(selectedBin, e.getY());       // The selected bin was set at the mouse pressed event
+            changeToolTip(selectedBin);
+            this.repaint();
+        }
+        else {
+            tryChangeBin(e);
+            oldMouseLoc = e.getPoint();
+        }
     }
 
     @Override
@@ -269,8 +276,12 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         // EMPTY
     }
 
+
+    private boolean isRightClick = false;
+
     @Override
     public void mousePressed(MouseEvent e) {
+        isRightClick = e.getButton() != MouseEvent.BUTTON1;
         tryChangeBin(e);
     }
 
@@ -423,7 +434,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             fontSize = Program.getFont(fontSize, g, binFreqs, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
-            System.out.println(fontSize);
+            System.out.println("FT:" + "\t" + fontSize);
         }
         n /= 2;
         textBinWidth /= 2;

@@ -3390,7 +3390,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             @Override
             public void actionPerformed(ActionEvent e) {
                 //double[] arr = new double[1024];
-                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,90, 0);
+                //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
+                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
+                        500, getOutputSampleRate(), 0);
+
                 // TODO: Just testing correctness of createSine
 //                addWave(new DoubleWave(arr, (int)outputAudioFormat.getSampleRate(), 1,
 //                        "Doesn't matter I don't create file anyways", false));
@@ -3403,7 +3406,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
                     double[] wave = fftWindowPanel.getIFFTResult();
-                    addWave(new DoubleWave(wave, (int)outputAudioFormat.getSampleRate(), 1,
+                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
                             "Doesn't matter I don't create file anyways", false));
                 }
             }

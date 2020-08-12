@@ -34,8 +34,6 @@ public class SineGeneratorWithPhase extends GeneratorWithPhase {
 
     /**
      * Creates array of length len, and fills it with periodCount periods of sine wave.
-     * @param len
-     * @param periodCount
      * @param phase is in radians
      * @return
      */
@@ -47,6 +45,22 @@ public class SineGeneratorWithPhase extends GeneratorWithPhase {
 
         return sine;
     }
+
+
+    /**
+     * Creates array of length len, and fills it with sine wave of frequency freq.
+     * @param phase is in radians
+     * @return
+     */
+    public static double[] createSine(int len, double amp, double freq, int sampleRate, double phase) {
+        double[] sine = new double[len];
+        for(int i = 0; i < sine.length; i++) {
+            sine[i] = amp * Math.sin(freqToRad(freq) * (i / (double)sampleRate) + phase);
+        }
+
+        return sine;
+    }
+
 
     @Override
     public double generateSampleConst(double timeInSecs, int diagramFrequency, double amp, double freq,

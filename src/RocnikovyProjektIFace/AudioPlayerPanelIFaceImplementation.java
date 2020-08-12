@@ -33,6 +33,7 @@ import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 import DebugPackage.DEBUG_CLASS;
+import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -50,7 +51,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 // TODO: Tohle jmeno je dost osklivy
 public class AudioPlayerPanelIFaceImplementation extends JPanel implements MouseListener,
@@ -3391,10 +3394,28 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             public void actionPerformed(ActionEvent e) {
                 //double[] arr = new double[1024];
                 //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
-                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
-                        500, getOutputSampleRate(), 0);
+//                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
+//                        500, getOutputSampleRate(), 0);
+                double[] arr = new double[1024];
+                Random rand = new Random();
+                for(int i = 0; i < arr.length; i++) {
+                    arr[i] = rand.nextDouble();
+                    if(rand.nextDouble() > 0.5) {
+                        arr[i] *= -1;
+                    }
+                }
+
+//                DoubleFFT_1D fft = new DoubleFFT_1D(arr.length);
+//                double[] fftResult = new double[1024];
+//                Program.calculateFFTRealForward(arr, 0, 1, fft, fftResult);
+//                FFTWindowPanel.getIFFT(fftResult, fft);
+
+
+
 
                 // TODO: Just testing correctness of createSine
+//                addWave(new DoubleWave(fftResult, (int)outputAudioFormat.getSampleRate(), 1,
+//                        "Doesn't matter I don't create file anyways", false));
 //                addWave(new DoubleWave(arr, (int)outputAudioFormat.getSampleRate(), 1,
 //                        "Doesn't matter I don't create file anyways", false));
                 // TODO: Just testing correctness of createSine
@@ -3405,9 +3426,17 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftWindowPanel.getIFFTResult();
-                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
+                    double[] wave = fftWindowPanel.getIFFTResult(true);
+                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
                             "Doesn't matter I don't create file anyways", false));
+                    double[] wave2 = fftWindowPanel.getIFFTResult(false);
+                    addWave(new DoubleWave(wave2, getOutputSampleRate(),1,
+                            "Doesn't matter I don't create file anyways", false));
+
+                    if(Arrays.equals(wave, wave2)) {
+                        // TODO: DEBUG
+                        System.exit(111);
+                    }
                 }
             }
         });

@@ -3434,18 +3434,81 @@ public class Program {
      */
     public static double[] convertFFTAmplitudesToClassicFFTArr(double[] fftMeasures, double[] result) {
         if(result.length % 2 == 0) {			// It's even
-            result[0] = fftMeasures[0];
-            result[1] = fftMeasures[fftMeasures.length - 1];
+            result[0] = Math.sqrt(fftMeasures[0]);
+            result[1] = Math.sqrt(fftMeasures[fftMeasures.length - 1]);
             for(int i = 2, j = 2; i < fftMeasures.length; i++, j++) {
-                result[j] = fftMeasures[i];
+                result[j] = Math.sqrt(fftMeasures[i]);
                 j++;
                 result[j] = 0;
             }
         } else {
             for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
-                result[j] = fftMeasures[i];
+                result[j] = Math.sqrt(fftMeasures[i]);
                 j++;
                 result[j] = 0;
+            }
+        }
+
+        return result;
+
+
+//        if(result.length % 2 == 0) {			// It's even
+//            result[0] = fftMeasures[0];
+//            result[1] = fftMeasures[fftMeasures.length - 1];
+//            for(int i = 2, j = 2; i < fftMeasures.length; i++, j++) {
+//                result[j] = fftMeasures[i];
+//                j++;
+//                result[j] = 0;
+//            }
+//        } else {
+//            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
+//                result[j] = fftMeasures[i];
+//                j++;
+//                result[j] = 0;
+//            }
+//        }
+//
+//        return result;
+    }
+
+
+
+    // From documentation (this are the values we want convert to):
+//	if n is even then
+//	 a[2*k] = Re[k], 0<=k<n/2
+//	 a[2*k+1] = Im[k], 0<k<n/2
+//	 a[1] = Re[n/2]
+//
+//
+//	if n is odd then
+//	 a[2*k] = Re[k], 0<=k<(n+1)/2
+//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
+//	 a[1] = Im[(n-1)/2]
+    /**
+     * This method is inverse to convertResultsOfFFTToRealRealForward, but instead of the previous variant, it has
+     * both real and imaginary part set in such a way that real part is set by random and imaginary is the remainder
+     * @param fftMeasures
+     * @param result
+     * @return
+     */
+    public static double[] convertFFTAmplitudesToClassicFFTArrRandom(double[] fftMeasures, double[] result) {
+        if(result.length % 2 == 0) {			// It's even
+            result[0] = Math.sqrt(fftMeasures[0]);
+            result[1] = Math.sqrt(fftMeasures[fftMeasures.length - 1]);
+            for(int i = 2, j = 2; i < fftMeasures.length; i++, j++) {
+                double real = Math.random() * fftMeasures[i];
+                double imag = fftMeasures[i] - real;
+                result[j] = Math.sqrt(real);
+                j++;
+                result[j] = Math.sqrt(imag);
+            }
+        } else {
+            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
+                double real = Math.random() * fftMeasures[i];
+                double imag = fftMeasures[i] - real;
+                result[j] =  Math.sqrt(real);
+                j++;
+                result[j] = Math.sqrt(imag);
             }
         }
 

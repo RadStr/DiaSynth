@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class FFTWindowPanel extends JPanel implements MouseMotionListener, MouseListener {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
@@ -500,16 +501,55 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
 
-    public double[] getIFFTResult() {
-        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+    public double[] getIFFTResult(boolean setImagPartToZero) {
+        // TODO: DEBUG
+        for(int i = 0; i < fftMeasures.length; i++) {
+            ProgramTest.debugPrint("IFFT:", i, fftMeasures[i]);
+        }
+        // TODO: DEBUG
+
+
+        double[] todo = new double[fftResult.length];
+        double[] todo2 = new double[fftResult.length];
+        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
+        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
 
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] = fftResult[i] * (fftMeasures.length);
+            // TODO: DEBUG
+            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
+            // TODO: DEBUG
+            todo[i] *= fftMeasures.length;
+            todo2[i] *= fftMeasures.length;
+        }
+
+        getIFFT(todo, fft);
+        normalize(todo);
+        getIFFT(todo2, fft);
+        normalize(todo2);
+        if(Arrays.equals(todo, todo2)) {
+            // TODO: DEBUG
+            System.exit(15456);
+        }
+
+
+        if(setImagPartToZero) {
+            Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+        }
+        else {
+            Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, fftResult);
+        }
+
+
+        for(int i = 0; i < fftResult.length; i++) {
+            // TODO: DEBUG
+            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
+            // TODO: DEBUG
+            fftResult[i] *= fftMeasures.length;
         }
         getIFFT(fftResult, fft);
         normalize(fftResult);
 
-        return fftResult;
+        return Arrays.copyOf(fftResult, fftResult.length);
     }
 
 

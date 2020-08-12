@@ -3432,11 +3432,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     double[] wave2 = fftWindowPanel.getIFFTResult(false);
                     addWave(new DoubleWave(wave2, getOutputSampleRate(),1,
                             "Doesn't matter I don't create file anyways", false));
-
-                    if(Arrays.equals(wave, wave2)) {
-                        // TODO: DEBUG
-                        System.exit(111);
-                    }
                 }
             }
         });

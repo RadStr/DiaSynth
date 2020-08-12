@@ -503,33 +503,31 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
     public double[] getIFFTResult(boolean setImagPartToZero) {
         // TODO: DEBUG
-        for(int i = 0; i < fftMeasures.length; i++) {
-            ProgramTest.debugPrint("IFFT:", i, fftMeasures[i]);
-        }
+//        for(int i = 0; i < fftMeasures.length; i++) {
+//            ProgramTest.debugPrint("IFFT:", i, fftMeasures[i]);
+//        }
         // TODO: DEBUG
 
-
-        double[] todo = new double[fftResult.length];
-        double[] todo2 = new double[fftResult.length];
-        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
-        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
-
-        for(int i = 0; i < fftResult.length; i++) {
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
-            // TODO: DEBUG
-            todo[i] *= fftMeasures.length;
-            todo2[i] *= fftMeasures.length;
-        }
-
-        getIFFT(todo, fft);
-        normalize(todo);
-        getIFFT(todo2, fft);
-        normalize(todo2);
-        if(Arrays.equals(todo, todo2)) {
-            // TODO: DEBUG
-            System.exit(15456);
-        }
+// TODO: DEBUG
+//        double[] todo = new double[fftResult.length];
+//        double[] todo2 = new double[fftResult.length];
+//        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
+//        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
+//
+//        for(int i = 0; i < fftResult.length; i++) {
+//            todo[i] *= fftMeasures.length;
+//            todo2[i] *= fftMeasures.length;
+//        }
+//
+//        getIFFT(todo, fft);
+//        normalize(todo);
+//        getIFFT(todo2, fft);
+//        normalize(todo2);
+//        if(Arrays.equals(todo, todo2)) {
+//            // TODO: DEBUG
+//            System.exit(15456);
+//        }
+        // TODO: DEBUG
 
 
         if(setImagPartToZero) {

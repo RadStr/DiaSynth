@@ -147,10 +147,10 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
 
-    private void tryChangeBin(Point p) {
+    private void tryChangeBin(Point p, boolean isDragEvent) {
         int bin = getBinAtPos(p);
         System.out.println("BIN:\t" + bin + ":" + selectedBin);
-        if ((bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
+        if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
             setBinMeasure(bin, p.y);
         } else {
             //jumpOverMultipleBinsSimple(bin, p.y);
@@ -199,9 +199,9 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         }
     }
 
-    private void tryChangeBin(MouseEvent e) {
+    private void tryChangeBin(MouseEvent e, boolean isDragEvent) {
         Point p = e.getPoint();
-        tryChangeBin(p);
+        tryChangeBin(p, isDragEvent);
     }
 
     @Override
@@ -212,7 +212,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             this.repaint();
         }
         else {
-            tryChangeBin(e);
+            tryChangeBin(e, true);
             oldMouseLoc = e.getPoint();
         }
     }
@@ -282,7 +282,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         isRightClick = e.getButton() != MouseEvent.BUTTON1;
-        tryChangeBin(e);
+        tryChangeBin(e, false);
     }
 
     @Override

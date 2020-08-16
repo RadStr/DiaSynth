@@ -3421,7 +3421,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 // TODO: Just testing correctness of createSine
 
 
-                FFTWindowPanel fftWindowPanel = new FFTWindowPanel(arr, 1024,
+                RocnikovyProjektIFace.Drawing.FFTWindowPanel fftWindowPanel;
+                fftWindowPanel = new RocnikovyProjektIFace.Drawing.FFTWindowPanel(arr, 1024,
                         0, (int)outputAudioFormat.getSampleRate(), 1);
                 int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

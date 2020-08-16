@@ -92,7 +92,7 @@ public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //
 //    private double maxAbsValue = 0;
 //    // TODO: RML
-//    nezapomenou zavolat kdykoliv se zmeni coeficienty a nebo i vstupy vlastne ajajaja i kdyz vlastne tim jak to mam naprogramovany to pocitaci koeficenty tak mam zaruceno ze ta hodnota bude nejvys maximalni absolutni hodnota ze vstupu
+//    nezapomenout zavolat kdykoliv se zmeni coeficienty a nebo i vstupy vlastne ajajaja i kdyz vlastne tim jak to mam naprogramovany to pocitaci koeficenty tak mam zaruceno ze ta hodnota bude nejvys maximalni absolutni hodnota ze vstupu
 //    ale tam je vlastne problem ze to nenormalizuju porad jen kdyz to prestrelim takze bud to bude nepresny, nebo to budu normalizovat porad
 //    nebo kdykoliv se zmeni hodnoty tj bude exception nebo tamto bude nastaveny na false, tak projedu vsechny units a zavolam na nich nejakou reset metodu
 //    ktera u vetsiny nebude nic delat a u tyhle se prepocita maximalni absolutni hodnota

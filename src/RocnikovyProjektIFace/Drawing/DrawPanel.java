@@ -1,31 +1,24 @@
-package RocnikovyProjektIFace;
-
-import Rocnikovy_Projekt.Aggregations;
-import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
-import org.jtransforms.fft.DoubleFFT_1D;
+package RocnikovyProjektIFace.Drawing;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
-@Deprecated
-public class FFTWindowPanel extends JPanel implements MouseMotionListener, MouseListener {
-    public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
-    }
-
-    public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        this.freqJump = freqJump;
-
-        fftResult = new double[windowSize];
-        fft = new DoubleFFT_1D(windowSize);
-        int binCount = Program.getBinCountRealForward(windowSize);
-        fftMeasures = new double[binCount];
+/**
+ * Note: labels variable needs to be set in deriving constructor and also setLastPartOfTooltip()
+ * needs to be called at the end of deriving constructor.
+ */
+public abstract class DrawPanel extends JPanel implements MouseMotionListener, MouseListener {
+    /**
+     *
+     * @param binCount
+     * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
+     */
+    public DrawPanel(int binCount, String labelTypeToolTip) {
+        labels = new String[binCount];
+        drawValues = new double[binCount];
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double w = screenSize.getWidth();
@@ -38,11 +31,18 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
-        Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
+
+
+
+
+
+
+
+
+
 
         BIN_COUNT = Integer.toString(binCount).length();
-        MAX_MEASURE = BIN_COUNT + 3;      // BIN_COUNT + .xx
+        MAX_VALUE = 1 + 3;      // [01] + .xx
 
         tooltip = new StringBuilder("<html>Bin: ");
         INDEX_IN_STRINGBUILDER_AFTER_BIN = tooltip.length();
@@ -51,72 +51,75 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             tooltip.insert(index, ' ');
         }
 
-        final String newLine = "<br>";
-        tooltip.insert(index, newLine);
-        index += newLine.length();
+        tooltip.insert(index, NEW_LINE);
+        index += NEW_LINE.length();
         MEASURE_TEXT_INDEX = index;
-        String measureString = newLine + "Measure: ";
-        tooltip.insert(index, measureString);
-        index += measureString.length();
+        String valueString = NEW_LINE + "Value: ";
+        tooltip.insert(index, valueString);
+        index += valueString.length();
         MEASURE_VALUE_INDEX = index;
-        for(int i = 0; i < MAX_MEASURE; i++, index++) {
+        for(int i = 0; i < MAX_VALUE; i++, index++) {
             tooltip.insert(index, ' ');
         }
 
-        String tmp = newLine + "Frequency: ";
+        String tmp = NEW_LINE + labelTypeToolTip + ": ";
         tooltip.insert(index, tmp);
         index += tmp.length();
-        FREQUENCY_VALUE_INDEX = index;
+        LABEL_VALUE_INDEX = index;
 
 
-        fftMeasuresString = new String[fftMeasures.length];
-        normalizeAndSetMeasureStrings();
+        drawValuesStrings = new String[drawValues.length];
 
-        bins = new String[binCount];
-        for (int i = 0; i < bins.length; i++) {
-            bins[i] = Integer.toString(i);
+        binIndices = new String[binCount];
+        for (int i = 0; i < binIndices.length; i++) {
+            binIndices[i] = Integer.toString(i);
         }
-
-        // Set frequency labels for bins
-        binFreqs = Program.getFreqs(binCount, freqJump, 0, 1);
-        longestFreqLen = 0;
-        for (String s : binFreqs) {
-            if(s.length() > longestFreqLen) {
-                longestFreqLen = s.length();
-            }
-        }
-
-        for(int i = 0; i < longestFreqLen; i++, index++) {
-            tooltip.insert(index, ' ');
-        }
-
-        tooltip.insert(index, newLine);
-        index += newLine.length();
     }
 
+
+    private final String NEW_LINE = "<br>";
     private final int BIN_COUNT;
-    private final int MAX_MEASURE;      // BIN_COUNT + .xx
+    private final int MAX_VALUE;      // BIN_COUNT + .xx
 
     private final int INDEX_IN_STRINGBUILDER_AFTER_BIN;
     private final int MEASURE_TEXT_INDEX;
     private final int MEASURE_VALUE_INDEX;
-    private final int FREQUENCY_VALUE_INDEX;
+    private final int LABEL_VALUE_INDEX;
 
-    private final double[] fftResult;
-    private final double[] fftMeasures;
-    public double[] getFftMeasures() {
-        return fftMeasures;
+
+    private Point oldMouseLoc;
+
+    private int longestLabelLen;
+    /**
+     * Needs to be called after the labels are set.
+     */
+    protected void setLongestLabelLen() {
+        longestLabelLen = 0;
+        for (String s : labels) {
+            if(s.length() > longestLabelLen) {
+                longestLabelLen = s.length();
+            }
+        }
     }
-    private final DoubleFFT_1D fft;
-    private final double freqJump;
+    /**
+     * Needs to be set in deriving class
+     */
+    protected String[] labels;
+    /**
+     * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.
+     */
+    protected abstract void setLabels();
 
-    private final String[] bins;
-    private final String[] fftMeasuresString;
-    private final String[] binFreqs;
-    private int longestFreqLen;
 
+    protected double[] drawValues;
+    protected String[] drawValuesStrings;
+    protected void setDrawValue(int index, double value) {
+        drawValues[index] = value;
+        drawValuesStrings[index] = String.format("%.2f", drawValues[index]);
+    }
+    protected String[] binIndices;
 
-    private int selectedBin = -1;
+    protected int selectedBin = -1;
     private void setSelectedBin(int bin) {
         if(bin != selectedBin) {
             changeToolTip(bin);
@@ -125,28 +128,15 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
     private StringBuilder tooltip;
-
-    private Point oldMouseLoc;
-
-    private void normalizeAndSetMeasureStrings() {
-        // Normalization and getting string representation
-        for (int i = 0; i < fftMeasures.length; i++) {
-            // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
-            // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
-//            fftMeasures[i] *= 2;
-//            fftMeasures[i] /= (fftMeasures.length / 2);
-            fftMeasures[i] /= fftMeasures.length;
-            fftMeasuresString[i] = String.format("%.2f", fftMeasures[i]);
+    protected final void setLastPartOfTooltip() {
+        setLongestLabelLen();
+        for(int i = 0; i < longestLabelLen; i++) {
+            tooltip.append(' ');
         }
+
+        tooltip.append(NEW_LINE);
     }
 
-    public static void normalizeFFTResultsRealForward(double[] fftMeasures) {
-        // Normalization and getting string representation
-        for (int i = 0; i < fftMeasures.length; i++) {
-            fftMeasures[i] *= 2;
-            fftMeasures[i] /= (fftMeasures.length / 2);
-        }
-    }
 
 
     private void tryChangeBin(Point p, boolean isDragEvent) {
@@ -228,17 +218,26 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
 
     private void changeToolTip(int bin) {
-        String binString = bins[bin];
+        String binString = binIndices[bin];
         setBinToolTip(binString);
 
-        String measure = fftMeasuresString[bin];
+        String measure = drawValuesStrings[bin];
         setMeasureToolTip(measure);
 
-        String frequency = binFreqs[bin];
-        setFrequencyToolTip(frequency);
+        String label = labels[bin];
+        setBinInfoToolTip(label);
 
         this.setToolTipText(tooltip.toString());
     }
+
+
+    // TODO: Asi vymazat
+//    protected abstract void setBinToolTip(String binString);
+//
+//    protected abstract void setMeasureToolTip(String measure);
+//
+//    // TODO: AAA - setFrequencyToolTip
+//    protected abstract void setBinInfoToolTip(String info);
 
 
     private void setBinToolTip(String binString) {
@@ -256,17 +255,17 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             tooltip.setCharAt(i, measure.charAt(j));
         }
 
-        for(int i = MEASURE_VALUE_INDEX + measure.length(); i < MEASURE_VALUE_INDEX + MAX_MEASURE; i++) {
+        for(int i = MEASURE_VALUE_INDEX + measure.length(); i < MEASURE_VALUE_INDEX + MAX_VALUE; i++) {
             tooltip.setCharAt(i, ' ');
         }
     }
 
-    private void setFrequencyToolTip(String frequency) {
-        for (int i = FREQUENCY_VALUE_INDEX, j = 0; j < frequency.length(); i++, j++) {
-            tooltip.setCharAt(i, frequency.charAt(j));
+    private void setBinInfoToolTip(String info) {
+        for (int i = LABEL_VALUE_INDEX, j = 0; j < info.length(); i++, j++) {
+            tooltip.setCharAt(i, info.charAt(j));
         }
 
-        for(int i = FREQUENCY_VALUE_INDEX + frequency.length(); i < FREQUENCY_VALUE_INDEX + longestFreqLen; i++) {
+        for(int i = LABEL_VALUE_INDEX + info.length(); i < LABEL_VALUE_INDEX + longestLabelLen; i++) {
             tooltip.setCharAt(i, ' ');
         }
     }
@@ -303,7 +302,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
 
-    // TODO: Possible optimisation by redrawing only the chosen bin, or adjacent bins
+    // TODO: Possible optimisation by redrawing only the chosen bin, or adjacent binIndices
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -340,7 +339,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         x = Math.min(x, w);
 
 
-        int binCount = fftMeasures.length;
+        int binCount = drawValues.length;
         int binWidth = w / binCount;
         int freePixels = w % binCount;
         int binsWhitespace = binWidth / 4;
@@ -377,7 +376,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             bin -= invalidBins;
 
             int previousBinEnd = (bin - indexToStartAddingPixels - 1) * (binWidthWithSpace + 1) +
-                indexToStartAddingPixels * binWidthWithSpace + binWidth + 1;
+                    indexToStartAddingPixels * binWidthWithSpace + binWidth + 1;
             if(forgotPixels % (binWidthWithSpace + 1) != 0 && x <= previousBinEnd) {
 
                 bin--;
@@ -391,26 +390,14 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     }
 
 
-    private void setBinMeasure(int bin, int y) {
-        int h = this.getHeight();
-        fftMeasures[bin] = 1 - (y / (double)h);         // TODO: RELATIVE
-        if(fftMeasures[bin] < 0) {
-            fftMeasures[bin] = 0;
-        }
-        else if(fftMeasures[bin] > 1) {
-            fftMeasures[bin] = 1;
-        }
-
-        fftMeasuresString[bin] = String.format("%.2f", fftMeasures[bin]);
-    }
-
+    protected abstract void setBinMeasure(int bin, int y);
 
     public void drawFFTWindow(Graphics g) {
         int w,h;
         w = this.getWidth();
         h = this.getHeight();
 
-        int binCount = fftMeasures.length;
+        int binCount = drawValues.length;
         int binWidth = w / binCount;
         int freePixels = w % binCount;
         int binsWhitespace = binWidth / 4;
@@ -430,10 +417,10 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         int n = 1;
         int textBinWidth = binWidth;
         int fontSize = 0;
-        while(fontSize < MIN_FONT && n < binFreqs.length) {
+        while(fontSize < MIN_FONT && n < labels.length) {
             fontSize = START_FONT_SIZE;
             int textWhitespace = textBinWidth / 4;
-            fontSize = Program.getFont(fontSize, g, binFreqs, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+            fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
             System.out.println("FT:" + "\t" + fontSize);
@@ -449,8 +436,8 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 //        System.out.println(selectedBin);
 
         boolean isFirstAdded = true;
-        for(int bin = 0, currX = 0; bin < fftMeasures.length; bin++, currX += binWidthWithSpace) {
-            int height = (int)(fftMeasures[bin] * h);
+        for(int bin = 0, currX = 0; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
+            int height = (int)(drawValues[bin] * h);
 
             if(bin >= indexToStartAddingPixels && isFirstAdded) {
                 isFirstAdded = false;
@@ -470,7 +457,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
 
         drawLabels(indexToStartAddingPixels, binWidthWithSpace, isFirstAdded,
-                binWidth, enoughSpaceForLabels, textBinWidth, h, g, n, binFreqs);
+                binWidth, enoughSpaceForLabels, textBinWidth, h, g, n, labels);
 //        if(enoughSpaceForLabels) {
 //            if (indexToStartAddingPixels < fftMeasures.length) {
 //                isFirstAdded = true;
@@ -501,14 +488,14 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
     /**
      * Draws every n-th label
      * @param indexToStartAddingPixels because usually width % labels.length != 0 then, we need to make the spaces 1 pixel larger from some index, so it can fit.
-     * @param binWidthWithSpace is the binWidth but also containing space between the bins.
+     * @param binWidthWithSpace is the binWidth but also containing space between the binIndices.
      * @param isFirstAdded
      * @param binWidth is the width of 1 bin. (In case of wave drawing it is 1 pixel, in case of FFT can be 1 or more, depends on size of window).
      * @param shouldDrawLabels
      * @param labelWidth
      * @param h is the height of the panel
      * @param g is the graphics
-     * @param n - every n-th label is drawed
+     * @param n - every n-th label is drawn
      * @param labels are the labels
      */
     public static void drawLabels(int indexToStartAddingPixels, int binWidthWithSpace, boolean isFirstAdded, int binWidth,
@@ -529,191 +516,14 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
                 Color c = Color.black;
                 if (bin == labels.length - 1) {
-                    Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
                 } else if (bin == 0) {
-                    Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
                 } else if (bin % n == 0) {
                     // Draw frequency
-                    Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
                 }
             }
         }
-    }
-
-
-
-    public static void getIFFT(double[] fftArr, DoubleFFT_1D fft) {
-        fft.realInverse(fftArr, true);
-    }
-
-
-    public double[] getIFFTResult(boolean setImagPartToZero) {
-        // TODO: DEBUG
-//        for(int i = 0; i < fftMeasures.length; i++) {
-//            ProgramTest.debugPrint("IFFT:", i, fftMeasures[i]);
-//        }
-        // TODO: DEBUG
-
-// TODO: DEBUG
-//        double[] todo = new double[fftResult.length];
-//        double[] todo2 = new double[fftResult.length];
-//        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
-//        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
-//
-//        for(int i = 0; i < fftResult.length; i++) {
-//            todo[i] *= fftMeasures.length;
-//            todo2[i] *= fftMeasures.length;
-//        }
-//
-//        getIFFT(todo, fft);
-//        normalize(todo);
-//        getIFFT(todo2, fft);
-//        normalize(todo2);
-//        if(Arrays.equals(todo, todo2)) {
-//            // TODO: DEBUG
-//            System.exit(15456);
-//        }
-        // TODO: DEBUG
-
-
-        if(setImagPartToZero) {
-            Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
-        }
-        else {
-            Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, fftResult);
-        }
-
-
-        for(int i = 0; i < fftResult.length; i++) {
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
-            // TODO: DEBUG
-            fftResult[i] *= fftMeasures.length;
-        }
-        getIFFT(fftResult, fft);
-        normalize(fftResult);
-
-        return Arrays.copyOf(fftResult, fftResult.length);
-    }
-
-
-    public static void normalize(double[] arr) {
-        double max = Program.performAggregation(arr, Aggregations.ABS_MAX);
-
-        for(int i = 0; i < arr.length; i++) {
-            arr[i] /= max;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////// Create FFT Window image
-    ////////////////////////////////////////////////////////////////////////////////////
-    @Deprecated
-    public static BufferedImage createFFTWindowImage(double[] song, int numberOfChannels, int windowSize, double freqJump,
-                                                     int startIndex, int windowWidth, int windowHeight) {
-        double[] fftResult = new double[windowSize];
-        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
-        int binCount = Program.getBinCountRealForward(windowSize);
-        double[] fftMeasures = new double[binCount];
-
-        return createFFTWindowImage(song, numberOfChannels, freqJump, startIndex,
-            fft, windowWidth, windowHeight, fftResult, fftMeasures);
-    }
-    // TODO: Udelat ze kdyz ukazu na ten obdelnik tak se mi ukaze frekvence a ta measure (treba nekde vedle) a zvyrazni se to, to dost pomuze
-    // TODO: Ve viditelnosti
-    @Deprecated
-    public static BufferedImage createFFTWindowImage(double[] song, int numberOfChannels, double freqJump,
-                                                     int startIndex, DoubleFFT_1D fft, int windowWidth, int windowHeight,
-                                                     double[] fftResult, double[] fftMeasures) {
-        int binCount = fftMeasures.length;
-        int binWidth = windowWidth / binCount;
-        int freePixels = windowWidth % binCount;
-        int binsWhitespace = binWidth / 4;
-        binWidth -= binsWhitespace;
-
-        int indexToStartAddingPixels = binCount - freePixels;
-        int binWidthWithSpace = binWidth + binsWhitespace;
-
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
-        Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
-
-        BufferedImage image = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-        g.setColor(Color.white);
-        g.fillRect(0, 0, windowWidth, windowHeight);
-
-        // Find maxEnergy for normalization
-        double maxEnergy = 0;
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] > maxEnergy) {
-                maxEnergy = fftMeasures[i];
-            }
-        }
-        if(maxEnergy == 0) {
-            return image;
-        }
-
-        // Normalization and getting string representation
-        String[] fftMeasuresString = new String[fftMeasures.length];
-        for(int i = 0; i < fftMeasures.length; i++) {
-            fftMeasures[i] /= maxEnergy;
-            fftMeasuresString[i] = String.format("%.2f", fftMeasures[i]);
-        }
-
-
-        // Set frequency labels for bins
-        String[] binFreqs = Program.getFreqs(binCount, freqJump, 0, 1);
-
-        // Find fitting font for frequency labels amd for energies
-        int fontSize = 24;
-        fontSize = Program.getFont(fontSize, g, binFreqs, binWidth, Integer.MAX_VALUE, 1);
-        fontSize = Program.getFont(fontSize, g, fftMeasuresString, binWidth, Integer.MAX_VALUE, 1);
-        FontMetrics fontMetrics = g.getFontMetrics();
-
-
-        boolean isFirstAdded = true;
-        for(int bin = 0, currX = 0; bin < fftMeasures.length; bin++, currX += binWidthWithSpace) {
-            System.out.println("MAX:\t" + maxEnergy);
-            int height = (int)(fftMeasures[bin] * windowHeight);
-
-            if(bin > indexToStartAddingPixels && isFirstAdded) {
-                isFirstAdded = false;
-                binWidth++;
-                binWidthWithSpace++;
-            }
-
-            g.setColor(Color.red);
-            g.fillRect(currX, windowHeight - height, binWidth, height);
-
-
-            Color c = Color.black;
-
-            // Draw frequency
-            Program.drawStringWithSpace(g, c, binFreqs[bin], currX, binWidth, windowHeight);
-            // Draw measures
-            Program.drawStringWithSpace(g, c, fftMeasuresString[bin], currX, binWidth, 16);
-        }
-
-        return image;
     }
 }

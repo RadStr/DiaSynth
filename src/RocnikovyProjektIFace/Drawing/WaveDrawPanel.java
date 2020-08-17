@@ -15,6 +15,7 @@ public class WaveDrawPanel extends DrawPanel {
         setTimeInMs(timeInMs);
         setLabels();
         normalizeAndSetDrawValues();
+        setLastPartOfTooltip();
     }
 
 
@@ -28,6 +29,11 @@ public class WaveDrawPanel extends DrawPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        int w = getWidth();
+        int hh = getHeight() / 2;
+        g.setColor(Color.black);
+        g.drawLine(0, hh, w, hh);
     }
 
 
@@ -36,6 +42,11 @@ public class WaveDrawPanel extends DrawPanel {
         return value;
     }
 
+
+    @Override
+    protected Color getBinColor(int bin) {
+        return Color.BLUE;
+    }
 
     /**
      * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.
@@ -59,9 +70,11 @@ public class WaveDrawPanel extends DrawPanel {
     protected void setBinMeasure(int bin, int y) {
         int w = this.getWidth();
         int h = this.getHeight();
+        int hh = h / 2;
         double jump;
 
-        double value = h / y;
+        y -= hh;
+        double value = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
         value = Math.min(value, 1);
         value = Math.max(value, -1);
         setDrawValue(bin, value);
@@ -99,14 +112,14 @@ public class WaveDrawPanel extends DrawPanel {
         int midY = h / 2;
         int y = midY - (int)(drawValue * midY);
         if(y < midY) {
-            g.drawRect(currX, y, binWidth, midY);
+            g.drawRect(currX, y, binWidth, midY - y);
         }
         else {
-            g.drawRect(currX, midY, binWidth, y);
+            g.drawRect(currX, midY, binWidth, y - midY);
         }
     }
 
     public double[] getDrawnWave() {
-        return new double[2048];
+        return drawValues;
     }
 }

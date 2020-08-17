@@ -38,6 +38,11 @@ public class FFTWindowPanel extends DrawPanel {
     private final DoubleFFT_1D fft;
     private final double freqJump;
 
+    @Override
+    protected Color getBinColor(int bin) {
+        return Color.red;
+    }
+
     /**
      * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.
      */

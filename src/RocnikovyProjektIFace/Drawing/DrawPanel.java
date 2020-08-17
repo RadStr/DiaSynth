@@ -86,6 +86,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     private final int MEASURE_VALUE_INDEX;
     private final int LABEL_VALUE_INDEX;
 
+    protected abstract Color getBinColor(int bin);
+
 
     private Point oldMouseLoc;
 
@@ -448,7 +450,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        System.out.println(selectedBin);
 
         boolean isFirstAdded = true;
-        g.setColor(Color.red);
         for(int bin = 0, currX = 0; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
             if(bin >= indexToStartAddingPixels && isFirstAdded) {
                 isFirstAdded = false;
@@ -456,6 +457,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 binWidthWithSpace++;
             }
 
+            g.setColor(getBinColor(bin));
             drawBin(g, drawValues[bin], currX, binWidth, h);
             if(bin == selectedBin) {
                 g.setColor(new Color(0,0,255, 32));

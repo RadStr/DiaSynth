@@ -24,6 +24,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
+import RocnikovyProjektIFace.Drawing.WaveDrawPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import RocnikovyProjektIFace.SpecificAudioPlayerDialogs.CreateEmptyWaveDialog;
@@ -3421,17 +3422,27 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 // TODO: Just testing correctness of createSine
 
 
-                RocnikovyProjektIFace.Drawing.FFTWindowPanel fftWindowPanel;
-                fftWindowPanel = new RocnikovyProjektIFace.Drawing.FFTWindowPanel(arr, 1024,
-                        0, (int)outputAudioFormat.getSampleRate(), 1);
+//                RocnikovyProjektIFace.Drawing.FFTWindowPanel fftWindowPanel;
+//                fftWindowPanel = new RocnikovyProjektIFace.Drawing.FFTWindowPanel(arr, 1024,
+//                        0, (int)outputAudioFormat.getSampleRate(), 1);
+//                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
+//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+//                if(result == JOptionPane.OK_OPTION) {
+//                    double[] wave = fftWindowPanel.getIFFTResult(true);
+//                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
+//                            "Doesn't matter I don't create file anyways", false));
+//                    double[] wave2 = fftWindowPanel.getIFFTResult(false);
+//                    addWave(new DoubleWave(wave2, getOutputSampleRate(), 1,
+//                            "Doesn't matter I don't create file anyways", false));
+
+
+                WaveDrawPanel fftWindowPanel;
+                fftWindowPanel = new WaveDrawPanel((int)outputAudioFormat.getSampleRate(), 20, 1024, "Time");
                 int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftWindowPanel.getIFFTResult(true);
+                    double[] wave = fftWindowPanel.getDrawnWave();
                     addWave(new DoubleWave(wave, getOutputSampleRate(),1,
-                            "Doesn't matter I don't create file anyways", false));
-                    double[] wave2 = fftWindowPanel.getIFFTResult(false);
-                    addWave(new DoubleWave(wave2, getOutputSampleRate(),1,
                             "Doesn't matter I don't create file anyways", false));
                 }
             }

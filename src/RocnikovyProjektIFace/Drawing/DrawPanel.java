@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Note: labels variable needs to be set in deriving constructor and also setLastPartOfTooltip()
+ * Note: labels variable needs to be set in deriving constructor and also setLastPartOfTooltip() and normalizeAndSetDrawValues(double value)
  * needs to be called at the end of deriving constructor.
  */
 public abstract class DrawPanel extends JPanel implements MouseMotionListener, MouseListener {
@@ -135,6 +135,18 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         }
 
         tooltip.append(NEW_LINE);
+    }
+
+    protected abstract double normalizeValue(double value);
+    protected void normalizeAndSetDrawValues() {
+        // Normalization and getting string representation
+        for (int i = 0; i < drawValues.length; i++) {
+            // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
+            // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
+//            fftMeasures[i] *= 2;
+//            fftMeasures[i] /= (fftMeasures.length / 2);
+            setDrawValue(i, normalizeValue(drawValues[i]));
+        }
     }
 
 
@@ -436,18 +448,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        System.out.println(selectedBin);
 
         boolean isFirstAdded = true;
+        g.setColor(Color.red);
         for(int bin = 0, currX = 0; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
-            int height = (int)(drawValues[bin] * h);
-
             if(bin >= indexToStartAddingPixels && isFirstAdded) {
                 isFirstAdded = false;
                 binWidth++;
                 binWidthWithSpace++;
             }
 
-
-            g.setColor(Color.red);
-            g.fillRect(currX, h - height, binWidth, height);
+            drawBin(g, drawValues[bin], currX, binWidth, h);
             if(bin == selectedBin) {
                 g.setColor(new Color(0,0,255, 32));
                 g.fillRect(currX, 0, binWidth, h);
@@ -456,8 +465,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
 
-        drawLabels(indexToStartAddingPixels, binWidthWithSpace, isFirstAdded,
-                binWidth, enoughSpaceForLabels, textBinWidth, h, g, n, labels);
+        drawLabels(indexToStartAddingPixels, binWidthWithSpace, binWidth,
+                enoughSpaceForLabels, textBinWidth, h, g, n, labels, drawValues.length);
 //        if(enoughSpaceForLabels) {
 //            if (indexToStartAddingPixels < fftMeasures.length) {
 //                isFirstAdded = true;
@@ -485,11 +494,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        }
     }
 
+    protected abstract void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h);
+
     /**
      * Draws every n-th label
      * @param indexToStartAddingPixels because usually width % labels.length != 0 then, we need to make the spaces 1 pixel larger from some index, so it can fit.
      * @param binWidthWithSpace is the binWidth but also containing space between the binIndices.
-     * @param isFirstAdded
      * @param binWidth is the width of 1 bin. (In case of wave drawing it is 1 pixel, in case of FFT can be 1 or more, depends on size of window).
      * @param shouldDrawLabels
      * @param labelWidth
@@ -498,15 +508,17 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      * @param n - every n-th label is drawn
      * @param labels are the labels
      */
-    public static void drawLabels(int indexToStartAddingPixels, int binWidthWithSpace, boolean isFirstAdded, int binWidth,
-                                  boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels) {
+    public static void drawLabels(int indexToStartAddingPixels, int binWidthWithSpace, int binWidth,
+                                  boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels,
+                                  int binCount) {
+        boolean isFirstAdded = false;
         if(shouldDrawLabels) {
-            if (indexToStartAddingPixels < labels.length) {
+            if (indexToStartAddingPixels < binCount) {
                 isFirstAdded = true;
                 binWidth--;
                 binWidthWithSpace--;
             }
-            for (int bin = 0, currX = 0; bin < labels.length; bin++, currX += binWidthWithSpace) {
+            for (int bin = 0, currX = 0; bin < binCount; bin++, currX += binWidthWithSpace) {
                 if (bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
                     binWidth++;
@@ -515,7 +527,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
                 Color c = Color.black;
-                if (bin == labels.length - 1) {
+                if (bin == binCount - 1) {
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
                 } else if (bin == 0) {
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);

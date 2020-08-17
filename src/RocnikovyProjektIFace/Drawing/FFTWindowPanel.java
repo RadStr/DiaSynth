@@ -60,17 +60,9 @@ public class FFTWindowPanel extends DrawPanel {
         setDrawValue(bin, binValue);
     }
 
-
-
-    protected void normalizeAndSetDrawValues() {
-        // Normalization and getting string representation
-        for (int i = 0; i < drawValues.length; i++) {
-            // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
-            // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
-//            fftMeasures[i] *= 2;
-//            fftMeasures[i] /= (fftMeasures.length / 2);
-            setDrawValue(i, drawValues[i] / drawValues.length);
-        }
+    @Override
+    protected double normalizeValue(double value) {
+        return value / drawValues.length;
     }
 
     public static void normalizeFFTResultsRealForward(double[] fftMeasures) {
@@ -145,6 +137,12 @@ public class FFTWindowPanel extends DrawPanel {
         for(int i = 0; i < arr.length; i++) {
             arr[i] /= max;
         }
+    }
+
+
+    protected void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h) {
+        int height = (int)(drawValue * h);
+        g.fillRect(currX, h - height, binWidth, height);
     }
 
 

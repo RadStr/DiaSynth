@@ -3,7 +3,6 @@ package RocnikovyProjektIFace;
 
 import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
-import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import PartsConnectingGUI.ChangeJMenuBarIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithShouldConvertFlag;
@@ -24,7 +23,9 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
-import RocnikovyProjektIFace.Drawing.WaveDrawPanel;
+import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
+import RocnikovyProjektIFace.Drawing.TimeWaveDrawPanel;
+import RocnikovyProjektIFace.Drawing.WaveShaper;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import RocnikovyProjektIFace.SpecificAudioPlayerDialogs.CreateEmptyWaveDialog;
@@ -34,7 +35,6 @@ import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 import DebugPackage.DEBUG_CLASS;
-import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -3436,15 +3435,30 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                            "Doesn't matter I don't create file anyways", false));
 
 
-                WaveDrawPanel fftWindowPanel;
-                fftWindowPanel = new WaveDrawPanel((int)outputAudioFormat.getSampleRate(), 20, 1024, "Time");
-                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
+
+//                TimeWaveDrawPanel fftWindowPanel;
+//                fftWindowPanel = new TimeWaveDrawPanel((int)outputAudioFormat.getSampleRate(), 20, 1024);
+//                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
+//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+//                if(result == JOptionPane.OK_OPTION) {
+//                    // TODO: VYMAZAT
+//                    //double[] wave = fftWindowPanel.getDrawnWave();
+//                    // TODO: VYMAZAT
+//                    double[] wave = fftWindowPanel.getNPeriods(getOutputSampleRate(), 1);
+//                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
+//                            "Doesn't matter I don't create file anyways", false));
+//                }
+
+
+                WaveShaper waveShaper;
+                waveShaper = new WaveShaper();
+                int result = JOptionPane.showConfirmDialog(null, waveShaper,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
                     // TODO: VYMAZAT
                     //double[] wave = fftWindowPanel.getDrawnWave();
                     // TODO: VYMAZAT
-                    double[] wave = fftWindowPanel.getNPeriods(getOutputSampleRate(), 2);
+                    double[] wave = waveShaper.getOutputFunction();
                     addWave(new DoubleWave(wave, getOutputSampleRate(),1,
                             "Doesn't matter I don't create file anyways", false));
                 }

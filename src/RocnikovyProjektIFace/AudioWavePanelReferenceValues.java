@@ -363,7 +363,7 @@ public class AudioWavePanelReferenceValues extends JPanel {
             drawInternalValueDouble(x, (int) y, val, color, g, textHeight);
         }
 
-        drawLastValueDouble(x, (int) (y), minVal, color, g, textHeight);
+        drawLastValueDouble(x, getHeight() - 1, minVal, color, g, textHeight);
     }
 
 

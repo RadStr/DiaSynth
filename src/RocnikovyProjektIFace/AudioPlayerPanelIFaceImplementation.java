@@ -3441,7 +3441,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftWindowPanel.getDrawnWave();
+                    // TODO: VYMAZAT
+                    //double[] wave = fftWindowPanel.getDrawnWave();
+                    // TODO: VYMAZAT
+                    double[] wave = fftWindowPanel.getNPeriods(getOutputSampleRate(), 2);
                     addWave(new DoubleWave(wave, getOutputSampleRate(),1,
                             "Doesn't matter I don't create file anyways", false));
                 }

@@ -3568,49 +3568,28 @@ public class Program {
         if(realForwardFFTArr.length % 2 == 0) {			// It's even;
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
-            int index = 2;
-            for(int i = 1; index < realForwardFFTArr.length; i++, index++) {
-                real[i] = realForwardFFTArr[index];
-                index++;
-                imag[i] = realForwardFFTArr[index];
+            int index = 1;
+            for(int i = 2; i < realForwardFFTArr.length; i++, index++) {
+                real[index] = realForwardFFTArr[i];
+                i++;
+                imag[index] = realForwardFFTArr[i];
             }
 
             real[real.length - 1] = 0;
             imag[imag.length - 1] = realForwardFFTArr[1];
-
         } else {
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
-            int index = 2;      prohodit index s i aby to bylo konzistentni s tou puvodni convert metodou
-            for(int i = 1; index < realForwardFFTArr.length - 1; i++, index++) {
-                real[i] = realForwardFFTArr[index];
-                index++;
-                imag[i] = realForwardFFTArr[index];
+            int index = 1;
+            for (int i = 2; i < realForwardFFTArr.length - 1; i++, index++) {
+                real[index] = realForwardFFTArr[i];
+                i++;
+                imag[index] = realForwardFFTArr[i];
             }
 
             real[real.length - 1] = realForwardFFTArr[realForwardFFTArr.length - 1];
             imag[imag.length - 1] = realForwardFFTArr[1];
         }
-
-
-//        if(fftResult.length % 2 == 0) {			// It's even;
-//            result[0] = calculateComplexNumMeasure(fftResult[0], 0);
-//            int index = 1;
-//            for(int i = 2; i < fftResult.length; i = i + 2) {
-//                result[index] = calculateComplexNumMeasure(fftResult[i], fftResult[i + 1]);
-//                index++;
-//            }
-//            result[result.length - 1] = calculateComplexNumMeasure(0, fftResult[1]);
-//        } else {
-//            result[0] = calculateComplexNumMeasure(fftResult[0], 0);
-//            int index = 1;
-//            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
-//                result[index] = calculateComplexNumMeasure(fftResult[i], fftResult[i + 1]);
-//                index++;
-//            }
-//
-//            result[result.length - 1] = calculateComplexNumMeasure(fftResult[fftResult.length - 1], fftResult[1]);
-//        }
     }
 
 

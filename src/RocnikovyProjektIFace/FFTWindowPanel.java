@@ -565,9 +565,9 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 //            todo2[i] *= fftMeasures.length;
 //        }
 //
-//        getIFFT(todo, fft);
+//        getRealIFFT(todo, fft);
 //        normalize(todo);
-//        getIFFT(todo2, fft);
+//        getRealIFFT(todo2, fft);
 //        normalize(todo2);
 //        if(Arrays.equals(todo, todo2)) {
 //            // TODO: DEBUG

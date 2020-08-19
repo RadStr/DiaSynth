@@ -3550,7 +3550,7 @@ public class Program {
      * @param imag
      * @param result
      */
-    public void convertFFTArrs(double[] real, double[] imag, double[] result) {
+    public static void connectRealAndImagPart(double[] real, double[] imag, double[] result) {
         for(int i = 0, partIndex = 0; i < result.length; i++, partIndex++) {
             result[i] = real[partIndex];
             i++;
@@ -3564,7 +3564,7 @@ public class Program {
      * Takes realForward fft array and divides it to real and imaginary part. The real and imaginary part should be the
      * same length and the length should be (realForwardFFTArr.length + 1) / 2
      */
-    public void convertFFTArrs(double[] real, double[] imag, double[] realForwardFFTArr) {
+    public static void separateRealAndImagPart(double[] real, double[] imag, double[] realForwardFFTArr) {
         if(realForwardFFTArr.length % 2 == 0) {			// It's even;
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;

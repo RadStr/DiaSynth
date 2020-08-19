@@ -4,12 +4,7 @@ import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 public class FFTWindowPanel extends DrawPanel {
@@ -83,7 +78,7 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
 
 
 
-    public static void getIFFT(double[] fftArr, DoubleFFT_1D fft) {
+    public static void getRealIFFT(double[] fftArr, DoubleFFT_1D fft) {
         fft.realInverse(fftArr, true);
     }
 
@@ -106,9 +101,9 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
 //            todo2[i] *= fftMeasures.length;
 //        }
 //
-//        getIFFT(todo, fft);
+//        getRealIFFT(todo, fft);
 //        normalize(todo);
-//        getIFFT(todo2, fft);
+//        getRealIFFT(todo2, fft);
 //        normalize(todo2);
 //        if(Arrays.equals(todo, todo2)) {
 //            // TODO: DEBUG
@@ -131,7 +126,7 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
             // TODO: DEBUG
             fftResult[i] *= drawValues.length;
         }
-        getIFFT(fftResult, fft);
+        getRealIFFT(fftResult, fft);
         normalize(fftResult);
 
         return Arrays.copyOf(fftResult, fftResult.length);
@@ -579,7 +574,7 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
 //    }
 //
 //
-//    public static void getIFFT(double[] fftArr, DoubleFFT_1D fft) {
+//    public static void getRealIFFT(double[] fftArr, DoubleFFT_1D fft) {
 //        fft.realInverse(fftArr, true);
 //    }
 //
@@ -602,9 +597,9 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
 ////            todo2[i] *= fftMeasures.length;
 ////        }
 ////
-////        getIFFT(todo, fft);
+////        getRealIFFT(todo, fft);
 ////        normalize(todo);
-////        getIFFT(todo2, fft);
+////        getRealIFFT(todo2, fft);
 ////        normalize(todo2);
 ////        if(Arrays.equals(todo, todo2)) {
 ////            // TODO: DEBUG
@@ -627,7 +622,7 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
 //            // TODO: DEBUG
 //            fftResult[i] *= fftMeasures.length;
 //        }
-//        getIFFT(fftResult, fft);
+//        getRealIFFT(fftResult, fft);
 //        normalize(fftResult);
 //
 //        return Arrays.copyOf(fftResult, fftResult.length);

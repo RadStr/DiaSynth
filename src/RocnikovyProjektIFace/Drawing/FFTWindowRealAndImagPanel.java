@@ -30,10 +30,10 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         add(imagPartPanel, c);
     }
 
-    private DoubleFFT_1D fft;
-    private double[] fftResult;
-    private FFTWindowPartPanel realPartPanel;
-    private FFTWindowPartPanel imagPartPanel;
+    private final DoubleFFT_1D fft;
+    private final double[] fftResult;
+    private final FFTWindowPartPanel realPartPanel;
+    private final FFTWindowPartPanel imagPartPanel;
 
 
     public void setMeasures(FFTWindowPartPanel partPanel, int bin, double newValue) {
@@ -61,9 +61,13 @@ public class FFTWindowRealAndImagPanel extends JPanel {
     public double[] getIFFTResult() {
         double[] realPart = realPartPanel.drawValues;
         double[] imagPart = imagPartPanel.drawValues;
-        Program.convertFFTArrs(realPart, imagPart, fftResult);
-        FFTWindowPanel.getIFFT(fftResult, fft);
+        Program.connectRealAndImagPart(realPart, imagPart, fftResult);
+        getComplexIFFT(fftResult, fft);
 
         return Arrays.copyOf(fftResult, fftResult.length);
+    }
+
+    public static void getComplexIFFT(double[] arr, DoubleFFT_1D fft) {
+        fft.complexInverse(arr, true);
     }
 }

@@ -3408,7 +3408,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                DoubleFFT_1D fft = new DoubleFFT_1D(arr.length);
 //                double[] fftResult = new double[1024];
 //                Program.calculateFFTRealForward(arr, 0, 1, fft, fftResult);
-//                FFTWindowPanel.getIFFT(fftResult, fft);
+//                FFTWindowPanel.getRealIFFT(fftResult, fft);
 
 
 

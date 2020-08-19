@@ -26,9 +26,11 @@ public class FFTWindowPanel extends DrawPanel {
         fftResult = new double[windowSize];
         fft = new DoubleFFT_1D(windowSize);
 
+Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech castech tak to nechci volat a ani nechci ty ostatni tridy tady nebo mozna chci asi ale chci jejich jiny implementace a chci je jen v tom FFTMain
         Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
         normalizeAndSetDrawValues();
+Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech castech tak to nechci volat a ani nechci ty ostatni tridy tady nebo mozna chci asi ale chci jejich jiny implementace a chci je jen v tom FFTMain
 
         setLastPartOfTooltip();
     }

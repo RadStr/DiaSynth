@@ -3544,6 +3544,79 @@ public class Program {
 
 
     /**
+     * Puts the real and imag part to result array in such way that [i % 2 == 0] contains real part and odd indices imaginary part.
+     * That means that on the results needs to be performed full fft.
+     * @param real
+     * @param imag
+     * @param result
+     */
+    public void convertFFTArrs(double[] real, double[] imag, double[] result) {
+        for(int i = 0, partIndex = 0; i < result.length; i++, partIndex++) {
+            result[i] = real[partIndex];
+            i++;
+            result[i] = imag[partIndex];
+        }
+    }
+
+
+    // TODO: Nebo aspon myslim ze by to melo byt (realForwardFFTArr.length + 1) / 2
+    /**
+     * Takes realForward fft array and divides it to real and imaginary part. The real and imaginary part should be the
+     * same length and the length should be (realForwardFFTArr.length + 1) / 2
+     */
+    public void convertFFTArrs(double[] real, double[] imag, double[] realForwardFFTArr) {
+        if(realForwardFFTArr.length % 2 == 0) {			// It's even;
+            real[0] = realForwardFFTArr[0];
+            imag[0] = 0;
+            int index = 2;
+            for(int i = 1; index < realForwardFFTArr.length; i++, index++) {
+                real[i] = realForwardFFTArr[index];
+                index++;
+                imag[i] = realForwardFFTArr[index];
+            }
+
+            real[real.length - 1] = 0;
+            imag[imag.length - 1] = realForwardFFTArr[1];
+
+        } else {
+            real[0] = realForwardFFTArr[0];
+            imag[0] = 0;
+            int index = 2;      prohodit index s i aby to bylo konzistentni s tou puvodni convert metodou
+            for(int i = 1; index < realForwardFFTArr.length - 1; i++, index++) {
+                real[i] = realForwardFFTArr[index];
+                index++;
+                imag[i] = realForwardFFTArr[index];
+            }
+
+            real[real.length - 1] = realForwardFFTArr[realForwardFFTArr.length - 1];
+            imag[imag.length - 1] = realForwardFFTArr[1];
+        }
+
+
+//        if(fftResult.length % 2 == 0) {			// It's even;
+//            result[0] = calculateComplexNumMeasure(fftResult[0], 0);
+//            int index = 1;
+//            for(int i = 2; i < fftResult.length; i = i + 2) {
+//                result[index] = calculateComplexNumMeasure(fftResult[i], fftResult[i + 1]);
+//                index++;
+//            }
+//            result[result.length - 1] = calculateComplexNumMeasure(0, fftResult[1]);
+//        } else {
+//            result[0] = calculateComplexNumMeasure(fftResult[0], 0);
+//            int index = 1;
+//            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
+//                result[index] = calculateComplexNumMeasure(fftResult[i], fftResult[i + 1]);
+//                index++;
+//            }
+//
+//            result[result.length - 1] = calculateComplexNumMeasure(fftResult[fftResult.length - 1], fftResult[1]);
+//        }
+    }
+
+
+
+
+    /**
      * Method takes the results of FFT, converts them to real number by taking the distances of the complex numbers.
      * Then just adds frequencies to corresponding complex numbers.
      * Calculating the frequency for complex number at index indexOfTheComplexNumber:

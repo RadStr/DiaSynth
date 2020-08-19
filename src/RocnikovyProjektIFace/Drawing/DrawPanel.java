@@ -119,6 +119,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         drawValues[index] = value;
         drawValuesStrings[index] = String.format("%.2f", drawValues[index]);
     }
+    protected double getDrawValue(int bin) {
+        return drawValues[bin];
+    }
     protected String[] binIndices;
 
     protected int selectedBin = -1;

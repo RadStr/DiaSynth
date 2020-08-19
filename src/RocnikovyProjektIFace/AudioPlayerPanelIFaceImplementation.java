@@ -3420,6 +3420,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                        "Doesn't matter I don't create file anyways", false));
                 // TODO: Just testing correctness of createSine
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //                RocnikovyProjektIFace.Drawing.FFTWindowPanel fftWindowPanel;
 //                fftWindowPanel = new RocnikovyProjektIFace.Drawing.FFTWindowPanel(arr, 1024,
@@ -3433,8 +3434,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    double[] wave2 = fftWindowPanel.getIFFTResult(false);
 //                    addWave(new DoubleWave(wave2, getOutputSampleRate(), 1,
 //                            "Doesn't matter I don't create file anyways", false));
+//                }
+//            }
+//        });
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //                TimeWaveDrawPanel fftWindowPanel;
 //                fftWindowPanel = new TimeWaveDrawPanel((int)outputAudioFormat.getSampleRate(), 20, 1024);
@@ -3449,6 +3453,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                            "Doesn't matter I don't create file anyways", false));
 //                }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 WaveShaper waveShaper;
                 waveShaper = new WaveShaper();

@@ -7,37 +7,18 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.awt.*;
 import java.util.Arrays;
 
-public class FFTWindowPanel extends DrawPanel {
+public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
         this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        super(Program.getBinCountRealForward(windowSize), "Frequency");
-        this.freqJump = freqJump;
-        int binCount = Program.getBinCountRealForward(windowSize);
-        labels = Program.getFreqs(binCount, freqJump, 0, 1);
+        super(song, windowSize, startIndex, freqJump, numberOfChannels);
 
-        fftResult = new double[windowSize];
-        fft = new DoubleFFT_1D(windowSize);
-
-Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech castech tak to nechci volat a ani nechci ty ostatni tridy tady nebo mozna chci asi ale chci jejich jiny implementace a chci je jen v tom FFTMain
         Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
         normalizeAndSetDrawValues();
-Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech castech tak to nechci volat a ani nechci ty ostatni tridy tady nebo mozna chci asi ale chci jejich jiny implementace a chci je jen v tom FFTMain
-
         setLastPartOfTooltip();
-    }
-
-
-    private final double[] fftResult;
-    private final DoubleFFT_1D fft;
-    private final double freqJump;
-
-    @Override
-    protected Color getBinColor(int bin) {
-        return Color.red;
     }
 
     /**
@@ -46,6 +27,11 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
     @Override
     protected void setLabels() {
         // EMPTY
+    }
+
+    @Override
+    protected Color getBinColor(int bin) {
+        return Color.red;
     }
 
     @Override
@@ -139,12 +125,6 @@ Tohle musim volat jen v jedny tride resp. ten convert - kdyz to delam po tech ca
         for(int i = 0; i < arr.length; i++) {
             arr[i] /= max;
         }
-    }
-
-
-    protected void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h) {
-        int height = (int)(drawValue * h);
-        g.fillRect(currX, h - height, binWidth, height);
     }
 
 

@@ -37,7 +37,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
     public void setMeasures(FFTWindowPartPanel partPanel, int bin, double newValue) {
-        FFTWindowPanel otherPartPanel;
+        FFTWindowPanelAbstract otherPartPanel;
         if(partPanel == imagPartPanel) {
             otherPartPanel = realPartPanel;
         }
@@ -51,10 +51,12 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
         double squaresSum = otherPanelValueSquare + squareValue;
         if(squaresSum > 1) {
-            double newOtherPanelValue = Math.sqrt(squaresSum - squareValue);
+            double newOtherPanelValue = Math.sqrt(1 - squareValue);
             otherPartPanel.setDrawValue(bin, newOtherPanelValue);
             otherPartPanel.repaint();
         }
+
+        partPanel.setDrawValue(bin, newValue);
     }
 
 

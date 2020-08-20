@@ -23,6 +23,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
+import RocnikovyProjektIFace.Drawing.FFTWindowRealAndImagPanel;
 import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
 import RocnikovyProjektIFace.Drawing.TimeWaveDrawPanel;
 import RocnikovyProjektIFace.Drawing.WaveShaper;
@@ -3398,9 +3399,9 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                        500, getOutputSampleRate(), 0);
                 double[] arr = new double[1024];
                 Random rand = new Random();
-                for(int i = 0; i < arr.length; i++) {
+                for (int i = 0; i < arr.length; i++) {
                     arr[i] = rand.nextDouble();
-                    if(rand.nextDouble() > 0.5) {
+                    if (rand.nextDouble() > 0.5) {
                         arr[i] *= -1;
                     }
                 }
@@ -3409,8 +3410,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                double[] fftResult = new double[1024];
 //                Program.calculateFFTRealForward(arr, 0, 1, fft, fftResult);
 //                FFTWindowPanel.getRealIFFT(fftResult, fft);
-
-
 
 
                 // TODO: Just testing correctness of createSine
@@ -3452,23 +3451,41 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
 //                            "Doesn't matter I don't create file anyways", false));
 //                }
+//            }
+//        });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                WaveShaper waveShaper;
-                waveShaper = new WaveShaper();
-                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+//                WaveShaper waveShaper;
+//                waveShaper = new WaveShaper();
+//                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+//                if(result == JOptionPane.OK_OPTION) {
+//                    // TODO: VYMAZAT
+//                    //double[] wave = fftWindowPanel.getDrawnWave();
+//                    // TODO: VYMAZAT
+//                    double[] wave = waveShaper.getOutputFunction();
+//                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
+//                            "Doesn't matter I don't create file anyways", false));
+//                }
+//            }
+//        });
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
+                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
+                        0, (int) outputAudioFormat.getSampleRate(), 1);
+                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if(result == JOptionPane.OK_OPTION) {
-                    // TODO: VYMAZAT
-                    //double[] wave = fftWindowPanel.getDrawnWave();
-                    // TODO: VYMAZAT
-                    double[] wave = waveShaper.getOutputFunction();
-                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
+                if (result == JOptionPane.OK_OPTION) {
+                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
+                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
                             "Doesn't matter I don't create file anyways", false));
                 }
             }
         });
+
 
         menu.add(menuItem);
     }

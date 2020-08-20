@@ -1,17 +1,32 @@
 package RocnikovyProjektIFace.Drawing;
 
-public class FFTWindowPartPanel extends FFTWindowPanel {
+public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        super(song, windowSize, startIndex, sampleRate, numberOfChannels);
-        this.controlPanel = controlPanel;
+        this(controlPanel, song, windowSize, startIndex, Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
     }
 
     public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
         super(song, windowSize, startIndex, freqJump, numberOfChannels);
         this.controlPanel = controlPanel;
+
+        // TODO: NEZDA SE MI
+        for(int i = 0; i < drawValuesStrings.length; i++) {
+            setDrawValue(i, normalizeValue(drawValues[i]));
+        }
+        // TODO: NEZDA SE MI
+
+        setLastPartOfTooltip();
     }
 
     private FFTWindowRealAndImagPanel controlPanel;
+
+    /**
+     * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.
+     */
+    @Override
+    protected void setLabels() {
+        // EMPTY
+    }
 
     @Override
     protected void setBinMeasure(int bin, int y) {
@@ -24,7 +39,8 @@ public class FFTWindowPartPanel extends FFTWindowPanel {
             binValue = 1;
         }
 
-
         controlPanel.setMeasures(this, bin, binValue);
     }
+
+
 }

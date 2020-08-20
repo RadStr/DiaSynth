@@ -12,8 +12,24 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         realPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
         imagPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
         int binCount = Program.getBinCountRealForward(windowSize);
-        fftResult = new double[binCount];
-        fft = new DoubleFFT_1D(binCount);
+        fftResult = new double[windowSize];
+        fft = new DoubleFFT_1D(windowSize);
+
+
+        // TODO: NEZDA SE MI
+        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
+        for(int i = 0; i < fftResult.length; i++) {
+            fftResult[i] /= binCount;
+        }
+        Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, binCount);
+        fftResult = new double[windowSize];
+        // TODO: NEZDA SE MI
+
+        realPartPanel.setDrawValuesStrings();
+        realPartPanel.setLastPartOfTooltip();
+        imagPartPanel.setDrawValuesStrings();
+        imagPartPanel.setLastPartOfTooltip();
+
 
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -25,13 +41,12 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         c.weighty = 1;
 
         add(realPartPanel, c);
-
         c.gridy = 1;
         add(imagPartPanel, c);
     }
 
     private final DoubleFFT_1D fft;
-    private final double[] fftResult;
+    private double[] fftResult;
     private final FFTWindowPartPanel realPartPanel;
     private final FFTWindowPartPanel imagPartPanel;
 

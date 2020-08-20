@@ -3563,13 +3563,17 @@ public class Program {
     /**
      * Takes realForward fft array and divides it to real and imaginary part. The real and imaginary part should be the
      * same length and the length should be (realForwardFFTArr.length + 1) / 2
+     * @param real
+     * @param imag
+     * @param realForwardFFTArr
+     * @param fftArrLen because the realForwardFFTArr can be longer than the result of fft
      */
-    public static void separateRealAndImagPart(double[] real, double[] imag, double[] realForwardFFTArr) {
-        if(realForwardFFTArr.length % 2 == 0) {			// It's even;
+    public static void separateRealAndImagPart(double[] real, double[] imag, double[] realForwardFFTArr, int fftArrLen) {
+        if(fftArrLen % 2 == 0) {			// It's even;
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
             int index = 1;
-            for(int i = 2; i < realForwardFFTArr.length; i++, index++) {
+            for(int i = 2; i < fftArrLen; i++, index++) {
                 real[index] = realForwardFFTArr[i];
                 i++;
                 imag[index] = realForwardFFTArr[i];
@@ -3581,13 +3585,13 @@ public class Program {
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
             int index = 1;
-            for (int i = 2; i < realForwardFFTArr.length - 1; i++, index++) {
+            for (int i = 2; i < fftArrLen - 1; i++, index++) {
                 real[index] = realForwardFFTArr[i];
                 i++;
                 imag[index] = realForwardFFTArr[i];
             }
 
-            real[real.length - 1] = realForwardFFTArr[realForwardFFTArr.length - 1];
+            real[real.length - 1] = realForwardFFTArr[fftArrLen - 1];
             imag[imag.length - 1] = realForwardFFTArr[1];
         }
     }

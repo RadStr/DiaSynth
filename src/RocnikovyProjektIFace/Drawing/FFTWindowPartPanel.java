@@ -10,14 +10,6 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
         super(song, windowSize, startIndex, freqJump, numberOfChannels);
         this.controlPanel = controlPanel;
-
-        // TODO: NEZDA SE MI
-        for(int i = 0; i < drawValuesStrings.length; i++) {
-            setDrawValue(i, normalizeValue(drawValues[i]));
-        }
-        // TODO: NEZDA SE MI
-
-        setLastPartOfTooltip();
     }
 
     private FFTWindowRealAndImagPanel controlPanel;

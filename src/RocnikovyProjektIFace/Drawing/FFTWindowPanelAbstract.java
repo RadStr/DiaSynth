@@ -6,7 +6,6 @@ import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
 import java.util.Arrays;
-
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
         this(song, windowSize, startIndex, Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels);

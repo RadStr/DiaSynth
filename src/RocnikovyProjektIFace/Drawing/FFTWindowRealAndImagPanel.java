@@ -37,14 +37,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
     public void setMeasures(FFTWindowPartPanel partPanel, int bin, double newValue) {
-        FFTWindowPanelAbstract otherPartPanel;
-        if(partPanel == imagPartPanel) {
-            otherPartPanel = realPartPanel;
-        }
-        else {
-            otherPartPanel = imagPartPanel;
-        }
-
+        FFTWindowPanelAbstract otherPartPanel = getTheOtherPartPanel(partPanel);
         double squareValue = newValue * newValue;
         double otherPanelValue = otherPartPanel.getDrawValue(bin);
         double otherPanelValueSquare = otherPanelValue * otherPanelValue;
@@ -59,6 +52,18 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         partPanel.setDrawValue(bin, newValue);
     }
 
+    private FFTWindowPanelAbstract getTheOtherPartPanel(FFTWindowPanelAbstract partPanel) {
+        FFTWindowPanelAbstract otherPartPanel;
+        if(partPanel == imagPartPanel) {
+            otherPartPanel = realPartPanel;
+        }
+        else {
+            otherPartPanel = imagPartPanel;
+        }
+
+        return otherPartPanel;
+    }
+
 
     public double[] getIFFTResult() {
         double[] realPart = realPartPanel.drawValues;
@@ -71,5 +76,11 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
     public static void getComplexIFFT(double[] arr, DoubleFFT_1D fft) {
         fft.complexInverse(arr, true);
+    }
+
+    protected void setTheOtherPartSelectedBin(FFTWindowPanelAbstract partPanel, int bin) {
+        FFTWindowPanelAbstract otherPartPanel = getTheOtherPartPanel(partPanel);
+        otherPartPanel.setSelectedBin(bin);
+        otherPartPanel.repaint();
     }
 }

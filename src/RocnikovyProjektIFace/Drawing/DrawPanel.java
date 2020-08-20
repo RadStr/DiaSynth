@@ -125,7 +125,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected String[] binIndices;
 
     protected int selectedBin = -1;
-    private void setSelectedBin(int bin) {
+    protected void setSelectedBin(int bin) {
         if(bin != selectedBin) {
             changeToolTip(bin);
             selectedBin = bin;

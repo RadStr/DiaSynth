@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import java.awt.event.MouseEvent;
+
 public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
         this(controlPanel, song, windowSize, startIndex, Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
@@ -42,5 +44,15 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
         controlPanel.setMeasures(this, bin, binValue);
     }
 
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        super.mouseMoved(e);
+        controlPanel.setTheOtherPartSelectedBin(this, selectedBin);
+    }
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
+        controlPanel.setTheOtherPartSelectedBin(this, selectedBin);
+    }
 }

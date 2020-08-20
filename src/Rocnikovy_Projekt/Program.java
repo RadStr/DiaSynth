@@ -3473,6 +3473,58 @@ public class Program {
 
 
 
+    Uz to je skoro hotovy, uz jen musim udelat ze to nejde roztahnout nebo tak neco
+    pridat tam ty reference
+    a asi udelat ze labelu muze byt i min nez je pocet tech binu
+
+
+
+
+
+        ----------------------------------------------------------------------------------------------------------------
+
+
+    Asi budu muset udelat tridu od ktery bude tahle dedit a ta bude mit jen getDrawnValues a nebude mit cas - tu pouziju na vykreslovani grafu pro waveshaper
+
+
+    Muzu mit 2 FFT windows na realnou a imaginarni slozku
+
+// TODO: AAA - setFrequencyToolTip
+
+
+    Pozor na + a - u tech FFT to nevadi ale u tech draw values to vadi tam je bezne - cislo
+
+
+    Takze co vlastne udelam je ze naimplementuju ty metody, pak zmenim paint protoze tam se to kresli pres prostredek
+    pak tam pridam tu metodu co mi vrati tu vlnu uz v doublech
+    nezapomenout zavolat ty labely no a ted envim to uz vypada ze je vsechno
+
+        -----------------------------------------------------------------------------------------------------------------
+    Nevim Proc je tohle potreba, melo by to snad jit i bez toho - layout by mel spravne nastavit tu vysku takze nevim co se deje
+        outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
+
+        -----------------------------------------------------------------------------------------------------------------
+
+    TODO: tady bych mel mit co nevjic to jde, resp. v te WaveShaper to bude pres celou obrazovku a ta function Draw vezme vsechno co nevezmou ty reference
+------------------------------------------------------------------------------------------------------------------------
+    Takze mam fft window 1024 - to ma nejakych asi 512 kosiku nebo 513 ted nevim, 513 asi
+    No a kdyz dam real forward tak se mi to vejde do tech 1024 prvku protoze nejaky ty realny, resp. imaginarni casti jsou 0 takze tam byt nemusi
+
+    Kdybych ale dal full complex forward tak mam tech 1024 prvku ale pak jeste dalsich 1024 protoze to je prevraceny - takze mma 1024 real cisel a 1024 imag cisel
+
+    A tech prvnich 513 * 2 indexu da stejny vysledky jako ta fft real forward ta 513 tam je protoze se to podle nej dal zrcadli - je tam jen jednou takze proto 513
+
+    proto mam biny 0-512
+
+    Jenze kdyz mam tech 513 u toho delka % 2 == 0 tak tam mam ten prvek na index len / 2 no a ten odpovida te 0, takze mam i tak jen 512 binu
+------------------------------------------------------------------------------------------------------------------------
+aha uz vim v cem je problem a[1] a a[0] jsou stejny cisla totiz to je frekvence 0 a nyquist frekvence
+    v tom pripade bych ale mel pracovat jen s 512.
+    zkontrolovat to jestli se to skutecne rovna
+    !!!!!! Jenze to neni pravda nyquistova frekvence se prekryva s nyquistovou frekvenci
+------------------------------------------------------------------------------------------------------------------------
+    Dalsi vec vzhledem k tomu ze vysledky fft jsou i zaporny, tak to znamena ze asi dava vetsi smysl mit ty measury mezi -1 a 1 misto 0 a 1
+
     // From documentation (this are the values we want convert to):
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -3545,16 +3597,40 @@ public class Program {
 
     /**
      * Puts the real and imag part to result array in such way that [i % 2 == 0] contains real part and odd indices imaginary part.
-     * That means that on the results needs to be performed full fft.
+     * That means that on the results needs to be performed full fft. This also mirrors the first half, because that is how the full fft works for audio
+     * the second half is just the first half mirrored.
+     * Note: the result is always even because in order for it to contain both real and imaginary parts it needs to be even.
+     * Take look to getBinCountRealForward to understand how many bins are for each window size
+     * 2 Examples:
+     * 1) Window size was 8, that means there are 5 bins and the 3rd one isn't mirrored
+     * So that means the result array should be at least 8 * 2 long
+     * [0] .. [9] contain the real and imag arrays and the it is mirrored, so [10] contains [6] and [11] contains [7]
+     * because [8] [9] isn't mirrored, it is in the middle
+     * then it is [12] = [4], [13] = [5] ... [14] = [2], [15] = [3] ... [16] = [0], [17] == [1]
      * @param real
      * @param imag
      * @param result
      */
+    kolik tam je tech binu ale
     public static void connectRealAndImagPart(double[] real, double[] imag, double[] result) {
-        for(int i = 0, partIndex = 0; i < result.length; i++, partIndex++) {
+        int i = 0;
+        int partIndex = 0;
+        for(; partIndex < real.length; i++, partIndex++) {
             result[i] = real[partIndex];
             i++;
             result[i] = imag[partIndex];
+        }
+        partIndex--;
+
+        nejak mi tu nesedi pocty binu vubec
+        if(real.length % 2 == 1) {      // Then the middle element is there only one time, so we don't mirror it.
+            partIndex--;
+        }
+        for(; partIndex >= 0; i++, partIndex--) {
+            result[i] = real[partIndex];
+            i++;
+            result[i] = imag[partIndex];
+            ProgramTest.debugPrint("Index connect", i, partIndex);
         }
     }
 
@@ -3718,30 +3794,34 @@ public class Program {
 
 
 
-    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int numberOfChannels, int resultArrayLen, int fftSize) {
+    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
+                                                   int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, result, fftSize);
+        calculateFFTRealForward(samples, startIndex, len, numberOfChannels, result, fftSize);
         return result;
     }
-    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int numberOfChannels, int fftSize) {
-        return calculateFFTRealForward(samples, startIndex, numberOfChannels, fftSize, fftSize);
+    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels, int fftSize) {
+        return calculateFFTRealForward(samples, startIndex, len, numberOfChannels, fftSize, fftSize);
     }
 
-    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft, int resultArrayLen) {
+    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
+                                                   DoubleFFT_1D fft, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, fft, result);
+        calculateFFTRealForward(samples, startIndex, len, numberOfChannels, fft, result);
         return result;
     }
     ////////////////////
-    public static void calculateFFTRealForward(double[] samples, int startIndex, int numberOfChannels, double[] result, int fftSize) {
+    public static void calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
+                                               double[] result, int fftSize) {
         if(result.length < fftSize) {       // TODO: Mel bych tu provadet check nebo ne???
             return;
         }
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, fft, result);
+        calculateFFTRealForward(samples, startIndex, len, numberOfChannels, fft, result);
     }
-    public static void calculateFFTRealForward(double[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft, double[] result) {
-        for (int i = 0; i < result.length; i++, startIndex += numberOfChannels) {
+    public static void calculateFFTRealForward(double[] samples, int startIndex, int len,
+                                               int numberOfChannels, DoubleFFT_1D fft, double[] result) {
+        for (int i = 0; i < len; i++, startIndex += numberOfChannels) {
             result[i] = samples[startIndex];
         }
         fft.realForward(result);
@@ -8944,7 +9024,7 @@ System.out.println();
 //        for(int i = currSongIndex; i <= currSongIndex + fftResult.length; i++) {
 //            song[i] = 1;
 //        }
-        calculateFFTRealForward(song, currSongIndex, numberOfChannels, fft, fftResult);         // TODO: Tahle vicekanalova verze se mi vubec nelibi
+        calculateFFTRealForward(song, currSongIndex, fftResult.length, numberOfChannels, fft, fftResult);         // TODO: Tahle vicekanalova verze se mi vubec nelibi
         convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
         System.out.println("TODO:\t" + currentlyCalculatedMeasures[1][1]);
         System.out.println("--------------------------");
@@ -9199,7 +9279,7 @@ System.out.println();
         for(int i = currSongIndex; i <= currSongIndex + fftResult.length; i++) {
             song[i] = 1;
         }
-        calculateFFTRealForward(song, currSongIndex, numberOfChannels, fft, fftResult);         // TODO: Tahle vicekanalova verze se mi vubec nelibi
+        calculateFFTRealForward(song, currSongIndex, fftResult.length, numberOfChannels, fft, fftResult);         // TODO: Tahle vicekanalova verze se mi vubec nelibi
         convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
         System.out.println("TODO:\t" + currentlyCalculatedMeasures[1][1]);
         System.out.println("--------------------------");

@@ -12,18 +12,15 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         realPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
         imagPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
         int binCount = Program.getBinCountRealForward(windowSize);
-        fftResult = new double[windowSize];
+        fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);
 
 
-        // TODO: NEZDA SE MI
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {
+        Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
+        for(int i = 0; i < fftResult.length; i++) {     normalizace nevim no jestli tu ma byt
             fftResult[i] /= binCount;
         }
-        Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, binCount);
-        fftResult = new double[windowSize];
-        // TODO: NEZDA SE MI
+        Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, windowSize);
 
         realPartPanel.setDrawValuesStrings();
         realPartPanel.setLastPartOfTooltip();
@@ -46,7 +43,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
     }
 
     private final DoubleFFT_1D fft;
-    private double[] fftResult;
+    private final double[] fftResult;
     private final FFTWindowPartPanel realPartPanel;
     private final FFTWindowPartPanel imagPartPanel;
 

@@ -38,7 +38,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
+        Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
 
         BIN_COUNT = Integer.toString(binCount).length();
@@ -654,7 +654,7 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
         int indexToStartAddingPixels = binCount - freePixels;
         int binWidthWithSpace = binWidth + binsWhitespace;
 
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
+        Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
 
         BufferedImage image = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);

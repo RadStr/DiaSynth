@@ -15,7 +15,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
         super(song, windowSize, startIndex, freqJump, numberOfChannels);
 
-        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
+        Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();

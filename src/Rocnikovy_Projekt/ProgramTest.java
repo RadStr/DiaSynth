@@ -1,6 +1,8 @@
 package Rocnikovy_Projekt;
 
+import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import RocnikovyProjektIFace.FFTWindowPanel;
+import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -139,6 +141,8 @@ public class ProgramTest {
      */
     public void testAll() throws Exception {
         ProgramTest.debugPrint("testSetOneDimArr():", testSetOneDimArr());
+        testFFTBinCount(1024, 20);
+        testFFTBinCount(1023, 20);
 
         System.out.println("generateFrequencyFreqTest(): " + generateFrequencyFreqTest());
         System.out.println("testFFT(): " + testFFT(17000, 1, true, true));
@@ -2660,6 +2664,143 @@ public class ProgramTest {
         return true;
     }
 
+
+    /**
+     * Method to try if 2 bins are equal, I made it because the FFT was giving weird results, but it was because I
+     * misunderstood the results of FFT.
+     * @param windowSize
+     * @param testCount
+     * @return
+     */
+    @Deprecated
+    public static void testFFTBinCount(int windowSize, int testCount) {
+        double[] arr = new double[windowSize];
+        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
+        Random r = new Random();
+        int differentBinsCount = 0;
+
+        for(int i = 0; i < testCount; i++) {
+            for(int j = 0; j < arr.length; j++) {
+                arr[j] = r.nextDouble();
+                if(r.nextDouble() > 0.5) {
+                    arr[j] = -arr[j];
+                }
+            }
+
+            fft.realForward(arr);
+
+
+
+//	if n is even then
+//	 a[2*k] = Re[k], 0<=k<n/2
+//	 a[2*k+1] = Im[k], 0<k<n/2
+//	 a[1] = Re[n/2]
+//
+//
+//	if n is odd then
+//	 a[2*k] = Re[k], 0<=k<(n+1)/2
+//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
+//	 a[1] = Im[(n-1)/2]
+            if(arr.length % 2 == 0) {
+                //if(!(arr[1] == arr[arr.length - 2] && arr[arr.length -1] == 0)) {
+                if(arr[1] != arr[arr.length - 2]) {
+                    differentBinsCount++;
+                }
+            }
+            else {
+                if(arr[1] != arr[arr.length - 1]) {
+                    differentBinsCount++;
+                }
+            }
+        }
+
+
+        ProgramTest.debugPrint("testFFTBinCount (dif/total):", differentBinsCount + "/" + testCount, "windowSize:", windowSize);
+    }
+
+
+
+
+
+    public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate) {
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);
+        double[] sine = new double[len];
+        sine = SineGeneratorWithPhase.createSine(len, amp, freq, sampleRate, phase);
+        fft.realForward(sine);
+        ProgramTest.debugPrint(sine);
+    }
+
+    public static void printComplexFFT(int len, double realAmp, double realFreq, double realPhase,
+                                       double imagAmp, double imagFreq, double imagPhase,
+                                       int sampleRate) {
+        int complexLen = 2 * len;
+        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        double[] sine = new double[len];
+        double[] arr = new double[complexLen];
+        sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
+        Program.realToComplexRealOnly(sine, arr, false);
+        sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
+        Program.realToComplexImagOnly(sine, arr, false);
+        fft.complexForward(arr);
+        ProgramTest.debugPrint(arr);
+    }
+
+
+    public static void printComplexFFTRealOnly(int len,
+                                               double realAmp, double realFreq, double realPhase,
+                                               int sampleRate) {
+        int complexLen = 2 * len;
+        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        double[] sine = new double[len];
+        double[] arr = new double[complexLen];
+        sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
+        Program.realToComplexRealOnly(sine, arr, true);
+        fft.complexForward(arr);
+        ProgramTest.debugPrint(arr);
+    }
+
+    public static void printComplexFFTImagOnly(int len,
+                                               double imagAmp, double imagFreq, double imagPhase,
+                                               int sampleRate) {
+        int complexLen = 2 * len;
+        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        double[] sine = new double[len];
+        double[] arr = new double[complexLen];
+        sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
+        Program.realToComplexImagOnly(sine, arr, true);
+        fft.complexForward(arr);
+        ProgramTest.debugPrint(arr);
+    }
+
+
+    public static void printComplexIFFT(int len, int realIndex, double realAmp,
+                                        int imagIndex, double imagAmp, boolean shouldIFFTScale) {
+        int complexLen = 2 * len;
+        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+
+        double[] arr = new double[complexLen];
+
+        arr[2 * realIndex] = realAmp;
+        arr[2 * len + 2 * imagIndex + 1] = imagAmp;
+
+        fft.complexInverse(arr, shouldIFFTScale);
+        ProgramTest.debugPrint(arr);
+    }
+
+    public static void printComplexIFFT(int len, int[] realIndices, double[] realAmps,
+                                        int[] imagIndices, double[] imagAmps, boolean shouldIFFTScale) {
+        int complexLen = 2 * len;
+        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+
+        double[] arr = new double[complexLen];
+        for(int i = 0; i < realIndices.length; i++) {
+            arr[2 * realIndices[i]] = realAmps[i];
+            arr[2 * len + 2 * imagIndices[i] + 1] = imagAmps[i];
+        }
+
+        fft.complexInverse(arr, shouldIFFTScale);
+        ProgramTest.debugPrint(arr);
+    }
 //////////////////////////////////////////////////////
 //// Debug methods
 //////////////////////////////////////////////////////
@@ -2756,23 +2897,54 @@ public class ProgramTest {
         Class<? extends Object> c = o.getClass();
         if(c.isArray()) {                                   // Check if it is array
             StringBuilder ret = new StringBuilder();
+            int arrLen;
+            ret.append("NOW PRINTING ARRAY:\n");
             if (c.getComponentType().isPrimitive()) {       // Check if it is array of primitives, because it needs to be iterated differently
-                int length = Array.getLength(o);
-                for (int i = 0; i < length; i++) {
+                arrLen = Array.getLength(o);
+                for (int i = 0; i < arrLen; i++) {
                     Object obj = Array.get(o, i);
-                    ret.append(i + ":\t" + obj + " ");
+                    ret.append(i);
+                    ret.append(':');
+                    ret.append('\t');
+                    ret.append(obj);
+                    appendSeparatorInArray(ret, i);
                 }
             }
             else {
                 Object[] arr = (Object[]) o;
+                arrLen = arr.length;
                 for (int i = 0; i < arr.length; i++) {
-                    ret.append(i + ":\t" + arr[i] + " ");
+                    ret.append(i);
+                    ret.append(':');
+                    ret.append('\t');
+                    ret.append(arr[i]);
+                    appendSeparatorInArray(ret, i);
                 }
             }
+
+            if(!shouldPutNewLineToArrayPrint(arrLen - 1)) {     // If the last separator wasn't \n
+                ret.append('\n');
+            }
+            ret.append("STOPPED PRINTING ARRAY:\n");
             return ret.toString();
         }
         else {
             return o.toString();
         }
+    }
+
+
+    private static final int ARR_INDICES_ON_LINE = 8;
+    private static void appendSeparatorInArray(StringBuilder sb, int index) {
+        if(shouldPutNewLineToArrayPrint(index)) {
+            sb.append('\n');       // Separator
+        }
+        else {
+            sb.append(' ');        // Separator
+        }
+    }
+
+    private static boolean shouldPutNewLineToArrayPrint(int index) {
+        return index % ARR_INDICES_ON_LINE == 0;
     }
 }

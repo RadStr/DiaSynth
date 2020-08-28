@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 // How I created the .jar
 // https://stackoverflow.com/questions/1082580/how-to-build-jars-from-intellij-properly - the one with pictures
 // The META-INF in the src of directory is created because of that (because I set the directory to the rc - I don't change anything)
-// File -> Project Structure -> + -> JAR -> From module with dependencies... -> set Main Class to PartsConnectionGUI.main
+// File -> Project Structure -> modules -> + -> JAR -> From module with dependencies... -> set Main Class to PartsConnectionGUI.main
 // -> directory for META-INF/MANIFEST.MF doesn't need to be changed -> OK
 // Creating the .jar: Build -> Build Artifacts... -> Build
 

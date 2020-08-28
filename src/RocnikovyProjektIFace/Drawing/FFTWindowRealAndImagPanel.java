@@ -1,11 +1,18 @@
 package RocnikovyProjektIFace.Drawing;
 
+import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+
+
+
+
+
 
 public class FFTWindowRealAndImagPanel extends JPanel {
     public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
@@ -17,7 +24,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
         Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {     normalizace nevim no jestli tu ma byt
+        for(int i = 0; i < fftResult.length; i++) {      // TODO: nevim jestli je ta normalizace dobre
             fftResult[i] /= binCount;
         }
         Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, windowSize);

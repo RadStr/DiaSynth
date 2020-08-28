@@ -8,9 +8,87 @@ package Rocnikovy_Projekt;
 // TODO: Copy pasted - REMOVE ALL THESE, sometimes can be found under:
 // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
 
-
-
 // TODO: !!!!!!!!!!!!!!!!!!! Prepsat veskery kod kde se kopiruje na System.arraycopy
+
+
+///// This is example of tagging part of code for better code clarity
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Audio format conversion methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// public void convertAudio1() {}
+// public void convertAudio2() {}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Audio format conversion methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///// This is end of example
+
+
+// TEMPLATE TO COPY:
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    ///////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    ///////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// END OF TEMPLATE TO COPY
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* -------------------------------------------- [START] -------------------------------------------- */
+/////////////////// FFT NOTES
+/* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Full FFT on n complex values produces FFT result with n complex values
+
+// FFT EXAMPLE: Let's say we have window size of 4 real numbers. When we perform FFT on 4 complex numbers,
+// with imaginary part being 0 and the real part being the real numbers of the window. And with sample rate == 100Hz
+// Then we get 4 bins [0] == 0Hz, [1] == 25Hz, [2] == 50Hz, [3] == 75Hz, where [0,1,2] are unique values and [3] is [1] mirrored,
+// which means the real_part[1] == real_part[3] and imag_part[1] == -imag_part[3].
+// So that is windowSize / 2 + 1 are unique values
+
+// If we have only 3 real numbers then it is [0] == 0Hz, [1] == 33.33Hz, [2] == 66.66Hz
+// Here values [0,1] are unique, and [2] is [1] mirrored.
+// So now we have again windowSize / 2 + 1 unique values.
+
+// If input is even, then there is the middle value which isn't mirrored.
+// If input is odd,  then there isn't the middle value.
+
+
+// Result of real forward FFT by library method:
+// From documentation:
+//	if n is even then
+//	 a[2*k] = Re[k], 0<=k<n/2
+//	 a[2*k+1] = Im[k], 0<k<n/2
+//	 a[1] = Re[n/2]
+//
+//
+//	if n is odd then
+//	 a[2*k] = Re[k], 0<=k<(n+1)/2
+//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
+//	 a[1] = Im[(n-1)/2]
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* --------------------------------------------- [END] --------------------------------------------- */
+/////////////////// FFT NOTES
+/* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 import java.awt.*;
@@ -3473,58 +3551,6 @@ public class Program {
 
 
 
-    Uz to je skoro hotovy, uz jen musim udelat ze to nejde roztahnout nebo tak neco
-    pridat tam ty reference
-    a asi udelat ze labelu muze byt i min nez je pocet tech binu
-
-
-
-
-
-        ----------------------------------------------------------------------------------------------------------------
-
-
-    Asi budu muset udelat tridu od ktery bude tahle dedit a ta bude mit jen getDrawnValues a nebude mit cas - tu pouziju na vykreslovani grafu pro waveshaper
-
-
-    Muzu mit 2 FFT windows na realnou a imaginarni slozku
-
-// TODO: AAA - setFrequencyToolTip
-
-
-    Pozor na + a - u tech FFT to nevadi ale u tech draw values to vadi tam je bezne - cislo
-
-
-    Takze co vlastne udelam je ze naimplementuju ty metody, pak zmenim paint protoze tam se to kresli pres prostredek
-    pak tam pridam tu metodu co mi vrati tu vlnu uz v doublech
-    nezapomenout zavolat ty labely no a ted envim to uz vypada ze je vsechno
-
-        -----------------------------------------------------------------------------------------------------------------
-    Nevim Proc je tohle potreba, melo by to snad jit i bez toho - layout by mel spravne nastavit tu vysku takze nevim co se deje
-        outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
-
-        -----------------------------------------------------------------------------------------------------------------
-
-    TODO: tady bych mel mit co nevjic to jde, resp. v te WaveShaper to bude pres celou obrazovku a ta function Draw vezme vsechno co nevezmou ty reference
-------------------------------------------------------------------------------------------------------------------------
-    Takze mam fft window 1024 - to ma nejakych asi 512 kosiku nebo 513 ted nevim, 513 asi
-    No a kdyz dam real forward tak se mi to vejde do tech 1024 prvku protoze nejaky ty realny, resp. imaginarni casti jsou 0 takze tam byt nemusi
-
-    Kdybych ale dal full complex forward tak mam tech 1024 prvku ale pak jeste dalsich 1024 protoze to je prevraceny - takze mma 1024 real cisel a 1024 imag cisel
-
-    A tech prvnich 513 * 2 indexu da stejny vysledky jako ta fft real forward ta 513 tam je protoze se to podle nej dal zrcadli - je tam jen jednou takze proto 513
-
-    proto mam biny 0-512
-
-    Jenze kdyz mam tech 513 u toho delka % 2 == 0 tak tam mam ten prvek na index len / 2 no a ten odpovida te 0, takze mam i tak jen 512 binu
-------------------------------------------------------------------------------------------------------------------------
-aha uz vim v cem je problem a[1] a a[0] jsou stejny cisla totiz to je frekvence 0 a nyquist frekvence
-    v tom pripade bych ale mel pracovat jen s 512.
-    zkontrolovat to jestli se to skutecne rovna
-    !!!!!! Jenze to neni pravda nyquistova frekvence se prekryva s nyquistovou frekvenci
-------------------------------------------------------------------------------------------------------------------------
-    Dalsi vec vzhledem k tomu ze vysledky fft jsou i zaporny, tak to znamena ze asi dava vetsi smysl mit ty measury mezi -1 a 1 misto 0 a 1
-
     // From documentation (this are the values we want convert to):
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -3568,19 +3594,27 @@ aha uz vim v cem je problem a[1] a a[0] jsou stejny cisla totiz to je frekvence 
     }
 
 
-
+    /**
+     * To understand the result take a look at FFT NOTES
+     * @param windowSize
+     * @return
+     */
     public static int getBinCountRealForward(int windowSize) {
         int binCount;
-
-        if(windowSize % 2 == 0) {			// It's even
-            binCount = windowSize / 2 + 1;
-        } else {
-            binCount = (windowSize + 1) / 2;
-        }
-
+        binCount = windowSize / 2 + 1;      // Take a look at the FFT notes to understand why it is windowSize / 2 + 1.
         return binCount;
     }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert complex number to real number methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static interface ComplexToRealInterface {
+        double complexToReal(double real, double imag);
+    }
 
     /**
      * Calculates the distance of complex number from 0.
@@ -3594,24 +3628,151 @@ aha uz vim v cem je problem a[1] a a[0] jsou stejny cisla totiz to je frekvence 
         return result;
     }
 
+    public static double calculateComplexNumPower(double real, double imag) {
+        return real * real + imag * imag;
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert complex number to real number methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert real numbers to complex numbers methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static void realToComplexRealOnly(double[] real, double[] complex, final boolean shouldSetOtherPartToZero) {
+        realToComplexRealOnly(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
+    }
+
+    /**
+     * Converts array with real values to array with comples values, which as at [% 2 == 0] real values and everywhere else 0.
+     */
+    public static void realToComplexRealOnly(double[] real, int realArrLen, double[] complex,
+                                             final boolean shouldSetOtherPartToZero) {
+        realToComplexRealOnly(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
+    }
+
+    public static void realToComplexRealOnly(double[] real, int realStartIndex, int realArrLen,
+                                             double[] complex, int complexStartIndex,
+                                             final boolean shouldSetOtherPartToZero) {
+        for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c++) {
+            complex[c] = real[r];
+            c++;
+            if(shouldSetOtherPartToZero) {
+                complex[c] = 0;
+            }
+        }
+    }
+
+
+    public static void realToComplexImagOnly(double[] real, double[] complex,
+                                             final boolean shouldSetOtherPartToZero) {
+        realToComplexImagOnly(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
+    }
+
+    public static void realToComplexImagOnly(double[] real, int realArrLen, double[] complex,
+                                             final boolean shouldSetOtherPartToZero) {
+        realToComplexImagOnly(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
+    }
+
+    public static void realToComplexImagOnly(double[] real, int realStartIndex, int realArrLen,
+                                             double[] complex, int complexStartIndex,
+                                             final boolean shouldSetOtherPartToZero) {
+        for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c++) {
+            if(shouldSetOtherPartToZero) {
+                complex[c] = 0;
+            }
+            c++;
+            complex[c] = real[r];
+        }
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert real numbers to complex numbers methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert complex numbers to real numbers methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static void complexToRealPowers(double[] real, int realArrLen, double[] complex) {
+        complexToRealPowers(real, 0, realArrLen, complex, 0);
+    }
+
+    // These 2 methods could be solved by using interface method, but as micro micro optimization it is called straight.
+    /**
+     * Converts complex array to real array by taking power
+     * @param real
+     * @param realStartIndex
+     * @param realArrLen
+     * @param complex
+     * @param complexStartIndex
+     */
+    public static void complexToRealPowers(double[] real, int realStartIndex, int realArrLen,
+                                           double[] complex, int complexStartIndex) {
+        for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c += 2) {
+            real[r] = Program.calculateComplexNumPower(complex[c], complex[c + 1]);
+        }
+    }
+
+    public static void complexToRealMeasures(double[] real, int realArrLen, double[] complex) {
+        complexToRealMeasures(real, 0, realArrLen, complex, 0);
+    }
+
+    /**
+     * Converts complex array to real array by taking measure
+     * @param real
+     * @param realStartIndex
+     * @param realArrLen
+     * @param complex
+     * @param complexStartIndex
+     */
+    public static void complexToRealMeasures(double[] real, int realStartIndex, int realArrLen,
+                                             double[] complex, int complexStartIndex) {
+        for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c += 2) {
+            real[r] = Program.calculateComplexNumMeasure(complex[c], complex[c + 1]);
+        }
+    }
+
+    public static void complexToReal(double[] real, int realArrLen, double[] complex,
+                                     ComplexToRealInterface action) {
+        complexToReal(real, 0, realArrLen, complex, 0, action);
+    }
+
+
+
+    public static void complexToReal(double[] real, int realStartIndex, int realArrLen,
+                                     double[] complex, int complexStartIndex,
+                                     ComplexToRealInterface action) {
+        for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c += 2) {
+            real[r] = action.complexToReal(complex[c], complex[c + 1]);
+        }
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert complex numbers to real numbers methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Puts the real and imag part to result array in such way that [i % 2 == 0] contains real part and odd indices imaginary part.
-     * That means that on the results needs to be performed full fft. This also mirrors the first half, because that is how the full fft works for audio
-     * the second half is just the first half mirrored.
-     * Note: the result is always even because in order for it to contain both real and imaginary parts it needs to be even.
-     * Take look to getBinCountRealForward to understand how many bins are for each window size
-     * 2 Examples:
-     * 1) Window size was 8, that means there are 5 bins and the 3rd one isn't mirrored
-     * So that means the result array should be at least 8 * 2 long
-     * [0] .. [9] contain the real and imag arrays and the it is mirrored, so [10] contains [6] and [11] contains [7]
-     * because [8] [9] isn't mirrored, it is in the middle
-     * then it is [12] = [4], [13] = [5] ... [14] = [2], [15] = [3] ... [16] = [0], [17] == [1]
-     * @param real
-     * @param imag
-     * @param result
+     * So the result array should be at least 2 * real.length. And also the result will have real.length complex numbers.
+     * And imaginary part should be the same size as real part.
+     * That means that on the results needs to be performed full fft. If the imaginary part is == 0, then the second
+     * part is just the mirror of the first one.
+     * Note: the result array is always even because in order for it to contain both real and imaginary parts it needs to be even.
+     * But the number of complex numbers in result doesn't have to be even.
+     * Take look at FFT NOTES to understand how many bins are for each window size.
      */
-    kolik tam je tech binu ale
     public static void connectRealAndImagPart(double[] real, double[] imag, double[] result) {
         int i = 0;
         int partIndex = 0;
@@ -3622,8 +3783,8 @@ aha uz vim v cem je problem a[1] a a[0] jsou stejny cisla totiz to je frekvence 
         }
         partIndex--;
 
-        nejak mi tu nesedi pocty binu vubec
-        if(real.length % 2 == 1) {      // Then the middle element is there only one time, so we don't mirror it.
+        // Then the middle element is there only one time, so we don't mirror it.
+        if(real.length % 2 == 0) {
             partIndex--;
         }
         for(; partIndex >= 0; i++, partIndex--) {

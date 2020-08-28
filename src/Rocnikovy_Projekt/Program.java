@@ -89,6 +89,8 @@ package Rocnikovy_Projekt;
 /* --------------------------------------------- [END] --------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// The length of the window is in number of complex numbers not total length of array
+
 
 
 import java.awt.*;

@@ -144,6 +144,25 @@ public class ProgramTest {
         testFFTBinCount(1024, 20);
         testFFTBinCount(1023, 20);
 
+        // The [3] == -512, which is the imaginary part of the first bin (it is [3], because [0] is 0Hz and [1] is Re[n/2])
+        //printRealFFT(1024, 1, 1, 0, 1024);
+        // [2] == 512, which is real part of the first bin
+        //printRealFFT(1024, 1,  1, Math.PI / 2, 1024);
+
+        printComplexFFTRealOnly(1024, 1, 1, 0, 1024);
+
+        printComplexFFTRealOnly(1024, 1,  1, Math.PI / 2, 1024);
+
+
+        printComplexFFTImagOnly(1024, 1, 1, 0, 1024);
+
+        printComplexFFTImagOnly(1024, 1,  1, Math.PI / 2, 1024);
+
+        printComplexFFT(1024, 1, 1, 0, 1, 1, 0, 1024);
+        printComplexFFT(1024, 1, 1, 0, 1, 2, 0, 1024);
+
+        System.exit(47444);
+
         System.out.println("generateFrequencyFreqTest(): " + generateFrequencyFreqTest());
         System.out.println("testFFT(): " + testFFT(17000, 1, true, true));
         System.out.println("testFFT(): " + testFFT(17000, 3, true, true));
@@ -2724,25 +2743,36 @@ public class ProgramTest {
 
     public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate) {
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
-        double[] sine = new double[len];
+        double[] sine;
         sine = SineGeneratorWithPhase.createSine(len, amp, freq, sampleRate, phase);
+
+// Doesn't even help, the results are just wrong because it is the precision error with double values.
+//        double sum = Program.performAggregation(sine, Aggregations.SUM);
+//        for(int i = 0; i < sine.length; i++) {
+//            sine[i] -= sum;
+//        }
+
         fft.realForward(sine);
-        ProgramTest.debugPrint(sine);
+
+        //ProgramTest.debugPrint(sine);
+        printFFTValuesOverThreshold(len, sine, amp);
     }
 
     public static void printComplexFFT(int len, double realAmp, double realFreq, double realPhase,
                                        double imagAmp, double imagFreq, double imagPhase,
                                        int sampleRate) {
         int complexLen = 2 * len;
-        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
-        double[] sine = new double[len];
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);
+        double[] sine;
         double[] arr = new double[complexLen];
         sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
         Program.realToComplexRealOnly(sine, arr, false);
         sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
         Program.realToComplexImagOnly(sine, arr, false);
         fft.complexForward(arr);
-        ProgramTest.debugPrint(arr);
+
+        //ProgramTest.debugPrint(arr);
+        printFFTValuesOverThreshold(len, arr, realAmp, imagAmp);
     }
 
 
@@ -2750,33 +2780,37 @@ public class ProgramTest {
                                                double realAmp, double realFreq, double realPhase,
                                                int sampleRate) {
         int complexLen = 2 * len;
-        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
-        double[] sine = new double[len];
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);       // The length of the window is in number of complex numbers not total length of array
+        double[] sine;
         double[] arr = new double[complexLen];
         sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
         Program.realToComplexRealOnly(sine, arr, true);
         fft.complexForward(arr);
-        ProgramTest.debugPrint(arr);
+
+        //ProgramTest.debugPrint(arr);
+        printFFTValuesOverThreshold(len, arr, realAmp);
     }
 
     public static void printComplexFFTImagOnly(int len,
                                                double imagAmp, double imagFreq, double imagPhase,
                                                int sampleRate) {
         int complexLen = 2 * len;
-        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine = new double[len];
         double[] arr = new double[complexLen];
         sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
         Program.realToComplexImagOnly(sine, arr, true);
         fft.complexForward(arr);
-        ProgramTest.debugPrint(arr);
+
+        //ProgramTest.debugPrint(arr);
+        printFFTValuesOverThreshold(len, arr, imagAmp);
     }
 
 
     public static void printComplexIFFT(int len, int realIndex, double realAmp,
                                         int imagIndex, double imagAmp, boolean shouldIFFTScale) {
         int complexLen = 2 * len;
-        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);
 
         double[] arr = new double[complexLen];
 
@@ -2790,7 +2824,7 @@ public class ProgramTest {
     public static void printComplexIFFT(int len, int[] realIndices, double[] realAmps,
                                         int[] imagIndices, double[] imagAmps, boolean shouldIFFTScale) {
         int complexLen = 2 * len;
-        DoubleFFT_1D fft = new DoubleFFT_1D(complexLen);
+        DoubleFFT_1D fft = new DoubleFFT_1D(len);
 
         double[] arr = new double[complexLen];
         for(int i = 0; i < realIndices.length; i++) {
@@ -2799,8 +2833,64 @@ public class ProgramTest {
         }
 
         fft.complexInverse(arr, shouldIFFTScale);
-        ProgramTest.debugPrint(arr);
+
+        //ProgramTest.debugPrint(arr);
+        printFFTValuesOverThreshold(len, arr, realAmps, imagAmps);
     }
+
+
+    private static double EPSILON = 0.001;
+
+    /**
+     *
+     * @param arr
+     * @param threshold is between -1 and 1.
+     */
+    private static void printFFTValuesOverThreshold(int windowSize, double[] arr, double threshold) {
+        threshold = Math.abs(threshold);
+        threshold *= (windowSize / 2);
+        ProgramTest.debugPrint("\n\n\nPRINTING VALUES OVER THRESHOLD:", threshold, "ARR LEN:", arr.length);
+        threshold -= EPSILON;
+        for(int i = 0; i < arr.length; i++) {
+            if(Math.abs(arr[i]) > threshold) {
+                ProgramTest.debugPrint(i, ":", arr[i]);
+            }
+        }
+        ProgramTest.debugPrint("END OF PRINTING VALUES OVER THRESHOLD");
+    }
+
+
+    /**
+     *
+     * @param arr
+     * @param thresholds are between -1 and 1.
+     */
+    private static void printFFTValuesOverThreshold(int windowSize, double[] arr, double[]... thresholds) {
+        double max = Integer.MIN_VALUE;
+        for(int i = 0; i < thresholds.length; i++) {
+            for(int j = 0; j < thresholds[i].length; j++) {
+                double val = Math.abs(thresholds[i][j]);
+                if (val > max) {
+                    max = val;
+                }
+            }
+        }
+        printFFTValuesOverThreshold(windowSize, arr, max);
+    }
+
+
+    private static void printFFTValuesOverThreshold(int windowSize, double[] arr, double... thresholds) {
+        double max = Integer.MIN_VALUE;
+        for(int i = 0; i < thresholds.length; i++) {
+            double threshold = Math.abs(thresholds[i]);
+            if(threshold > max) {
+                max = threshold;
+            }
+        }
+        printFFTValuesOverThreshold(windowSize, arr, max);
+    }
+
+
 //////////////////////////////////////////////////////
 //// Debug methods
 //////////////////////////////////////////////////////
@@ -2934,7 +3024,7 @@ public class ProgramTest {
     }
 
 
-    private static final int ARR_INDICES_ON_LINE = 8;
+    private static final int ARR_INDICES_ON_LINE = 2;
     private static void appendSeparatorInArray(StringBuilder sb, int index) {
         if(shouldPutNewLineToArrayPrint(index)) {
             sb.append('\n');       // Separator

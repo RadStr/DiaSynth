@@ -105,6 +105,7 @@ import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
 import DebugPackage.DEBUG_CLASS;
+import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import PartsConnectingGUI.PartsConnectingTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
@@ -1056,6 +1057,7 @@ public class Program {
 //
 //        return count;
 //    }
+
 
 
     /**
@@ -3161,10 +3163,12 @@ public class Program {
         System.out.println("Audio lengths (in audioFormat hours:mins:secs):\t" + Program.convertSecondsToTime(lengthOfAudioInSeconds));
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////// Time algorithms
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Time algorithms
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private static final StringBuilder timeStringBuilder = new StringBuilder();
 
     private static final int[] convertMinutesTimeDivArray = new int[] { 60, 60 };
@@ -3272,7 +3276,9 @@ public class Program {
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////// End of time algorithms
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Time algorithms
+    /* --------------------------------------------- [END] --------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -6401,6 +6407,12 @@ public class Program {
     }
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Fill array with values methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void resetTwoDimArr(double[][] arr, int startIndex, int endIndex) {
         setTwoDimArr(arr, startIndex, endIndex, 0);
     }
@@ -6437,6 +6449,56 @@ public class Program {
             }
         }
     }
+
+    public static enum CURVE_TYPE {
+        SINE {
+            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+                return SineGeneratorWithPhase.createSine(len, amp, freq, sampleRate, phase);
+            }
+        },
+        LINE {
+            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+                double[] line = new double[len];
+                Program.setOneDimArr(line,0, line.length, amp);
+                return line;
+            }
+        },
+        RANDOM {
+            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+                double[] arr = new double[len];
+                Program.fillArrWithRandomValues(arr, amp);
+                return arr;
+            }
+        };
+
+        /**
+         * Fills array with values based on given parameters. Based on curve some parameters may be ignored.
+         * @param len
+         * @param amp
+         * @param freq
+         * @param sampleRate
+         * @param phase
+         * @return
+         */
+        abstract double[] createCurve(int len, double amp, double freq, int sampleRate, double phase);
+    }
+
+    public static void fillArrWithRandomValues(double[] arr, double amplitude) {
+        Random r = new Random();
+
+        for (int j = 0; j < arr.length; j++) {
+            arr[j] = r.nextDouble();
+            arr[j] *= amplitude;
+            if (r.nextDouble() > 0.5) {
+                arr[j] = -arr[j];
+            }
+        }
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Fill array with values methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

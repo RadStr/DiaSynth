@@ -1,8 +1,8 @@
 package RocnikovyProjektIFace.Drawing;
 
 public class FunctionWaveDrawPanel extends WaveDrawPanel {
-    public FunctionWaveDrawPanel(int binCount) {
-        super(binCount, "Input Value");
+    public FunctionWaveDrawPanel(int binCount, boolean isEditable) {
+        super(binCount, "Input Value", isEditable);
         setLabels();
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
@@ -22,7 +22,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         double val = -1;
         double valJump = 2.0d / (len - 1);           // 2 Because I have range -1 to 1 I need to split it to the labels and -1 because the first doesn't count
         for(int i = 0; i < labels.length; i++, val += valJump) {
-            labels[i] = String.format("%.3f", val);
+            labels[i] = String.format("%.2f", val);
         }
     }
 }

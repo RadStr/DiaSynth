@@ -8,12 +8,14 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class FFTWindowPanel extends FFTWindowPanelAbstract {
-    public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
+    public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
+                          int numberOfChannels, boolean isEditable) {
+        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels, isEditable);
     }
 
-    public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels);
+    public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
+                          int numberOfChannels, boolean isEditable) {
+        super(song, windowSize, startIndex, freqJump, numberOfChannels, isEditable, false);
 
         Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
@@ -46,11 +48,6 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         }
 
         setDrawValue(bin, binValue);
-    }
-
-    @Override
-    protected double normalizeValue(double value) {
-        return value / drawValues.length;
     }
 
     public static void normalizeFFTResultsRealForward(double[] fftMeasures) {

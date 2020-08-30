@@ -18,7 +18,7 @@ public class WaveShaper extends JPanel {
 
 
         //drawnFunctionPanel = new FunctionWaveDrawPanel(getWidth());
-        drawnFunctionPanel = new FunctionWaveDrawPanel(200);
+        drawnFunctionPanel = new FunctionWaveDrawPanel(200, true);
         outputReferenceValues = new AudioWavePanelReferenceValues();
         add(outputReferenceValues, c);
 

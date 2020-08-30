@@ -16,7 +16,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      * @param binCount
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
      */
-    public DrawPanel(int binCount, String labelTypeToolTip) {
+    public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable, boolean areValuesSigned) {
+        setIsEditable(isEditable);
         labels = new String[binCount];
         drawValues = new double[binCount];
 
@@ -42,7 +43,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
         BIN_COUNT = Integer.toString(binCount).length();
-        MAX_VALUE = 1 + 3;      // [01] + .xx
+        if(areValuesSigned) {
+            MAX_VALUE = 3 + VALUE_PRECISION;      // [-][01] + .xxx;
+        }
+        else {
+            MAX_VALUE = 2 + VALUE_PRECISION;      // [01] + .xxx;
+        }
 
         tooltip = new StringBuilder("<html>Bin: ");
         INDEX_IN_STRINGBUILDER_AFTER_BIN = tooltip.length();
@@ -69,7 +75,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
         drawValuesStrings = new String[drawValues.length];
-
         binIndices = new String[binCount];
         for (int i = 0; i < binIndices.length; i++) {
             binIndices[i] = Integer.toString(i);
@@ -79,7 +84,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     private final String NEW_LINE = "<br>";
     private final int BIN_COUNT;
-    private final int MAX_VALUE;      // BIN_COUNT + .xx
+    private final int VALUE_PRECISION = 3;
+    private final int MAX_VALUE;
 
     private final int INDEX_IN_STRINGBUILDER_AFTER_BIN;
     private final int MEASURE_TEXT_INDEX;
@@ -113,17 +119,27 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected abstract void setLabels();
 
 
+    private boolean isEditable;
+    protected void setIsEditable(boolean isEditable) {
+        this.isEditable = isEditable;
+    }
+    public boolean getIsEditable() {
+        return isEditable;
+    }
+
     protected double[] drawValues;
     protected String[] drawValuesStrings;
     protected void setDrawValue(int index, double value) {
-        drawValues[index] = value;
-        setDrawValueString(index, drawValues[index]);
+        if(isEditable) {
+            drawValues[index] = value;
+            setDrawValueString(index, drawValues[index]);
+        }
     }
     protected double getDrawValue(int bin) {
         return drawValues[bin];
     }
     protected void setDrawValueString(int bin, double value) {
-        drawValuesStrings[bin] = String.format("%.2f", value);
+        drawValuesStrings[bin] = String.format("%." + VALUE_PRECISION + "f", value);
     }
 
 

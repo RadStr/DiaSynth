@@ -3475,7 +3475,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
                 FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
                 fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
-                        0, (int) outputAudioFormat.getSampleRate(), 1);
+                        0, (int) outputAudioFormat.getSampleRate(), 1, true);
                 int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {

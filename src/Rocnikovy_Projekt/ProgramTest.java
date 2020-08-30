@@ -140,26 +140,59 @@ public class ProgramTest {
      * @throws Exception can be thrown
      */
     public void testAll() throws Exception {
+        tryFFTSums(1024);
+        System.exit(444448);
+
         ProgramTest.debugPrint("testSetOneDimArr():", testSetOneDimArr());
         testFFTBinCount(1024, 20);
         testFFTBinCount(1023, 20);
 
         // The [3] == -512, which is the imaginary part of the first bin (it is [3], because [0] is 0Hz and [1] is Re[n/2])
-        //printRealFFT(1024, 1, 1, 0, 1024);
+        printRealFFT(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
         // [2] == 512, which is real part of the first bin
-        //printRealFFT(1024, 1,  1, Math.PI / 2, 1024);
+        printRealFFT(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
 
-        printComplexFFTRealOnly(1024, 1, 1, 0, 1024);
+        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
-        printComplexFFTRealOnly(1024, 1,  1, Math.PI / 2, 1024);
+        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+        printComplexFFTRealOnly(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+
+        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
+
+        printComplexFFTImagOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+        printComplexFFTImagOnly(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+
+        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
+
+        printComplexFFT(1024, 0.5, 1, 0,
+                1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+        printComplexFFT(1024, 1, 1, 0,
+                1, 1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+//        printComplexFFT(1024, 1, 1, 0,
+//                0.5, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+
+        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
 
-        printComplexFFTImagOnly(1024, 1, 1, 0, 1024);
-
-        printComplexFFTImagOnly(1024, 1,  1, Math.PI / 2, 1024);
-
-        printComplexFFT(1024, 1, 1, 0, 1, 1, 0, 1024);
-        printComplexFFT(1024, 1, 1, 0, 1, 2, 0, 1024);
+//        printComplexFFT(1024, 1, 1, 0,
+//                1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+//        printComplexFFT(1024, 1, 1, 0,
+//                1, 2, 0, 1024, Program.CURVE_TYPE.SINE);
+//
+//        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
+//
+//        printComplexFFT(1024, 0.5, 0, 0,
+//                1, 0, 0, 1024, Program.CURVE_TYPE.LINE);
+//        printComplexFFT(1024, 1, 0, 0,
+//                1, 0, 0, 1024, Program.CURVE_TYPE.LINE);
+//
+////        printComplexFFT(1024, 1, 1, 0,
+////                1, 511, 0, 1024, Program.CURVE_TYPE.SINE);
+//
+//        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
+//
+//        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+//        printComplexFFTRealOnly(1024, 1, 1023, 0, 1024, Program.CURVE_TYPE.SINE);
 
         System.exit(47444);
 
@@ -2695,17 +2728,10 @@ public class ProgramTest {
     public static void testFFTBinCount(int windowSize, int testCount) {
         double[] arr = new double[windowSize];
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
-        Random r = new Random();
         int differentBinsCount = 0;
 
         for(int i = 0; i < testCount; i++) {
-            for(int j = 0; j < arr.length; j++) {
-                arr[j] = r.nextDouble();
-                if(r.nextDouble() > 0.5) {
-                    arr[j] = -arr[j];
-                }
-            }
-
+            Program.fillArrWithRandomValues(arr, 1);
             fft.realForward(arr);
 
 
@@ -2738,13 +2764,10 @@ public class ProgramTest {
     }
 
 
-
-
-
-    public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate) {
+    public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate, Program.CURVE_TYPE curve) {
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine;
-        sine = SineGeneratorWithPhase.createSine(len, amp, freq, sampleRate, phase);
+        sine = curve.createCurve(len, amp, freq, sampleRate, phase);
 
 // Doesn't even help, the results are just wrong because it is the precision error with double values.
 //        double sum = Program.performAggregation(sine, Aggregations.SUM);
@@ -2760,14 +2783,14 @@ public class ProgramTest {
 
     public static void printComplexFFT(int len, double realAmp, double realFreq, double realPhase,
                                        double imagAmp, double imagFreq, double imagPhase,
-                                       int sampleRate) {
+                                       int sampleRate, Program.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine;
         double[] arr = new double[complexLen];
-        sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
+        sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
         Program.realToComplexRealOnly(sine, arr, false);
-        sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
+        sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
         Program.realToComplexImagOnly(sine, arr, false);
         fft.complexForward(arr);
 
@@ -2778,12 +2801,12 @@ public class ProgramTest {
 
     public static void printComplexFFTRealOnly(int len,
                                                double realAmp, double realFreq, double realPhase,
-                                               int sampleRate) {
+                                               int sampleRate, Program.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);       // The length of the window is in number of complex numbers not total length of array
         double[] sine;
         double[] arr = new double[complexLen];
-        sine = SineGeneratorWithPhase.createSine(len, realAmp, realFreq, sampleRate, realPhase);
+        sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
         Program.realToComplexRealOnly(sine, arr, true);
         fft.complexForward(arr);
 
@@ -2793,12 +2816,12 @@ public class ProgramTest {
 
     public static void printComplexFFTImagOnly(int len,
                                                double imagAmp, double imagFreq, double imagPhase,
-                                               int sampleRate) {
+                                               int sampleRate, Program.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine = new double[len];
         double[] arr = new double[complexLen];
-        sine = SineGeneratorWithPhase.createSine(len, imagAmp, imagFreq, sampleRate, imagPhase);
+        sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
         Program.realToComplexImagOnly(sine, arr, true);
         fft.complexForward(arr);
 
@@ -2807,8 +2830,10 @@ public class ProgramTest {
     }
 
 
-    public static void printComplexIFFT(int len, int realIndex, double realAmp,
-                                        int imagIndex, double imagAmp, boolean shouldIFFTScale) {
+    public static void printComplexIFFT(int len,
+                                        int realIndex, double realAmp,
+                                        int imagIndex, double imagAmp,
+                                        boolean shouldIFFTScale) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
 
@@ -2821,8 +2846,10 @@ public class ProgramTest {
         ProgramTest.debugPrint(arr);
     }
 
-    public static void printComplexIFFT(int len, int[] realIndices, double[] realAmps,
-                                        int[] imagIndices, double[] imagAmps, boolean shouldIFFTScale) {
+    public static void printComplexIFFT(int len,
+                                        int[] realIndices, double[] realAmps,
+                                        int[] imagIndices, double[] imagAmps,
+                                        boolean shouldIFFTScale) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
 
@@ -2891,9 +2918,47 @@ public class ProgramTest {
     }
 
 
-//////////////////////////////////////////////////////
-//// Debug methods
-//////////////////////////////////////////////////////
+
+
+
+    public static void tryFFTSums(int iterationCount) {
+        Random r = new Random();
+        for(int i = 0; i < iterationCount; i++) {
+            int exponent = r.nextInt(9) + 4;
+            //int exponent = 3;
+            double[] audio =  Program.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1, 0, 0, 0);
+            //double[] audio =  Program.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
+            DoubleFFT_1D fft = new DoubleFFT_1D(audio.length);
+            Program.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);
+            for(int j = 0; j < audio.length; j++) {
+                //audio[j] /= (audio.length / 2);
+                audio[j] /= audio.length;
+            }
+            double[] measures = new double[Program.getBinCountRealForward(audio.length)];
+            Program.convertResultsOfFFTToRealRealForward(audio, measures);
+
+            for(int j = 0; j < audio.length; j++) {
+                audio[j] = Math.abs(audio[j]);
+            }
+
+            double sum1 = Program.performAggregation(audio, Aggregations.SUM);
+            double sum2 = Program.performAggregation(measures, Aggregations.SUM);
+
+            sum2 -= measures[0];
+            sum2 -= measures[measures.length - 1];
+            if(sum1 >= 1 || sum2 >= 1) {
+                ProgramTest.debugPrint("SUM IS BIGGER THAN ONE:", sum1, sum2, "Size:", audio.length);
+                ProgramTest.debugPrint(audio);
+                ProgramTest.debugPrint(measures);
+            }
+        }
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Debug methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void printArray(byte[] arr) {
         System.out.println("!!!Printing array!!!");
@@ -3037,4 +3102,9 @@ public class ProgramTest {
     private static boolean shouldPutNewLineToArrayPrint(int index) {
         return index % ARR_INDICES_ON_LINE == 0;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Debug methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

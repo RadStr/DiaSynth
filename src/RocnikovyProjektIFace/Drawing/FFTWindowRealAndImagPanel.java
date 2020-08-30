@@ -13,18 +13,20 @@ import java.util.Arrays;
 
 
 
-
 public class FFTWindowRealAndImagPanel extends JPanel {
-    public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        realPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
-        imagPartPanel = new FFTWindowPartPanel(this, song, windowSize, startIndex, sampleRate, numberOfChannels);
+    public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate,
+                                     int numberOfChannels, boolean isEditable) {
+        realPartPanel = new FFTWindowPartPanel(this, song, windowSize,
+                startIndex, sampleRate, numberOfChannels, isEditable);
+        imagPartPanel = new FFTWindowPartPanel(this, song, windowSize,
+                startIndex, sampleRate, numberOfChannels, isEditable);
         int binCount = Program.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);
 
 
         Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {       // TODO: nevim jestli je ta normalizace dobre
+        for(int i = 0; i < fftResult.length; i++) {        // TODO: nevim jestli je ta normalizace dobre
             fftResult[i] /= binCount;
         }
         Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, windowSize);

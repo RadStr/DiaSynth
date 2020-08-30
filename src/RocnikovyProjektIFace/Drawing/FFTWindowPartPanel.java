@@ -3,12 +3,15 @@ package RocnikovyProjektIFace.Drawing;
 import java.awt.event.MouseEvent;
 
 public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
-    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        this(controlPanel, song, windowSize, startIndex, Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
+    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize,
+                              int startIndex, int sampleRate, int numberOfChannels, boolean isEditable) {
+        this(controlPanel, song, windowSize, startIndex,
+                Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels, isEditable);
     }
 
-    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels);
+    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize,
+                              int startIndex, double freqJump, int numberOfChannels, boolean isEditable) {
+        super(song, windowSize, startIndex, freqJump, numberOfChannels, isEditable, true);
         this.controlPanel = controlPanel;
     }
 

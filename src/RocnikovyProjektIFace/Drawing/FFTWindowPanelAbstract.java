@@ -7,12 +7,19 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.awt.*;
 import java.util.Arrays;
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
-    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex, int sampleRate, int numberOfChannels) {
-        this(song, windowSize, startIndex, Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels);
+    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
+                                  int sampleRate, int numberOfChannels,
+                                  boolean isEditable, boolean areValuesSigned) {
+        this(song, windowSize, startIndex,
+                Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels,
+                isEditable, areValuesSigned);
     }
 
-    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
-        super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency");
+    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
+                                  double freqJump, int numberOfChannels,
+                                  boolean isEditable, boolean areValuesSigned) {
+        super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
+                isEditable, areValuesSigned);
         this.freqJump = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);
@@ -31,19 +38,6 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         return Color.red;
     }
 
-
-    @Override
-    protected void setBinMeasure(int bin, int y) {
-        int h = this.getHeight();
-        double binValue = 1 - (y / (double) h);
-        if (binValue < 0) {
-            binValue = 0;
-        } else if (binValue > 1) {
-            binValue = 1;
-        }
-
-        setDrawValue(bin, binValue);
-    }
 
     @Override
     protected double normalizeValue(double value) {

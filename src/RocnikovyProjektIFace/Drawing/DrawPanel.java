@@ -16,7 +16,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      * @param binCount
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
      */
-    public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable, boolean areValuesSigned) {
+    public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
+                     boolean areValuesSigned, boolean allowDifferentWidthBins) {
+        this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
         setIsEditable(isEditable);
         labels = new String[binCount];
         drawValues = new double[binCount];
@@ -81,6 +83,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         }
     }
 
+
+    public final boolean ALLOW_DIFFERENT_WIDTH_BINS;
 
     private final String NEW_LINE = "<br>";
     private final int BIN_COUNT;
@@ -375,7 +379,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
     /**
-     * Checks inside what bin is the given position.
+     * Checks inside what bin is at the given position.
      * @param pos is the position to be checked inside what bin it is.
      * @return Returns the closest bin (Because when I returned -1 in spaces it wasn't behaving the correct way). (Starting at 0). Even if
      */
@@ -392,45 +396,42 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int binsWhitespace = binWidth / 4;
         binWidth -= binsWhitespace;
 
-        int indexToStartAddingPixels = binCount - freePixels;
         int binWidthWithSpace = binWidth + binsWhitespace;
-
-
-
-// Slow variant of the code under this
-//        int bin;
-//        int currX;
-//        for(bin = 0, currX = 0; currX < x; bin++, currX += binWidthWithSpace) {
-//            if(bin > indexToStartAddingPixels) {
-//                currX++;
-//            }
-//        }
-//        if(bin <= 0) {
-//            return 0;
-//        }
-//        else if(bin >= binCount) {
-//            return binCount - 1;
-//        }
-//        return bin - 1;
-
-
-
-        int forgotPixels = 0;
         int bin = x / binWidthWithSpace;
-        if(bin >= indexToStartAddingPixels) {
-            forgotPixels = bin - indexToStartAddingPixels;
-            int invalidBins = forgotPixels / (binWidthWithSpace + 1);
-            bin -= invalidBins;
 
-            int previousBinEnd = (bin - indexToStartAddingPixels - 1) * (binWidthWithSpace + 1) +
-                    indexToStartAddingPixels * binWidthWithSpace + binWidth + 1;
-            if(forgotPixels % (binWidthWithSpace + 1) != 0 && x <= previousBinEnd) {
 
-                bin--;
+        if (ALLOW_DIFFERENT_WIDTH_BINS) {
+            int indexToStartAddingPixels = binCount - freePixels;
+            int forgotPixels = 0;
+            if (bin >= indexToStartAddingPixels) {
+                forgotPixels = bin - indexToStartAddingPixels;
+                int invalidBins = forgotPixels / (binWidthWithSpace + 1);
+                bin -= invalidBins;
+
+                int previousBinEnd = (bin - indexToStartAddingPixels - 1) * (binWidthWithSpace + 1) +
+                        indexToStartAddingPixels * binWidthWithSpace + binWidth + 1;
+                if (forgotPixels % (binWidthWithSpace + 1) != 0 && x <= previousBinEnd) {
+
+                    bin--;
+                }
             }
+// Slow variant of the code above this
+//            int bin;
+//            int currX;
+//            for (bin = 0, currX = 0; currX < x; bin++, currX += binWidthWithSpace) {
+//                if (bin > indexToStartAddingPixels) {
+//                    currX++;
+//                }
+//            }
+//            if (bin <= 0) {
+//                return 0;
+//            } else if (bin >= binCount) {
+//                return binCount - 1;
+//            }
+//            return bin - 1;
         }
 
-        if(bin >= binCount) {
+        if (bin >= binCount) {
             bin = binCount - 1;
         }
         return bin;
@@ -440,7 +441,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected abstract void setBinMeasure(int bin, int y);
 
     public void drawFFTWindow(Graphics g) {
-        int w,h;
+        int w, h;
         w = this.getWidth();
         h = this.getHeight();
 
@@ -449,9 +450,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int freePixels = w % binCount;
         int binsWhitespace = binWidth / 4;
         binWidth -= binsWhitespace;
-
-        int indexToStartAddingPixels = binCount - freePixels;
-        int binWidthWithSpace = binWidth + binsWhitespace;
 
         g.setColor(Color.white);
         g.fillRect(0, 0, w, h);
@@ -464,7 +462,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int n = 1;
         int textBinWidth = binWidth;
         int fontSize = 0;
-        while(fontSize < MIN_FONT && n < labels.length) {
+        while (fontSize < MIN_FONT && n < labels.length) {
             fontSize = START_FONT_SIZE;
             int textWhitespace = textBinWidth / 4;
             fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
@@ -475,33 +473,33 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         n /= 2;
         textBinWidth /= 2;
 
-        if(fontSize < MIN_FONT) {
+        if (fontSize < MIN_FONT) {
             enoughSpaceForLabels = false;
         }
 
 //        System.out.println("MAX:\t" + maxEnergy);
 //        System.out.println(selectedBin);
 
+
+        int binWidthWithSpace = binWidth + binsWhitespace;
+        int indexToStartAddingPixels = binCount - freePixels;
+
         boolean isFirstAdded = true;
-        for(int bin = 0, currX = 0; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
-            if(bin >= indexToStartAddingPixels && isFirstAdded) {
-                isFirstAdded = false;
-                binWidth++;
-                binWidthWithSpace++;
+        for (int bin = 0, currX = 0; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
+            if (ALLOW_DIFFERENT_WIDTH_BINS) {
+                if (bin >= indexToStartAddingPixels && isFirstAdded) {
+                    isFirstAdded = false;
+                    binWidth++;
+                    binWidthWithSpace++;
+                }
             }
 
-            g.setColor(getBinColor(bin));
-            drawBin(g, drawValues[bin], currX, binWidth, h);
-            if(bin == selectedBin) {
-                g.setColor(new Color(0,0,255, 32));
-                g.fillRect(currX, 0, binWidth, h);
-            }
+            drawBinMain(g, bin, currX, binWidth, h);
         }
 
 
-
-        drawLabels(indexToStartAddingPixels, binWidthWithSpace, binWidth,
-                enoughSpaceForLabels, textBinWidth, h, g, n, labels, drawValues.length);
+        drawLabels(indexToStartAddingPixels, binWidthWithSpace, binWidth, enoughSpaceForLabels,
+                textBinWidth, h, g, n, labels, drawValues.length, ALLOW_DIFFERENT_WIDTH_BINS);
 //        if(enoughSpaceForLabels) {
 //            if (indexToStartAddingPixels < fftMeasures.length) {
 //                isFirstAdded = true;
@@ -529,6 +527,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        }
     }
 
+    private void drawBinMain(Graphics g, int bin, int currX, int binWidth, int h) {
+        g.setColor(getBinColor(bin));
+        drawBin(g, drawValues[bin], currX, binWidth, h);
+        if(bin == selectedBin) {
+            g.setColor(new Color(0, 0, 255, 32));
+            g.fillRect(currX, 0, binWidth, h);
+        }
+    }
+
     protected abstract void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h);
 
     /**
@@ -545,16 +552,17 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      */
     public static void drawLabels(int indexToStartAddingPixels, int binWidthWithSpace, int binWidth,
                                   boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels,
-                                  int binCount) {
+                                  int binCount, boolean areDifferentSizeBinsAllowed) {
         boolean isFirstAdded = false;
         if(shouldDrawLabels) {
-            if (indexToStartAddingPixels < binCount) {
+            if (areDifferentSizeBinsAllowed && indexToStartAddingPixels < binCount) {
                 isFirstAdded = true;
                 binWidth--;
                 binWidthWithSpace--;
             }
+
             for (int bin = 0, currX = 0; bin < binCount; bin++, currX += binWidthWithSpace) {
-                if (bin >= indexToStartAddingPixels && isFirstAdded) {
+                if (areDifferentSizeBinsAllowed && bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
                     binWidth++;
                     binWidthWithSpace++;

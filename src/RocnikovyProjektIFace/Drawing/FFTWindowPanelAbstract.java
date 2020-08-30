@@ -19,7 +19,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
                                   double freqJump, int numberOfChannels,
                                   boolean isEditable, boolean areValuesSigned) {
         super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
-                isEditable, areValuesSigned);
+                isEditable, areValuesSigned, false);
         this.freqJump = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);

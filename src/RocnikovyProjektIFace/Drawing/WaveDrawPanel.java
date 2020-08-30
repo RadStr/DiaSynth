@@ -10,7 +10,7 @@ public abstract class WaveDrawPanel extends DrawPanel {
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
      */
     public WaveDrawPanel(int binCount, String labelTypeToolTip, boolean isEditable) {
-        super(binCount, labelTypeToolTip, isEditable, true);
+        super(binCount, labelTypeToolTip, isEditable, true, false);
     }
 
 

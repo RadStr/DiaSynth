@@ -570,12 +570,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
                 Color c = Color.black;
-                if (bin == binCount - 1) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
-                } else if (bin == 0) {
+                if (bin == 0) {
+                    // When the first number has minus sign then minus sign isn't visible, but this the only way to make
+                    // all the other strings fit without overlapping.
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
-                } else if (bin % n == 0) {
-                    // Draw frequency
+                }
+                else if (bin == binCount - 1) {
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
+                }
+                else if (bin % n == 0) {
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
                 }
             }

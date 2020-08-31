@@ -17,7 +17,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
      */
     public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
-                     boolean areValuesSigned, boolean allowDifferentWidthBins) {
+                     boolean areValuesSigned, boolean allowDifferentWidthBins,
+                     Color backgroundColor) {
+        setBackgroundColor(backgroundColor);
         this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
         setIsEditable(isEditable);
         labels = new String[binCount];
@@ -28,7 +30,14 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         double h = screenSize.getHeight();
 
         minSize = new Dimension();
-        minSize.width = Math.min(2*binCount, (int)w);
+        int binWidth = 1;
+        for(double currWidth = binCount; currWidth < w; currWidth += binCount, binWidth++) {
+            // EMPTY
+        }
+        if(binWidth != 1) {
+            binWidth--;
+        }
+        minSize.width = binWidth * binCount;
         minSize.height = 100;
 
         this.addMouseListener(this);
@@ -81,6 +90,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         for (int i = 0; i < binIndices.length; i++) {
             binIndices[i] = Integer.toString(i);
         }
+    }
+
+
+    private Color backgroundColor = Color.WHITE;
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
 
@@ -194,7 +212,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int bin = getBinAtPos(p);
         System.out.println("BIN:\t" + bin + ":" + selectedBin);
         if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
-            setBinMeasure(bin, p.y);
+            setBinValue(bin, p.y);
         } else {
             //jumpOverMultipleBinsSimple(bin, p.y);
             jumpOverMultipleBinsAdvanced(bin, p);
@@ -209,12 +227,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     private void jumpOverMultipleBinsSimple(int bin, int y) {
         if(bin < selectedBin) {
             for (int i = selectedBin; i >= bin; i--) {
-                setBinMeasure(i, y);
+                setBinValue(i, y);
             }
         }
         else {
             for (int i = selectedBin; i <= bin; i++) {
-                setBinMeasure(i, y);
+                setBinValue(i, y);
             }
         }
     }
@@ -230,14 +248,14 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             jump = (p.y - oldMouseLoc.y) / (double)(selectedBin - bin);
             System.out.println("Y!!!!!!!\t" + y);
             for (int i = selectedBin; i >= bin; i--, y += jump) {
-                setBinMeasure(i, (int)y);
+                setBinValue(i, (int)y);
             }
         }
         else {
             jump = (p.y - oldMouseLoc.y) / (double)(bin - selectedBin);
             System.out.println("Y!!!!!!!\t" + y);
             for (int i = selectedBin; i <= bin; i++, y += jump) {
-                setBinMeasure(i, (int)y);
+                setBinValue(i, (int)y);
             }
         }
     }
@@ -250,7 +268,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     @Override
     public void mouseDragged(MouseEvent e) {
         if(isRightClick) {
-            setBinMeasure(selectedBin, e.getY());       // The selected bin was set at the mouse pressed event
+            setBinValue(selectedBin, e.getY());       // The selected bin was set at the mouse pressed event
             changeToolTip(selectedBin);
             this.repaint();
         }
@@ -357,8 +375,17 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        int w = getWidth();
+        int h = getHeight();
+
+        g.setColor(backgroundColor);
+        g.fillRect(0, 0, w, h);
 
         drawFFTWindow(g);
+
+        g.setColor(Color.black);
+        g.drawRect(0, 0, w, h);
+        g.drawLine(w / 2, 0, w / 2, h);
     }
 
 
@@ -438,7 +465,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
 
-    protected abstract void setBinMeasure(int bin, int y);
+    protected abstract void setBinValue(int bin, int y);
 
     public void drawFFTWindow(Graphics g) {
         int w, h;
@@ -451,14 +478,10 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int binsWhitespace = binWidth / 4;
         binWidth -= binsWhitespace;
 
-        g.setColor(Color.white);
-        g.fillRect(0, 0, w, h);
-
         // Find fitting font for frequency labels amd for energies
         final int START_FONT_SIZE = 24;
         final int MIN_FONT = 12;
         boolean enoughSpaceForLabels = true;
-        int jumpIfTooSmall = 0;
         int n = 1;
         int textBinWidth = binWidth;
         int fontSize = 0;

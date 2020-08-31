@@ -12,21 +12,21 @@ import java.util.Arrays;
 
 
 
-
 public class FFTWindowRealAndImagPanel extends JPanel {
     public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate,
-                                     int numberOfChannels, boolean isEditable) {
+                                     int numberOfChannels, boolean isEditable,
+                                     Color backgroundColorRealPart, Color backgroundColorImagPart) {
         realPartPanel = new FFTWindowPartPanel(this, song, windowSize,
-                startIndex, sampleRate, numberOfChannels, isEditable);
+                startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorRealPart);
         imagPartPanel = new FFTWindowPartPanel(this, song, windowSize,
-                startIndex, sampleRate, numberOfChannels, isEditable);
+                startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorImagPart);
         int binCount = Program.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);
 
 
         Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {        // TODO: nevim jestli je ta normalizace dobre
+        for(int i = 0; i < fftResult.length; i++) {         // TODO: nevim jestli je ta normalizace dobre
             fftResult[i] /= binCount;
         }
         Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, windowSize);
@@ -57,7 +57,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
     private final FFTWindowPartPanel imagPartPanel;
 
 
-    public void setMeasures(FFTWindowPartPanel partPanel, int bin, double newValue) {
+    public void setBinValues(FFTWindowPartPanel partPanel, int bin, double newValue) {
         FFTWindowPanelAbstract otherPartPanel = getTheOtherPartPanel(partPanel);
         double squareValue = newValue * newValue;
         double otherPanelValue = otherPartPanel.getDrawValue(bin);
@@ -66,6 +66,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
         double squaresSum = otherPanelValueSquare + squareValue;
         if(squaresSum > 1) {
             double newOtherPanelValue = Math.sqrt(1 - squareValue);
+            newOtherPanelValue *= Math.signum(otherPanelValue);
             otherPartPanel.setDrawValue(bin, newOtherPanelValue);
             otherPartPanel.repaint();
         }

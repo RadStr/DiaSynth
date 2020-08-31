@@ -9,8 +9,8 @@ public abstract class WaveDrawPanel extends DrawPanel {
      * @param binCount
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
      */
-    public WaveDrawPanel(int binCount, String labelTypeToolTip, boolean isEditable) {
-        super(binCount, labelTypeToolTip, isEditable, true, false);
+    public WaveDrawPanel(int binCount, String labelTypeToolTip, boolean isEditable, Color backgroundColor) {
+        super(binCount, labelTypeToolTip, isEditable, true, false, backgroundColor);
     }
 
 
@@ -36,17 +36,17 @@ public abstract class WaveDrawPanel extends DrawPanel {
     }
 
     @Override
-    protected void setBinMeasure(int bin, int y) {
+    protected void setBinValue(int bin, int y) {
         int w = this.getWidth();
         int h = this.getHeight();
         int hh = h / 2;
         double jump;
 
         y -= hh;
-        double value = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
-        value = Math.min(value, 1);
-        value = Math.max(value, -1);
-        setDrawValue(bin, value);
+        double binValue = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
+        binValue = Math.min(binValue, 1);
+        binValue = Math.max(binValue, -1);
+        setDrawValue(bin, binValue);
 
 // TODO: VYMAZAT
 //        currMouseLoc.y = Math.max(0, currMouseLoc.y);

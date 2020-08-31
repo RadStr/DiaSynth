@@ -3457,7 +3457,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 WaveShaper waveShaper;
-                waveShaper = new WaveShaper();
+                waveShaper = new WaveShaper(Color.LIGHT_GRAY);
                 int result = JOptionPane.showConfirmDialog(null, waveShaper,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if(result == JOptionPane.OK_OPTION) {
@@ -3475,7 +3475,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 //                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
 //                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
-//                        0, (int) outputAudioFormat.getSampleRate(), 1, true);
+//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
+//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
 //                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
 //                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 //                if (result == JOptionPane.OK_OPTION) {

@@ -1,8 +1,10 @@
 package RocnikovyProjektIFace.Drawing;
 
+import java.awt.*;
+
 public class FunctionWaveDrawPanel extends WaveDrawPanel {
-    public FunctionWaveDrawPanel(int binCount, boolean isEditable) {
-        super(binCount, "Input Value", isEditable);
+    public FunctionWaveDrawPanel(int binCount, boolean isEditable, Color backgroundColor) {
+        super(binCount, "Input Value", isEditable, backgroundColor);
         setLabels();
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();

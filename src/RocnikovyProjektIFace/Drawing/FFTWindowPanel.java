@@ -9,13 +9,15 @@ import java.util.Arrays;
 
 public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
-                          int numberOfChannels, boolean isEditable) {
-        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize), numberOfChannels, isEditable);
+                          int numberOfChannels, boolean isEditable, Color backgroundColor) {
+        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize),
+                numberOfChannels, isEditable, backgroundColor);
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
-                          int numberOfChannels, boolean isEditable) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels, isEditable, false);
+                          int numberOfChannels, boolean isEditable, Color backgroundColor) {
+        super(song, windowSize, startIndex, freqJump, numberOfChannels,
+                isEditable, false, backgroundColor);
 
         Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
@@ -37,7 +39,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     }
 
     @Override
-    protected void setBinMeasure(int bin, int y) {
+    protected void setBinValue(int bin, int y) {
         int h = this.getHeight();
         double binValue = 1 - (y / (double)h);
         if(binValue < 0) {
@@ -152,7 +154,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //        int bin = getBinAtPos(p);
 //        System.out.println("BIN:\t" + bin + ":" + selectedBin);
 //        if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
-//            setBinMeasure(bin, p.y);
+//            setBinValue(bin, p.y);
 //        } else {
 //            //jumpOverMultipleBinsSimple(bin, p.y);
 //            jumpOverMultipleBinsAdvanced(bin, p);
@@ -167,12 +169,12 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //    private void jumpOverMultipleBinsSimple(int bin, int y) {
 //        if(bin < selectedBin) {
 //            for (int i = selectedBin; i >= bin; i--) {
-//                setBinMeasure(i, y);
+//                setBinValue(i, y);
 //            }
 //        }
 //        else {
 //            for (int i = selectedBin; i <= bin; i++) {
-//                setBinMeasure(i, y);
+//                setBinValue(i, y);
 //            }
 //        }
 //    }
@@ -188,14 +190,14 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //            jump = (p.y - oldMouseLoc.y) / (double)(selectedBin - bin);
 //            System.out.println("Y!!!!!!!\t" + y);
 //            for (int i = selectedBin; i >= bin; i--, y += jump) {
-//                setBinMeasure(i, (int)y);
+//                setBinValue(i, (int)y);
 //            }
 //        }
 //        else {
 //            jump = (p.y - oldMouseLoc.y) / (double)(bin - selectedBin);
 //            System.out.println("Y!!!!!!!\t" + y);
 //            for (int i = selectedBin; i <= bin; i++, y += jump) {
-//                setBinMeasure(i, (int)y);
+//                setBinValue(i, (int)y);
 //            }
 //        }
 //    }
@@ -208,7 +210,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //    @Override
 //    public void mouseDragged(MouseEvent e) {
 //        if(isRightClick) {
-//            setBinMeasure(selectedBin, e.getY());       // The selected bin was set at the mouse pressed event
+//            setBinValue(selectedBin, e.getY());       // The selected bin was set at the mouse pressed event
 //            changeToolTip(selectedBin);
 //            this.repaint();
 //        }
@@ -390,7 +392,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //    }
 //
 //
-//    private void setBinMeasure(int bin, int y) {
+//    private void setBinValue(int bin, int y) {
 //        int h = this.getHeight();
 //        fftMeasures[bin] = 1 - (y / (double)h);         // TODO: RELATIVE
 //        if(fftMeasures[bin] < 0) {

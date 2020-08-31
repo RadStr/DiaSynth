@@ -9,17 +9,19 @@ import java.util.Arrays;
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   int sampleRate, int numberOfChannels,
-                                  boolean isEditable, boolean areValuesSigned) {
+                                  boolean isEditable, boolean areValuesSigned,
+                                  Color backgroundColor) {
         this(song, windowSize, startIndex,
                 Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels,
-                isEditable, areValuesSigned);
+                isEditable, areValuesSigned, backgroundColor);
     }
 
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   double freqJump, int numberOfChannels,
-                                  boolean isEditable, boolean areValuesSigned) {
+                                  boolean isEditable, boolean areValuesSigned,
+                                  Color backgroundColor) {
         super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
-                isEditable, areValuesSigned, false);
+                isEditable, areValuesSigned, false, backgroundColor);
         this.freqJump = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);

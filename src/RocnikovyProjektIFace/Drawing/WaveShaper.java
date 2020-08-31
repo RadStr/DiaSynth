@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WaveShaper extends JPanel {
-    public WaveShaper() {
+    public WaveShaper(Color backgroundColor) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -18,7 +18,7 @@ public class WaveShaper extends JPanel {
 
 
         //drawnFunctionPanel = new FunctionWaveDrawPanel(getWidth());
-        drawnFunctionPanel = new FunctionWaveDrawPanel(1024, true);
+        drawnFunctionPanel = new FunctionWaveDrawPanel(200, true, backgroundColor);
         outputReferenceValues = new AudioWavePanelReferenceValues();
         add(outputReferenceValues, c);
 

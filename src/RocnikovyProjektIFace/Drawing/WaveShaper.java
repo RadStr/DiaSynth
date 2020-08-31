@@ -1,6 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
 import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
+import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,20 @@ public class WaveShaper extends JPanel {
 
         //drawnFunctionPanel = new FunctionWaveDrawPanel(getWidth());
         drawnFunctionPanel = new FunctionWaveDrawPanel(200, true, backgroundColor);
-        outputReferenceValues = new AudioWavePanelReferenceValues();
+        //outputReferenceValues = new AudioWavePanelReferenceValues();
+        // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
+        // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
+        outputReferenceValues = new AudioWavePanelReferenceValues() {
+            Dimension prefSize = new Dimension();
+            @Override
+            public Dimension getPreferredSize() {
+                prefSize.width = super.getPreferredSize().width;
+                prefSize.height = drawnFunctionPanel.getPreferredSize().height;
+                return prefSize;
+            }
+        };
+
+
         add(outputReferenceValues, c);
 
         c.gridx = 1;

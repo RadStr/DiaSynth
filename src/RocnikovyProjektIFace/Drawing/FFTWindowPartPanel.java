@@ -33,44 +33,15 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
 
     @Override
     protected void setBinValue(int bin, int y) {
-        int w = this.getWidth();
         int h = this.getHeight();
-        int hh = h / 2;
-        double jump;
-
-        y -= hh;
-        double binValue = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
-        binValue = Math.min(binValue, 1);
-        binValue = Math.max(binValue, -1);
-
-        //setDrawValue(bin, value);
+        double binValue = WaveDrawPanel.calculateBinValue(y, h);
         controlPanel.setBinValues(this, bin, binValue);
     }
 
     @Override
     protected void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h) {
-        int midY = h / 2;
-        int y = midY - (int) (drawValue * midY);
-        if (y < midY) {
-            g.drawRect(currX, y, binWidth, midY - y);
-        } else {
-            g.drawRect(currX, midY, binWidth, y - midY);
-        }
+        WaveDrawPanel.drawBinValueBetweenMinusOneAndOne(g, drawValue, currX, binWidth, h, true);
     }
-
-//    @Override
-//    protected void setBinValue(int bin, int y) {
-//        int h = this.getHeight();
-//        double binValue = 1 - (y / (double)h);
-//        if(binValue < 0) {
-//            binValue = 0;
-//        }
-//        else if(binValue > 1) {
-//            binValue = 1;
-//        }
-//
-//        controlPanel.setBinValues(this, bin, binValue);
-//    }
 
     @Override
     public void mouseMoved(MouseEvent e) {

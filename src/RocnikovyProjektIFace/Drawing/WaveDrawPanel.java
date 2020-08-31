@@ -35,57 +35,58 @@ public abstract class WaveDrawPanel extends DrawPanel {
         return Color.BLUE;
     }
 
-    @Override
-    protected void setBinValue(int bin, int y) {
-        int w = this.getWidth();
-        int h = this.getHeight();
-        int hh = h / 2;
-        double jump;
 
+    public static double calculateBinValue(int y, int height) {
+        int hh = height / 2;
         y -= hh;
         double binValue = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
         binValue = Math.min(binValue, 1);
         binValue = Math.max(binValue, -1);
-        setDrawValue(bin, binValue);
 
-// TODO: VYMAZAT
-//        currMouseLoc.y = Math.max(0, currMouseLoc.y);
-//        currMouseLoc.y = Math.min(h - 1, currMouseLoc.y);
-//        currMouseLoc.x = Math.min(w-1, currMouseLoc.x);
-//        currMouseLoc.x = Math.max(0, currMouseLoc.x);
-//        if(oldMouseLoc == null) {
-//            oldMouseLoc = currMouseLoc;
-//        }
-//
-//
-//        double y = oldMouseLoc.y;
-//        if(currMouseLoc.x <= oldMouseLoc.x) {
-//            jump = (currMouseLoc.y - oldMouseLoc.y) / (double)(oldMouseLoc.x - currMouseLoc.x);
-//            for (int i = oldMouseLoc.x; i >= currMouseLoc.x; i--, y += jump) {
-//                wave[i] = y / h;
-//// TODO: DEBUG            	System.out.println(i + "\t" + y);
-//            }
-//        }
-//        else if(currMouseLoc.x > oldMouseLoc.x) {
-//            jump = (currMouseLoc.y - oldMouseLoc.y) / (double)(currMouseLoc.x - oldMouseLoc.x);
-//            for (int i = oldMouseLoc.x; i <= currMouseLoc.x; i++, y += jump) {
-//                wave[i] = y / h;
-//// TODO: DEBUG            	System.out.println(i + "\t" + y);
-//            }
-//        }
-//        //wave[currMouseLoc.x] = currMouseLoc.y / (double)h;
+        return binValue;
+    }
+
+    @Override
+    protected void setBinValue(int bin, int y) {
+        int h = this.getHeight();
+        double binValue = calculateBinValue(y, h);
+        setDrawValue(bin, binValue);
     }
 
     @Override
     protected void drawBin(Graphics g, double drawValue, int currX, int binWidth, int h) {
+        drawBinValueBetweenMinusOneAndOne(g, drawValue, currX, binWidth, h, true);
+    }
+
+    /**
+     *
+     * @param g
+     * @param drawValue
+     * @param currX
+     * @param binWidth
+     * @param h
+     * @param fillRect if set to true than draw bin as filled rectangle, otherwise draw it as rectangle with no filling.
+     */
+    public static void drawBinValueBetweenMinusOneAndOne(Graphics g, double drawValue, int currX,
+                                                         int binWidth, int h, boolean fillRect) {
         int midY = h / 2;
         int y = midY - (int) (drawValue * midY);
-        if (y < midY) {
-            g.drawRect(currX, y, binWidth, midY - y);
-        } else {
-            g.drawRect(currX, midY, binWidth, y - midY);
+        if(fillRect) {
+            if (y < midY) {
+                g.fillRect(currX, y, binWidth, midY - y);
+            } else {
+                g.fillRect(currX, midY, binWidth, y - midY);
+            }
+        }
+        else {
+            if (y < midY) {
+                g.drawRect(currX, y, binWidth, midY - y);
+            } else {
+                g.drawRect(currX, midY, binWidth, y - midY);
+            }
         }
     }
+
 
     public double[] getDrawnWave() {
         return drawValues;

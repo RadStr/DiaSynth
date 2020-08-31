@@ -35,9 +35,11 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
     protected final DoubleFFT_1D fft;
     protected final double freqJump;
 
+
+    private final Color BIN_COLOR_RED = new Color(230, 0, 0);
     @Override
     protected Color getBinColor(int bin) {
-        return Color.red;
+        return BIN_COLOR_RED;
     }
 
 

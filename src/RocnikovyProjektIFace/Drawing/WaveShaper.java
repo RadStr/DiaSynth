@@ -23,7 +23,7 @@ public class WaveShaper extends JPanel {
         //outputReferenceValues = new AudioWavePanelReferenceValues();
         // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
         // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
-        outputReferenceValues = new AudioWavePanelReferenceValues() {
+        outputReferenceValues = new AudioWavePanelReferenceValues(-1, 1) {
             Dimension prefSize = new Dimension();
             @Override
             public Dimension getPreferredSize() {

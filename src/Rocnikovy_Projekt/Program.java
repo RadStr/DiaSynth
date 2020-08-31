@@ -1919,6 +1919,27 @@ public class Program {
     }
 
 
+    public static double performAggregation(double val1, double val2, Aggregations agg) {
+        switch(agg) {
+            case ABS_MAX:
+                return Math.max(Math.abs(val1), Math.abs(val2));
+            case ABS_MIN:
+                return Math.min(Math.abs(val1), Math.abs(val2));
+            case MAX:
+                return Math.max(val1, val2);
+            case MIN:
+                return Math.min(val1, val2);
+            case RMS:
+                return Math.sqrt((val1 * val1 + val2 * val2) / 2);
+            case AVG:
+                return (val1 + val2) / 2;
+            case SUM:
+                return val1 + val2;
+            default:
+                return 0;
+        }
+    }
+
 
     public static double performAggregation(double[] arr, Aggregations agg) {
         return performAggregation(arr, 0, arr.length, agg);

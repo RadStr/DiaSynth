@@ -1,6 +1,7 @@
 package RocnikovyProjektIFace;
 
 import RocnikovyProjektIFace.SpecialSwingClasses.JLabelWithLineInMid;
+import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 
@@ -11,19 +12,53 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class AudioWavePanelReferenceValues extends JPanel {
-    JComponent[] components;
+    private JComponent[] components;
     private int valuesLongestWidth;
     private double pixelJump;
     private int labelCount;
     private int minLineLen = 5;
 
-    boolean isDouble;           // TODO: Poresit kdyz isDouble = false;
+    private boolean isDouble;           // TODO: Poresit kdyz isDouble = false;
 
-    public AudioWavePanelReferenceValues() {
+    private double minValue;
+    public double getMinValue() {
+        return minValue;
+    }
+    public void setMinValue(double minValue) {
+        this.minValue = minValue;
+        setMidValue();
+    }
+
+    private double maxValue;
+    public double getMaxValue() {
+        return maxValue;
+    }
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+        setMidValue();
+    }
+
+
+    private double midValue;
+    public double getMidValue() {
+        return midValue;
+    }
+    private void setMidValue() {
+        midValue = Program.performAggregation(minValue, maxValue, Aggregations.AVG);
+    }
+
+    public AudioWavePanelReferenceValues(double minValue, double maxValue) {
+        setMinValue(minValue);
+        setMaxValue(maxValue);
         isDouble = true;
         FontMetrics fm = this.getFontMetrics(this.getFont());
+
         String widestDoubleVal = getStringDouble(-1.00);    // TODO: Melo by se menit podle toho jestli chci zobrazovat doubly nebo inty
         valuesLongestWidth = fm.stringWidth(widestDoubleVal);
+        widestDoubleVal = getStringDouble(minValue);
+        valuesLongestWidth = Math.max(valuesLongestWidth, fm.stringWidth(widestDoubleVal));
+        widestDoubleVal = getStringDouble(maxValue);
+        valuesLongestWidth = Math.max(valuesLongestWidth, fm.stringWidth(widestDoubleVal));
 
         components = null;
 
@@ -236,7 +271,7 @@ public class AudioWavePanelReferenceValues extends JPanel {
 
 
     private void drawSamplesValueRangeDouble(Graphics g) {
-        drawSamplesValueRangeDouble(g, -1, 1, 0);
+        drawSamplesValueRangeDouble(g, minValue, maxValue, midValue);
     }
 
     private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {

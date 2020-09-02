@@ -6,8 +6,8 @@ import RocnikovyProjektIFace.AudioWavePanelReferenceValuesWithHeightCallback;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class DrawWrapperClass extends JPanel {
-    public DrawWrapperClass(DrawPanel drawPanel, double minValue, double maxValue) {
+public abstract class DrawWrapperBase extends JPanel {
+    public DrawWrapperBase(DrawPanel drawPanel, double minValue, double maxValue) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -34,8 +34,6 @@ public abstract class DrawWrapperClass extends JPanel {
         // TODO: VYMAZAT
     }
 
-    protected AudioWavePanelReferenceValues outputReferenceValues;
-    protected DrawPanel drawPanel;
-
-    public abstract double[] getOutputValues();
+    protected final AudioWavePanelReferenceValues outputReferenceValues;
+    protected final DrawPanel drawPanel;
 }

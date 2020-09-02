@@ -2,16 +2,34 @@ package RocnikovyProjektIFace.Drawing;
 
 import java.awt.*;
 
-public class FFTWindowWrapper extends DrawWrapperClass {
-    public FFTWindowWrapper(double[] audio, Color backgroundColor, double minValue, double maxValue) {
-        super(new FFTWindowPanel(audio, true, backgroundColor), minValue, maxValue);
-        this.drawnFunctionPanel = drawnFunctionPanel;
+public class FFTWindowWrapper extends DrawWrapperBase {
+    public FFTWindowWrapper(double[] audio,
+                            int windowSize, int startIndex, double freqJump,
+                            int numberOfChannels, boolean isEditable,
+                            Color backgroundColor,
+                            double minValue, double maxValue) {
+        this(new FFTWindowPanel(audio, windowSize, startIndex, freqJump,
+                        numberOfChannels, isEditable, backgroundColor), minValue, maxValue);
     }
 
-    private FunctionWaveDrawPanel drawnFunctionPanel;
+    public FFTWindowWrapper(double[] audio,
+                            int windowSize, int startIndex, int sampleRate,
+                            int numberOfChannels, boolean isEditable,
+                            Color backgroundColor,
+                            double minValue, double maxValue) {
+        this(new FFTWindowPanel(audio, windowSize, startIndex, sampleRate,
+                        numberOfChannels, isEditable, backgroundColor), minValue, maxValue);
+        }
 
-    @Override
-    public double[] getOutputValues() {
-        return drawnFunctionPanel.getDrawnWave();
+
+    private FFTWindowWrapper(FFTWindowPanel fftPanel, double minValue, double maxValue) {
+        super(fftPanel, minValue, maxValue);
+        this.fftPanel = fftPanel;
+    }
+
+    private final FFTWindowPanel fftPanel;
+
+    public double[] getIFFTResult(boolean setImagPartToZero) {
+        return fftPanel.getIFFTResult(setImagPartToZero);
     }
 }

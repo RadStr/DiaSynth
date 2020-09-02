@@ -11,14 +11,13 @@ import java.util.Arrays;
 
 
 
-
 public class FFTWindowRealAndImagPanel extends JPanel {
     public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                                      int numberOfChannels, boolean isEditable,
                                      Color backgroundColorRealPart, Color backgroundColorImagPart) {
-        realPartPanel = new FFTWindowPartPanel(this, song, windowSize,
+        realPartPanel = new FFTWindowPartWrapper(this, song, windowSize,
                 startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorRealPart);
-        imagPartPanel = new FFTWindowPartPanel(this, song, windowSize,
+        imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize,
                 startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorImagPart);
         int binCount = Program.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
@@ -26,15 +25,16 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
         Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {         // TODO: nevim jestli je ta normalizace dobre
+        for(int i = 0; i < fftResult.length; i++) {          // TODO: nevim jestli je ta normalizace dobre
             fftResult[i] /= binCount;
         }
-        Program.separateRealAndImagPart(realPartPanel.drawValues, imagPartPanel.drawValues, fftResult, windowSize);
+        Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.drawValues,
+                imagPartPanel.fftWindowPartPanel.drawValues, fftResult, windowSize);
 
-        realPartPanel.setDrawValuesStrings();
-        realPartPanel.setLastPartOfTooltip();
-        imagPartPanel.setDrawValuesStrings();
-        imagPartPanel.setLastPartOfTooltip();
+        realPartPanel.fftWindowPartPanel.setDrawValuesStrings();
+        realPartPanel.fftWindowPartPanel.setLastPartOfTooltip();
+        imagPartPanel.fftWindowPartPanel.setDrawValuesStrings();
+        imagPartPanel.fftWindowPartPanel.setLastPartOfTooltip();
 
 
         setLayout(new GridBagLayout());
@@ -53,8 +53,8 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
     private final DoubleFFT_1D fft;
     private final double[] fftResult;
-    private final FFTWindowPartPanel realPartPanel;
-    private final FFTWindowPartPanel imagPartPanel;
+    private final FFTWindowPartWrapper realPartPanel;
+    private final FFTWindowPartWrapper imagPartPanel;
 
 
     public void setBinValues(FFTWindowPartPanel partPanel, int bin, double newValue) {
@@ -76,11 +76,11 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
     private FFTWindowPanelAbstract getTheOtherPartPanel(FFTWindowPanelAbstract partPanel) {
         FFTWindowPanelAbstract otherPartPanel;
-        if(partPanel == imagPartPanel) {
-            otherPartPanel = realPartPanel;
+        if(partPanel == imagPartPanel.fftWindowPartPanel) {
+            otherPartPanel = realPartPanel.fftWindowPartPanel;
         }
         else {
-            otherPartPanel = imagPartPanel;
+            otherPartPanel = imagPartPanel.fftWindowPartPanel;
         }
 
         return otherPartPanel;
@@ -88,8 +88,8 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
     public double[] getIFFTResult() {
-        double[] realPart = realPartPanel.drawValues;
-        double[] imagPart = imagPartPanel.drawValues;
+        double[] realPart = realPartPanel.fftWindowPartPanel.drawValues;
+        double[] imagPart = imagPartPanel.fftWindowPartPanel.drawValues;
         Program.connectRealAndImagPart(realPart, imagPart, fftResult);
         getComplexIFFT(fftResult, fft);
 

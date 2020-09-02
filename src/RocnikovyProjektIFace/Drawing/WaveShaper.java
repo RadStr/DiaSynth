@@ -1,22 +1,22 @@
 package RocnikovyProjektIFace.Drawing;
 
-import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
-import RocnikovyProjektIFace.AudioWavePanelReferenceValuesWithHeightCallback;
-import Rocnikovy_Projekt.ProgramTest;
-
-import javax.swing.*;
 import java.awt.*;
 
 
-public class WaveShaper extends DrawWrapperClass {
-    public WaveShaper(int windowSize, Color backgroundColor, double minValue, double maxValue) {
-        super(new FunctionWaveDrawPanel(windowSize, true, backgroundColor), minValue, maxValue);
+public class WaveShaper extends DrawWrapperBase {
+    public WaveShaper(int windowSize,
+                      Color backgroundColor,
+                      double minValue, double maxValue) {
+        this(new FunctionWaveDrawPanel(windowSize, true, backgroundColor), minValue, maxValue);
+    }
+
+    private WaveShaper(FunctionWaveDrawPanel drawnFunctionPanel, double minValue, double maxValue) {
+        super(drawnFunctionPanel, minValue, maxValue);
         this.drawnFunctionPanel = drawnFunctionPanel;
     }
 
-    private FunctionWaveDrawPanel drawnFunctionPanel;
+    private final FunctionWaveDrawPanel drawnFunctionPanel;
 
-    @Override
     public double[] getOutputValues() {
         return drawnFunctionPanel.getDrawnWave();
     }

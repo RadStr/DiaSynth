@@ -3454,38 +3454,41 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //            }
 //        });
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                WaveShaper waveShaper;
-                waveShaper = new WaveShaper(Color.LIGHT_GRAY);
-                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
+                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
+                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
+                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
                         "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if(result == JOptionPane.OK_OPTION) {
-                    // TODO: VYMAZAT
-                    //double[] wave = fftWindowPanel.getDrawnWave();
-                    // TODO: VYMAZAT
-                    double[] wave = waveShaper.getOutputFunction();
-                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
+                if (result == JOptionPane.OK_OPTION) {
+                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
+                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
                             "Doesn't matter I don't create file anyways", false));
                 }
             }
         });
 
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
-//                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
-//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
-//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
-//                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
+//                WaveShaper waveShaper;
+//                waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
+//                int result = JOptionPane.showConfirmDialog(null, waveShaper,
 //                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 //                if (result == JOptionPane.OK_OPTION) {
-//                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
+//                    // TODO: VYMAZAT
+//                    //double[] wave = fftWindowPanel.getDrawnWave();
+//                    // TODO: VYMAZAT
+//                    double[] wave = waveShaper.getOutputValues();
 //                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
 //                            "Doesn't matter I don't create file anyways", false));
 //                }
 //            }
 //        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
         menu.add(menuItem);

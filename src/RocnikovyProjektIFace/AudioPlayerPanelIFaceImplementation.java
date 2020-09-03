@@ -420,7 +420,22 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 // TODO: PROGRAMO
         setEnabledAllMenus(true);
         audioThread.changedWaveSizes();
+        // This is here because when the first wave is so small that it is already smaller then the available pixels
+        // for the drawing of wave then we perform fake zooming to draw only the individual samples instead of drawing
+        // aggregation of values
+        fakeZoomUpdate();
         return splitter;
+    }
+
+
+    /**
+     * This method is usually called to upgrade all the waves. Because in certain situations, for example when removing
+     * part of waves, there is no switch between the individual and aggregate wave visualisation.
+     */
+    public void fakeZoomUpdate() {
+        for(AudioWavePanelEverything w : waves) {
+            w.updateZoom(0, 0, false, false);
+        }
     }
 
     private JSplitPane addNonFirstWave(DoubleWave wave) {
@@ -3328,6 +3343,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     private void postProcessingAfterChangingWaveLength() {
         shouldMarkPart = false;
+        fakeZoomUpdate();
         revalidate();
         repaint();
         audioThread.changedWaveSizes();
@@ -3457,36 +3473,38 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
-                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
-                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
-                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
-                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
-                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if (result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
-                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
-                            "Doesn't matter I don't create file anyways", false));
-                }
-            }
-        });
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//                WaveShaper waveShaper;
-//                waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
-//                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+//                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
+//                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
+//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
+//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+//                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
 //                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 //                if (result == JOptionPane.OK_OPTION) {
-//                    // TODO: VYMAZAT
-//                    //double[] wave = fftWindowPanel.getDrawnWave();
-//                    // TODO: VYMAZAT
-//                    double[] wave = waveShaper.getOutputValues();
+//                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
 //                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
 //                            "Doesn't matter I don't create file anyways", false));
 //                }
 //            }
 //        });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                WaveShaper waveShaper;
+                //waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
+                //waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
+                waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
+                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    // TODO: VYMAZAT
+                    //double[] wave = fftWindowPanel.getDrawnWave();
+                    // TODO: VYMAZAT
+                    double[] wave = waveShaper.getOutputValues();
+                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
+                            "Doesn't matter I don't create file anyways", false));
+                }
+            }
+        });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

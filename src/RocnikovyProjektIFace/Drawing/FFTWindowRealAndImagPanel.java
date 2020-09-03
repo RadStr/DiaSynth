@@ -25,7 +25,7 @@ public class FFTWindowRealAndImagPanel extends JPanel {
 
 
         Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {          // TODO: nevim jestli je ta normalizace dobre
+        for(int i = 0; i < fftResult.length; i++) {           // TODO: nevim jestli je ta normalizace dobre
             fftResult[i] /= binCount;
         }
         Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.drawValues,

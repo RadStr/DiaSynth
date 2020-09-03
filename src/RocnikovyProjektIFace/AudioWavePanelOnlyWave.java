@@ -95,7 +95,33 @@ public class AudioWavePanelOnlyWave extends JPanel {
         };
         this.addComponentListener(resizeListener);
         // TODO: PROGRAMO
+//        setVariablesWhichNeededSize();
 //        setCurrentDrawWrapperBasedOnZoom();
+        //setCurrentDrawWrapperIndividual();
+
+
+        //updateZoom(0, 0, false, false);
+
+        //setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount);
+        //setDrawWrapperInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
+
+//        mainWaveClass = communicationWithWaveValues;
+//        if(valuesDrawWrapper != currentDrawWrapper) {
+//            individualSamplesDrawWrapper = null;
+//            valuesDrawWrapper = new WaveDrawValuesWrapper(wholeWavePanel.getWaveVisibleWidth(),
+//                    wholeWavePanel.getWaveVisibleWidth(), mainWaveClass.getCurrentStartIndexInAudio(),
+//                    getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+//            currentDrawWrapper = valuesDrawWrapper;
+//        }
+
+//        System.exit(wholeWavePanel.getWaveVisibleWidth());
+//        mainWaveClass = communicationWithWaveValuesOnlySamples;
+//        if(individualSamplesDrawWrapper != currentDrawWrapper) {
+//            valuesDrawWrapper = null;
+//            individualSamplesDrawWrapper = new WaveDrawValuesWrapperIndividualSamples(0, wholeWavePanel.getWaveVisibleWidth(),
+//                    waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+//            currentDrawWrapper = individualSamplesDrawWrapper;
+//        }
         // TODO: PROGRAMO
     }
 
@@ -1515,7 +1541,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     private void setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount) {
-        if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
+        if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
             //currScroll = convertScrollValueToIndividualIndexInAudio(currScroll);
             mainWaveClass = communicationWithWaveValuesOnlySamples;
             if(individualSamplesDrawWrapper != currentDrawWrapper) {
@@ -1666,6 +1692,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
         currentDrawWrapper.updatePixelMovement(change);
     }
+
 
     public static int calculateMaxCacheZoom(int length, int defaultWaveWidth) {
         int maxCacheZoom = 1;       // TODO: HNED !!!

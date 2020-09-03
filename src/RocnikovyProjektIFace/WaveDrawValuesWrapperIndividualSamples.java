@@ -337,7 +337,16 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
     @Override
     public int convertFromBufferToIndexInAudio(int val) {
         int retVal = super.convertFromBufferToIndexInAudio(val);
-        retVal--;
+        // TODO: 1 PIXEL BUG FIX
+        // Added because when I start (when the first thing I draw are individuals) with drawing individual samples,
+        // which means the number of samples is less than there are pixels in the wave visualiser,
+        // then I had problem that when I started filling I started
+        // from index 1 and it was because of this. I had 0 and by retVal-- I got -1 which I subtracted in the
+        // convertToNonVisibleMostLeftIndexInAudio method, so I got +1 index than I really should have had.
+        if(retVal > 0) {
+            retVal--;
+        }
+        // TODO: 1 PIXEL BUG FIX
         return retVal;
     }
 

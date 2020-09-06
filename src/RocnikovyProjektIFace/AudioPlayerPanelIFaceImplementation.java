@@ -3500,9 +3500,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     @Override
                     public Dimension getMinimumSize() {
                         if(minSize == null) {
+                            Insets insets = getInsets();
                             minSize = new Dimension(waveShaper.getMinimumSize().width +
-                                    getInsets().left + getInsets().right,
-                                    waveShaper.getMinimumSize().height);
+                                    insets.left + insets.right,
+                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
                         }
                         return minSize;
                     }
@@ -3552,9 +3553,24 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                f.setContentPane(p);
 //                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
 
-                f.pack();
+
+                JMenuBar menuBar = new JMenuBar();
+                f.setJMenuBar(menuBar);
+                JMenu menu = new JMenu("Options");
+                menuBar.add(menu);
+                JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
+                menu.add(optionsMenuItem);
+
+                f.pack();       // Have to be called otherwise, min size is ignored
+//                //f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+//                Toolkit tk = Toolkit.getDefaultToolkit();
+//                int xSize = ((int) tk.getScreenSize().getWidth());
+//                int ySize = ((int) tk.getScreenSize().getHeight());
+////                f.setSize(xSize, getHeight());
+////                f.setMinimumSize(new Dimension());
+                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
+//                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
                 f.setVisible(true);
-                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
 
 
 //                int result = JOptionPane.showConfirmDialog(null, waveShaper,

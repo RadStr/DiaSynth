@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import Rocnikovy_Projekt.ProgramTest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -37,8 +39,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         if(binWidth != 1) {
             binWidth--;
         }
+
+//        DrawPanel - TODO: Sem asi pridat + neco abych to mohl spravne udelat pro ten text k te minSize.Width
         minSize.width = binWidth * binCount;
         minSize.height = 100;
+        prefSize = new Dimension(minSize);
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -395,13 +400,72 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         return minSize;
     }
 
+
+
+    private Dimension prefSize;
+
     @Override
     public Dimension getPreferredSize() {
-        Dimension prefSize = super.getPreferredSize();
-        if(prefSize.width < minSize.width || prefSize.height < minSize.height) {
-            return minSize;
-        }
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        JPanel contentPane = (JPanel) topFrame.getContentPane();
+        ProgramTest.debugPrint("INSETS:", contentPane.getInsets(), getLocation(), contentPane.getLocation(),
+                getInsets(), topFrame.getInsets());
+        Insets frameInsets = topFrame.getInsets();
+        // Same size
+        ProgramTest.debugPrint("Insets:", topFrame.getHeight() - frameInsets.top - frameInsets.bottom, contentPane.getHeight());
+        // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
+        prefSize.height = contentPane.getHeight() - frameInsets.bottom;
+
+
+//        Container parent = getParent();
+//        Container grandParent = parent.getParent();
+//        Container grandGrandParent = grandParent.getParent();
+//        if(parent == SwingUtilities.getWindowAncestor(this) || grandParent == SwingUtilities.getWindowAncestor(this) ||
+//                grandGrandParent == SwingUtilities.getWindowAncestor(this)) {
+//            System.exit(4578);
+//        }
+//        if(parent == null) {
+//
+//        }
+//        else {
+//
+//        }
+//
+//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//        JPanel content = (JPanel)topFrame.getContentPane();
+//
+////        ProgramTest.debugPrint("LOCATION:", getLocation());
+////        prefSize.width = topFrame.getWidth() / 2;
+////        prefSize.height = topFrame.getHeight() / 2;
+////        prefSize =
+////
+////        Dimension prefSize = super.getPreferredSize();
+////        if(prefSize.width < minSize.width || prefSize.height < minSize.height) {
+////            return minSize;
+////        }
+////
+//////        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//////        prefSize.width = topFrame.getWidth() / 2;
+//////        prefSize.height = topFrame.getHeight() / 2;
+////////        prefSize.width = Math.max(prefSize.width, 1);
+////////        prefSize.height = Math.max(prefSize.height, 1);
+////////        prefSize.width = Math.max(1, prefSize.width);
+////////        prefSize.height = Math.max(1, prefSize.height);
+//////        ProgramTest.debugPrint("Testing pref size drawing", prefSize);
+//////
+////////        prefSize.width += 100;
+////////        prefSize.height += 100;
+//////
+////////        prefSize.width = 1200;
+////////        prefSize.height = 1200;
+
         return prefSize;
+
+
+        //return new Dimension(1200, 1200);
+        //return new Dimension(getWidth(), getHeight() / 2);
+        //return new Dimension(100, 100);
+        //return new Dimension(0, 0);
     }
 
 

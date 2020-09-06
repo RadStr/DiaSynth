@@ -3493,16 +3493,80 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 //waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
                 //waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
                 waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
-                int result = JOptionPane.showConfirmDialog(null, waveShaper,
-                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                if (result == JOptionPane.OK_OPTION) {
-                    // TODO: VYMAZAT
-                    //double[] wave = fftWindowPanel.getDrawnWave();
-                    // TODO: VYMAZAT
-                    double[] wave = waveShaper.getOutputValues();
-                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
-                            "Doesn't matter I don't create file anyways", false));
+
+
+                JFrame f = new JFrame() {
+                    private Dimension minSize = null;
+                    @Override
+                    public Dimension getMinimumSize() {
+                        if(minSize == null) {
+                            minSize = new Dimension(waveShaper.getMinimumSize().width +
+                                    getInsets().left + getInsets().right,
+                                    waveShaper.getMinimumSize().height);
+                        }
+                        return minSize;
+                    }
+                };
+                f.setMinimumSize(new Dimension());
+                f.setLayout(new FlowLayout());
+                f.addComponentListener(new ComponentListener() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        ProgramTest.debugPrint("Resizing fft frame");
+//                        f.revalidate();
+//                        f.repaint();
+                        //f.pack();
+                        //waveShaper.setPreferredSize(waveShaper.getPreferredSize());
+                        waveShaper.revalidate();
+                        waveShaper.repaint();
+                        ProgramTest.debugPrint("Resize content:",
+                                f.getContentPane().getSize(), waveShaper.getSize(), f.getSize());
+                        ProgramTest.debugPrint(
+                                f.getContentPane().getMinimumSize(), waveShaper.getMinimumSize(), f.getMinimumSize());
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+
+                    }
+                });
+                f.add(waveShaper);
+                JPanel content = (JPanel) f.getContentPane();
+                if(waveShaper == content) {
+                    System.exit(14777);
                 }
+                //f.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+                //f.setContentPane(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+
+//                JPanel p = new JPanel();
+//                f.setContentPane(p);
+//                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+
+                f.pack();
+                f.setVisible(true);
+                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
+
+
+//                int result = JOptionPane.showConfirmDialog(null, waveShaper,
+//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+//                if (result == JOptionPane.OK_OPTION) {
+//                    // TODO: VYMAZAT
+//                    //double[] wave = fftWindowPanel.getDrawnWave();
+//                    // TODO: VYMAZAT
+//                    double[] wave = waveShaper.getOutputValues();
+//                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
+//                            "Doesn't matter I don't create file anyways", false));
+//                }
             }
         });
 

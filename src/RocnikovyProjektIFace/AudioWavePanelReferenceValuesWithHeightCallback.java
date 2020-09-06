@@ -19,6 +19,10 @@ public class AudioWavePanelReferenceValuesWithHeightCallback extends AudioWavePa
         return prefSize;
     }
 
+    public int getPreferredWidth() {
+        return super.getPreferredSize().width;
+    }
+
     public static interface HeightGetter {
         int getHeight();
     }

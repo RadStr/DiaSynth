@@ -19,7 +19,7 @@ public abstract class DrawWrapperBase extends JPanel {
 
         // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
         // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
-        outputReferenceValues = new AudioWavePanelReferenceValuesWithHeightCallback( minValue, maxValue,
+        outputReferenceValues = new AudioWavePanelReferenceValuesWithHeightCallback(minValue, maxValue,
                 () -> drawPanel.getPreferredSize().height);
 
         add(outputReferenceValues, c);
@@ -32,8 +32,18 @@ public abstract class DrawWrapperBase extends JPanel {
         //outputReferenceValues.setPreferredSize(new Dimension(20, 150));
         //outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
         // TODO: VYMAZAT
+
+        minSize.width = outputReferenceValues.getPreferredWidth() + drawPanel.getMinimumSize().width;
+        minSize.height = drawPanel.getMinimumSize().height;
     }
 
-    protected final AudioWavePanelReferenceValues outputReferenceValues;
+    protected final AudioWavePanelReferenceValuesWithHeightCallback outputReferenceValues;
     protected final DrawPanel drawPanel;
+
+
+    private Dimension minSize = new Dimension();
+    @Override
+    public Dimension getMinimumSize() {
+        return minSize;
+    }
 }

@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import DiagramSynthPackage.Synth.WaveTables.WaveTable;
+
 import java.awt.*;
 
 public class FunctionWaveDrawPanel extends WaveDrawPanel {
@@ -26,5 +28,32 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         for(int i = 0; i < labels.length; i++, val += valJump) {
             labels[i] = String.format("%.2f", val);
         }
+    }
+
+    /**
+     * Returns double, because the result will be interpolated.
+     * @param inputValue
+     * @return
+     */
+    public double getBinIndex(double inputValue) {
+        inputValue += 1;           // Shift it so it is between 0-2 instead of -1 and 1
+        double ratio = 2.0 / inputValue;
+        double binIndex;
+
+        if(inputValue != 0) {
+            binIndex = ratio * drawValues.length;
+        }
+        else {
+            binIndex = 0;
+        }
+        return binIndex;
+    }
+
+
+
+    public double convertInputToOutput(double inputValue) {
+        double index = getBinIndex(inputValue);
+        double output = WaveTable.interpolate(drawValues, index);
+        return output;
     }
 }

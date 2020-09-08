@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.Arrays;
 
 
+
 public class FFTWindowRealAndImagPanel extends JPanel {
     public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                                      int numberOfChannels, boolean isEditable,

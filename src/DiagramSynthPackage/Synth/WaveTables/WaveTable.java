@@ -51,6 +51,25 @@ public class WaveTable {
         return leftVal + rightVal;
     }
 
+    /**
+     * index has to be [0, wave.length - 1]
+     * @param wave
+     * @param index
+     * @return
+     */
+    public static double interpolate(double[] wave, double index) {
+        int leftValIndex = (int)index;
+        int rightValIndex = leftValIndex + 1;
+        if(rightValIndex > wave.length - 1) {       // When the index == wave.length - 1
+            rightValIndex = wave.length - 1;
+        }
+        double factor = index - leftValIndex;
+        double rightVal = factor * wave[rightValIndex];
+        factor = 1 - factor;
+        double leftVal = factor * wave[leftValIndex];
+        return leftVal + rightVal;
+    }
+
     public double pop(double generatedWaveFreq, int playFreq, double phase) {
         double retVal = peek(phase);
         goToNextWaveIndex(generatedWaveFreq, playFreq);

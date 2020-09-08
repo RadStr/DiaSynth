@@ -46,4 +46,7 @@ public abstract class DrawWrapperBase extends JPanel {
     public Dimension getMinimumSize() {
         return minSize;
     }
+
+
+    public abstract void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder);
 }

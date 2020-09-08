@@ -9,8 +9,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
     /**
      * @param binCount
      */
-    public TimeWaveDrawPanel(int sampleRate, int timeInMs, int binCount, boolean isEditable,
-                             Color backgroundColor) {
+    public TimeWaveDrawPanel(int timeInMs, int binCount, boolean isEditable, Color backgroundColor) {
         super(binCount, "Time", isEditable, backgroundColor);
         setTimeInMs(timeInMs);
         setLabels();
@@ -20,10 +19,18 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
 
     private int timeInMs;
+    public int getTimeInMs() {
+        return timeInMs;
+    }
     private String timeInMsString;
     public void setTimeInMs(int timeInMs) {
         this.timeInMs = timeInMs;
         timeInMsString = Double.toString(timeInMs);
+
+        for(int i = 0; i < labels.length; i++) {
+            labels[i] = Program.convertMillisecondsToTime((int)(timeInMs * i / (double)labels.length));
+        }
+        repaint();
     }
 
 
@@ -89,6 +96,23 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
     public void fillArrWithValues(double[] arr, double samplesPerPixel) {
         fillArrWithValues(arr, drawValues, samplesPerPixel);
+    }
+
+    public void fillArrWithValues(double[] arr) {
+        fillArrWithValues(arr, drawValues);
+    }
+
+
+
+    private static double calculateSamplesPerPixel(double[] inputArr, double[] outputArr) {
+        double spp = outputArr.length / (double)(inputArr.length - 1);
+        return spp;
+    }
+
+
+    public static void fillArrWithValues(double[] arr, double[] wave) {
+        double samplesPerPixel = calculateSamplesPerPixel(wave, arr);
+        fillArrWithValues(arr, wave, samplesPerPixel);
     }
 
     public static void fillArrWithValues(double[] arr, double[] wave, double samplesPerPixel) {

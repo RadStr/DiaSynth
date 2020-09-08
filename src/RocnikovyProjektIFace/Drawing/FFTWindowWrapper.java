@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class FFTWindowWrapper extends DrawWrapperBase {
@@ -31,5 +32,10 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
     public double[] getIFFTResult(boolean setImagPartToZero) {
         return fftPanel.getIFFTResult(setImagPartToZero);
+    }
+
+    @Override
+    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+        //        TODO: MENU
     }
 }

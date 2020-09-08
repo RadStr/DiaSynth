@@ -23,10 +23,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
-import RocnikovyProjektIFace.Drawing.FFTWindowRealAndImagPanel;
-import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
-import RocnikovyProjektIFace.Drawing.TimeWaveDrawPanel;
-import RocnikovyProjektIFace.Drawing.WaveShaper;
+import RocnikovyProjektIFace.Drawing.*;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import RocnikovyProjektIFace.SpecificAudioPlayerDialogs.CreateEmptyWaveDialog;
@@ -59,7 +56,7 @@ import java.util.Random;
 // TODO: Tohle jmeno je dost osklivy
 public class AudioPlayerPanelIFaceImplementation extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
-        ChangeJMenuBarIFace, PlayerButtonPanelSimple.SoundControlGetterIFace {
+        ChangeJMenuBarIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
 
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
     public static final int VERTICAL_SCROLL_UNIT_INCREMENT = 32;
@@ -343,6 +340,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         clipboard.removeWaveFromClipboard();
     }
 
+
+    @Override
+    public JSplitPane addWave(double[] wave) {
+        DoubleWave doubleWave = new DoubleWave(wave, getOutputSampleRate(), 1,
+                "Doesn't matter I don't create file anyways", false);
+        return addWave(doubleWave);
+    }
 
     public JSplitPane addWave(DoubleWave wave) {
         alignToLongestWave(wave);
@@ -3406,6 +3410,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         JMenuItem menuItem = new JMenuItem("FFT window");
         menuItem.setToolTipText("Creates fft window");
 
+        AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -3489,10 +3494,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                WaveShaper waveShaper;
+                //WaveShaper waveShaper;
                 //waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
                 //waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
-                waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
+                //waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
+
+                TimeWaveDrawWrapper waveShaper;
+                waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY);
 
 
                 JFrame f = new JFrame() {
@@ -3554,12 +3562,31 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
 
 
+
+                // TODO: JMENU - presunuto do te tridy
                 JMenuBar menuBar = new JMenuBar();
+                waveShaper.addMenus(menuBar, thisAudioPlayerClass);
                 f.setJMenuBar(menuBar);
-                JMenu menu = new JMenu("Options");
-                menuBar.add(menu);
-                JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
-                menu.add(optionsMenuItem);
+//                JMenu menu = new JMenu("Options");
+//                menuBar.add(menu);
+//                JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
+//                menu.add(optionsMenuItem);
+//
+//                menu = new JMenu("Action");
+//                menuBar.add(menu);
+//                JMenuItem actionMenuItem = new JMenuItem("Perform action");
+//                menu.add(actionMenuItem);
+//                actionMenuItem.addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        double[] wave = waveShaper.getNPeriods(22050, 4);
+//                        addWave(wave);
+//                    }
+//                });
+                // TODO: JMENU
+
+
+
 
                 f.pack();       // Have to be called otherwise, min size is ignored
 //                //f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -3580,8 +3607,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    //double[] wave = fftWindowPanel.getDrawnWave();
 //                    // TODO: VYMAZAT
 //                    double[] wave = waveShaper.getOutputValues();
-//                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
-//                            "Doesn't matter I don't create file anyways", false));
+                      //  addWave(wave);
 //                }
             }
         });
@@ -3866,6 +3892,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             else {
                 panelInDialog = plugin;
             }
+
             if(panelInDialog == plugin && plugin instanceof JFileChooser) {
                 int result = ((JFileChooser)plugin).showOpenDialog(null);
                 if(result == JFileChooser.APPROVE_OPTION) {

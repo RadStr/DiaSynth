@@ -58,9 +58,9 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
             }
 
 
+
             String lowerBound = annotation.lowerBound();
             String upperBound = annotation.upperBound();
-
             /////////////////////////////////////// Now a lot of ifs - try to parse the lower bound if it fails set it to minimum value of given type
             String tooltipParameterType = "Parameter type: " + fieldType.getName();
             String tooltipParameterValue = "Parameter bounds: [";
@@ -120,7 +120,7 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
                 }
             }
             else if(fieldType.isEnum() && AudioPlayerJMenuOperationPluginIFace.
-                isImplementingIFace(EnumWrapperIFaceForDefaultJPane.class, classWithAnnotations)) {
+                    isImplementingIFace(EnumWrapperIFaceForDefaultJPane.class, classWithAnnotations)) {
                 String fieldName = f.getName();
                 EnumWrapperIFaceForDefaultJPane wrapper = (EnumWrapperIFaceForDefaultJPane) objectWithAnnotations;
                 JLabel parameterName = new JLabel(fieldName);

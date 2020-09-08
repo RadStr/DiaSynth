@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class FFTWindowPartWrapper extends DrawWrapperBase {
@@ -35,4 +36,9 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 
 
     protected final FFTWindowPartPanel fftWindowPartPanel;
+
+    @Override
+    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+//        TODO: MENU
+    }
 }

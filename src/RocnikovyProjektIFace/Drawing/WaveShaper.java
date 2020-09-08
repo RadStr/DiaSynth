@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
+import javax.swing.*;
 import java.awt.*;
 
 
@@ -19,6 +20,11 @@ public class WaveShaper extends DrawWrapperBase {
 
     public double[] getOutputValues() {
         return drawnFunctionPanel.getDrawnWave();
+    }
+
+    @Override
+    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+        //        TODO: MENU
     }
 }
 

@@ -401,9 +401,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
 
-
     private Dimension prefSize;
-
     @Override
     public Dimension getPreferredSize() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);

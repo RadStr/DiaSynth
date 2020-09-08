@@ -15,12 +15,13 @@ import java.awt.event.MouseMotionListener;
 public abstract class DrawPanel extends JPanel implements MouseMotionListener, MouseListener {
     /**
      *
-     * @param binCount
      * @param labelTypeToolTip for FFT window it is "Frequency" for wave drawing "Time"
+     * @param shouldDrawLabelsAtTop if set to true, draws the labels at the top of the panel, otherwise at the bottom.
      */
     public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
                      boolean areValuesSigned, boolean allowDifferentWidthBins,
-                     Color backgroundColor) {
+                     Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+        this.shouldDrawLabelsAtTop = shouldDrawLabelsAtTop;
         setBackgroundColor(backgroundColor);
         this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
         setIsEditable(isEditable);
@@ -95,6 +96,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         for (int i = 0; i < binIndices.length; i++) {
             binIndices[i] = Integer.toString(i);
         }
+    }
+
+
+    private boolean shouldDrawLabelsAtTop;
+    public boolean getShouldDrawLabelsAtTop() {
+        return shouldDrawLabelsAtTop;
+    }
+    public void setShouldDrawLabelsAtTop(boolean shouldDrawLabelsAtTop) {
+        this.shouldDrawLabelsAtTop = shouldDrawLabelsAtTop;
     }
 
 
@@ -386,7 +396,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         g.setColor(backgroundColor);
         g.fillRect(0, 0, w, h);
 
-        drawFFTWindow(g);
+        drawWindow(g);
 
         g.setColor(Color.black);
         g.drawRect(0, 0, w, h);
@@ -529,7 +539,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     protected abstract void setBinValue(int bin, int y);
 
-    public void drawFFTWindow(Graphics g) {
+    public void drawWindow(Graphics g) {
         int w, h;
         w = this.getWidth();
         h = this.getHeight();
@@ -584,7 +594,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
         drawLabels(indexToStartAddingPixels, binWidthWithSpace, binWidth, enoughSpaceForLabels,
-                textBinWidth, h, g, n, labels, drawValues.length, ALLOW_DIFFERENT_WIDTH_BINS);
+                textBinWidth, h, g, n, labels, drawValues.length, ALLOW_DIFFERENT_WIDTH_BINS, shouldDrawLabelsAtTop);
 //        if(enoughSpaceForLabels) {
 //            if (indexToStartAddingPixels < fftMeasures.length) {
 //                isFirstAdded = true;
@@ -637,7 +647,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      */
     public static void drawLabels(int indexToStartAddingPixels, int binWidthWithSpace, int binWidth,
                                   boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels,
-                                  int binCount, boolean areDifferentSizeBinsAllowed) {
+                                  int binCount, boolean areDifferentSizeBinsAllowed, boolean shouldDrawUp) {
+        int labelHeight = 1 + g.getFontMetrics().getHeight() / 2;
         boolean isFirstAdded = false;
         if(shouldDrawLabels) {
             if (areDifferentSizeBinsAllowed && indexToStartAddingPixels < binCount) {
@@ -653,18 +664,24 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                     binWidthWithSpace++;
                 }
 
-
+                int y;
+                if(shouldDrawUp) {
+                    y = labelHeight;
+                }
+                else {
+                    y = h;
+                }
                 Color c = Color.black;
                 if (bin == 0) {
                     // When the first number has minus sign then minus sign isn't visible, but this the only way to make
                     // all the other strings fit without overlapping.
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, y);
                 }
                 else if (bin == binCount - 1) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, y);
                 }
                 else if (bin % n == 0) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
                 }
             }
         }

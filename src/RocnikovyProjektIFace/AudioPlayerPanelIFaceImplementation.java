@@ -397,6 +397,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        thisFrame.repaint();
 
         updateWavesForMixing();
+//        TODO: Novy protoze kdyz dam fft okno tak se tam nehodi ten scrollbar spodni proto revalidate
+//                a repaint prootze se jinak neprekresli vlny
+        revalidate();
+        repaint();
         return lastSplitPane;
     }
 
@@ -3500,7 +3504,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 //waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
 
                 TimeWaveDrawWrapper waveShaper;
-                waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY);
+                waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
 
 
                 JFrame f = new JFrame() {
@@ -4585,6 +4589,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 
 
+    @Override
     public int getOutputSampleRate() {
         return (int)outputAudioFormat.getSampleRate();
     }

@@ -10,18 +10,18 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   int sampleRate, int numberOfChannels,
                                   boolean isEditable, boolean areValuesSigned,
-                                  Color backgroundColor) {
+                                  Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(song, windowSize, startIndex,
                 Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels,
-                isEditable, areValuesSigned, backgroundColor);
+                isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   double freqJump, int numberOfChannels,
                                   boolean isEditable, boolean areValuesSigned,
-                                  Color backgroundColor) {
+                                  Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
-                isEditable, areValuesSigned, false, backgroundColor);
+                isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop);
         this.freqJump = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);

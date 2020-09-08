@@ -11,14 +11,16 @@ import java.util.Arrays;
 
 
 
+
 public class FFTWindowRealAndImagPanel extends JPanel {
     public FFTWindowRealAndImagPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                                      int numberOfChannels, boolean isEditable,
-                                     Color backgroundColorRealPart, Color backgroundColorImagPart) {
-        realPartPanel = new FFTWindowPartWrapper(this, song, windowSize,
-                startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorRealPart);
-        imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize,
-                startIndex, sampleRate, numberOfChannels, isEditable, backgroundColorImagPart);
+                                     Color backgroundColorRealPart, Color backgroundColorImagPart,
+                                     boolean shouldDrawLabelsAtTop) {
+        realPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
+                numberOfChannels, isEditable, backgroundColorRealPart, shouldDrawLabelsAtTop);
+        imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
+                numberOfChannels, isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
         int binCount = Program.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);

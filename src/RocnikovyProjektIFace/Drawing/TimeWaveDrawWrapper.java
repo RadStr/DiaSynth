@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TimeWaveDrawWrapper extends DrawWrapperBase {
-    public TimeWaveDrawWrapper(int timeInMs, int binCount, boolean isEditable, Color backgroundColor) {
-        this(new TimeWaveDrawPanel(timeInMs, binCount, isEditable, backgroundColor), -1, 1);
+    public TimeWaveDrawWrapper(int timeInMs, int binCount, boolean isEditable,
+                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+        this(new TimeWaveDrawPanel(timeInMs, binCount, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                -1, 1);
     }
 
     private TimeWaveDrawWrapper(TimeWaveDrawPanel timeWaveDrawPanel, double minValue, double maxValue) {
@@ -59,7 +61,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         actionMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(timeWaveDrawPanel);
+                TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(timeWaveDrawPanel, waveAdder);
                 PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
                         classWithValues.getClass());
 
@@ -78,12 +80,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
 
 
     private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {
-        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel) {
+        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel, AddWaveIFace waveAdder) {
             super(timeWaveDrawPanel);
+            sampleRate = waveAdder.getOutputSampleRate();
         }
 
 
-        @PluginParametersAnnotation(lowerBound = "0", defaultValue = "22500", parameterTooltip = "Controls the sample rate of the drawn wave")
+        @PluginParametersAnnotation(lowerBound = "0", parameterTooltip = "Controls the sample rate of the drawn wave")
         private int sampleRate;
 
         public int getSampleRate() {

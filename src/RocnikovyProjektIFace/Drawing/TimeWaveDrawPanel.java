@@ -9,8 +9,9 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
     /**
      * @param binCount
      */
-    public TimeWaveDrawPanel(int timeInMs, int binCount, boolean isEditable, Color backgroundColor) {
-        super(binCount, "Time", isEditable, backgroundColor);
+    public TimeWaveDrawPanel(int timeInMs, int binCount, boolean isEditable,
+                             Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+        super(binCount, "Time", isEditable, backgroundColor, shouldDrawLabelsAtTop);
         setTimeInMs(timeInMs);
         setLabels();
         normalizeAndSetDrawValues();

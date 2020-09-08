@@ -9,15 +9,17 @@ import java.util.Arrays;
 
 public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
-                          int numberOfChannels, boolean isEditable, Color backgroundColor) {
+                          int numberOfChannels, boolean isEditable,
+                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize),
-                numberOfChannels, isEditable, backgroundColor);
+                numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
-                          int numberOfChannels, boolean isEditable, Color backgroundColor) {
+                          int numberOfChannels, boolean isEditable,
+                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(song, windowSize, startIndex, freqJump, numberOfChannels,
-                isEditable, false, backgroundColor);
+                isEditable, false, backgroundColor, shouldDrawLabelsAtTop);
 
         Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
@@ -309,7 +311,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //    public void paintComponent(Graphics g) {
 //        super.paintComponent(g);
 //
-//        drawFFTWindow(g);
+//        drawWindow(g);
 //    }
 //
 //
@@ -406,7 +408,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //    }
 //
 //
-//    public void drawFFTWindow(Graphics g) {
+//    public void drawWindow(Graphics g) {
 //        int w,h;
 //        w = this.getWidth();
 //        h = this.getHeight();

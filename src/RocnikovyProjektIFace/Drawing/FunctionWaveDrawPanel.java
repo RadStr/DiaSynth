@@ -5,8 +5,9 @@ import DiagramSynthPackage.Synth.WaveTables.WaveTable;
 import java.awt.*;
 
 public class FunctionWaveDrawPanel extends WaveDrawPanel {
-    public FunctionWaveDrawPanel(int binCount, boolean isEditable, Color backgroundColor) {
-        super(binCount, "Input Value", isEditable, backgroundColor);
+    public FunctionWaveDrawPanel(int binCount, boolean isEditable, Color backgroundColor,
+                                 boolean shouldDrawLabelsAtTop) {
+        super(binCount, "Input Value", isEditable, backgroundColor, shouldDrawLabelsAtTop);
         setLabels();
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();

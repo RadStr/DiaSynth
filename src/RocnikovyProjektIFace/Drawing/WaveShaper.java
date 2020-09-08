@@ -7,8 +7,10 @@ import java.awt.*;
 public class WaveShaper extends DrawWrapperBase {
     public WaveShaper(int windowSize,
                       Color backgroundColor,
-                      double minValue, double maxValue) {
-        this(new FunctionWaveDrawPanel(windowSize, true, backgroundColor), minValue, maxValue);
+                      double minValue, double maxValue,
+                      boolean shouldDrawLabelsAtTop) {
+        this(new FunctionWaveDrawPanel(windowSize, true, backgroundColor, shouldDrawLabelsAtTop),
+                minValue, maxValue);
     }
 
     private WaveShaper(FunctionWaveDrawPanel drawnFunctionPanel, double minValue, double maxValue) {

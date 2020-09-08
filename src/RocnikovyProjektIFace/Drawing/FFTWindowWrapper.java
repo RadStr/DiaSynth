@@ -8,19 +8,23 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                             int windowSize, int startIndex, double freqJump,
                             int numberOfChannels, boolean isEditable,
                             Color backgroundColor,
-                            double minValue, double maxValue) {
+                            double minValue, double maxValue,
+                            boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, freqJump,
-                        numberOfChannels, isEditable, backgroundColor), minValue, maxValue);
+                        numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                minValue, maxValue);
     }
 
     public FFTWindowWrapper(double[] audio,
                             int windowSize, int startIndex, int sampleRate,
                             int numberOfChannels, boolean isEditable,
                             Color backgroundColor,
-                            double minValue, double maxValue) {
+                            double minValue, double maxValue,
+                            boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, sampleRate,
-                        numberOfChannels, isEditable, backgroundColor), minValue, maxValue);
-        }
+                        numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                minValue, maxValue);
+    }
 
 
     private FFTWindowWrapper(FFTWindowPanel fftPanel, double minValue, double maxValue) {

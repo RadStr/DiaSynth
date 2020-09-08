@@ -213,6 +213,9 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         resetZoom();
         postDeletionAction();
         //stopAudioLoopLikeTotally();
+        waveScroller.resetEmptyPanelSize();
+        waveScroller.revalidate();
+        waveScroller.repaint();
         this.revalidate();
         this.repaint();
 ////        for(AudioWavePanelEverything wave : waves) {

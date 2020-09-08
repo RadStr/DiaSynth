@@ -170,6 +170,9 @@ public class WaveScroller extends JPanel {
     public Dimension getEmptyPanelSizeDebug() {
         return new Dimension(emptyPanelForHorizontalScroll.getSize());
     }
+    public void resetEmptyPanelSize() {
+        setEmptyPanelSizes(0, 0, 0);
+    }
     public void setEmptyPanelSizes(int leftPanelWidth, int rightPanelWidth, int h) {
         Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width, waveScroller.getViewport().getVisibleRect().height);
         emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(leftPanelWidth, h));

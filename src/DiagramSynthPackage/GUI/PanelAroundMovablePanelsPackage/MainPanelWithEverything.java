@@ -347,7 +347,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
                 MyLogger.logException(e);
             }
 
-            JLabel shouldConvertLabel = new JLabel("Convert to audio player output audioFormat:");
+            JLabel shouldConvertLabel = new JLabel("Convert to audio player output audio format:");
             shouldConvertLabel.setToolTipText("Converted only when adding to the player, " +
                     "when adding to file the output audioFormat from synth part is used");
 

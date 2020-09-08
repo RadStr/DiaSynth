@@ -26,16 +26,17 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
         viewPanel = new JPanel(new GridLayout(0, 2));
         parameters = new ArrayList<>();
 
-        Class<?> baseClass = classWithAnnotations.getSuperclass();
-
         Field[] fields;
-        if(baseClass == AbstractPluginClass.class) {
-            fields = baseClass.getDeclaredFields();
-            addFieldsToPanel(objectWithAnnotations, baseClass, fields);
-        }
         fields = classWithAnnotations.getDeclaredFields();
         addFieldsToPanel(objectWithAnnotations, classWithAnnotations, fields);
 
+        // https://stackoverflow.com/questions/16295949/get-all-fields-even-private-and-inherited-from-class
+        // Now go through all parent classes
+        Class<?> superClass = classWithAnnotations;
+        while((superClass = superClass.getSuperclass()) != null) {
+            fields = superClass.getDeclaredFields();
+            addFieldsToPanel(objectWithAnnotations, superClass, fields);
+        }
 
         this.setViewportView(viewPanel);
     }

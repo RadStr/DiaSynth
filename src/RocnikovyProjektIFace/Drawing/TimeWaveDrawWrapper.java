@@ -59,22 +59,6 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         actionMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                TimeActionDialogPanel dialogPanel = new TimeActionDialogPanel();
-//
-//                int result = JOptionPane.showOptionDialog(null, new TimeActionDialogPanel(),
-//                        "Create wave dialog", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-//                        null, new Object[]{}, null);
-//
-//                if(result == JOptionPane.OK_OPTION) {
-//
-//                }
-//
-//
-//                double[] wave = getNPeriods(dialogPanel.getSampleRate(), dialogPanel.getPeriodCount());
-//                waveAdder.addWave(wave);
-
-
-
                 TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(timeWaveDrawPanel);
                 PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
                         classWithValues.getClass());
@@ -84,68 +68,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
                         JOptionPane.PLAIN_MESSAGE);
 
                 if(result == JOptionPane.OK_OPTION) {
+                    timeWaveDrawPanel.setTimeInMs(classWithValues.getTimeInMs());
                     double[] wave = getNPeriods(classWithValues.getSampleRate(), classWithValues.getPeriodCount());
                     waveAdder.addWave(wave);
                 }
             }
         });
     }
-
-//    @Override
-//    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
-//        JMenu menu = new JMenu("Options");
-//        menuBar.add(menu);
-//        JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
-//        menu.add(optionsMenuItem);
-//
-//        menu = new JMenu("Action");
-//        menuBar.add(menu);
-//        JMenuItem actionMenuItem = new JMenuItem("Perform action");
-//        menu.add(actionMenuItem);
-//        actionMenuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                double[] wave = getNPeriods(22050, 4);
-//                waveAdder.addWave(wave);
-//            }
-//        });
-//    }
-
-
-//    private static class TimeActionDialogPanel extends JPanel {
-//        PluginJPanelBasedOnAnnotations(Object objectWithAnnotations, Class<?> classWithAnnotations)
-//
-//        public TimeActionDialogPanel() {
-//            setLayout(new GridLayout(0, 2));
-//            this.add(new JLabel("Sample rate"));
-//            JTextField sampleRateTextField = new JTextField("22050");
-//            sampleRate = 22050;
-//            this.add(sampleRateTextField);
-//            sampleRateTextField.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    sampleRateTextField.getText();
-//                    sampleRate = e.
-//                }
-//            });
-//
-//            this.add(new JLabel("Period count"));
-//
-//        }
-//
-//        private int sampleRate;
-//        public int getSampleRate() {
-//            return sampleRate;
-//        }
-//
-//
-//        private int periodCount;
-//        private int getPeriodCount() {
-//            return periodCount;
-//        }
-//
-//
-//    }
 
 
     private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {

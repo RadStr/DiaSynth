@@ -252,12 +252,14 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
         while(isAudioThreadInsideCallback) {
             // Active waiting
         }
-        if(isRecordingToPlayer) {
-            mainPanelWithEverything.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
-                    audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
-        }
-        if(isRecordingToFile) {
-            saveRecordedAudio(realTimeRecord, 0, realTimeRecordingCurrIndex);
+        if(realTimeRecordingCurrIndex > 0) {
+            if (isRecordingToPlayer) {
+                mainPanelWithEverything.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
+                        audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
+            }
+            if (isRecordingToFile) {
+                saveRecordedAudio(realTimeRecord, 0, realTimeRecordingCurrIndex);
+            }
         }
 
         shouldWriteRecordToFile = false;

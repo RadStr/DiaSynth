@@ -139,7 +139,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
             botPanel.getDiagramPanel().setIsRecordingToFile();
             setEnabledRecordingCheckboxes();
         });
-        fileRecordCheckBoxMenuItem.setSelected(true);
+        fileRecordCheckBoxMenuItem.setSelected(false);
         menu.add(fileRecordCheckBoxMenuItem);
         menuBar.add(menu);
 

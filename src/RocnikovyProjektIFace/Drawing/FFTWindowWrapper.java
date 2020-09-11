@@ -41,8 +41,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
     private FFTWindowPanel fftPanel;
 
-    public double[] getIFFTResult(boolean setImagPartToZero) {
-        return fftPanel.getIFFTResult(setImagPartToZero);
+    public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
+        return fftPanel.getIFFTResult(setImagPartToZero, periodCount);
     }
 
     @Override
@@ -89,7 +89,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                         JOptionPane.PLAIN_MESSAGE);
 
                 if(result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero());
+                    double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero(),
+                            classWithValues.getPeriodCount());
                     waveAdder.addWave(wave);
                 }
             }
@@ -168,6 +169,12 @@ public class FFTWindowWrapper extends DrawWrapperBase {
             return shouldSetImagPartToZero;
         }
 
+
+        @PluginParametersAnnotation(lowerBound = "1", defaultValue = "1", parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
+        private int periodCount;
+        public int getPeriodCount() {
+            return periodCount;
+        }
 
 
         /**

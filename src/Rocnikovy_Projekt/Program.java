@@ -9818,6 +9818,46 @@ System.out.println();
         maxWidth = Math.max(maxWidth, calculateMaxWidthAlphabetUpperCase(fm));
         return maxWidth;
     }
+
+
+    /**
+     * Creates new array of length originalArrLen * copyCount which contains first originalArrLen indices of array arr and they are contained in the result copyCount times.
+     * @param arr
+     * @param originalArrLen
+     * @param copyCount
+     * @return
+     */
+    public static double[] copyArr(double[] arr, int originalArrLen, int copyCount) {
+        double[] result = new double[originalArrLen * copyCount];
+        copyArr(arr, originalArrLen, result, copyCount);
+        return result;
+    }
+
+
+    /**
+     * Copies the first originalArrLen indices copyCount times to resultArr.
+     * @param arr
+     * @param originalArrLen
+     * @param resultArr
+     * @param copyCount
+     */
+    public static void copyArr(double[] arr, int originalArrLen, double[] resultArr, int copyCount) {
+        for(int i = 0, c = 0; c < copyCount; c++, i += originalArrLen) {
+            System.arraycopy(arr, 0, resultArr, i, originalArrLen);
+        }
+    }
+
+    /**
+     * The method takes first len indices of array arr and copies them until end of array is reached.
+     * arr.length % len == 0, otherwise the method throws exception.
+     * @param arr
+     * @param len
+     */
+    public static void copyArr(double[] arr, int len) {
+        for(int i = len; i < arr.length; i += len) {
+            System.arraycopy(arr, 0, arr, i, len);
+        }
+    }
 }
 
 

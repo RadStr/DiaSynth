@@ -95,7 +95,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     }
 
 
-    public double[] getIFFTResult(boolean setImagPartToZero) {
+    public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
         // TODO: DEBUG
 //        for(int i = 0; i < fftMeasures.length; i++) {
 //            ProgramTest.debugPrint("IFFT:", i, fftMeasures[i]);
@@ -141,7 +141,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         getRealIFFT(fftResult, fft);
         normalize(fftResult);
 
-        return Arrays.copyOf(fftResult, fftResult.length);
+        double[] ifftResult = Program.copyArr(fftResult, fftResult.length, periodCount);
+        return ifftResult;
     }
 
 

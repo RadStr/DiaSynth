@@ -88,13 +88,14 @@ public class FFTWindowRealAndImagPanel extends JPanel {
     }
 
 
-    public double[] getIFFTResult() {
+    public double[] getIFFTResult(int periodCount) {
         double[] realPart = realPartPanel.fftWindowPartPanel.drawValues;
         double[] imagPart = imagPartPanel.fftWindowPartPanel.drawValues;
         Program.connectRealAndImagPart(realPart, imagPart, fftResult);
         getComplexIFFT(fftResult, fft);
 
-        return Arrays.copyOf(fftResult, fftResult.length);
+        double[] ifftResult = Program.copyArr(fftResult, fftResult.length, periodCount);
+        return ifftResult;
     }
 
     public static void getComplexIFFT(double[] arr, DoubleFFT_1D fft) {

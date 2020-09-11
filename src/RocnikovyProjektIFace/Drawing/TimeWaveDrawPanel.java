@@ -87,9 +87,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
         double[] arr = new double[len * periodCount];
         double samplesPerPixel = len / (double)(wave.length - 1);
         fillArrWithValues(arr, wave, samplesPerPixel);
-        for(int i = len; i < arr.length; i += len) {
-            System.arraycopy(arr, 0, arr, i, len);
-        }
+        Program.copyArr(arr, len);
         return arr;
     }
 

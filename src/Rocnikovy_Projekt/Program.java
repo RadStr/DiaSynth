@@ -61,11 +61,11 @@ package Rocnikovy_Projekt;
 // with imaginary part being 0 and the real part being the real numbers of the window. And with sample rate == 100Hz
 // Then we get 4 bins [0] == 0Hz, [1] == 25Hz, [2] == 50Hz, [3] == 75Hz, where [0,1,2] are unique values and [3] is [1] mirrored,
 // which means the real_part[1] == real_part[3] and imag_part[1] == -imag_part[3].
-// So that is windowSize / 2 + 1 are unique values
+// So that is WINDOW_SIZE / 2 + 1 are unique values
 
 // If we have only 3 real numbers then it is [0] == 0Hz, [1] == 33.33Hz, [2] == 66.66Hz
 // Here values [0,1] are unique, and [2] is [1] mirrored.
-// So now we have again windowSize / 2 + 1 unique values.
+// So now we have again WINDOW_SIZE / 2 + 1 unique values.
 
 // If input is even, then there is the middle value which isn't mirrored.
 // If input is odd,  then there isn't the middle value.
@@ -3624,7 +3624,8 @@ public class Program {
 
 
     /**
-     * To understand the result take a look at FFT NOTES
+     * To understand the result take a look at FFT NOTES. Also it is important to understand, that this operation is
+     * irreversible because of the integer division.
      * @param windowSize
      * @return
      */
@@ -4422,8 +4423,8 @@ public class Program {
      * @throws IOException if sampleSize is <=0 or >4
      */
     public static double[][] calculateFFTRealForward(byte[] samples, int sampleSize, int sampleSizeInBits,
-                                                                 int windowSize, int startIndex, int endIndex,
-                                                                 boolean isBigEndian, boolean isSigned, DoubleFFT_1D fft) throws IOException {
+                                                     int windowSize, int startIndex, int endIndex,
+                                                     boolean isBigEndian, boolean isSigned, DoubleFFT_1D fft) throws IOException {
         int windowSizeInBytes = windowSize * sampleSize;
         int len = endIndex - startIndex;
         double[][] results = new double[len / windowSizeInBytes][];

@@ -21,11 +21,36 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         super(song, windowSize, startIndex, freqJump, numberOfChannels,
                 isEditable, false, backgroundColor, shouldDrawLabelsAtTop);
 
-        Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
+        if(song != null) {
+            Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
+        }
+        else {
+            Program.setOneDimArr(fftResult, 0, fftResult.length, 0);
+        }
         Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
     }
+
+
+    public FFTWindowPanel createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
+                                            int sampleRate, boolean shouldChangeSampleRate) {
+        if(!shouldChangeWindowSize) {
+            windowSize = this.WINDOW_SIZE;
+        }
+
+        double freqJump;
+        if(!shouldChangeSampleRate) {
+            freqJump = this.FREQ_JUMP;
+        }
+        else {
+            freqJump = Program.getFreqJump(sampleRate, windowSize);
+        }
+
+        return new FFTWindowPanel(null, windowSize, -1, freqJump,
+        1, getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
+    }
+
 
     /**
      * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.

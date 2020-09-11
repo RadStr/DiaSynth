@@ -400,8 +400,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        thisFrame.repaint();
 
         updateWavesForMixing();
-//        TODO: Novy protoze kdyz dam fft okno tak se tam nehodi ten scrollbar spodni proto revalidate
-//                a repaint prootze se jinak neprekresli vlny
+//        Added because when I create wave using fft window.
+//        Unless I call revalidate the horizontal scroll isn't shown and repaint repaints the waves.
         revalidate();
         repaint();
         return lastSplitPane;
@@ -3501,13 +3501,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                //WaveShaper waveShaper;
-                //waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
-                //waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
-                //waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1);
+//                WaveShaper waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
+//                WaveShaper waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
+//                WaveShaper waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1, true);
 
-                TimeWaveDrawWrapper waveShaper;
-                waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
+//                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
+
+                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
+                        getOutputSampleRate(), 1, true,
+                        Color.LIGHT_GRAY, 0, 1, true);
 
 
                 JFrame f = new JFrame() {

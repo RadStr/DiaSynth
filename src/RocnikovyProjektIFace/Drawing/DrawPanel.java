@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
+import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
@@ -177,6 +178,14 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
     protected void setDrawValueString(int bin, double value) {
         drawValuesStrings[bin] = String.format("%." + VALUE_PRECISION + "f", value);
+    }
+
+    protected void resetValues() {
+        for(int i = 0; i < drawValues.length; i++) {
+            setDrawValue(i, 0);
+        }
+
+        repaint();
     }
 
 
@@ -560,6 +569,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         while (fontSize < MIN_FONT && n < labels.length) {
             fontSize = START_FONT_SIZE;
             int textWhitespace = textBinWidth / 4;
+//            Draw panel - drawWindow() - 564 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky
             fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
@@ -649,6 +659,13 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                                   boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels,
                                   int binCount, boolean areDifferentSizeBinsAllowed, boolean shouldDrawUp) {
         int labelHeight = 1 + g.getFontMetrics().getHeight() / 2;
+        int lastLabelIndex = Program.convertToMultipleDown(binCount - 1, n);
+//        DrawPanel - drawLabels()
+//        Za 1) Je to pomaly muzu skakat po tech n misto abych moduloval,
+//        za 2) musim nejak vyresit ten rpvni a posledni label.
+//        a) bud muzu prvni a posledni label vynechat (resp. asi staci jen ten posledni) ale pak to vypada divne a hlavne neni videt maximalni hodnota
+//        b) vymazat ten 1. a pred pred posledni ale pak tam je velka mezera takze to taky nechci
+//        c) Muzu ty labely zmensit natolik resp. udelat taky velky n aby ty mezery byly dostatecne velky - to je podle me absolutne nejlepsi reseni
         boolean isFirstAdded = false;
         if(shouldDrawLabels) {
             if (areDifferentSizeBinsAllowed && indexToStartAddingPixels < binCount) {
@@ -679,6 +696,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 }
                 else if (bin == binCount - 1) {
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, y);
+                }
+                else if(bin == 1 || bin == lastLabelIndex) {
+                    continue;
                 }
                 else if (bin % n == 0) {
                     Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);

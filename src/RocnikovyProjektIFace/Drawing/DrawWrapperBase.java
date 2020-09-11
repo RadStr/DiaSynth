@@ -5,29 +5,42 @@ import RocnikovyProjektIFace.AudioWavePanelReferenceValuesWithHeightCallback;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class DrawWrapperBase extends JPanel {
     public DrawWrapperBase(DrawPanel drawPanel, double minValue, double maxValue) {
         this.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridwidth = 1;
-        c.gridheight = 1;
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
 
         // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
         // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
         outputReferenceValues = new AudioWavePanelReferenceValuesWithHeightCallback(minValue, maxValue,
-                () -> drawPanel.getPreferredSize().height);
+                () -> this.drawPanel.getPreferredSize().height);
 
-        add(outputReferenceValues, c);
+        add(outputReferenceValues, constraints);
 
-        c.gridx = 1;
-        c.weightx = 1;
+        constraints.gridx = 1;
+        constraints.weightx = 1;
+        setDrawPanel(drawPanel);
+    }
+
+
+    private final GridBagConstraints constraints;
+    protected final AudioWavePanelReferenceValuesWithHeightCallback outputReferenceValues;
+    protected DrawPanel drawPanel;
+    public void setDrawPanel(DrawPanel drawPanel) {
+        if(this.drawPanel != null) {
+            remove(this.drawPanel);
+        }
         this.drawPanel = drawPanel;
-        add(drawPanel, c);
+        add(drawPanel, constraints);
         // TODO: VYMAZAT
         //outputReferenceValues.setPreferredSize(new Dimension(20, 150));
         //outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
@@ -35,16 +48,47 @@ public abstract class DrawWrapperBase extends JPanel {
 
         minSize.width = outputReferenceValues.getPreferredWidth() + drawPanel.getMinimumSize().width;
         minSize.height = drawPanel.getMinimumSize().height;
-    }
 
-    protected final AudioWavePanelReferenceValuesWithHeightCallback outputReferenceValues;
-    protected final DrawPanel drawPanel;
+        revalidate();
+        repaint();
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if(topFrame != null) {
+            topFrame.pack();
+        }
+    }
 
 
     private Dimension minSize = new Dimension();
     @Override
     public Dimension getMinimumSize() {
         return minSize;
+    }
+
+
+    public void addReset(JMenuBar menuBar) {
+        JMenuItem resetMenuItem = new JMenuItem("Reset");
+        resetMenuItem.setToolTipText("Resets the draw values to neutral value");
+
+        menuBar.add(resetMenuItem);
+        resetMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                drawPanel.resetValues();
+            }
+        });
+    }
+
+    public void addReset(JMenu menu) {
+        JMenuItem resetMenuItem = new JMenuItem("Reset");
+        resetMenuItem.setToolTipText("Resets the draw values to neutral value");
+
+        menu.add(resetMenuItem);
+        resetMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                drawPanel.resetValues();
+            }
+        });
     }
 
 

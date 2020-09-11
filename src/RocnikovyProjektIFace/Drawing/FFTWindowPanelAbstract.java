@@ -1,11 +1,9 @@
 package RocnikovyProjektIFace.Drawing;
 
-import Rocnikovy_Projekt.Aggregations;
-import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
-import java.util.Arrays;
+
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   int sampleRate, int numberOfChannels,
@@ -22,7 +20,8 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
                 isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop);
-        this.freqJump = freqJump;
+        this.WINDOW_SIZE = windowSize;
+        this.FREQ_JUMP = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);
 
@@ -30,10 +29,10 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         fft = new DoubleFFT_1D(windowSize);
     }
 
-
     protected final double[] fftResult;
     protected final DoubleFFT_1D fft;
-    protected final double freqJump;
+    public final int WINDOW_SIZE;
+    public final double FREQ_JUMP;
 
 
     private final Color BIN_COLOR_RED = new Color(230, 0, 0);

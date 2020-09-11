@@ -76,6 +76,8 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
                 }
             }
         });
+
+        addReset(menu);
     }
 
 

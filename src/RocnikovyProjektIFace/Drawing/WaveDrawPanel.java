@@ -11,19 +11,8 @@ public abstract class WaveDrawPanel extends DrawPanel {
      */
     public WaveDrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(binCount, labelTypeToolTip, isEditable, true,
-                false, backgroundColor, shouldDrawLabelsAtTop);
-    }
-
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        int w = getWidth();
-        int hh = getHeight() / 2;
-        g.setColor(Color.black);
-        g.drawLine(0, hh, w, hh);
+        super(binCount, labelTypeToolTip, isEditable, true, false,
+                backgroundColor, shouldDrawLabelsAtTop, true);
     }
 
 

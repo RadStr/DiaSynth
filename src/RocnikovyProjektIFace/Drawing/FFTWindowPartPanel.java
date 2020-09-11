@@ -1,10 +1,12 @@
 package RocnikovyProjektIFace.Drawing;
 
+import Rocnikovy_Projekt.Program;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
-    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize,
+    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
                               int startIndex, int sampleRate, int numberOfChannels, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(controlPanel, song, windowSize, startIndex,
@@ -12,15 +14,15 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
                 numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
-    public FFTWindowPartPanel(FFTWindowRealAndImagPanel controlPanel, double[] song, int windowSize,
+    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
                               int startIndex, double freqJump, int numberOfChannels, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels,
-                isEditable, true, backgroundColor, shouldDrawLabelsAtTop);
+        super(song, windowSize, startIndex, freqJump, numberOfChannels, isEditable,
+                true, backgroundColor, shouldDrawLabelsAtTop, true);
         this.controlPanel = controlPanel;
     }
 
-    private FFTWindowRealAndImagPanel controlPanel;
+    private FFTWindowRealAndImagWrapper controlPanel;
 
     /**
      * Isn't called anywhere it is just marker, that the labels needs to be set in deriving class.
@@ -28,6 +30,27 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     @Override
     protected void setLabels() {
         // EMPTY
+    }
+
+
+    @Override
+    public FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
+                                                    int sampleRate, boolean shouldChangeSampleRate) {
+        if(!shouldChangeWindowSize) {
+            windowSize = this.WINDOW_SIZE;
+        }
+
+        double freqJump;
+        if(!shouldChangeSampleRate) {
+            freqJump = this.FREQ_JUMP;
+        }
+        else {
+            freqJump = Program.getFreqJump(sampleRate, windowSize);
+        }
+
+
+        return new FFTWindowPartPanel(controlPanel, null, windowSize, -1, freqJump,
+                1, getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
     }
 
 
@@ -53,5 +76,16 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
         controlPanel.setTheOtherPartSelectedBin(this, selectedBin);
+    }
+
+
+    // Because there will be 2 in one panel I need to half the height
+    private Dimension prefSize = new Dimension();
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension superPrefSize = super.getPreferredSize();
+        prefSize.width = superPrefSize.width;
+        prefSize.height = superPrefSize.height / 2;
+        return prefSize;
     }
 }

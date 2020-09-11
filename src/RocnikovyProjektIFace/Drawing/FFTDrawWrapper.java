@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
+@Deprecated
 public class FFTDrawWrapper extends DrawWrapper {
     @Override
     public double[] getResult(int sampleRate, int copyCount) {

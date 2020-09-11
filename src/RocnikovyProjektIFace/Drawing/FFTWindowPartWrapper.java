@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FFTWindowPartWrapper extends DrawWrapperBase {
-    public FFTWindowPartWrapper(FFTWindowRealAndImagPanel controlPanel,
+    public FFTWindowPartWrapper(FFTWindowRealAndImagWrapper controlPanel,
                                 double[] audio,
                                 int windowSize,
                                 int startIndex,
@@ -18,7 +18,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
                 -1, 1);
     }
 
-    public FFTWindowPartWrapper(FFTWindowRealAndImagPanel controlPanel,
+    public FFTWindowPartWrapper(FFTWindowRealAndImagWrapper controlPanel,
                                 double[] audio,
                                 int windowSize,
                                 int startIndex,
@@ -39,7 +39,13 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 
 
 
-    protected final FFTWindowPartPanel fftWindowPartPanel;
+    protected FFTWindowPartPanel fftWindowPartPanel;
+
+    @Override
+    public void setDrawPanel(DrawPanel drawPanel) {
+        super.setDrawPanel(drawPanel);
+        fftWindowPartPanel = (FFTWindowPartPanel)drawPanel;
+    }
 
     @Override
     public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {

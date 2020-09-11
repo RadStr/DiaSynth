@@ -21,7 +21,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
      */
     public DrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
                      boolean areValuesSigned, boolean allowDifferentWidthBins,
-                     Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+                     Color backgroundColor, boolean shouldDrawLabelsAtTop,
+                     boolean shouldDrawLineInMiddle) {
+        this.DRAW_LINE_IN_MIDDLE = shouldDrawLineInMiddle;
         this.shouldDrawLabelsAtTop = shouldDrawLabelsAtTop;
         setBackgroundColor(backgroundColor);
         this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
@@ -395,6 +397,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
 
+    public final boolean DRAW_LINE_IN_MIDDLE;
+
     // TODO: Possible optimisation by redrawing only the chosen bin, or adjacent binIndices
     @Override
     public void paintComponent(Graphics g) {
@@ -410,6 +414,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         g.setColor(Color.black);
         g.drawRect(0, 0, w, h);
         g.drawLine(w / 2, 0, w / 2, h);
+
+        if(DRAW_LINE_IN_MIDDLE) {
+            int hh = getHeight() / 2;
+            g.drawLine(0, hh, w, hh);
+        }
     }
 
 

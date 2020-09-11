@@ -19,7 +19,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
                           int numberOfChannels, boolean isEditable,
                           Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(song, windowSize, startIndex, freqJump, numberOfChannels,
-                isEditable, false, backgroundColor, shouldDrawLabelsAtTop);
+                isEditable, false, backgroundColor, shouldDrawLabelsAtTop, false);
 
         if(song != null) {
             Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
@@ -33,7 +33,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     }
 
 
-    public FFTWindowPanel createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
+    @Override
+    public FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
                                             int sampleRate, boolean shouldChangeSampleRate) {
         if(!shouldChangeWindowSize) {
             windowSize = this.WINDOW_SIZE;

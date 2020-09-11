@@ -3485,8 +3485,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//                FFTWindowRealAndImagPanel fftWindowRealAndImagPanel;
-//                fftWindowRealAndImagPanel = new FFTWindowRealAndImagPanel(arr, 1024,
+//                FFTWindowRealAndImagWrapper fftWindowRealAndImagPanel;
+//                fftWindowRealAndImagPanel = new FFTWindowRealAndImagWrapper(arr, 1024,
 //                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
 //                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
 //                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
@@ -3507,10 +3507,14 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 //                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
 
-                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
-                        getOutputSampleRate(), 1, true,
-                        Color.LIGHT_GRAY, 0, 1, true);
+//                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
+//                        getOutputSampleRate(), 1, true,
+//                        Color.LIGHT_GRAY, 0, 1, true);
 
+                FFTWindowRealAndImagWrapper waveShaper;
+                waveShaper = new FFTWindowRealAndImagWrapper(arr, 1024,
+                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
+                        Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
 
                 JFrame f = new JFrame() {
                     private Dimension minSize = null;

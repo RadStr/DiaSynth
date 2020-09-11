@@ -39,7 +39,14 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         this.fftPanel = fftPanel;
     }
 
+    // Note this is one of the few reasons why should I just use casting on the member of derived class, now that I have
+    // this view variable also have to manipulate it, so it really isn't worth it, also it can get very confusing because of that
     private FFTWindowPanel fftPanel;
+    @Override
+    public void setDrawPanel(DrawPanel drawPanel) {
+        super.setDrawPanel(drawPanel);
+        fftPanel = (FFTWindowPanel)drawPanel;
+    }
 
     public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
         return fftPanel.getIFFTResult(setImagPartToZero, periodCount);
@@ -63,10 +70,10 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                         JOptionPane.PLAIN_MESSAGE);
 
                 if(result == JOptionPane.OK_OPTION) {
-                    fftPanel = fftPanel.createNewFFTPanel(
+                    FFTWindowPanel newFFTPanel = (FFTWindowPanel)fftPanel.createNewFFTPanel(
                             classWithValues.getWindowSize(), classWithValues.getShouldChangeWindowSize(),
                             classWithValues.getSampleRate(), classWithValues.getShouldChangeSampleRate());
-                    setDrawPanel(fftPanel);
+                    setDrawPanel(newFFTPanel);
                 }
             }
         });
@@ -76,8 +83,6 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         JMenuItem actionMenuItem = new JMenuItem("Perform IFFT");
         menu.add(actionMenuItem);
         actionMenuItem.addActionListener(new ActionListener() {
-
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 IFFTDialogPanel classWithValues = new IFFTDialogPanel();
@@ -101,7 +106,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
 
     private static class FFTWindowOptionsDialogPanel implements PluginDefaultIFace {
-        public FFTWindowOptionsDialogPanel(FFTWindowPanel fftPanel) {
+        public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
             // 2* because otherwise it is Nyquist frequency
             this.sampleRate = 2 * (int)Math.round((Program.getBinCountRealForward(windowSize) - 1) * fftPanel.FREQ_JUMP);

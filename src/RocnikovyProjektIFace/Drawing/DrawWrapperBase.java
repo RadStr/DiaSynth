@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class DrawWrapperBase extends JPanel {
+public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace {
     public DrawWrapperBase(DrawPanel drawPanel, double minValue, double maxValue) {
         this.setLayout(new GridBagLayout());
         constraints = new GridBagConstraints();
@@ -48,6 +48,11 @@ public abstract class DrawWrapperBase extends JPanel {
 
         minSize.width = outputReferenceValues.getPreferredWidth() + drawPanel.getMinimumSize().width;
         minSize.height = drawPanel.getMinimumSize().height;
+
+        if(drawPanel instanceof FFTWindowPartPanel) {
+            drawPanel.setDrawValuesStrings();
+            drawPanel.setLastPartOfTooltip();
+        }
 
         revalidate();
         repaint();
@@ -91,6 +96,6 @@ public abstract class DrawWrapperBase extends JPanel {
         });
     }
 
-
+    @Override
     public abstract void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder);
 }

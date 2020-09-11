@@ -8,18 +8,21 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   int sampleRate, int numberOfChannels,
                                   boolean isEditable, boolean areValuesSigned,
-                                  Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+                                  Color backgroundColor, boolean shouldDrawLabelsAtTop,
+                                  boolean shouldDrawLineInMiddle) {
         this(song, windowSize, startIndex,
                 Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels,
-                isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop);
+                isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
     }
 
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
                                   double freqJump, int numberOfChannels,
                                   boolean isEditable, boolean areValuesSigned,
-                                  Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+                                  Color backgroundColor, boolean shouldDrawLabelsAtTop,
+                                  boolean shouldDrawLineInMiddle) {
         super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
-                isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop);
+                isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop,
+                shouldDrawLineInMiddle);
         this.WINDOW_SIZE = windowSize;
         this.FREQ_JUMP = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
@@ -52,4 +55,8 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         int height = (int) (drawValue * h);
         g.fillRect(currX, h - height, binWidth, height);
     }
+
+
+    public abstract FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
+                                                             int sampleRate, boolean shouldChangeSampleRate);
 }

@@ -3542,7 +3542,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         waveShaper.revalidate();
                         waveShaper.repaint();
                         ProgramTest.debugPrint("Resize content:",
-                                f.getContentPane().getSize(), waveShaper.getSize(), f.getSize());
+                                f.getContentPane().getSize(), waveShaper.getSize(), f.getSize(),
+                                waveShaper.getPreferredSize(), f.getPreferredSize());
                         ProgramTest.debugPrint(
                                 f.getContentPane().getMinimumSize(), waveShaper.getMinimumSize(), f.getMinimumSize());
                     }

@@ -85,7 +85,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public Dimension getPreferredSize() {
         Dimension superPrefSize = super.getPreferredSize();
         prefSize.width = superPrefSize.width;
-        prefSize.height = superPrefSize.height / 2;
+        prefSize.height = (superPrefSize.height - FFTWindowRealAndImagWrapper.SPACE_BETWEEN_PARTS) / 2;
         return prefSize;
     }
 }

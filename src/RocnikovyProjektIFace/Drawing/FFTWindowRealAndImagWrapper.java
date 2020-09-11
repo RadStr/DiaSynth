@@ -46,7 +46,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(realPartPanel);
         add(new JPanel() {
-            private final Dimension prefSize = new Dimension(1, 5);
+            private final Dimension prefSize = new Dimension(1, SPACE_BETWEEN_PARTS);
             @Override
             public Dimension getPreferredSize() {
                 return prefSize;
@@ -54,6 +54,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         });
         add(imagPartPanel);
     }
+
+    public static final int SPACE_BETWEEN_PARTS = 4;
 
     private final DoubleFFT_1D fft;
     private final double[] fftResult;
@@ -68,6 +70,19 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         minSize.width = realPartPanel.getMinimumSize().width;
         minSize.height = 2 * realPartPanel.getMinimumSize().height;
         return minSize;
+    }
+
+    private Dimension prefSize = new Dimension();
+    @Override
+    public Dimension getPreferredSize() {
+        prefSize.width = super.getPreferredSize().width;
+
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        JPanel contentPane = (JPanel) topFrame.getContentPane();
+        Insets frameInsets = topFrame.getInsets();
+        // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
+        prefSize.height = contentPane.getHeight() - frameInsets.bottom;
+        return prefSize;
     }
 
 

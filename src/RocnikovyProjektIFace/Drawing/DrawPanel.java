@@ -44,7 +44,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             binWidth--;
         }
 
+        // TODO: DRAW PANEL THINGS
 //        DrawPanel - TODO: Sem asi pridat + neco abych to mohl spravne udelat pro ten text k te minSize.Width
+        // TODO: DRAW PANEL THINGS
         minSize.width = binWidth * binCount;
         minSize.height = 100;
         prefSize = new Dimension(minSize);
@@ -578,7 +580,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         while (fontSize < MIN_FONT && n < labels.length) {
             fontSize = START_FONT_SIZE;
             int textWhitespace = textBinWidth / 4;
-//            Draw panel - drawWindow() - 564 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky
+            // TODO: DRAW PANEL THINGS
+//            Draw panel - drawWindow() - 581 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky
+            // TODO: DRAW PANEL THINGS
             fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
@@ -669,12 +673,17 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                                   int binCount, boolean areDifferentSizeBinsAllowed, boolean shouldDrawUp) {
         int labelHeight = 1 + g.getFontMetrics().getHeight() / 2;
         int lastLabelIndex = Program.convertToMultipleDown(binCount - 1, n);
+        if(lastLabelIndex ==  binCount - 1) {
+            lastLabelIndex -= n;
+        }
+        // TODO: DRAW PANEL THINGS
 //        DrawPanel - drawLabels()
 //        Za 1) Je to pomaly muzu skakat po tech n misto abych moduloval,
 //        za 2) musim nejak vyresit ten rpvni a posledni label.
 //        a) bud muzu prvni a posledni label vynechat (resp. asi staci jen ten posledni) ale pak to vypada divne a hlavne neni videt maximalni hodnota
 //        b) vymazat ten 1. a pred pred posledni ale pak tam je velka mezera takze to taky nechci
 //        c) Muzu ty labely zmensit natolik resp. udelat taky velky n aby ty mezery byly dostatecne velky - to je podle me absolutne nejlepsi reseni
+        // TODO: DRAW PANEL THINGS
         boolean isFirstAdded = false;
         if(shouldDrawLabels) {
             if (areDifferentSizeBinsAllowed && indexToStartAddingPixels < binCount) {
@@ -701,12 +710,14 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 if (bin == 0) {
                     // When the first number has minus sign then minus sign isn't visible, but this the only way to make
                     // all the other strings fit without overlapping.
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, y);
+//                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, y);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 8, labelWidth, y);
                 }
                 else if (bin == binCount - 1) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, y);
+//                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, y);
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 7 * labelWidth / 8, labelWidth, y);
                 }
-                else if(bin == 1 || bin == lastLabelIndex) {
+                else if(bin == n || bin == lastLabelIndex ) {
                     continue;
                 }
                 else if (bin % n == 0) {

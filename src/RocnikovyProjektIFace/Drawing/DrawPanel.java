@@ -521,16 +521,15 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         if (ALLOW_DIFFERENT_WIDTH_BINS) {
             int indexToStartAddingPixels = binCount - freePixels;
-            int forgotPixels = 0;
+            int extraPixels = 0;
             if (bin >= indexToStartAddingPixels) {
-                forgotPixels = bin - indexToStartAddingPixels;
-                int invalidBins = forgotPixels / (binWidthWithSpace + 1);
+                extraPixels = bin - indexToStartAddingPixels;
+                int invalidBins = extraPixels / (binWidthWithSpace + 1);
                 bin -= invalidBins;
 
-                int previousBinEnd = (bin - indexToStartAddingPixels - 1) * (binWidthWithSpace + 1) +
+                int previousBinEndInPixels = (bin - indexToStartAddingPixels - 1) * (binWidthWithSpace + 1) +
                         indexToStartAddingPixels * binWidthWithSpace + binWidth + 1;
-                if (forgotPixels % (binWidthWithSpace + 1) != 0 && x <= previousBinEnd) {
-
+                if (extraPixels % (binWidthWithSpace + 1) != 0 && x <= previousBinEndInPixels) {
                     bin--;
                 }
             }

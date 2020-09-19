@@ -51,16 +51,13 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         minSize.height = 100;
 
         // TODO: START_X
-        minSize.width += 2 * FIRST_BIN_START_X;
+//        minSize.width += 2 * FIRST_BIN_START_X;
         // TODO: START_X
 
         prefSize = new Dimension(minSize);
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-
-
-
 
 
 
@@ -109,7 +106,13 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
 
-    public final int FIRST_BIN_START_X = 20;
+    // TODO: START_X
+    // Not constant but behaves like one
+    private int FIRST_BIN_START_X;
+    public int getFirstBinStartX() {
+        return FIRST_BIN_START_X;
+    }
+    // TODO: START_X
 
 
 
@@ -149,17 +152,30 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     private Point oldMouseLoc;
 
     private int longestLabelLen;
+    private boolean isFirstTimeLongestLabelLenSet = false;
     /**
      * Needs to be called after the labels are set.
      */
-    protected void setLongestLabelLen() {
+    protected final void setLongestLabelLen() {
         longestLabelLen = 0;
+        String longestString = null;
         for (String s : labels) {
             if(s.length() > longestLabelLen) {
                 longestLabelLen = s.length();
+                longestString = s;
             }
         }
+
+        if(!isFirstTimeLongestLabelLenSet) {
+            JLabel label = new JLabel(longestString);
+            FIRST_BIN_START_X = label.getPreferredSize().width / 2;
+//            minSize.width += 2 * FIRST_BIN_START_X;
+//            minSize.width += 80;
+            setMinWidth(minSize.width + 2 * FIRST_BIN_START_X);
+            isFirstTimeLongestLabelLenSet = true;
+        }
     }
+
     /**
      * Needs to be set in deriving class
      */
@@ -438,7 +454,10 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     public Dimension getMinimumSize() {
         return minSize;
     }
-
+    private void setMinWidth(int newMinWidth) {
+        minSize.width = newMinWidth;
+        prefSize.width = newMinWidth;
+    }
 
     private Dimension prefSize;
     @Override
@@ -518,6 +537,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int x = Math.max(FIRST_BIN_START_X, pos.x);
         x = Math.min(x, w - FIRST_BIN_START_X);
         x -= FIRST_BIN_START_X;
+        // TODO: START_X
+        w -= 2 * FIRST_BIN_START_X;
+        // TODO: START_X
 
 //        int x = Math.max(0, pos.x);
 //        x = Math.min(x, w);

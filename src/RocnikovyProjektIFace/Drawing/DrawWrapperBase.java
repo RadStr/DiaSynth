@@ -46,13 +46,13 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
         //outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
         // TODO: VYMAZAT
 
-        minSize.width = outputReferenceValues.getPreferredWidth() + drawPanel.getMinimumSize().width;
-        minSize.height = drawPanel.getMinimumSize().height;
-
         if(drawPanel instanceof FFTWindowPartPanel) {
             drawPanel.setDrawValuesStrings();
             drawPanel.setLastPartOfTooltip();
         }
+
+        minSize.width = outputReferenceValues.getPreferredWidth() + drawPanel.getMinimumSize().width;
+        minSize.height = drawPanel.getMinimumSize().height;
 
         revalidate();
         repaint();

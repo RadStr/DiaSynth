@@ -44,16 +44,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             binWidth--;
         }
 
-        // TODO: DRAW PANEL THINGS
-//        DrawPanel - TODO: Sem asi pridat + neco abych to mohl spravne udelat pro ten text k te minSize.Width
-        // TODO: DRAW PANEL THINGS
+
         minSize.width = binWidth * binCount;
         minSize.height = 100;
-
-        // TODO: START_X
-//        minSize.width += 2 * FIRST_BIN_START_X;
-        // TODO: START_X
-
         prefSize = new Dimension(minSize);
 
         this.addMouseListener(this);
@@ -106,13 +99,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
 
-    // TODO: START_X
     // Not constant but behaves like one
     private int FIRST_BIN_START_X;
     public int getFirstBinStartX() {
         return FIRST_BIN_START_X;
     }
-    // TODO: START_X
 
 
 
@@ -167,12 +158,10 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         }
 
         if(!isFirstTimeLongestLabelLenSet) {
+            isFirstTimeLongestLabelLenSet = true;
             JLabel label = new JLabel(longestString);
             FIRST_BIN_START_X = label.getPreferredSize().width / 2;
-//            minSize.width += 2 * FIRST_BIN_START_X;
-//            minSize.width += 80;
             setMinWidth(minSize.width + 2 * FIRST_BIN_START_X);
-            isFirstTimeLongestLabelLenSet = true;
         }
     }
 
@@ -533,17 +522,10 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     public int getBinAtPos(Point pos) {
         int w;
         w = this.getWidth();
-        // TODO: START_X
-        int x = Math.max(FIRST_BIN_START_X, pos.x);
-        x = Math.min(x, w - FIRST_BIN_START_X);
-        x -= FIRST_BIN_START_X;
-        // TODO: START_X
-        w -= 2 * FIRST_BIN_START_X;
-        // TODO: START_X
-
-//        int x = Math.max(0, pos.x);
-//        x = Math.min(x, w);
-        // TODO: START_X
+        int x = Math.max(FIRST_BIN_START_X, pos.x); // If the mouse is showing more left then the first label is
+        x = Math.min(x, w - FIRST_BIN_START_X);     // If the mouse is showing more right then the last label is
+        x -= FIRST_BIN_START_X;         // Move it to 0 because it is easier to program
+        w -= 2 * FIRST_BIN_START_X;     // Cut the width because of the edges needed for first and last label
 
         int binCount = drawValues.length;
         int binWidth = w / binCount;
@@ -598,10 +580,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int w, h;
         w = this.getWidth();
         h = this.getHeight();
-
-        // TODO: START_X
         w -= 2 * FIRST_BIN_START_X;
-        // TODO: START_X
 
         int binCount = drawValues.length;
         int binWidth = w / binCount;
@@ -642,9 +621,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int indexToStartAddingPixels = binCount - freePixels;
 
         boolean isFirstAdded = true;
-        // TODO: START_X
-        for (int bin = 0, /*currX = 0*/ currX = FIRST_BIN_START_X; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
-        // TODO: START_X
+        for (int bin = 0, currX = FIRST_BIN_START_X; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
             if (ALLOW_DIFFERENT_WIDTH_BINS) {
                 if (bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
@@ -714,18 +691,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                                   boolean shouldDrawLabels, int labelWidth, int h, Graphics g, int n, String[] labels,
                                   int binCount, boolean areDifferentSizeBinsAllowed, boolean shouldDrawUp) {
         int labelHeight = 1 + g.getFontMetrics().getHeight() / 2;
-        int lastLabelIndex = Program.convertToMultipleDown(binCount - 1, n);
-        if(lastLabelIndex ==  binCount - 1) {
-            lastLabelIndex -= n;
-        }
-        // TODO: DRAW PANEL THINGS
-//        DrawPanel - drawLabels()
-//        Za 1) Je to pomaly muzu skakat po tech n misto abych moduloval,
-//        za 2) musim nejak vyresit ten rpvni a posledni label.
-//        a) bud muzu prvni a posledni label vynechat (resp. asi staci jen ten posledni) ale pak to vypada divne a hlavne neni videt maximalni hodnota
-//        b) vymazat ten 1. a pred pred posledni ale pak tam je velka mezera takze to taky nechci
-//        c) Muzu ty labely zmensit natolik resp. udelat taky velky n aby ty mezery byly dostatecne velky - to je podle me absolutne nejlepsi reseni
-        // TODO: DRAW PANEL THINGS
+
         boolean isFirstAdded = false;
         if(shouldDrawLabels) {
             if (areDifferentSizeBinsAllowed && indexToStartAddingPixels < binCount) {
@@ -734,45 +700,29 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 binWidthWithSpace--;
             }
 
-            // TODO: START_X
-            for (int bin = 0, /*currX = 0*/ currX = startX; bin < binCount; bin++, currX += binWidthWithSpace) {
-            // TODO: START_X
+
+            int y;
+            if(shouldDrawUp) {
+                y = labelHeight;
+            }
+            else {
+                y = h;
+            }
+            Color c = Color.black;
+            for (int bin = 0, currX = startX; bin < binCount; bin += n, currX += n * binWidthWithSpace) {
                 if (areDifferentSizeBinsAllowed && bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
                     binWidth++;
                     binWidthWithSpace++;
                 }
 
-                int y;
-                if(shouldDrawUp) {
-                    y = labelHeight;
-                }
-                else {
-                    y = h;
-                }
-                Color c = Color.black;
-                // TODO: START_X
-//                if (bin == 0) {
-//                    // When the first number has minus sign then minus sign isn't visible, but this the only way to make
-//                    // all the other strings fit without overlapping.
-////                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, y);
-//                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 8, labelWidth, y);
-//                }
-//                else if (bin == binCount - 1) {
-////                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, y);
-//                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - 7 * labelWidth / 8, labelWidth, y);
-//                }
-//                else if(bin == n || bin == lastLabelIndex) {
-//                    continue;
-//                }
-//                else if (bin % n == 0) {
-//                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
-//                }
+                Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
+            }
 
-                if(bin % n == 0 || bin == binCount - 1) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
-                }
-                // TODO: START_X
+            int lastBinIndex = binCount - 1;
+            if(lastBinIndex % n != 0) {
+                int x = startX + lastBinIndex * binWidthWithSpace - labelWidth / 2;
+                Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
             }
         }
     }

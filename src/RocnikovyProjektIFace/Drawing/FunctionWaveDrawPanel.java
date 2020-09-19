@@ -19,7 +19,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
      */
     @Override
     protected void setLabels() {
-        createLabels(drawValues.length);
+        createLabels(DRAW_VALUES.length);
     }
 
     private void createLabels(int len) {
@@ -42,7 +42,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         double binIndex;
 
         if(inputValue != 0) {
-            binIndex = ratio * drawValues.length;
+            binIndex = ratio * DRAW_VALUES.length;
         }
         else {
             binIndex = 0;
@@ -54,7 +54,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
 
     public double convertInputToOutput(double inputValue) {
         double index = getBinIndex(inputValue);
-        double output = WaveTable.interpolate(drawValues, index);
+        double output = WaveTable.interpolate(DRAW_VALUES, index);
         return output;
     }
 }

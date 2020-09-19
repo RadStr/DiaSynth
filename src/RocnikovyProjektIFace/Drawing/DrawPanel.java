@@ -29,37 +29,13 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
         setIsEditable(isEditable);
         labels = new String[binCount];
-        drawValues = new double[binCount];
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double w = screenSize.getWidth();
-        double h = screenSize.getHeight();
-
-        minSize = new Dimension();
-        int binWidth = 1;
-        for(double currWidth = binCount; currWidth < w - 2 * FIRST_BIN_START_X; currWidth += binCount, binWidth++) {
-            // EMPTY
-        }
-        if(binWidth != 1) {
-            binWidth--;
-        }
-
-
-        minSize.width = binWidth * binCount;
-        minSize.height = 100;
-        prefSize = new Dimension(minSize);
+        DRAW_VALUES = new double[binCount];
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
 
-
-
-
-
-
-
-        BIN_COUNT = Integer.toString(binCount).length();
+        BIN_COUNT_DIGIT_COUNT = Integer.toString(binCount).length();
         if(areValuesSigned) {
             MAX_VALUE = 3 + VALUE_PRECISION;      // [-][01] + .xxx;
         }
@@ -70,7 +46,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         tooltip = new StringBuilder("<html>Bin: ");
         INDEX_IN_STRINGBUILDER_AFTER_BIN = tooltip.length();
         int index = INDEX_IN_STRINGBUILDER_AFTER_BIN;
-        for(int i = 0; i < BIN_COUNT; i++, index++) {
+        for(int i = 0; i < BIN_COUNT_DIGIT_COUNT; i++, index++) {
             tooltip.insert(index, ' ');
         }
 
@@ -91,7 +67,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         LABEL_VALUE_INDEX = index;
 
 
-        drawValuesStrings = new String[drawValues.length];
+        drawValuesStrings = new String[DRAW_VALUES.length];
         binIndices = new String[binCount];
         for (int i = 0; i < binIndices.length; i++) {
             binIndices[i] = Integer.toString(i);
@@ -128,7 +104,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     public final boolean ALLOW_DIFFERENT_WIDTH_BINS;
 
     private final String NEW_LINE = "<br>";
-    private final int BIN_COUNT;
+    private final int BIN_COUNT_DIGIT_COUNT;
     private final int VALUE_PRECISION = 3;
     private final int MAX_VALUE;
 
@@ -145,7 +121,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     private int longestLabelLen;
     private boolean isFirstTimeLongestLabelLenSet = false;
     /**
-     * Needs to be called after the labels are set.
+     * Needs to be called after the labels are set (That is also the only time when it should be called). It sets the longestLabelLen and
+     * also on first call it sets FIRST_BIN_START_X variable and based on that the minimum and preferred sizes.
      */
     protected final void setLongestLabelLen() {
         longestLabelLen = 0;
@@ -160,7 +137,28 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         if(!isFirstTimeLongestLabelLenSet) {
             isFirstTimeLongestLabelLenSet = true;
             JLabel label = new JLabel(longestString);
-            FIRST_BIN_START_X = label.getPreferredSize().width / 2;
+            FIRST_BIN_START_X = label.getPreferredSize().width;
+
+
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            double w = screenSize.getWidth();
+            minSize = new Dimension();
+            int binWidth = 1;
+            int binCount = DRAW_VALUES.length;
+            for(double currWidth = binCount; currWidth < w - 2 * FIRST_BIN_START_X; currWidth += binCount, binWidth++) {
+                // EMPTY
+            }
+            if(binWidth != 1) {
+                binWidth--;
+            }
+
+            minSize.width = binWidth * binCount;
+            minSize.height = 100;
+            prefSize = new Dimension(minSize);
+
+
+
+
             setMinWidth(minSize.width + 2 * FIRST_BIN_START_X);
         }
     }
@@ -183,23 +181,23 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         return isEditable;
     }
 
-    protected double[] drawValues;
+    protected final double[] DRAW_VALUES;
     protected String[] drawValuesStrings;
     protected void setDrawValue(int index, double value) {
         if(isEditable) {
-            drawValues[index] = value;
-            setDrawValueString(index, drawValues[index]);
+            DRAW_VALUES[index] = value;
+            setDrawValueString(index, DRAW_VALUES[index]);
         }
     }
     protected double getDrawValue(int bin) {
-        return drawValues[bin];
+        return DRAW_VALUES[bin];
     }
     protected void setDrawValueString(int bin, double value) {
         drawValuesStrings[bin] = String.format("%." + VALUE_PRECISION + "f", value);
     }
 
     protected void resetValues() {
-        for(int i = 0; i < drawValues.length; i++) {
+        for(int i = 0; i < DRAW_VALUES.length; i++) {
             setDrawValue(i, 0);
         }
 
@@ -208,11 +206,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
     /**
-     * Sets all the drawValuesStrings based on current drawValues
+     * Sets all the drawValuesStrings based on current DRAW_VALUES
      */
     protected void setDrawValuesStrings() {
-        for(int i = 0; i < drawValues.length; i++) {
-            setDrawValueString(i, drawValues[i]);
+        for(int i = 0; i < DRAW_VALUES.length; i++) {
+            setDrawValueString(i, DRAW_VALUES[i]);
         }
     }
 
@@ -239,12 +237,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected abstract double normalizeValue(double value);
     protected void normalizeAndSetDrawValues() {
         // Normalization and getting string representation
-        for (int i = 0; i < drawValues.length; i++) {
+        for (int i = 0; i < DRAW_VALUES.length; i++) {
             // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
             // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
 //            fftMeasures[i] *= 2;
 //            fftMeasures[i] /= (fftMeasures.length / 2);
-            setDrawValue(i, normalizeValue(drawValues[i]));
+            setDrawValue(i, normalizeValue(DRAW_VALUES[i]));
         }
     }
 
@@ -527,7 +525,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         x -= FIRST_BIN_START_X;         // Move it to 0 because it is easier to program
         w -= 2 * FIRST_BIN_START_X;     // Cut the width because of the edges needed for first and last label
 
-        int binCount = drawValues.length;
+        int binCount = DRAW_VALUES.length;
         int binWidth = w / binCount;
         int freePixels = w % binCount;
         int binsWhitespace = binWidth / 4;
@@ -582,7 +580,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         h = this.getHeight();
         w -= 2 * FIRST_BIN_START_X;
 
-        int binCount = drawValues.length;
+        int binCount = DRAW_VALUES.length;
         int binWidth = w / binCount;
         int freePixels = w % binCount;
         int binsWhitespace = binWidth / 4;
@@ -621,7 +619,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         int indexToStartAddingPixels = binCount - freePixels;
 
         boolean isFirstAdded = true;
-        for (int bin = 0, currX = FIRST_BIN_START_X; bin < drawValues.length; bin++, currX += binWidthWithSpace) {
+        for (int bin = 0, currX = FIRST_BIN_START_X; bin < DRAW_VALUES.length; bin++, currX += binWidthWithSpace) {
             if (ALLOW_DIFFERENT_WIDTH_BINS) {
                 if (bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
@@ -635,7 +633,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
         drawLabels(indexToStartAddingPixels, FIRST_BIN_START_X, binWidthWithSpace, binWidth, enoughSpaceForLabels,
-                textBinWidth, h, g, n, labels, drawValues.length, ALLOW_DIFFERENT_WIDTH_BINS, shouldDrawLabelsAtTop);
+                textBinWidth, h, g, n, labels, DRAW_VALUES.length, ALLOW_DIFFERENT_WIDTH_BINS, shouldDrawLabelsAtTop);
 //        if(enoughSpaceForLabels) {
 //            if (indexToStartAddingPixels < fftMeasures.length) {
 //                isFirstAdded = true;
@@ -665,7 +663,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     private void drawBinMain(Graphics g, int bin, int currX, int binWidth, int h) {
         g.setColor(getBinColor(bin));
-        drawBin(g, drawValues[bin], currX, binWidth, h);
+        drawBin(g, DRAW_VALUES[bin], currX, binWidth, h);
         if(bin == selectedBin) {
             g.setColor(new Color(0, 0, 255, 32));
             g.fillRect(currX, 0, binWidth, h);
@@ -709,7 +707,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 y = h;
             }
             Color c = Color.black;
-            for (int bin = 0, currX = startX; bin < binCount; bin += n, currX += n * binWidthWithSpace) {
+            int bin = 0;
+            int currX = startX;
+            for (; bin < binCount; bin += n, currX += n * binWidthWithSpace) {
                 if (areDifferentSizeBinsAllowed && bin >= indexToStartAddingPixels && isFirstAdded) {
                     isFirstAdded = false;
                     binWidth++;
@@ -721,8 +721,16 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
             int lastBinIndex = binCount - 1;
             if(lastBinIndex % n != 0) {
+                bin -= n;
+                currX -= n * binWidthWithSpace;
+                int lastDrawBinLen = g.getFontMetrics().stringWidth(labels[bin]);
+                int SPACE_BETWEEN_LAST_AND_BEFORE_LAST = Math.max(1, n / 2) * binWidthWithSpace;
+
                 int x = startX + lastBinIndex * binWidthWithSpace - labelWidth / 2;
-                Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
+                boolean hasEnoughSpace = currX + lastDrawBinLen + SPACE_BETWEEN_LAST_AND_BEFORE_LAST < x;
+                if(hasEnoughSpace) {
+                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
+                }
             }
         }
     }

@@ -1,18 +1,15 @@
 package RocnikovyProjektIFace.Drawing;
 
-import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 
 // TODO: DRAW PANEL THINGS
@@ -138,8 +135,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         for(int i = 0; i < fftResult.length; i++) {
             fftResult[i] /= binCount;
         }
-        Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.drawValues,
-                imagPartPanel.fftWindowPartPanel.drawValues, fftResult, windowSize);
+        Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
+                imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(realPartPanel);
@@ -216,8 +213,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
 
     public double[] getIFFTResult(int periodCount) {
-        double[] realPart = realPartPanel.fftWindowPartPanel.drawValues;
-        double[] imagPart = imagPartPanel.fftWindowPartPanel.drawValues;
+        double[] realPart = realPartPanel.fftWindowPartPanel.DRAW_VALUES;
+        double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
         Program.connectRealAndImagPart(realPart, imagPart, fftResult);
         getComplexIFFT(fftResult, fft);
 
@@ -337,7 +334,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
             // 2* because otherwise it is Nyquist frequency
-            this.sampleRate = 2 * (int)Math.round((Program.getBinCountRealForward(windowSize) - 1) * fftPanel.FREQ_JUMP);
+            this.sampleRate = (int)Math.round(2 * (Program.getBinCountRealForward(windowSize) - 1) * fftPanel.FREQ_JUMP);
         }
 
 

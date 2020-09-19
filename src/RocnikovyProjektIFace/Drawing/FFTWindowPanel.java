@@ -5,7 +5,6 @@ import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
@@ -27,7 +26,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         else {
             Program.setOneDimArr(fftResult, 0, fftResult.length, 0);
         }
-        Program.convertResultsOfFFTToRealRealForward(fftResult, drawValues);
+        Program.convertResultsOfFFTToRealRealForward(fftResult, DRAW_VALUES);
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
     }
@@ -126,10 +125,10 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
 
         if(setImagPartToZero) {
-            Program.convertFFTAmplitudesToClassicFFTArr(drawValues, fftResult);
+            Program.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
         }
         else {
-            Program.convertFFTAmplitudesToClassicFFTArrRandom(drawValues, fftResult);
+            Program.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
         }
 
 
@@ -137,7 +136,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
             // TODO: DEBUG
             //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
             // TODO: DEBUG
-            fftResult[i] *= drawValues.length;
+            fftResult[i] *= DRAW_VALUES.length;
         }
         getRealIFFT(fftResult, fft);
         normalize(fftResult);

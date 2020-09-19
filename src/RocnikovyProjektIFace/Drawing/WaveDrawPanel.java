@@ -1,7 +1,5 @@
 package RocnikovyProjektIFace.Drawing;
 
-import Rocnikovy_Projekt.Program;
-
 import java.awt.*;
 
 public abstract class WaveDrawPanel extends DrawPanel {
@@ -80,6 +78,6 @@ public abstract class WaveDrawPanel extends DrawPanel {
 
 
     public double[] getDrawnWave() {
-        return drawValues;
+        return DRAW_VALUES;
     }
 }

@@ -47,7 +47,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
     @Override
     protected double normalizeValue(double value) {
-        return value / drawValues.length;
+        return value / DRAW_VALUES.length;
     }
 
 

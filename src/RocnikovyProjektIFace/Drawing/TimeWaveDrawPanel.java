@@ -40,7 +40,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
      */
     @Override
     protected void setLabels() {
-        labels = createLabels(timeInMs, drawValues.length);
+        labels = createLabels(timeInMs, DRAW_VALUES.length);
     }
 
     public static String[] createLabels(int timeInMs, int binCount) {
@@ -55,7 +55,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
 
     public double[] getOneSecondWave(int sampleRate) {
-        return getOneSecondWave(drawValues, sampleRate);
+        return getOneSecondWave(DRAW_VALUES, sampleRate);
     }
 
     public static double[] getOneSecondWave(double[] wave, int sampleRate) {
@@ -66,7 +66,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
 
     public double[] getNPeriods(int sampleRate, int periodCount) {
-        return getNPeriods(drawValues, sampleRate, periodCount, timeInMs);
+        return getNPeriods(DRAW_VALUES, sampleRate, periodCount, timeInMs);
     }
 
     /**
@@ -74,7 +74,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
      * @return
      */
     public double[] getNPeriods(int sampleRate, int periodCount, double periodTime) {
-        return getNPeriods(drawValues, sampleRate, periodCount, periodTime);
+        return getNPeriods(DRAW_VALUES, sampleRate, periodCount, periodTime);
     }
 
 
@@ -94,11 +94,11 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
 
     public void fillArrWithValues(double[] arr, double samplesPerPixel) {
-        fillArrWithValues(arr, drawValues, samplesPerPixel);
+        fillArrWithValues(arr, DRAW_VALUES, samplesPerPixel);
     }
 
     public void fillArrWithValues(double[] arr) {
-        fillArrWithValues(arr, drawValues);
+        fillArrWithValues(arr, DRAW_VALUES);
     }
 
 

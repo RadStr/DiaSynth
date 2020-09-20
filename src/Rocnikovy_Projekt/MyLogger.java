@@ -12,7 +12,8 @@ public class MyLogger {
     static {
         try {
             // https://stackoverflow.com/questions/25540751/how-do-i-add-data-to-text-file-and-not-overwrite-what-i-have-in-java/25540826
-            logStream = new PrintWriter(new BufferedWriter(new FileWriter(logFile, true)));
+            //logStream = new PrintWriter(new BufferedWriter(new FileWriter(logFile, true)));
+            logStream = new PrintWriter(System.out);        // TODO: Just for now, So I don't keep making the log file larger
             // taken from https://www.javatpoint.com/java-get-current-date
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();

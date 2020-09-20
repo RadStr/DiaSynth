@@ -3425,7 +3425,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
 //                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
 //                        500, getOutputSampleRate(), 0);
-                double[] arr = new double[1024];
+                double[] arr = new double[1024 << 8];
                 Random rand = new Random();
                 for (int i = 0; i < arr.length; i++) {
                     arr[i] = rand.nextDouble();
@@ -3505,31 +3505,59 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                WaveShaper waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
 //                WaveShaper waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1, true);
 
-//                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
+                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
 
 //                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
 //                        getOutputSampleRate(), 1, true,
 //                        Color.LIGHT_GRAY, 0, 1, true);
 
-                FFTWindowRealAndImagWrapper waveShaper;
-                waveShaper = new FFTWindowRealAndImagWrapper(arr, 1024,
-                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
-                        Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
+//                FFTWindowRealAndImagWrapper waveShaper;
+//                waveShaper = new FFTWindowRealAndImagWrapper(arr, 8192,
+//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
+//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
 
                 JFrame f = new JFrame() {
-                    private Dimension minSize = null;
+                    private Dimension minSize = new Dimension();
+                    // TODO: ZMENENY
+//                    private Dimension minSize = null;
+                    // TODO: ZMENENY
                     @Override
                     public Dimension getMinimumSize() {
-                        if(minSize == null) {
-                            Insets insets = getInsets();
-                            minSize = new Dimension(waveShaper.getMinimumSize().width +
-                                    insets.left + insets.right,
-                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
-                        }
+// TODO: ZMENENY
+//                        if(minSize == null) {
+//                            Insets insets = getInsets();
+//                            minSize = new Dimension(waveShaper.getMinimumSize().width +
+//                                    insets.left + insets.right,
+//                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
+//                        }
+// TODO: ZMENENY
+
+                        Insets insets = getInsets();
+                        minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
+                        minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
                         return minSize;
                     }
+// TODO: ZMENENY
+// TODO: MAX SIZE
+//                    // Have to also have maximum size to disable width resizing.
+//                    private Dimension maxSize = null;
+//                    @Override
+//                    public Dimension getMaximumSize() {
+//                        if(maxSize == null) {
+//                            // TODO:
+////                            maxSize = new Dimension(getMinimumSize().width, super.getMaximumSize().height);
+//                            maxSize = new Dimension(getMinimumSize().width, Integer.MAX_VALUE);
+//                        }
+//                        return maxSize;
+//                    }
+// TODO: MAX SIZE
+// TODO: ZMENENY
                 };
+
                 f.setMinimumSize(new Dimension());
+
+
+
                 f.setLayout(new FlowLayout());
                 f.addComponentListener(new ComponentListener() {
                     @Override
@@ -3539,6 +3567,19 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                        f.repaint();
                         //f.pack();
                         //waveShaper.setPreferredSize(waveShaper.getPreferredSize());
+                        // TODO: ZMENENY
+//                        f.setSize(f.getMinimumSize().width, e.getComponent().getHeight());
+//                        Dimension d = f.getContentPane().getMaximumSize();
+//                        Dimension s = f.getContentPane().getSize();
+//                        if(s.width > d.width || s.height > d.height) {
+//                            System.exit(4877);
+//                            f.getContentPane().setSize(new Dimension(d));
+//                        }
+                        // TODO: ZMENENY
+                        // TODO: ZMENENY
+//                        f.setSize(4130, 608);
+//                        f.getContentPane().setSize(1684, 616);
+                        // TODO: ZMENENY
                         waveShaper.revalidate();
                         waveShaper.repaint();
                         ProgramTest.debugPrint("Resize content:",
@@ -3564,16 +3605,28 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     }
                 });
                 f.add(waveShaper);
-                JPanel content = (JPanel) f.getContentPane();
-                if(waveShaper == content) {
-                    System.exit(14777);
-                }
+                // TODO: Vymazat tyhle veci:
+//                f.setContentPane(waveShaper);
+
+//                f.setContentPane(new JPanel() {
+//                    @Override
+//                    public Dimension getMinimumSize() {
+//                        return new Dimension(waveShaper.getMinimumSize());
+//                    }
+//                });
+
+//                JPanel content = (JPanel) f.getContentPane();
+//                if(waveShaper == content) {
+//                    System.exit(14777);
+//                }
+
                 //f.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
                 //f.setContentPane(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
 
 //                JPanel p = new JPanel();
 //                f.setContentPane(p);
 //                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+
 
 
 
@@ -3600,8 +3653,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 // TODO: JMENU
 
 
-
-
                 f.pack();       // Have to be called otherwise, min size is ignored
 //                //f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 //                Toolkit tk = Toolkit.getDefaultToolkit();
@@ -3609,7 +3660,29 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                int ySize = ((int) tk.getScreenSize().getHeight());
 ////                f.setSize(xSize, getHeight());
 ////                f.setMinimumSize(new Dimension());
-                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
+
+// TODO: ZMENENY
+//                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
+//                f.setSize(f.getMinimumSize().width, getSize().height);
+
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//                f.setSize(f.getMinimumSize().width, screenSize.height);
+//                f.setSize(f.getMinimumSize().width, maxHeight);
+//                f.setSize(f.getMinimumSize().width, screenSize.height - f.getInsets().top - f.getInsets().bottom);
+//                System.out.println(f.getInsets());
+//                System.exit(46874864);
+
+                // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+                Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+                int taskBarSize = scnMax.bottom;
+                f.setSize(f.getMinimumSize().width, screenSize.height - taskBarSize);
+//                f.setSize(f.getMinimumSize().width, f.getMinimumSize().height);
+
+
+//                f.setExtendedState(JFrame.MAXIMIZED_VERT);
+                f.setResizable(false);
+// TODO: ZMENENY
+
 //                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
                 f.setVisible(true);
 

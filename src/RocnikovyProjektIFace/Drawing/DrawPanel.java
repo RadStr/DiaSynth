@@ -139,13 +139,16 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             JLabel label = new JLabel(longestString);
             FIRST_BIN_START_X = label.getPreferredSize().width;
 
-
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             double w = screenSize.getWidth();
+
             minSize = new Dimension();
             int binWidth = 1;
             int binCount = DRAW_VALUES.length;
-            for(double currWidth = binCount; currWidth < w - 2 * FIRST_BIN_START_X; currWidth += binCount, binWidth++) {
+            // FIRST_BIN_START_X + 1 because sometimes it can reach out of screen even if it doesn't have to. Because of the edges of frame
+            // Ideally I would just add the left and right insets, but since at the time of making the frame is unknown, there is no other way than this,
+            // or maybe there is but I don't find it important enough to find out.
+            for(double currWidth = binCount; currWidth < w - 2 * (FIRST_BIN_START_X + 1); currWidth += binCount, binWidth++) {
                 // EMPTY
             }
             if(binWidth != 1) {
@@ -155,8 +158,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             minSize.width = binWidth * binCount;
             minSize.height = 100;
             prefSize = new Dimension(minSize);
-
-
 
 
             setMinWidth(minSize.width + 2 * FIRST_BIN_START_X);
@@ -457,7 +458,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         // Same size
         ProgramTest.debugPrint("Insets:", topFrame.getHeight() - frameInsets.top - frameInsets.bottom, contentPane.getHeight());
         // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
-        prefSize.height = contentPane.getHeight() - frameInsets.bottom;
+        prefSize.height = contentPane.getHeight() - frameInsets.top - frameInsets.bottom;
 
 
 //        Container parent = getParent();

@@ -148,6 +148,13 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             }
         });
         add(imagPartPanel);
+        add(new JPanel() {
+            private final Dimension prefSize = new Dimension(1, SPACE_BETWEEN_PARTS);
+            @Override
+            public Dimension getPreferredSize() {
+                return prefSize;
+            }
+        });
     }
 
     public static final int SPACE_BETWEEN_PARTS = 4;
@@ -163,7 +170,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     @Override
     public Dimension getMinimumSize() {
         minSize.width = realPartPanel.getMinimumSize().width;
-        minSize.height = 2 * realPartPanel.getMinimumSize().height;
+        minSize.height = 2 * realPartPanel.getMinimumSize().height + 2 * SPACE_BETWEEN_PARTS;
         return minSize;
     }
 
@@ -176,7 +183,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         JPanel contentPane = (JPanel) topFrame.getContentPane();
         Insets frameInsets = topFrame.getInsets();
         // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
-        prefSize.height = contentPane.getHeight() - frameInsets.bottom;
+        prefSize.height = contentPane.getHeight() - frameInsets.bottom - frameInsets.bottom;
         return prefSize;
     }
 

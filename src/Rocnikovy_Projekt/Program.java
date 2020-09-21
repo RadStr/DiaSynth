@@ -9858,6 +9858,17 @@ System.out.println();
             System.arraycopy(arr, 0, arr, i, len);
         }
     }
+
+
+    public static Dimension calculateMaximizedFrameSize() {
+        JFrame f = new JFrame();
+        f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        f.setVisible(true);
+        Dimension size = f.getSize();
+        f.setVisible(false);
+        f.dispose();
+        return size;
+    }
 }
 
 

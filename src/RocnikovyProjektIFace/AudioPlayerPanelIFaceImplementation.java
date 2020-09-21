@@ -4,6 +4,7 @@ package RocnikovyProjektIFace;
 import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
 import PartsConnectingGUI.ChangeJMenuBarIFace;
+import PartsConnectingGUI.PartsConnectingTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithShouldConvertFlag;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
@@ -3505,7 +3506,9 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                WaveShaper waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
 //                WaveShaper waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1, true);
 
-                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
+//                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
+                TimeWaveDrawWrapper waveShaper = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
+                        true, Color.LIGHT_GRAY, true);
 
 //                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
 //                        getOutputSampleRate(), 1, true,
@@ -3535,6 +3538,19 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         Insets insets = getInsets();
                         minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
                         minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
+
+
+                        // TODO: ZMENENY - 2
+                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//                        minSize.width = screenSize.width + insets.left + insets.right;
+                        minSize.width = screenSize.width;
+//                        minSize.width = PartsConnectingTabbedPanel.MAXIMIZED_FRAME_WIDTH;
+
+                        // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+                        Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+                        int taskBarSize = scnMax.bottom;
+                        minSize.height = screenSize.height - taskBarSize;
+                        // TODO: ZMENENY - 2
                         return minSize;
                     }
 // TODO: ZMENENY
@@ -3662,30 +3678,41 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 ////                f.setMinimumSize(new Dimension());
 
 // TODO: ZMENENY
-//                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
-//                f.setSize(f.getMinimumSize().width, getSize().height);
-
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//                f.setSize(f.getMinimumSize().width, screenSize.height);
-//                f.setSize(f.getMinimumSize().width, maxHeight);
-//                f.setSize(f.getMinimumSize().width, screenSize.height - f.getInsets().top - f.getInsets().bottom);
-//                System.out.println(f.getInsets());
-//                System.exit(46874864);
-
-                // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
-                Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
-                int taskBarSize = scnMax.bottom;
-                f.setSize(f.getMinimumSize().width, screenSize.height - taskBarSize);
-//                f.setSize(f.getMinimumSize().width, f.getMinimumSize().height);
-
-
-//                f.setExtendedState(JFrame.MAXIMIZED_VERT);
-                f.setResizable(false);
+////                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
+////                f.setSize(f.getMinimumSize().width, getSize().height);
+//
+//                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+////                f.setSize(f.getMinimumSize().width, screenSize.height);
+////                f.setSize(f.getMinimumSize().width, maxHeight);
+////                f.setSize(f.getMinimumSize().width, screenSize.height - f.getInsets().top - f.getInsets().bottom);
+////                System.out.println(f.getInsets());
+////                System.exit(46874864);
+//
+//                // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+//                Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+//                int taskBarSize = scnMax.bottom;
+//
+//                // TODO: ZMENENY - FUNGUJE
+////                f.setSize(f.getMinimumSize().width, screenSize.height - taskBarSize);
+//                // TODO: ZMENENY - FUNGUJE
+//
+//                // TODO: ZMENENY - 2
+////                f.setSize(f.getSize().width, screenSize.height - taskBarSize);
+//                // TODO: ZMENENY - 2
+//
+////                f.setSize(f.getMinimumSize().width, f.getMinimumSize().height);
+//
+//
+////                f.setExtendedState(JFrame.MAXIMIZED_VERT);
+//                f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+//                f.setSize(screenSize);
+////                f.setSize(f.getSize());
 // TODO: ZMENENY
 
 //                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
                 f.setVisible(true);
-
+                f.setResizable(false);
+                f.setLocation(-1, -1);
 
 //                int result = JOptionPane.showConfirmDialog(null, waveShaper,
 //                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

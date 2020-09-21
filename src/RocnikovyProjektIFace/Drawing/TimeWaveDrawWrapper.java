@@ -1,15 +1,34 @@
 package RocnikovyProjektIFace.Drawing;
 
+import PartsConnectingGUI.PartsConnectingTabbedPanel;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
+import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+
+
 public class TimeWaveDrawWrapper extends DrawWrapperBase {
+    public static TimeWaveDrawWrapper createMaxSizeTimeWaveDrawWrapper(int timeInMs, boolean isEditable,
+                                                                       Color backgroundColor,
+                                                                       boolean shouldDrawLabelsAtTop) {
+        int referenceValuesWidth = new AudioWavePanelReferenceValues(-1, 1).getPreferredSize().width;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int binCount = screenSize.width - referenceValuesWidth;
+        int firstX = new TimeWaveDrawWrapper(timeInMs, binCount,
+                isEditable, backgroundColor, shouldDrawLabelsAtTop).timeWaveDrawPanel.getFirstBinStartX();
+
+        binCount -= 2 * firstX;
+        return new TimeWaveDrawWrapper(timeInMs, binCount, isEditable,
+                backgroundColor, shouldDrawLabelsAtTop);
+    }
+
     public TimeWaveDrawWrapper(int timeInMs, int binCount, boolean isEditable,
                                Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(new TimeWaveDrawPanel(timeInMs, binCount, isEditable, backgroundColor, shouldDrawLabelsAtTop),

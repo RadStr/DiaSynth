@@ -2,7 +2,9 @@ package RocnikovyProjektIFace.Drawing;
 
 
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class TimeWaveDrawPanel extends WaveDrawPanel {
@@ -17,7 +19,6 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
     }
-
 
     private int timeInMs;
     public int getTimeInMs() {

@@ -8,10 +8,10 @@ import RocnikovyProjektIFace.MenuPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 
-import javax.sound.sampled.AudioFormat;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 
@@ -55,6 +55,13 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
     }
 
 
+    public static final int MAXIMIZED_FRAME_WIDTH;
+    public static final int MAXIMIZED_FRAME_HEIGHT;
+    static {
+        Dimension size = Program.calculateMaximizedFrameSize();
+        MAXIMIZED_FRAME_WIDTH = size.width;
+        MAXIMIZED_FRAME_HEIGHT = size.height;
+    }
     public static final int MAX_LABEL_FONT_SIZE;
     static {
         JLabel testLabel = new JLabel("T");

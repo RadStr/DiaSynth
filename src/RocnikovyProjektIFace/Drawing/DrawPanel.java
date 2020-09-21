@@ -442,7 +442,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     public Dimension getMinimumSize() {
         return minSize;
     }
-    private void setMinWidth(int newMinWidth) {
+    private final void setMinWidth(int newMinWidth) {
         minSize.width = newMinWidth;
         prefSize.width = newMinWidth;
     }

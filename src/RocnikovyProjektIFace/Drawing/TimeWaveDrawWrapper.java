@@ -23,8 +23,8 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         int binCount = screenSize.width - referenceValuesWidth;
         int firstX = new TimeWaveDrawWrapper(timeInMs, binCount,
                 isEditable, backgroundColor, shouldDrawLabelsAtTop).timeWaveDrawPanel.getFirstBinStartX();
-
         binCount -= 2 * firstX;
+
         return new TimeWaveDrawWrapper(timeInMs, binCount, isEditable,
                 backgroundColor, shouldDrawLabelsAtTop);
     }
@@ -77,10 +77,11 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         menuBar.add(menu);
         JMenuItem actionMenuItem = new JMenuItem("Perform action");
         menu.add(actionMenuItem);
+        TimeWaveDrawWrapper thisWrapper = this;
         actionMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(timeWaveDrawPanel, waveAdder);
+                TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(thisWrapper, waveAdder);
                 PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
                         classWithValues.getClass());
 
@@ -90,7 +91,8 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
 
                 if(result == JOptionPane.OK_OPTION) {
                     timeWaveDrawPanel.setTimeInMs(classWithValues.getTimeInMs());
-                    double[] wave = getNPeriods(classWithValues.getSampleRate(), classWithValues.getPeriodCount());
+                    periodCount = classWithValues.getPeriodCount();
+                    double[] wave = getNPeriods(classWithValues.getSampleRate(), periodCount);
                     waveAdder.addWave(wave);
                 }
             }
@@ -99,10 +101,14 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         addReset(menu);
     }
 
+    private int periodCount = 1;
+
+
 
     private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {
-        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel, AddWaveIFace waveAdder) {
-            super(timeWaveDrawPanel);
+        public TimeActionDialogPanel(TimeWaveDrawWrapper timeWaveDrawWrapper, AddWaveIFace waveAdder) {
+            super(timeWaveDrawWrapper.timeWaveDrawPanel);
+            periodCount = timeWaveDrawWrapper.periodCount;
             sampleRate = waveAdder.getOutputSampleRate();
         }
 
@@ -114,7 +120,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             return sampleRate;
         }
 
-        @PluginParametersAnnotation(lowerBound = "1", defaultValue = "1", parameterTooltip = "Controls the number of periods (repetitions) of drawn wave")
+        @PluginParametersAnnotation(lowerBound = "1", parameterTooltip = "Controls the number of periods (repetitions) of drawn wave")
         private int periodCount;
         public int getPeriodCount() {
             return periodCount;
@@ -132,7 +138,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             timeInMs = timeWaveDrawPanel.getTimeInMs();
         }
 
-        @PluginParametersAnnotation(lowerBound = "1", defaultValue = "500", parameterTooltip = "Controls the length of the drawn wave")
+        @PluginParametersAnnotation(lowerBound = "1", parameterTooltip = "Controls the length of the drawn wave")
         private int timeInMs;
         public int getTimeInMs() {
             return timeInMs;

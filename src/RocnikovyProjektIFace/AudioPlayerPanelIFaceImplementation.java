@@ -3534,7 +3534,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
 //                        }
 // TODO: ZMENENY
-
                         Insets insets = getInsets();
                         minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
                         minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;

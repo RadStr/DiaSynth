@@ -420,7 +420,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSongLength(Program prog) {
-        return new Pair<String, String>("length", Program.convertSecondsToTime(prog.lengthOfAudioInSeconds));
+        return new Pair<String, String>("length",
+                Program.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
     }
 
     private static Pair<String, String> analyzeSizeInBytes(Program prog) {

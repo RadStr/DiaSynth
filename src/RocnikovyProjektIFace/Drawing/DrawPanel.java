@@ -228,7 +228,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     private StringBuilder tooltip;
     protected final void setLastPartOfTooltip() {
         setLongestLabelLen();
-        for(int i = 0; i < longestLabelLen; i++) {
+        int newLen = LABEL_VALUE_INDEX + longestLabelLen;
+        if(newLen < tooltip.length()) {
+            tooltip.setLength(newLen);
+        }
+        for(int i = tooltip.length(); i < newLen; i++) {
             tooltip.append(' ');
         }
 
@@ -371,11 +375,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
 
     private void setBinInfoToolTip(String info) {
-        for (int i = LABEL_VALUE_INDEX, j = 0; j < info.length(); i++, j++) {
+        int i = LABEL_VALUE_INDEX;
+        for (int j = 0; j < info.length(); i++, j++) {
             tooltip.setCharAt(i, info.charAt(j));
         }
-
-        for(int i = LABEL_VALUE_INDEX + info.length(); i < LABEL_VALUE_INDEX + longestLabelLen; i++) {
+        for(; i < LABEL_VALUE_INDEX + longestLabelLen; i++) {
             tooltip.setCharAt(i, ' ');
         }
     }

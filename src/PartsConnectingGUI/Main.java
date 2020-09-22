@@ -3,6 +3,7 @@ package PartsConnectingGUI;
 import RocnikovyProjektIFace.FrameWithFocusControl;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;

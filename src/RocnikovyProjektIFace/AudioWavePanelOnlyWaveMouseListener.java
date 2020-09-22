@@ -154,7 +154,7 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
             String sampleIndexString = AudioWavePanelReferenceValues.getStringInt(sampleIndex);
             String valueString = AudioWavePanelReferenceValues.getStringDouble(value);
             int sampleTimeInMillis = awpe.convertSampleToMillis(sampleIndex);
-            String timeInMilis = Program.convertMillisecondsToTime(sampleTimeInMillis);
+            String timeInMilis = Program.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
 //            int currIndex = 0;
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[0], currIndex);

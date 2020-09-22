@@ -3181,7 +3181,7 @@ public class Program {
         }
 
         System.out.println("audio length in seconds:\t" + lengthOfAudioInSeconds);
-        System.out.println("Audio lengths (in audioFormat hours:mins:secs):\t" + Program.convertSecondsToTime(lengthOfAudioInSeconds));
+        System.out.println("Audio lengths (in audioFormat hours:mins:secs):\t" + Program.convertSecondsToTime(lengthOfAudioInSeconds, -1));
     }
 
 
@@ -3197,16 +3197,17 @@ public class Program {
     /**
      * This variant can be used when I want to do parallel processing. Resets the stringbuilder.
      */
-    public static String convertMinutesToTime(int mins, StringBuilder timeSB) {
-        String res = convertTimeUniversal(mins, convertMinutesTimeDivArray, convertMinutesTimeModArray, timeSB);
+    public static String convertMinutesToTime(int mins, StringBuilder timeSB, int alignmentRecursionLevel) {
+        String res = convertTimeUniversal(mins, convertMinutesTimeDivArray,
+                convertMinutesTimeModArray, timeSB, alignmentRecursionLevel);
         return res;
     }
 
     /**
      * Doesn't work work for parallel processing
      */
-    public static String convertMinutesToTime(int mins) {
-        return convertMinutesToTime(mins, timeStringBuilder);
+    public static String convertMinutesToTime(int mins, int alignmentRecursionLevel) {
+        return convertMinutesToTime(mins, timeStringBuilder, alignmentRecursionLevel);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3216,16 +3217,27 @@ public class Program {
     private static final int[] convertSecondsTimeModArray = new int[] { 10, 10, 10 };
     /**
      * This variant can be used when I want to do parallel processing. Resets the stringbuilder.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 001.
      */
-    public static String convertSecondsToTime(int seconds, StringBuilder timeSB) {
-        String res = convertTimeUniversal(seconds, convertSecondsTimeDivArray, convertSecondsTimeModArray, timeSB);
+    public static String convertSecondsToTime(int seconds, StringBuilder timeSB, int alignmentRecursionDepth) {
+        String res = convertTimeUniversal(seconds, convertSecondsTimeDivArray,
+                convertSecondsTimeModArray, timeSB, alignmentRecursionDepth);
         return res;
     }
     /**
      * Doesn't work work for parallel processing
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 001.
      */
-    public static String convertSecondsToTime(int seconds) {
-        return convertSecondsToTime(seconds, timeStringBuilder);
+    public static String convertSecondsToTime(int seconds, int alignmentRecursionDepth) {
+        return convertSecondsToTime(seconds, timeStringBuilder, alignmentRecursionDepth);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3235,53 +3247,86 @@ public class Program {
     private static final int[] convertMillisecondsTimeModArray = new int[] { 100, 10, 10, 10 };
     /**
      * This variant can be used when I want to do parallel processing. Resets the stringbuilder.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 0:001.
      */
-    public static String convertMillisecondsToTime(int millis, StringBuilder timeSB) {
+    public static String convertMillisecondsToTime(int millis, StringBuilder timeSB, int alignmentRecursionDepth) {
         if(DEBUG_CLASS.DEBUG) {
             ProgramTest.debugPrint("MILLIS in convertMillisecondsToTime", millis);
         }
         String res = "";
-        if(millis < 1000) {
-            res = "0:";
+        if(alignmentRecursionDepth < 0) {
+            if (millis < 1000) {
+                res = "0:";
+            }
         }
-        res += convertTimeUniversal(millis, convertMillisecondsTimeDivArray, convertMillisecondsTimeModArray, timeSB);
+        res += convertTimeUniversal(millis, convertMillisecondsTimeDivArray,
+                convertMillisecondsTimeModArray, timeSB, alignmentRecursionDepth);
         return res;
     }
     /**
      * Doesn't work work for parallel processing
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 0:001.
      */
-    public static String convertMillisecondsToTime(int millis) {
-        return convertMillisecondsToTime(millis, timeStringBuilder);
+    public static String convertMillisecondsToTime(int millis, int alignmentRecursionDepth) {
+        return convertMillisecondsToTime(millis, timeStringBuilder, alignmentRecursionDepth);
     }
 
 
+
+    /**
+     *
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 001. (When using the millis variant then it would be 00:00:001 and 0:001)
+     */
     private static String convertTimeUniversal(int timeAmount, int[] timeAmountToNextTimeLevel, int[] modLimitsToAddZero,
-                                               StringBuilder timeSB) {
+                                               StringBuilder timeSB, int alignmentRecursionDepth) {
         timeSB.setLength(0);
-        convertTimeUniversal(timeAmount, timeAmountToNextTimeLevel, modLimitsToAddZero, 0, timeSB);
+        convertTimeUniversal(timeAmount, timeAmountToNextTimeLevel, modLimitsToAddZero,
+                0, timeSB, alignmentRecursionDepth);
         return timeSB.toString();
     }
 
     /**
      * Expects the StringBuilder to be of length 0.
+     * @param timeAmount
+     * @param timeAmountToNextTimeLevel
+     * @param modLimitsToAddZero
+     * @param depth
+     * @param timeSB
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
+     *                                then modLimitsToAddZero.length - 1 is used.
+     *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
+     *                                instead of just 001. (When using the millis variant then it would be 00:00:001 and 0:001)
      */
     private static void convertTimeUniversal(int timeAmount, int[] timeAmountToNextTimeLevel, int[] modLimitsToAddZero,
-                                             int index, StringBuilder timeSB) {
+                                             int depth, StringBuilder timeSB, int alignmentRecursionDepth) {
         if(timeAmount != 0) {
-            if (index < timeAmountToNextTimeLevel.length) {
-                int nextTimeMeasurementCount = timeAmount / timeAmountToNextTimeLevel[index];
+            if (depth < timeAmountToNextTimeLevel.length) {
+                int nextTimeMeasurementCount = timeAmount / timeAmountToNextTimeLevel[depth];
                 convertTimeUniversal(nextTimeMeasurementCount, timeAmountToNextTimeLevel, modLimitsToAddZero,
-                    index + 1, timeSB);
+                    depth + 1, timeSB, alignmentRecursionDepth);
                 if(timeSB.length() != 0) {
                     timeSB.append(':');
                 }
-                int mod = timeAmount % timeAmountToNextTimeLevel[index];
+                int mod = timeAmount % timeAmountToNextTimeLevel[depth];
                 int modChanging = mod;
                 if(mod == 0) {
                     timeSB.append('0');
                 }
                 else {
-                    for (; modChanging < modLimitsToAddZero[index]; modChanging *= 10) {
+                    for (; modChanging < modLimitsToAddZero[depth]; modChanging *= 10) {
                         timeSB.append('0');
                     }
                 }
@@ -3290,8 +3335,25 @@ public class Program {
             }
         }
         else {
-            if(index == 0) {
-                timeSB.append('0');
+            if(alignmentRecursionDepth < 0) {
+                if (depth == 0) {
+                    timeSB.append('0');
+                }
+            }
+            else {
+                if(timeSB.length() > 0) {
+                    timeSB.append(':');
+                }
+
+                alignmentRecursionDepth = Math.min(alignmentRecursionDepth, modLimitsToAddZero.length - 1);
+                for (int i = alignmentRecursionDepth; i >= depth; i--) {
+                    for (int mod = 1; mod <= modLimitsToAddZero[i]; mod *= 10) {
+                        timeSB.append('0');
+                    }
+                    if(i != depth) {
+                        timeSB.append(':');
+                    }
+                }
             }
         }
     }
@@ -9868,6 +9930,18 @@ System.out.println();
         f.setVisible(false);
         f.dispose();
         return size;
+    }
+
+
+    public static int calculateCharOccurrences(String s, char c) {
+        int count = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == c) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
 

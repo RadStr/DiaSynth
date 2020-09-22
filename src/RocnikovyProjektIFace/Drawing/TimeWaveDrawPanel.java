@@ -28,10 +28,8 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
     public void setTimeInMs(int timeInMs) {
         this.timeInMs = timeInMs;
         timeInMsString = Double.toString(timeInMs);
-
-        for(int i = 0; i < labels.length; i++) {
-            labels[i] = Program.convertMillisecondsToTime((int)(timeInMs * i / (double)labels.length));
-        }
+        fillTimeLabels(labels, timeInMs);
+        setLastPartOfTooltip();
         repaint();
     }
 
@@ -46,12 +44,19 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
     public static String[] createLabels(int timeInMs, int binCount) {
         String[] labels = new String[binCount];
+        fillTimeLabels(labels, timeInMs);
+        return labels;
+    }
+
+    private static void fillTimeLabels(String[] labels, int timeInMs) {
+        String timeInMsLabel = Program.convertMillisecondsToTime(timeInMs, -1);
+        int recursionDepth = Program.calculateCharOccurrences(timeInMsLabel, ':');
+
 
         for(int i = 0; i < labels.length; i++) {
-            labels[i] = Program.convertMillisecondsToTime((int)(timeInMs * i / (double)labels.length));
+            int labelTime = (int)(timeInMs * (i / (double)labels.length));
+            labels[i] = Program.convertMillisecondsToTime(labelTime, recursionDepth);
         }
-
-        return labels;
     }
 
 

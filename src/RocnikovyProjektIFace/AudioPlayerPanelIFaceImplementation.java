@@ -3538,7 +3538,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
                         minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
 
-
                         // TODO: ZMENENY - 2
                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //                        minSize.width = screenSize.width + insets.left + insets.right;
@@ -4977,7 +4976,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         private void changedWaveSizes() {
             outputEndIndex = getDoubleWaveLength();
             int songSizeInSecs = DoubleWave.convertSampleToSecs(outputEndIndex, (int) outputAudioFormat.getSampleRate());
-            songLenInSecs = Program.convertSecondsToTime(songSizeInSecs);
+            songLenInSecs = Program.convertSecondsToTime(songSizeInSecs, -1);
             indexJumpInDoubleArr = audioArr.length / Program.calculateFrameSize(outputAudioFormat);
             setTimeLinePixelsPerPlayPart();
         }
@@ -5170,7 +5169,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
     public String getCurrentPlayTime() {
-        return Program.convertMillisecondsToTime(currPlayTimeInMillis);
+        return Program.convertMillisecondsToTime(currPlayTimeInMillis, -1);
     }
 
 

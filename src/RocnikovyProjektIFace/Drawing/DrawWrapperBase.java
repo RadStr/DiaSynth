@@ -101,4 +101,11 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
 
     @Override
     public abstract void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder);
+
+    public static int calculateMaxSizeBinCount(double minValue, double maxValue) {
+        int referenceValuesWidth = new AudioWavePanelReferenceValues(minValue, maxValue).getPreferredSize().width;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int binCount = screenSize.width - referenceValuesWidth;
+        return binCount;
+    }
 }

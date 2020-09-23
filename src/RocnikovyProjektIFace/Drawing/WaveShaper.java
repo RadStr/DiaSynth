@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,16 @@ import java.awt.event.ActionListener;
 
 
 public class WaveShaper extends DrawWrapperBase {
+    public static WaveShaper createMaxSizeWaveShaper(Color backgroundColor,
+                                                     double minValue, double maxValue,
+                                                     boolean shouldDrawLabelsAtTop) {
+        int windowSize = DrawWrapperBase.calculateMaxSizeBinCount(minValue, maxValue);
+        int firstX = new WaveShaper(windowSize, backgroundColor,
+                minValue, maxValue, shouldDrawLabelsAtTop).drawnFunctionPanel.getFirstBinStartX();
+        windowSize -= 2 * firstX;
+        return new WaveShaper(windowSize, backgroundColor, minValue, maxValue, shouldDrawLabelsAtTop);
+    }
+
     public WaveShaper(int windowSize,
                       Color backgroundColor,
                       double minValue, double maxValue,

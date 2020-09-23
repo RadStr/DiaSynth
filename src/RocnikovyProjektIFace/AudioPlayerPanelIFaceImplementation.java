@@ -3415,281 +3415,171 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     private void addDrawWindowsOperations(JMenu menu) {
         JMenuItem menuItem = null;
-        JPanel actionPanel;
-        for(int i = 0; i < 4; i++) {
-            switch(i) {
-                case 0:
+        for(final DRAW_PANEL_TYPES DRAW_TYPE : DRAW_PANEL_TYPES.values()) {
+            switch(DRAW_TYPE) {
+                case TIME:
                     menuItem = new JMenuItem("Draw wave window");
                     menuItem.setToolTipText("Creates draw wave window, where it is possible to draw wave");
                     break;
-                case 1:
+                case FFT_MEASURES:
                     menuItem = new JMenuItem("FFT window measures");
                     menuItem.setToolTipText("Creates fft window with measures");
                     break;
-                case 2:
+                case FFT_COMPLEX:
                     menuItem = new JMenuItem("FFT window complex");
                     menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT");
                     break;
-                case 3:
+                case WAVESHAPER:
                     menuItem = new JMenuItem("Waveshaper");
                     menuItem.setToolTipText("Creates waveshaper window which will be used on the marked wave parts.");
                     break;
             }
 
-            AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //double[] arr = new double[1024];
-                    //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
-//                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
-//                        500, getOutputSampleRate(), 0);
-                    double[] arr = new double[1024 << 8];
-                    Random rand = new Random();
-                    for (int i = 0; i < arr.length; i++) {
-                        arr[i] = rand.nextDouble();
-                        if (rand.nextDouble() > 0.5) {
-                            arr[i] *= -1;
-                        }
-                    }
 
-//                DoubleFFT_1D fft = new DoubleFFT_1D(arr.length);
-//                double[] fftResult = new double[1024];
-//                Program.calculateFFTRealForward(arr, 0, 1, fft, fftResult);
-//                FFTWindowPanel.getRealIFFT(fftResult, fft);
-
-
-                    // TODO: Just testing correctness of createSine
-//                addWave(new DoubleWave(fftResult, (int)outputAudioFormat.getSampleRate(), 1,
-//                        "Doesn't matter I don't create file anyways", false));
-//                addWave(new DoubleWave(arr, (int)outputAudioFormat.getSampleRate(), 1,
-//                        "Doesn't matter I don't create file anyways", false));
-                    // TODO: Just testing correctness of createSine
-
-//                WaveShaper waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
-//                WaveShaper waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
-//                WaveShaper waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1, true);
-
-//                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
-                    TimeWaveDrawWrapper waveShaper = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
-                            true, Color.LIGHT_GRAY, true);
-
-//                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
-//                        getOutputSampleRate(), 1, true,
-//                        Color.LIGHT_GRAY, 0, 1, true);
-
-//                FFTWindowRealAndImagWrapper waveShaper;
-//                waveShaper = new FFTWindowRealAndImagWrapper(arr, 8192,
-//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
-//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
-
-                    JFrame f = new JFrame() {
-                        private Dimension minSize = new Dimension();
-
-                        // TODO: ZMENENY
-//                    private Dimension minSize = null;
-                        // TODO: ZMENENY
-                        @Override
-                        public Dimension getMinimumSize() {
-// TODO: ZMENENY
-//                        if(minSize == null) {
-//                            Insets insets = getInsets();
-//                            minSize = new Dimension(waveShaper.getMinimumSize().width +
-//                                    insets.left + insets.right,
-//                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
-//                        }
-// TODO: ZMENENY
-                            Insets insets = getInsets();
-                            minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
-                            minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
-
-                            // TODO: ZMENENY - 2
-                            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//                        minSize.width = screenSize.width + insets.left + insets.right;
-                            minSize.width = screenSize.width;
-//                        minSize.width = PartsConnectingTabbedPanel.MAXIMIZED_FRAME_WIDTH;
-
-                            // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
-                            Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
-                            int taskBarSize = scnMax.bottom;
-                            minSize.height = screenSize.height - taskBarSize;
-                            // TODO: ZMENENY - 2
-                            return minSize;
-                        }
-// TODO: ZMENENY
-// TODO: MAX SIZE
-//                    // Have to also have maximum size to disable width resizing.
-//                    private Dimension maxSize = null;
-//                    @Override
-//                    public Dimension getMaximumSize() {
-//                        if(maxSize == null) {
-//                            // TODO:
-////                            maxSize = new Dimension(getMinimumSize().width, super.getMaximumSize().height);
-//                            maxSize = new Dimension(getMinimumSize().width, Integer.MAX_VALUE);
-//                        }
-//                        return maxSize;
-//                    }
-// TODO: MAX SIZE
-// TODO: ZMENENY
-                    };
-
-                    f.setMinimumSize(new Dimension());
-
-
-                    f.setLayout(new FlowLayout());
-                    f.addComponentListener(new ComponentListener() {
-                        @Override
-                        public void componentResized(ComponentEvent e) {
-                            ProgramTest.debugPrint("Resizing fft frame");
-//                        f.revalidate();
-//                        f.repaint();
-                            //f.pack();
-                            //waveShaper.setPreferredSize(waveShaper.getPreferredSize());
-                            // TODO: ZMENENY
-//                        f.setSize(f.getMinimumSize().width, e.getComponent().getHeight());
-//                        Dimension d = f.getContentPane().getMaximumSize();
-//                        Dimension s = f.getContentPane().getSize();
-//                        if(s.width > d.width || s.height > d.height) {
-//                            System.exit(4877);
-//                            f.getContentPane().setSize(new Dimension(d));
-//                        }
-                            // TODO: ZMENENY
-                            // TODO: ZMENENY
-//                        f.setSize(4130, 608);
-//                        f.getContentPane().setSize(1684, 616);
-                            // TODO: ZMENENY
-                            waveShaper.revalidate();
-                            waveShaper.repaint();
-                            ProgramTest.debugPrint("Resize content:",
-                                    f.getContentPane().getSize(), waveShaper.getSize(), f.getSize(),
-                                    waveShaper.getPreferredSize(), f.getPreferredSize());
-                            ProgramTest.debugPrint(
-                                    f.getContentPane().getMinimumSize(), waveShaper.getMinimumSize(), f.getMinimumSize());
-                        }
-
-                        @Override
-                        public void componentMoved(ComponentEvent e) {
-
-                        }
-
-                        @Override
-                        public void componentShown(ComponentEvent e) {
-
-                        }
-
-                        @Override
-                        public void componentHidden(ComponentEvent e) {
-
-                        }
-                    });
-                    f.add(waveShaper);
-                    // TODO: Vymazat tyhle veci:
-//                f.setContentPane(waveShaper);
-
-//                f.setContentPane(new JPanel() {
-//                    @Override
-//                    public Dimension getMinimumSize() {
-//                        return new Dimension(waveShaper.getMinimumSize());
-//                    }
-//                });
-
-//                JPanel content = (JPanel) f.getContentPane();
-//                if(waveShaper == content) {
-//                    System.exit(14777);
-//                }
-
-                    //f.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
-                    //f.setContentPane(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
-
-//                JPanel p = new JPanel();
-//                f.setContentPane(p);
-//                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
-
-
-                    // TODO: JMENU - presunuto do te tridy
-                    JMenuBar menuBar = new JMenuBar();
-                    waveShaper.addMenus(menuBar, thisAudioPlayerClass);
-                    f.setJMenuBar(menuBar);
-//                JMenu menu = new JMenu("Options");
-//                menuBar.add(menu);
-//                JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
-//                menu.add(optionsMenuItem);
-//
-//                menu = new JMenu("Action");
-//                menuBar.add(menu);
-//                JMenuItem actionMenuItem = new JMenuItem("Perform action");
-//                menu.add(actionMenuItem);
-//                actionMenuItem.addActionListener(new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        double[] wave = waveShaper.getNPeriods(22050, 4);
-//                        addWave(wave);
-//                    }
-//                });
-                    // TODO: JMENU
-
-
-                    f.pack();       // Have to be called otherwise, min size is ignored
-//                //f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-//                Toolkit tk = Toolkit.getDefaultToolkit();
-//                int xSize = ((int) tk.getScreenSize().getWidth());
-//                int ySize = ((int) tk.getScreenSize().getHeight());
-////                f.setSize(xSize, getHeight());
-////                f.setMinimumSize(new Dimension());
-
-// TODO: ZMENENY
-////                f.setSize(waveShaper.getMinimumSize().width, getSize().height);
-////                f.setSize(f.getMinimumSize().width, getSize().height);
-//
-//                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-////                f.setSize(f.getMinimumSize().width, screenSize.height);
-////                f.setSize(f.getMinimumSize().width, maxHeight);
-////                f.setSize(f.getMinimumSize().width, screenSize.height - f.getInsets().top - f.getInsets().bottom);
-////                System.out.println(f.getInsets());
-////                System.exit(46874864);
-//
-//                // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
-//                Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
-//                int taskBarSize = scnMax.bottom;
-//
-//                // TODO: ZMENENY - FUNGUJE
-////                f.setSize(f.getMinimumSize().width, screenSize.height - taskBarSize);
-//                // TODO: ZMENENY - FUNGUJE
-//
-//                // TODO: ZMENENY - 2
-////                f.setSize(f.getSize().width, screenSize.height - taskBarSize);
-//                // TODO: ZMENENY - 2
-//
-////                f.setSize(f.getMinimumSize().width, f.getMinimumSize().height);
-//
-//
-////                f.setExtendedState(JFrame.MAXIMIZED_VERT);
-//                f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-//                f.setSize(screenSize);
-////                f.setSize(f.getSize());
-// TODO: ZMENENY
-
-//                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
-                    f.setVisible(true);
-                    f.setResizable(false);
-                    f.setLocation(-1, -1);
-
-//                int result = JOptionPane.showConfirmDialog(null, waveShaper,
-//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-//                if (result == JOptionPane.OK_OPTION) {
-//                    // TODO: VYMAZAT
-//                    //double[] wave = fftWindowPanel.getDrawnWave();
-//                    // TODO: VYMAZAT
-//                    double[] wave = waveShaper.getOutputValues();
-                    //  addWave(wave);
-//                }
-                }
-            });
-
+            menuItem.addActionListener(createDrawWindowActionListener(DRAW_TYPE));
 
             menu.add(menuItem);
         }
     }
+
+
+    private enum DRAW_PANEL_TYPES {
+        TIME,
+        FFT_MEASURES,
+        FFT_COMPLEX,
+        WAVESHAPER
+    }
+
+    private ActionListener createDrawWindowActionListener(final DRAW_PANEL_TYPES DRAW_TYPE) {
+        AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double[] arr = new double[1024 << 8];
+                Random rand = new Random();
+                for (int i = 0; i < arr.length; i++) {
+                    arr[i] = rand.nextDouble();
+                    if (rand.nextDouble() > 0.5) {
+                        arr[i] *= -1;
+                    }
+                }
+
+                JPanel drawPanel;
+                switch(DRAW_TYPE) {
+                    case TIME:
+                        drawPanel = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
+                                true, Color.LIGHT_GRAY, true);
+                        break;
+                    case FFT_MEASURES:
+                        drawPanel = new FFTWindowWrapper(arr, 1024, 0,
+                                getOutputSampleRate(), 1, true,
+                                Color.LIGHT_GRAY, 0, 1, true);
+                        break;
+                    case FFT_COMPLEX:
+                        drawPanel = new FFTWindowRealAndImagWrapper(arr, 1024,
+                                0, (int) outputAudioFormat.getSampleRate(), 1, true,
+                                Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
+                        break;
+                    case WAVESHAPER:
+                        drawPanel = WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
+                                -1, 1, true);
+                        break;
+                    default:
+                        drawPanel = null;
+                        break;
+                }
+
+
+
+                JFrame f;
+                switch(DRAW_TYPE) {
+                    case FFT_MEASURES:
+                    case FFT_COMPLEX:
+                        f = new JFrame() {
+                            private Dimension minSize = new Dimension();
+                            @Override
+                            public Dimension getMinimumSize() {
+                                Insets insets = getInsets();
+                                minSize.width = drawPanel.getMinimumSize().width + insets.left + insets.right;
+                                minSize.height = drawPanel.getMinimumSize().height + insets.bottom + insets.top;
+                                return minSize;
+                            }
+                        };
+
+                        break;
+                    case TIME:
+                    case WAVESHAPER:
+                        f = new JFrame() {
+                            private Dimension minSize = new Dimension();
+                            @Override
+                            public Dimension getMinimumSize() {
+                                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                                minSize.width = screenSize.width;
+                                // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+                                Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+                                int taskBarSize = scnMax.bottom;
+                                minSize.height = screenSize.height - taskBarSize;
+                                return minSize;
+                            }
+                        };
+                        break;
+                    default:
+                        f = null;
+                        break;
+                }
+
+                f.setMinimumSize(new Dimension());
+                f.setLayout(new FlowLayout());
+                f.addComponentListener(new ComponentListener() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        drawPanel.revalidate();
+                        drawPanel.repaint();
+                        ProgramTest.debugPrint("Resize content:",
+                                f.getContentPane().getSize(), drawPanel.getSize(), f.getSize(),
+                                drawPanel.getPreferredSize(), f.getPreferredSize());
+                        ProgramTest.debugPrint(
+                                f.getContentPane().getMinimumSize(), drawPanel.getMinimumSize(), f.getMinimumSize());
+                    }
+
+                    @Override
+                    public void componentMoved(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentShown(ComponentEvent e) {
+
+                    }
+
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+
+                    }
+                });
+
+
+                f.add(drawPanel);
+                JMenuBar menuBar = new JMenuBar();
+                ((DrawWrapperIFace)drawPanel).addMenus(menuBar, thisAudioPlayerClass);
+                f.setJMenuBar(menuBar);
+                f.pack();       // Have to be called otherwise, min size is ignored
+
+                if(DRAW_TYPE == DRAW_PANEL_TYPES.FFT_MEASURES || DRAW_TYPE == DRAW_PANEL_TYPES.FFT_COMPLEX) {
+                    // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+                    int taskBarSize = scnMax.bottom;
+                    f.setSize(f.getMinimumSize().width, screenSize.height - taskBarSize);
+                }
+                f.setVisible(true);
+                f.setResizable(false);
+                f.setLocation(-1, -1);
+            }
+        };
+    }
+
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

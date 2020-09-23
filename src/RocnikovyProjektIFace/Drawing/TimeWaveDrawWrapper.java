@@ -18,9 +18,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
     public static TimeWaveDrawWrapper createMaxSizeTimeWaveDrawWrapper(int timeInMs, boolean isEditable,
                                                                        Color backgroundColor,
                                                                        boolean shouldDrawLabelsAtTop) {
-        int referenceValuesWidth = new AudioWavePanelReferenceValues(-1, 1).getPreferredSize().width;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int binCount = screenSize.width - referenceValuesWidth;
+        int binCount = DrawWrapperBase.calculateMaxSizeBinCount(-1, 1);
         int firstX = new TimeWaveDrawWrapper(timeInMs, binCount,
                 isEditable, backgroundColor, shouldDrawLabelsAtTop).timeWaveDrawPanel.getFirstBinStartX();
         binCount -= 2 * firstX;

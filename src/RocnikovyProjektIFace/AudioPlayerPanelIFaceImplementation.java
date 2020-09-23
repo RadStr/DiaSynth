@@ -4,7 +4,6 @@ package RocnikovyProjektIFace;
 import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
 import PartsConnectingGUI.ChangeJMenuBarIFace;
-import PartsConnectingGUI.PartsConnectingTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithShouldConvertFlag;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
@@ -793,7 +792,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         audioModJMenu.addSeparator();
 
         JMenu fftJMenu = new JMenu("FFT Test");
-        addFFTWindowOperations(fftJMenu);
+        addDrawWindowsOperations(fftJMenu);
         menuBar.add(fftJMenu);
 
         addFilters(audioModJMenu);
@@ -3414,26 +3413,45 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
-    private void addFFTWindowOperations(JMenu menu) {
-        JMenuItem menuItem = new JMenuItem("FFT window");
-        menuItem.setToolTipText("Creates fft window");
+    private void addDrawWindowsOperations(JMenu menu) {
+        JMenuItem menuItem = null;
+        JPanel actionPanel;
+        for(int i = 0; i < 4; i++) {
+            switch(i) {
+                case 0:
+                    menuItem = new JMenuItem("Draw wave window");
+                    menuItem.setToolTipText("Creates draw wave window, where it is possible to draw wave");
+                    break;
+                case 1:
+                    menuItem = new JMenuItem("FFT window measures");
+                    menuItem.setToolTipText("Creates fft window with measures");
+                    break;
+                case 2:
+                    menuItem = new JMenuItem("FFT window complex");
+                    menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT");
+                    break;
+                case 3:
+                    menuItem = new JMenuItem("Waveshaper");
+                    menuItem.setToolTipText("Creates waveshaper window which will be used on the marked wave parts.");
+                    break;
+            }
 
-        AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
-        menuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //double[] arr = new double[1024];
-                //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
+            AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //double[] arr = new double[1024];
+                    //double[] arr = SineGeneratorWithPhase.createSine(1024, 1, 90, 0);
 //                double[] arr = SineGeneratorWithPhase.createSine(1024, 1,
 //                        500, getOutputSampleRate(), 0);
-                double[] arr = new double[1024 << 8];
-                Random rand = new Random();
-                for (int i = 0; i < arr.length; i++) {
-                    arr[i] = rand.nextDouble();
-                    if (rand.nextDouble() > 0.5) {
-                        arr[i] *= -1;
+                    double[] arr = new double[1024 << 8];
+                    Random rand = new Random();
+                    for (int i = 0; i < arr.length; i++) {
+                        arr[i] = rand.nextDouble();
+                        if (rand.nextDouble() > 0.5) {
+                            arr[i] *= -1;
+                        }
                     }
-                }
 
 //                DoubleFFT_1D fft = new DoubleFFT_1D(arr.length);
 //                double[] fftResult = new double[1024];
@@ -3441,74 +3459,20 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                FFTWindowPanel.getRealIFFT(fftResult, fft);
 
 
-                // TODO: Just testing correctness of createSine
+                    // TODO: Just testing correctness of createSine
 //                addWave(new DoubleWave(fftResult, (int)outputAudioFormat.getSampleRate(), 1,
 //                        "Doesn't matter I don't create file anyways", false));
 //                addWave(new DoubleWave(arr, (int)outputAudioFormat.getSampleRate(), 1,
 //                        "Doesn't matter I don't create file anyways", false));
-                // TODO: Just testing correctness of createSine
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//                RocnikovyProjektIFace.Drawing.FFTWindowPanel fftWindowPanel;
-//                fftWindowPanel = new RocnikovyProjektIFace.Drawing.FFTWindowPanel(arr, 1024,
-//                        0, (int)outputAudioFormat.getSampleRate(), 1);
-//                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
-//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-//                if(result == JOptionPane.OK_OPTION) {
-//                    double[] wave = fftWindowPanel.getIFFTResult(true);
-//                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
-//                            "Doesn't matter I don't create file anyways", false));
-//                    double[] wave2 = fftWindowPanel.getIFFTResult(false);
-//                    addWave(new DoubleWave(wave2, getOutputSampleRate(), 1,
-//                            "Doesn't matter I don't create file anyways", false));
-//                }
-//            }
-//        });
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//                TimeWaveDrawPanel fftWindowPanel;
-//                fftWindowPanel = new TimeWaveDrawPanel((int)outputAudioFormat.getSampleRate(), 20, 1024);
-//                int result = JOptionPane.showConfirmDialog(null, fftWindowPanel,
-//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-//                if(result == JOptionPane.OK_OPTION) {
-//                    // TODO: VYMAZAT
-//                    //double[] wave = fftWindowPanel.getDrawnWave();
-//                    // TODO: VYMAZAT
-//                    double[] wave = fftWindowPanel.getNPeriods(getOutputSampleRate(), 1);
-//                    addWave(new DoubleWave(wave, getOutputSampleRate(),1,
-//                            "Doesn't matter I don't create file anyways", false));
-//                }
-//            }
-//        });
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//                FFTWindowRealAndImagWrapper fftWindowRealAndImagPanel;
-//                fftWindowRealAndImagPanel = new FFTWindowRealAndImagWrapper(arr, 1024,
-//                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
-//                        Color.LIGHT_GRAY, Color.LIGHT_GRAY);
-//                int result = JOptionPane.showConfirmDialog(null, fftWindowRealAndImagPanel,
-//                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-//                if (result == JOptionPane.OK_OPTION) {
-//                    double[] wave = fftWindowRealAndImagPanel.getIFFTResult();
-//                    addWave(new DoubleWave(wave, getOutputSampleRate(), 1,
-//                            "Doesn't matter I don't create file anyways", false));
-//                }
-//            }
-//        });
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    // TODO: Just testing correctness of createSine
 
 //                WaveShaper waveShaper = new WaveShaper(10240, Color.LIGHT_GRAY, -1, 1);
 //                WaveShaper waveShaper = new WaveShaper(1024, Color.LIGHT_GRAY, -1, 1);
 //                WaveShaper waveShaper = new WaveShaper(200, Color.LIGHT_GRAY, -1, 1, true);
 
 //                TimeWaveDrawWrapper waveShaper = new TimeWaveDrawWrapper(500, 1200, true, Color.LIGHT_GRAY, true);
-                TimeWaveDrawWrapper waveShaper = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
-                        true, Color.LIGHT_GRAY, true);
+                    TimeWaveDrawWrapper waveShaper = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
+                            true, Color.LIGHT_GRAY, true);
 
 //                FFTWindowWrapper waveShaper = new FFTWindowWrapper(arr, 1024, 0,
 //                        getOutputSampleRate(), 1, true,
@@ -3519,13 +3483,14 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                        0, (int) outputAudioFormat.getSampleRate(), 1, true,
 //                        Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
 
-                JFrame f = new JFrame() {
-                    private Dimension minSize = new Dimension();
-                    // TODO: ZMENENY
+                    JFrame f = new JFrame() {
+                        private Dimension minSize = new Dimension();
+
+                        // TODO: ZMENENY
 //                    private Dimension minSize = null;
-                    // TODO: ZMENENY
-                    @Override
-                    public Dimension getMinimumSize() {
+                        // TODO: ZMENENY
+                        @Override
+                        public Dimension getMinimumSize() {
 // TODO: ZMENENY
 //                        if(minSize == null) {
 //                            Insets insets = getInsets();
@@ -3534,23 +3499,23 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                                    waveShaper.getMinimumSize().height + insets.bottom + insets.top);
 //                        }
 // TODO: ZMENENY
-                        Insets insets = getInsets();
-                        minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
-                        minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
+                            Insets insets = getInsets();
+                            minSize.width = waveShaper.getMinimumSize().width + insets.left + insets.right;
+                            minSize.height = waveShaper.getMinimumSize().height + insets.bottom + insets.top;
 
-                        // TODO: ZMENENY - 2
-                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                            // TODO: ZMENENY - 2
+                            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 //                        minSize.width = screenSize.width + insets.left + insets.right;
-                        minSize.width = screenSize.width;
+                            minSize.width = screenSize.width;
 //                        minSize.width = PartsConnectingTabbedPanel.MAXIMIZED_FRAME_WIDTH;
 
-                        // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
-                        Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
-                        int taskBarSize = scnMax.bottom;
-                        minSize.height = screenSize.height - taskBarSize;
-                        // TODO: ZMENENY - 2
-                        return minSize;
-                    }
+                            // https://stackoverflow.com/questions/10123735/get-effective-screen-size-from-java
+                            Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
+                            int taskBarSize = scnMax.bottom;
+                            minSize.height = screenSize.height - taskBarSize;
+                            // TODO: ZMENENY - 2
+                            return minSize;
+                        }
 // TODO: ZMENENY
 // TODO: MAX SIZE
 //                    // Have to also have maximum size to disable width resizing.
@@ -3566,22 +3531,21 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    }
 // TODO: MAX SIZE
 // TODO: ZMENENY
-                };
+                    };
 
-                f.setMinimumSize(new Dimension());
+                    f.setMinimumSize(new Dimension());
 
 
-
-                f.setLayout(new FlowLayout());
-                f.addComponentListener(new ComponentListener() {
-                    @Override
-                    public void componentResized(ComponentEvent e) {
-                        ProgramTest.debugPrint("Resizing fft frame");
+                    f.setLayout(new FlowLayout());
+                    f.addComponentListener(new ComponentListener() {
+                        @Override
+                        public void componentResized(ComponentEvent e) {
+                            ProgramTest.debugPrint("Resizing fft frame");
 //                        f.revalidate();
 //                        f.repaint();
-                        //f.pack();
-                        //waveShaper.setPreferredSize(waveShaper.getPreferredSize());
-                        // TODO: ZMENENY
+                            //f.pack();
+                            //waveShaper.setPreferredSize(waveShaper.getPreferredSize());
+                            // TODO: ZMENENY
 //                        f.setSize(f.getMinimumSize().width, e.getComponent().getHeight());
 //                        Dimension d = f.getContentPane().getMaximumSize();
 //                        Dimension s = f.getContentPane().getSize();
@@ -3589,37 +3553,37 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                            System.exit(4877);
 //                            f.getContentPane().setSize(new Dimension(d));
 //                        }
-                        // TODO: ZMENENY
-                        // TODO: ZMENENY
+                            // TODO: ZMENENY
+                            // TODO: ZMENENY
 //                        f.setSize(4130, 608);
 //                        f.getContentPane().setSize(1684, 616);
-                        // TODO: ZMENENY
-                        waveShaper.revalidate();
-                        waveShaper.repaint();
-                        ProgramTest.debugPrint("Resize content:",
-                                f.getContentPane().getSize(), waveShaper.getSize(), f.getSize(),
-                                waveShaper.getPreferredSize(), f.getPreferredSize());
-                        ProgramTest.debugPrint(
-                                f.getContentPane().getMinimumSize(), waveShaper.getMinimumSize(), f.getMinimumSize());
-                    }
+                            // TODO: ZMENENY
+                            waveShaper.revalidate();
+                            waveShaper.repaint();
+                            ProgramTest.debugPrint("Resize content:",
+                                    f.getContentPane().getSize(), waveShaper.getSize(), f.getSize(),
+                                    waveShaper.getPreferredSize(), f.getPreferredSize());
+                            ProgramTest.debugPrint(
+                                    f.getContentPane().getMinimumSize(), waveShaper.getMinimumSize(), f.getMinimumSize());
+                        }
 
-                    @Override
-                    public void componentMoved(ComponentEvent e) {
+                        @Override
+                        public void componentMoved(ComponentEvent e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void componentShown(ComponentEvent e) {
+                        @Override
+                        public void componentShown(ComponentEvent e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void componentHidden(ComponentEvent e) {
+                        @Override
+                        public void componentHidden(ComponentEvent e) {
 
-                    }
-                });
-                f.add(waveShaper);
-                // TODO: Vymazat tyhle veci:
+                        }
+                    });
+                    f.add(waveShaper);
+                    // TODO: Vymazat tyhle veci:
 //                f.setContentPane(waveShaper);
 
 //                f.setContentPane(new JPanel() {
@@ -3634,20 +3598,18 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    System.exit(14777);
 //                }
 
-                //f.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
-                //f.setContentPane(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+                    //f.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
+                    //f.setContentPane(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
 
 //                JPanel p = new JPanel();
 //                f.setContentPane(p);
 //                p.add(new FunctionWaveDrawPanel(200, true, Color.LIGHT_GRAY));
 
 
-
-
-                // TODO: JMENU - presunuto do te tridy
-                JMenuBar menuBar = new JMenuBar();
-                waveShaper.addMenus(menuBar, thisAudioPlayerClass);
-                f.setJMenuBar(menuBar);
+                    // TODO: JMENU - presunuto do te tridy
+                    JMenuBar menuBar = new JMenuBar();
+                    waveShaper.addMenus(menuBar, thisAudioPlayerClass);
+                    f.setJMenuBar(menuBar);
 //                JMenu menu = new JMenu("Options");
 //                menuBar.add(menu);
 //                JMenuItem optionsMenuItem = new JMenuItem("Set Parameters");
@@ -3664,10 +3626,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                        addWave(wave);
 //                    }
 //                });
-                // TODO: JMENU
+                    // TODO: JMENU
 
 
-                f.pack();       // Have to be called otherwise, min size is ignored
+                    f.pack();       // Have to be called otherwise, min size is ignored
 //                //f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 //                Toolkit tk = Toolkit.getDefaultToolkit();
 //                int xSize = ((int) tk.getScreenSize().getWidth());
@@ -3708,9 +3670,9 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 // TODO: ZMENENY
 
 //                ProgramTest.debugPrint("Size content:", content.getSize(), waveShaper.getSize(), f.getSize());
-                f.setVisible(true);
-                f.setResizable(false);
-                f.setLocation(-1, -1);
+                    f.setVisible(true);
+                    f.setResizable(false);
+                    f.setLocation(-1, -1);
 
 //                int result = JOptionPane.showConfirmDialog(null, waveShaper,
 //                        "FFT window", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -3719,15 +3681,14 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //                    //double[] wave = fftWindowPanel.getDrawnWave();
 //                    // TODO: VYMAZAT
 //                    double[] wave = waveShaper.getOutputValues();
-                      //  addWave(wave);
+                    //  addWave(wave);
 //                }
-            }
-        });
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
+            });
 
 
-        menu.add(menuItem);
+            menu.add(menuItem);
+        }
     }
 
 
@@ -3913,6 +3874,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO: ASI PREKOMBINOVANY - Podle me staci jen to spodni co je zakomentovany, ted me nenapada duvod
+                // Proc jsem vytvarel i novou instanci - Napadlo me to prootze ten kod je prakticky totoznej s tou metodu
+                // addAudioOperation(WithoutInputWavePluginIFace operation, JMenu menu)
+                // Totez plati pro tu druhou addPlugin metodu s WithInputWavePluginIFace
+
                 // To reset the plugin
                 Class<?> clazz = plugin.getClass();
                 try {
@@ -3940,6 +3906,20 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     }, true, false);
                 }
             }
+
+
+//                boolean canContinueOperation = loadPluginParameters(pluginToAdd, true);
+//                if(canContinueOperation) {
+//                    stopAndModifyAudio(false, new ModifyAudioIFace() {
+//                        @Override
+//                        public void modifyAudio() {
+//                            performOperationInternal(pluginToAdd);
+//                        }
+//                    }, true, false);
+//                }
+//            }
+            // TODO: ASI PREKOMBINOVANY
+
         });
 
         menu.add(menuItem);

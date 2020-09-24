@@ -3456,6 +3456,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame f = createDrawFrame(DRAW_TYPE, getOutputSampleRate(), thisAudioPlayerClass);
+                f.setVisible(true);
             }
         };
     }
@@ -3583,10 +3584,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         ((DrawWrapperIFace) drawPanel).addMenus(menuBar, waveAdder);
         f.setJMenuBar(menuBar);
         f.pack();       // Have to be called otherwise, min size is ignored
-        f.setVisible(true);
         f.setResizable(false);
         f.setLocation(-1, -1);
-
         return f;
     }
 

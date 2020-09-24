@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class WaveShaper extends DrawWrapperBase {
     public static WaveShaper createMaxSizeWaveShaper(Color backgroundColor,
                                                      double minValue, double maxValue,
@@ -34,6 +33,9 @@ public class WaveShaper extends DrawWrapperBase {
 
     private final FunctionWaveDrawPanel drawnFunctionPanel;
 
+    public double convertInputToOutput(double inputValue) {
+        return drawnFunctionPanel.convertInputToOutput(inputValue);
+    }
     public double[] getOutputValues() {
         return drawnFunctionPanel.getDrawnWave();
     }

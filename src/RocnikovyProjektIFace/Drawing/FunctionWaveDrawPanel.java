@@ -42,7 +42,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         double binIndex;
 
         if(inputValue != 0) {
-            binIndex = ratio * DRAW_VALUES.length;
+            binIndex = ratio * (DRAW_VALUES.length - 1);
         }
         else {
             binIndex = 0;

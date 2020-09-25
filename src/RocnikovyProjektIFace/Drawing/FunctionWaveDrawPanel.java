@@ -36,25 +36,44 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
      * @param inputValue
      * @return
      */
-    public double getBinIndex(double inputValue) {
+    private double getBinIndex(double inputValue) {
+        return getBinIndex(DRAW_VALUES.length, inputValue);
+    }
+
+
+    private static double getBinIndex(double[] function, double inputValue) {
+        return getBinIndex(function.length, inputValue);
+    }
+
+    /**
+     * Returns double, because the result will be interpolated.
+     * @param inputValue
+     * @return
+     */
+    private static double getBinIndex(int functionArrLen, double inputValue) {
         inputValue += 1;           // Shift it so it is between 0-2 instead of -1 and 1
-        double ratio = 2.0 / inputValue;
+        double ratio = inputValue / 2.0;
         double binIndex;
 
         if(inputValue != 0) {
-            binIndex = ratio * (DRAW_VALUES.length - 1);
+            binIndex = ratio * (functionArrLen - 1);
         }
         else {
             binIndex = 0;
         }
+
         return binIndex;
     }
 
 
-
     public double convertInputToOutput(double inputValue) {
-        double index = getBinIndex(inputValue);
-        double output = WaveTable.interpolate(DRAW_VALUES, index);
+        return convertInputToOutput(DRAW_VALUES, inputValue);
+    }
+
+
+    public static double convertInputToOutput(double[] function, double inputValue) {
+        double index = getBinIndex(function.length, inputValue);
+        double output = WaveTable.interpolate(function, index);
         return output;
     }
 }

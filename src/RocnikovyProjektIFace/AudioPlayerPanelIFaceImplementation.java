@@ -3462,6 +3462,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
+
     /**
      *
      * @param DRAW_TYPE
@@ -3469,7 +3470,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
      * @param waveAdder is needed everywhere except waveshaper.
      * @return
      */
-    public static JFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder) {
+    public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder) {
         double[] arr = new double[1024 << 8];
         Random rand = new Random();
         for (int i = 0; i < arr.length; i++) {
@@ -3505,11 +3506,18 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
 
 
-        JFrame f;
+        DrawJFrame f;
+        String pluginName;
         switch (DRAW_TYPE) {
             case FFT_MEASURES:
             case FFT_COMPLEX:
-                f = new JFrame() {
+                if(DRAW_TYPE == DRAW_PANEL_TYPES.FFT_MEASURES) {
+                    pluginName = "FFT Measures";
+                }
+                else {
+                    pluginName = "FFT complex numbers";
+                }
+                f = new DrawJFrame(drawPanel, pluginName) {
                     private Dimension minSize = new Dimension();
 
                     @Override
@@ -3528,7 +3536,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 break;
             case TIME:
             case WAVESHAPER:
-                f = new JFrame() {
+                if(DRAW_TYPE == DRAW_PANEL_TYPES.TIME) {
+                    pluginName = "Wave drawing";
+                }
+                else {
+                    pluginName = "Waveshaper";
+                }
+                f = new DrawJFrame(drawPanel, pluginName) {
                     private Dimension minSize = new Dimension();
 
                     @Override
@@ -3894,6 +3908,75 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 else {
                     canContinueOperation = false;
                 }
+            }
+            else if(plugin instanceof JFrame) {
+                ((JFrame) plugin).setVisible(true);
+                // When using frame plugin, then have look at how does the code work, since you will usually have to call
+                // special method to perform operation etc. For example stopAndModifyAudio when adding plugin to player or
+                // updateAfterPropertiesCall when using the plugin in properties inside synth part. Or in the second case just
+                // take care of the update inside the frame methods.
+
+                // I don't see any simple way how to make dialog from JFrame, especially when I am using the size
+                // of frame inside the panel. I will repair it later maybe, but currently I don't have that much time
+                // and I just don't see how to do it
+
+
+                // TODO: Vymazat
+//////                JDialog d = new JDialog((JFrame)plugin, "asdawsdaftwsgggswg", true);
+//////                d.setModal(true);
+//////                d.pack();
+//////                d.setVisible(true);
+////
+//                ((JFrame) plugin).setVisible(true);
+//                int result = JOptionPane.showConfirmDialog((JFrame) plugin, plugin,
+//                        //(JFrame)plugin, ((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest)plugin).panel,
+//                        //((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest)plugin).panel, null,
+//                        //(JFrame)plugin, null,
+//                        "Dialog: " + plugin.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+//                        JOptionPane.PLAIN_MESSAGE);
+//                if (result == JOptionPane.OK_OPTION) {
+//                    canContinueOperation = true;
+//                } else {
+//                    canContinueOperation = false;
+//                }
+////
+////
+////                ((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest) plugin).setVisible(true);
+////
+////                JPanel shutDownPanel = new JPanel();
+////                Timer t = new Timer(1000, new ActionListener() {
+////                    @Override
+////                    public void actionPerformed(ActionEvent e) {
+////                        Window w = SwingUtilities.getWindowAncestor(shutDownPanel);
+////                        w.setVisible(!w.isVisible());
+////                    }
+////                });
+////                t.start();
+////                int result = JOptionPane.showConfirmDialog(null, shutDownPanel,
+////                        "Dialog: " + plugin.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+////                        JOptionPane.PLAIN_MESSAGE);
+//////                System.exit(465484);
+////
+//////                JDialog d = new JDialog((JFrame)plugin, "asdawsdaftwsgggswg", true);
+//////                d.setModal(true);
+//////                d.pack();
+//////                d.setVisible(true);
+////
+//////                try {
+//////                while(true)Thread.sleep(500);
+//////                } catch (InterruptedException e) {
+//////                    e.printStackTrace();
+//////                }
+////
+////
+//////                try {
+//////                    Thread.sleep(10000);
+//////                } catch (InterruptedException e) {
+//////                    e.printStackTrace();
+//////                }
+////
+////                canContinueOperation = false;
+                canContinueOperation = false;
             }
             else {
                 int result;

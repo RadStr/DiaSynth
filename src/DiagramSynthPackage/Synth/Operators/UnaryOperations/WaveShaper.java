@@ -5,28 +5,114 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPan
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.Unit;
+import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.Drawing.DrawJFrame;
+import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
+import Rocnikovy_Projekt.Aggregations;
+import Rocnikovy_Projekt.Program;
 
-import java.awt.*;
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class WaveShaper extends UnaryOperator {
     public WaveShaper(Unit u) {
         super(u);
-        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
-                -1, 1, true);
     }
     public WaveShaper(JPanelWithMovableJPanels panelWithUnits) {
         super(panelWithUnits);
-        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
-                -1, 1, true);
     }
 
 
-    RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel;
+    public static class CustomFramePlugin extends JFrame implements PluginDefaultIFace {
+        Tohle presunout do zvlastniho souboru
+        public CustomFramePlugin(String pluginName) {
+            PLUGIN_NAME = pluginName;
+        }
+
+        private final String PLUGIN_NAME;
+
+        /**
+         * @return Returns true if the operation needs parameters - so user needs to put them to the JPanel.
+         * If it returns false, then it doesn't need parameters from user and the operation can start immediately
+         */
+        @Override
+        public boolean shouldWaitForParametersFromUser() {
+            return true;
+        }
+
+        /**
+         * This parameter matters only when shouldWaitForParametersFromUser returns true
+         *
+         * @return
+         */
+        @Override
+        public boolean isUsingDefaultJPane() {
+            return false;
+        }
+
+        @Override
+        public String getPluginName() {
+            return PLUGIN_NAME;
+        }
+    }
+
+
+    public static class FunctionWithMaxAbsVal {
+        public FunctionWithMaxAbsVal(double[] function) {
+            setFunction(function);
+        }
+
+        private double[] function;
+        private void setFunction(double[] function) {
+            this.function = function;
+            setFunctionOutputMaxAbsVal();
+        }
+        private double functionOutputMaxAbsVal;
+        private void setFunctionOutputMaxAbsVal() {
+            functionOutputMaxAbsVal = Program.performAggregation(function, Aggregations.ABS_MAX);
+        }
+    }
+
+
+
+
+
+    private volatile FunctionWithMaxAbsVal functionWrapper;
+    private void setFunction() {
+        DrawJFrame f = (DrawJFrame)propertiesPanel;
+        RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
+        double[] waveShaperFunction = waveShaperPanel.getOutputValues();
+        double[] newFunction = new double[waveShaperFunction.length];
+        System.arraycopy(waveShaperFunction, 0, newFunction, 0, newFunction.length);
+        functionWrapper = new FunctionWithMaxAbsVal(newFunction);
+    }
+
+    @Override
+    protected void setPropertiesPanel() {
+        // Doesn't have properties
+        propertiesPanel = (DrawJFrame)AudioPlayerPanelIFaceImplementation.
+                createDrawFrame(AudioPlayerPanelIFaceImplementation.DRAW_PANEL_TYPES.WAVESHAPER,
+                        -1, null);
+        setFunction();
+        ((JFrame)propertiesPanel).addWindowListener(new WindowAdapter() {
+           @Override
+           public void windowClosing(WindowEvent e)
+           {
+               setFunction();
+           }
+       });
+        // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
+//        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
+//                -1, 1, true);
+        // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
+    }
 
 
     @Override
     public double unaryOperation(double val) {
-        return waveShaperPanel.convertInputToOutput(val);
+        return FunctionWaveDrawPanel.convertInputToOutput(functionWrapper.function, val);
     }
 
     @Override
@@ -56,6 +142,30 @@ public class WaveShaper extends UnaryOperator {
     public void resetToDefaultState() {
         // EMPTY
     }
+
+
+    @Override
+    public void calculateSamples() {
+        double[] ops = inputPorts[0].getValues();
+
+        // Have to normalize, because the waveshaper expects the input to be on [-1, 1] interval
+        double amplitude = inputPorts[0].getMaxAbsValue();
+        if(amplitude != 0) {
+            for (int i = 0; i < ops.length; i++) {
+                ops[i] /= amplitude;
+            }
+        }
+        for(int i = 0; i < results.length; i++) {
+            results[i] = unaryOperation(ops[i]);
+        }
+    }
+
+    @Override
+    public double getMaxAbsValue() {
+        return functionWrapper.functionOutputMaxAbsVal;
+    }
+
+
 
     @Override
     public String getTooltip() {

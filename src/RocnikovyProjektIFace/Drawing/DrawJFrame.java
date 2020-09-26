@@ -1,10 +1,10 @@
 package RocnikovyProjektIFace.Drawing;
 
-import DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.CustomJFramePlugin;
 
 import javax.swing.*;
 
-public class DrawJFrame extends WaveShaper.CustomFramePlugin {
+public class DrawJFrame extends CustomJFramePlugin {
     public DrawJFrame(JPanel drawPanel, String pluginName) {
         super(pluginName);
         this.drawPanel = drawPanel;

@@ -25,40 +25,6 @@ public class WaveShaper extends UnaryOperator {
     }
 
 
-    public static class CustomFramePlugin extends JFrame implements PluginDefaultIFace {
-        Tohle presunout do zvlastniho souboru
-        public CustomFramePlugin(String pluginName) {
-            PLUGIN_NAME = pluginName;
-        }
-
-        private final String PLUGIN_NAME;
-
-        /**
-         * @return Returns true if the operation needs parameters - so user needs to put them to the JPanel.
-         * If it returns false, then it doesn't need parameters from user and the operation can start immediately
-         */
-        @Override
-        public boolean shouldWaitForParametersFromUser() {
-            return true;
-        }
-
-        /**
-         * This parameter matters only when shouldWaitForParametersFromUser returns true
-         *
-         * @return
-         */
-        @Override
-        public boolean isUsingDefaultJPane() {
-            return false;
-        }
-
-        @Override
-        public String getPluginName() {
-            return PLUGIN_NAME;
-        }
-    }
-
-
     public static class FunctionWithMaxAbsVal {
         public FunctionWithMaxAbsVal(double[] function) {
             setFunction(function);
@@ -76,9 +42,8 @@ public class WaveShaper extends UnaryOperator {
     }
 
 
-
-
-
+    // I have separate variable, which uses its own copy of the function array. Because otherwise when the function
+    // is being changed and the samples are generated at the same time, then there could be invalid values (half-written doubles)
     private volatile FunctionWithMaxAbsVal functionWrapper;
     private void setFunction() {
         DrawJFrame f = (DrawJFrame)propertiesPanel;

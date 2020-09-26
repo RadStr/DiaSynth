@@ -128,7 +128,9 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         fft = new DoubleFFT_1D(windowSize);
 
 
-        Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
+        if(song != null) {
+            Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
+        }
         // TODO: DRAW PANEL THINGS
 //        TODO: nevim jestli je ta normalizace dobre
         // TODO: DRAW PANEL THINGS

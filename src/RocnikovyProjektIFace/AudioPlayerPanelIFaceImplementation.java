@@ -3471,14 +3471,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
      * @return
      */
     public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder) {
-        double[] arr = new double[1024 << 8];
-        Random rand = new Random();
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = rand.nextDouble();
-            if (rand.nextDouble() > 0.5) {
-                arr[i] *= -1;
-            }
-        }
+        double[] arr = null;
+//        double[] arr = new double[1024 << 8];
+//        Random rand = new Random();
+//        for (int i = 0; i < arr.length; i++) {
+//            arr[i] = rand.nextDouble();
+//            if (rand.nextDouble() > 0.5) {
+//                arr[i] *= -1;
+//            }
+//        }
 
         JPanel drawPanel;
         switch (DRAW_TYPE) {

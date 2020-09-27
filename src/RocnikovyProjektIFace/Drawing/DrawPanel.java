@@ -27,7 +27,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         this.shouldDrawLabelsAtTop = shouldDrawLabelsAtTop;
         setBackgroundColor(backgroundColor);
         this.ALLOW_DIFFERENT_WIDTH_BINS = allowDifferentWidthBins;
-        setIsEditable(isEditable);
         labels = new String[binCount];
         DRAW_VALUES = new double[binCount];
 
@@ -72,6 +71,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         for (int i = 0; i < binIndices.length; i++) {
             binIndices[i] = Integer.toString(i);
         }
+
+        setIsEditable(isEditable);
     }
 
 
@@ -175,7 +176,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
     private boolean isEditable;
-    protected void setIsEditable(boolean isEditable) {
+    private void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
     public boolean getIsEditable() {
@@ -185,7 +186,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected final double[] DRAW_VALUES;
     protected String[] drawValuesStrings;
     protected void setDrawValue(int index, double value) {
-        if(isEditable) {
+        // Check for null, because we need to first set the labels before prohibiting editing (if isEditable == false)
+        if(isEditable || drawValuesStrings[index] == null) {
             DRAW_VALUES[index] = value;
             setDrawValueString(index, DRAW_VALUES[index]);
         }

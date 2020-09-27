@@ -53,62 +53,63 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
     @Override
     public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
-        JMenu menu = new JMenu("Options");
-        menuBar.add(menu);
-        JMenuItem optionsMenuItem = new JMenuItem("Set fft window parameters");
-        menu.add(optionsMenuItem);
-        optionsMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(fftPanel);
-                PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
-                        classWithValues.getClass());
+        if(fftPanel.getIsEditable()) {
+            JMenu menu = new JMenu("Options");
+            menuBar.add(menu);
+            JMenuItem optionsMenuItem = new JMenuItem("Set fft window parameters");
+            menu.add(optionsMenuItem);
+            optionsMenuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(fftPanel);
+                    PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
+                            classWithValues.getClass());
 
-                int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                        "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                    int result = JOptionPane.showConfirmDialog(null, dialogPanel,
+                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
 
-                if(result == JOptionPane.OK_OPTION) {
-                    FFTWindowPanel newFFTPanel = (FFTWindowPanel)fftPanel.createNewFFTPanel(
-                            classWithValues.getWindowSize(), classWithValues.getShouldChangeWindowSize(),
-                            classWithValues.getSampleRate(), classWithValues.getShouldChangeSampleRate());
-                    setDrawPanel(newFFTPanel);
+                    if (result == JOptionPane.OK_OPTION) {
+                        FFTWindowPanel newFFTPanel = (FFTWindowPanel) fftPanel.createNewFFTPanel(
+                                classWithValues.getWindowSize(), classWithValues.getShouldChangeWindowSize(),
+                                classWithValues.getSampleRate(), classWithValues.getShouldChangeSampleRate());
+                        setDrawPanel(newFFTPanel);
+                    }
                 }
-            }
-        });
+            });
 
-        menu = new JMenu("Action");
-        menuBar.add(menu);
-        JMenuItem actionMenuItem = new JMenuItem("Perform IFFT");
-        menu.add(actionMenuItem);
-        actionMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                IFFTDialogPanel classWithValues = new IFFTDialogPanel();
-                PluginJPanelBasedOnAnnotations performIFFTDialog = new PluginJPanelBasedOnAnnotations(classWithValues,
-                        classWithValues.getClass());
+            menu = new JMenu("Action");
+            menuBar.add(menu);
+            JMenuItem actionMenuItem = new JMenuItem("Perform IFFT");
+            menu.add(actionMenuItem);
+            actionMenuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    IFFTDialogPanel classWithValues = new IFFTDialogPanel();
+                    PluginJPanelBasedOnAnnotations performIFFTDialog = new PluginJPanelBasedOnAnnotations(classWithValues,
+                            classWithValues.getClass());
 
-                int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
-                        "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                    int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
+                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
 
-                if(result == JOptionPane.OK_OPTION) {
-                    double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero(),
-                            classWithValues.getPeriodCount());
-                    waveAdder.addWave(wave);
+                    if (result == JOptionPane.OK_OPTION) {
+                        double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero(),
+                                classWithValues.getPeriodCount());
+                        waveAdder.addWave(wave);
+                    }
                 }
-            }
-        });
+            });
 
-        addReset(menu);
+            addReset(menu);
+        }
     }
 
 
     private static class FFTWindowOptionsDialogPanel implements PluginDefaultIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
-            // 2* because otherwise it is Nyquist frequency
-            this.sampleRate = 2 * (int)Math.round((Program.getBinCountRealForward(windowSize) - 1) * fftPanel.FREQ_JUMP);
+            this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
         }
 
 

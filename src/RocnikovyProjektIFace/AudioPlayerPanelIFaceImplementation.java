@@ -792,9 +792,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         addAudioOperationsWithoutWave(audioModJMenu);
         audioModJMenu.addSeparator();
 
-        JMenu fftJMenu = new JMenu("FFT Test");
-        addDrawWindowsOperations(fftJMenu);
-        menuBar.add(fftJMenu);
+        JMenu drawJMenu = new JMenu("EXPERIMENTAL");
+        drawJMenu.setToolTipText("FFT and wave drawing");
+        addDrawWindowsOperations(drawJMenu);
+        menuBar.add(drawJMenu);
 
         addFilters(audioModJMenu);
         audioModJMenu.addSeparator();
@@ -3426,9 +3427,17 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     menuItem = new JMenuItem("FFT window measures");
                     menuItem.setToolTipText("Creates fft window with measures");
                     break;
+                case FFT_MEASURES_VIEW_ONLY:
+                    menuItem = new JMenuItem("FFT window measures (view only)");
+                    menuItem.setToolTipText("Creates fft window with measures. Doesn't allow editing");
+                    break;
                 case FFT_COMPLEX:
                     menuItem = new JMenuItem("FFT window complex");
                     menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT");
+                    break;
+                case FFT_COMPLEX_VIEW_ONLY:
+                    menuItem = new JMenuItem("FFT window complex (view only)");
+                    menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT. Doesn't allow editing");
                     break;
                 case WAVESHAPER:
                     menuItem = new JMenuItem("Waveshaper");
@@ -3447,8 +3456,14 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     public enum DRAW_PANEL_TYPES {
         TIME,
         FFT_MEASURES,
+        FFT_MEASURES_VIEW_ONLY,
         FFT_COMPLEX,
-        WAVESHAPER
+        FFT_COMPLEX_VIEW_ONLY,
+        WAVESHAPER;
+
+        public boolean isViewOnly() {
+            return this == DRAW_PANEL_TYPES.FFT_MEASURES_VIEW_ONLY || this == DRAW_PANEL_TYPES.FFT_COMPLEX_VIEW_ONLY;
+        }
     }
 
     private ActionListener createDrawWindowActionListener(final DRAW_PANEL_TYPES DRAW_TYPE) {
@@ -3466,9 +3481,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         }
                     }
                 }
+
+
                 JFrame f = createDrawFrame(DRAW_TYPE, getOutputSampleRate(), thisAudioPlayerClass,
                         wave, getMarkStartXSample(), markLen);
-                f.setVisible(true);
+                if(f != null) {
+                    f.setVisible(true);
+                }
             }
         };
     }
@@ -3490,27 +3509,35 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         JPanel drawPanel;
         if(inputArr == null) {
             startIndex = 0;
-            windowSize = 1027;
+            windowSize = 1024;
         }
         else {
             startIndex = Math.max(startIndex, 0);
             windowSize = Math.max(windowSize, FFTWindowPanel.MIN_WINDOW_SIZE);
             windowSize = Math.min(windowSize, FFTWindowPanel.MAX_WINDOW_SIZE);
-            windowSize = 1024;
         }
+
+        boolean isViewOnly = DRAW_TYPE.isViewOnly();
+        boolean isEditable = !isViewOnly;
+        if(isViewOnly && inputArr == null) {
+            return null;
+        }
+
         switch (DRAW_TYPE) {
             case TIME:
                 drawPanel = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
                         true, Color.LIGHT_GRAY, true);
                 break;
             case FFT_MEASURES:
+            case FFT_MEASURES_VIEW_ONLY:
                 drawPanel = new FFTWindowWrapper(inputArr, windowSize, startIndex,
-                        sampleRate,true, Color.LIGHT_GRAY,
+                        sampleRate, isEditable, Color.LIGHT_GRAY,
                         0, 1, true);
                 break;
             case FFT_COMPLEX:
+            case FFT_COMPLEX_VIEW_ONLY:
                 drawPanel = new FFTWindowRealAndImagWrapper(inputArr, windowSize,
-                        startIndex, sampleRate, true,
+                        startIndex, sampleRate, isEditable,
                         Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
                 break;
             case WAVESHAPER:
@@ -3527,8 +3554,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         String pluginName;
         switch (DRAW_TYPE) {
             case FFT_MEASURES:
+            case FFT_MEASURES_VIEW_ONLY:
             case FFT_COMPLEX:
-                if(DRAW_TYPE == DRAW_PANEL_TYPES.FFT_MEASURES) {
+            case FFT_COMPLEX_VIEW_ONLY:
+                if(DRAW_TYPE == DRAW_PANEL_TYPES.FFT_MEASURES || DRAW_TYPE == DRAW_PANEL_TYPES.FFT_MEASURES_VIEW_ONLY) {
                     pluginName = "FFT Measures";
                 }
                 else {

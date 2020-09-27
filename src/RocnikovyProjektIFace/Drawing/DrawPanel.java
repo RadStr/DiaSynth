@@ -255,7 +255,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     private void tryChangeBin(Point p, boolean isDragEvent) {
         int bin = getBinAtPos(p);
-        System.out.println("BIN:\t" + bin + ":" + selectedBin);
+        // TODO: DEBUG
+//        System.out.println("BIN:\t" + bin + ":" + selectedBin);
+        // TODO: DEBUG
         if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
             setBinValue(bin, p.y);
         } else {
@@ -291,14 +293,18 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         if(bin < selectedBin) {
             jump = (p.y - oldMouseLoc.y) / (double)(selectedBin - bin);
-            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
+//            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
             for (int i = selectedBin; i >= bin; i--, y += jump) {
                 setBinValue(i, (int)y);
             }
         }
         else {
             jump = (p.y - oldMouseLoc.y) / (double)(bin - selectedBin);
-            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
+//            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
             for (int i = selectedBin; i <= bin; i++, y += jump) {
                 setBinValue(i, (int)y);
             }
@@ -607,7 +613,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
-            System.out.println("FT:" + "\t" + fontSize);
+// TODO: DEBUG
+//            System.out.println("FT:" + "\t" + fontSize);
+// TODO: DEBUG
         }
         n /= 2;
         textBinWidth /= 2;

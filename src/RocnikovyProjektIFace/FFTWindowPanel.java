@@ -151,7 +151,9 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
     private void tryChangeBin(Point p, boolean isDragEvent) {
         int bin = getBinAtPos(p);
-        System.out.println("BIN:\t" + bin + ":" + selectedBin);
+        // TODO: DEBUG
+//        System.out.println("BIN:\t" + bin + ":" + selectedBin);
+        // TODO: DEBUG
         if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
             setBinMeasure(bin, p.y);
         } else {
@@ -187,14 +189,18 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
 
         if(bin < selectedBin) {
             jump = (p.y - oldMouseLoc.y) / (double)(selectedBin - bin);
-            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
+//            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
             for (int i = selectedBin; i >= bin; i--, y += jump) {
                 setBinMeasure(i, (int)y);
             }
         }
         else {
             jump = (p.y - oldMouseLoc.y) / (double)(bin - selectedBin);
-            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
+//            System.out.println("Y!!!!!!!\t" + y);
+            // TODO: DEBUG
             for (int i = selectedBin; i <= bin; i++, y += jump) {
                 setBinMeasure(i, (int)y);
             }
@@ -436,7 +442,9 @@ public class FFTWindowPanel extends JPanel implements MouseMotionListener, Mouse
             fontSize = Program.getFont(fontSize, g, binFreqs, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;
             textBinWidth *= 2;
-            System.out.println("FT:" + "\t" + fontSize);
+// TODO: DEBUG
+//            System.out.println("FT:" + "\t" + fontSize);
+// TODO: DEBUG
         }
         n /= 2;
         textBinWidth /= 2;

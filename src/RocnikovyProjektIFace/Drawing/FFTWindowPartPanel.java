@@ -7,17 +7,17 @@ import java.awt.event.MouseEvent;
 
 public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
-                              int startIndex, int sampleRate, int numberOfChannels, boolean isEditable,
+                              int startIndex, int sampleRate, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(controlPanel, song, windowSize, startIndex,
                 Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize),
-                numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop);
+                isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
-                              int startIndex, double freqJump, int numberOfChannels, boolean isEditable,
+                              int startIndex, double freqJump, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels, isEditable,
+        super(song, windowSize, startIndex, freqJump, isEditable,
                 true, backgroundColor, shouldDrawLabelsAtTop, true);
         this.controlPanel = controlPanel;
     }
@@ -50,7 +50,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
 
 
         return new FFTWindowPartPanel(controlPanel, null, windowSize, -1, freqJump,
-                1, getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
+                getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
     }
 
 

@@ -24,6 +24,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Si
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
 import RocnikovyProjektIFace.Drawing.*;
+import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import RocnikovyProjektIFace.SpecificAudioPlayerDialogs.CreateEmptyWaveDialog;
@@ -3455,7 +3456,18 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame f = createDrawFrame(DRAW_TYPE, getOutputSampleRate(), thisAudioPlayerClass);
+                int markLen = getMarkEndXSample() - getMarkStartXSample();
+                double[] wave = null;
+                if(getShouldMarkPart()) {
+                    for (AudioWavePanelEverything w : waves) {
+                        if(w.getShouldMarkPart()) {
+                            wave = w.getDoubleWave().getSong();
+                            break;
+                        }
+                    }
+                }
+                JFrame f = createDrawFrame(DRAW_TYPE, getOutputSampleRate(), thisAudioPlayerClass,
+                        wave, getMarkStartXSample(), markLen);
                 f.setVisible(true);
             }
         };
@@ -3468,33 +3480,37 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
      * @param DRAW_TYPE
      * @param sampleRate is only needed for the FFT draw panels.
      * @param waveAdder is needed everywhere except waveshaper.
+     * @param inputArr is the array which will be used as input for the draw panel, can be null. Also used only for the FFT draw panels.
+     * @param startIndex useful only when inputArr is non-null. If < 0 then set to 0. Also used only for the FFT draw panels.
+     * @param windowSize useful only when inputArr is non-null. If <= 0 then set to 1024. Also used only for the FFT draw panels.
      * @return
      */
-    public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder) {
-        double[] arr = null;
-//        double[] arr = new double[1024 << 8];
-//        Random rand = new Random();
-//        for (int i = 0; i < arr.length; i++) {
-//            arr[i] = rand.nextDouble();
-//            if (rand.nextDouble() > 0.5) {
-//                arr[i] *= -1;
-//            }
-//        }
-
+    public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder,
+                                             double[] inputArr, int startIndex, int windowSize) {
         JPanel drawPanel;
+        if(inputArr == null) {
+            startIndex = 0;
+            windowSize = 1027;
+        }
+        else {
+            startIndex = Math.max(startIndex, 0);
+            windowSize = Math.max(windowSize, FFTWindowPanel.MIN_WINDOW_SIZE);
+            windowSize = Math.min(windowSize, FFTWindowPanel.MAX_WINDOW_SIZE);
+            windowSize = 1024;
+        }
         switch (DRAW_TYPE) {
             case TIME:
                 drawPanel = TimeWaveDrawWrapper.createMaxSizeTimeWaveDrawWrapper(500,
                         true, Color.LIGHT_GRAY, true);
                 break;
             case FFT_MEASURES:
-                drawPanel = new FFTWindowWrapper(arr, 1024, 0,
-                        sampleRate, 1, true,
-                        Color.LIGHT_GRAY, 0, 1, true);
+                drawPanel = new FFTWindowWrapper(inputArr, windowSize, startIndex,
+                        sampleRate,true, Color.LIGHT_GRAY,
+                        0, 1, true);
                 break;
             case FFT_COMPLEX:
-                drawPanel = new FFTWindowRealAndImagWrapper(arr, 1024,
-                        0, sampleRate, 1, true,
+                drawPanel = new FFTWindowRealAndImagWrapper(inputArr, windowSize,
+                        startIndex, sampleRate, true,
                         Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
                 break;
             case WAVESHAPER:
@@ -3575,6 +3591,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                         drawPanel.getPreferredSize(), f.getPreferredSize());
                 ProgramTest.debugPrint(
                         f.getContentPane().getMinimumSize(), drawPanel.getMinimumSize(), f.getMinimumSize());
+
+                if(f.getSize().width < f.getMinimumSize().width) {
+                    f.setMinimumSize(new Dimension());
+                    f.pack();
+                }
             }
 
             @Override

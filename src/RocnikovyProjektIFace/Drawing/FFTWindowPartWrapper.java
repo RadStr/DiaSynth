@@ -9,12 +9,11 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
                                 int windowSize,
                                 int startIndex,
                                 int sampleRate,
-                                int numberOfChannels,
                                 boolean isEditable,
                                 Color backgroundColor,
                                 boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPartPanel(controlPanel, audio, windowSize, startIndex,
-                        sampleRate, numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                        sampleRate, isEditable, backgroundColor, shouldDrawLabelsAtTop),
                 -1, 1);
     }
 
@@ -23,12 +22,11 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
                                 int windowSize,
                                 int startIndex,
                                 double freqJump,
-                                int numberOfChannels,
                                 boolean isEditable,
                                 Color backgroundColor,
                                 boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPartPanel(controlPanel, audio, windowSize, startIndex,
-                freqJump, numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                freqJump, isEditable, backgroundColor, shouldDrawLabelsAtTop),
                 -1, 1);
     }
 

@@ -3611,10 +3611,16 @@ public class Program {
                 result[j] = 0;
             }
         } else {
-            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
+            result[0] = Math.sqrt(fftMeasures[0]);
+            for(int i = 1, j = 2; i < fftMeasures.length; i++, j++) {
                 result[j] = Math.sqrt(fftMeasures[i]);
-                j++;
-                result[j] = 0;
+                if(i == fftMeasures.length - 2) {
+                    result[1] = 0;
+                }
+                else {
+                    j++;
+                    result[j] = 0;
+                }
             }
         }
 
@@ -3672,12 +3678,18 @@ public class Program {
                 result[j] = Math.sqrt(imag);
             }
         } else {
-            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
+            result[0] = Math.sqrt(fftMeasures[0]);
+            for(int i = 1, j = 2; i < fftMeasures.length; i++, j++) {
                 double real = Math.random() * fftMeasures[i];
                 double imag = fftMeasures[i] - real;
                 result[j] =  Math.sqrt(real);
-                j++;
-                result[j] = Math.sqrt(imag);
+                if(i == fftMeasures.length - 2) {
+                    result[1] = Math.sqrt(imag);
+                }
+                else {
+                    j++;
+                    result[j] = Math.sqrt(imag);
+                }
             }
         }
 

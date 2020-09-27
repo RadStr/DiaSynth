@@ -58,10 +58,10 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
         repaint();
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if(topFrame != null) {
-            topFrame.setResizable(true);
             topFrame.setMinimumSize(null);
             topFrame.pack();
-            topFrame.setResizable(false);
+            topFrame.revalidate();
+            topFrame.repaint();
         }
     }
 

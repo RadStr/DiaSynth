@@ -13,23 +13,22 @@ import java.awt.event.ActionListener;
 public class FFTWindowWrapper extends DrawWrapperBase {
     public FFTWindowWrapper(double[] audio,
                             int windowSize, int startIndex, double freqJump,
-                            int numberOfChannels, boolean isEditable,
-                            Color backgroundColor,
+                            boolean isEditable, Color backgroundColor,
                             double minValue, double maxValue,
                             boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, freqJump,
-                        numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                        isEditable, backgroundColor, shouldDrawLabelsAtTop),
                 minValue, maxValue);
     }
 
     public FFTWindowWrapper(double[] audio,
-                            int windowSize, int startIndex, int sampleRate,
-                            int numberOfChannels, boolean isEditable,
+                            int windowSize, int startIndex,
+                            int sampleRate, boolean isEditable,
                             Color backgroundColor,
                             double minValue, double maxValue,
                             boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, sampleRate,
-                        numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop),
+                        isEditable, backgroundColor, shouldDrawLabelsAtTop),
                 minValue, maxValue);
     }
 
@@ -113,7 +112,9 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         }
 
 
-        @PluginParametersAnnotation(lowerBound = "1", parameterTooltip = "Controls number of size of the FFT window.")
+        @PluginParametersAnnotation(lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
+                upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
+                parameterTooltip = "Controls number of size of the FFT window.")
         private int windowSize;
         public int getWindowSize() {
             return windowSize;

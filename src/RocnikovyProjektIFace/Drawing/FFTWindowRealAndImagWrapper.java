@@ -114,14 +114,14 @@ import java.awt.event.ActionListener;
 
 
 public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIFace {
-    public FFTWindowRealAndImagWrapper(double[] song, int windowSize, int startIndex, int sampleRate,
-                                       int numberOfChannels, boolean isEditable,
+    public FFTWindowRealAndImagWrapper(double[] song, int windowSize, int startIndex,
+                                       int sampleRate, boolean isEditable,
                                        Color backgroundColorRealPart, Color backgroundColorImagPart,
                                        boolean shouldDrawLabelsAtTop) {
         realPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
-                numberOfChannels, isEditable, backgroundColorRealPart, shouldDrawLabelsAtTop);
+                isEditable, backgroundColorRealPart, shouldDrawLabelsAtTop);
         imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
-                numberOfChannels, isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
+                isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
 
         int binCount = Program.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
@@ -129,7 +129,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
 
         if(song != null) {
-            Program.calculateFFTRealForward(song, startIndex, windowSize, numberOfChannels, fft, fftResult);
+            Program.calculateFFTRealForward(song, startIndex, windowSize, 1, fft, fftResult);
         }
         // TODO: DRAW PANEL THINGS
 //        TODO: nevim jestli je ta normalizace dobre
@@ -347,7 +347,9 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         }
 
 
-        @PluginParametersAnnotation(lowerBound = "1", parameterTooltip = "Controls number of size of the FFT window.")
+        @PluginParametersAnnotation(lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
+                upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
+                parameterTooltip = "Controls number of size of the FFT window.")
         private int windowSize;
         public int getWindowSize() {
             return windowSize;

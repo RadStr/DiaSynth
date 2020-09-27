@@ -7,21 +7,24 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.awt.*;
 
 public class FFTWindowPanel extends FFTWindowPanelAbstract {
+    public static final int MAX_WINDOW_SIZE = 8192;
+    public static final String MAX_WINDOW_SIZE_STRING = "8192";
+    public static final int MIN_WINDOW_SIZE = 2;
+    public static final String MIN_WINDOW_SIZE_STRING = "2";
+
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
-                          int numberOfChannels, boolean isEditable,
-                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+                          boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize),
-                numberOfChannels, isEditable, backgroundColor, shouldDrawLabelsAtTop);
+                isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
-                          int numberOfChannels, boolean isEditable,
-                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(song, windowSize, startIndex, freqJump, numberOfChannels,
+                          boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
+        super(song, windowSize, startIndex, freqJump,
                 isEditable, false, backgroundColor, shouldDrawLabelsAtTop, false);
 
         if(song != null) {
-            Program.calculateFFTRealForward(song, startIndex, fftResult.length, numberOfChannels, fft, fftResult);
+            Program.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);
         }
         else {
             Program.setOneDimArr(fftResult, 0, fftResult.length, 0);
@@ -48,7 +51,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         }
 
         return new FFTWindowPanel(null, windowSize, -1, freqJump,
-        1, getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
+                getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
     }
 
 

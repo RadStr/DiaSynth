@@ -59,7 +59,7 @@ public class WaveShaper extends UnaryOperator {
         // Doesn't have properties
         propertiesPanel = (DrawJFrame)AudioPlayerPanelIFaceImplementation.
                 createDrawFrame(AudioPlayerPanelIFaceImplementation.DRAW_PANEL_TYPES.WAVESHAPER,
-                        -1, null);
+                        -1, null,  null, -1, -1);
         setFunction();
         ((JFrame)propertiesPanel).addWindowListener(new WindowAdapter() {
            @Override

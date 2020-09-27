@@ -6,17 +6,16 @@ import java.awt.*;
 
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
     public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
-                                  int sampleRate, int numberOfChannels,
-                                  boolean isEditable, boolean areValuesSigned,
+                                  int sampleRate, boolean isEditable, boolean areValuesSigned,
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {
         this(song, windowSize, startIndex,
-                Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize), numberOfChannels,
+                Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize),
                 isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
     }
 
-    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
-                                  double freqJump, int numberOfChannels,
+    public FFTWindowPanelAbstract(double[] song, int windowSize,
+                                  int startIndex, double freqJump,
                                   boolean isEditable, boolean areValuesSigned,
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {

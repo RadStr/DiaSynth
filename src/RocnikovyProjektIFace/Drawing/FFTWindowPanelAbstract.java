@@ -46,6 +46,11 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
     }
 
 
+
+    // TODO: NORM
+    //The normalization is quite problematic, I am still not sure what is the right way to solve it.
+    // Either like this where I just divide (multiply before IFFT) by 2 * windowSize or
+    // just divide everything except the first bin by windowSize and the 0th bin divide by 2 * windowSize.
     @Override
     protected double normalizeValue(double value) {
         return value / (2 * DRAW_VALUES.length);

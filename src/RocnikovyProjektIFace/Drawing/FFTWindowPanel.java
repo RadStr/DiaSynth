@@ -131,7 +131,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
             // TODO: DEBUG
             //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
             // TODO: DEBUG
-            fftResult[i] *= 2 * DRAW_VALUES.length;
+            fftResult[i] *= 2 * DRAW_VALUES.length;         // TODO: NORM
         }
 
         if(setImagPartToZero) {

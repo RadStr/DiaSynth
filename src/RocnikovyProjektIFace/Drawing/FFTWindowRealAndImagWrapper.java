@@ -4,6 +4,7 @@ import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.swing.*;
@@ -126,7 +127,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
 
         int binCount = Program.getBinCountRealForward(windowSize);
-        fftResult = new double[2 * windowSize]; // 2* because we will use complex FFT
+        fftResult = new double[2 * windowSize];     // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);
 
 
@@ -137,10 +138,12 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 //        TODO: nevim jestli je ta normalizace dobre
         // TODO: DRAW PANEL THINGS
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] /= binCount;
+            fftResult[i] /= (2 * binCount);         // TODO: NORM
         }
         Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
                 imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
+        realPartPanel.setDrawPanel(realPartPanel.fftWindowPartPanel);
+        imagPartPanel.setDrawPanel(imagPartPanel.fftWindowPartPanel);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(realPartPanel);
@@ -228,7 +231,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
         Program.connectRealAndImagPart(realPart, imagPart, fftResult);
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] *= 2 * realPart.length;
+            fftResult[i] *= 2 * realPart.length;            // TODO: NORM
         }
         getComplexIFFT(fftResult, fft);
 

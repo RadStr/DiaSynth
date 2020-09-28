@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 // TODO: DRAW PANEL THINGS
@@ -243,7 +245,27 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
     @Override
     public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
-        if(realPartPanel.drawPanel.getIsEditable()) {
+        if(!realPartPanel.drawPanel.getIsEditable()) {
+            JMenu menu = new JMenu("Options");
+            menuBar.add(menu);
+            JCheckBoxMenuItem showRelativeCheckbox = new JCheckBoxMenuItem("Show relative");
+            showRelativeCheckbox.setSelected(false);
+            menu.add(showRelativeCheckbox);
+            showRelativeCheckbox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if(e.getStateChange() == ItemEvent.SELECTED) {
+                        realPartPanel.fftWindowPartPanel.makeRelativeValues();
+                        imagPartPanel.fftWindowPartPanel.makeRelativeValues();
+                    }
+                    else {
+                        realPartPanel.fftWindowPartPanel.makeAbsoluteValues();
+                        imagPartPanel.fftWindowPartPanel.makeAbsoluteValues();
+                    }
+                }
+            });
+        }
+        else {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);
             JMenuItem optionsMenuItem = new JMenuItem("Set fft window parameters");

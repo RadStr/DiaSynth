@@ -3,12 +3,15 @@ package RocnikovyProjektIFace.Drawing;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
+import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class FFTWindowWrapper extends DrawWrapperBase {
     public FFTWindowWrapper(double[] audio,
@@ -51,9 +54,28 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         return fftPanel.getIFFTResult(setImagPartToZero, periodCount);
     }
 
+
     @Override
     public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
-        if(fftPanel.getIsEditable()) {
+        if(!fftPanel.getIsEditable()) {
+            JMenu menu = new JMenu("Options");
+            menuBar.add(menu);
+            JCheckBoxMenuItem showRelativeCheckbox = new JCheckBoxMenuItem("Show relative");
+            showRelativeCheckbox.setSelected(false);
+            menu.add(showRelativeCheckbox);
+            showRelativeCheckbox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if(e.getStateChange() == ItemEvent.SELECTED) {
+                        fftPanel.makeRelativeValues();
+                    }
+                    else {
+                        fftPanel.makeAbsoluteValues();
+                    }
+                }
+            });
+        }
+        else {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);
             JMenuItem optionsMenuItem = new JMenuItem("Set fft window parameters");

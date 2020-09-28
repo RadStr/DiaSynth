@@ -176,7 +176,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
 
     private boolean isEditable;
-    private void setIsEditable(boolean isEditable) {
+    protected void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
     public boolean getIsEditable() {

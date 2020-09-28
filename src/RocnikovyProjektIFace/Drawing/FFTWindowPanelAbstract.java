@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import Rocnikovy_Projekt.Aggregations;
+import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
@@ -58,4 +60,34 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
     public abstract FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
                                                              int sampleRate, boolean shouldChangeSampleRate);
+
+
+
+    private double maxAbsolute;
+    public double makeRelativeValues() {
+        if(getIsEditable()) {
+            return -1;
+        }
+        else {
+            setIsEditable(true);
+            maxAbsolute = Program.performAggregation(DRAW_VALUES, Aggregations.ABS_MAX);
+            for (int i = 0; i < DRAW_VALUES.length; i++) {
+                setDrawValue(i, DRAW_VALUES[i] / maxAbsolute);
+            }
+            setIsEditable(false);
+            repaint();
+            return maxAbsolute;
+        }
+    }
+
+    public void makeAbsoluteValues() {
+        if(!getIsEditable()) {
+            setIsEditable(true);
+            for (int i = 0; i < DRAW_VALUES.length; i++) {
+                setDrawValue(i, DRAW_VALUES[i] * maxAbsolute);
+            }
+            setIsEditable(false);
+            repaint();
+        }
+    }
 }

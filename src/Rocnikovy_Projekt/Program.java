@@ -8410,13 +8410,13 @@ if(currBPM == 60) {
 
 
     // Get frequencies in khz
-    public static String[] getFreqs(int binCount, double freqJump, double startFreq, int takeEveryNthFreq) {
+    public static String[] getFreqs(int binCount, double freqJump, double startFreq, int takeEveryNthFreq, int precision) {
         int len = 1 + (binCount - 1) / takeEveryNthFreq;  // -1 Because for example for binCount = takeEveryNthFreq = 4 I'd have 2 without the -1
         String[] binFreqs = new String[len];
         double currFreqHz = startFreq;
         for(int i = 0; i < binFreqs.length; i++, currFreqHz += freqJump * takeEveryNthFreq) {
             double currFreqKhz = currFreqHz / 1000;
-            String freqString = String.format("%.2f", currFreqKhz);
+            String freqString = String.format("%." + precision +"f", currFreqKhz);
             binFreqs[i] = freqString;
         }
 
@@ -9165,7 +9165,7 @@ System.out.println();
         // Draw frequency labels
         int n = 8;      // take every nth bin
         double maxTextHeight = n * pixelHeightForBin;
-        String[] binFreqs = getFreqs(binCount, freqJump, 0, n);
+        String[] binFreqs = getFreqs(binCount, freqJump, 0, n, 2);
         getFont(24, g, binFreqs, spectrogramStart - 15, (int)maxTextHeight, 1);
         FontMetrics fontMetrics = g.getFontMetrics();
 

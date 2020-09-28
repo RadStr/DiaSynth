@@ -435,11 +435,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         g.setColor(backgroundColor);
         g.fillRect(0, 0, w, h);
+        g.setColor(Color.black);
+        g.drawRect(FIRST_BIN_START_X, 0, w - 2 * FIRST_BIN_START_X, h);
 
         drawWindow(g);
 
         g.setColor(Color.black);
-        g.drawRect(FIRST_BIN_START_X, 0, w - 2 * FIRST_BIN_START_X, h);
         g.drawLine(w / 2, 0, w / 2, h);
 
         if(DRAW_LINE_IN_MIDDLE) {
@@ -601,7 +602,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         // Find fitting font for frequency labels amd for energies
         final int START_FONT_SIZE = 24;
-        final int MIN_FONT = 12;
+        final int MIN_FONT = 13;
         boolean enoughSpaceForLabels = true;
         int n = 1;
         int textBinWidth = binWidth;

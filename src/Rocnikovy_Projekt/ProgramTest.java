@@ -1,7 +1,7 @@
 package Rocnikovy_Projekt;
 
 import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
-import RocnikovyProjektIFace.FFTWindowPanel;
+import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.AudioFormat;
@@ -2538,14 +2538,15 @@ public class ProgramTest {
 
 
         double freqJump = Program.getFreqJump(sampleRate, windowSize);
-        createFFTWindow(songDouble, windowSize, startIndex, freqJump, numberOfChannels);
+        createFFTWindow(songDouble, windowSize, startIndex, freqJump);
 
         return true;
     }
 
-    private void createFFTWindow(double[] song, int windowSize, int startIndex, double freqJump, int numberOfChannels) {
+    private void createFFTWindow(double[] song, int windowSize, int startIndex, double freqJump) {
         JFrame frame = new JFrame();
-        frame.setContentPane(new FFTWindowPanel(song, windowSize, startIndex, freqJump, numberOfChannels));
+        frame.setContentPane(new FFTWindowPanel(song, windowSize, startIndex, freqJump,
+                true, Color.lightGray, false));
 
         // Instead of pack
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

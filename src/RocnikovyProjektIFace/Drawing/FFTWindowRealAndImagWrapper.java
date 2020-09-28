@@ -227,6 +227,9 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double[] realPart = realPartPanel.fftWindowPartPanel.DRAW_VALUES;
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
         Program.connectRealAndImagPart(realPart, imagPart, fftResult);
+        for(int i = 0; i < fftResult.length; i++) {
+            fftResult[i] *= 2 * realPart.length;
+        }
         getComplexIFFT(fftResult, fft);
 
         double[] ifftResult = Program.copyArr(fftResult, fftResult.length, periodCount);

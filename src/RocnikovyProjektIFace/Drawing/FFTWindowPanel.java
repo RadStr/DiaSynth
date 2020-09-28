@@ -127,6 +127,13 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         // TODO: DEBUG
 
 
+        for(int i = 0; i < fftResult.length; i++) {
+            // TODO: DEBUG
+            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
+            // TODO: DEBUG
+            fftResult[i] *= 2 * DRAW_VALUES.length;
+        }
+
         if(setImagPartToZero) {
             Program.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
         }
@@ -135,12 +142,6 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         }
 
 
-        for(int i = 0; i < fftResult.length; i++) {
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
-            // TODO: DEBUG
-            fftResult[i] *= DRAW_VALUES.length;
-        }
         getRealIFFT(fftResult, fft);
         normalize(fftResult);
 

@@ -27,7 +27,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         this.WINDOW_SIZE = windowSize;
         this.FREQ_JUMP = freqJump;
         int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
-        labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1);
+        labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1, 3);
 
         fftResult = new double[windowSize];
         fft = new DoubleFFT_1D(windowSize);
@@ -48,7 +48,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
     @Override
     protected double normalizeValue(double value) {
-        return value / DRAW_VALUES.length;
+        return value / (2 * DRAW_VALUES.length);
     }
 
 

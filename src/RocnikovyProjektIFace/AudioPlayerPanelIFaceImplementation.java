@@ -3475,7 +3475,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 double[] wave = null;
                 if(getShouldMarkPart()) {
                     for (AudioWavePanelEverything w : waves) {
-                        if(w.getShouldMarkPart()) {
+                        if(w.getShouldIncludeInOperations()) {
                             wave = w.getDoubleWave().getSong();
                             break;
                         }

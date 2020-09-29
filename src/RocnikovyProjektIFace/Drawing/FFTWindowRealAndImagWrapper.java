@@ -225,7 +225,6 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         return otherPartPanel;
     }
 
-
     public double[] getIFFTResult(int periodCount) {
         double[] realPart = realPartPanel.fftWindowPartPanel.DRAW_VALUES;
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
@@ -235,7 +234,11 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         }
         getComplexIFFT(fftResult, fft);
 
-        double[] ifftResult = Program.copyArr(fftResult, fftResult.length, periodCount);
+        // Only the real part is valid, the imaginary is equal to zero.
+        double[] realFFTPart = new double[fftResult.length / 2];
+        Program.separateOnlyRealPart(realFFTPart, fftResult, fftResult.length);
+        FFTWindowPanel.normalize(realFFTPart);
+        double[] ifftResult = Program.copyArr(realFFTPart, realFFTPart.length, periodCount);
         return ifftResult;
     }
 
@@ -300,6 +303,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                     }
                 }
             });
+
 
             menu = new JMenu("Action");
             menuBar.add(menu);
@@ -372,8 +376,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     private static class FFTWindowOptionsDialogPanel implements PluginDefaultIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
-            // 2* because otherwise it is Nyquist frequency
-            this.sampleRate = (int)Math.round(2 * (Program.getBinCountRealForward(windowSize) - 1) * fftPanel.FREQ_JUMP);
+            this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
         }
 
 

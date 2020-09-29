@@ -3884,22 +3884,39 @@ public class Program {
             result[i] = real[partIndex];
             i++;
             result[i] = imag[partIndex];
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Index connect", i, partIndex, real.length, imag.length);
+            // TODO: DEBUG
         }
         partIndex--;
 
-        // Then the middle element is there only one time, so we don't mirror it.
-        if(real.length % 2 == 0) {
+        // If the windowSize is even, then the middle element is there only one time, so we don't mirror it.
+        if((result.length / 2) % 2 == 0) {
             partIndex--;
         }
-        for(; partIndex >= 0; i++, partIndex--) {
+        // > 0 because the 0-th frequency isn't copied
+        for(; partIndex > 0; i++, partIndex--) {
             result[i] = real[partIndex];
             i++;
-            result[i] = imag[partIndex];
-            ProgramTest.debugPrint("Index connect", i, partIndex);
+            result[i] = -imag[partIndex]; // - because mirrored
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Index connect mirror", i, partIndex, real.length, imag.length);
+            // TODO: DEBUG
         }
     }
 
 
+    // From documentation (this are the values we want convert to):
+//	if n is even then
+//	 a[2*k] = Re[k], 0<=k<n/2
+//	 a[2*k+1] = Im[k], 0<k<n/2
+//	 a[1] = Re[n/2]
+//
+//
+//	if n is odd then
+//	 a[2*k] = Re[k], 0<=k<(n+1)/2
+//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
+//	 a[1] = Im[(n-1)/2]
     // TODO: Nebo aspon myslim ze by to melo byt (realForwardFFTArr.length + 1) / 2
     /**
      * Takes realForward fft array and divides it to real and imaginary part. The real and imaginary part should be the
@@ -3910,7 +3927,7 @@ public class Program {
      * @param fftArrLen because the realForwardFFTArr can be longer than the result of fft
      */
     public static void separateRealAndImagPart(double[] real, double[] imag, double[] realForwardFFTArr, int fftArrLen) {
-        if(fftArrLen % 2 == 0) {			// It's even;
+        if(fftArrLen % 2 == 0) {			// It's even
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
             int index = 1;
@@ -3920,8 +3937,8 @@ public class Program {
                 imag[index] = realForwardFFTArr[i];
             }
 
-            real[real.length - 1] = 0;
-            imag[imag.length - 1] = realForwardFFTArr[1];
+            real[real.length - 1] = realForwardFFTArr[1];
+            imag[imag.length - 1] = 0;
         } else {
             real[0] = realForwardFFTArr[0];
             imag[0] = 0;
@@ -3933,6 +3950,49 @@ public class Program {
             }
 
             real[real.length - 1] = realForwardFFTArr[fftArrLen - 1];
+            imag[imag.length - 1] = realForwardFFTArr[1];
+        }
+    }
+
+    // Basically separateRealAndImagPart method without setting the imaginary part
+    public static void separateOnlyRealPart(double[] real, double[] realForwardFFTArr, int fftArrLen) {
+        if(fftArrLen % 2 == 0) {			// It's even
+            real[0] = realForwardFFTArr[0];
+            int index = 1;
+            for(int i = 2; i < fftArrLen; i += 2, index++) {
+                real[index] = realForwardFFTArr[i];
+            }
+
+            real[real.length - 1] = realForwardFFTArr[1];
+        } else {
+            real[0] = realForwardFFTArr[0];
+            int index = 1;
+            for (int i = 2; i < fftArrLen - 1; i += 2, index++) {
+                real[index] = realForwardFFTArr[i];
+            }
+
+            real[real.length - 1] = realForwardFFTArr[fftArrLen - 1];
+        }
+    }
+
+
+    // Basically separateRealAndImagPart method without setting the real part
+    public static void separateOnlyImagPart(double[] imag, double[] realForwardFFTArr, int fftArrLen) {
+        if(fftArrLen % 2 == 0) {			// It's even
+            imag[0] = 0;
+            int index = 1;
+            for(int i = 3; i < fftArrLen; i += 2, index++) {
+                imag[index] = realForwardFFTArr[i];
+            }
+
+            imag[imag.length - 1] = 0;
+        } else {
+            imag[0] = 0;
+            int index = 1;
+            for (int i = 3; i < fftArrLen - 1; i += 2, index++) {
+                imag[index] = realForwardFFTArr[i];
+            }
+
             imag[imag.length - 1] = realForwardFFTArr[1];
         }
     }

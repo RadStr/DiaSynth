@@ -121,6 +121,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                                        int sampleRate, boolean isEditable,
                                        Color backgroundColorRealPart, Color backgroundColorImagPart,
                                        boolean shouldDrawLabelsAtTop) {
+        // I just take the bins before nyquist for real and imaginary part respectively.
         realPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
                 isEditable, backgroundColorRealPart, shouldDrawLabelsAtTop);
         imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
@@ -134,9 +135,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         if(song != null) {
             Program.calculateFFTRealForward(song, startIndex, windowSize, 1, fft, fftResult);
         }
-        // TODO: DRAW PANEL THINGS
-//        TODO: nevim jestli je ta normalizace dobre
-        // TODO: DRAW PANEL THINGS
+
         for(int i = 0; i < fftResult.length; i++) {
             fftResult[i] /= (2 * binCount);         // TODO: NORM
         }

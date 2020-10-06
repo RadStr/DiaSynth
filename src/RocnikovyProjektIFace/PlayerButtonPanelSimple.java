@@ -28,7 +28,7 @@ public class PlayerButtonPanelSimple extends JPanel {
 //        insideControlPanel.setLayout(new BoxLayout(insideControlPanel, BoxLayout.LINE_AXIS));
         // TODO: PROGAMO
         buttons = new JButton[2];
-        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseButton.png"));       // TODO: Move the files to some directory close source codes
+        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButtonCut.png"), (resourcesDir + "PauseButtonLargerCut8.png"));
 
         playButton.addActionListener(playButtonActionListener);
 

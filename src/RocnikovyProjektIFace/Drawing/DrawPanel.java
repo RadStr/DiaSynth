@@ -611,7 +611,9 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             fontSize = START_FONT_SIZE;
             int textWhitespace = textBinWidth / 4;
             // TODO: DRAW PANEL THINGS
-//            Draw panel - drawWindow() - 581 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky
+//            Draw panel - drawWindow() - 581 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky,
+//            respektive mi to staci spocitat jen jednou ted kdyz jsem zakazal resize - resp to spocitam jen kdyz
+//            uvidim ze se zmenila sirka.
             // TODO: DRAW PANEL THINGS
             fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
             n *= 2;

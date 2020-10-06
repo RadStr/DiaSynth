@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+@Deprecated
 public class AudioPlayer extends JPanel {
     private Program program = null;
     private int currSample;
@@ -74,7 +75,8 @@ public class AudioPlayer extends JPanel {
 
         buttonPanel = new JPanel(new FlowLayout());
         buttons = new JButton[2];
-        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseButton.png"));       // TODO: Move the files to some directory close source codes
+//        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseButton.png"));
+        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseLargerButton.png"));
         buttons[0] = playButton;
 
         muteButton = new BooleanButtonWithImages(false, (resourcesDir + "soundIconOff.png"), (resourcesDir + "soundIconOn.png"));

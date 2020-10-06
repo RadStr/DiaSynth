@@ -69,6 +69,11 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
 
     private double maxAbsolute;
+
+    /**
+     *
+     * @return Returns the maximum absolute value in the FFT bins.
+     */
     public double makeRelativeValues() {
         if(getIsEditable()) {
             return -1;

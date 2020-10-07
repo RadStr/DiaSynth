@@ -1,6 +1,5 @@
 package RocnikovyProjektIFace.Drawing;
 
-import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
@@ -460,6 +459,24 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         prefSize.width = newMinWidth;
     }
 
+
+    // Old variables - we used them so we don't have to calculate the font every time we are painting the component
+    private Font oldFont;
+    private int oldBinsWhitespace;
+    private int oldN;       // Every n-th label is drawn
+    private int oldTextBinWidth;
+    private boolean oldEnoughSpaceForLabels;
+    private Dimension oldPrefSize = new Dimension();
+    private boolean shouldRecalculateLabelFont() {
+        if(!oldPrefSize.equals(prefSize)) {
+            oldPrefSize.width = prefSize.width;
+            oldPrefSize.height = prefSize.height;
+            return true;
+        }
+        return false;
+    }
+
+
     private Dimension prefSize;
     @Override
     public Dimension getPreferredSize() {
@@ -604,30 +621,45 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         final int START_FONT_SIZE = 24;
         final int MIN_FONT = 13;
         boolean enoughSpaceForLabels = true;
-        int n = 1;
+        int n = 1;      // Every n-th label is drawn
         int textBinWidth = binWidth;
         int fontSize = 0;
-        while (fontSize < MIN_FONT && n < labels.length) {
-            fontSize = START_FONT_SIZE;
-            int textWhitespace = textBinWidth / 4;
-            // TODO: DRAW PANEL THINGS
-//            Draw panel - drawWindow() - 581 - Muzu napsat rychleji staci se mi podivat jen na delku toho nejvetsiho a celkove to muzu napsat trochu lip to hledani fontu aby mi to i produkovalo spravny vysledky,
-//            respektive mi to staci spocitat jen jednou ted kdyz jsem zakazal resize - resp to spocitam jen kdyz
-//            uvidim ze se zmenila sirka.
-            // TODO: DRAW PANEL THINGS
-            fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
-            n *= 2;
-            textBinWidth *= 2;
+
+        // Only called when some resizing was done - check the "old" (oldFont, oldN, etc.) variables for more info
+        if(shouldRecalculateLabelFont()) {
+            while (fontSize < MIN_FONT && n < labels.length) {
+                fontSize = START_FONT_SIZE;
+                int textWhitespace = textBinWidth / 4;
+                fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+                n *= 2;
+                textBinWidth *= 2;
 // TODO: DEBUG
 //            System.out.println("FT:" + "\t" + fontSize);
 // TODO: DEBUG
-        }
-        n /= 2;
-        textBinWidth /= 2;
+            }
+            n /= 2;
+            textBinWidth /= 2;
 
-        if (fontSize < MIN_FONT) {
-            enoughSpaceForLabels = false;
+            if (fontSize < MIN_FONT) {
+                enoughSpaceForLabels = false;
+            }
+
+
+            oldN = n;
+            oldTextBinWidth = textBinWidth;
+            oldBinsWhitespace = binsWhitespace;
+            oldEnoughSpaceForLabels = enoughSpaceForLabels;
+            oldFont = g.getFont();
         }
+        else {
+            // Old variables are from the last time the panel was resized
+            n = oldN;
+            textBinWidth = oldTextBinWidth;
+            enoughSpaceForLabels = oldEnoughSpaceForLabels;
+            binsWhitespace = oldBinsWhitespace;
+            g.setFont(oldFont);
+        }
+
 
 //        System.out.println("MAX:\t" + maxEnergy);
 //        System.out.println(selectedBin);

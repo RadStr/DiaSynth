@@ -1,0 +1,88 @@
+1.0
+1
+16
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST
+0 -4
+40.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST2
+1 -4
+1.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST3
+-3 -2
+4.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST1
+-1 -2
+100.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine1
+1 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SquareGeneratorWithPhase
+SQUARE
+2 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SawtoothGeneratorWithPhase
+SAW
+3 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase
+TRI
+4 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase
+TRI2
+5 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine3
+-2 -1
+DiagramSynthPackage.Synth.Operators.BinaryOperations.BinaryPlus
+BinaryPlus
+0 -1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SquareGeneratorWithPhase
+SQUARE1
+-1 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase
+TRI1
+0 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine
+1 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine2
+2 0
+OUTPUT-UNIT
+0
+DiagramSynthPackage.Synth.OutputUnit
+OUT
+2 2
+5
+4 0
+5 0
+5 1
+6 1
+6 0
+1
+4 1
+1
+9 1
+1
+10 0
+1
+10 1
+0
+0
+0
+0
+2
+11 0
+12 0
+3
+13 1
+12 1
+11 1
+0
+1
+15 0
+0
+0
+0

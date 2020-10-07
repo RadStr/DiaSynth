@@ -1,0 +1,60 @@
+1.0
+1
+12
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SawtoothGenerator
+SAW4
+-1 -4
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SawtoothGenerator
+SAW3
+0 -4
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine3
+3 -3
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine
+-1 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine4
+0 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SawtoothGenerator
+SAW
+1 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST
+2 -1
+500.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SawtoothGenerator
+SAW2
+3 -1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine1
+0 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SawtoothGenerator
+SAW1
+1 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine2
+2 0
+OUTPUT-UNIT
+0
+DiagramSynthPackage.Synth.OutputUnit
+OUT
+1 1
+1
+5 1
+1
+4 1
+1
+10 0
+1
+8 0
+0
+1
+9 1
+0
+1
+10 1
+0
+0
+0
+0

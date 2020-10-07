@@ -1,0 +1,58 @@
+1.0
+1
+10
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST2
+3 -2
+400.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST3
+4 -2
+100.0
+DiagramSynthPackage.Synth.Generators.Envelopes.LinearEnvelope
+LINEN
+-1 -1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST
+0 -1
+1000.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST1
+2 -1
+100.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine
+3 -1
+DiagramSynthPackage.Synth.Operators.BinaryOperations.BinaryMultiplication
+BinaryMultiplication
+0 0
+DiagramSynthPackage.Synth.Operators.BinaryOperations.BinaryPlus
+BinaryPlus
+2 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator
+Sine1
+1 1
+OUTPUT-UNIT
+0
+DiagramSynthPackage.Synth.OutputUnit
+OUT
+1 3
+1
+5 0
+1
+5 1
+1
+6 0
+2
+6 1
+8 0
+1
+7 0
+1
+7 1
+0
+1
+8 1
+1
+9 0
+0

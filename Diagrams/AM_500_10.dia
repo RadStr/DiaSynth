@@ -1,0 +1,25 @@
+1.0
+1
+4
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST
+0 -3
+10.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine1
+1 -2
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine
+1 -1
+OUTPUT-UNIT
+0
+DiagramSynthPackage.Synth.OutputUnit
+OUT
+1 1
+1
+1 1
+1
+2 0
+1
+3 0
+0

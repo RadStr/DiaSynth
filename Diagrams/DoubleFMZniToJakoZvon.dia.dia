@@ -1,0 +1,98 @@
+1.0
+1
+18
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST
+0 -2
+100.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST1
+2 -2
+1.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST2
+-1 -1
+200.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine
+1 -1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SawtoothGeneratorWithPhase
+SAW1
+2 -1
+DiagramSynthPackage.Synth.Generators.Envelopes.LinearEnvelope
+LINEN
+3 -1
+DiagramSynthPackage.Synth.Operators.BinaryOperations.BinaryPlus
+BinaryPlus
+1 0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase
+TRI
+-1 1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine1
+1 1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SawtoothGeneratorWithPhase
+SAW
+2 1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SquareGeneratorWithPhase
+SQUARE
+3 1
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.ConstantGenerator
+CONST3
+2 2
+500.0
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine3
+3 2
+DiagramSynthPackage.Synth.Operators.UnaryOperations.FullWaveRectifier
+RECT
+-1 3
+DiagramSynthPackage.Synth.Operators.UnaryOperations.HalfWaveRectifier
+H_RECT
+0 3
+DiagramSynthPackage.Synth.Operators.BinaryOperations.BinaryPlus
+BinaryPlus1
+1 3
+DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase
+Sine2
+1 4
+OUTPUT-UNIT
+0
+DiagramSynthPackage.Synth.OutputUnit
+OUT
+1 5
+2
+3 0
+4 0
+2
+3 1
+4 1
+2
+6 0
+8 0
+0
+1
+6 1
+0
+4
+8 1
+9 1
+7 1
+10 1
+2
+13 0
+14 0
+1
+15 0
+0
+0
+1
+15 1
+0
+0
+0
+1
+16 1
+1
+17 0
+0

@@ -29,7 +29,7 @@ public class ListSortedByY extends ArrayList<Unit> {
     public boolean add(Unit u) {
         Point unitRelativePos = u.getShapedPanel().getRelativePosToReferencePanel();
         int i = 0;
-        for(;i < size(); i++) {
+        for(; i < size(); i++) {
             ShapedPanel sp = get(i).getShapedPanel();
             Point listElemRelativePos = sp.getRelativePosToReferencePanel();
             if(unitRelativePos.y < listElemRelativePos.y ||
@@ -109,6 +109,16 @@ public class ListSortedByY extends ArrayList<Unit> {
     }
 
 
+    public Point getMaxY() {
+        int lastIndex = size() - 1;
+        if(lastIndex >= 0) {
+            Unit u = get(lastIndex);
+            return u.getShapedPanel().getRelativePosToReferencePanel();
+        }
+        else {
+            return null;
+        }
+    }
 
 
     public void repairUnitPosition(Unit u) {

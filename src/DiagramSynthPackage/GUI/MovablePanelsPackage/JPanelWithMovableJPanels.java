@@ -351,7 +351,6 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
         }
     }
 
-
     private ChannelCount channelCount;
 
     private long timeOfLastWheelEvent = 0;
@@ -367,16 +366,23 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
 
         this.channelCount = channelCount;
         outputPanels = new OutputUnit[channelCount.CHANNEL_COUNT];
+        Point maxYPoint = panels.getMaxY();
         for(int i = 0; i < outputPanels.length; i++) {
             outputPanels[i] = new OutputUnit(this, i, channelCount, audioThread);
             ShapedPanel sp = outputPanels[i].getShapedPanel();
-            sp.setRelativePosToReferencePanel(i + 1, 1);
+            if(maxYPoint == null) {
+                sp.setRelativePosToReferencePanel(i, 0);
+            }
+            else {
+                sp.setRelativePosToReferencePanel(maxYPoint.x + i, maxYPoint.y + 1);
+            }
             moveToPosBasedOnRelativeToRefPanel(sp);
             this.addPanelPermanently(outputPanels[i]);
             Dimension size = new Dimension(getReferencePanelWidth(), getReferencePanelHeight());
             outputPanels[i].getShapedPanel().updateSize(size);
         }
     }
+
 
     @Override
     public OutputUnit[] getOutputUnits() {
@@ -811,9 +817,10 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
         }
     }
 
-
+// TODO: REMOVE
     private boolean TODOswap = true;
     private static final boolean isOnNTB = false;
+// TODO: REMOVE
 
     public void observeMouseLoc(Point screenMouseLoc) {
         SwingUtilities.convertPointFromScreen(screenMouseLoc, this);

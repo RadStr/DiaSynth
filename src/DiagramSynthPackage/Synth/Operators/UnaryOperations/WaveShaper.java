@@ -116,12 +116,14 @@ public class WaveShaper extends UnaryOperator {
         // Have to normalize, because the waveshaper expects the input to be on [-1, 1] interval
         double amplitude = inputPorts[0].getMaxAbsValue();
         if(amplitude != 0) {
-            for (int i = 0; i < ops.length; i++) {
-                ops[i] /= amplitude;
+            for(int i = 0; i < results.length; i++) {
+                results[i] = unaryOperation(ops[i] / amplitude);
             }
         }
-        for(int i = 0; i < results.length; i++) {
-            results[i] = unaryOperation(ops[i]);
+        else {
+            for (int i = 0; i < results.length; i++) {
+                results[i] = unaryOperation(ops[i]);
+            }
         }
     }
 

@@ -140,12 +140,16 @@ public class ProgramTest {
      * @throws Exception can be thrown
      */
     public void testAll() throws Exception {
+// TODO:
+// Just some tests to help me understand FFT better
         tryFFTSums(1024);
         System.exit(444448);
 
         ProgramTest.debugPrint("testSetOneDimArr():", testSetOneDimArr());
         testFFTBinCount(1024, 20);
         testFFTBinCount(1023, 20);
+// End of some of the tests
+// TODO:
 
         // The [3] == -512, which is the imaginary part of the first bin (it is [3], because [0] is 0Hz and [1] is Re[n/2])
         printRealFFT(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);

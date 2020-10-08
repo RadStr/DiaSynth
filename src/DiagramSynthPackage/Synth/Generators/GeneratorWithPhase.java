@@ -62,7 +62,19 @@ public abstract class GeneratorWithPhase extends Generator {
     }
 
 
+
     // https://ccrma.stanford.edu/~jos/sasp/Frequency_Modulation_FM_Synthesis.html
+    // When looking at the article the sin(Beta * t) is the value which we get from the input so all we have to do
+    // is to divide it with the modulating frequency (frequency of the modulating oscillator)
+    // peak deviation (d) is equal to the maximum absolute value from the input oscillator - which is the amplitude of the modulating signal.
+    // So all we have to do is to divide the values on the output of modulating oscillator by the modulating frequency (which is frequency of that oscillator)
+    // The alpha and beta are the f_c and f_m but converted to rad/s (so it is just freqToRad())
+    // TODO: !!! THAT MEANS THE THING I HAVE THERE IS WRONG !!! - so I just have to divide the currentInputFreq by modulatingWaveFreq!!!!!
+    // TODO:
+    // So that means that the modulatingWaveAmp isn't needed - a vlastně je to i špatně, protože modulační frekvence se nemění -
+    // - ta current input freq - takze to staci spocitat jen jednou hadam???
+    // Ne pockej vsak to je blbe - ta current input freq je proste
+    // TODO:
     // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Frequency_Modulation.html
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Graphics/Frequency_Modulation2.gif
@@ -78,7 +90,8 @@ public abstract class GeneratorWithPhase extends Generator {
 // TODO: RML
 // TODO: DODELAT
         if(modulatingWaveFreq != 0) {
-            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
+//            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
+            phase += currentInputFreq  / modulatingWaveFreq;
         }
         return generateSampleConst(timeInSecs, diagramFrequency, amp, carrierFreq, phase);
     }

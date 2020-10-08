@@ -18,6 +18,9 @@ import java.util.List;
 /**
  * This is just template class, when overriding the user should override the Operator or Generator classes, and also implement
  * both constructors calling the super() variants with corresponding arguments. (I Can't force user to implement interfaces).
+ *
+ * Note: When implementing this class directly, you shouldn't change the samples that the unit gets on inputs, since it may
+ * also change the other calculations, which doesn't have anything to do with the Unit you have written.
  */
 public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIFace,
         UnitCommunicationWithGUI, UnitGeneratedValuesInfo {

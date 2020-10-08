@@ -3267,7 +3267,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
-    public static JFileChooser getFileChooserForSaving() {
+    /**
+     *
+     * @param file is the default file for the JFileChoser.
+     *             If it is null then the name will be "audio" and the directory will be current directory of the JFileChooser.
+     * @return
+     */
+    public static JFileChooser getFileChooserForSaving(File file) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.removeChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
         AudioFileFormat.Type audioType = AudioFileFormat.Type.WAVE;
@@ -3298,14 +3304,16 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
         // Set default filter and default name
         fileChooser.setFileFilter(wavFileFilter);
-        fileChooser.setSelectedFile(new File(fileChooser.getCurrentDirectory() + "/audio"));
+        if(file == null) {
+            file = new File(fileChooser.getCurrentDirectory() + "/audio");
+        }
+        fileChooser.setSelectedFile(file);
         return fileChooser;
     }
 
     private void addSaveFileToMenu(JMenu menu) {
         JMenuItem menuItem =  new JMenuItem("Save file");
-
-        JFileChooser fileChooser = getFileChooserForSaving();
+        JFileChooser fileChooser = getFileChooserForSaving(null);
 
         menuItem.addActionListener(new ActionListener() {
             @Override

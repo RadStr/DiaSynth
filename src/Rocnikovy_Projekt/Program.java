@@ -6880,8 +6880,14 @@ public class Program {
     }
 
 
-    public static void saveAudio(String path, AudioInputStream audioInputStream, Type type) throws IOException {
-        AudioSystem.write(audioInputStream, type, new File(path + "." + type.getExtension()));	// TODO: Tohle nefunguje kdyz se to nevejde do pameti ... tak proste ten inputstream dam ze souboru kdyz se to nevejde
+    public static void saveAudio(String path, AudioInputStream audioInputStream, Type type) {
+        File f = new File(path + "." + type.getExtension());
+        try {
+            AudioSystem.write(audioInputStream, type, f);    // TODO: Tohle nefunguje kdyz se to nevejde do pameti ... tak proste ten inputstream dam ze souboru kdyz se to nevejde
+        }
+        catch(Exception e) {
+            MyLogger.logException(e);
+        }
     }
 
 

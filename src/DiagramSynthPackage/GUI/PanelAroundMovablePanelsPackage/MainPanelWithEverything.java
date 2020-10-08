@@ -375,7 +375,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
             recordButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving();
+                    JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving(chosenFile);
 
                     int returnVal = fileChooser.showSaveDialog(frame);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -389,7 +389,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
 
 
             {
-                JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving();
+                JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving(null);
                 File file = fileChooser.getSelectedFile();
                 filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
                 botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.audioType);

@@ -87,6 +87,7 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
     @Override
     public double generateSampleFM(double timeInSeconds, int diagramFrequency, double amp,
                                    double carrierFreq, double modulatingWaveFreq,
+                                   double modulatingWaveOutValue,
                                    double currentInputFreq, double phase) {
         return generateSampleConst(timeInSeconds, diagramFrequency, amp, currentInputFreq, phase);
     }

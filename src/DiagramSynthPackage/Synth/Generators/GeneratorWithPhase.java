@@ -8,6 +8,7 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.FrequencyInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.SynthDiagram;
 import DiagramSynthPackage.Synth.Unit;
+import Rocnikovy_Projekt.ProgramTest;
 
 public abstract class GeneratorWithPhase extends Generator {
     public GeneratorWithPhase(Unit u) {
@@ -56,9 +57,10 @@ public abstract class GeneratorWithPhase extends Generator {
 
     @Override
     public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
-                                   double carrierFreq, double modulatingWaveFreq, double currentInputFreq) {
+                                   double carrierFreq, double modulatingWaveFreq,
+                                   double modulatingWaveOutValue, double currentInputFreq) {
         return generateSampleFM(timeInSecs, diagramFrequency, amp,
-                carrierFreq, modulatingWaveFreq, currentInputFreq, 0);
+                carrierFreq, modulatingWaveFreq, modulatingWaveOutValue, currentInputFreq, 0);
     }
 
 
@@ -71,7 +73,8 @@ public abstract class GeneratorWithPhase extends Generator {
     // peak deviation (d) is equal to the maximum absolute value from the input oscillator - which is the amplitude of the modulating signal.
     // So all we have to do is to divide the values on the output of modulating oscillator by the modulating frequency (which is frequency of that oscillator)
     // To get the output of modulating oscillator we have to subtract carrierFreq from the given input freq we get, which is currentInputFreq
-    // or to save some instructions, we will get it straight from the output of the modulating oscillator
+    // To save some instructions, we will get the value straight from the output of the modulating oscillator and it is the
+    // modulatingWaveOutValue parameter
     // The alpha and beta are the f_c and f_m but converted to rad/s (so it is just freqToRad())
     // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
 
@@ -80,18 +83,23 @@ public abstract class GeneratorWithPhase extends Generator {
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Graphics/Frequency_Modulation2.gif
     // https://web.sonoma.edu/esee/courses/ee442/lectures/sp2017/lect08_angle_mod.pdf - page 9, 13
     public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
-                                   double carrierFreq, double modulatingWaveFreq, double currentInputFreq,
-                                   double phase) {
-// TODO: RML
-// TODO: DODELAT
-//        if(modulatingWaveFreq != 0) {
-//            phase += (currentInputFreq + modulatingWaveAmp * (carrierFreq - 1)) / modulatingWaveFreq;
+                                   double carrierFreq, double modulatingWaveFreq,
+                                   double modulatingWaveOutValue,
+                                   double currentInputFreq, double phase) {
+        // TODO: DEBUG
+        // TODO: Just testing correctness - if it is either bigger than the value + epsilon or smaller than value - epsilon
+        // then it is incorrect, because the difference is too big then
+//        double epsilon = 0.00001;
+//        if(currentInputFreq - carrierFreq > modulatingWaveOutValue + epsilon || currentInputFreq - carrierFreq < modulatingWaveOutValue - epsilon) {
+//            ProgramTest.debugPrint("NOT EQUAL:", modulatingWaveOutValue, currentInputFreq, carrierFreq, currentInputFreq - carrierFreq);
+//            System.exit(489746);
 //        }
-// TODO: RML
-// TODO: DODELAT
+        // TODO: DEBUG
+
+
         if(modulatingWaveFreq != 0) {
-            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
-//            phase += currentInputFreq  / modulatingWaveFreq;
+//            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;       // Also works
+            phase += modulatingWaveOutValue  / modulatingWaveFreq;
         }
         return generateSampleConst(timeInSecs, diagramFrequency, amp, carrierFreq, phase);
     }
@@ -162,7 +170,7 @@ public abstract class GeneratorWithPhase extends Generator {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveFreqs[i], freqs[i], phase);
+                                carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
                     }
                 }
                 else {
@@ -171,7 +179,7 @@ public abstract class GeneratorWithPhase extends Generator {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveFreqs[i], freqs[i], phase);
+                                carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
                     }
                 }
             }
@@ -179,7 +187,7 @@ public abstract class GeneratorWithPhase extends Generator {
                 // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveFreqs[i], freqs[i], phase);
+                            0, modWaveFreqs[i], freqs[i], freqs[i], phase);
                 }
             }
         }
@@ -203,7 +211,7 @@ public abstract class GeneratorWithPhase extends Generator {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveFreqs[i], freqs[i], phases[i]);
+                                carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
                     }
                 }
                 else {
@@ -212,7 +220,7 @@ public abstract class GeneratorWithPhase extends Generator {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveFreqs[i], freqs[i], phases[i]);
+                                carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
                     }
                 }
             }
@@ -220,7 +228,7 @@ public abstract class GeneratorWithPhase extends Generator {
                 // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveFreqs[i], freqs[i], phases[i]);
+                            0, modWaveFreqs[i], freqs[i], freqs[i], phases[i]);
                 }
             }
         }

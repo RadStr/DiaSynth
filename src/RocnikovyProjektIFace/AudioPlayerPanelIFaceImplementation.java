@@ -3270,14 +3270,35 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     public static JFileChooser getFileChooserForSaving() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.removeChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
-        fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(AudioFileFormat.Type.WAVE));
-        fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(AudioFileFormat.Type.AIFC));
-        fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(AudioFileFormat.Type.AIFF));
-        fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(AudioFileFormat.Type.AU));
-        fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(AudioFileFormat.Type.SND));
-        // Set default name
-        fileChooser.setSelectedFile(new File("audio"));
+        AudioFileFormat.Type audioType = AudioFileFormat.Type.WAVE;
 
+        // No need to check with if it is available - it should be available totally everywhere
+        FileFilterAudioFormats wavFileFilter = new FileFilterAudioFormats(audioType);
+        fileChooser.addChoosableFileFilter(wavFileFilter);
+
+        audioType = AudioFileFormat.Type.AIFC;
+        if(AudioSystem.isFileTypeSupported(audioType)) {
+            fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(audioType));
+        }
+
+        audioType = AudioFileFormat.Type.AIFF;
+        if(AudioSystem.isFileTypeSupported(audioType)) {
+            fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(audioType));
+        }
+
+        audioType = AudioFileFormat.Type.AU;
+        if(AudioSystem.isFileTypeSupported(audioType)) {
+            fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(audioType));
+        }
+
+        audioType = AudioFileFormat.Type.SND;
+        if(AudioSystem.isFileTypeSupported(audioType)) {
+            fileChooser.addChoosableFileFilter(new FileFilterAudioFormats(audioType));
+        }
+
+        // Set default filter and default name
+        fileChooser.setFileFilter(wavFileFilter);
+        fileChooser.setSelectedFile(new File(fileChooser.getCurrentDirectory() + "/audio"));
         return fileChooser;
     }
 

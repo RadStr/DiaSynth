@@ -387,6 +387,13 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
                 }
             });
 
+
+            {
+                JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving();
+                File file = fileChooser.getSelectedFile();
+                filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
+                botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.audioType);
+            }
         }
 
 

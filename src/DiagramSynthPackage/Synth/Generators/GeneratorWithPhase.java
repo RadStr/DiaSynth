@@ -54,34 +54,34 @@ public abstract class GeneratorWithPhase extends Generator {
                                                double amp, double freq, double phase);
 
 
+    @Override
     public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
-                                   double carrierFreq, double modulatingWaveAmp,
-                                   double modulatingWaveFreq, double currentInputFreq) {
+                                   double carrierFreq, double modulatingWaveFreq, double currentInputFreq) {
         return generateSampleFM(timeInSecs, diagramFrequency, amp,
-                carrierFreq, modulatingWaveAmp, modulatingWaveFreq, currentInputFreq, 0);
+                carrierFreq, modulatingWaveFreq, currentInputFreq, 0);
     }
 
 
 
     // https://ccrma.stanford.edu/~jos/sasp/Frequency_Modulation_FM_Synthesis.html
-    // When looking at the article the sin(Beta * t) is the value which we get from the input so all we have to do
-    // is to divide it with the modulating frequency (frequency of the modulating oscillator)
+
+
+    // When looking at the article the d * sin(Beta * t) is the value which we get from the input so all we have to do
+    // is to divide it with the modulating frequency (frequency of the modulating oscillator),
     // peak deviation (d) is equal to the maximum absolute value from the input oscillator - which is the amplitude of the modulating signal.
     // So all we have to do is to divide the values on the output of modulating oscillator by the modulating frequency (which is frequency of that oscillator)
+    // To get the output of modulating oscillator we have to subtract carrierFreq from the given input freq we get, which is currentInputFreq
+    // or to save some instructions, we will get it straight from the output of the modulating oscillator
     // The alpha and beta are the f_c and f_m but converted to rad/s (so it is just freqToRad())
-    // TODO: !!! THAT MEANS THE THING I HAVE THERE IS WRONG !!! - so I just have to divide the currentInputFreq by modulatingWaveFreq!!!!!
-    // TODO:
-    // So that means that the modulatingWaveAmp isn't needed - a vlastně je to i špatně, protože modulační frekvence se nemění -
-    // - ta current input freq - takze to staci spocitat jen jednou hadam???
-    // Ne pockej vsak to je blbe - ta current input freq je proste
-    // TODO:
     // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
+
+
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Frequency_Modulation.html
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Graphics/Frequency_Modulation2.gif
     // https://web.sonoma.edu/esee/courses/ee442/lectures/sp2017/lect08_angle_mod.pdf - page 9, 13
     public double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
-                                   double carrierFreq, double modulatingWaveAmp,
-                                   double modulatingWaveFreq, double currentInputFreq, double phase) {
+                                   double carrierFreq, double modulatingWaveFreq, double currentInputFreq,
+                                   double phase) {
 // TODO: RML
 // TODO: DODELAT
 //        if(modulatingWaveFreq != 0) {
@@ -90,11 +90,12 @@ public abstract class GeneratorWithPhase extends Generator {
 // TODO: RML
 // TODO: DODELAT
         if(modulatingWaveFreq != 0) {
-//            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
-            phase += currentInputFreq  / modulatingWaveFreq;
+            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;
+//            phase += currentInputFreq  / modulatingWaveFreq;
         }
         return generateSampleConst(timeInSecs, diagramFrequency, amp, carrierFreq, phase);
     }
+
 
     // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
     // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.
@@ -152,22 +153,25 @@ public abstract class GeneratorWithPhase extends Generator {
             }
         }
         else {
-            double[] modWaveAmps = inputPorts[1].getModulatingWaveAmps();
             double[] modWaveFreqs = inputPorts[1].getModulatingWaveFreqs();
 
             if (inputPorts[1].isBinaryPlus()) {
                 double carrierFreq = inputPorts[1].getConstant();
                 if (carrierFreq != Double.MAX_VALUE) {
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                                carrierFreq, modWaveFreqs[i], freqs[i], phase);
                     }
                 }
                 else {
                     double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                                carrierWaveFreqs[i], modWaveFreqs[i], freqs[i], phase);
                     }
                 }
             }
@@ -175,7 +179,7 @@ public abstract class GeneratorWithPhase extends Generator {
                 // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveAmps[i], modWaveFreqs[i], freqs[i], phase);
+                            0, modWaveFreqs[i], freqs[i], phase);
                 }
             }
         }
@@ -190,22 +194,25 @@ public abstract class GeneratorWithPhase extends Generator {
             }
         }
         else {
-            double[] modWaveAmps = inputPorts[1].getModulatingWaveAmps();
             double[] modWaveFreqs = inputPorts[1].getModulatingWaveFreqs();
 
             if (inputPorts[1].isBinaryPlus()) {
                 double carrierFreq = inputPorts[1].getConstant();
                 if (carrierFreq != Double.MAX_VALUE) {
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                                carrierFreq, modWaveFreqs[i], freqs[i], phases[i]);
                     }
                 }
                 else {
-                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
+                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1); // 1 because the 0 are modWaveFreqs
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                                carrierWaveFreqs[i], modWaveFreqs[i], freqs[i], phases[i]);
                     }
                 }
             }
@@ -213,7 +220,7 @@ public abstract class GeneratorWithPhase extends Generator {
                 // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveAmps[i], modWaveFreqs[i], freqs[i], phases[i]);
+                            0, modWaveFreqs[i], freqs[i], phases[i]);
                 }
             }
         }

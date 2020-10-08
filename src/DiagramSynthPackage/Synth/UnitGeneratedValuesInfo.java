@@ -33,9 +33,17 @@ public interface UnitGeneratedValuesInfo {
      */
     double getConstant();
 
+    /**
+     * Returns the n-th non-constant in input ports or null if there are no non-constants on input ports.
+     * Doesn't work recursively.
+     * @return
+     */
+    double[] getNonConstant(int n);
+
 
     /**
-     * Returns the amplitudes of the modulating wave
+     * Returns the amplitudes of the modulating wave.
+     * NOTE: This method isn't used anymore, but It may be useful in future, so it is kept in here
      * @return
      */
     default double[] getModulatingWaveAmps() {
@@ -58,8 +66,9 @@ public interface UnitGeneratedValuesInfo {
     double[] getWaveAmps(int waveIndex);
 
     /**
-     * Returns the frequencies of waveIndex-th found generator. This is only used in case if I have FM synthesis
-     * and the carrier signal isn't constant.
+     * Returns the frequencies of waveIndex-th found generator. This is only used in case if we have FM synthesis
+     * and the carrier signal isn't constant. So it doesn't work recursively, basically it just goes through all
+     * the input ports of operator takes and returns the frequency of the waveIndex-th non-constant input.
      * @return
      */
     double[] getWaveFreqs(int waveIndex);

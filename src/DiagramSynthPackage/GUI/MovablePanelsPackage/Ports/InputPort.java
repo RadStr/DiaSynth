@@ -113,6 +113,20 @@ public class InputPort extends Port {
         return Double.MAX_VALUE;
     }
 
+    /**
+     * Returns the n-th non-constant in input ports or null if there are no non-constants on input ports.
+     * Doesn't work recursively.
+     *
+     * @return
+     */
+    @Override
+    public double[] getNonConstant(int n) {
+        if(connectedPort != null) {
+            return connectedPort.getNonConstant(n);
+        }
+        return null;
+    }
+
 
     @Override
     public double[] getWaveAmps(int waveIndex) {

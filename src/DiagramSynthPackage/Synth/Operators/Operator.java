@@ -57,7 +57,7 @@ public abstract class Operator extends Unit {
 
     /**
      * Returns the amplitudes of the modulating wave
-     *
+     * NOTE: This method isn't used anymore, but It may be useful in future, so it is kept in here
      * @return
      */
     @Override
@@ -112,10 +112,9 @@ public abstract class Operator extends Unit {
     public double[] getWaveFreqs(int waveIndex) {
         int index = -1;
 
-        for(int i = 0, waveIndexInInputPort = 0; i < inputPorts.length; i++, waveIndexInInputPort = 0) {
-            double[] freqs = inputPorts[i].getWaveFreqs(waveIndexInInputPort);
+        for(int i = 0; i < inputPorts.length; i++) {
+            double[] freqs = inputPorts[i].getWaveFreqs(0);
             if (freqs != null) {
-                waveIndexInInputPort++;
                 index++;
                 if (waveIndex == index) {
                     return freqs;

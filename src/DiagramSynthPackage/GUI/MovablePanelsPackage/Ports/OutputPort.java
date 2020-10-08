@@ -69,6 +69,17 @@ public class OutputPort extends Port implements SerializeIFace {
         return unitValsInfo.getConstant();
     }
 
+    /**
+     * Returns the n-th non-constant in input ports or null if there are no non-constants on input ports.
+     * Doesn't work recursively.
+     *
+     * @return
+     */
+    @Override
+    public double[] getNonConstant(int n) {
+        return unitValsInfo.getNonConstant(n);
+    }
+
 
     @Override
     public double[] getWaveAmps(int waveIndex) {

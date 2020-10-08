@@ -332,6 +332,26 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         return Double.MAX_VALUE;
     }
 
+    /**
+     * Returns the n-th non-constant in input ports or null if there are no non-constants on input ports.
+     * Doesn't work recursively.
+     * @return
+     */
+    @Override
+    public double[] getNonConstant(int n) {
+        int index = -1;
+
+        for(int i = 0; i < inputPorts.length; i++) {
+            if(!inputPorts[i].getIsConst()) {
+                index++;
+                if(index == n) {
+                    return inputPorts[i].getValues();
+                }
+            }
+        }
+
+        return null;
+    }
 
 
 

@@ -107,7 +107,6 @@ abstract public class Generator extends Unit {
      * @param diagramFrequency   is the output frequency of the diagram
      * @param amp                is the amplitude of the result wave
      * @param carrierFreq        is the carrier frequency.
-     * @param modulatingWaveAmp  is the amplitude which was used for the modulating wave at this sample time.
      * @param modulatingWaveFreq is the modulation frequency.
      *                           Modulation index is (max deviation in freq / modulating wave freq)
      *                           so it is basically the amplitude of the modulating wave / its frequency
@@ -117,10 +116,9 @@ abstract public class Generator extends Unit {
      * @return
      */
     public double generateSampleFM(int timeInSamples, int diagramFrequency, double amp,
-                                   double carrierFreq, double modulatingWaveAmp,
-                                   double modulatingWaveFreq, double currentInputFreq) {
+                                   double carrierFreq, double modulatingWaveFreq, double currentInputFreq) {
         return generateSampleFM(timeInSamples / (double)diagramFrequency, diagramFrequency,
-                amp, carrierFreq, modulatingWaveAmp, modulatingWaveFreq, currentInputFreq);
+                amp, carrierFreq, modulatingWaveFreq, currentInputFreq);
     }
 
 
@@ -131,7 +129,6 @@ abstract public class Generator extends Unit {
      * @param diagramFrequency   is the output frequency of the diagram
      * @param amp                is the amplitude of the result wave
      * @param carrierFreq        is the carrier frequency.
-     * @param modulatingWaveAmp  is the amplitude which was used for the modulating wave at this sample time.
      * @param modulatingWaveFreq is the modulation frequency.
      *                           Modulation index is (max deviation in freq / modulating wave freq)
      *                           so it is basically the amplitude of the modulating wave / its frequency
@@ -141,13 +138,15 @@ abstract public class Generator extends Unit {
      * @return
      */
     public abstract double generateSampleFM(double timeInSecs, int diagramFrequency, double amp,
-                                            double carrierFreq, double modulatingWaveAmp,
-                                            double modulatingWaveFreq, double currentInputFreq);
+                                            double carrierFreq, double modulatingWaveFreq,
+                                            double currentInputFreq);
 
     public static double calculateModulationIndex(double maxDeviationInFreq, double modulatingWaveFreq) {
         return maxDeviationInFreq / modulatingWaveFreq;
     }
 
+    // Same as the code inside the GeneratorWithPhase but without phase, couldn't think of simple way how to not have
+    // it copy-pasted
     // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
     // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.
     // But I guess I should implement it, so it behaves correctly, even if it produces weird results
@@ -173,22 +172,25 @@ abstract public class Generator extends Unit {
             }
         }
         else {
-            double[] modWaveAmps = inputPorts[1].getModulatingWaveAmps();
             double[] modWaveFreqs = inputPorts[1].getModulatingWaveFreqs();
 
             if (inputPorts[1].isBinaryPlus()) {
                 double carrierFreq = inputPorts[1].getConstant();
                 if (carrierFreq != Double.MAX_VALUE) {
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveAmps[i], modWaveFreqs[i], freqs[i]);
+                                carrierFreq, modWaveFreqs[i], freqs[i]);
                     }
                 }
                 else {
                     double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
+                    double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
+
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveAmps[i], modWaveFreqs[i], freqs[i]);
+                                carrierWaveFreqs[i], modWaveFreqs[i], freqs[i]);
                     }
                 }
             }
@@ -200,7 +202,7 @@ abstract public class Generator extends Unit {
                 // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveAmps[i], modWaveFreqs[i], freqs[i]);
+                            0, modWaveFreqs[i], freqs[i]);
                 }
             }
         }

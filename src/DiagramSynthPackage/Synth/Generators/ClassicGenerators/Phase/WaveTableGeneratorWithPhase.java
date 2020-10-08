@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JFileChooserAudioPluginDefault;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.JFileChooserAudioPluginDefault;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
 import DiagramSynthPackage.Synth.Generators.Generator;
 import DiagramSynthPackage.Synth.Generators.GeneratorWithPhase;

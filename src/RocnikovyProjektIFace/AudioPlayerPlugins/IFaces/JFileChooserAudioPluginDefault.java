@@ -1,6 +1,4 @@
-package DiagramSynthPackage.GUI.MovablePanelsPackage;
-
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
+package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
 import javax.swing.*;
 

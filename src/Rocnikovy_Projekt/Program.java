@@ -7028,46 +7028,17 @@ public class Program {
             currEnergy = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                 isBigEndian, isSigned);
             variance = getVariance(energyAvg, windows);
-// TODO: In the reference article he probably has double samples between -1 and 1 that's the reason why he doesn't normalize here
-// TODO:
 
-
-//            double maxValueInEnergy = windowSize;
-//            double maxValueInVariance = 2 * maxValueInEnergy;
-//            // TODO: It is way to strict (The max variance can be much lower)
-//            maxValueInVariance *= maxValueInVariance;
-//            ProgramTest.debugPrint("Variance before:", variance);
-//            variance /= maxValueInVariance;
-//            ProgramTest.debugPrint("Variance after:", variance);
-//            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
-//            coef = -variance + 1.4;
-
-
-
-
-// TODO: BPM NOVY  - tohle je to stary - zkusim to spocitat jako kdybych to delal v doublech
-            double maxVal = getMaxAbsoluteValueUnsigned(8 * sampleSize);     // TODO: Signed and unsigned variant
+            double maxVal = getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
             double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
             double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
-            // TODO: It is way to strict (The max variance can be much lower)
+
+            // TODO: It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
             maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
             variance /= maxValueInVariance;
             coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
             coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
 //            coef = -variance + 1.4;
-
-//////////////////// - new version after this
-
-//            double maxValueInEnergy = windowSize;
-//            double maxValueInVariance = 2 * maxValueInEnergy;
-//            // TODO: It is way to strict (The max variance can be much lower)
-//            maxValueInVariance *= maxValueInVariance;
-//            variance = maxValueInVariance;
-//
-////            coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
-//            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
-////            coef = -variance + 1.4;
-// TODO: BPM NOVY
 
 //            energyAvg = energyAvg / (windowSize * (1 << (sampleSize * 8)));
             System.out.println("!!!!!!!!!!!!!!!!");
@@ -7117,10 +7088,7 @@ public class Program {
         for(int i = 0; i < windowSize; i++) {
             for(int j = 0; j < numberOfChannels; j++, index += sampleSize) {
                 int val = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
-
                 energy += val*(double)val;
-//                double valDouble = val / (double)Program.getMaxAbsoluteValueSigned(8 * sampleSize);
-//                energy += valDouble * valDouble;
             }
         }
 

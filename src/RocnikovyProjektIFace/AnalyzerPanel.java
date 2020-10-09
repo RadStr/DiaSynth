@@ -162,6 +162,9 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fileChooser = new JFileChooser();
+                if(currentDirectory != null) {
+                    fileChooser.setCurrentDirectory(currentDirectory);
+                }
                 fileChooser.setMultiSelectionEnabled(true);
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 performActionForFileChooser(fileChooser.showOpenDialog(thisWindow));
@@ -265,8 +268,10 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private NodeList nList;
 
+    private File currentDirectory;
     private void performActionForFileChooser(int returnVal) {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            currentDirectory = fileChooser.getCurrentDirectory();
             File[] files = fileChooser.getSelectedFiles();
             nList = XML.xmlDoc.getElementsByTagName("name");
             addFilesToModel(files);

@@ -6972,8 +6972,7 @@ public class Program {
 
     int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
     int windowSize = sampleRate / windowsLen;
-    int mod = windowSize % this.frameSize;
-    windowSize -= mod;
+    windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
     double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
     return getBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
         this.sampleRate, this.mask, this.isBigEndian, this.isSigned);
@@ -7006,13 +7005,13 @@ public class Program {
         int i;
         int windowSizeInBytes = windowSize * frameSize;
         int nextSampleIndex = windowSizeInBytes;
-        double avg = 0;
-        double avgAfterDiv;
+        double energySum = 0;
+        double energyAvg;
         for(i = 0; i < windows.length; i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
             if(nextSampleIndex < samples.length) {
                 windows[i] = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                     isBigEndian, isSigned);
-                avg += windows[i];
+                energySum += windows[i];
             }
         }
 
@@ -7023,29 +7022,43 @@ public class Program {
         double variance;
         double coef;
         while(nextSampleIndex < samples.length) {
-            avgAfterDiv = avg / windows.length;
+            energyAvg = energySum / windows.length;
             currEnergy = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                 isBigEndian, isSigned);
-            variance = getVariance(avgAfterDiv, windows);
+            variance = getVariance(energyAvg, windows);
 // TODO: In the reference article he probably has double samples between -1 and 1 that's the reason why he doesn't normalize here
 // TODO:
             coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
+//// TODO: BPM NOVY  - tohle je to stary - zkusim to spocitat jako kdybych to delal v doublech
             double maxVal = getMaxAbsoluteValueUnsigned(8 * sampleSize);     // TODO: Signed and unsigned variant
-            double maxValueInEnergy = windowSize * maxVal * maxVal;
-            double maxValueInVariance = 2 * maxValueInEnergy;
-            maxValueInVariance *= maxValueInVariance;           // TODO: It is way to strict (The max variance can be much lower)
+            double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
+            double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
+            // TODO: It is way to strict (The max variance can be much lower)
+            maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
             variance /= maxValueInVariance;
             coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
             coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
             coef = -variance + 1.4;
-//            avgAfterDiv = avgAfterDiv / (windowSize * (1 << (sampleSize * 8)));
+//////////////////// - new version after this
+//            double maxValueInEnergy = windowSize;
+//            double maxValueInVariance = 2 * maxValueInEnergy;
+//            // TODO: It is way to strict (The max variance can be much lower)
+//            maxValueInVariance *= maxValueInVariance;
+//            variance = maxValueInVariance;
+//
+////            coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
+//            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
+////            coef = -variance + 1.4;
+// TODO: BPM NOVY
+
+//            energyAvg = energyAvg / (windowSize * (1 << (sampleSize * 8)));
             System.out.println("!!!!!!!!!!!!!!!!");
             System.out.println(maxValueInEnergy);
             System.out.println(":" + coef + ":\t" + maxValueInEnergy + ":\t" + (variance / (maxValueInEnergy * maxValueInEnergy)));
-            System.out.println(currEnergy + ":\t" + coef * avgAfterDiv + ":\t" + variance);
+            System.out.println(currEnergy + ":\t" + coef * energyAvg + ":\t" + variance);
             System.out.println("!!!!!!!!!!!!!!!!");
 // TODO:
-            if(currEnergy > coef * avgAfterDiv) {
+            if(currEnergy > coef * energyAvg) {
                 if(windowsFromLastBeat >= 4) {
                     bpm++;
                     windowsFromLastBeat = -1;
@@ -7055,17 +7068,17 @@ public class Program {
 
             // Again optimize the case when windows.length is power of 2
             if(windows.length % 2 == 0) {
-                avg = avg - windows[oldestIndexInWindows % windows.length] + currEnergy;
+                energySum = energySum - windows[oldestIndexInWindows % windows.length] + currEnergy;
                 windows[oldestIndexInWindows % windows.length] = currEnergy;
             }
             else {
                 if(oldestIndexInWindows >= windows.length) {
                     oldestIndexInWindows = 0;
                 }
-                avg = avg - windows[oldestIndexInWindows] + currEnergy;
+                energySum = energySum - windows[oldestIndexInWindows] + currEnergy;
                 windows[oldestIndexInWindows] = currEnergy;
             }
-            System.out.println(windows[oldestIndexInWindows]);
+            ProgramTest.debugPrint("Window in simple BPM:", windows[oldestIndexInWindows]);          // TODO: DEBUG
             oldestIndexInWindows++;
             sampleIndex = nextSampleIndex;
             nextSampleIndex += windowSizeInBytes;
@@ -7087,7 +7100,7 @@ public class Program {
             for(int j = 0; j < numberOfChannels; j++, index += sampleSize) {
                 int val = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 
-                energy += val*val;
+                energy += val*(double)val;
             }
         }
 
@@ -9892,7 +9905,7 @@ System.out.println();
 
     // TODO: Pouzival jsem na hodne mistech a asi ne na vsech jsem to nahradil volanim timhle funkce
     public static int convertToMultipleDown(int val, int multiple) {
-        val = val - (val % multiple);
+        val -= (val % multiple);
         return val;
     }
     public static int convertToMultipleUp(int val, int multiple) {

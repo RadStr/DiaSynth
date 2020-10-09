@@ -2098,13 +2098,11 @@ public class Program {
                         }
                         break;
                     case RMS:
-                        specialValue = specialValue + (double) (sample * sample) / n;
-                        break;
-                    case AVG:
-                        specialValue = specialValue + (double) sample / n;
+                        specialValue += sample * (double)sample;
                         break;
                     case SUM:
-                        specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                    case AVG:
+                        specialValue += sample;
                         break;
                 }
                 index = index + sampleSize;
@@ -2124,21 +2122,25 @@ public class Program {
                         }
                         break;
                     case RMS:
-                        specialValue = specialValue + (double) (sample * sample) / n;
-                        break;
-                    case AVG:
-                        specialValue = specialValue + (double) sample / n;
+                        specialValue += sample * (double)sample;
                         break;
                     case SUM:
-                        specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                    case AVG:
+                        specialValue += sample;
                         break;
                 }
                 index = index + sampleSize;
             }
         }
 
+        double maxAbsVal = (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+        specialValue /= maxAbsVal;
         if (agg == Aggregations.RMS) {
-            specialValue = Math.sqrt(specialValue);
+            specialValue /= maxAbsVal;
+            specialValue = Math.sqrt(specialValue / n);
+        }
+        else if(agg == Aggregations.AVG) {
+            specialValue /= n;
         }
 
         return specialValue;
@@ -5254,11 +5256,11 @@ public class Program {
      * @return Returns array with mods in Aggregations order (given by calling Aggregations.values()).
      * @throws IOException is thrown when the sample size is <= 0 or > 4
      */
-    public static int[] getAllMods(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
-        int[] arr = new int[Aggregations.values().length];
+    public static double[] getAllMods(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+        double[] arr = new double[Aggregations.values().length];
         int index = 0;
         for (Aggregations agg : Aggregations.values()) {
-            arr[index] = (int) performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
+            arr[index] = performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
             index++;
         }
         return arr;
@@ -7028,8 +7030,22 @@ public class Program {
             variance = getVariance(energyAvg, windows);
 // TODO: In the reference article he probably has double samples between -1 and 1 that's the reason why he doesn't normalize here
 // TODO:
-            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
-//// TODO: BPM NOVY  - tohle je to stary - zkusim to spocitat jako kdybych to delal v doublech
+
+
+//            double maxValueInEnergy = windowSize;
+//            double maxValueInVariance = 2 * maxValueInEnergy;
+//            // TODO: It is way to strict (The max variance can be much lower)
+//            maxValueInVariance *= maxValueInVariance;
+//            ProgramTest.debugPrint("Variance before:", variance);
+//            variance /= maxValueInVariance;
+//            ProgramTest.debugPrint("Variance after:", variance);
+//            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
+//            coef = -variance + 1.4;
+
+
+
+
+// TODO: BPM NOVY  - tohle je to stary - zkusim to spocitat jako kdybych to delal v doublech
             double maxVal = getMaxAbsoluteValueUnsigned(8 * sampleSize);     // TODO: Signed and unsigned variant
             double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
             double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
@@ -7038,8 +7054,10 @@ public class Program {
             variance /= maxValueInVariance;
             coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
             coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
-            coef = -variance + 1.4;
+//            coef = -variance + 1.4;
+
 //////////////////// - new version after this
+
 //            double maxValueInEnergy = windowSize;
 //            double maxValueInVariance = 2 * maxValueInEnergy;
 //            // TODO: It is way to strict (The max variance can be much lower)
@@ -7101,6 +7119,8 @@ public class Program {
                 int val = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 
                 energy += val*(double)val;
+//                double valDouble = val / (double)Program.getMaxAbsoluteValueSigned(8 * sampleSize);
+//                energy += valDouble * valDouble;
             }
         }
 

@@ -335,7 +335,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         if(checkBoxes[2].isSelected()) {
             list.add(analyzeSizeInBytes(p));
         }
-        int[] mods = null;
+        double[] mods = null;
         if(checkBoxes[3].isSelected() || checkBoxes[4].isSelected() || checkBoxes[5].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
             try {
                 mods = Program.getAllMods(p.song, p.sampleSizeInBytes, p.isBigEndian, p.isSigned);
@@ -344,8 +344,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             }
         }
         if(checkBoxes[3].isSelected()) {
-            list.add(analyzeSampleMin(mods));
             list.add(analyzeSampleMax(mods));
+            list.add(analyzeSampleMin(mods));
         }
         if(checkBoxes[4].isSelected()) {
             list.add(analyzeSampleAverage(mods));
@@ -434,24 +434,24 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         return new Pair<String, String>("fileSizeInBytes", len.toString());
     }
 
-    private static Pair<String, String> analyzeSampleMin(int[] mods) {
-        Integer min = mods[0];							// TODO: nemel bych to vybirat takhle natvrdo ty indexy
-        return new Pair<String, String>("sampleMINVal", min.toString());
+    private static Pair<String, String> analyzeSampleMin(double[] mods) {
+        String s = String.format("%.2f", mods[Aggregations.MIN.ordinal()]);
+        return new Pair<String, String>("sampleMINVal", s);
     }
 
-    private static Pair<String, String> analyzeSampleMax(int[] mods) {
-        Integer max = mods[1];
-        return new Pair<String, String>("sampleMAXVal", max.toString());
+    private static Pair<String, String> analyzeSampleMax(double[] mods) {
+        String s = String.format("%.2f", mods[Aggregations.MAX.ordinal()]);
+        return new Pair<String, String>("sampleMAXVal", s);
     }
 
-    private static Pair<String, String> analyzeSampleAverage(int[] mods) {
-        Integer avg = mods[2];
-        return new Pair<String, String>("sampleAVGVal", avg.toString());
+    private static Pair<String, String> analyzeSampleAverage(double[] mods) {
+        String s = String.format("%.2f", mods[Aggregations.AVG.ordinal()]);
+        return new Pair<String, String>("sampleAVGVal", s);
     }
 
-    private static Pair<String, String> analyzeSampleRMS(int[] mods) {
-        Integer rms = mods[3];
-        return new Pair<String, String>("sampleRMSVal", rms.toString());
+    private static Pair<String, String> analyzeSampleRMS(double[] mods) {
+        String s = String.format("%.2f", mods[Aggregations.RMS.ordinal()]);
+        return new Pair<String, String>("sampleRMSVal", s);
     }
 
     private static Pair<String, String> analyzeEndianity(Program prog) {

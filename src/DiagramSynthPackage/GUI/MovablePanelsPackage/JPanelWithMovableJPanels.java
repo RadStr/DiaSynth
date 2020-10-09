@@ -371,7 +371,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
             outputPanels[i] = new OutputUnit(this, i, channelCount, audioThread);
             ShapedPanel sp = outputPanels[i].getShapedPanel();
             if(maxYPoint == null) {
-                sp.setRelativePosToReferencePanel(i, 0);
+                sp.setRelativePosToReferencePanel(i + 1, 1);
             }
             else {
                 sp.setRelativePosToReferencePanel(maxYPoint.x + i, maxYPoint.y + 1);

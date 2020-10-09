@@ -3267,6 +3267,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
+
     /**
      *
      * @param file is the default file for the JFileChoser.

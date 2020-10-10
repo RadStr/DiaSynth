@@ -34,7 +34,13 @@ public interface SubbandSplitterIFace {
         }
 
 //        energy = energy * subbandCount / fftMeasures.length;  // TODO: Ted nevim jestli se to deli to delkou
-        energy = subbandCount * energy * (1/(double)len) / fftMeasures.length;             // TODO:
+        // TODO: NOVY BPM - ASI BUG
+//        energy /= (double) len;       // Average energy per bin
+//        energy = subbandCount * energy / fftMeasures.length;
+
+        energy = len * energy / fftMeasures.length;
+        // TODO: NOVY BPM - ASI BUG
+
 // TODO:        System.out.println("getSubbandRealForwardEnergy: " + subband + "\t" + (index-len) + ":\t" + len + ":\t" + energy);
         return energy;
     }

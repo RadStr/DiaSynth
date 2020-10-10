@@ -7002,7 +7002,7 @@ public class Program {
      public static int getBPMSimple(byte[] samples, int windowSize, double[] windows, int numberOfChannels,
                                     int sampleSize, int frameSize,
                                     int sampleRate, int mask, boolean isBigEndian, boolean isSigned) {
-        int bpm = 0;
+        int beatCount = 0;
         int sampleIndex = 0;
         int i;
         int windowSizeInBytes = windowSize * frameSize;
@@ -7049,7 +7049,7 @@ public class Program {
 // TODO:
             if(currEnergy > coef * energyAvg) {
                 if(windowsFromLastBeat >= 4) {
-                    bpm++;
+                    beatCount++;
                     windowsFromLastBeat = -1;
                 }
             }
@@ -7074,9 +7074,14 @@ public class Program {
             windowsFromLastBeat++;
         }
 
-        int sizeOfOneSecond = sampleSize * numberOfChannels * sampleRate;
-        bpm = (int) (bpm / ((double)samples.length / (60 * sizeOfOneSecond)));
-        return bpm;
+         int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+         return bpm;
+     }
+
+     public static int convertBPM(int beats, int sampleCount, int sampleSize, int numberOfChannels, int sampleRate) {
+         int sizeOfOneSecond = sampleSize * numberOfChannels * sampleRate;
+         int bpm = (int) (beats / ((double)sampleCount / (60 * sizeOfOneSecond)));
+         return bpm;
      }
 
 
@@ -7131,7 +7136,7 @@ public class Program {
          }
 
          int mod = windowSize % this.frameSize;     // But not always is the power of 2 divisible by the frameSize
-         System.out.println(windowSize);        // TODO: remove
+         ProgramTest.debugPrint("window size (2nd bpm alg):", windowSize);        // TODO: remove
          windowSize += mod;
          DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
@@ -7337,13 +7342,13 @@ public class Program {
 //                    bpm++;
 //                    break;
 //                }
-//                updateAVGandValues(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
+//                updateEnergySumsAndSubbands(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
 //            }
 //
 //            // TODO: I do this because of the break, I found beat but I still have to update the values
 //            // TODO: Ideally I want to do this in the previous for cycle,
 //            for(; j < currEnergies.length; j++) {
-//                updateAVGandValues(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
+//                updateEnergySumsAndSubbands(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
 //            }
 //
 //            oldestIndexInSubbands++;
@@ -7376,7 +7381,7 @@ public class Program {
     ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
 
 /*
-        int bpm = 0;
+        int beatCount = 0;
         double fft;
         int windowSizeInBytes = sampleSize * windowSize;        // TODO: * frameSize
         for(i = 0; i < windows.length; i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
@@ -7400,7 +7405,7 @@ public class Program {
             double[] subbandEnergies = getSubbandEnergiesUsingFFT(...); // TODO: !!!! Zase to delat spis jen pres referenci
 
         }
-        return bpm;
+        return beatCount;
  */
 
 
@@ -7410,29 +7415,22 @@ public class Program {
 // TODO:
 // TODO:        double varianceLimit = 0;     // TODO:
         int windowsFromLastBeat = 4;
-
         int subbandCount = subbandEnergies[0].length;
         int historySubbandsCount = subbandEnergies.length;
-
         double[] fftArr = new double[windowSize];
 
         // TODO: Zbytecny staci aby to pole melo polovicni velikost (viz kod pod tim)
 //double[] measuresArr = new double[windowSize];        // TODO: Muzu pouzit fftArr jako measuresArr, ale takhle to je prehlednesji a navic pak chci ty vysledky fft ulozit do souboru abych to uz nemusel pocitat
-        double[] measuresArr;
-        if(windowSize % 2 == 0) {			// It's even
-            measuresArr = new double[windowSize / 2 + 1];
-        } else {
-            measuresArr = new double[(windowSize + 1) / 2];
-        }
+        double[] measuresArr = new double[Program.getBinCountRealForward(windowSize)];
 
 
-        int bpm = 0;
+        int beatCount = 0;
         int sampleIndex = 0;
         int i;
         int windowSizeInBytes = windowSize * sampleSize;     // TODO: frameSize v vice multichannel variante
         int nextSampleIndex = windowSizeInBytes;
         //TODO: Asi zase predat jako argument ... tady je to pole protoze kazdy subband ma vlastni average
-        double[] avgs = new double[subbandCount];  // TODO: Pro vice kanalove to bude double[][]
+        double[] energySums = new double[subbandCount];  // TODO: Pro vice kanalove to bude double[][]
         double[] currEnergies = new double[subbandCount];
         for(i = 0; i < subbandEnergies.length; // TODO: U multi-channel varianty to bude subbandEnergies[0].length
             i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
@@ -7442,16 +7440,20 @@ public class Program {
                     maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
 // TODO:                subbandEnergies[i] = currEnergies;
                 for(int j = 0; j < subbandEnergies[i].length; j++) {
-                    avgs[j] += subbandEnergies[i][j];
+                    energySums[j] += subbandEnergies[i][j];
                 }
             }
         }
 
         double coef;
-        double avgAfterDiv;
+        double avg;
 
         int oldestIndexInSubbands = 0;
         while(nextSampleIndex < samples.length) {
+            // TODO: BPM NOVY
+            boolean hasBeat = false;
+            // TODO: BPM NOVY
+
             getSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
                 numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                 maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
@@ -7460,30 +7462,42 @@ public class Program {
             // This is version for Constant splitter The commented coef = 2.5 ... is for logaritmic, but the version with constant seems to work very good
             int j = 0;
             for(; j < currEnergies.length; j++) {
-                avgAfterDiv = avgs[j] / historySubbandsCount; // TODO:
-                double variance = getVariance(avgAfterDiv, subbandEnergies, j);
+                avg = energySums[j] / historySubbandsCount; // TODO:
+                double variance = getVariance(avg, subbandEnergies, j);
                 coef = 3;
          //       coef = 2.5 + 10000 * variance; For logarithimic with subbandCount == 32 and that version doesn't contain the if with varianceLimit
-//                System.out.println(currEnergies[j] + ":\t" + avgAfterDiv + ":\t" + (coef * avgAfterDiv));
-                if (currEnergies[j] > coef * avgAfterDiv) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
+//                System.out.println(currEnergies[j] + ":\t" + avg + ":\t" + (coef * avg));
+
+                ProgramTest.debugPrint("Variance two:", variance, energySums[j]);
+                if (currEnergies[j] > coef * avg) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
                     System.out.println("---------------" + variance);
                     double varianceLimit = 0.0000001;
+//                    varianceLimit = 150;
+
 /*// TODO: K nicemu, lepsi je mit varianci zahrnutou v tom coef                   */ if(variance > varianceLimit) {
+    // TODO: BPM NOVY
+//    if(!hasBeat) {
+//        beatCount++;
+//        hasBeat = true;
+//    }
+    ////////////
                         if(windowsFromLastBeat >= 4) {
                             System.out.println(sampleIndex + ":\t" + j + ":\t" + samples.length);
-                            bpm++;
+                            beatCount++;
                             windowsFromLastBeat = -1;
+                            hasBeat = true;
                             break;
 /*// TODO:                        */}
+    // TODO: BPM NOVY
                     }
                 }
-                updateAVGandValues(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
+                updateEnergySumsAndSubbands(j, oldestIndexInSubbands, energySums, currEnergies[j], subbandEnergies);
             }
 
-            // TODO: I do this because of the break, I found beat but I still have to update the values
-            // TODO: Ideally I want to do this in the previous for cycle,
-            for(; j < currEnergies.length; j++) {
-                updateAVGandValues(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
+            if(hasBeat) {
+                for (; j < currEnergies.length; j++) {
+                    updateEnergySumsAndSubbands(j, oldestIndexInSubbands, energySums, currEnergies[j], subbandEnergies);
+                }
             }
 
             oldestIndexInSubbands++;
@@ -7502,9 +7516,7 @@ public class Program {
             }
         }
 
-
-        int sizeOfOneSecond = sampleSize * numberOfChannels * sampleRate;
-        bpm = (int) (bpm / ((double)samples.length / (60 * sizeOfOneSecond)));
+        int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
         return bpm;
     }
 
@@ -7540,10 +7552,10 @@ public class Program {
         }
     }
 
-    // The oldestIndexInSubbands should already be in range from 0 to avgs.length (== subbandCount)
-    private static void updateAVGandValues(int subbandInd, int oldestIndexInSubbands, double[] avgs,
-                                           double currEnergy, double[][] subbandEnergies) {
-        avgs[subbandInd] = avgs[subbandInd] - subbandEnergies[oldestIndexInSubbands][subbandInd] + currEnergy;
+    // The oldestIndexInSubbands should already be in range from 0 to energySums.length (== subbandCount)
+    private static void updateEnergySumsAndSubbands(int subbandInd, int oldestIndexInSubbands, double[] energySums,
+                                                    double currEnergy, double[][] subbandEnergies) {
+        energySums[subbandInd] = energySums[subbandInd] - subbandEnergies[oldestIndexInSubbands][subbandInd] + currEnergy;
         subbandEnergies[oldestIndexInSubbands][subbandInd] = currEnergy;
     }
 

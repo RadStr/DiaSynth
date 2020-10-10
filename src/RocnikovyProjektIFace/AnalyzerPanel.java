@@ -480,8 +480,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMAdvancedFull(Program prog) {
-        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 6);
         int subbandCount = 6;
+        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
         return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter)).toString());
     }
 

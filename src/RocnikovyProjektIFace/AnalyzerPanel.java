@@ -480,13 +480,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMAdvancedFull(Program prog) {
-        SubbandSplitterIFace splitter = new SubbandSplitterConstant(prog.sampleRate);
+        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 6);
         int subbandCount = 6;
         return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter)).toString());
     }
 
     private static Pair<String, String> analyzeBPMBarycenterPart(Program prog) {
-        SubbandSplitterIFace splitter = new SubbandSplitterConstant(prog.sampleRate);
+        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 6);
         int subbandCount = 6;
         int startBPM = 60;
         int jumpBPM = 10;
@@ -507,7 +507,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMAllPart(Program prog) {
-        SubbandSplitterIFace splitter = new SubbandSplitterConstant(prog.sampleRate);
+        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 6);
 
         int subbandCount = 6;
         int startBPM = 60;

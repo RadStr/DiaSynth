@@ -2,14 +2,29 @@ package Rocnikovy_Projekt;
 
 import RocnikovyProjektIFace.Pair;
 
-public class SubbandSplitterConstant implements SubbandSplitterIFace {
-    static int subbandCountValid = 6;
+/**
+ * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
+ * that means the subbandCount parameter is ignored as parameter in the methods.
+ * To get the subband count just look at variable SUBBAND_COUNT.
+ */
+public class SubbandSplitter implements SubbandSplitterIFace {
     private int previousStartIndex = 0;
-    private double previousHzOverFlow;
-    private int sampleRate;
+    private double previousHzOverflow;
+    private final int SAMPLE_RATE;
+    public final int SUBBAND_COUNT;
+    public final int START_HZ;
 
-    public SubbandSplitterConstant(int sampleRate) {
-        this.sampleRate = sampleRate;
+    /**
+     * The subbandCount will only used, if it will be smaller than then the maximum subband count which we is based on given
+     * sample rate and startHz parameters.
+     * @param sampleRate
+     * @param startHz
+     * @param subbandCount
+     */
+    public SubbandSplitter(int sampleRate, int startHz, int subbandCount) {
+        this.SAMPLE_RATE = sampleRate;
+        SUBBAND_COUNT = Math.min(subbandCount, Program.getFirstPowerExponentOfNBeforeNumber(startHz, sampleRate, 2));
+        START_HZ = startHz;
     }
 
 
@@ -30,18 +45,18 @@ public class SubbandSplitterConstant implements SubbandSplitterIFace {
             currentSubbandSize -= 2;
         }
         else {
-            if (subband != subbandCountValid - 1) {
+            if (subband != SUBBAND_COUNT - 1) {
                 currentSubbandSize *= 2;
             }
-            startIndex = 2 * startIndex;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
-            if (subband == subbandCountValid - 1) {
+            startIndex *= 2;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
+            if (subband == SUBBAND_COUNT - 1) {
                 result[1] = fftResult[1];
             }
         }
 
 // TODO: DEBUG
 /*
-        double jumpHzTODO = (double)sampleRate / fftResult.length;
+        double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
         System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
 /**/
         System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
@@ -72,36 +87,28 @@ public class SubbandSplitterConstant implements SubbandSplitterIFace {
         setPreviousStartIndex(subband);
         int len;
         int subbandRangeInHz;
-        // It is divided by arrayLen because, we can analyze only up to nyquist frequency which is sampleRate / 2 and
+        // It is divided by arrayLen because, we can analyze only up to nyquist frequency which is SAMPLE_RATE / 2 and
         // every complex number is made of 2 numbers so we will get up to nyquist frequency from the arrayLen / 2 complex numbers
         // When arrayLen == windowSize == number of samples put to FFT
-        double jumpHZ = (double)sampleRate / windowSize;
+        double jumpHZ = (double) SAMPLE_RATE / windowSize;
 
-        switch (subband) {
-            case 0:
-            case 1:
-                subbandRangeInHz = 200;
-                break;
-            case 2:
-                subbandRangeInHz = 400;
-                break;
-            case 3:
-                subbandRangeInHz = 800;
-                break;
-            case 4:
-                subbandRangeInHz = 1600;
-                break;
-            case 5:
-// TODO: DEBUG                System.out.println("::::::" + windowSize + "\t" + previousStartIndex + "\t" + (windowSize - 2*previousStartIndex));
-                return new Pair<>(previousStartIndex, windowSize - 2*previousStartIndex);
-            default:
-                return null;
+        if(subband == 0) {
+            subbandRangeInHz = START_HZ;
+        }
+        else if (subband < SUBBAND_COUNT - 1) {
+            subbandRangeInHz = START_HZ  * 1 << (subband - 1);
+        }
+        else if(subband == SUBBAND_COUNT - 1) {
+            return new Pair<>(previousStartIndex, windowSize - 2 * previousStartIndex);
+        }
+        else {
+            return null;
         }
 
 
-        len = (int)Math.ceil((subbandRangeInHz - previousHzOverFlow) / jumpHZ);
-        previousHzOverFlow += len * jumpHZ;     // += because to get how much I overshot from the starting point
-        previousHzOverFlow %= subbandRangeInHz;
+        len = (int)Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
+        previousHzOverflow += len * jumpHZ;     // += because to get how much I overshot from the starting point
+        previousHzOverflow %= subbandRangeInHz;
 
         retPair = new Pair<>(previousStartIndex, len);
         previousStartIndex += len;
@@ -112,7 +119,7 @@ public class SubbandSplitterConstant implements SubbandSplitterIFace {
     private void setPreviousStartIndex(int subband) {
         if(subband == 0) {
             previousStartIndex = 0;
-            previousHzOverFlow = 0;
+            previousHzOverflow = 0;
         }
     }
 }

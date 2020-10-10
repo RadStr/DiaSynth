@@ -2,6 +2,7 @@ package Rocnikovy_Projekt;
 
 import RocnikovyProjektIFace.Pair;
 
+@Deprecated     // deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)
 public class SubbandSplitterLinear implements SubbandSplitterIFace {
     // From documentation:
 //	if n is even then

@@ -7081,6 +7081,7 @@ public class Program {
 
 
 
+
     private static double getEnergy(byte[] samples, int windowSize, int numberOfChannels,
                                      int sampleSize, int index, int mask, boolean isBigEndian, boolean isSigned) {
         double energy = 0;
@@ -7145,19 +7146,31 @@ public class Program {
      }
 
 
-     public static int getFirstPowerOfNAfterNumber(int num, int n) {
-        int result = 1;
+
+
+    public static int getFirstPowerOfNBeforeNumber(int startNumber, int num, int n) {
+        int result = getFirstPowerOfNAfterNumber(startNumber, num, n);
+        return result / n;
+    }
+
+    public static int getFirstPowerOfNAfterNumber(int startNumber, int num, int n) {
+        int result = startNumber;
 
         while(result <= num) {
             result *= n;
         }
 
         return result;
-     }
+    }
 
 
-    public static int getFirstPowerExponentOfNAfterNumber(int num, int n) {
-        int result = 1;
+    public static int getFirstPowerExponentOfNBeforeNumber(int startNumber, int num, int n) {
+        int e = getFirstPowerExponentOfNAfterNumber(startNumber, num, n);
+        return e - 1;
+    }
+
+    public static int getFirstPowerExponentOfNAfterNumber(int startNumber, int num, int n) {
+        int result = startNumber;
         int e = 0;
 
         while(result <= num) {
@@ -7166,6 +7179,24 @@ public class Program {
         }
 
         return e;
+    }
+
+
+    public static int getFirstPowerOfNBeforeNumber(int num, int n) {
+        return getFirstPowerOfNBeforeNumber(1, num, n);
+    }
+
+     public static int getFirstPowerOfNAfterNumber(int num, int n) {
+        return getFirstPowerOfNAfterNumber(1, num, n);
+     }
+
+
+    public static int getFirstPowerExponentOfNBeforeNumber(int num, int n) {
+        return getFirstPowerExponentOfNBeforeNumber(1, num, n);
+    }
+
+    public static int getFirstPowerExponentOfNAfterNumber(int num, int n) {
+        return getFirstPowerExponentOfNAfterNumber(1, num, n);
     }
 
 

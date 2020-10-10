@@ -1,6 +1,5 @@
 package Rocnikovy_Projekt;
 
-import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
 import org.jtransforms.fft.DoubleFFT_1D;
 
@@ -2495,7 +2494,7 @@ public class ProgramTest {
     }
 
     public static boolean testSubbandSplitterConstant(int sampleRate, int subbandCount, int arrLen) {
-        SubbandSplitterIFace s = new SubbandSplitterConstant(sampleRate);
+        SubbandSplitterIFace s = new SubbandSplitter(sampleRate, 200, subbandCount);
         return testGetSubbandRealForward(s, subbandCount, arrLen);
     }
 

@@ -10,7 +10,7 @@ import RocnikovyProjektIFace.Pair;
 public class SubbandSplitter implements SubbandSplitterIFace {
     private int previousStartIndex = 0;
     private double previousHzOverflow;
-    private final int SAMPLE_RATE;
+    public final int SAMPLE_RATE;
     public final int SUBBAND_COUNT;
     public final int START_HZ;
 
@@ -37,11 +37,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         startIndex = pair.getKey();
         currentSubbandSize = pair.getValue();
 
-        if (subband != SUBBAND_COUNT - 1) {
-            currentSubbandSize *= 2;
-        }
-        startIndex *= 2;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
-
 // TODO: DEBUG
 /*
         double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
@@ -66,10 +61,9 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         setPreviousStartIndex(subband);
         int len;
         int subbandRangeInHz;
-        // It is divided by arrayLen because, we can analyze only up to nyquist frequency which is SAMPLE_RATE / 2 and
-        // every complex number is made of 2 numbers so we will get up to nyquist frequency from the arrayLen / 2 complex numbers
-        // When arrayLen == binCount == number of samples put to FFT
-        double jumpHZ = (SAMPLE_RATE / (double)2) / binCount;
+
+        // Div by 2 because we go up to nyquist and binCount - 1, because we are calculating the jump.
+        double jumpHZ = (SAMPLE_RATE / (double)2) / (binCount - 1);
 
         if(subband == 0) {
             subbandRangeInHz = START_HZ;
@@ -86,7 +80,7 @@ public class SubbandSplitter implements SubbandSplitterIFace {
 
 
         len = (int)Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
-        previousHzOverflow += len * jumpHZ;     // += because to get how much I overshot from the starting point
+        previousHzOverflow += len * jumpHZ;     // += because to get how much we overshot from the starting point
         previousHzOverflow %= subbandRangeInHz;
 
         retPair = new Pair<>(previousStartIndex, len);

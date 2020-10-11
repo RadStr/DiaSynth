@@ -14,8 +14,6 @@ public interface SubbandSplitterIFace {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
-    // TODO: tehle text dat do popisu funkce:  Result array should be set to 0s, the method sets only the indexes in result array which correspond to the subband, others aren't touched
-
     /**
      * Copies the fftMeasures array part corresponding to the specified subband to the result array (to the same positions).
      * Method doesn't change other indices of the result array.

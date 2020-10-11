@@ -2508,7 +2508,7 @@ public class ProgramTest {
             int startIndex = -1;
             int counter = 0;
             int endIndex = -1;
-            splitter.getSubbandRealForward(arr, subbandCount, subband, result);
+            splitter.getSubband(arr, subbandCount, subband, result);
             for(int i = 0; i < result.length; i++) {
                 if(result[i] != 0) {
                     System.out.println(i);

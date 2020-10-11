@@ -7448,6 +7448,8 @@ public class Program {
         double coef;
         double avg;
 
+
+
         int oldestIndexInSubbands = 0;
         while(nextSampleIndex < samples.length) {
             // TODO: BPM NOVY
@@ -7465,6 +7467,8 @@ public class Program {
                 avg = energySums[j] / historySubbandsCount; // TODO:
                 double variance = getVariance(avg, subbandEnergies, j);
                 coef = 3;
+//                    coef = 250;
+
          //       coef = 2.5 + 10000 * variance; For logarithimic with subbandCount == 32 and that version doesn't contain the if with varianceLimit
 //                System.out.println(currEnergies[j] + ":\t" + avg + ":\t" + (coef * avg));
 
@@ -7548,7 +7552,7 @@ public class Program {
                 frameSize, mask, fft, fftArray, maxAbsoluteValue, isBigEndian, isSigned);
         convertResultsOfFFTToRealRealForward(fftArray, fftArrayMeasures);
         for(int subband = 0; subband < currEnergies.length; subband++) {
-            currEnergies[subband] = splitter.getSubbandRealForwardEnergy(fftArrayMeasures, currEnergies.length, subband);
+            currEnergies[subband] = splitter.getSubbandEnergy(fftArrayMeasures, currEnergies.length, subband);
         }
     }
 
@@ -7995,7 +7999,7 @@ if(currBPM == 60) {
     public static void getIFFTBasedOnSubbands(double[] fftResult, int subbandCount, DoubleFFT_1D fft,
                                              SubbandSplitterIFace splitter, double[][] result) {
         for(int subband = 0; subband < subbandCount; subband++) {
-            splitter.getSubbandRealForward(fftResult, subbandCount, subband, result[subband]);
+            splitter.getSubband(fftResult, subbandCount, subband, result[subband]);
 
 //            // TODO:
 //            System.out.println("\n\n\n\n" + subband);
@@ -8010,7 +8014,7 @@ if(currBPM == 60) {
 
     public static void getIFFTBasedOnSubband(double[] fftResult, int subbandCount, int subband, DoubleFFT_1D fft,
                                              SubbandSplitterIFace splitter, double[] result) {
-        splitter.getSubbandRealForward(fftResult, subbandCount, subband, result);
+        splitter.getSubband(fftResult, subbandCount, subband, result);
         calculateIFFTRealForward(result, fft, true);     // TODO: To skalovani ... asi se ma davat true, ale nevim proc ... no vzdycky to muze prevadet jako parametr
     }
 

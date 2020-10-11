@@ -2,6 +2,7 @@ package Rocnikovy_Projekt;
 
 import RocnikovyProjektIFace.Pair;
 
+// TODO: Just remove it - doesn't make sense to keep after I looked at the horrible code
 @Deprecated     // deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)
 public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
     private double previousSubbandSize = 0;
@@ -23,19 +24,19 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
     @Override
-    public void getSubbandRealForward(double[] fftResult, int subbandCount, int subband, double[] result) {     // TODO: Basically copied from SubbandSplitterLinear
+    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {     // TODO: Basically copied from SubbandSplitterLinear
         int numberCount;
         int currentSubbandSize;
         int startIndex;
         if (subbandCount == 1) {
-            System.arraycopy(fftResult, 0, result, 0, fftResult.length);
+            System.arraycopy(fftMeasures, 0, result, 0, fftMeasures.length);
             return;
         }
 
-        if (fftResult.length % 2 == 0) {            // It's even
-            numberCount = fftResult.length / 2 + 1;
+        if (fftMeasures.length % 2 == 0) {            // It's even
+            numberCount = fftMeasures.length / 2 + 1;
         } else {
-            numberCount = (fftResult.length + 1) / 2;
+            numberCount = (fftMeasures.length + 1) / 2;
         }
         Pair<Integer, Integer> pair = getResult(numberCount, subbandCount, subband);
         startIndex = pair.getKey();
@@ -43,14 +44,14 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 
 
         if (subband == 0) {
-            result[0] = fftResult[0];
+            result[0] = fftMeasures[0];
             startIndex = 2;
             currentSubbandSize -= 2;
         } else {
             startIndex = 2 * startIndex;        // TODO: Not sure about this
             if (subband == subbandCount - 1) {
-                currentSubbandSize += fftResult.length - (startIndex + currentSubbandSize);  // TODO: Asi ok      // We add the remaining elements
-                result[1] = fftResult[1];
+                currentSubbandSize += fftMeasures.length - (startIndex + currentSubbandSize);  // TODO: Asi ok      // We add the remaining elements
+                result[1] = fftMeasures[1];
 //                if (fftResult.length % 2 == 0) {
 //                    currentSubbandSize -= 2;
 //                } else {
@@ -58,7 +59,7 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 //                }
             }
         }
-        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
+        System.arraycopy(fftMeasures, startIndex, result, startIndex, currentSubbandSize);
 //        } else {
 //            numberCount = (fftResult.length + 1) / 2;
 //            q = numberCount / (subbandCount * subbandCount + subbandCount);
@@ -83,62 +84,11 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 //        }
     }
 
-
     @Override
-    public void getSubbandComplexForward(double[] fftResult, int subbandCount, int subband, double[] result) {
-        int arrayLen = fftResult.length / 2;
-        Pair<Integer, Integer> pair = getResult(arrayLen, subbandCount, subband);
-        int startIndex = pair.getKey();
-        int currentSubbandSize = pair.getValue();
-        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
-    }
-
-// TODO: Commented because this variants is for case when I pass the length of the fft result in arrayLen instead of only the measures
-/*
-    @Override
-    public Pair<Integer, Integer> getSubbandIndexesRealForward(int arrayLen, int subbandCount, int subband) {
-        int numberCount;
-        int q;
-        int previousSubbandSize;
-        int currentSubbandSize;
-        int startIndex;
-
-        if(arrayLen % 2 == 0) {            // It's even
-            numberCount = arrayLen / 2 + 1;
-            q = numberCount / (subbandCount * subbandCount + subbandCount);
-            previousSubbandSize = subband * q;
-            startIndex = ((subband + 1) * previousSubbandSize) / 2; // The formula is for arithmetic sequence is n * (n-1) * q / 2 where n is indexed from 1 ... so we use subband + 1 instead of subband.
-            currentSubbandSize = q + previousSubbandSize;
-
-            if (subband == subbandCount - 1) {
-                currentSubbandSize += numberCount - (startIndex + currentSubbandSize);  // We add the remaining elements
-            }
-        } else {
-            numberCount = (arrayLen + 1) / 2;
-            q = numberCount / (subbandCount * subbandCount + subbandCount);
-            previousSubbandSize = subband * q;
-            startIndex = ((subband + 1) * previousSubbandSize) / 2; // The formula is for arithmetic sequence is n * (n-1) * q / 2 where n is indexed from 1 ... so we use subband + 1 instead of subband.
-            currentSubbandSize = q + previousSubbandSize;
-
-            if (subband == subbandCount - 1) {
-                currentSubbandSize += numberCount - (startIndex + currentSubbandSize);  // We add the remaining elements
-            }
-        }
-
-        return new Pair<>(startIndex, currentSubbandSize);
-    }
-*/
-
-    @Override
-    public Pair<Integer, Integer> getSubbandIndexesRealForward(int arrayLen, int subbandCount, int subband) {
+    public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
         return getResult(arrayLen, subbandCount, subband);
     }
 
-    @Override
-    public Pair<Integer, Integer> getSubbandIndexesComplexForward(int arrayLen, int subbandCount, int subband) {
-        arrayLen /= 2;
-        return getResult(arrayLen, subbandCount, subband);
-    }
 
     private Pair<Integer, Integer> getResult(int arrayLen, int subbandCount, int subband) {
         if(subband == 0) {  // Expected to be called in succesive order

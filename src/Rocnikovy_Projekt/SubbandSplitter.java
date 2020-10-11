@@ -29,77 +29,56 @@ public class SubbandSplitter implements SubbandSplitterIFace {
 
 
     @Override
-    public void getSubbandRealForward(double[] fftResult, int subbandCount, int subband, double[] result) {
+    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {
         int currentSubbandSize;
         int startIndex;
 
-        Pair<Integer, Integer> pair = getStartIndAndLen(fftResult.length, subband);
+        Pair<Integer, Integer> pair = getStartIndAndLen(fftMeasures.length, subband);
         startIndex = pair.getKey();
         currentSubbandSize = pair.getValue();
 
-
-        if (subband == 0) {
+        if (subband != SUBBAND_COUNT - 1) {
             currentSubbandSize *= 2;
-            result[0] = fftResult[0];
-            startIndex = 2;
-            currentSubbandSize -= 2;
         }
-        else {
-            if (subband != SUBBAND_COUNT - 1) {
-                currentSubbandSize *= 2;
-            }
-            startIndex *= 2;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
-            if (subband == SUBBAND_COUNT - 1) {
-                result[1] = fftResult[1];
-            }
-        }
+        startIndex *= 2;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
 
 // TODO: DEBUG
 /*
         double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
         System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
 /**/
-        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
+        System.arraycopy(fftMeasures, startIndex, result, startIndex, currentSubbandSize);
     }
 
     @Override
-    public void getSubbandComplexForward(double[] fftResult, int subbandCount, int subband, double[] result) {
-        int arrayLen = fftResult.length;    // TODO: It should be / 2 and then startIndex*2 and currentSubbandSize*2, but if I pass fftResult.length, then I dont have to multiply later
-        Pair<Integer, Integer> pair = getStartIndAndLen(arrayLen, subband);
-        int startIndex = pair.getKey();
-        int currentSubbandSize = pair.getValue();
-        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
-    }
-
-    @Override
-    public Pair<Integer, Integer> getSubbandIndexesRealForward(int arrayLen, int subbandCount, int subband) {
+    public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
         return getStartIndAndLen(arrayLen, subband);
     }
 
-    @Override
-    public Pair<Integer, Integer> getSubbandIndexesComplexForward(int arrayLen, int subbandCount, int subband) {
-        arrayLen /= 2;
-        return getStartIndAndLen(arrayLen, subband);
-    }
-
-    private Pair<Integer, Integer> getStartIndAndLen(int windowSize, int subband) {
+    /**
+     *
+     * @param binCount is the number of bins. which is windowSize / 2 + 1
+     * @param subband
+     * @return
+     */
+    private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
         Pair<Integer, Integer> retPair;
         setPreviousStartIndex(subband);
         int len;
         int subbandRangeInHz;
         // It is divided by arrayLen because, we can analyze only up to nyquist frequency which is SAMPLE_RATE / 2 and
         // every complex number is made of 2 numbers so we will get up to nyquist frequency from the arrayLen / 2 complex numbers
-        // When arrayLen == windowSize == number of samples put to FFT
-        double jumpHZ = (double) SAMPLE_RATE / windowSize;
+        // When arrayLen == binCount == number of samples put to FFT
+        double jumpHZ = (SAMPLE_RATE / (double)2) / binCount;
 
         if(subband == 0) {
             subbandRangeInHz = START_HZ;
         }
         else if (subband < SUBBAND_COUNT - 1) {
-            subbandRangeInHz = START_HZ  * 1 << (subband - 1);
+            subbandRangeInHz = START_HZ * (1 << (subband - 1));
         }
         else if(subband == SUBBAND_COUNT - 1) {
-            return new Pair<>(previousStartIndex, windowSize - 2 * previousStartIndex);
+            return new Pair<>(previousStartIndex, binCount - 2 * previousStartIndex);
         }
         else {
             return null;
@@ -113,6 +92,9 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         retPair = new Pair<>(previousStartIndex, len);
         previousStartIndex += len;
 
+        // TODO: DEBUG
+        ProgramTest.debugPrint("DELKA:", len);
+        // TODO: DEBUG
         return retPair;
     }
 

@@ -44,28 +44,29 @@ public class HSB {
 
 
     private static double getJumpH(double h, double targetH, double stepCount) {
-        double jump;
+        double pathToZero;
+        double clockwisePath;
+        double counterClockwisePath;
         // Find the shortest path between h and targetH and from that calculate jump per 1 step.
         if (h > targetH) {
-            double pathToZero = 1 - h;
-            double wholePathGoingClockwise = pathToZero + targetH;      // clockwise from target to targetH
-            double wholePathNotGoingClockwise = h - targetH;
-            if (wholePathGoingClockwise < wholePathNotGoingClockwise) {
-                jump = wholePathGoingClockwise / stepCount;
-            } else {
-                jump = -wholePathNotGoingClockwise / stepCount;
-            }
-        } else {      // The "same" code as the if but changing the direction
-            double wholePathGoingClockwise = targetH - h;      // clockwise from h to targetH
-            double pathToZero = 1 - targetH;
-            double wholePathNotGoingClockwise = pathToZero + h;
-            if (wholePathGoingClockwise < wholePathNotGoingClockwise) {
-                jump = wholePathGoingClockwise / stepCount;
-            } else {
-                jump = -wholePathNotGoingClockwise / stepCount;
-            }
+            pathToZero = 1 - h;
+            clockwisePath = pathToZero + targetH;      // clockwise from target to targetH
+            counterClockwisePath = h - targetH;
+        }
+        else {
+            clockwisePath = targetH - h;              // clockwise from h to targetH
+            pathToZero = 1 - targetH;
+            counterClockwisePath = pathToZero + h;
         }
 
+
+        double jump;
+        if (clockwisePath < counterClockwisePath) {
+            jump = clockwisePath / stepCount;
+        }
+        else {
+            jump = -counterClockwisePath / stepCount;
+        }
         return jump;
     }
 

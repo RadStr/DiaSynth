@@ -7449,7 +7449,6 @@ public class Program {
         double avg;
 
 
-
         int oldestIndexInSubbands = 0;
         while(nextSampleIndex < samples.length) {
             // TODO: BPM NOVY
@@ -7467,7 +7466,7 @@ public class Program {
                 avg = energySums[j] / historySubbandsCount; // TODO:
                 double variance = getVariance(avg, subbandEnergies, j);
                 coef = 3;
-//                    coef = 250;
+//                    coef = 8;
 
          //       coef = 2.5 + 10000 * variance; For logarithimic with subbandCount == 32 and that version doesn't contain the if with varianceLimit
 //                System.out.println(currEnergies[j] + ":\t" + avg + ":\t" + (coef * avg));
@@ -7476,7 +7475,9 @@ public class Program {
                 if (currEnergies[j] > coef * avg) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
                     System.out.println("---------------" + variance);
                     double varianceLimit = 0.0000001;
-//                    varianceLimit = 150;
+                    varianceLimit = 150;
+//                    varianceLimit = 250;
+//                    varianceLimit = 300;
 
 /*// TODO: K nicemu, lepsi je mit varianci zahrnutou v tom coef                   */ if(variance > varianceLimit) {
     // TODO: BPM NOVY
@@ -7485,13 +7486,13 @@ public class Program {
 //        hasBeat = true;
 //    }
     ////////////
-                        if(windowsFromLastBeat >= 4) {
-                            System.out.println(sampleIndex + ":\t" + j + ":\t" + samples.length);
+//                        if(windowsFromLastBeat >= 4) {
+//                            System.out.println(sampleIndex + ":\t" + j + ":\t" + samples.length);
                             beatCount++;
                             windowsFromLastBeat = -1;
                             hasBeat = true;
                             break;
-/*// TODO:                        */}
+///*// TODO:                        */}
     // TODO: BPM NOVY
                     }
                 }

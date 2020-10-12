@@ -306,7 +306,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
-                MyLogger.logWithoutIndentation("Error in analyze(String filename) in AnalyzerPanel\n" +
+                MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                              Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }

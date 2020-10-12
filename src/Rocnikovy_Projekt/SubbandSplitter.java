@@ -3,6 +3,10 @@ package Rocnikovy_Projekt;
 import RocnikovyProjektIFace.Pair;
 
 
+
+
+
+
 /**
  * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
  * that means the subbandCount parameter is ignored as parameter in the methods.
@@ -27,20 +31,30 @@ public class SubbandSplitter implements SubbandSplitterIFace {
      * @param startHz
      * @param subbandCount
      */
-    public SubbandSplitter(int sampleRate, int startHz, double jumpHz, int subbandCount) {
+    public SubbandSplitter(int sampleRate, int startHz, double subbandRange, int subbandCount) {
         START_HZ = startHz;
         SAMPLE_RATE = sampleRate;
         NYQUIST_FREQ = SAMPLE_RATE / (double)2;
         FREQ_RANGE = NYQUIST_FREQ - START_HZ;
 
         int i = 1;
-        double x = startHz;
-        while(x < NYQUIST_FREQ) {
-            x *= 2;
+        double coveredFrequencies = 0;
+        double currSubbandRange = 0;
+        while(coveredFrequencies < FREQ_RANGE && i < subbandCount) {
+            currSubbandRange += subbandRange;
+            coveredFrequencies += currSubbandRange;
             i++;
         }
+        if(coveredFrequencies >= FREQ_RANGE) {
+            i--;
+        }
+
+        SUBBAND_RANGE = subbandRange;
         SUBBAND_COUNT = Math.min(i, subbandCount);
-        SUBBAND_RANGE = (int)Math.ceil(Math.pow(sampleRate, 1 / SUBBAND_COUNT));
+
+        // TODO: Stary
+//        SUBBAND_RANGE = (int)Math.ceil(FREQ_RANGE / Math.pow(2, SUBBAND_COUNT));
+        // TODO: Stary
     }
 
 
@@ -51,13 +65,24 @@ public class SubbandSplitter implements SubbandSplitterIFace {
      * @param startHz
      * @param subbandCount
      */
-    public SubbandSplitter(int sampleRate, int startHz, int subbandCount) {
+    public SubbandSplitter(int sampleRate, int startHz, int subbandCount, int ) {
+        Jako posledni parametr chci mez - tj. frekvenci toho posledniho subbandu -
+                protoze predtim jsem tam mel 3,2Khz a
+        ted nic takovyho nemam takze se mi to rozdeli rovnomerne az po nyquista - to nechci
         START_HZ = startHz;
         SAMPLE_RATE = sampleRate;
         NYQUIST_FREQ = SAMPLE_RATE / (double)2;
         FREQ_RANGE = NYQUIST_FREQ - START_HZ;
         SUBBAND_COUNT = subbandCount;
-        SUBBAND_RANGE = FREQ_RANGE / (1 << SUBBAND_COUNT);
+        int subbandRange = 0;
+
+        // the divider is geometric series (sum of 2's, starting from 0 and ending at SUBBAND_COUNT - 1)
+        double geometricSumFraction = (1 - Math.pow(2, SUBBAND_COUNT - 1)) / -1;
+        // +1 because we are going from 0
+        SUBBAND_RANGE = (int)Math.ceil(FREQ_RANGE / (1 + 2 * geometricSumFraction));
+        // TODO: Stary
+//        SUBBAND_RANGE = FREQ_RANGE / (1 << SUBBAND_COUNT);
+        // TODO: Stary
     }
 
 
@@ -97,17 +122,16 @@ if(subband == 0) {
         Pair<Integer, Integer> retPair;
         setPreviousStartIndex(subband);
         int len;
-        int subbandRangeInHz;
+        double subbandRangeInHz;
 
-        // Div by 2 because we go up to nyquist and binCount - 1, because we are calculating the jump.
+        // binCount - 1, because we are calculating the jump.
         double jumpHZ = NYQUIST_FREQ / (binCount - 1);
-        double jumpHz = Math.pow(NYQUIST_FREQ, 1 / binCount);
 
         if(subband == 0) {
             subbandRangeInHz = START_HZ;
         }
         else if (subband < SUBBAND_COUNT - 1) {
-            subbandRangeInHz = START_HZ * (1 << (subband - 1));
+            subbandRangeInHz = SUBBAND_RANGE * (1 << (subband - 1));
         }
         else if(subband == SUBBAND_COUNT - 1) {
 //            return new Pair<>(previousStartIndex, binCount - 2 * previousStartIndex);     // TODO: To tu uz nema co delat asi kdyz uz nenasobim 2ma

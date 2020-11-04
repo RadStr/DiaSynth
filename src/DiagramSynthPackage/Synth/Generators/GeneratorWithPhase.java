@@ -99,7 +99,7 @@ public abstract class GeneratorWithPhase extends Generator {
 
         if(modulatingWaveFreq != 0) {
 //            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;       // Also works
-            phase += modulatingWaveOutValue  / modulatingWaveFreq;
+            phase += modulatingWaveOutValue / modulatingWaveFreq;
         }
         return generateSampleConst(timeInSecs, diagramFrequency, amp, carrierFreq, phase);
     }

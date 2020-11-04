@@ -59,13 +59,19 @@ public interface GetBPMUsingCombFilterIFace {
 //        double[] fftRightSideOfHahnWindow = getFFTHahnWindow(windowSize);
         // TODO: fft na hahnovo okno bych mel predat v parametru a n to pcoitat pro kazdou pisnicku zvlast
         double hahnWindowSizeInSecs = 0.4;
-        int hahnWindowSize = (int) (hahnWindowSizeInSecs * sampleRate);
+        // This is *2 the value from the source material, because I calculate the hahn window a bit differently -
+        // I checked it against the implementation from the source materials and the results are the same now (+/- double error)
+        int hahnWindowSize = (int) (hahnWindowSizeInSecs * sampleRate * 2);
         double[] fftRightSideOfHahnWindow = Program.getHahnWindowWithLimit(windowSize, hahnWindowSize / 2, hahnWindowSize);
-        for (int i = 0; i < fftRightSideOfHahnWindow.length; i++) {
-            if (fftRightSideOfHahnWindow[i] != 0) {
-                System.out.println(i + "\t" + fftRightSideOfHahnWindow[i] + "\t" + hahnWindowSize);
-            }
-        }
+        // TODO: DEBUG
+//        for (int i = 0; i < fftRightSideOfHahnWindow.length; i++) {
+//            if (fftRightSideOfHahnWindow[i] != 0) {
+////                if(i % 1000 == 0)
+//                System.out.println(i + "\t" + fftRightSideOfHahnWindow[i] + "\t" + hahnWindowSize);
+//            }
+//        }
+////        System.exit(4848);
+        // TODO: DEBUG
         fft.realForward(fftRightSideOfHahnWindow);
 
         double[] tmpArray = new double[windowSize];         // Will usually contain results of fft, so we don't have to keep allocation labelReferenceArrs

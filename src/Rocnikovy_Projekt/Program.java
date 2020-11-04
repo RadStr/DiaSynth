@@ -281,7 +281,7 @@ public class Program {
     }
 
     public static int calculateFrameSize(AudioFormat format) {
-        return format.getChannels() *  format.getSampleSizeInBits() / 8;
+        return format.getChannels() * format.getSampleSizeInBits() / 8;
     }
 
 
@@ -6977,7 +6977,7 @@ public class Program {
     windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
     double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
     return getBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
-        this.sampleRate, this.mask, this.isBigEndian, this.isSigned);
+        this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
 }
 
 
@@ -7001,7 +7001,15 @@ public class Program {
     // sampleRate / windowSize == windows.length
      public static int getBPMSimple(byte[] samples, int windowSize, double[] windows, int numberOfChannels,
                                     int sampleSize, int frameSize,
-                                    int sampleRate, int mask, boolean isBigEndian, boolean isSigned) {
+                                    int sampleRate, int mask, boolean isBigEndian, boolean isSigned,
+                                    int windowsBetweenBeats) {
+         // TODO: DEBUG
+        double maxEnergy = Double.MIN_VALUE;
+         double minCoef = Double.MAX_VALUE;
+         double maxCoef = Double.MIN_VALUE;
+         double maxVariance = Double.MIN_VALUE;
+         // TODO: DEBUG
+
         int beatCount = 0;
         int sampleIndex = 0;
         int i;
@@ -7017,8 +7025,18 @@ public class Program {
             }
         }
 
-        int windowsFromLastBeat = 4;
 
+
+         double maxVal = getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
+         double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
+         double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
+         // TODO: It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
+         maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
+         // Just took 10000 because it worked quite nicely, but not for every sample rate, so I have to multiply it with some value
+         // based on that
+         double varianceMultFactor = 10000 * (Math.pow(3.75, 44100 / (double)sampleRate - 1));
+
+        int windowsFromLastBeat = windowsBetweenBeats;
         int oldestIndexInWindows = 0;
         double currEnergy;
         double variance;
@@ -7028,17 +7046,20 @@ public class Program {
             currEnergy = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                 isBigEndian, isSigned);
             variance = getVariance(energyAvg, windows);
-
-            double maxVal = getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
-            double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
-            double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
-
-            // TODO: It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
-            maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
             variance /= maxValueInVariance;
+
+            variance *= varianceMultFactor;
+
             coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
-            coef = -0.0025714 * variance + 1.5142857;           // TODO: pryc
-//            coef = -variance + 1.4;
+            coef = -0.0025714 * variance + 1.5142857;
+//            coef = -0.0025714 * maxValueInVariance * variance + 1.5142857;            // TODO: NE
+//            coef = -2.5714 * variance + 1.5142857;                                      // TODO: NE
+//            coef = -2.5714 * variance * 128 + 1.5142857;                              // TODO: NE - zmeni to - ale smerem nahoru, takze vlastne kdyz nad tim preymslim tak tohle naopak zvetsuje BPM a ne snizuje
+                                                                                        // TODO: Musel bych jeste posunout tu konstantu smerem vys
+//            coef = -2.5714 * variance * 1024 + 1.5142857;             // TODO: Poskoci o 10
+//            coef = -variance + 1.4;               // Gives a bit bigger results then the results should be
+            coef = -0.0025714 * variance + 1.5142857;
+            coef = -0.0025714 * variance + 1.8;
 
 //            energyAvg = energyAvg / (windowSize * (1 << (sampleSize * 8)));
             System.out.println("!!!!!!!!!!!!!!!!");
@@ -7048,12 +7069,22 @@ public class Program {
             System.out.println("!!!!!!!!!!!!!!!!");
 // TODO:
             if(currEnergy > coef * energyAvg) {
-                if(windowsFromLastBeat >= 4) {
+                if(windowsFromLastBeat >= windowsBetweenBeats) {
                     beatCount++;
                     windowsFromLastBeat = -1;
                 }
+
+                // TODO: DEBUG
+                ProgramTest.debugPrint("TODO: TEST", currEnergy, coef, energyAvg, coef * energyAvg);
+                // TODO: DEBUG
             }
 
+            // TODO: DEBUG
+            minCoef = Math.min(coef, minCoef);
+            maxCoef = Math.max(coef, maxCoef);
+            maxEnergy = Math.max(energySum, maxEnergy);
+            maxVariance = Math.max(variance, maxVariance);
+// TODO: DEBUG
 
             // Again optimize the case when windows.length is power of 2
             if(windows.length % 2 == 0) {
@@ -7075,6 +7106,11 @@ public class Program {
         }
 
          int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+
+        // TODO: DEBUG
+//         MyLogger.log("END OF BPM SIMPLE:\t" + minCoef + "\t" + maxCoef + "\t" + maxEnergy + "\t" + maxVariance, 0);
+        ProgramTest.debugPrint("END OF BPM SIMPLE:", minCoef, maxCoef, maxEnergy, maxVariance);
+         // TODO: DEBUG
          return bpm;
      }
 
@@ -7114,11 +7150,38 @@ public class Program {
      }
 
 
+
+
+
+
     ////////////////////////////////////////////////////
     // BPM Algorithm 2
     ////////////////////////////////////////////////////
+    // TODO: Mozna vymazat tyhle 2 metody a volat to primo - nebo aspon zmenit jmeno
+    public int getBPMSimpleWithFreqDomainsWithVarianceOld(SubbandSplitterIFace splitter) {
+        return getBPMSimpleWithFreqDomainsWithVariance(splitter.getSubbandCount(), splitter, 4.5, 4, 0);
+    }
 
-     public int getBPMSimpleWithFreqDomainsWithVariance(int subbandCount, SubbandSplitterIFace splitter) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
+    public int getBPMSimpleWithFreqDomainsWithVarianceNew(SubbandSplitterIFace splitter) {
+// TODO:
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 4, 0.16);
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 3.72, 4, 0.0); NE
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 7.72, 4, 0.0); NE uz to je moc uz jsou ty veci co nejsou BPM na nule
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 4, 2);
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 3.4, 4, 0.16);
+
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 5, 0.16); Asi jo - lepsi vysledky o neco
+        // This gives the best results
+        return getBPMSimpleWithFreqDomainsWithVariance(splitter.getSubbandCount(), splitter,
+                2.72, 6, 0.16);
+//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 7, 0.16);
+// TODO:
+    }
+
+
+     public int getBPMSimpleWithFreqDomainsWithVariance(int subbandCount, SubbandSplitterIFace splitter,
+                                                        double coef, int windowsBetweenBeats,
+                                                        double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
         // TODO: Dava smysl ze to vytvorim tady ... protoze to vyrabim v zavislosti na sample rate a tak
 
 
@@ -7136,14 +7199,17 @@ public class Program {
          }
 
          int mod = windowSize % this.frameSize;     // But not always is the power of 2 divisible by the frameSize
-         ProgramTest.debugPrint("window size (2nd bpm alg):", windowSize);        // TODO: remove
+         // TODO: DEBUG
+//         ProgramTest.debugPrint("window size (2nd bpm alg):", windowSize);        // TODO: remove
+         // TODO: DEBUG
          windowSize += mod;
          DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
 
          try {
              return getBPMSimpleWithFreqDomainsWithVariance(this.song, this.sampleSizeInBytes, this.sampleRate,
-                 windowSize, this.isBigEndian, this.isSigned, this.mask, this.maxAbsoluteValue, fft, splitter, subbandEnergies);
+                 windowSize, this.isBigEndian, this.isSigned, this.mask, this.maxAbsoluteValue, fft, splitter,
+                     subbandEnergies, coef, windowsBetweenBeats, varianceLimit);
          }
          catch (IOException e) {
              return -1;             // TODO:
@@ -7377,8 +7443,11 @@ public class Program {
     public static int getBPMSimpleWithFreqDomainsWithVariance(byte[] samples, int sampleSize, int sampleRate,
                                                   int windowSize, boolean isBigEndian, boolean isSigned,
                                                   int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
-                                                  double[][] subbandEnergies // TODO: 1D are the past values, 2D are the subbands
+                                                  double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
+                                                              double coef, int windowsBetweenBeats, double varianceLimit
     ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
+        final double oldCoef = coef;      // TODO: OLD COEF
+
 
 /*
         int beatCount = 0;
@@ -7445,7 +7514,6 @@ public class Program {
             }
         }
 
-        double coef;
         double avg;
 
 
@@ -7454,7 +7522,7 @@ public class Program {
             // TODO: BPM NOVY
             boolean hasBeat = false;
             // TODO: BPM NOVY
-
+                                                                            // TODO: Ten startIndex pod timhle dat pryc
             getSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
                 numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                 maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
@@ -7465,19 +7533,62 @@ public class Program {
             for(; j < currEnergies.length; j++) {
                 avg = energySums[j] / historySubbandsCount; // TODO:
                 double variance = getVariance(avg, subbandEnergies, j);
-                coef = 3;
-//                    coef = 8;
+                // TODO: OLD - REMOVE
+//                coef = 3;
+//                    coef = 6;
+                // TODO: OLD - REMOVE
 
-         //       coef = 2.5 + 10000 * variance; For logarithimic with subbandCount == 32 and that version doesn't contain the if with varianceLimit
+         //       coef = 2.5 + 10000 * variance; For logarithmic with subbandCount == 32 and that version doesn't contain the if with varianceLimit
 //                System.out.println(currEnergies[j] + ":\t" + avg + ":\t" + (coef * avg));
 
-                ProgramTest.debugPrint("Variance two:", variance, energySums[j]);
+                // TODO: DEBUG
+//                if(variance > 150) {
+//                    ProgramTest.debugPrint("Variance >150:", variance);
+//                }
+//                if(energySums[j] > 50) {
+//                    ProgramTest.debugPrint("energy >50:", energySums[j]);
+//                }
+//
+//                ProgramTest.debugPrint("Variance:", variance);
+//                ProgramTest.debugPrint("energy:", energySums[j]);
+                // TODO: DEBUG
+
+
+                // TODO: ENERGIE TED
+//                variance *= 5000;
+//                coef = oldCoef - variance * (0.0025714 / 2);
+
+//                coef = oldCoef - variance;
+
+                // Code from BPM Simple
+//                variance *= 10000;
+//                coef = -0.0025714 * variance + 1.8;
+                // Code from BPM Simple
+
+                // Modified Code from BPM Simple
+//                variance *= 5000;
+//                coef = -0.0025714 * variance + 3.6;
+//                coef = 10;
+
+//                coef = 3;
+                // Modified Code from BPM Simple
+                // TODO: ENERGIE TED
+
+                // TODO: DEBUG
                 if (currEnergies[j] > coef * avg) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
-                    System.out.println("---------------" + variance);
-                    double varianceLimit = 0.0000001;
+                    // TODO: DEBUG
+//                    System.out.println("---------------" + variance);
+                    // TODO: DEBUG
+                    // TODO: not used anymore - the variance just doesn't seem to work.
+//                    double varianceLimit = 0.0000001;
+//                    varianceLimit = 1;
+//                    varianceLimit = 20;
+//                    varianceLimit = 40;
+//                    varianceLimit = 75;
 //                    varianceLimit = 150;
 //                    varianceLimit = 250;
 //                    varianceLimit = 300;
+                    // TODO: not used anymore - the variance just doesn't seem to work.
 
 /*// TODO: K nicemu, lepsi je mit varianci zahrnutou v tom coef                   */ if(variance > varianceLimit) {
     // TODO: BPM NOVY
@@ -7486,7 +7597,7 @@ public class Program {
 //        hasBeat = true;
 //    }
     ////////////
-                        if(windowsFromLastBeat >= 4) {
+                        if(windowsFromLastBeat >= windowsBetweenBeats) {
 //                            System.out.println(sampleIndex + ":\t" + j + ":\t" + samples.length);
                             beatCount++;
                             windowsFromLastBeat = -1;
@@ -7551,6 +7662,16 @@ public class Program {
                                                   SubbandSplitterIFace splitter) {
         calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize,
                 frameSize, mask, fft, fftArray, maxAbsoluteValue, isBigEndian, isSigned);
+
+
+        // TODO: NORMALIZACE
+//        for(int i = 0; i < fftArray.length; i++) {
+//            fftArray[i] /= (fftArray.length / 2);
+//        }
+        // TODO: NORMALIZACE
+
+
+
         convertResultsOfFFTToRealRealForward(fftArray, fftArrayMeasures);
         for(int subband = 0; subband < currEnergies.length; subband++) {
             currEnergies[subband] = splitter.getSubbandEnergy(fftArrayMeasures, currEnergies.length, subband);
@@ -7560,7 +7681,7 @@ public class Program {
     // The oldestIndexInSubbands should already be in range from 0 to energySums.length (== subbandCount)
     private static void updateEnergySumsAndSubbands(int subbandInd, int oldestIndexInSubbands, double[] energySums,
                                                     double currEnergy, double[][] subbandEnergies) {
-        energySums[subbandInd] = energySums[subbandInd] - subbandEnergies[oldestIndexInSubbands][subbandInd] + currEnergy;
+        energySums[subbandInd] += -subbandEnergies[oldestIndexInSubbands][subbandInd] + currEnergy;
         subbandEnergies[oldestIndexInSubbands][subbandInd] = currEnergy;
     }
 
@@ -7846,6 +7967,7 @@ if(currBPM == 60) {
 
 
 
+
     // From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -7867,8 +7989,8 @@ if(currBPM == 60) {
             real = arr1[1] * arr2[1];
             result[1] = real;           // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
             for(int i = 2; i < arr1.length;) {
-                real = arr1[i] * arr2[i];
-                imag = arr1[i+1] * arr2[i+1];
+                real = arr1[i] * arr2[i] - arr1[i+1] * arr2[i+1];
+                imag = arr1[i] * arr2[i+1] + arr1[i+1] * arr2[i];
                 result[i++] = real;
                 result[i++] = imag;
             }
@@ -7877,18 +7999,22 @@ if(currBPM == 60) {
             real = arr1[0] * arr2[0];
             result[0] = real;
             for(int i = 2; i < arr1.length - 1;) {
-                real = arr1[i] * arr2[i];
-                imag = arr1[i+1] * arr2[i+1];
+                real = arr1[i] * arr2[i] - arr1[i+1] * arr2[i+1];
+                imag = arr1[i] * arr2[i+1] + arr1[i+1] * arr2[i];
                 result[i++] = real;
                 result[i++] = imag;
             }
-            real = arr1[arr1.length - 1] * arr2[arr1.length - 1];
-            imag = arr1[1] * arr2[1];
+            real = arr1[arr1.length - 1] * arr2[arr1.length - 1] - arr1[1] * arr2[1];
+            imag = arr1[arr1.length - 1] * arr2[1] + arr1[1] * arr2[arr2.length - 1];
             result[result.length - 1] = real;
             result[1] = imag;
         }
     }
 
+
+
+    // TODO: Stara verze konvoluce - nasobilo se real a imag cast zvlast, tj. nechovalo se to jako nasobeni
+    // TODO: KOMPLEXNICH CISEL
 //    // From documentation:
 ////	if n is even then
 ////	 a[2*k] = Re[k], 0<=k<n/2
@@ -7901,7 +8027,6 @@ if(currBPM == 60) {
 ////	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 ////	 a[1] = Im[(n-1)/2]
 //    // TODO: Ted nevim jestli to ma byt stejne jako u getCombFilterEnergyRealForward ... kde pocitam measury misto toho co delam tady (tj nejdriv to vynasobim a pak z vysledku vezmu measury)
-    // TODO: Podle me nema proto 2 verze zase podobne jako u toho ziskavani energie
 //    public static void convolutionInFreqDomainRealForward(double[] arr1, double[] arr2, double[] result) {      // TODO: Monoverze
 //        double real;
 //        double imag;
@@ -7911,26 +8036,31 @@ if(currBPM == 60) {
 //            real = arr1[1] * arr2[1];
 //            result[1] = real;           // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
 //            for(int i = 2; i < arr1.length;) {
-//                real = arr1[i] * arr2[i] - arr1[i+1] * arr2[i+1];
-//                imag = arr1[i] * arr2[i+1] + arr1[i+1] * arr2[i];
+//                real = arr1[i] * arr2[i];
+//                imag = arr1[i+1] * arr2[i+1];
 //                result[i++] = real;
 //                result[i++] = imag;
 //            }
-//        } else {
+//        }
+//        else {
 //            real = arr1[0] * arr2[0];
 //            result[0] = real;
 //            for(int i = 2; i < arr1.length - 1;) {
-//                real = arr1[i] * arr2[i] - arr1[i+1] * arr2[i+1];
-//                imag = arr1[i] * arr2[i+1] + arr1[i+1] * arr2[i];
+//                real = arr1[i] * arr2[i];
+//                imag = arr1[i+1] * arr2[i+1];
 //                result[i++] = real;
 //                result[i++] = imag;
 //            }
-//            real =  arr1[arr1.length - 1] * arr2[arr1.length - 1] - arr1[1] * arr2[1];
-//            imag = arr1[arr1.length - 1] * arr2[1] + arr1[1] * arr2[arr1.length - 1];
+//            real = arr1[arr1.length - 1] * arr2[arr1.length - 1];
+//            imag = arr1[1] * arr2[1];
 //            result[result.length - 1] = real;
 //            result[1] = imag;
 //        }
 //    }
+    // TODO: Stara verze konvoluce - nasobilo se real a imag cast zvlast, tj. nechovalo se to jako nasobeni
+    // TODO: KOMPLEXNICH CISEL
+
+
 
 
     // TODO: Tahle obecna verze je jen prepsana ta jednoducha s tim rozdilem ze se berou odpovidajici indexy

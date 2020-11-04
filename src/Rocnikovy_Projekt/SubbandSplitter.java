@@ -3,6 +3,9 @@ package Rocnikovy_Projekt;
 import RocnikovyProjektIFace.Pair;
 
 
+// TODO: Old BPM - it gave some nice results, but was pretty weird and incorrect, but I may incorporate it as next algorithm since the results were
+// TODO: really pretty good
+
 
 
 
@@ -12,16 +15,19 @@ import RocnikovyProjektIFace.Pair;
  * that means the subbandCount parameter is ignored as parameter in the methods.
  * To get the subband count just look at variable SUBBAND_COUNT.
  */
+@Deprecated
 public class SubbandSplitter implements SubbandSplitterIFace {
     private int previousStartIndex = 0;
     private double previousHzOverflow;
     public final int SAMPLE_RATE;
     public final double NYQUIST_FREQ;
     public final int SUBBAND_COUNT;
-    public final int START_HZ;
-    public final double FREQ_RANGE;
+    @Override
+    public int getSubbandCount() {
+        return SUBBAND_COUNT;
+    }
+    public final double START_HZ;
     public final double SUBBAND_RANGE;
-
 
     // The constructor with all parameters.
     /**
@@ -31,31 +37,42 @@ public class SubbandSplitter implements SubbandSplitterIFace {
      * @param startHz
      * @param subbandCount
      */
-    public SubbandSplitter(int sampleRate, int startHz, double subbandRange, int subbandCount) {
-        START_HZ = startHz;
+    public SubbandSplitter(int sampleRate, double startHz, double subbandRange, int subbandCount) {
         SAMPLE_RATE = sampleRate;
         NYQUIST_FREQ = SAMPLE_RATE / (double)2;
-        FREQ_RANGE = NYQUIST_FREQ - START_HZ;
+        startHz = Math.max(0, startHz);
+        final double FREQ_RANGE = NYQUIST_FREQ - startHz;
 
-        int i = 1;
-        double coveredFrequencies = 0;
-        double currSubbandRange = 0;
+        int i;
+        if(startHz != 0) {
+            i = 1;      // Already counting the first bin with startHz widrh
+        }
+        else {
+            i = 0;      // No first bin, so we start from 0
+        }
+        double currSubbandRange = subbandRange;
+        double coveredFrequencies = subbandRange;
         while(coveredFrequencies < FREQ_RANGE && i < subbandCount) {
-            currSubbandRange += subbandRange;
             coveredFrequencies += currSubbandRange;
             i++;
-        }
-        if(coveredFrequencies >= FREQ_RANGE) {
-            i--;
+            currSubbandRange *= 2;
         }
 
         SUBBAND_RANGE = subbandRange;
         SUBBAND_COUNT = Math.min(i, subbandCount);
 
+        if(startHz > 0) {
+            START_HZ = startHz;
+        }
+        else {
+            START_HZ = SUBBAND_RANGE;
+        }
+
         // TODO: Stary
 //        SUBBAND_RANGE = (int)Math.ceil(FREQ_RANGE / Math.pow(2, SUBBAND_COUNT));
         // TODO: Stary
     }
+
 
 
     /**
@@ -65,52 +82,54 @@ public class SubbandSplitter implements SubbandSplitterIFace {
      * @param startHz
      * @param subbandCount
      */
-    public SubbandSplitter(int sampleRate, int startHz, int subbandCount, int ) {
-        Jako posledni parametr chci mez - tj. frekvenci toho posledniho subbandu -
-                protoze predtim jsem tam mel 3,2Khz a
-        ted nic takovyho nemam takze se mi to rozdeli rovnomerne az po nyquista - to nechci
-        START_HZ = startHz;
+    public SubbandSplitter(int sampleRate, double startHz, int subbandCount) {
         SAMPLE_RATE = sampleRate;
         NYQUIST_FREQ = SAMPLE_RATE / (double)2;
-        FREQ_RANGE = NYQUIST_FREQ - START_HZ;
         SUBBAND_COUNT = subbandCount;
-        int subbandRange = 0;
+        final double FREQ_RANGE;
 
+        if(startHz != 0) {
+            FREQ_RANGE = NYQUIST_FREQ - startHz;
+            subbandCount--;
+        }
+        else {
+            FREQ_RANGE = NYQUIST_FREQ;
+        }
         // the divider is geometric series (sum of 2's, starting from 0 and ending at SUBBAND_COUNT - 1)
-        double geometricSumFraction = (1 - Math.pow(2, SUBBAND_COUNT - 1)) / -1;
+        double geometricSumFraction = (1 - Math.pow(2, subbandCount)) / -1;
         // +1 because we are going from 0
-        SUBBAND_RANGE = (int)Math.ceil(FREQ_RANGE / (1 + 2 * geometricSumFraction));
+        SUBBAND_RANGE = FREQ_RANGE / (1 + 2 * geometricSumFraction);
         // TODO: Stary
 //        SUBBAND_RANGE = FREQ_RANGE / (1 << SUBBAND_COUNT);
         // TODO: Stary
+
+        if(startHz != 0) {
+            START_HZ = startHz;
+        }
+        else {
+            START_HZ = SUBBAND_RANGE;
+        }
     }
 
-
-    @Override
-    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {
-        int currentSubbandSize;
-        int startIndex;
-
-        Pair<Integer, Integer> pair = getStartIndAndLen(fftMeasures.length, subband);
-        startIndex = pair.getKey();
-        currentSubbandSize = pair.getValue();
-
-// TODO: DEBUG
-/*
-        double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
-        System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
-/**/
-if(subband == 0) {
-    startIndex = 1; // skip the 0-th bin it is just bias
-    currentSubbandSize--;
-}
-        System.arraycopy(fftMeasures, startIndex, result, startIndex, currentSubbandSize);
-    }
 
     @Override
     public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
         return getStartIndAndLen(arrayLen, subband);
     }
+
+
+    Ted uz jen zaloguju ty linearni s varianci a hotovo
+
+    Musim tam pridat trideni podle odchylky jeste nebo neceho takovyho ... proste jak moc daleko jsou ty veci od prumeru - nebo mi staci vzit jen ten njevetsi rozdil ... idealne tridit podle odchylky a napsat tam top 3 nejvetsi rozdily od referencniho bpm pro ten algoritmus
+
+
+
+    TODO: TODO_COUNTER DAT PRYC
+    private int TODO_COUNTER = 0;
+
+    pekny ale nefunguje kdyz budu mit nejaky obskurni sample raty - treba 8k - to pak se do toho range proste nevejde at delam co delam - ta 200 200 metoda
+
+
 
     /**
      *
@@ -119,173 +138,127 @@ if(subband == 0) {
      * @return
      */
     private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
+        binCount--;     // Because we don't use the 0-th bin
         Pair<Integer, Integer> retPair;
-        setPreviousStartIndex(subband);
         int len;
         double subbandRangeInHz;
 
         // binCount - 1, because we are calculating the jump.
-        double jumpHZ = NYQUIST_FREQ / (binCount - 1);
+        double jumpHZ = NYQUIST_FREQ / binCount;
 
-        if(subband == 0) {
+        if (subband == 0) {
+            TODO_COUNTER++;
+            resetPreviousStartIndex();
             subbandRangeInHz = START_HZ;
-        }
-        else if (subband < SUBBAND_COUNT - 1) {
-            subbandRangeInHz = SUBBAND_RANGE * (1 << (subband - 1));
-        }
-        else if(subband == SUBBAND_COUNT - 1) {
+        } else if (subband < SUBBAND_COUNT - 1) {
+//            subbandRangeInHz = SUBBAND_RANGE * (1 << (subband - 1));
+            subbandRangeInHz = SUBBAND_RANGE * Math.pow(2, subband - 1);
+        } else if (subband == SUBBAND_COUNT - 1) {
 //            return new Pair<>(previousStartIndex, binCount - 2 * previousStartIndex);     // TODO: To tu uz nema co delat asi kdyz uz nenasobim 2ma
-            ProgramTest.debugPrint("LAST BIN:", previousStartIndex, binCount - previousStartIndex);
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("LAST BIN:", previousStartIndex, binCount - previousStartIndex);
+//            ProgramTest.debugPrint("DELKAA-LAST:", binCount - previousStartIndex);
+            // TODO: DEBUG
             return new Pair<>(previousStartIndex, binCount - previousStartIndex);
-        }
-        else {
+        } else {
             return null;
         }
 
 
-        len = (int)Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
-        previousHzOverflow += len * jumpHZ;     // += because to get how much we overshot from the starting point
-        previousHzOverflow %= subbandRangeInHz;
+        len = (int) Math.ceil(((subbandRangeInHz - previousHzOverflow) / jumpHZ));
+        if (len <= 0) {
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("LEN <= 0", len, subband,
+//                    subbandRangeInHz - previousHzOverflow, ((subbandRangeInHz - previousHzOverflow) / jumpHZ),
+//                    binCount);
+            // TODO: DEBUG
+            len = 1;
+            previousHzOverflow = 0;
+            artificallyEnlargedBins++;
+        } else {
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("DELKA:", len, "SUBBAND:", subband, subbandRangeInHz, artificallyEnlargedBins);
+//            if (len == 880) {
+//                int todo = 44444;
+//            }
+            // TODO: DEBUG
+            if (deficitJump < 0) {
+                if (len > 1 && subband != 0) {
+                    int remainingSubbands = SUBBAND_COUNT - subband;
+                    // For geometric series of p 2 * sum of 2^n when n goes from 0 to remainingSubbands
+                    if(artificallyEnlargedBins == 0) {
+                        deficitJump = 0;
+                    }
+                    else {
+                        deficitJump = -(artificallyEnlargedBins) / (2 - Math.pow(2, remainingSubbands));
+                        deficitJump++;      // because the sum goes from 0;
+                    }
+//                if(SUBBAND_COUNT < binCount / 2) {
+//
+//                }
+//                else {
+//
+//                }
+//                int n =
+//                deficit = (SUBBAND_COUNT - subband) / (double)artificallyEnlargedBins;
+
+
+                    // TODO: DEBUG
+//                    ProgramTest.debugPrint("DEFICIT JUMP:", deficitJump);
+                    // TODO: DEBUG
+                    len -= (int) deficitJump;
+                    deficitJump *= 2;
+                }
+            } else {
+                // TODO: DEBUG
+//                ProgramTest.debugPrint("DEFICIT JUMP:", deficitJump);
+                // TODO: DEBUG
+                len -= (int) deficitJump;
+                deficitJump *= 2;
+            }
+            previousHzOverflow += len * jumpHZ;     // += because to get how much we overshot from the starting point
+            if(previousHzOverflow < subbandRangeInHz) {
+                previousHzOverflow -= subbandRangeInHz;
+            }
+            else {
+                previousHzOverflow %= subbandRangeInHz;
+            }
+            // TODO: OLD - vymazat
+//            previousHzOverflow %= subbandRangeInHz;
+            // TODO: OLD - vymazat
+        }
 
         retPair = new Pair<>(previousStartIndex, len);
         previousStartIndex += len;
 
         // TODO: DEBUG
-        ProgramTest.debugPrint("DELKA:", len);
-        if(len == 880) {
-            int todo = 44444;
+        if(previousStartIndex >= binCount) {
+            int todo = 4;
         }
+//        ProgramTest.debugPrint("DELKAA:", len);
+//        if (len == 880) {
+//            int todo = 44444;
+//        }
+        // TODO: DEBUG
+        // TODO: VYMAZAT
+//        }
+        // TODO: VYMAZAT
+
+        // TODO: DEBUG
+//        if(TODO_COUNTER < 2) {
+//            ProgramTest.debugPrint("GET_SUBBAND:", subband, SUBBAND_COUNT, retPair.getKey(), retPair.getValue());
+//        }
         // TODO: DEBUG
         return retPair;
     }
 
-    private void setPreviousStartIndex(int subband) {
-        if(subband == 0) {
-            previousStartIndex = 0;
-            previousHzOverflow = 0;
-        }
+
+    private double deficitJump;
+    private int artificallyEnlargedBins;
+    private void resetPreviousStartIndex() {
+        deficitJump = -1;
+        artificallyEnlargedBins = 0;
+        previousStartIndex = 1;
+        previousHzOverflow = 0;
     }
 }
-
-
-
-
-// TODO: Old BPM - it gave some nice results, but was pretty weird and incorrect, but I may incorporate it as next algorithm since the results were
-// TODO: really pretty good
-
-//package Rocnikovy_Projekt;
-//
-//import RocnikovyProjektIFace.Pair;
-//
-///**
-// * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
-// * that means the subbandCount parameter is ignored as parameter in the methods.
-// * To get the subband count just look at variable SUBBAND_COUNT.
-// */
-//public class SubbandSplitter implements SubbandSplitterIFace {
-//    private int previousStartIndex = 0;
-//    private double previousHzOverflow;
-//    private final int SAMPLE_RATE;
-//    public final int SUBBAND_COUNT;
-//    public final int START_HZ;
-//
-//    /**
-//     * The subbandCount will only used, if it will be smaller than then the maximum subband count which we is based on given
-//     * sample rate and startHz parameters.
-//     * @param sampleRate
-//     * @param startHz
-//     * @param subbandCount
-//     */
-//    public SubbandSplitter(int sampleRate, int startHz, int subbandCount) {
-//        this.SAMPLE_RATE = sampleRate;
-//        SUBBAND_COUNT = Math.min(subbandCount, Program.getFirstPowerExponentOfNBeforeNumber(startHz, sampleRate, 2));
-//        START_HZ = startHz;
-//    }
-//
-//
-//    @Override
-//    public void getSubband(double[] fftResult, int subbandCount, int subband, double[] result) {
-//        int currentSubbandSize;
-//        int startIndex;
-//
-//        Pair<Integer, Integer> pair = getStartIndAndLen(fftResult.length, subband);
-//        startIndex = pair.getKey();
-//        currentSubbandSize = pair.getValue();
-//
-//        if (subband != SUBBAND_COUNT - 1) {
-//            currentSubbandSize *= 2;
-//        }
-//        startIndex *= 2;
-//
-//
-////        if (subband == 0) {
-////            currentSubbandSize *= 2;
-////            result[0] = fftResult[0];
-////            startIndex = 2;
-////            currentSubbandSize -= 2;
-////        }
-////        else {
-////            if (subband != SUBBAND_COUNT - 1) {
-////                currentSubbandSize *= 2;
-////            }
-////            startIndex *= 2;        // TODO: Shouldn't currentSubbandSize - 2 or -1, probably not since it isn't in the Logarithmic as well
-////            if (subband == SUBBAND_COUNT - 1) {
-////                result[1] = fftResult[1];
-////            }
-////        }
-//
-//// TODO: DEBUG
-///*
-//        double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
-//        System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
-///**/
-//        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
-//    }
-//
-//    private Pair<Integer, Integer> getStartIndAndLen(int windowSize, int subband) {
-//        Pair<Integer, Integer> retPair;
-//        setPreviousStartIndex(subband);
-//        int len;
-//        int subbandRangeInHz;
-//        // It is divided by arrayLen because, we can analyze only up to nyquist frequency which is SAMPLE_RATE / 2 and
-//        // every complex number is made of 2 numbers so we will get up to nyquist frequency from the arrayLen / 2 complex numbers
-//        // When arrayLen == windowSize == number of samples put to FFT
-//        double jumpHZ = (double) SAMPLE_RATE / windowSize;
-//
-//        if(subband == 0) {
-//            subbandRangeInHz = START_HZ;
-//        }
-//        else if (subband < SUBBAND_COUNT - 1) {
-//            subbandRangeInHz = START_HZ  * (1 << (subband - 1));
-//        }
-//        else if(subband == SUBBAND_COUNT - 1) {
-//            return new Pair<>(previousStartIndex, windowSize - 2 * previousStartIndex);
-//        }
-//        else {
-//            return null;
-//        }
-//
-//
-//        len = (int)Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
-//        previousHzOverflow += len * jumpHZ;     // += because to get how much I overshot from the starting point
-//        previousHzOverflow %= subbandRangeInHz;
-//
-//        retPair = new Pair<>(previousStartIndex, len);
-//        previousStartIndex += len;
-//
-//        return retPair;
-//    }
-//
-//
-//    @Override
-//    public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
-//        return getStartIndAndLen(arrayLen, subband);
-//    }
-//
-//    private void setPreviousStartIndex(int subband) {
-//        if(subband == 0) {
-//            previousStartIndex = 0;
-//            previousHzOverflow = 0;
-//        }
-//    }
-//}

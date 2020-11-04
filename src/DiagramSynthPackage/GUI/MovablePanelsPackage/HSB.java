@@ -1,7 +1,10 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage;
 
+import Rocnikovy_Projekt.ProgramTest;
+
 public class HSB {
     public HSB() {
+        // EMPTY
     }
 
     public HSB(double h, double s, double b) {
@@ -44,19 +47,20 @@ public class HSB {
 
 
     private static double getJumpH(double h, double targetH, double stepCount) {
-        double pathToZero;
-        double clockwisePath;
+        // Contains clockwise path from h to zero or targetH to zero (depending on which is closer)
+        double clockwisePathToZero;
+        double clockwisePath;               // Clockwise from h to targetH
         double counterClockwisePath;
         // Find the shortest path between h and targetH and from that calculate jump per 1 step.
         if (h > targetH) {
-            pathToZero = 1 - h;
-            clockwisePath = pathToZero + targetH;      // clockwise from target to targetH
+            clockwisePathToZero = 1 - h;
+            clockwisePath = clockwisePathToZero + targetH;
             counterClockwisePath = h - targetH;
         }
         else {
-            clockwisePath = targetH - h;              // clockwise from h to targetH
-            pathToZero = 1 - targetH;
-            counterClockwisePath = pathToZero + h;
+            clockwisePath = targetH - h;
+            clockwisePathToZero = 1 - targetH;
+            counterClockwisePath = clockwisePathToZero + h;
         }
 
 

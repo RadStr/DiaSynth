@@ -9,7 +9,13 @@ import java.awt.*;
 public class TimestampsPanel extends JPanel {
 
     private AudioPlayerPanelIFaceImplementation audioPlayerPanel;
-    public static final int TIMESTAMP_COUNT_BETWEEN_TWO_MAIN_TIMESTAMPS = 3;
+    /**
+     * Says draw timestamp label every MARKS_PER_TIMESTAMP commas.
+     * More in depth description, which says the same:
+     * Says how many marks (commas) are there per one timestamp label, it means that there is comma with
+     * the label and then there are 2 other commas and after that is another timestamp label.
+     */
+    public static final int MARKS_PER_TIMESTAMP = 3;
 
     public TimestampsPanel(AudioPlayerPanelIFaceImplementation audioPlayerPanel) {
         this.audioPlayerPanel = audioPlayerPanel;
@@ -86,6 +92,9 @@ public class TimestampsPanel extends JPanel {
         }
 
 
+        // TODO: DEBUG - markCount NOT NEEDED - JUST FOR DEBUGGING
+//        int markCount = labelCount * MARKS_PER_TIMESTAMP;
+        // TODO: DEBUG
         double pixelJump = 0;
         int minimumPixelJump = 20;
         // Starts from index = 1
@@ -95,21 +104,28 @@ public class TimestampsPanel extends JPanel {
             timeJumpInt = index * oldTimeJumpInt;
             pixelJump = timeJumpInt / numOfSecs;        // If the song is short enough, then numOfSecs = numOfMillisecs
             pixelJump *= waveWidth;
-            labelCount = (int) (waveWidth / pixelJump);
-            labelCount *= TIMESTAMP_COUNT_BETWEEN_TWO_MAIN_TIMESTAMPS;
-            pixelJump /= TIMESTAMP_COUNT_BETWEEN_TWO_MAIN_TIMESTAMPS;
+            // TODO: DEBUG
+//            markCount = (int) (waveWidth / pixelJump);
+//            markCount *= MARKS_PER_TIMESTAMP;
+            // TODO: DEBUG
+            pixelJump /= MARKS_PER_TIMESTAMP;
             if (pixelJump >= minimumPixelJump) {
                 break;
             }
 
-            ProgramTest.debugPrint("Timestamp finding pixel jump", index, labelCount, pixelJump, timeJumpInt, numOfSecs);
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Timestamp finding pixel jump", index, markCount, pixelJump, timeJumpInt, numOfSecs);
+            ProgramTest.debugPrint("Timestamp finding pixel jump", index, pixelJump, timeJumpInt, numOfSecs);
+            // TODO: DEBUG
         }
 
-        labelCount++;
+        // TODO: DEBUG
+//        markCount++;
+        // TODO: DEBUG
 
 
         drawTimestamps(g, waveStartX, scrollX, pixelJump, isTimeInSecs, color,
-            TIMESTAMP_COUNT_BETWEEN_TWO_MAIN_TIMESTAMPS, timeJumpInt, visibleWaveWidth);
+                MARKS_PER_TIMESTAMP, timeJumpInt, visibleWaveWidth);
 
 
 //        labelCount += 2;

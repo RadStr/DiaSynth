@@ -2,63 +2,105 @@ package Rocnikovy_Projekt;
 
 import RocnikovyProjektIFace.Pair;
 
-// TODO: Just remove it - doesn't make sense to keep after I looked at the horrible code
-@Deprecated     // deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)
+
+/**
+ * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
+ * that means the subbandCount parameter is ignored as parameter in the methods.
+ * To get the subband count just look at variable SUBBAND_COUNT.
+ */
 public class SubbandSplitterLinear implements SubbandSplitterIFace {
-    // From documentation:
-//	if n is even then
-//	 a[2*k] = Re[k], 0<=k<n/2
-//	 a[2*k+1] = Im[k], 0<k<n/2
-//	 a[1] = Re[n/2]
-//
-//
-//	if n is odd then
-//	 a[2*k] = Re[k], 0<=k<(n+1)/2
-//	 a[2*k+1] = Im[k], 0<k<(n-1)/2
-//	 a[1] = Im[(n-1)/2]
+    public final int SUBBAND_COUNT;
     @Override
-    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {
-        int numberCount;
-        int subbandSize;
-        int startIndex;
-        if (subbandCount == 1) {
-            System.arraycopy(fftMeasures, 0, result, 0, fftMeasures.length);
-            return;
-        }
-
-        if (fftMeasures.length % 2 == 0) {            // It's even
-            numberCount = fftMeasures.length / 2 + 1;
-        } else {
-            numberCount = (fftMeasures.length + 1) / 2;
-        }
-
-        subbandSize = numberCount / subbandCount;
-        subbandSize *= 2;
-        startIndex = subband * subbandSize;
-
-        if (subband == 0) {
-            result[0] = fftMeasures[0];
-            startIndex = 2;
-            subbandSize -= 2;
-        } else if (subband == subbandCount - 1) {
-            subbandSize += fftMeasures.length - (startIndex + subbandSize);        // TODO: Asi ok      // We add the remaining elements
-            result[1] = fftMeasures[1];
-        }
-
-        System.arraycopy(fftMeasures, startIndex, result, startIndex, subbandSize);
+    public int getSubbandCount() {
+        return SUBBAND_COUNT;
     }
+
+    public SubbandSplitterLinear(int subbandCount) {
+        SUBBAND_COUNT = subbandCount;
+    }
+
 
     @Override
     public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
-        int subbandSize;
-        int startIndex;
+        return getStartIndAndLen(arrayLen, subband);
+    }
 
-        subbandSize = arrayLen / subbandCount;
-        startIndex = subband * subbandSize;
-        if (subband == subbandCount - 1) {
-            subbandSize += arrayLen - (startIndex + subbandSize);       // We add the remaining elements
+    Zoptimalizovat to, treba tak ze dam do konstruktoru binCount a pak to udelam podle toho - a to pole pak vypocitam jen jendou
+    a nebudu ho vytvaret pri kazdym volani
+
+    /**
+     *
+     * @param binCount is the number of bins. which is windowSize / 2 + 1
+     * @param subband
+     * @return
+     */
+    private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
+        // TODO: 0-th BIN
+        binCount--;     // Because the first bin doesn't count
+        // TODO: 0-th BIN
+        Pair<Integer, Integer> retPair;
+        // TODO: Doesn't work - this is basically how it is in the text - and the coef has to be around 4 and even then it doesn't work correctly
+        // So I will jsut keep it as it was
+        double[] arr = new double[SUBBAND_COUNT];
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i + 1;
+        }
+        double sum = Program.performAggregation(arr, Aggregations.SUM);
+        if (binCount > sum) {
+            int freeSpaceMultiplier = 2;
+            while(sum * freeSpaceMultiplier < binCount) {
+                freeSpaceMultiplier++;
+            }
+            freeSpaceMultiplier--;
+            if(freeSpaceMultiplier >= 2) {
+                for(int i = 0; i < arr.length - 1; i++) {
+                    arr[i] *= freeSpaceMultiplier;
+                }
+                sum -= arr[arr.length - 1];         // Set the last bin to 0, we will set it to the real value after that
+                sum *= freeSpaceMultiplier;
+            }
+            arr[arr.length - 1] = binCount - sum;
+        } else {
+            int index = arr.length - 1;
+            int binsOver = (int) Math.round(sum) + (int) Math.round(arr[index]) - binCount;
+            int cycle = 0;
+            while (binsOver > 0) {
+                arr[index]--;
+                binsOver--;
+                index--;
+                if (index <= cycle) {
+                    cycle++;
+                    index = arr.length - 1;
+                }
+            }
+        }
+        sum = 0;
+        for (int i = 0; i < subband; i++) {
+            sum += arr[i];
         }
 
-        return new Pair<>(startIndex, subbandSize);
+        double sum2 = Program.performAggregation(arr, Aggregations.SUM);
+
+        // TODO: DEBUG
+//        if (sum2 != binCount) {
+//            ProgramTest.debugPrint("FAILED", sum, sum2, binCount);
+//            System.exit(56487);
+//        }
+//
+//        ProgramTest.debugPrint("LINEAR DELKA:", (int)Math.round(sum) + 1,
+//                (int) Math.round(arr[subband]), getSubbandCount());
+        // TODO: DEBUG
+
+        // TODO: 0-th BIN
+        // + 1 for the start index, because the first bin doesn't count
+        retPair = new Pair((int)Math.round(sum) + 1, (int) Math.round(arr[subband]));
+
+//        retPair = new Pair((int)Math.round(sum), (int) Math.round(arr[subband]));
+        // TODO: 0-th BIN
+//        }
+        // TODO: Doesn't work
+
+        return retPair;
     }
 }

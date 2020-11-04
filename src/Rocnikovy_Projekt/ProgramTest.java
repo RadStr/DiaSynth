@@ -1,6 +1,8 @@
 package Rocnikovy_Projekt;
 
+import RocnikovyProjektIFace.AnalyzerPanel;
 import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
+import RocnikovyProjektIFace.Pair;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.AudioFormat;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -139,6 +142,11 @@ public class ProgramTest {
      * @throws Exception can be thrown
      */
     public void testAll() throws Exception {
+//        new SubbandSplitter(8000, 200, 200, 6);
+//        System.exit(4242);
+        List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> list = AnalyzerPanel.createAndPrintDifList();
+        System.exit(4141);
+
 // TODO:
 // Just some tests to help me understand FFT better
         tryFFTSums(1024);
@@ -2484,7 +2492,7 @@ public class ProgramTest {
 
     // Tests for subband splitters are very difficult to be made, so i just check it by debug print
     public static boolean testSubbandSplitterLinear(int subbandCount, int arrLen) {
-        SubbandSplitterIFace s = new SubbandSplitterLinear();
+        SubbandSplitterIFace s = new SubbandSplitterLinear(32);
         return testGetSubbandRealForward(s, subbandCount, arrLen);
     }
 

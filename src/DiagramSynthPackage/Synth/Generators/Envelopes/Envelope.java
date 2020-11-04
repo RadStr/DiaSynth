@@ -116,8 +116,8 @@ public abstract class Envelope extends Unit {
      * for example (0.5, 0.6, 2, 0.4) -> (0.5, 1.1, 3.1, 3.5)
      */
     public double generateEnvelopeSample(int timeInSamples, int diagramFrequency,
-                                                double attTime, double attAmp, double decTime,
-                                                double sustainTime, double sustainAmp, double releaseTime) {
+                                         double attTime, double attAmp, double decTime,
+                                         double sustainTime, double sustainAmp, double releaseTime) {
         double timeInSecs = timeInSamples / (double)diagramFrequency;
         return generateEnvelopeSample(timeInSecs, attTime, attAmp, decTime, sustainTime, sustainAmp, releaseTime);
     }
@@ -128,8 +128,8 @@ public abstract class Envelope extends Unit {
      * for example (0.5, 0.6, 2, 0.4) -> (0.5, 1.1, 3.1, 3.5)
      */
     public abstract double generateEnvelopeSample(double timeInSecs,
-                                                double attTime, double attAmp, double decTime,
-                                                double sustainTime, double sustainAmp, double releaseTime);
+                                                  double attTime, double attAmp, double decTime,
+                                                  double sustainTime, double sustainAmp, double releaseTime);
     @Override
     public boolean getIsConst() {
         return false;

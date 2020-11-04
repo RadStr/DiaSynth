@@ -108,7 +108,7 @@ public class CyclicQueueDouble {
     }
 
     /**
-     * Pops n elements from queue, without storing them anywhere
+     * Pops n elements from queue without storing them anywhere
      * @param n
      * @return
      */

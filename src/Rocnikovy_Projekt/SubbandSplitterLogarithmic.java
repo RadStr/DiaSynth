@@ -12,6 +12,11 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 // TODO: the subband splits will be 2,2,4,8,16,32,64 .. tohle nefunguje ... to je sice logaritmicky ale neodpovida to tomu poctu subbandCount
 
 
+    @Override
+    public int getSubbandCount() {
+        return -10;
+    }
+
     // From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2

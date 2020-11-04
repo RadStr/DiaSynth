@@ -3,6 +3,10 @@ package Rocnikovy_Projekt;
 import RocnikovyProjektIFace.Pair;
 
 public interface SubbandSplitterIFace {
+    int getSubbandCount();
+
+
+
     // From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -17,12 +21,33 @@ public interface SubbandSplitterIFace {
     /**
      * Copies the fftMeasures array part corresponding to the specified subband to the result array (to the same positions).
      * Method doesn't change other indices of the result array.
-     * @param fftMeasures
+     * @param fftResult
      * @param subbandCount
      * @param subband
      * @param result
      */
-    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result);
+    default void getSubband(double[] fftResult, int subbandCount, int subband, double[] result) {
+        int currentSubbandSize;
+        int startIndex;
+
+        Pair<Integer, Integer> pair = getSubbandIndices(fftResult.length, subbandCount, subband);
+        startIndex = pair.getKey();
+        currentSubbandSize = pair.getValue();
+
+// TODO: DEBUG
+/*
+        double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
+        System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
+/**/
+
+        startIndex++;       // Because we want to skip the [1], the [0] is already skipped
+        if (subband == subbandCount - 1) {
+            currentSubbandSize--;
+            result[1] = fftResult[1];
+        }
+
+        System.arraycopy(fftResult, startIndex, result, startIndex, currentSubbandSize);
+    }
 
     /**
      * Copies the fftMeasures array part corresponding to the specified subband to newly created array (to the same positions).
@@ -46,11 +71,11 @@ public interface SubbandSplitterIFace {
      * @param subband
      * @return
      */
-    default public double getSubbandEnergy(double[] fftMeasures, int subbandCount, int subband) {
-        Pair<Integer, Integer> indexes = getSubbandIndices(fftMeasures.length, subbandCount, subband);       // Code duplication (Take a look at bottom of interface)
+    default double getSubbandEnergy(double[] fftMeasures, int subbandCount, int subband) {
+        Pair<Integer, Integer> indices = getSubbandIndices(fftMeasures.length, subbandCount, subband);       // Code duplication (Take a look at bottom of interface)
         double energy = 0;
-        int index = indexes.getKey();
-        int len = indexes.getValue();
+        int index = indices.getKey();
+        int len = indices.getValue();
         int endIndex = index + len;
         for (; index < endIndex; index++) {
             energy += fftMeasures[index];
@@ -61,7 +86,10 @@ public interface SubbandSplitterIFace {
 //        energy /= (double) len;       // Average energy per bin
 //        energy = subbandCount * energy / fftMeasures.length;
 
+        // TODO: ENERGIE TED
         energy = len * energy / fftMeasures.length;
+//        energy = energy / fftMeasures.length;     // Novy jak si myslim ze to klidne muze byt
+        // TODO: ENERGIE TED
         // TODO: NOVY BPM - ASI BUG
 
 // TODO:        System.out.println("getSubbandEnergy: " + subband + "\t" + (index-len) + ":\t" + len + ":\t" + energy);

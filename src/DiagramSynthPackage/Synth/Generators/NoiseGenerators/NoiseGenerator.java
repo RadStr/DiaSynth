@@ -73,12 +73,12 @@ public abstract class NoiseGenerator extends Unit {
         // EMPTY
     }
 
-
     /**
-     * Generates noise between -1 and 1
+     * Generates noise between 0 and 1.
      * @return
      */
     public abstract double generateNoise();
+
     public double generateNoise(double amp) {
         // Modified from https://stackoverflow.com/questions/3680637/generate-a-random-double-in-a-range
         amp = Math.abs(amp);

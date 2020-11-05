@@ -15,7 +15,6 @@ import RocnikovyProjektIFace.Pair;
  * that means the subbandCount parameter is ignored as parameter in the methods.
  * To get the subband count just look at variable SUBBAND_COUNT.
  */
-@Deprecated
 public class SubbandSplitter implements SubbandSplitterIFace {
     private int previousStartIndex = 0;
     private double previousHzOverflow;
@@ -118,17 +117,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
     }
 
 
-    Ted uz jen zaloguju ty linearni s varianci a hotovo
-
-    Musim tam pridat trideni podle odchylky jeste nebo neceho takovyho ... proste jak moc daleko jsou ty veci od prumeru - nebo mi staci vzit jen ten njevetsi rozdil ... idealne tridit podle odchylky a napsat tam top 3 nejvetsi rozdily od referencniho bpm pro ten algoritmus
-
-
-
-    TODO: TODO_COUNTER DAT PRYC
-    private int TODO_COUNTER = 0;
-
-    pekny ale nefunguje kdyz budu mit nejaky obskurni sample raty - treba 8k - to pak se do toho range proste nevejde at delam co delam - ta 200 200 metoda
-
 
 
     /**
@@ -147,7 +135,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         double jumpHZ = NYQUIST_FREQ / binCount;
 
         if (subband == 0) {
-            TODO_COUNTER++;
             resetPreviousStartIndex();
             subbandRangeInHz = START_HZ;
         } else if (subband < SUBBAND_COUNT - 1) {
@@ -230,25 +217,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
 
         retPair = new Pair<>(previousStartIndex, len);
         previousStartIndex += len;
-
-        // TODO: DEBUG
-        if(previousStartIndex >= binCount) {
-            int todo = 4;
-        }
-//        ProgramTest.debugPrint("DELKAA:", len);
-//        if (len == 880) {
-//            int todo = 44444;
-//        }
-        // TODO: DEBUG
-        // TODO: VYMAZAT
-//        }
-        // TODO: VYMAZAT
-
-        // TODO: DEBUG
-//        if(TODO_COUNTER < 2) {
-//            ProgramTest.debugPrint("GET_SUBBAND:", subband, SUBBAND_COUNT, retPair.getKey(), retPair.getValue());
-//        }
-        // TODO: DEBUG
         return retPair;
     }
 

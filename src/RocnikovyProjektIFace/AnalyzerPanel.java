@@ -718,8 +718,18 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
         // TODO: Vymazat - respektive vyzkouset, az pak vymazat
         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull3", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 0.16)).toString());
+//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 4, 0.0)).toString());
+//        return new Pair<String, String>("BPMAdvancedFull5", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.2, 6, 0.0)).toString());
+        return new Pair<String, String>("BPMAdvancedFull6", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
+
+//        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFullLog", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.72, 4, 0.0)).toString());
     }
 
 

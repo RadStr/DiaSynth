@@ -19,34 +19,22 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
         SUBBAND_COUNT = subbandCount;
     }
 
-
-    @Override
-    public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
-        return getStartIndAndLen(arrayLen, subband);
-    }
-
-    Zoptimalizovat to, treba tak ze dam do konstruktoru binCount a pak to udelam podle toho - a to pole pak vypocitam jen jendou
-    a nebudu ho vytvaret pri kazdym volani
-
     /**
-     *
-     * @param binCount is the number of bins. which is windowSize / 2 + 1
-     * @param subband
-     * @return
+     * binCount is the number of bins without the first bin.
      */
-    private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
-        // TODO: 0-th BIN
-        binCount--;     // Because the first bin doesn't count
-        // TODO: 0-th BIN
-        Pair<Integer, Integer> retPair;
-        // TODO: Doesn't work - this is basically how it is in the text - and the coef has to be around 4 and even then it doesn't work correctly
-        // So I will jsut keep it as it was
-        double[] arr = new double[SUBBAND_COUNT];
+    private int binCount = Integer.MIN_VALUE;
+    private int[] binStartIndices;
+    private int[] binSizes;
+    public void setBinCount(int binCount) {
+        this.binCount = binCount;
 
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = i + 1;
+        binSizes = new int[SUBBAND_COUNT];
+        int sum = 0;
+        for (int i = 0; i < binSizes.length; i++) {
+            binSizes[i] = i + 1;
+            sum += binSizes[i];
         }
-        double sum = Program.performAggregation(arr, Aggregations.SUM);
+
         if (binCount > sum) {
             int freeSpaceMultiplier = 2;
             while(sum * freeSpaceMultiplier < binCount) {
@@ -54,35 +42,56 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
             }
             freeSpaceMultiplier--;
             if(freeSpaceMultiplier >= 2) {
-                for(int i = 0; i < arr.length - 1; i++) {
-                    arr[i] *= freeSpaceMultiplier;
+                for(int i = 0; i < binSizes.length - 1; i++) {
+                    binSizes[i] *= freeSpaceMultiplier;
                 }
-                sum -= arr[arr.length - 1];         // Set the last bin to 0, we will set it to the real value after that
+                sum -= binSizes[binSizes.length - 1];         // Set the last bin to 0, we will set it to the real value after that
                 sum *= freeSpaceMultiplier;
             }
-            arr[arr.length - 1] = binCount - sum;
+            binSizes[binSizes.length - 1] = binCount - sum;
         } else {
-            int index = arr.length - 1;
-            int binsOver = (int) Math.round(sum) + (int) Math.round(arr[index]) - binCount;
+            int index = binSizes.length - 1;
+            int binsOver = (int) Math.round(sum) + (int) Math.round(binSizes[index]) - binCount;
             int cycle = 0;
             while (binsOver > 0) {
-                arr[index]--;
+                binSizes[index]--;
                 binsOver--;
                 index--;
                 if (index <= cycle) {
                     cycle++;
-                    index = arr.length - 1;
+                    index = binSizes.length - 1;
                 }
             }
         }
-        sum = 0;
-        for (int i = 0; i < subband; i++) {
-            sum += arr[i];
-        }
 
-        double sum2 = Program.performAggregation(arr, Aggregations.SUM);
+        binStartIndices = new int[binSizes.length];
+        sum = 1;        // because we ignore the first bin
+        for(int i = 0; i < binSizes.length; i++) {
+            binStartIndices[i] = sum;
+            sum += binSizes[i];
+        }
+    }
+
+
+    @Override
+    public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband) {
+        return getStartIndAndLen(arrayLen, subband);
+    }
+
+    /**
+     *
+     * @param binCount is the number of bins. which is windowSize / 2 + 1.
+     * @param subband
+     * @return
+     */
+    private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
+        if(binCount - 1 != this.binCount) {
+            setBinCount(binCount - 1);
+        }
+        Pair<Integer, Integer> retPair;
 
         // TODO: DEBUG
+//        double sum2 = Program.performAggregation(arr, Aggregations.SUM);
 //        if (sum2 != binCount) {
 //            ProgramTest.debugPrint("FAILED", sum, sum2, binCount);
 //            System.exit(56487);
@@ -94,7 +103,8 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
 
         // TODO: 0-th BIN
         // + 1 for the start index, because the first bin doesn't count
-        retPair = new Pair((int)Math.round(sum) + 1, (int) Math.round(arr[subband]));
+//        retPair = new Pair((int)Math.round(sum) + 1, (int) Math.round(arr[subband]));
+        retPair = new Pair(binStartIndices[subband], binSizes[subband]);
 
 //        retPair = new Pair((int)Math.round(sum), (int) Math.round(arr[subband]));
         // TODO: 0-th BIN

@@ -109,9 +109,6 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
 //    }
 
 
-    TODO: TODO_COUNTER DAT PRYC
-    private int TODO_COUNTER = 0;
-
 
     private Pair<Integer, Integer> getStartIndAndLen(int windowSize, int subband) {
         windowSize--;           // Because we don't use the 0-th bin.
@@ -125,11 +122,6 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
         double jumpHZ = (double) SAMPLE_RATE / windowSize;
 
         if(subband == 0) {
-
-
-            TODO_COUNTER++;
-
-
             subbandRangeInHz = START_HZ;
             previousStartIndex = 1;         // Because the first bin doesn't count
             previousHzOverflow = 0;
@@ -151,13 +143,6 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
 
         retPair = new Pair<>(previousStartIndex, len);
         previousStartIndex += len;
-
-
-        // TODO: DEBUG
-        if(TODO_COUNTER < 2) {
-            ProgramTest.debugPrint("GET_SUBBAND:", subband, SUBBAND_COUNT, retPair.getKey(), retPair.getValue());
-        }
-        // TODO: DEBUG
         return retPair;
     }
 

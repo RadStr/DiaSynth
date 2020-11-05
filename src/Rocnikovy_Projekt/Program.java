@@ -7483,7 +7483,7 @@ public class Program {
         int frameSize = sampleSize;
 // TODO:
 // TODO:        double varianceLimit = 0;     // TODO:
-        int windowsFromLastBeat = 4;
+        int windowsFromLastBeat = windowsBetweenBeats;
         int subbandCount = subbandEnergies[0].length;
         int historySubbandsCount = subbandEnergies.length;
         double[] fftArr = new double[windowSize];
@@ -7504,6 +7504,7 @@ public class Program {
         for(i = 0; i < subbandEnergies.length; // TODO: U multi-channel varianty to bude subbandEnergies[0].length
             i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
             if(nextSampleIndex < samples.length) {
+                // TODO: Vymazat ten startIndex
                 getSubbandEnergiesUsingFFT(samples, subbandEnergies[i], sampleIndex,//int startIndex,
                     numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                     maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy

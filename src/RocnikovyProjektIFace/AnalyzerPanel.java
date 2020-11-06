@@ -452,6 +452,10 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         if(checkBoxes[10].isSelected()) {
             list.add(analyzeBPMSimpleFull(p));
             list.add(analyzeBPMAdvancedFullLinear(p));
+//            list.add(analyzeBPMAdvancedFullLinear2(p));
+//            list.add(analyzeBPMAdvancedFullLinear3(p));
+//            list.add(analyzeBPMAdvancedFullLinear4(p));
+//            list.add(analyzeBPMAdvancedFullLinear5(p));
 
 
             // TODO: BPM - HLEDANI
@@ -724,8 +728,22 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.5, 4, 0.0)).toString());
 //        return new Pair<String, String>("BPMAdvancedFull5", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
 //                splitter, 2.2, 6, 0.0)).toString());
-        return new Pair<String, String>("BPMAdvancedFull6", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+
+
+        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
+//        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 1.12)).toString());
+
+
+//        int subbandCount = 16;
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.74, 6, 0.0)).toString());
+
 
 //        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        return new Pair<String, String>("BPMAdvancedFullLog", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
@@ -734,6 +752,47 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     // TODO: BPM - HLEDANI (bylo to kdyz jsem hledal ty parametry)
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear2(Program prog) {
+//        int subbandCount = 8;
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 1.12)).toString());
+//    }
+//
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear3(Program prog) {
+//        int subbandCount = 8;
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance2", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 5.12)).toString());
+//    }
+//
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear4(Program prog) {
+//        int subbandCount = 8;
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance3", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 10.12)).toString());
+//    }
+//
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear5(Program prog) {
+//        int subbandCount = 8;
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
+//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
+//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//                splitter, 2.5, 6, 30.12)).toString());
+//    }
+//
+//
 //    private static Pair<String, String> analyzeBPMAdvancedFullLinear(Program prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat

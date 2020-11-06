@@ -7062,11 +7062,13 @@ public class Program {
             coef = -0.0025714 * variance + 1.8;
 
 //            energyAvg = energyAvg / (windowSize * (1 << (sampleSize * 8)));
-            System.out.println("!!!!!!!!!!!!!!!!");
-            System.out.println(maxValueInEnergy);
-            System.out.println(":" + coef + ":\t" + maxValueInEnergy + ":\t" + (variance / (maxValueInEnergy * maxValueInEnergy)));
-            System.out.println(currEnergy + ":\t" + coef * energyAvg + ":\t" + variance);
-            System.out.println("!!!!!!!!!!!!!!!!");
+            // TODO: DEBUG
+//            System.out.println("!!!!!!!!!!!!!!!!");
+//            System.out.println(maxValueInEnergy);
+//            System.out.println(":" + coef + ":\t" + maxValueInEnergy + ":\t" + (variance / (maxValueInEnergy * maxValueInEnergy)));
+//            System.out.println(currEnergy + ":\t" + coef * energyAvg + ":\t" + variance);
+//            System.out.println("!!!!!!!!!!!!!!!!");
+            // TODO: DEBUG
 // TODO:
             if(currEnergy > coef * energyAvg) {
                 if(windowsFromLastBeat >= windowsBetweenBeats) {
@@ -7075,7 +7077,7 @@ public class Program {
                 }
 
                 // TODO: DEBUG
-                ProgramTest.debugPrint("TODO: TEST", currEnergy, coef, energyAvg, coef * energyAvg);
+//                ProgramTest.debugPrint("TODO: TEST", currEnergy, coef, energyAvg, coef * energyAvg);
                 // TODO: DEBUG
             }
 
@@ -7098,7 +7100,9 @@ public class Program {
                 energySum = energySum - windows[oldestIndexInWindows] + currEnergy;
                 windows[oldestIndexInWindows] = currEnergy;
             }
-            ProgramTest.debugPrint("Window in simple BPM:", windows[oldestIndexInWindows]);          // TODO: DEBUG
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Window in simple BPM:", windows[oldestIndexInWindows]);          // TODO: DEBUG
+            // TODO: DEBUG
             oldestIndexInWindows++;
             sampleIndex = nextSampleIndex;
             nextSampleIndex += windowSizeInBytes;
@@ -7446,8 +7450,33 @@ public class Program {
                                                   double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
                                                               double coef, int windowsBetweenBeats, double varianceLimit
     ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
+        // TODO: REMOVE
         final double oldCoef = coef;      // TODO: OLD COEF
+        double todoMaxEnergy = -1;
+        // TODO: REMOVE
 
+
+
+        //                double coefBasedOnSampleRate = coef / 1.3;//Math.pow(1., 44100 / (double)sampleRate - 1);
+
+        double divFactor = 1;
+        if(sampleRate < 44100) {
+            // TODO: REMOVE
+//                    divFactor = 1 + 0.3 * ((44100 / (double) sampleRate) - 1);
+//                    divFactor = 1.825;
+            // TODO: REMOVE
+
+            double log = Program.logGeneral((44100 / (double) sampleRate) - 1, 2.36);
+            divFactor = 1 + 0.3 * (log + 1);
+
+// TODO: REMOVE
+//                    double log = Program.logGeneral((44100 / (double) sampleRate) - 1, 1.5);
+//                    divFactor = 2;
+//                    divFactor = 1.5;
+//                    divFactor = 1 + 0.49 * (log + 1);
+// TODO: REMOVE
+        }
+        double coefBasedOnSampleRate = coef / divFactor;        // Has to be done because, the lower the sample rate, the lower needs to be the coefficient
 
 /*
         int beatCount = 0;
@@ -7523,7 +7552,7 @@ public class Program {
             // TODO: BPM NOVY
             boolean hasBeat = false;
             // TODO: BPM NOVY
-                                                                            // TODO: Ten startIndex pod timhle dat pryc
+            // TODO: Ten startIndex pod timhle dat pryc
             getSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
                 numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                 maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
@@ -7532,6 +7561,8 @@ public class Program {
             // This is version for Constant splitter The commented coef = 2.5 ... is for logaritmic, but the version with constant seems to work very good
             int j = 0;
             for(; j < currEnergies.length; j++) {
+                todoMaxEnergy = Math.max(currEnergies[j], todoMaxEnergy);       // TODO: Finding the difference in coefs
+
                 avg = energySums[j] / historySubbandsCount; // TODO:
                 double variance = getVariance(avg, subbandEnergies, j);
                 // TODO: OLD - REMOVE
@@ -7576,7 +7607,9 @@ public class Program {
                 // TODO: ENERGIE TED
 
                 // TODO: DEBUG
-                if (currEnergies[j] > coef * avg) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
+                // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
+                if (currEnergies[j] > coefBasedOnSampleRate * avg) {
+//                if (currEnergies[j] > coef / Math.max(1, (((44100 / (double)sampleRate) - 1)) * 1) * avg) {
                     // TODO: DEBUG
 //                    System.out.println("---------------" + variance);
                     // TODO: DEBUG
@@ -7633,6 +7666,7 @@ public class Program {
             }
         }
 
+        ProgramTest.debugPrint("MAX_ENERGY:", todoMaxEnergy);
         int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
         return bpm;
     }

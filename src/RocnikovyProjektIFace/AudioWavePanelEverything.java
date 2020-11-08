@@ -871,4 +871,24 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     public int convertSampleToMillis(int sampleIndex) {
         return DoubleWave.convertSampleToMillis(sampleIndex, wave.getDoubleWave().getSampleRate());
     }
+
+
+
+
+
+
+    public boolean getTodoMarkIsComponentResizing() {
+        return panelWithWaves.getTodoMarkIsComponentResizing();
+    }
+    public boolean getTodoMarkIsZooming() {
+        return panelWithWaves.todoMarkIsZooming;
+    }
+    public void resetTodoMark() {
+        panelWithWaves.todoMarkIsZooming = false;
+        panelWithWaves.resetTodoMarkIsComponentResizing();
+    }
+
+    public boolean getTheZoomingStarted() {
+        return !panelWithWaves.getCanZoom();
+    }
 }

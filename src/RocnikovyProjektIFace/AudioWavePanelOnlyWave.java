@@ -3,11 +3,13 @@ package RocnikovyProjektIFace;
 import RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage.AudioWavePanelOnlyWavePopupMenu;
 import Rocnikovy_Projekt.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -523,20 +525,42 @@ public class AudioWavePanelOnlyWave extends JPanel {
             this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
     }
 
+
+    private int todoMarkCount = 0;
+    private Image todoMarkImg = null;
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        visibleWidthChangedCallback();
 
-        // TODO: PROGRAMO
+        if(todoMarkCount < Integer.MAX_VALUE) {
+            todoMarkCount++;
+//            if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
+//                ProgramTest.debugPrint("Both (mark):", getWaveWidth());
+//                wholeWavePanel.resetTodoMark();
+//                todoMarkImg = null;
+//            } else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
+//                ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
+//                if(todoMarkImg != null) {
+//                    g.drawImage(todoMarkImg, 0, 0, this);
+//                }
+//                return;
+//            } else {
+//                wholeWavePanel.resetTodoMark();
+//                ProgramTest.debugPrint("Else (mark):", getWaveWidth());
+//            }
+
+            visibleWidthChangedCallback();
+
+            // TODO: PROGRAMO
 //        ty insets vychazi presne na 2 no - ono asi skutecne spravna cesta bude zmenit tu preferred height kdykoliv manualne zmenim preferred height toho everything panelu
 //          Je docela zajimavej problem ze ta height u wavy se proste nastavuje spatne nevim proc - na 12 at delam cokoliv
 //             takze odkomentovat TODO: PROGRAMO - height
 //        Jen pripomenuti na zitra ze problem je v tom kdyz roztahnu posledni vlnu a pridam novou (resp. 2 novy)
 //        jo a jeste abych nezapomnel na to v implementation tu promennou addedWaveLast
-        // TODO: PROGRAMO
-        ProgramTest.debugPrint("draw component wave", wholeWavePanel.getInsets(), this.getInsets(), "\n",
-            super.getPreferredSize());
+            // TODO: PROGRAMO
+            ProgramTest.debugPrint("draw component wave", wholeWavePanel.getInsets(), this.getInsets(), "\n",
+                    super.getPreferredSize());
 
 // TODO: DEBUG
 //        g.setColor(Color.red);
@@ -548,7 +572,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        g.drawLine(7 * wholeWavePanel.getWaveVisibleWidth() / 8, 0, 7 * wholeWavePanel.getWaveVisibleWidth() / 8, getHeight());     // DEBUG LINE
 // TODO: DEBUG
 
-        //System.exit(69);
+            //System.exit(69);
 
 //        FontMetrics fm = g.getFontMetrics();
 //
@@ -598,32 +622,83 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        drawSampleInfo(g);
 //
 
-        if(wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
-            markPart(g, Color.red);
-        }
+            // TODO: todoMark
+            if(todoMarkOldZoom != zoomVariables.currentZoom) {
+                todoMarkOldZoom = zoomVariables.currentZoom;
+                if(wholeWavePanel.getShouldMarkPart()) {
+                    int markStartX = wholeWavePanel.getMarkStartXPixel();
+                    int markEndX = wholeWavePanel.getMarkEndXPixel();
 
+//                    int power = zoomVariables.currentZoom - todoMarkOldZoom;
+                    int power = todoMarkOldZoom - zoomVariables.currentZoom;
 
-        drawAudioWave(g);
+                    markStartX *= Math.pow(2, power);
+                    markEndX *= Math.pow(2, power);
+                    int currScroll = wholeWavePanel.getCurrentHorizontalScroll();
+                    System.exit(this.getX());
 
-        AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
-        if(clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
-            Color color;
-            if (clipboard.isCut()) {
-                color = Color.black;
+//                    markStartX += currScroll;
+//                    markEndX += currScroll;
+//                    markStartX -= currScroll * Math.pow(2, power - 1);
+//                    markEndX -= currScroll * Math.pow(2, power - 1);
+//                    markPartGeneralFull(g, markStartX, markEndX, Color.red, this.getHeight());
+//                    g.setColor(Color.red);
+//                    g.fillRect(0, 0, getWidth(), getHeight());
+// TODO: DEBUG
+//            ProgramTest.debugPrint(markStartX, markEndX, markStartXShifted, markEndXShifted, this.getVisibleRect());
+                    ProgramTest.debugPrint("MARK_PART:", currScroll, markStartX, markEndX, this.getVisibleRect());
+// TODO: DEBUG
+                }
             }
             else {
-                color = Color.gray;
+                // TODO: todoMark
+                if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
+                    markPart(g, Color.red);
+                }
             }
-            markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
-                    color, this.getHeight());
 
+            drawAudioWave(g);
+
+            AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
+            if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
+                Color color;
+                if (clipboard.isCut()) {
+                    color = Color.black;
+                } else {
+                    color = Color.gray;
+                }
+                markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
+                        color, this.getHeight());
+
+            }
+
+            if (wholeWavePanel.getShouldIncludeInMixing()) {
+                drawTimeLine(g);
+            }
+
+
+// TODO: todoMark
+//            if(todoMarkImg == null && (zoomVariables != null && zoomVariables.currentZoom > 0)) {
+//                todoMarkImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
+//                File f = new File("blablablaVymazMe.png");
+//                if(!f.exists()) {
+//                    final float FACTOR  = 1f;
+//                    int scaleX = (int) (todoMarkImg.getWidth(this) * FACTOR);
+//                    int scaleY = (int) (todoMarkImg.getHeight(this) * FACTOR);
+//                    BufferedImage buffered = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+//                    buffered.getGraphics().drawImage(todoMarkImg, 0, 0 , this);
+//                    ProgramTest.debugPrint("ENDING", this.getVisibleRect().width, this.getVisibleRect().height, scaleX, scaleY);
+//                    try {
+//                        ImageIO.write(buffered, "png", f);
+//                    } catch (IOException e) {
+//                        System.exit(1111);
+//                        e.printStackTrace();
+//                    }
+//                    System.exit(4478);
+//                }
+//            }
+// TODO: todoMark
         }
-
-        if(wholeWavePanel.getShouldIncludeInMixing()) {
-            drawTimeLine(g);
-        }
-
-
 
 //        drawCurrentPlayTime(g, Color.black);
         //drawSongLen(g, Color.black);
@@ -749,10 +824,10 @@ public class AudioWavePanelOnlyWave extends JPanel {
             markPartGeneralFull(g, markStartX, markEndX, color, this.getHeight());
 // TODO: DEBUG
 //            ProgramTest.debugPrint(markStartX, markEndX, markStartXShifted, markEndXShifted, this.getVisibleRect());
+//            ProgramTest.debugPrint("MARK_PART:", markStartX, markEndX, this.getVisibleRect());
 // TODO: DEBUG
         }
     }
-
 
 
     private void markPartGeneralOnlyEndings(Graphics g, int markStartX, int markEndX, Color color, int height) {
@@ -774,7 +849,8 @@ public class AudioWavePanelOnlyWave extends JPanel {
             g.fillRect(markEndXShifted - dif, 0, dif, height);
         }
     }
-
+// TODO: Uz si nepamatuju proc to posouvam, ale bez posouvani to nejde, ale rekl bych ze proste to okno s vlnou je jen ta viditelna cast
+// TODO: Nema to zadnou preshaujici cast, tj. nema to velikost jako je ta velikost scrollbaru
     private void markPartGeneralFull(Graphics g, int markStartX, int markEndX, Color color, int height) {
         int horizontalScroll = wholeWavePanel.getCurrentHorizontalScroll();
         int markStartXShifted = markStartX - horizontalScroll;
@@ -788,10 +864,14 @@ public class AudioWavePanelOnlyWave extends JPanel {
             g.fillRect(markStartXShifted, 0,  markEndX - markStartX, height);
         }
 
+
 // TODO: DEBUG
-//            ProgramTest.debugPrint(markStartX, markEndX, markStartXShifted, markEndXShifted, this.getVisibleRect());
+        ProgramTest.debugPrint("MARK_PART_GENERAL:", horizontalScroll, markStartX, markEndX,
+                markStartXShifted, markEndXShifted, this.getVisibleRect());
 // TODO: DEBUG
     }
+
+
 
 
 
@@ -1493,7 +1573,41 @@ public class AudioWavePanelOnlyWave extends JPanel {
     // TODO: usetrim tim seekovani v souboru
 
 
+    private int todoMarkOldZoom = 0;
+
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
+// TODO: todoMark
+        if(zoomVariables != null) {
+            todoMarkOldZoom = zoomVariables.currentZoom;
+        }
+        if(todoMarkImg == null && (zoomVariables != null && zoomVariables.currentZoom > 0)) {
+// TODO: todoMark
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+// TODO: todoMark
+            todoMarkImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
+            File f = new File("blablablaVymazMe.png");
+            if(!f.exists()) {
+                final float FACTOR  = 1f;
+                int scaleX = (int) (todoMarkImg.getWidth(this) * FACTOR);
+                int scaleY = (int) (todoMarkImg.getHeight(this) * FACTOR);
+                BufferedImage buffered = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+                buffered.getGraphics().drawImage(todoMarkImg, 0, 0 , this);
+                ProgramTest.debugPrint("ENDING", this.getVisibleRect().width, this.getVisibleRect().height, scaleX, scaleY);
+                try {
+                    ImageIO.write(buffered, "png", f);
+                } catch (IOException e) {
+                    System.exit(1111);
+                    e.printStackTrace();
+                }
+            }
+        }
+// TODO: todoMark
+
+
         visibleWidthChangedCallback();
         int oldZoom = zoomVariables.currentZoom;
         zoomVariables.currentZoom = newZoom;

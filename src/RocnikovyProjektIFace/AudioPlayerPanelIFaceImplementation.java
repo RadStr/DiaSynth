@@ -4567,10 +4567,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 // TODO: VYMAZAT NEPOUZITO
 
 
-
-
     @Override
     public void paintComponent(Graphics g) {
+        // TODO: todoMark
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // TODO: todoMark
         super.paintComponent(g);
         if(canZoom) {
             canPoll = true;
@@ -5798,7 +5803,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     @Override
     public void updateZoom(int zoomChange) {
-        System.out.println(getCanZoom());
+        System.out.println("Can zoom: " + getCanZoom());
         if(getCanZoom() && !waveScroller.getIsScrollbarBeingUsed() && waves.size() != 0) {
             disableZooming();
             setMaxAllowedZoom();
@@ -5856,6 +5861,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
             this.revalidate();
             this.repaint();
+            todoMarkIsZooming = true;
 
             //horizontalBarAdjustmentListener.setShouldNotifyWaves(false);
             //waveScroller.getHorizontalScrollBar().setValue(waveScroller.getHorizontalScrollBar().getMaximum());
@@ -5874,6 +5880,16 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        this.revalidate();
 //        this.repaint();
     }
+
+    public boolean todoMarkIsZooming = false;
+
+    public boolean getTodoMarkIsComponentResizing() {
+        return waveScroller.todoMarkIsComponentResizing;
+    }
+    public void resetTodoMarkIsComponentResizing() {
+        waveScroller.todoMarkIsComponentResizing = false;
+    }
+
 
     private void zooming(int wheelRotation) {
         int newZoom = wheelRotation + zoomVariables.zoom;

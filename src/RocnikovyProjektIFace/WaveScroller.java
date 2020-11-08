@@ -71,6 +71,8 @@ public class WaveScroller extends JPanel {
     }
 
 
+    public boolean todoMarkIsComponentResizing = false;
+
     private ComponentListener listener = new ComponentListener() {
         private int oldWidth = Integer.MIN_VALUE;
         private int oldScrollVal = Integer.MIN_VALUE;
@@ -78,6 +80,7 @@ public class WaveScroller extends JPanel {
 
         @Override
         public void componentResized(ComponentEvent e) {
+            todoMarkIsComponentResizing = true;
 //                waveScroller.getHorizontalScrollBar().setValue(waveScroller.getHorizontalScrollBar().getMaximum());
             int newWidth = e.getComponent().getWidth();
             JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
@@ -86,7 +89,6 @@ public class WaveScroller extends JPanel {
                 oldScrollVal = scrollBarVal;
                 isFirst = false;
             }
-
 
             int visibleWidthOfWave = emptyPanelForHorizontalScroll.getVisibleRect().width;
             // TODO: DEBUG:
@@ -103,11 +105,12 @@ public class WaveScroller extends JPanel {
             horizontalBarAdjustmentListener.setShouldNotifyWaves(true);
             //setOldScrollbarValue(newVal);
 
-            ProgramTest.debugPrint("sadKEK", newVal, oldWidth, newWidth);
+            ProgramTest.debugPrint("Resizing the horizontal wave scroller (end of method):", newVal, oldWidth, newWidth);
             oldWidth = newWidth;
 
             waveScrollCallback.enableZooming();
             waveScrollCallback.revalidateTimestamps();
+            todoMarkIsComponentResizing = true;
         }
 
         @Override
@@ -221,11 +224,13 @@ public class WaveScroller extends JPanel {
 
         private WaveScroller scrollPane;
         private int oldValue = 0;
+        // TODO: Vymazat hadam - uz to asi nepouzivam
         private boolean shouldNotifyWaves = true;
 
         public void setShouldNotifyWaves(boolean val) {
             shouldNotifyWaves = val;
         }
+        // TODO: Vymazat hadam - uz to asi nepouzivam
 
 
         @Override

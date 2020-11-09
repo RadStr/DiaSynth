@@ -5829,6 +5829,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 }
             }
 
+            for(AudioWavePanelEverything wave : waves) {
+                wave.saveZoomBridgeImg();
+            }
+
             waveScroller.setOldScrollbarValue(waveScroller.getCurrentHorizontalScroll());
             setOldWaveVisibleWidth();
             timeLineXForZooming = timeLineX;

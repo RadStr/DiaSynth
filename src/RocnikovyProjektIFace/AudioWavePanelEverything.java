@@ -891,4 +891,12 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     public boolean getTheZoomingStarted() {
         return !panelWithWaves.getCanZoom();
     }
+
+    public void saveZoomBridgeImg() {
+        wave.saveZoomBridgeImg();
+    }
+
+    public boolean isLastWave() {
+        return waveIndex == panelWithWaves.getWaveCount();
+    }
 }

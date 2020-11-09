@@ -541,50 +541,66 @@ public class AudioWavePanelOnlyWave extends JPanel {
      */
     private Image zoomBridgeImg = null;
 
+
+
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
         if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
             // TODO: DEBUG
-//            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
+            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
             // TODO: DEBUG
-            wholeWavePanel.resetTodoMark();
-            zoomBridgeImg = null;
+            if(wholeWavePanel.isLastWave()) {
+                wholeWavePanel.resetTodoMark();
+                super.paintComponent(g);
+                if (zoomBridgeImg != null) {
+                    g.drawImage(zoomBridgeImg, 0, 0, this);
+                }
+                return;
+            }
+//            wholeWavePanel.repaintPanelWithMultipleWaves();
+            // TODO: todoMark zakomentovany - nepomůže
+//            zoomBridgeImg = null;
+            // TODO: todoMark zakomentovany - nepomůže
         }
         else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
             // TODO: DEBUG
-//            ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
+            ProgramTest.debugPrint("Just is zooming (mark):", wholeWavePanel.getTheZoomingStarted(),
+                    wholeWavePanel.getTodoMarkIsZooming(), getWaveWidth());
             // TODO: DEBUG
+            super.paintComponent(g);
             if (zoomBridgeImg != null) {
                 g.drawImage(zoomBridgeImg, 0, 0, this);
             }
             return;
         }
         else {
-            wholeWavePanel.resetTodoMark();
+            // TODO: todoMark zakomentovany - možná pomůže
+//            wholeWavePanel.resetTodoMark();
+            // TODO: todoMark zakomentovany - možná pomůže
             // TODO: DEBUG
-//            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
+            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
             // TODO: DEBUG
-            zoomBridgeImg = null;
+            // TODO: todoMark zakomentovany - nepomůže
+//            zoomBridgeImg = null;
+            // TODO: todoMark zakomentovany - nepomůže
         }
 
-        todoMarkMethod(g);
+        paintComponentInternal(g);
     }
 
-        public void todoMarkMethod(Graphics g) {
-            super.paintComponent(g);
-            visibleWidthChangedCallback();
+    public void paintComponentInternal(Graphics g) {
+        super.paintComponent(g);
+        visibleWidthChangedCallback();
 
-            // TODO: PROGRAMO
+        // TODO: PROGRAMO
 //        ty insets vychazi presne na 2 no - ono asi skutecne spravna cesta bude zmenit tu preferred height kdykoliv manualne zmenim preferred height toho everything panelu
 //          Je docela zajimavej problem ze ta height u wavy se proste nastavuje spatne nevim proc - na 12 at delam cokoliv
 //             takze odkomentovat TODO: PROGRAMO - height
 //        Jen pripomenuti na zitra ze problem je v tom kdyz roztahnu posledni vlnu a pridam novou (resp. 2 novy)
 //        jo a jeste abych nezapomnel na to v implementation tu promennou addedWaveLast
-            // TODO: PROGRAMO
-            ProgramTest.debugPrint("draw component wave", wholeWavePanel.getInsets(), this.getInsets(), "\n",
-                    super.getPreferredSize());
+        // TODO: PROGRAMO
+        ProgramTest.debugPrint("draw component wave", wholeWavePanel.getInsets(), this.getInsets(), "\n",
+                super.getPreferredSize());
 
 // TODO: DEBUG
 //        g.setColor(Color.red);
@@ -596,7 +612,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        g.drawLine(7 * wholeWavePanel.getWaveVisibleWidth() / 8, 0, 7 * wholeWavePanel.getWaveVisibleWidth() / 8, getHeight());     // DEBUG LINE
 // TODO: DEBUG
 
-            //System.exit(69);
+        //System.exit(69);
 
 //        FontMetrics fm = g.getFontMetrics();
 //
@@ -646,32 +662,32 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        drawSampleInfo(g);
 //
 
-            if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
-                markPart(g, Color.red);
+        if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
+            markPart(g, Color.red);
+        }
+
+        AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
+        if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
+            Color color;
+            if (clipboard.isCut()) {
+                color = Color.black;
+            } else {
+                color = Color.gray;
             }
 
-            AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
-            if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
-                Color color;
-                if (clipboard.isCut()) {
-                    color = Color.black;
-                } else {
-                    color = Color.gray;
-                }
-
-                markPartGeneralFull(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
-                        color, this.getHeight());
+            markPartGeneralFull(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
+                    color, this.getHeight());
 //                markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
 //                        color, this.getHeight());
 
-            }
-
-            drawAudioWave(g);
-
-            if (wholeWavePanel.getShouldIncludeInMixing()) {
-                drawTimeLine(g);
-            }
         }
+
+        drawAudioWave(g);
+
+        if (wholeWavePanel.getShouldIncludeInMixing()) {
+            drawTimeLine(g);
+        }
+    }
 
 //        drawCurrentPlayTime(g, Color.black);
         //drawSongLen(g, Color.black);
@@ -1545,8 +1561,9 @@ public class AudioWavePanelOnlyWave extends JPanel {
     // TODO: usetrim tim seekovani v souboru
 
 
-    public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
-        if(zoomBridgeImg == null && zoomVariables != null) {
+    public void saveZoomBridgeImg() {
+        // TODO: todoMark - zakomentovany
+        if(/*zoomBridgeImg == null && */zoomVariables != null) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method
             zoomBridgeImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
@@ -1554,12 +1571,14 @@ public class AudioWavePanelOnlyWave extends JPanel {
             int h = this.getHeight();
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bi.createGraphics();
-            this.todoMarkMethod(g);
+            this.paintComponentInternal(g);
             g.dispose();
             zoomBridgeImg = bi;
         }
+    }
 
 
+    public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
         visibleWidthChangedCallback();
         int oldZoom = zoomVariables.currentZoom;
         zoomVariables.currentZoom = newZoom;

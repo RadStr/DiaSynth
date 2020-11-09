@@ -526,33 +526,34 @@ public class AudioWavePanelOnlyWave extends JPanel {
     }
 
 
-    private int todoMarkCount = 0;
+
+
+
     private Image todoMarkImg = null;
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (todoMarkCount < Integer.MAX_VALUE) {
-            todoMarkCount++;
-
-            if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
-                ProgramTest.debugPrint("Both (mark):", getWaveWidth());
-                wholeWavePanel.resetTodoMark();
-                todoMarkImg = null;
-            } else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
-                ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
-                if (todoMarkImg != null) {
-                    g.drawImage(todoMarkImg, 0, 0, this);
-                }
-                return;
-            } else {
-                wholeWavePanel.resetTodoMark();
-                ProgramTest.debugPrint("Else (mark):", getWaveWidth());
+        if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
+            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
+            wholeWavePanel.resetTodoMark();
+            todoMarkImg = null;
+        } else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
+            ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
+            if (todoMarkImg != null) {
+                g.drawImage(todoMarkImg, 0, 0, this);
             }
+            return;
+        } else {
+            wholeWavePanel.resetTodoMark();
+            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
+            todoMarkImg = null;
         }
+
         todoMarkMethod(g);
     }
+
         public void todoMarkMethod(Graphics g) {
             super.paintComponent(g);
             visibleWidthChangedCallback();
@@ -627,42 +628,9 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        drawSampleInfo(g);
 //
 
-            // TODO: todoMark
-//            if(todoMarkOldZoom != zoomVariables.currentZoom) {
-//                todoMarkOldZoom = zoomVariables.currentZoom;
-//                if(wholeWavePanel.getShouldMarkPart()) {
-//                    int markStartX = wholeWavePanel.getMarkStartXPixel();
-//                    int markEndX = wholeWavePanel.getMarkEndXPixel();
-//
-////                    int power = zoomVariables.currentZoom - todoMarkOldZoom;
-//                    int power = todoMarkOldZoom - zoomVariables.currentZoom;
-//
-//                    markStartX *= Math.pow(2, power);
-//                    markEndX *= Math.pow(2, power);
-//                    int currScroll = wholeWavePanel.getCurrentHorizontalScroll();
-//                    System.exit(this.getX());
-//
-////                    markStartX += currScroll;
-////                    markEndX += currScroll;
-////                    markStartX -= currScroll * Math.pow(2, power - 1);
-////                    markEndX -= currScroll * Math.pow(2, power - 1);
-////                    markPartGeneralFull(g, markStartX, markEndX, Color.red, this.getHeight());
-////                    g.setColor(Color.red);
-////                    g.fillRect(0, 0, getWidth(), getHeight());
-//// TODO: DEBUG
-////            ProgramTest.debugPrint(markStartX, markEndX, markStartXShifted, markEndXShifted, this.getVisibleRect());
-//                    ProgramTest.debugPrint("MARK_PART:", currScroll, markStartX, markEndX, this.getVisibleRect());
-//// TODO: DEBUG
-//                }
-//            }
-//            else {
-                // TODO: todoMark
-                if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
-                    markPart(g, Color.red);
-                }
-//            }
-
-            drawAudioWave(g);
+            if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
+                markPart(g, Color.red);
+            }
 
             AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
             if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
@@ -672,37 +640,19 @@ public class AudioWavePanelOnlyWave extends JPanel {
                 } else {
                     color = Color.gray;
                 }
-                markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
+
+                markPartGeneralFull(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
                         color, this.getHeight());
+//                markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
+//                        color, this.getHeight());
 
             }
+
+            drawAudioWave(g);
 
             if (wholeWavePanel.getShouldIncludeInMixing()) {
                 drawTimeLine(g);
             }
-
-
-// TODO: todoMark
-//            if(todoMarkImg == null && (zoomVariables != null && zoomVariables.currentZoom > 0)) {
-//                todoMarkImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
-//                File f = new File("blablablaVymazMe.png");
-//                if(!f.exists()) {
-//                    final float FACTOR  = 1f;
-//                    int scaleX = (int) (todoMarkImg.getWidth(this) * FACTOR);
-//                    int scaleY = (int) (todoMarkImg.getHeight(this) * FACTOR);
-//                    BufferedImage buffered = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
-//                    buffered.getGraphics().drawImage(todoMarkImg, 0, 0 , this);
-//                    ProgramTest.debugPrint("ENDING", this.getVisibleRect().width, this.getVisibleRect().height, scaleX, scaleY);
-//                    try {
-//                        ImageIO.write(buffered, "png", f);
-//                    } catch (IOException e) {
-//                        System.exit(1111);
-//                        e.printStackTrace();
-//                    }
-//                    System.exit(4478);
-//                }
-//            }
-// TODO: todoMark
         }
 
 //        drawCurrentPlayTime(g, Color.black);
@@ -1577,21 +1527,9 @@ public class AudioWavePanelOnlyWave extends JPanel {
     // TODO: usetrim tim seekovani v souboru
 
 
-    private int todoMarkOldZoom = 0;
-
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
 // TODO: todoMark
-        if(zoomVariables != null) {
-            todoMarkOldZoom = zoomVariables.currentZoom;
-        }
         if(todoMarkImg == null && zoomVariables != null) {
-// TODO: todoMark
-//            try {
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-// TODO: todoMark
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ... Just change paint to paintComponent
             todoMarkImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
             int w = this.getWidth();
@@ -1600,24 +1538,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
             Graphics2D g = bi.createGraphics();
             this.todoMarkMethod(g);
             g.dispose();
-
-
-            File f = new File("blablablaVymazMe.png");
-            if(!f.exists()) {
-//                final float FACTOR  = 1f;
-//                int scaleX = (int) (todoMarkImg.getWidth(this) * FACTOR);
-//                int scaleY = (int) (todoMarkImg.getHeight(this) * FACTOR);
-//                BufferedImage bi = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
-//                bi.getGraphics().drawImage(todoMarkImg, 0, 0 , this);
-//                ProgramTest.debugPrint("ENDING", this.getVisibleRect().width, this.getVisibleRect().height, scaleX, scaleY);
-                try {
-                    ImageIO.write(bi, "png", f);
-                } catch (IOException e) {
-                    System.exit(1111);
-                    e.printStackTrace();
-                }
-            }
-
             todoMarkImg = bi;
         }
 // TODO: todoMark

@@ -4569,13 +4569,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     @Override
     public void paintComponent(Graphics g) {
-        // TODO: todoMark
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        // TODO: todoMark
+        // TODO: DEBUG
+        // TODO: todoMark - DEBUG
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        // TODO: todoMark - DEBUG
+        // TODO: DEBUG
         super.paintComponent(g);
         if(canZoom) {
             canPoll = true;
@@ -6083,9 +6085,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
         return visibleHeighth;
     }
-
-
-
 
 
     @Override

@@ -585,7 +585,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             ProgramTest.debugPrint("Else (mark):", getWaveWidth());
             // TODO: DEBUG
             // TODO: todoMark zakomentovany - nepomůže
-//            zoomBridgeImg = null;
+            zoomBridgeImg = null;
             // TODO: todoMark zakomentovany - nepomůže
         }
 
@@ -1567,7 +1567,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
     public void saveZoomBridgeImg() {
         // TODO: todoMark - zakomentovany
-        if(/*zoomBridgeImg == null && */zoomVariables != null) {
+        if(zoomBridgeImg == null && zoomVariables != null) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method
             zoomBridgeImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);

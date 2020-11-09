@@ -545,7 +545,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
+        /*if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
             // TODO: DEBUG
             ProgramTest.debugPrint("Both (mark):", getWaveWidth());
             // TODO: DEBUG
@@ -562,7 +562,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            zoomBridgeImg = null;
             // TODO: todoMark zakomentovany - nepomůže
         }
-        else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
+        else */if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
             // TODO: DEBUG
             ProgramTest.debugPrint("Just is zooming (mark):", wholeWavePanel.getTheZoomingStarted(),
                     wholeWavePanel.getTodoMarkIsZooming(), getWaveWidth());
@@ -570,6 +570,10 @@ public class AudioWavePanelOnlyWave extends JPanel {
             super.paintComponent(g);
             if (zoomBridgeImg != null) {
                 g.drawImage(zoomBridgeImg, 0, 0, this);
+            }
+
+            if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
+                wholeWavePanel.resetTodoMark();
             }
             return;
         }
@@ -1579,6 +1583,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
+        saveZoomBridgeImg();
         visibleWidthChangedCallback();
         int oldZoom = zoomVariables.currentZoom;
         zoomVariables.currentZoom = newZoom;

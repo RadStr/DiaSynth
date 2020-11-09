@@ -3,7 +3,6 @@ package RocnikovyProjektIFace;
 import RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage.AudioWavePanelOnlyWavePopupMenu;
 import Rocnikovy_Projekt.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -526,29 +525,48 @@ public class AudioWavePanelOnlyWave extends JPanel {
     }
 
 
-
-
-
-    private Image todoMarkImg = null;
+    /**
+     * This image is used, because when we are zooming, we first make the scroll size larger (or smaller if unzooming)
+     * and then we shift the scroll to correct positions, but these steps are done separately due to events fired by java.
+     * Which is problem, because for example when we zoom, we double the size, but we will have the scroll at the same position,
+     * we will shift it in the next step, so now it shows incorrect wave. (That wasn't the main problem, the main
+     * problem was that the marking of wave flickered because of that and that was very disturbing for user.)
+     * We had to fix that, we had fix the bridge between the steps,
+     * so we choose this solution, which is when zooming save the image of the wave and show it until the zooming is done,
+     * then we will draw the wave as we usually do (drawing the samples based on the underlying array).
+     * The other solution would be to block the first event of resizing scroll and then just do the shifting and after
+     * that we will show the correct wave, but that may introduce unexpected problems, which I don't currently have time to
+     * solve. I may do it later though. (TODO).
+     *
+     */
+    private Image zoomBridgeImg = null;
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
-            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
+            // TODO: DEBUG
             wholeWavePanel.resetTodoMark();
-            todoMarkImg = null;
-        } else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
-            ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
-            if (todoMarkImg != null) {
-                g.drawImage(todoMarkImg, 0, 0, this);
+            zoomBridgeImg = null;
+        }
+        else if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Just is zooming (mark):", getWaveWidth());
+            // TODO: DEBUG
+            if (zoomBridgeImg != null) {
+                g.drawImage(zoomBridgeImg, 0, 0, this);
             }
             return;
-        } else {
+        }
+        else {
             wholeWavePanel.resetTodoMark();
-            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
-            todoMarkImg = null;
+            // TODO: DEBUG
+//            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
+            // TODO: DEBUG
+            zoomBridgeImg = null;
         }
 
         todoMarkMethod(g);
@@ -1528,19 +1546,18 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
-// TODO: todoMark
-        if(todoMarkImg == null && zoomVariables != null) {
-            // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ... Just change paint to paintComponent
-            todoMarkImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
+        if(zoomBridgeImg == null && zoomVariables != null) {
+            // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
+            // Just changed paint method to our internal paint method
+            zoomBridgeImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
             int w = this.getWidth();
             int h = this.getHeight();
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = bi.createGraphics();
             this.todoMarkMethod(g);
             g.dispose();
-            todoMarkImg = bi;
+            zoomBridgeImg = bi;
         }
-// TODO: todoMark
 
 
         visibleWidthChangedCallback();

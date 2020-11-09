@@ -5820,6 +5820,12 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                     }
                 }
             }
+            else {
+                if(zoomVariables.getIsZoomAtZero()) {
+                    enableZooming();
+                    return;
+                }
+            }
 
             waveScroller.setOldScrollbarValue(waveScroller.getCurrentHorizontalScroll());
             setOldWaveVisibleWidth();

@@ -535,6 +535,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
         if (todoMarkCount < Integer.MAX_VALUE) {
             todoMarkCount++;
+
             if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
                 ProgramTest.debugPrint("Both (mark):", getWaveWidth());
                 wholeWavePanel.resetTodoMark();

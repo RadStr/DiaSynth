@@ -22,6 +22,8 @@ import java.io.*;
 public class WaveShaper extends UnaryOperator {
     public WaveShaper(Unit u) {
         super(u);
+        WaveShaper ws = (WaveShaper)u;
+        setFunctionWrapper(ws.functionWrapper.function);
     }
     public WaveShaper(JPanelWithMovableJPanels panelWithUnits) {
         super(panelWithUnits);

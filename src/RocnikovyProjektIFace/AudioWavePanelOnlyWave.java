@@ -1559,7 +1559,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
-        saveZoomBridgeImg();
         visibleWidthChangedCallback();
         int oldZoom = zoomVariables.currentZoom;
         zoomVariables.currentZoom = newZoom;

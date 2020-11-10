@@ -5828,6 +5828,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 }
             }
 
+            // Save images for all waves to bridge the zoom, to understand this problem check javadocs at zoomBridgeImg variable
+            for(AudioWavePanelEverything w : waves) {
+                w.saveZoomBridgeImg();
+            }
+
 
             waveScroller.setOldScrollbarValue(waveScroller.getCurrentHorizontalScroll());
             setOldWaveVisibleWidth();

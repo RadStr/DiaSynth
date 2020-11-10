@@ -52,7 +52,6 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 // TODO: Tohle jmeno je dost osklivy
 public class AudioPlayerPanelIFaceImplementation extends JPanel implements MouseListener,
@@ -5829,11 +5828,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 }
             }
 
-            // TODO: todoZoom
-//            for(AudioWavePanelEverything wave : waves) {
-//                wave.saveZoomBridgeImg();
-//            }
-            // TODO: todoZoom
 
             waveScroller.setOldScrollbarValue(waveScroller.getCurrentHorizontalScroll());
             setOldWaveVisibleWidth();
@@ -5875,7 +5869,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
             this.revalidate();
             this.repaint();
-            todoMarkIsZooming = true;
 
             //horizontalBarAdjustmentListener.setShouldNotifyWaves(false);
             //waveScroller.getHorizontalScrollBar().setValue(waveScroller.getHorizontalScrollBar().getMaximum());
@@ -5895,13 +5888,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        this.repaint();
     }
 
-    public boolean todoMarkIsZooming = false;
-
-    public boolean getTodoMarkIsComponentResizing() {
-        return waveScroller.todoMarkIsComponentResizing;
+    public boolean getScrollReceivedResizeEvent() {
+        return waveScroller.getScrollReceivedResizeEvent();
     }
-    public void resetTodoMarkIsComponentResizing() {
-        waveScroller.todoMarkIsComponentResizing = false;
+    public void processScrollReceivedResizeEvent() {
+        waveScroller.processScrollReceivedResizeEvent();
     }
 
 

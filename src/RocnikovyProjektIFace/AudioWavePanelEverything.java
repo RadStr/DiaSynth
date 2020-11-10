@@ -877,23 +877,15 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
 
 
 
-    public boolean getTodoMarkIsComponentResizing() {
-        return panelWithWaves.getTodoMarkIsComponentResizing();
+    public boolean getScrollReceivedResizeEvent() {
+        return panelWithWaves.getScrollReceivedResizeEvent();
     }
-    public boolean getTodoMarkIsZooming() {
-        return panelWithWaves.todoMarkIsZooming;
-    }
-    public void resetTodoMark() {
-        panelWithWaves.todoMarkIsZooming = false;
-        panelWithWaves.resetTodoMarkIsComponentResizing();
+    public void processScrollReceivedResizeEvent() {
+        panelWithWaves.processScrollReceivedResizeEvent();
     }
 
-    public boolean getTheZoomingStarted() {
+    public boolean isInProcessOfZooming() {
         return !panelWithWaves.getCanZoom();
-    }
-
-    public void saveZoomBridgeImg() {
-        wave.saveZoomBridgeImg();
     }
 
     public boolean isLastWave() {

@@ -71,7 +71,13 @@ public class WaveScroller extends JPanel {
     }
 
 
-    public boolean todoMarkIsComponentResizing = false;
+    private boolean scrollReceivedResizeEvent = false;
+    public boolean getScrollReceivedResizeEvent() {
+        return scrollReceivedResizeEvent;
+    }
+    public void processScrollReceivedResizeEvent() {
+        scrollReceivedResizeEvent = false;
+    }
 
     private ComponentListener listener = new ComponentListener() {
         private int oldWidth = Integer.MIN_VALUE;
@@ -80,7 +86,7 @@ public class WaveScroller extends JPanel {
 
         @Override
         public void componentResized(ComponentEvent e) {
-            todoMarkIsComponentResizing = true;
+            scrollReceivedResizeEvent = true;
 //                waveScroller.getHorizontalScrollBar().setValue(waveScroller.getHorizontalScrollBar().getMaximum());
             int newWidth = e.getComponent().getWidth();
             JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
@@ -110,7 +116,6 @@ public class WaveScroller extends JPanel {
 
             waveScrollCallback.enableZooming();
             waveScrollCallback.revalidateTimestamps();
-            todoMarkIsComponentResizing = true;
         }
 
         @Override

@@ -545,48 +545,25 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        /*if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
+        if (wholeWavePanel.isInProcessOfZooming()) {
             // TODO: DEBUG
-            ProgramTest.debugPrint("Both (mark):", getWaveWidth());
-            // TODO: DEBUG
-            if(wholeWavePanel.isLastWave()) {
-                wholeWavePanel.resetTodoMark();
-                super.paintComponent(g);
-                if (zoomBridgeImg != null) {
-                    g.drawImage(zoomBridgeImg, 0, 0, this);
-                }
-                return;
-            }
-//            wholeWavePanel.repaintPanelWithMultipleWaves();
-            // TODO: todoMark zakomentovany - nepomůže
-//            zoomBridgeImg = null;
-            // TODO: todoMark zakomentovany - nepomůže
-        }
-        else */if (wholeWavePanel.getTheZoomingStarted() || wholeWavePanel.getTodoMarkIsZooming()) {
-            // TODO: DEBUG
-            ProgramTest.debugPrint("Just is zooming (mark):", wholeWavePanel.getTheZoomingStarted(),
-                    wholeWavePanel.getTodoMarkIsZooming(), getWaveWidth());
+            ProgramTest.debugPrint("Just is zooming (mark):", wholeWavePanel.isInProcessOfZooming(), getWaveWidth());
             // TODO: DEBUG
             super.paintComponent(g);
             if (zoomBridgeImg != null) {
                 g.drawImage(zoomBridgeImg, 0, 0, this);
             }
 
-            if (wholeWavePanel.getTodoMarkIsComponentResizing() && wholeWavePanel.getTodoMarkIsZooming()) {
-                wholeWavePanel.resetTodoMark();
+            if (wholeWavePanel.getScrollReceivedResizeEvent()) {
+                wholeWavePanel.processScrollReceivedResizeEvent();
             }
             return;
         }
         else {
-            // TODO: todoMark zakomentovany - možná pomůže
-//            wholeWavePanel.resetTodoMark();
-            // TODO: todoMark zakomentovany - možná pomůže
             // TODO: DEBUG
             ProgramTest.debugPrint("Else (mark):", getWaveWidth());
             // TODO: DEBUG
-            // TODO: todoMark zakomentovany - nepomůže
             zoomBridgeImg = null;
-            // TODO: todoMark zakomentovany - nepomůže
         }
 
         paintComponentInternal(g);
@@ -1566,7 +1543,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     public void saveZoomBridgeImg() {
-        // TODO: todoMark - zakomentovany
         if(zoomBridgeImg == null && zoomVariables != null) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method

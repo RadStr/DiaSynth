@@ -10,11 +10,14 @@ import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.Drawing.DrawJFrame;
 import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
 import Rocnikovy_Projekt.Aggregations;
+import Rocnikovy_Projekt.DoubleWave;
+import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.*;
 
 public class WaveShaper extends UnaryOperator {
     public WaveShaper(Unit u) {
@@ -45,13 +48,17 @@ public class WaveShaper extends UnaryOperator {
     // I have separate variable, which uses its own copy of the function array. Because otherwise when the function
     // is being changed and the samples are generated at the same time, then there could be invalid values (half-written doubles)
     private volatile FunctionWithMaxAbsVal functionWrapper;
+    private void setFunctionWrapper(double[] function) {
+        functionWrapper = new FunctionWithMaxAbsVal(function);
+    }
+
     private void setFunction() {
         DrawJFrame f = (DrawJFrame)propertiesPanel;
         RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
         double[] waveShaperFunction = waveShaperPanel.getOutputValues();
         double[] newFunction = new double[waveShaperFunction.length];
         System.arraycopy(waveShaperFunction, 0, newFunction, 0, newFunction.length);
-        functionWrapper = new FunctionWithMaxAbsVal(newFunction);
+        setFunctionWrapper(newFunction);
     }
 
     @Override
@@ -140,5 +147,47 @@ public class WaveShaper extends UnaryOperator {
                 "The waveshaper operator. Uses function f: [-1, 1] -> [-1, 1] to transform input values to output values." +
                 "The function is set using GUI component" +
                 "</html>";
+    }
+
+
+
+    @Override
+    public void save(PrintWriter output) {
+        super.save(output);
+        double[] wave = functionWrapper.function;
+        String PREFIX_PATH = "resources/WaveShaper/WS_";
+        int index = 0;
+        String path = PREFIX_PATH + index;
+        while (new File(path).exists()) {
+            index++;
+            path = PREFIX_PATH + index;
+        }
+        DoubleWave.storeDoubleArray(wave, 0, wave.length, path);
+        output.println(path);
+    }
+
+    @Override
+    public void load(BufferedReader input) {
+        super.load(input);
+        try {
+            String line = input.readLine();
+            loadWaveShaperFunction(line);
+        }
+        catch (IOException e) {
+            MyLogger.logException(e);
+        }
+    }
+
+
+    private void loadWaveShaperFunction(String path) {
+        try {
+            RandomAccessFile file = new RandomAccessFile(path, "r");
+            double[] function = DoubleWave.getStoredDoubleArray(file.getChannel());
+            if (function != null) {
+                setFunctionWrapper(function);
+            }
+        } catch (IOException e) {
+            MyLogger.logException(e);
+        }
     }
 }

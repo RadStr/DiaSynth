@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import DiagramSynthPackage.Synth.WaveTables.WaveTable;
+import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
 import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
 
 import javax.swing.*;
@@ -39,6 +41,29 @@ public class WaveShaper extends DrawWrapperBase {
     public double[] getOutputValues() {
         return drawnFunctionPanel.getDrawnWave();
     }
+    /**
+     * Copies the given values in parameter to the internal array which represents the drawn wave. The arrays don't
+     * have to be the same size, it tries to preserve the shape of the given argument.
+     * @param newValues
+     */
+    public void setOutputValues(double[] newValues) {
+        double[] outArr = getOutputValues();
+        if(newValues.length < outArr.length) {
+            double newValuesJump = newValues.length / (double)outArr.length;
+            double newValuesIndex = 0;
+            for(int i = 0; i < outArr.length; i++, newValuesIndex += newValuesJump) {
+                outArr[i] = WaveTable.interpolate(outArr, newValuesIndex);
+            }
+        }
+        else if(newValues.length > outArr.length) {
+            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr, 0, 0,
+                    newValues.length, outArr.length);
+        }
+        else {
+            System.arraycopy(newValues, 0, outArr, 0, outArr.length);
+        }
+    }
+
 
     @Override
     public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {

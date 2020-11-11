@@ -24,6 +24,9 @@ public class WaveShaper extends UnaryOperator {
         super(u);
         WaveShaper ws = (WaveShaper)u;
         setFunctionWrapper(ws.functionWrapper.function);
+        DrawJFrame f = (DrawJFrame)propertiesPanel;
+        RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
+        waveShaperPanel.setOutputValues(functionWrapper.function);
     }
     public WaveShaper(JPanelWithMovableJPanels panelWithUnits) {
         super(panelWithUnits);
@@ -66,7 +69,7 @@ public class WaveShaper extends UnaryOperator {
     @Override
     protected void setPropertiesPanel() {
         // Doesn't have properties
-        propertiesPanel = (DrawJFrame)AudioPlayerPanelIFaceImplementation.
+        propertiesPanel = AudioPlayerPanelIFaceImplementation.
                 createDrawFrame(AudioPlayerPanelIFaceImplementation.DRAW_PANEL_TYPES.WAVESHAPER,
                         -1, null, null, -1, -1);
         setFunction();
@@ -187,6 +190,9 @@ public class WaveShaper extends UnaryOperator {
             double[] function = DoubleWave.getStoredDoubleArray(file.getChannel());
             if (function != null) {
                 setFunctionWrapper(function);
+                DrawJFrame f = (DrawJFrame)propertiesPanel;
+                RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
+                waveShaperPanel.setOutputValues(functionWrapper.function);
             }
         } catch (IOException e) {
             MyLogger.logException(e);

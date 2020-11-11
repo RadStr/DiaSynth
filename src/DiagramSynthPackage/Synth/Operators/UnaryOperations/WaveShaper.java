@@ -23,10 +23,7 @@ public class WaveShaper extends UnaryOperator {
     public WaveShaper(Unit u) {
         super(u);
         WaveShaper ws = (WaveShaper)u;
-        setFunctionWrapper(ws.functionWrapper.function);
-        DrawJFrame f = (DrawJFrame)propertiesPanel;
-        RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
-        waveShaperPanel.setOutputValues(functionWrapper.function);
+        setWaveShaperPanelDrawValues(ws.functionWrapper.function);
     }
     public WaveShaper(JPanelWithMovableJPanels panelWithUnits) {
         super(panelWithUnits);
@@ -188,16 +185,18 @@ public class WaveShaper extends UnaryOperator {
         try {
             RandomAccessFile file = new RandomAccessFile(path, "r");
             double[] function = DoubleWave.getStoredDoubleArray(file.getChannel());
-            if (function != null) {
-//                setFunctionWrapper(function);
-                DrawJFrame f = (DrawJFrame)propertiesPanel;
-                RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
-//                waveShaperPanel.setOutputValues(functionWrapper.function);
-                waveShaperPanel.setOutputValues(function);
-                setFunction();
-            }
+            setWaveShaperPanelDrawValues(function);
         } catch (IOException e) {
             MyLogger.logException(e);
+        }
+    }
+
+    private void setWaveShaperPanelDrawValues(double[] function) {
+        if (function != null) {
+            DrawJFrame f = (DrawJFrame)propertiesPanel;
+            RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
+            waveShaperPanel.setOutputValues(function);
+            setFunction();
         }
     }
 }

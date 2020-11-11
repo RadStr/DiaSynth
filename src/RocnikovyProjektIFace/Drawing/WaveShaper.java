@@ -3,6 +3,7 @@ package RocnikovyProjektIFace.Drawing;
 import DiagramSynthPackage.Synth.WaveTables.WaveTable;
 import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
 import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
+import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,8 +57,19 @@ public class WaveShaper extends DrawWrapperBase {
             }
         }
         else if(newValues.length > outArr.length) {
-            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr, 0, 0,
-                    newValues.length, outArr.length);
+            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+                    0, 0, newValues.length, outArr.length);
+
+            // TODO: DEBUG
+//            int index = AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+//                    0, 0, newValues.length, outArr.length);
+//            ProgramTest.debugPrint("Out index:", index, outArr.length);
+//            for(int i = 0; i < outArr.length; i++) {
+//                ProgramTest.debugPrint(i + ":", outArr[i]);
+//            }
+//
+//            System.exit(454);
+            // TODO: DEBUG
         }
         else {
             System.arraycopy(newValues, 0, outArr, 0, outArr.length);

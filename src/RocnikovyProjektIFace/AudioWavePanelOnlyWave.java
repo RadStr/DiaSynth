@@ -1324,13 +1324,15 @@ public class AudioWavePanelOnlyWave extends JPanel {
             modulo = inputValsPerOutputVals % inputValsPerOutputValsInt;
         }
 
-
+        // TODO: DEBUG
         boolean isFirstDebug = true;
+        // TODO: DEBUG
 
         double avg = 0;
         int outInd = outputStartIndex;
         final int endIndex = startIndex + inputLen;
         for (int i = startIndex, imod = 0; i < endIndex; i++) {
+            // TODO: DEBUG
             if(values[i] != 0 && isFirstDebug) {
                 int moduloCountNeededFor1 = 0;
                 for(double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo);
@@ -1339,11 +1341,12 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
                 isFirstDebug = false;
             }
+            // TODO: DEBUG
 
             if (power == -1 || power == -2) {       // the number is final, so compiler should optimize the branching out
                 if (imod >= (int)currentInputValsPerOutputVals) {
                     imod = 0;
-                    averages[outInd] = getAvg(avg, currentInputValsPerOutputVals);
+                    averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
                     outInd++;
                     avg = 0;
 
@@ -1361,7 +1364,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             }
             else {      // It is integer and power of 2
                 if(i != startIndex && i % ((int)currentInputValsPerOutputVals) == 0) {
-                    averages[outInd] = getAvg(avg, currentInputValsPerOutputVals);
+                    averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
                     outInd++;
                     avg = 0;
 // TODO: DEBUG
@@ -1373,15 +1376,16 @@ public class AudioWavePanelOnlyWave extends JPanel {
             avg += values[i];
         }
         if(outInd < outputStartIndex + outputLen) {
-            averages[outInd] = avg;
+            averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
             outInd++;
         }
+
 
         return outInd;
     }
 
-    public static double getAvg(double number, double count) {
-        return number / ((int)count);
+    public static double calculateAvg(double number, int count) {
+        return number / count;
     }
 
 
@@ -3030,4 +3034,3 @@ public class AudioWavePanelOnlyWave extends JPanel {
 // TODO: VYMAZAT
 
 }
-

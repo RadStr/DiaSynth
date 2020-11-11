@@ -52,7 +52,7 @@ public class WaveShaper extends DrawWrapperBase {
             double newValuesJump = newValues.length / (double)outArr.length;
             double newValuesIndex = 0;
             for(int i = 0; i < outArr.length; i++, newValuesIndex += newValuesJump) {
-                outArr[i] = WaveTable.interpolate(outArr, newValuesIndex);
+                outArr[i] = WaveTable.interpolate(newValues, newValuesIndex);
             }
         }
         else if(newValues.length > outArr.length) {

@@ -189,10 +189,12 @@ public class WaveShaper extends UnaryOperator {
             RandomAccessFile file = new RandomAccessFile(path, "r");
             double[] function = DoubleWave.getStoredDoubleArray(file.getChannel());
             if (function != null) {
-                setFunctionWrapper(function);
+//                setFunctionWrapper(function);
                 DrawJFrame f = (DrawJFrame)propertiesPanel;
                 RocnikovyProjektIFace.Drawing.WaveShaper waveShaperPanel = (RocnikovyProjektIFace.Drawing.WaveShaper)f.getDrawPanel();
-                waveShaperPanel.setOutputValues(functionWrapper.function);
+//                waveShaperPanel.setOutputValues(functionWrapper.function);
+                waveShaperPanel.setOutputValues(function);
+                setFunction();
             }
         } catch (IOException e) {
             MyLogger.logException(e);

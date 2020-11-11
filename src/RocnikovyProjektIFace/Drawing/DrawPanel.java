@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
+import DiagramSynthPackage.Synth.WaveTables.WaveTable;
+import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
@@ -196,6 +198,48 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     }
     protected void setDrawValueString(int bin, double value) {
         drawValuesStrings[bin] = String.format("%." + VALUE_PRECISION + "f", value);
+    }
+
+    /**
+     * Tries to preserve the shape of the given array, which doesn't have to be of the same size.
+     * @param newValues
+     */
+    protected void setDrawValues(double[] newValues) {
+        transferShapeToOutArr(newValues, DRAW_VALUES);
+        setDrawValuesStrings();
+    }
+
+    /**
+     * Copies the given values in parameter newValues to the outArr array. The arrays don't
+     * have to be the same size, it tries to preserve the shape of the given argument.
+     * @param newValues
+     */
+    public static void transferShapeToOutArr(double[] newValues, double[] outArr) {
+        if(newValues.length < outArr.length) {
+            double newValuesJump = newValues.length / (double)outArr.length;
+            double newValuesIndex = 0;
+            for(int i = 0; i < outArr.length; i++, newValuesIndex += newValuesJump) {
+                outArr[i] = WaveTable.interpolate(newValues, newValuesIndex);
+            }
+        }
+        else if(newValues.length > outArr.length) {
+            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+                    0, 0, newValues.length, outArr.length);
+
+            // TODO: DEBUG
+//            int index = AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+//                    0, 0, newValues.length, outArr.length);
+//            ProgramTest.debugPrint("Out index:", index, outArr.length);
+//            for(int i = 0; i < outArr.length; i++) {
+//                ProgramTest.debugPrint(i + ":", outArr[i]);
+//            }
+//
+//            System.exit(454);
+            // TODO: DEBUG
+        }
+        else {
+            System.arraycopy(newValues, 0, outArr, 0, outArr.length);
+        }
     }
 
     protected void resetValues() {

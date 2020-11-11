@@ -48,32 +48,7 @@ public class WaveShaper extends DrawWrapperBase {
      * @param newValues
      */
     public void setOutputValues(double[] newValues) {
-        double[] outArr = getOutputValues();
-        if(newValues.length < outArr.length) {
-            double newValuesJump = newValues.length / (double)outArr.length;
-            double newValuesIndex = 0;
-            for(int i = 0; i < outArr.length; i++, newValuesIndex += newValuesJump) {
-                outArr[i] = WaveTable.interpolate(newValues, newValuesIndex);
-            }
-        }
-        else if(newValues.length > outArr.length) {
-            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
-                    0, 0, newValues.length, outArr.length);
-
-            // TODO: DEBUG
-//            int index = AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
-//                    0, 0, newValues.length, outArr.length);
-//            ProgramTest.debugPrint("Out index:", index, outArr.length);
-//            for(int i = 0; i < outArr.length; i++) {
-//                ProgramTest.debugPrint(i + ":", outArr[i]);
-//            }
-//
-//            System.exit(454);
-            // TODO: DEBUG
-        }
-        else {
-            System.arraycopy(newValues, 0, outArr, 0, outArr.length);
-        }
+        drawnFunctionPanel.setDrawValues(newValues);
     }
 
 

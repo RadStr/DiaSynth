@@ -152,7 +152,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
      */
     private JScrollPane panelWithWavesEverything;
     // TODO: PROGRAMO
-    public int getPanelWithWavesHorizontalScrollSize() {
+    public int getPanelWithWavesHorizontalScrollBarSize() {
         return panelWithWavesEverything.getHorizontalScrollBar().getSize().height;
     }
     // TODO: PROGRAMO
@@ -829,7 +829,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         });
 
         GridLayout panelWithWavesLayout = new GridLayout();
-        panelWithWavesEverything = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        panelWithWavesEverything = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //panelWithWavesEverything = new PanelWithWavesJScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         panelWithWavesEverything.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_UNIT_INCREMENT);
         panelWithWavesEverything.setWheelScrollingEnabled(false);
@@ -858,11 +859,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         currGridY++;
         constraints.weightx = 0.1;
         constraints.weighty = 0.005;
+        // Pad is used just for this, because otherwise the timestamps are shown incorrectly in some cases
+        // (when added first wave, and making the panel smaller than it is)
+        constraints.ipady = 10;
         // TODO: LALA
         this.add(timestampPanel, constraints);
         // TODO: LALA
-
-
+        constraints.ipady = 0;
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;       // BOTH because else there is space with nothing at the bottom of page
@@ -931,6 +934,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        constraints.gridy = 3;
 //        waveScroller.setViewportView(splitter2);
 //        this.add(waveScroller, constraints);
+
 
         constraints.weighty = 0;
         constraints.gridy = 3;
@@ -4647,6 +4651,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             panelWithWavesEverything.revalidate();
             panelWithWavesEverything.repaint();
         }
+
+
     }
 // TODO: NOT USED ANYMORE
 //    @Override

@@ -213,21 +213,4 @@ public class TimestampsPanel extends JPanel {
 //            ratioOfRemainingTimeToJump + "\t" + lastX + "\t" + audioPlayerPanel.getWaveEndX());
 // TODO: DEBUG
     }
-
-
-    // We have to take in consideration the size of the scroll
-    @Override
-    public Dimension getPreferredSize() {
-        Dimension prefSize = super.getPreferredSize();
-        // I have to do this. Because when resizing width of the player, the waves suddenly move up and so the timestamps
-        // suddenly don't have enough space and aren't correctly drawn. I guess that it is because the buttons don't have enough space
-        // So they ignore this preferred size and when they have enough width to satisfy the preferred sizes of buttons,
-        // The panel takes into consideration this preferred size and moves the waves up. Before that it ignores this preferred size.
-        prefSize.height += audioPlayerPanel.getPanelWithWavesHorizontalScrollSize() + 8;
-        // TODO: PROGRAMO
-        // Another problem when I move the volume there is crackling
-        // Also make some simple sample smoothing - if there is some operation - then there may be sample skip at the start and end of the changed part
-        // TODO: PROGRAMO
-        return prefSize;
-    }
 }

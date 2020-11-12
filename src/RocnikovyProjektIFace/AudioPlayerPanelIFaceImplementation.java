@@ -186,6 +186,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     private void postDeletionAction() {
         updateWavesForMixing();
+        audioThread.reset();
     }
 
     // TODO: PROGRAMO - NEJSEM SI UPLNE JISTEJ JESTLI TO SKUTECNE VSECHNO VYCISTI - MUZE MI TAM ZUSTAT REFERENCE TAKZE SE
@@ -313,10 +314,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             int waveLen = wave.getSongLength();
             int oldWavesLen = waves.get(0).getSongLen();
 
-            if(waveLen < oldWavesLen) {      // Make the wave longer
+            if(waveLen < oldWavesLen) {         // Make the wave longer
                 wave.setSong(oldWavesLen);
             }
-            else if(waveLen > oldWavesLen) {                      // Make all other waves longer
+            else if(waveLen > oldWavesLen) {    // Make all other waves longer
                 alignAllWavesToLen(waveLen);
             }
         }

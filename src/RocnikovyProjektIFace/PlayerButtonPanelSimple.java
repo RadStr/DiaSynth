@@ -28,7 +28,10 @@ public class PlayerButtonPanelSimple extends JPanel {
 //        insideControlPanel.setLayout(new BoxLayout(insideControlPanel, BoxLayout.LINE_AXIS));
         // TODO: PROGAMO
         buttons = new JButton[2];
-        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseButton.png"));
+        // TODO: Don't know which one is better
+        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButtonTrans.png"), (resourcesDir + "PauseButtonTrans.png"));
+//        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButton2Trans.png"), (resourcesDir + "PauseButtonTrans.png"));
+        // TODO: Don't know which one is better
 
         playButton.addActionListener(playButtonActionListener);
 
@@ -36,7 +39,7 @@ public class PlayerButtonPanelSimple extends JPanel {
         buttons[0] = playButton;
         playButton.setToolTipText("Play/Pause button");
 
-        muteButton = new BooleanButtonWithImages(false, (resourcesDir + "soundIconOff.png"), (resourcesDir + "soundIconOn.png"));
+        muteButton = new BooleanButtonWithImages(false, (resourcesDir + "soundIconOffTrans.png"), (resourcesDir + "soundIconOnTrans.png"));
         buttons[1] = muteButton;
         muteButton.setToolTipText("Mute button");
         muteButton.addActionListener((e) -> soundControlGetter.getMuteControl().setValue(muteButton.getBoolVar()));

@@ -76,7 +76,8 @@ public class AudioPlayer extends JPanel {
         buttonPanel = new JPanel(new FlowLayout());
         buttons = new JButton[2];
 //        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseButton.png"));
-        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseLargerButton.png"));
+//        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButton.png"), (resourcesDir + "PauseLargerButton.png"));
+        playButton = new BooleanButtonWithImages(false, (resourcesDir + "PlayButtonTrans.png"), (resourcesDir + "PauseLargerButton.png"));
         buttons[0] = playButton;
 
         muteButton = new BooleanButtonWithImages(false, (resourcesDir + "soundIconOff.png"), (resourcesDir + "soundIconOn.png"));

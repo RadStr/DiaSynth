@@ -28,7 +28,7 @@ public class ZoomGUI extends JPanel {
         File file = null;
         Image img;
         try {
-            file = new File(resourcesDir + "Plus.png");
+            file = new File(resourcesDir + "PlusTrans.png");
             img = ImageIO.read(file);
             // The sizes have to be artificial, since for some reason when it is set to the preferred size,
             // it doesn't fill the whole free space of button and also the button gets larger.
@@ -36,7 +36,7 @@ public class ZoomGUI extends JPanel {
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
             zoomButton.setIcon(new ImageIcon(img));
 
-            file = new File(resourcesDir + "Minus.png");
+            file = new File(resourcesDir + "MinusTrans.png");
             img = ImageIO.read(file);
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
             unzoomButton.setIcon(new ImageIcon(img));

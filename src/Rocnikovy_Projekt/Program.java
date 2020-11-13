@@ -6462,19 +6462,24 @@ public class Program {
     // TODO: !!! Not sure if I should work with ints or doubles when multiplying with coeffecients - for example
     // for example in doubles 2/3 + 2/3 = 4/3 which will be converted to 1. But when working with ints it is 0+0=0
     /**
-     * Performs non-recursive filter, result is returned in new array. Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
+     * Performs non-recursive filter on input array, result is returned in output array (Input and output array can be the same).
+     * Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
      * <br>
      * y[n] = coef[0] * x[n - coef.length + 1] + ... + coef[coef.length] x[n]
      * @param samples is the input array. It isn't changed.
      * @param coef are the coefficients for the input samples. The last index contains index for the currently computed output. The first index is the (coef.length+1)-th before the current sample.
      * @param numberOfChannels represents the number of channels
      * @param retArr is he array which will contain the result of filter.
+     * @param retArrStartIndex is the start index in the output array (retArr) - inclusive
+     * @param retArrEndIndex is the end index in the output array (retArr) - exclusive
      * @return Returns -1 if the output array was shorter than length of coefs array else returns 1.
      * Returns -2 if the input array isn't long enough. If 1 is returned the result of filter is in retArr. Else the retArr isn't changed in any way.
      */
+    // Implementation note: since retArrEndIndex is exclusive,
+    // we need to use retArrEndIndex - 1 when we are referring to valid indices
     public static int performNonRecursiveFilter(double[] samples, int samplesStartIndex,
                                                 double[] coef, int numberOfChannels,
-                                                double[] retArr, int retArrStartIndex, int retArrEndIndex) {
+                                                double[] retArr, int retArrStartIndex, final int retArrEndIndex) {
         int bufferLen = 4096;
         bufferLen = Math.max(bufferLen, Program.getFirstPowerOfNAfterNumber(coef.length, 2));
         int indexToStopCopyFrom = bufferLen;
@@ -6489,7 +6494,6 @@ public class Program {
         // It's for optimization because we need to check if there are the preceding samples.
         startingCoefInd = samplesStartIndex + -indexCountToWaitWithForNextIteration * numberOfChannels;        // +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
         int resInd = retArrStartIndex;
-        int coefInd = 0;
 
         if (retArrStartIndex + numberOfChannels * coef.length >= retArrEndIndex) {
             return -1;
@@ -6500,7 +6504,8 @@ public class Program {
         }
 
         resetTwoDimArr(vals, 0, vals[0].length);
-        for (int i = 0; i < vals[0].length; i++, startingCoefInd += numberOfChannels, coefInd++) {
+        for (int i = 0, coefInd = 0; i < vals[0].length;
+             i++, startingCoefInd += numberOfChannels, coefInd++) {
             index = startingCoefInd;
             if (coefInd >= indexCountToWaitWithForNextIteration) {
                 break;
@@ -6517,11 +6522,13 @@ public class Program {
         }
         // Now we just perform do filtering for the rest, we don't need to check for the preceding elements anymore.
         int firstInvalidIndexInChannel = -1;
-        for (; resInd < retArrEndIndex; ) {
-             int virtualResInd = resInd + indexCountToWaitWithForNextIteration * vals.length;
-            //int virtualResInd = resInd;
-            for (int i = indexCountToWaitWithForNextIteration; i < vals[0].length; i++, startingCoefInd += numberOfChannels, virtualResInd += numberOfChannels) {
-                if (virtualResInd >= retArrEndIndex) {
+        for ( ; resInd < retArrEndIndex - 1; ) {
+            // This represents the current result index (where we are in the out array currently)
+            int virtualResInd = resInd + indexCountToWaitWithForNextIteration * vals.length;
+
+            for (int i = indexCountToWaitWithForNextIteration; i < vals[0].length;
+                 i++, startingCoefInd += numberOfChannels, virtualResInd += numberOfChannels) {
+                if (virtualResInd >= retArrEndIndex - 1) {
                     firstInvalidIndexInChannel = i;
                     break;
                 }
@@ -6542,6 +6549,7 @@ public class Program {
 
         return 1;
     }
+
 
     private static int setRetArrInLowPassFilter(int resInd, int firstInvalidIndexInChannel, double[][] vals,
                                                 int endIndex, double[] retArr) {

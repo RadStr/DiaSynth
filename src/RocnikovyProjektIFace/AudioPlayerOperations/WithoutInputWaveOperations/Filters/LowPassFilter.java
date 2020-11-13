@@ -8,7 +8,7 @@ import Rocnikovy_Projekt.Program;
 public class LowPassFilter implements WithoutInputWavePluginIFace {
     @PluginParametersAnnotation(lowerBound = "0", defaultValue = "400", parameterTooltip = "Cut-off frequency")
     private double cutoffFreq;
-    @PluginParametersAnnotation(lowerBound = "32", defaultValue = "32", parameterTooltip = "Represents the number of " +
+    @PluginParametersAnnotation(lowerBound = "2", defaultValue = "32", parameterTooltip = "Represents the number of " +
             "the coefficients used for filtering " +
             "(How many last samples should be used for calculating the current one in the filter). U" +
             "sually the more the better filter. Just use some low powers of 2 - like 32, 64 , ...")

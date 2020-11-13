@@ -441,12 +441,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 
     /**
+     * This method performs "zoom" for all waves, but the zoom is from the current zoom to the current zoom.
      * This method is usually called to upgrade all the waves. Because in certain situations, for example when removing
      * part of waves, there is no switch between the individual and aggregate wave visualisation.
      */
     public void fakeZoomUpdate() {
         for(AudioWavePanelEverything w : waves) {
-            w.updateZoom(0, 0, false, false);
+            w.updateZoom(getCurrentZoom(), getCurrentZoom(), false, false);
         }
     }
 
@@ -3390,11 +3391,25 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     private void postProcessingAfterChangingWaveLength() {
         shouldMarkPart = false;
-        fakeZoomUpdate();
-        revalidate();
-        repaint();
+        scrollToStart();
         audioThread.changedWaveSizes();
     }
+
+    private void scrollToStart() {
+        // What we do is first move the scroll to start so there won't be any issue with invalid scroll location and
+        // then fake the zoom to fix size inconsistencies.
+
+        // Otherwise there will be issue with the drawing of wave,
+        // it will be drawn twice, but even after this, it will still be drawn incorrectly (the wave will be moved to right)
+        waveScroller.scrollToStart();
+
+        // To fix the wave being moved to right
+        fakeZoomUpdate();
+
+        revalidate();
+        repaint();
+    }
+
 
     private void deleteMarkedPart() {
         if(shouldMarkPart) {
@@ -5809,10 +5824,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         setCurrentZoom(maxAllowedZoom);
     }
 
+    /**
+     * Doesn't do anything for zoomChange == 0
+     */
     @Override
     public void updateZoom(int zoomChange) {
         System.out.println("Can zoom: " + getCanZoom());
-        if(getCanZoom() && !waveScroller.getIsScrollbarBeingUsed() && waves.size() != 0) {
+        if(zoomChange != 0 && getCanZoom() && !waveScroller.getIsScrollbarBeingUsed() && waves.size() != 0) {
             disableZooming();
             setMaxAllowedZoom();
             if(zoomChange > 0) {     // When zooming, we need to check if we are zooming too much
@@ -5823,7 +5841,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 else {
                     int newZoom = zoomVariables.zoom + zoomChange;
                     if(newZoom > zoomVariables.getMaxAllowedZoom()) {
-                        int zoomDif = zoomVariables.getMaxAllowedZoom() - newZoom;
+                        int zoomDif = newZoom - zoomVariables.getMaxAllowedZoom();
                         zoomChange -= zoomDif;
                     }
                 }
@@ -5832,6 +5850,12 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 if(zoomVariables.getIsZoomAtZero()) {
                     enableZooming();
                     return;
+                }
+                else {
+                    int newZoom = zoomVariables.zoom + zoomChange;
+                    if(newZoom < 0) {
+                        zoomChange -= newZoom;
+                    }
                 }
             }
 

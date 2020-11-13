@@ -153,9 +153,14 @@ public class WaveScroller extends JPanel {
     }
 
 
+
     private final JScrollPane waveScroller;
     public JScrollPane getTheRealWaveScroller() {
         return waveScroller;
+    }
+    public void scrollToStart() {
+        JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
+        scrollBar.setValue(0);
     }
 
     public int getCurrentHorizontalScroll() {

@@ -1547,10 +1547,13 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
 
     public void saveZoomBridgeImg() {
-        if(zoomBridgeImg == null && zoomVariables != null) {
+        Rectangle visibleRect = this.getVisibleRect();
+        // When there is no bridge img already, we aren't initializing and when the wave is visible (we don't need to scroll to find it),
+        // then save bridge picture
+        if(zoomBridgeImg == null && zoomVariables != null && visibleRect.width > 0 && visibleRect.height > 0) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method
-            zoomBridgeImg = this.createImage(this.getVisibleRect().width, this.getVisibleRect().height);
+            zoomBridgeImg = this.createImage(visibleRect.width, visibleRect.height);
             int w = this.getWidth();
             int h = this.getHeight();
             BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);

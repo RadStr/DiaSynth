@@ -48,8 +48,49 @@ public class Reciprocical extends UnaryOperator {
         return "Returns 1 / input";
     }
 
+
+    public static final double MIN_ALLOWED_VAL_FOR_POINT_TWO = 0.01;
+    private double minAllowedVal = MIN_ALLOWED_VAL_FOR_POINT_TWO;
+    @Override
+    public void calculateSamples() {
+        minAllowedVal = MIN_ALLOWED_VAL_FOR_POINT_TWO * inputPorts[0].getMaxAbsValue() / 0.2;
+        super.calculateSamples();
+    }
+
     @Override
     public double unaryOperation(double val) {
+        if(val > -minAllowedVal && val < minAllowedVal) {
+            if(val < 0) {
+                val = -minAllowedVal;
+            }
+            else {
+                val = minAllowedVal;
+            }
+        }
+
+        // Alternative variant, but I think that the other one is generally faster,
+        // since usually very small number of elements passes the first condition
+//        if(val > -minAllowedVal) {
+//            if(val < 0) {
+//                val = -minAllowedVal;
+//            }
+//            else if(val < minAllowedVal) {
+//                val = minAllowedVal;
+//            }
+//        }
+
+        // TODO: DEBUG
+//        ProgramTest.debugPrint("Generated value:", val, 1 / val);
+        // TODO: DEBUG
         return 1 / val;
+    }
+
+    @Override
+    public double getMaxAbsValue() {
+        // TODO: DEBUG
+//        ProgramTest.debugPrint("Max:", inputPorts[0].getMaxAbsValue(),
+//                minAllowedVal, inputPorts[0].getMaxAbsValue() / minAllowedVal, 1 / minAllowedVal);
+        // TODO: DEBUG
+        return 1 / minAllowedVal;
     }
 }

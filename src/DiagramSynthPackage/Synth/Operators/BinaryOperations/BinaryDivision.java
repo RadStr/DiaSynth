@@ -4,8 +4,8 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.DivisionInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import DiagramSynthPackage.Synth.Operators.UnaryOperations.Reciprocical;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.ProgramTest;
 
 public class BinaryDivision extends BinaryOperator {
     public BinaryDivision(Unit u) {
@@ -47,10 +47,33 @@ public class BinaryDivision extends BinaryOperator {
         return "BinaryDivision";
     }
 
+    private double minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_POINT_TWO;
+    @Override
+    public void calculateSamples() {
+        minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_POINT_TWO * inputPorts[1].getMaxAbsValue() / 0.2;
+        super.calculateSamples();
+    }
+
+
     @Override
     public double binaryOperation(double a, double b) {
+        if(b > -minAllowedVal && b < minAllowedVal) {
+            if(b < 0) {
+                b = -minAllowedVal;
+            }
+            else {
+                b = minAllowedVal;
+            }
+        }
+
         return a / b;
     }
+
+    @Override
+    public double getMaxAbsValue() {
+        return binaryOperation(inputPorts[0].getMaxAbsValue(), minAllowedVal);
+    }
+
 
     @Override
     public String getTooltip() {

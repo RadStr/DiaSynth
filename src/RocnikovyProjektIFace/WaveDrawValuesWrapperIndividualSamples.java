@@ -141,15 +141,24 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
 //    }
 
 
+    // TODO: DEBUG
     private final double tolerance = 0.1;
 
     private int total = 0;
+    // TODO: DEBUG
 
     public void updatePixelMovement(int update) {
         total += update;
 
 //        ProgramTest.debugPrint("updatePixelMovement", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
+
         leftPixel += update;
+        // Because java does some resizing for the scroll by 1 pixel so sometimes the value of leftPixel goes to -1,
+        // which makes the the samples moved 1 pixel to right - the 0th sample starts where should be the 1st one, which
+        // would be fine if didn't have the tooltips, which are then 1 sample off.
+        if(leftPixel < 0) {
+            leftPixel = 0;
+        }
 
         double oldFirstSamplePixel = firstSamplePixel;
         setFirstSamplePixel();

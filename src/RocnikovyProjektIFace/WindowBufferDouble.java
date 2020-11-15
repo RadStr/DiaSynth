@@ -2,7 +2,6 @@ package RocnikovyProjektIFace;
 
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
-import com.sun.istack.internal.NotNull;
 
 /**
  * Immutable object, basically what it does, in constructor is created buffer, and we move in it by changing
@@ -523,7 +522,7 @@ public class WindowBufferDouble {
         return buffer.length - shift;
     }
 
-    public void setRange(@NotNull Range range) {
+    public void setRange(Range range) {
         range.start = getStartIndex();
         range.end = getEndIndex();
     }

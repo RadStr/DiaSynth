@@ -5,6 +5,7 @@
     <property name="build.dir"   value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
+	<property name="jar.file"     value="${jar.dir}/${ant.project.name}.jar"/>
 	
 	<property name="resources.dir"     value="resources"/>
 	<property name="images.dir"     value="${resources.dir}/images"/>
@@ -16,6 +17,14 @@
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
     </path>
+	
+	<!-- 
+	Solving the issue of libraries for the jar - we have to add it to manifest.
+	https://stackoverflow.com/questions/1949738/how-can-include-multiple-jars-in-the-classpath-using-ant 
+	-->
+	<manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
+		<classpath refid="classpath"/>
+	</manifestclasspath>
     
 
     <target name="clean">
@@ -30,22 +39,34 @@
     <target name="run" depends="jar">
         <java fork="true" classname="${main-class}">
             <classpath>
-                <path refid="classpath"/>
-                <path location="${jar.dir}/${ant.project.name}.jar"/>
+				<path refid="classpath"/>
+                <path location="${jar.file}"/>
             </classpath>
         </java>
     </target>
 
     <target name="jar" depends="compile">
         <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+        <jar destfile="${jar.file}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
             </manifest>
+			<!-- 
+				When we want to include the images and libraries inside the jar.
+			     The libraries don't really make sense, since based on 
+				 https://stackoverflow.com/questions/183292/classpath-including-jar-within-a-jar
+				 you can't add the inside of jar to classpath, unless you code your own
+				 classloader or use some project which does it for you (like One-Jar).
+				 The images could be inside the jar, I will maybe change it in future.
+				 Altough I might distrib
+			
 			<zipfileset dir="${images.dir}" prefix="${images.dir}" />
+			<zipfileset dir="${lib.dir}" prefix="${lib.dir}" />
+			-->
         </jar>
     </target>
-
+	
 
     
 

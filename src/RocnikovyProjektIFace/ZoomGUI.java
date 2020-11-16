@@ -1,6 +1,7 @@
 package RocnikovyProjektIFace;
 
 import DebugPackage.DEBUG_CLASS;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 
@@ -22,22 +23,37 @@ public class ZoomGUI extends JPanel {
         enableZoomButton();
         this.add(zoomButton);
 
-        // TODO: make the path relative
-        String resourcesDir = "resources/images/";
 
+        String resourcesDir = "resources/images/";
         File file = null;
         Image img;
         try {
-            file = new File(resourcesDir + "PlusTrans.png");
-            img = ImageIO.read(file);
+            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+                // Using the variant with getResource(), getResourceAsStream() returns null
+                // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
+                img = ImageIO.read(getClass().getResource("/" + resourcesDir + "PlusTrans.png"));
+            }
+            else {
+                file = new File(resourcesDir + "PlusTrans.png");
+                img = ImageIO.read(file);
+            }
+
             // The sizes have to be artificial, since for some reason when it is set to the preferred size,
             // it doesn't fill the whole free space of button and also the button gets larger.
             // So I can't call it component listener with the preferred size, which is listening for resizing events.
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
             zoomButton.setIcon(new ImageIcon(img));
 
-            file = new File(resourcesDir + "MinusTrans.png");
-            img = ImageIO.read(file);
+            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+                // Using the variant with getResource(), getResourceAsStream() returns null
+                // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
+                img = ImageIO.read(getClass().getResource("/" + resourcesDir + "MinusTrans.png"));
+            }
+            else {
+                file = new File(resourcesDir + "MinusTrans.png");
+                img = ImageIO.read(file);
+            }
+
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
             unzoomButton.setIcon(new ImageIcon(img));
         } catch (Exception ex) {

@@ -1,6 +1,7 @@
 package RocnikovyProjektIFace;
 
 import DebugPackage.DEBUG_CLASS;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButtonWithImages;
 
@@ -28,9 +29,16 @@ public class PlayerButtonPanelSimple extends JPanel {
 //        insideControlPanel.setLayout(new BoxLayout(insideControlPanel, BoxLayout.LINE_AXIS));
         // TODO: PROGAMO
         buttons = new JButton[2];
-        // TODO: Don't know which one is better
-        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButtonTrans.png"), (resourcesDir + "PauseButtonTrans.png"));
-//        playButton = new BooleanButtonWithImages(true, (resourcesDir + "PlayButton2Trans.png"), (resourcesDir + "PauseButtonTrans.png"));
+        if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+            playButton = new BooleanButtonWithImages(true,
+                    "/" + resourcesDir + "PlayButtonTrans.png",
+                    "/" + resourcesDir + "PauseButtonTrans.png");
+        }
+        else {
+            playButton = new BooleanButtonWithImages(true,
+                    resourcesDir + "PlayButtonTrans.png",
+                    resourcesDir + "PauseButtonTrans.png");
+        }
         // TODO: Don't know which one is better
 
         playButton.addActionListener(playButtonActionListener);
@@ -39,7 +47,16 @@ public class PlayerButtonPanelSimple extends JPanel {
         buttons[0] = playButton;
         playButton.setToolTipText("Play/Pause button");
 
-        muteButton = new BooleanButtonWithImages(false, (resourcesDir + "soundIconOffTrans.png"), (resourcesDir + "soundIconOnTrans.png"));
+        if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+            muteButton = new BooleanButtonWithImages(false,
+                    "/" + resourcesDir + "soundIconOffTrans.png",
+                    "/" + resourcesDir + "soundIconOnTrans.png");
+        }
+        else {
+            muteButton = new BooleanButtonWithImages(false,
+                    resourcesDir + "soundIconOffTrans.png",
+                    resourcesDir + "soundIconOnTrans.png");
+        }
         buttons[1] = muteButton;
         muteButton.setToolTipText("Mute button");
         muteButton.addActionListener((e) -> soundControlGetter.getMuteControl().setValue(muteButton.getBoolVar()));

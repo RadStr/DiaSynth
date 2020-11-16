@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace.SpecialSwingClasses;
 
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.imageio.ImageIO;
@@ -14,7 +15,8 @@ public class BooleanButtonWithImages extends BooleanButton {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor
+     * Note for the path parameters: If we are in jar then it should be the absolute path inside the jar,
+     * if in classic file system then either relative or absolute is ok
      */
     public BooleanButtonWithImages(boolean bool, String pathToIfTrueImage, String pathToIfFalseImage) {
         this.boolVar = bool;
@@ -25,12 +27,18 @@ public class BooleanButtonWithImages extends BooleanButton {
 
     // TODO: https://stackoverflow.com/questions/21720013/cant-get-imageicon-to-display-swing
     private void setImageIcons(String pathToIfTrueImage, String pathToIfFalseImage) {
-        File imageCheckIfTrue = new File(pathToIfTrueImage);
-        File imageCheckIfFalse = new File(pathToIfFalseImage);
-
         Image img;
         try {
-            img = ImageIO.read(imageCheckIfTrue);
+            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+                // Using the variant with getResource(), getResourceAsStream() returns null
+                // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
+                img = ImageIO.read(getClass().getResource(pathToIfTrueImage));
+            }
+            else {
+                File imageCheckIfTrue = new File(pathToIfTrueImage);
+                img = ImageIO.read(imageCheckIfTrue);
+            }
+
             // The sizes have to be artificial, since for some reason when it is set to the preferred size,
             // it doesn't fill the whole free space of button and also the button gets larger.
             // So I can't call it in component listener with the preferred size, which is listening for resizing events.
@@ -41,7 +49,15 @@ public class BooleanButtonWithImages extends BooleanButton {
         }
 
         try {
-            img = ImageIO.read(imageCheckIfFalse);
+            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+                // Using the variant with getResource(), getResourceAsStream() returns null
+                // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
+                img = ImageIO.read(getClass().getResource(pathToIfFalseImage));
+            }
+            else {
+                File imageCheckIfFalse = new File(pathToIfFalseImage);
+                img = ImageIO.read(imageCheckIfFalse);
+            }
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
             ifFalseImageIcon = new ImageIcon(img);
         } catch (Exception ex) {

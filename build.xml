@@ -61,9 +61,9 @@
 				 The images could be inside the jar, I will maybe change it in future.
 				 Altough I might distrib
 			
-			<zipfileset dir="${images.dir}" prefix="${images.dir}" />
 			<zipfileset dir="${lib.dir}" prefix="${lib.dir}" />
 			-->
+			<zipfileset dir="${images.dir}" prefix="${images.dir}" />
         </jar>
     </target>
 	

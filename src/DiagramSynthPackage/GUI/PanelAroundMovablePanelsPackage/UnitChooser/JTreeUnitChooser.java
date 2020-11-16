@@ -19,9 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Stack;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -101,8 +101,8 @@ public class JTreeUnitChooser extends JTree {
         if (AudioPlayerJMenuOperationPluginIFace.isJar(Unit.class)) {
             String folderName = getStringAfterLastChar(pluginPackage, '.');
             JTreeCellTextForUnits treeCell = new JTreeCellTextForUnits(folderName);
-            String jarName = AudioPlayerJMenuOperationPluginIFace.getJarName(Unit.class);
-            return setMainTreeCellJarVersion(panelWithMovableJPanels, pluginPackage, jarName, treeCell);
+            String pathToJar = AudioPlayerJMenuOperationPluginIFace.getPathToJar(Unit.class);
+            return setMainTreeCellJarVersion(panelWithMovableJPanels, pluginPackage, pathToJar, treeCell);
         }
         else {
             String path = "src/" + pluginPackage.replace('.', '/');
@@ -197,22 +197,13 @@ public class JTreeUnitChooser extends JTree {
     }
 
 
-
-
-
-    // Modified code from:
-    // https://stackoverflow.com/questions/25449/how-to-create-a-pluginable-java-program
-    // https://alexiyorlov.github.io/tutorials/java-plugins.html
-    /**
-     *
-     * @param packageContainingPlugins is the package which contains the plugins
-     * @return
-     */
     public static JTreeCellTextForUnits setMainTreeCellJarVersion(JPanelWithMovableJPanels panelWithMovableJPanels,
-                                                        String packageContainingPlugins, String jarName,
-                                                        JTreeCellTextForUnits treeCell) {
-        // + "/" Because I want it to behave as jar directory (which ends with /)
+                                                                  String packageContainingPlugins, String pathToJar,
+                                                                  JTreeCellTextForUnits treeCell) {
+                // + "/" Because I want it to behave as jar directory (which ends with /)
         String path = packageContainingPlugins.replace('.', '/') + "/";
+        MyLogger.log("packageContainingPlugins: " + path, 0);
+        MyLogger.log("PATH TO JAR: " + pathToJar, 0);
 
         // TODO: RML
         //path = "C:/Users/Radek/eclipse-workspace/BakalarskaPrace/out/production/BakalarskaPrace/" + path;
@@ -225,7 +216,7 @@ public class JTreeUnitChooser extends JTree {
 //        MyLogger.log("Plugins path: " + pluginFolder.getAbsolutePath(), 0);
 // TODO: DEBUG
 
-        File file = new File(jarName);
+        File file = new File(pathToJar);
 // TODO: DEBUG
 //        MyLogger.log("JAR NAME: " + jarName, 0);
 //        MyLogger.log("JAR ABSOLUTE PATH: " + file.getAbsolutePath(), 0);
@@ -238,95 +229,72 @@ public class JTreeUnitChooser extends JTree {
 
             MyLogger.log("JAR PATH: " + url, 0);
 
-            // Basically the same algorithm as for non jar version, but here we can't have recursion, so we have to
-            // simulate it with stack
-            Stack<JTreeCellTextForUnits> cells = new Stack<JTreeCellTextForUnits>();
-            jarFile.stream().forEach(jarEntry -> {
-                // TODO: Podle TOHODLE TO MUSIM NĚJAK UDĚLAT
-//                if (f.isDirectory()) {
-//                    JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(f.getName());
-//                    treeCell.addChildren(newTreeCell);
-//                    setTreeCellRecursive(pattern, f, pluginPackage + "." + f.getName(),
-//                            panelWithMovableJPanels, newTreeCell);
-//                }
-//                else if (f.isFile()) {
-//                    if (f.getName().matches(pattern)) {
-//                        addChildrenToTreeCellNonJarVersion(f.getName(), pluginPackage, panelWithMovableJPanels, treeCell);
-//                    }
-//                }
 
+            Enumeration<JarEntry> entries = jarFile.entries();
+            int entryCount = 0;
+            while(entries.hasMoreElements()) {
+                entries.nextElement();
+                entryCount++;
+            }
+            boolean[] processedEntries = new boolean[entryCount];
+
+            entries = jarFile.entries();
+            while(entries.hasMoreElements()) {
+                // TODO: DEBUG
+//                MyLogger.log("NEXT ENTRY MAIN", 0);
+                // TODO: DEBUG
+                JarEntry jarEntry = entries.nextElement();
                 String jarEntryName = jarEntry.getName();
-                if(jarEntryName.startsWith(path) && jarEntryName.length() != path.length()) {
-                    MyLogger.log("PATH: " + path, 0);
-                    MyLogger.log("JAR ENTRY NAME: " + jarEntryName, 0);
-                    while(!cells.empty() && !jarEntryName.contains(cells.peek().getText())) {
-                        cells.pop();
-                    }
-
-                    if (jarEntry.isDirectory()) {
-                        jarEntryName = jarEntryName.substring(0, jarEntryName.length() - 1);    // Because there is / at the end of JAR directory
-                        jarEntryName = getStringAfterLastChar(jarEntryName, '/');
-                        JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(jarEntryName);
-                        if (cells.empty()) {
-                            treeCell.addChildren(newTreeCell);
-                        } else {
-                            cells.peek().addChildren(newTreeCell);
-                        }
-                        cells.push(newTreeCell);
-                    } else {
-                        if (jarEntryName.startsWith(path) && jarEntryName.endsWith(".class")) {
-                            if(cells.empty()) {
-                                addChildrenToTreeCellJarVersion(jarEntryName, pluginLoader, panelWithMovableJPanels, treeCell);
-                            }
-                            else {
-                                addChildrenToTreeCellJarVersion(jarEntryName, pluginLoader, panelWithMovableJPanels, cells.peek());
-                            }
-                        }
-                    }
+                if(!jarEntryName.startsWith(path) || jarEntryName.length() == path.length()) {
+                    continue;
                 }
-            });
+                setTreeCellRecursiveJar(jarEntry, jarFile, path, panelWithMovableJPanels,
+                        treeCell, pluginLoader, processedEntries);
+            }
+
         } catch (Exception e) {
             MyLogger.logException(e);
         }
 
         return treeCell;
-        // TODO: Podle TOHODLE TO MUSIM NĚJAK UDĚLAT
+    }
 
 
+    public static void setTreeCellRecursiveJar(JarEntry jarEntry, JarFile jarFile, String path,
+                                               JPanelWithMovableJPanels panelWithMovableJPanels,
+                                               JTreeCellTextForUnits treeCell, URLClassLoader pluginLoader,
+                                               boolean[] processedEntries) {
+        Enumeration<JarEntry> entries = jarFile.entries();
+        int index = -1;
+        while(entries.hasMoreElements()) {
+            JarEntry currEntry = entries.nextElement();
+            String currJarEntryName = currEntry.getName();
+            index++;
+            if( !currJarEntryName.startsWith(path) || currJarEntryName.length() == path.length() ||
+                    !currJarEntryName.startsWith(jarEntry.getName()) ) {
+                continue;
+            }
 
-// TODO: VYMAZAT
-//                String jarEntryName = jarEntry.getName();
-//// TODO: DEBUG
-////                MyLogger.log("Plugin folder (relative): " + path, 0);
-////                MyLogger.log("JAR ENTRY NAME: " + jarEntryName, 0);
-//// TODO: DEBUG
-//
-//                if (jarEntryName.startsWith(path) && jarEntryName.endsWith(".class")) {
-//                    MyLogger.log("JAR ENTRY (.class): " + jarEntry.getName(), 0);
-//                    classes.add(jarEntry.getName());
-//                }
-//            });
-//        } catch (IOException e) {
-//            MyLogger.logException(e);
-//        }
-//        URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
-//        classes.forEach(s -> {
-//            try {
-//                Class classs = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
-//                Class[] interfaces = classs.getInterfaces();
-//                for (Class anInterface : interfaces) {
-//                    if (anInterface == pluginIface) {
-//                        MyLogger.log("LOADED CLASS: " + s.replaceAll("/", ".").replace(".class", ""), 0);
-//                        addInstanceToList(classs, loadedPlugins);
-//                        break;
-//                    }
-//                }
-//            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-//                MyLogger.logException(e);
-//            }
-//        });
-//        return loadedPlugins;
-// TODO: VYMAZAT
+            // TODO: DEBUG
+//            MyLogger.log("ENTRY: " + index, 0);
+            // TODO: DEBUG
+            if(processedEntries[index]) {
+                continue;
+            }
+            processedEntries[index] = true;
+            if(currEntry.isDirectory()) {
+                currJarEntryName = currJarEntryName.substring(0, currJarEntryName.length() - 1);    // Because there is / at the end of JAR directory
+                currJarEntryName = getStringAfterLastChar(currJarEntryName, '/');
+                JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
+                treeCell.addChildren(newTreeCell);
+
+                setTreeCellRecursiveJar(currEntry, jarFile, path, panelWithMovableJPanels,
+                        newTreeCell, pluginLoader, processedEntries);
+            }
+            else {
+                addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, panelWithMovableJPanels, treeCell);
+            }
+        }
     }
 
 

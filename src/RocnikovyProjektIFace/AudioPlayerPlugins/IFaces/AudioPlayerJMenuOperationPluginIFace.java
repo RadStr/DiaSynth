@@ -48,9 +48,9 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         //if(c.getResource("").toString().startsWith("jar:")) {
         // TODO: DEBUG
         if(isJar(c)) {
-            MyLogger.log("Runs in jar", 0);
-            String jarName = getJarName(c);
-            return loadPluginsInJar(pluginIface, pluginPackage, jarName);
+            String pathToJar = getPathToJar(c);
+            MyLogger.log("Runs in jar with path: " + pathToJar, 0);
+            return loadPluginsInJar(pluginIface, pluginPackage, pathToJar);
         }
         else {
             MyLogger.log("Doesn't run in jar", 0);
@@ -59,6 +59,9 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     }
 
 
+    // The path to file in jar starts with "jar:" and after the path to the jar file, there is the path inside the
+    // jar, [note: the path to the jar file ends with !/ (or rather just !, the / marks the start of new path)]
+    // The path inside the jar is the same as in classic filesystem, so path/to/file/file.class
     /**
      *
      * @param c is the class inside the jar
@@ -78,11 +81,20 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         return c.getResource(c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class");
     }
 
+    public static String getPathToJar(Class<?> classInsideJar) {
+        String fullPath = getResourceForClass(classInsideJar).toString();
+        int jarNameExtensionStartIndex = fullPath.indexOf(".jar!/");
+        int pathStartIndex = "jar:file:".length();
+        String pathToJar = fullPath.substring(pathStartIndex, jarNameExtensionStartIndex + ".jar".length());
+        return pathToJar;
+    }
+
     public static String getJarName(Class<?> classInsideJar) {
         String jarName;
         String path = getResourceForClass(classInsideJar).toString();
-        int jarNameExtensionStartIndex = path.indexOf(".jar!");
-        path = path.substring(0, jarNameExtensionStartIndex + ".jar!".length() - 1);
+        MyLogger.log("FULL JAR PATH: " + path, 0);
+        int jarNameExtensionStartIndex = path.indexOf(".jar!/");
+        path = path.substring(0, jarNameExtensionStartIndex + ".jar".length());
         int jarNameStartIndex = path.lastIndexOf('/') + 1;
         jarName = path.substring(jarNameStartIndex);
 
@@ -149,7 +161,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
      * @param <T>
      * @return
      */
-    public static <T> List<T> loadPluginsInJar(Class<T> pluginIface, String packageContainingPlugins, String jarName) {
+    public static <T> List<T> loadPluginsInJar(Class<T> pluginIface, String packageContainingPlugins, String pathToJar) {
         String path = packageContainingPlugins.replace('.', '/');
 
         // TODO: RML
@@ -169,7 +181,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
 
         ArrayList<URL> urls = new ArrayList<>();
         ArrayList<String> classes = new ArrayList<>();
-        File file = new File(jarName);
+        File file = new File(pathToJar);
 // TODO: DEBUG
 //        MyLogger.log("JAR NAME: " + jarName, 0);
 //        MyLogger.log("JAR ABSOLUTE PATH: " + file.getAbsolutePath(), 0);

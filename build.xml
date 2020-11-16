@@ -53,14 +53,14 @@
 				<attribute name="Class-Path" value="${manifest.classpath}"/>
             </manifest>
 			<!-- 
-				When we want to include the images and libraries inside the jar.
+				Including the images and libraries inside the jar.
 			     The libraries don't really make sense, since based on 
 				 https://stackoverflow.com/questions/183292/classpath-including-jar-within-a-jar
 				 you can't add the inside of jar to classpath, unless you code your own
 				 classloader or use some project which does it for you (like One-Jar).
-				 The images could be inside the jar, I will maybe change it in future.
-				 Altough I might distrib
-			
+				 I put the images  inside the jar, but idk, maybe I will allow to read it from
+				 the resources directory outside the JAR, because then the user can
+				 easily change the images as he pleases, but it isn't really important.
 			<zipfileset dir="${lib.dir}" prefix="${lib.dir}" />
 			-->
 			<zipfileset dir="${images.dir}" prefix="${images.dir}" />

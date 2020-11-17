@@ -330,7 +330,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             wave.setNewDoubleWave(newLen);
         }
 
-        clipboard.removeWaveFromClipboard();
         audioThread.changedWaveSizes();
     }
 

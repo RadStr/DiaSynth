@@ -60,7 +60,12 @@
     <target name="run" depends="jar">
         <java fork="true" classname="${main-class}">
             <classpath>
+				<!-- 
+				This commented "classpath" line takes the libs inside the directory with build.xml, but
+				maybe it is better to refer to libs in the jar directory, which is done when
+				this line is commented.
 				<path refid="classpath"/>
+				-->
                 <path location="${jar.file}"/>
             </classpath>
         </java>
@@ -91,6 +96,8 @@
 		<!--
 		https://stackoverflow.com/questions/1685442/how-to-copy-a-directory-using-ant
 		-->
+		
+		
 		<copy todir="${jar.dir}/libs" >  
 			<fileset dir="${lib.dir}" />
 		</copy>

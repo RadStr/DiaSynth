@@ -2,6 +2,7 @@ package RocnikovyProjektIFace.Drawing;
 
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
@@ -127,18 +128,18 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         // TODO: DEBUG
 
 
-        for(int i = 0; i < fftResult.length; i++) {
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("IFFT:", i, fftResult[i]);
-            // TODO: DEBUG
-            fftResult[i] *= 2 * DRAW_VALUES.length;         // TODO: NORM
-        }
+
 
         if(setImagPartToZero) {
             Program.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
         }
         else {
             Program.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
+        }
+
+        for(int i = 0; i < fftResult.length; i++) {
+            // *2 because of the 0-th bin, otherwise *1 would be sufficient
+            fftResult[i] *= 2 * DRAW_VALUES.length;         // TODO: NORM
         }
 
 

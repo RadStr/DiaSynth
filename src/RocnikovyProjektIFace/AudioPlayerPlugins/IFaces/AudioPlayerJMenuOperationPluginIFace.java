@@ -1,20 +1,24 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
+import DiagramSynthPackage.Synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.Plugins.TestingEnumWithValue;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
 
 
 public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace {
@@ -71,6 +75,10 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         return getResourceForClass(c).toString().startsWith("jar:");
     }
 
+    public static boolean isInJar() {
+        return isJar(AudioPlayerJMenuOperationPluginIFace.class);
+    }
+
 
     /**
      *
@@ -81,6 +89,11 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         return c.getResource(c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class");
     }
 
+    /**
+     * Returns path to jar, without the jar:file: at start and without the !/ which marks end of path to jar.
+     * @param classInsideJar
+     * @return
+     */
     public static String getPathToJar(Class<?> classInsideJar) {
         String fullPath = getResourceForClass(classInsideJar).toString();
         int jarNameExtensionStartIndex = fullPath.indexOf(".jar!/");
@@ -106,7 +119,8 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     public static <T> List<T> loadPluginsNotInJar(Class<T> pluginIface, String pluginPackage) {
         List<T> list = new ArrayList<>();
         String path = pluginPackage.replace('.', '/');
-        path = "src/" + path;
+        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+        path = classFilesDir + "/" + path;
         // Find all the candidates for plugins
         final File folder = new File(path);
 
@@ -116,10 +130,10 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
 //        final File folder = new File(urlToPlugin.getPath());
         // TODO: PROGRAMO
         List<String> pluginNames = new ArrayList<>();
-        AudioPlayerJMenuOperationPluginIFace.search(".*\\.java", folder, pluginNames);
+        AudioPlayerJMenuOperationPluginIFace.search(".*\\.class", folder, pluginNames);
 
         for(String pluginName : pluginNames) {
-            pluginName = pluginName.replace(".java", "");
+            pluginName = pluginName.replace(".class", "");
             pluginName = pluginPackage + "." + pluginName;
             try {
                 Class<?> clazz = Class.forName(pluginName);
@@ -251,5 +265,11 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
             }
 
         }
+    }
+
+
+    public static File getClassFilesDirectory() {
+        // https://stackoverflow.com/questions/11747833/getting-filesystem-path-of-class-being-executed
+        return new File(Unit.class.getProtectionDomain().getCodeSource().getLocation().getPath());
     }
 }

@@ -11,6 +11,7 @@ import DiagramSynthPackage.Synth.OutputUnit;
 import DiagramSynthPackage.Synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
+import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 import java.io.File;
@@ -105,9 +106,11 @@ public class JTreeUnitChooser extends JTree {
             return setMainTreeCellJarVersion(panelWithMovableJPanels, pluginPackage, pathToJar, treeCell);
         }
         else {
-            String path = "src/" + pluginPackage.replace('.', '/');
+            final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+            String path = classFilesDir + "/" + pluginPackage.replace('.', '/');
             final File folder = new File(path);
-            return setMainTreeCellNonJarVersion(".*\\.java", folder, pluginPackage, panelWithMovableJPanels);
+            // \\ is there because * is special character in regex
+            return setMainTreeCellNonJarVersion(".*\\.class", folder, pluginPackage, panelWithMovableJPanels);
         }
     }
 
@@ -121,7 +124,7 @@ public class JTreeUnitChooser extends JTree {
     private static void addChildrenToTreeCellNonJarVersion(String pluginName, String pluginPackage,
                                                            JPanelWithMovableJPanels panelWithMovableJPanels,
                                                            JTreeCellTextForUnits treeCell) {
-        pluginName = pluginName.replace(".java", "");
+        pluginName = pluginName.replace(".class", "");
         pluginName = pluginPackage + "." + pluginName;
         try {
             Class<?> clazz = Class.forName(pluginName);

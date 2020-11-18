@@ -1,5 +1,6 @@
 package PartsConnectingGUI;
 
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.FrameWithFocusControl;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

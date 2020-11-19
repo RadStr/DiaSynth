@@ -270,6 +270,8 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
 
     public static File getClassFilesDirectory() {
         // https://stackoverflow.com/questions/11747833/getting-filesystem-path-of-class-being-executed
-        return new File(Unit.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        // Just added the replace because there are "%20" instead of spaces in the path
+        return new File(Unit.class.getProtectionDomain().getCodeSource().getLocation().
+                getPath().replace("%20", " "));
     }
 }

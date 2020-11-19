@@ -11,8 +11,8 @@ import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -264,6 +264,131 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
                 }
             }
 
+        }
+    }
+
+
+    /**
+     * In case of jar copies the plugins to the inside of jar, in case of classic compilation, it will be put to the
+     * output directory, where are the .class files located.
+     */
+    public static void copyPlugins() {
+        File pluginsRootDir = new File("Diasynth-plugins");
+        Path pluginsRootDirPath = pluginsRootDir.toPath();
+        File testPlugin = new File("Diasynth-plugins/Test.class");
+
+        if(isInJar()) {
+            String pathToJar = getPathToJar(AudioPlayerJMenuOperationPluginIFace.class);
+            File jarFile = new File(pathToJar);
+            JarOutputStream jarOutputStream = null;
+//            try {
+//                jarOutputStream = new JarOutputStream(new FileOutputStream(jarFile));
+//            } catch (IOException e) {
+//                MyLogger.logException(e);
+//                return;
+//            }
+            createJar(pluginsRootDir, jarOutputStream);
+        }
+        else {
+            final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+//            File dst = new File(classFilesDir.getPath() + "/DiagramSynthPackage/Synth/Generators/ClassicGenerators/Phase/Test.class");
+//            ProgramTest.debugPrint("Paths:", testPlugin.getAbsolutePath(), dst.getAbsolutePath());
+
+
+            try {
+                Files.walkFileTree(pluginsRootDirPath, new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                        try {
+                            Path relativePath = pluginsRootDirPath.relativize(file);
+                            File dst = new File(classFilesDir + "/" + relativePath);
+                            File dstDir = dst.toPath().getParent().toFile();
+                            if(!dstDir.exists()) {
+                                dstDir.mkdirs();
+                            }
+                            Files.copy(file, dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException e) {
+                            MyLogger.logException(e);
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                });
+            } catch (IOException e) {
+                MyLogger.logException(e);
+            }
+        }
+    }
+
+
+    // Based on this (basically copy-paste): https://stackoverflow.com/questions/12239764/how-can-i-add-files-to-a-jar-file/12239769
+    public static void createJar(File source, JarOutputStream target) {
+        createJar(source, source, target);
+    }
+
+    public static void createJar(File source, File baseDir, JarOutputStream target) {
+        String entryName = baseDir.toPath().relativize(source.toPath()).toFile().getPath().replace("\\", "/");
+        ProgramTest.debugPrint("Create jar:", baseDir.getPath());
+        MyLogger.logWithoutIndentation(entryName);
+//        ProgramTest.debugPrint("Create jar:", baseDir.getPath(), entryName);
+//        ProgramTest.debugPrint("Create jar:", "JAR");
+        try {
+            if(target != null) {
+                target.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.exit(44444);
+
+        BufferedInputStream in = null;
+
+        try {
+            if (!source.exists()) {
+                throw new IOException("Source directory is empty");
+            }
+            if (source.isDirectory()) {
+                // For Jar entries, all path separates should be '/'(OS independent)
+                String name = source.getPath().replace("\\", "/");
+                if (!name.isEmpty()) {
+                    if (!name.endsWith("/")) {
+                        name += "/";
+                    }
+                    JarEntry entry = new JarEntry(name);
+                    entry.setTime(source.lastModified());
+                    target.putNextEntry(entry);
+                    target.closeEntry();
+                }
+                for (File nestedFile: source.listFiles()) {
+                    createJar(nestedFile, baseDir, target);
+                }
+                return;
+            }
+//            String entryName = baseDir.toPath().relativize(source.toPath()).toFile().getPath().replace("\\", "/");
+            JarEntry entry = new JarEntry(entryName);
+            entry.setTime(source.lastModified());
+            target.putNextEntry(entry);
+            in = new BufferedInputStream(new FileInputStream(source));
+
+            byte[] buffer = new byte[1024];
+            while (true) {
+                int count = in.read(buffer);
+                if (count == -1) {
+                    break;
+                }
+                target.write(buffer, 0, count);
+            }
+            target.closeEntry();
+        } catch (Exception ignored) {
+            // EMPTY
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Exception ignored) {
+                    throw new RuntimeException(ignored);
+                }
+            }
         }
     }
 

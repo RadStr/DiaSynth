@@ -288,281 +288,31 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
      */
     public static void copyPlugins() {
         File pluginsRootDir = new File("Diasynth-plugins");
-        if(!pluginsRootDir.exists()) {
+        if (!pluginsRootDir.exists()) {
             return;
         }
         Path pluginsRootDirPath = pluginsRootDir.toPath();
-        File testPlugin = new File("Diasynth-plugins/Test.class");
 
-        if(isInJar()) {
-            String pathToJar = getPathToJar(AudioPlayerJMenuOperationPluginIFace.class);
-//            File jarFile = new File(pathToJar);
-            File jarFile = new File(pathToJar.substring(0, pathToJar.length() - 4) + "2.jar");
-            JarOutputStream jarOutputStream = null;
-            try {
-                ProgramTest.debugPrint("Path to jar:", jarFile.getPath(), jarFile.exists());
-                jarOutputStream = new JarOutputStream(new FileOutputStream(jarFile));
-                ProgramTest.debugPrint("Jar itself:", jarOutputStream == null);
-//                jarOutputStream.close();
-//                Object o = SubbandSplitter.class;
-            } catch (IOException e) {
-                MyLogger.logException(e);
-                return;
-            }
-
-
-            createJar(pluginsRootDir, jarOutputStream);
-
-            try {
-                JarFile jf = new JarFile(new File(pathToJar));
-                Enumeration<JarEntry> entries = jf.entries();
-                while(entries.hasMoreElements()) {
-                    JarEntry entry = entries.nextElement();
-                    InputStream is = jf.getInputStream(entry);
-                    writeFileToJar(entry.getName(), is, entry.getLastModifiedTime().toMillis(), jarOutputStream);
-//                    jarOutputStream.putNextEntry(entry);
-//
-//                    Ted musim zkopirovat ten stream bytu
-//
-//                    jarOutputStream.closeEntry();
-                }
-
-                jf.close();
-            } catch (IOException e) {
-                MyLogger.logException(e);
-            }
-
-            if(jarOutputStream != null) {
-                try {
-                    jarOutputStream.flush();
-                    jarOutputStream.close();
-                }
-                catch(IOException e) {
-                    MyLogger.logException(e);
-                }
-            }
-
-
-
-
-            try {
-                jarOutputStream = new JarOutputStream(new FileOutputStream(pathToJar));
-                try {
-                    JarFile jf = new JarFile(jarFile);
-                    Enumeration<JarEntry> entries = jf.entries();
-                    while(entries.hasMoreElements()) {
-                        JarEntry entry = entries.nextElement();
-                        InputStream is = jf.getInputStream(entry);
-                        writeFileToJar(entry.getName(), is, entry.getLastModifiedTime().toMillis(), jarOutputStream);
-//                    jarOutputStream.putNextEntry(entry);
-//
-//                    Ted musim zkopirovat ten stream bytu
-//
-//                    jarOutputStream.closeEntry();
-                    }
-                    jf.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.exit(4444);
-//                    MyLogger.logException(e);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(jarOutputStream != null) {
-                try {
-                    jarOutputStream.flush();
-                    jarOutputStream.close();
-                }
-                catch(IOException e) {
-                    MyLogger.logException(e);
-                }
-            }
-            long todoPause = 0;
-            while(todoPause < 5000) {
-                System.out.println("Text");
-                todoPause++;
-            }
-
-
-
-
-        }
-        else {
-//            // The URL variant just doesn't seem to work:
-//            // https://stackoverflow.com/questions/3349015/loading-classes-not-present-in-the-classpath/3349509#3349509
-//            URL dirUrl = null;             // 1
-//            try {
-////                dirUrl = new URL("file:/" + pluginsRootDirPath + "/");
-//                dirUrl = new File(pluginsRootDirPath.toString()).toURI().toURL();
-////                dirUrl = testPlugin.toURI().toURL();
-//            } catch (MalformedURLException e) {
-//                MyLogger.logException(e);
-////                e.printStackTrace();
-//            }
-//            URLClassLoader cl = new URLClassLoader(new URL[] {dirUrl},
-//                    Unit.class.getClass().getClassLoader());  // 2
-//            try {
-//                URL[] urls = cl.getURLs();
-//
-//                Class loadedClass = cl.loadClass("Test");
-////                Class loadedClass = cl.loadClass("DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.Test");
-//            } catch (ClassNotFoundException e) {
-//                MyLogger.logException(e);
-////                e.printStackTrace();
-//            }
-
-            final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
-//            File dst = new File(classFilesDir.getPath() + "/DiagramSynthPackage/Synth/Generators/ClassicGenerators/Phase/Test.class");
-//            ProgramTest.debugPrint("Paths:", testPlugin.getAbsolutePath(), dst.getAbsolutePath());
-
-
-            try {
-                Files.walkFileTree(pluginsRootDirPath, new SimpleFileVisitor<Path>() {
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                        try {
-                            Path relativePath = pluginsRootDirPath.relativize(file);
-                            File dst = new File(classFilesDir + "/" + relativePath);
-                            File dstDir = dst.toPath().getParent().toFile();
-                            if(!dstDir.exists()) {
-                                dstDir.mkdirs();
-                            }
-                            Files.copy(file, dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        } catch (IOException e) {
-                            MyLogger.logException(e);
-                        }
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
-            } catch (IOException e) {
-                MyLogger.logException(e);
-            }
-        }
-    }
-
-
-    // Based on this (basically copy-paste): https://stackoverflow.com/questions/12239764/how-can-i-add-files-to-a-jar-file/12239769
-    public static void createJar(File source, JarOutputStream target) {
-        createJar(source, source, target);
-    }
-
-    public static void createJar(File source, File baseDir, JarOutputStream targetJar) {
-        ProgramTest.debugPrint("Create jar:", source.getPath());
-//        String entryName = baseDir.toPath().relativize(source.toPath()).toFile().getPath().replace("\\", "/");
-//        ProgramTest.debugPrint("Create jar:", baseDir.getPath());
-//        MyLogger.logWithoutIndentation(entryName);
-//        ProgramTest.debugPrint("Create jar:", baseDir.getPath(), entryName);
-//        ProgramTest.debugPrint("Create jar:", "JAR");
-
-//        try {
-//            if(targetJar != null) {
-//                targetJar.close();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.exit(44444);
-
-        BufferedInputStream in = null;
-// TODO: PUT TO writeFileToJar METHOD
-//        try {
-// TODO: PUT TO writeFileToJar METHOD
-            if (!source.exists()) {
-                MyLogger.log("Source directory doesn't exist", 0);
-                return;
-            }
-            if (source.isDirectory()) {
-                // Commented, because it creates copy of Diasynth-plugins directory without the files
-//                // For Jar entries, all path separates should be '/'(OS independent)
-//                String name = source.getPath().replace("\\", "/");
-//                if (!name.isEmpty()) {
-//                    if (!name.endsWith("/")) {
-//                        name += "/";
-//                    }
-//                    ProgramTest.debugPrint("Before creating entry:", name);
-//                    JarEntry entry = new JarEntry(name);
-//                    ProgramTest.debugPrint("After creating entry");
-//                    ProgramTest.debugPrint("Error:", source.lastModified(), entry == null, source == null);
-//                    entry.setTime(source.lastModified());
-//                    ProgramTest.debugPrint("After Set time");
-//                    targetJar.putNextEntry(entry);
-//                    ProgramTest.debugPrint("Putting entry");
-//                    targetJar.closeEntry();
-//                    ProgramTest.debugPrint("closing entry");
-//                }
-                for (File nestedFile: source.listFiles()) {
-                    createJar(nestedFile, baseDir, targetJar);
-                }
-                return;
-            }
-            String entryName = baseDir.toPath().relativize(source.toPath()).toFile().getPath().replace("\\", "/");
-            // TODO: PUT TO writeFileToJar METHOD
-//            JarEntry entry = new JarEntry(entryName);
-//            entry.setTime(source.lastModified());
-//            targetJar.putNextEntry(entry);
-//            in = new BufferedInputStream(new FileInputStream(source));
-//
-//            byte[] buffer = new byte[1024];
-//            while (true) {
-//                int count = in.read(buffer);
-//                if (count == -1) {
-//                    break;
-//                }
-//                targetJar.write(buffer, 0, count);
-//            }
-//            targetJar.closeEntry();
-            // TODO: PUT TO writeFileToJar METHOD
+        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
         try {
-            writeFileToJar(entryName, new FileInputStream(source), source.lastModified(), targetJar);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-//        TODO: Musim vyresit ten lastModification a taky vylepsit ten FileInputStream at se to tam dava nejak lip
-
-// TODO: PUT TO writeFileToJar METHOD
-//        } catch (Exception exception) {
-//            MyLogger.logException(exception);
-//        } finally {
-//            if (in != null) {
-//                try {
-//                    in.close();
-//                } catch (Exception exception) {
-//                    MyLogger.logException(exception);
-//                }
-//            }
-//        }
-            // TODO: PUT TO writeFileToJar METHOD
-    }
-
-    /**
-     *
-     * @param entryName
-     * @param source
-     * @param lastModified is the time in milliseconds since epoch (Jan 1, 1970).
-     *                     If == Long.MIN_VALUE, then the current time is used as modification time.
-     * @param targetJar
-     */
-    public static void writeFileToJar(String entryName, InputStream source,
-                                      long lastModified, JarOutputStream targetJar) {
-        try (BufferedInputStream in = new BufferedInputStream(source)){
-            JarEntry entry = new JarEntry(entryName);
-            if(lastModified != Long.MIN_VALUE) {
-                entry.setTime(lastModified);
-            }
-            targetJar.putNextEntry(entry);
-
-            byte[] buffer = new byte[1024];
-            while (true) {
-                int count = in.read(buffer);
-                if (count == -1) {
-                    break;
+            Files.walkFileTree(pluginsRootDirPath, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                    try {
+                        Path relativePath = pluginsRootDirPath.relativize(file);
+                        File dst = new File(classFilesDir + "/" + relativePath);
+                        File dstDir = dst.toPath().getParent().toFile();
+                        if (!dstDir.exists()) {
+                            dstDir.mkdirs();
+                        }
+                        Files.copy(file, dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        MyLogger.logException(e);
+                    }
+                    return FileVisitResult.CONTINUE;
                 }
-                targetJar.write(buffer, 0, count);
-            }
-            targetJar.closeEntry();
-        }
-        catch(Exception e) {
+            });
+        } catch (IOException e) {
             MyLogger.logException(e);
         }
     }
@@ -603,8 +353,8 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
                         }
                         else {
                             srcFilePath = "src/" +
-                                    relPathString.substring(0, dollarSignIndex) +
-                                    ".java";
+                                          relPathString.substring(0, dollarSignIndex) +
+                                          ".java";
                             // TODO: DEBUG
                             ProgramTest.debugPrint("HAS DOLLAR SIGN:", srcFilePath);
                             // TODO: DEBUG

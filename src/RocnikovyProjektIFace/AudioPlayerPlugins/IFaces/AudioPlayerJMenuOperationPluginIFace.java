@@ -399,4 +399,72 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         return new File(Unit.class.getProtectionDomain().getCodeSource().getLocation().
                 getPath().replace("%20", " "));
     }
+
+
+    public static void removePreviouslyLoadedPlugins() {
+        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+        final Path classFilesDirPath = classFilesDir.toPath();
+
+        try {
+            Files.walkFileTree(classFilesDirPath, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                    Path relativePath = classFilesDirPath.relativize(file);
+                    String srcFilePath = null;
+                    String relPathString = relativePath.toString();
+                    if(relPathString.endsWith(".class")) {
+                        int dollarSignIndex = relPathString.indexOf('$');
+                        // I will do it simply like this, I could use regex or something like that, but it doesn't really
+                        // solve the problem anyways - the problem is that there can be '$' inside of source file names
+                        // But let's expect that the user won't do such things as adding $ to names. It can be solved
+                        // by trying different combinations, but it is really overkill for such niche problem.
+                        if(dollarSignIndex == -1) {
+                            srcFilePath = "src/" +
+                                          relPathString.substring(0, relPathString.length() - "class".length()) +
+                                          "java";
+                            // TODO: DEBUG
+                            ProgramTest.debugPrint("NO DOLLAR:", srcFilePath);
+                            // TODO: DEBUG
+                        }
+                        else {
+                            srcFilePath = "src/" +
+                                    relPathString.substring(0, dollarSignIndex) +
+                                    ".java";
+                            // TODO: DEBUG
+                            ProgramTest.debugPrint("HAS DOLLAR SIGN:", srcFilePath);
+                            // TODO: DEBUG
+                        }
+                        File sourceCodeFile = new File(srcFilePath);
+                        if (!sourceCodeFile.exists()) {
+                            // TODO: DEBUG
+                            ProgramTest.debugPrint("Removing loaded plugins:", sourceCodeFile, file);
+                            // TODO: DEBUG
+                            file.toFile().delete();
+                        }
+                        // TODO: DEBUG
+//                        else {
+//                            ProgramTest.debugPrint("Normal file:", sourceCodeFile, file);
+//                        }
+                        // TODO: DEBUG
+                    }
+
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                    File dirFile = dir.toFile();
+                    if(dirFile.listFiles().length == 0) {
+                        // TODO: DEBUG
+                        ProgramTest.debugPrint("EMPTY DIR:", dir);
+                        // TODO: DEBUG
+                        dirFile.delete();
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            MyLogger.logException(e);
+        }
+    }
 }

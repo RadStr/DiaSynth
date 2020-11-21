@@ -606,10 +606,10 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private static Pair<String, String> analyzeEndianity(Program prog) {
         if(prog.isBigEndian) {
-            return new Pair<String, String>("endianity", "big endian");
+            return new Pair<String, String>("Endianess", "Big endian");
         }
         else {
-            return new Pair<String, String>("endianity", "little endian");
+            return new Pair<String, String>("Endianess", "Little endian");
         }
     }
 

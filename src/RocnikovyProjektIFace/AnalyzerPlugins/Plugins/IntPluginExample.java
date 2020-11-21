@@ -15,4 +15,8 @@ public class IntPluginExample implements AnalyzerIntPluginIFace {
     public String getName() {
         return "Analyze - Int plugin";
     }
+    @Override
+    public String getTooltip() {
+        return "This is example of tooltip for int plugin.";
+    }
 }

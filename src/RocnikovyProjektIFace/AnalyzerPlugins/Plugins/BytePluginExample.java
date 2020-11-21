@@ -15,4 +15,9 @@ public class BytePluginExample implements AnalyzerBytePluginIFace {
     public String getName() {
         return "Analyze - Byte plugin";
     }
+
+    @Override
+    public String getTooltip() {
+        return "This is example of tooltip for byte plugin.";
+    }
 }

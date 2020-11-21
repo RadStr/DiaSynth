@@ -186,6 +186,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         List<AnalyzerBytePluginIFace> bytePlugins = AnalyzerBytePluginIFace.loadPlugins();
         for(AnalyzerBytePluginIFace p : bytePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
+            checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
             bytePluginPairs.add(new Pair<>(checkBox, p));
         }
@@ -195,6 +196,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         List<AnalyzerIntPluginIFace> intPlugins = AnalyzerIntPluginIFace.loadPlugins();
         for(AnalyzerIntPluginIFace p : intPlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
+            checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
             intPluginPairs.add(new Pair<>(checkBox, p));
         }
@@ -204,6 +206,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         List<AnalyzerDoublePluginIFace> doublePlugins = AnalyzerDoublePluginIFace.loadPlugins();
         for(AnalyzerDoublePluginIFace p : doublePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
+            checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
             doublePluginPairs.add(new Pair<>(checkBox, p));
         }

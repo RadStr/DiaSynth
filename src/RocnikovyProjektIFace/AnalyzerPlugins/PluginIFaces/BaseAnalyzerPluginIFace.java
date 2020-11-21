@@ -12,6 +12,7 @@ public interface BaseAnalyzerPluginIFace {
      * @return
      */
     String getName();
+    String getTooltip();
 
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {
         // TODO: RML

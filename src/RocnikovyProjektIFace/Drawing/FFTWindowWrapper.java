@@ -135,7 +135,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         }
 
 
-        @PluginParametersAnnotation(lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
+        @PluginParametersAnnotation(name = "Window size:",
+                lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
                 upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
                 parameterTooltip = "Controls number of size of the FFT window.")
         private int windowSize;
@@ -143,20 +144,22 @@ public class FFTWindowWrapper extends DrawWrapperBase {
             return windowSize;
         }
 
-        @PluginParametersAnnotation(defaultValue = "TRUE",
-                parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, otherwise it won't be changed")
+        @PluginParametersAnnotation(name = "Change window size:", defaultValue = "TRUE",
+                parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, " +
+                        "otherwise it won't be changed")
         private boolean shouldChangeWindowSize;
         public boolean getShouldChangeWindowSize() {
             return shouldChangeWindowSize;
         }
 
-        @PluginParametersAnnotation(lowerBound = "1", parameterTooltip = "Controls the sample rate of the input samples.")
+        @PluginParametersAnnotation(name = "Sample rate:", lowerBound = "1",
+                parameterTooltip = "Controls the sample rate of the input samples.")
         private int sampleRate;
         public int getSampleRate() {
             return sampleRate;
         }
 
-        @PluginParametersAnnotation(defaultValue = "TRUE",
+        @PluginParametersAnnotation(name = "Change sample rate:", defaultValue = "TRUE",
                 parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeSampleRate;
         public boolean getShouldChangeSampleRate() {
@@ -190,7 +193,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
 
     private static class IFFTDialogPanel implements PluginDefaultIFace {
-        @PluginParametersAnnotation(defaultValue = "FALSE",
+        @PluginParametersAnnotation(name = "Set imaginary part to zero:", defaultValue = "FALSE",
                 parameterTooltip = "If set to true, the imaginary part of FFT result will be set to 0. Otherwise it will be set to random number in" +
                         "such way that the measures are correct.")
         private boolean shouldSetImagPartToZero;
@@ -199,7 +202,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
         }
 
 
-        @PluginParametersAnnotation(lowerBound = "1", defaultValue = "1", parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
+        @PluginParametersAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
+                parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
         private int periodCount;
         public int getPeriodCount() {
             return periodCount;

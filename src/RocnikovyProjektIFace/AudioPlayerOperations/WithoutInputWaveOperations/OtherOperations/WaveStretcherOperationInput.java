@@ -7,9 +7,8 @@ import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class WaveStretcherOperationInput implements WithoutInputWavePluginIFace {
-
-
-    @PluginParametersAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0", parameterTooltip = "Absolute max")
+    @PluginParametersAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+            parameterTooltip = "The new maximum value to which will be the wave stretched")
     private double newAbsoluteMax;
 
 

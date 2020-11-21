@@ -7,7 +7,8 @@ import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class PowerWithValueOperationInput implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(defaultValue = "0", parameterTooltip = "is the power to use")
+    @PluginParametersAnnotation(name = "Power:", defaultValue = "0",
+            parameterTooltip = "is the power to which will be the samples raised.")
     private double value;
 
     @Override

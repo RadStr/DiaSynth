@@ -11,7 +11,7 @@ import Rocnikovy_Projekt.DoubleWave;
  * be found as plugin.
  */
 abstract public class AbstractPluginClass implements WithInputWavePluginIFace, EnumWrapperIFaceForDefaultJPane {
-    @PluginParametersAnnotation(defaultValue = "TRUE",
+    @PluginParametersAnnotation(name = "Length alignment:", defaultValue = "TRUE",
         parameterTooltip = "The enum which value tells what alignment should be done. Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
     public AlignmentEnum getLengthAlignment() {

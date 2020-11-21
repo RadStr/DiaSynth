@@ -7,7 +7,7 @@ import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0",
+    @PluginParametersAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
         parameterTooltip = "is the constant to be added to the samples")
     private double value;
 

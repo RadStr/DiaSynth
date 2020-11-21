@@ -213,10 +213,10 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
     }
 
 
-    @PluginParametersAnnotation(lowerBound = "0", upperBound = "1",
+    @PluginParametersAnnotation(name = "Amplitude:", lowerBound = "0", upperBound = "1",
             parameterTooltip = "Maximum absolute value allowed to output")
     private double maxAbsoluteValue = 1;
-    @PluginParametersAnnotation(
+    @PluginParametersAnnotation(name = "Always scale:",
             parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from first parameter.<br>" +
             "If set to false, then the wave will be scaled to the max absolute value only if its max absolute value is larger than the first parameter</html>")
     private boolean shouldAlwaysSetToMaxAbs = false;

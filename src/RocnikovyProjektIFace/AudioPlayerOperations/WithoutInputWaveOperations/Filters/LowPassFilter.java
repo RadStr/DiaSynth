@@ -6,12 +6,14 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
 public class LowPassFilter implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(lowerBound = "0", defaultValue = "400", parameterTooltip = "Cut-off frequency")
+    @PluginParametersAnnotation(name = "Cutoff frequency:",
+            lowerBound = "0", defaultValue = "400", parameterTooltip = "Cut-off frequency")
     private double cutoffFreq;
-    @PluginParametersAnnotation(lowerBound = "2", defaultValue = "32", parameterTooltip = "Represents the number of " +
+    @PluginParametersAnnotation(name = "Coefficient count:",
+            lowerBound = "2", defaultValue = "32", parameterTooltip = "Represents the number of " +
             "the coefficients used for filtering " +
-            "(How many last samples should be used for calculating the current one in the filter). U" +
-            "sually the more the better filter. Just use some low powers of 2 - like 32, 64 , ...")
+            "(How many last samples should be used for calculating the current one in the filter)." +
+            "Usually the more the better filter. Just use some low powers of 2 - like 32, 64 , ...")
     private int coefCount;
 
     @Override

@@ -5,6 +5,7 @@ import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.EnumWrapperIFaceForDefaul
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.Pair;
+import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -122,9 +123,10 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
             }
             else if(fieldType.isEnum() && AudioPlayerJMenuOperationPluginIFace.
                     isImplementingIFace(EnumWrapperIFaceForDefaultJPane.class, classWithAnnotations)) {
+                JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();
                 EnumWrapperIFaceForDefaultJPane wrapper = (EnumWrapperIFaceForDefaultJPane) objectWithAnnotations;
-                JLabel parameterName = new JLabel(fieldName);
+
                 String[] enumValuesStrings = wrapper.getEnumsToStrings(fieldName);
                 JComboBox comboBox = new JComboBox(enumValuesStrings);
                 comboBox.addActionListener(new ActionListener() {
@@ -145,8 +147,7 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
                 continue;
             }
             else if(fieldType == Boolean.TYPE) {
-                String fieldName = f.getName();
-                JLabel parameterName = new JLabel(fieldName);
+                JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 parameterName.setToolTipText(annotation.parameterTooltip());
 
                 String[] values = new String[] { "FALSE", "TRUE" };
@@ -261,7 +262,7 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
 
             setDefaultValueField(f, annotation.defaultValue());
 
-            JLabel parameterName = new JLabel(f.getName());
+            JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
             parameterName.setToolTipText(annotation.parameterTooltip());
             String tooltip = tooltipParameterType + " " + tooltipParameterValue;
             JTextField parameterValue = null;
@@ -270,12 +271,26 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
                     tooltip, f, objectWithAnnotations, this::setField);
             }
             catch(Exception e) {
+                MyLogger.logException(e);
                 System.exit(1489);      // Shouldn't happen since at the start I call f.setAccessible(true);
             }
             Pair<JLabel, JTextField> p = new Pair<>(parameterName, parameterValue);
             viewPanel.add(p.getKey());
             viewPanel.add(p.getValue());
         }
+    }
+
+
+    private static JLabel createLabelBasedOnAnnotation(Field f, PluginParametersAnnotation annotation) {
+        JLabel parameterName;
+        if(annotation.name().equals(PluginParametersAnnotation.UNDEFINED_VAL)) {
+            parameterName = new JLabel(f.getName());
+        }
+        else {
+            parameterName = new JLabel(annotation.name());
+        }
+
+        return parameterName;
     }
 
 

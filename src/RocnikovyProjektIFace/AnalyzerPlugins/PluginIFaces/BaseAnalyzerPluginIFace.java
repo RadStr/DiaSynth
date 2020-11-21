@@ -1,6 +1,5 @@
 package RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces;
 
-import RocnikovyProjektIFace.AnalyzerPlugins.Plugins.BytePluginExample;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.ProgramTest;
 
@@ -17,7 +16,9 @@ public interface BaseAnalyzerPluginIFace {
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {
         // TODO: RML
         // TODO: make the path relative and also, I have to take in consideration that I may distribute it using .jar
-        String packageContainingPlugins = BytePluginExample.class.getPackage().getName();
+        String thisPackage = BaseAnalyzerPluginIFace.class.getPackage().getName();
+        int lastDot = thisPackage.lastIndexOf('.');
+        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "Plugins";
         return AudioPlayerJMenuOperationPluginIFace.loadPlugins(pluginIface, packageContainingPlugins);
     }
 }

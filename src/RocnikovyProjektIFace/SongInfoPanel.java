@@ -20,7 +20,7 @@ public class SongInfoPanel extends JPanel {
 
 	private JTable table;
 	private JScrollPane scrollPane;
-	
+
 	private DataModelSubjectIFace subject;
 	// TODO: Budu mit metodu String[] getData(String songName) a to mi vr�t� v�echny ty data o tom souboru (ty hodnoty)
 	public SongInfoPanel(JFrame previousWindow, JFrame thisWindow, Node node, DataModelObserverIFace[] observers,
@@ -36,8 +36,8 @@ public class SongInfoPanel extends JPanel {
         
         for(int i = 0; i < data.length; i++) {
         	Node nTmp = childs.item(i);
-        	data[i][0] = nTmp.getNodeName();
-        	data[i][1] = nTmp.getTextContent();
+			data[i][0] = XML.getInfoNodeName(nTmp);
+			data[i][1] = XML.getInfoNodeValue(nTmp);
         }
 //        
 /*      //  TODO: Bylo stary jen na testovani  
@@ -76,7 +76,7 @@ public class SongInfoPanel extends JPanel {
 				String path = getPathFromXML(node);
 				if(path != null) {
 					String[] arr = new String[2];
-					arr[0] = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";
+					arr[0] = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";		// TODO: Specific for my system
 					arr[1] = path;
 					System.out.println(arr[1]);
 					ProcessBuilder pb = new ProcessBuilder(arr);	
@@ -127,9 +127,9 @@ public class SongInfoPanel extends JPanel {
 
 	private static String getPathFromXML(Node node) {
 		NodeList childs = node.getChildNodes();
-		Node n = XML.findNodeXML(childs, "path");
+		Node n = XML.findFirstNodeWithGivenAttribute(childs, "path");
 		if (n != null) {
-			return n.getTextContent();
+			return XML.getInfoNodeValue(n);
 		}
 
 		return null;

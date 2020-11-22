@@ -299,6 +299,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                 try {
                     dataModel.addRow(new String[]{ files[i].getCanonicalPath() });
                 } catch (IOException e) {			// Shouldn't happen
+                    MyLogger.logException(e);
                     new ErrorFrame(frame, "Unknown error");		// TODO: Asi ok reseni
                 }
             }
@@ -537,37 +538,59 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         list.add(pair);
 
 
-        // Check if the name wasn't already analyzed, if yes then just change the node (and change only the analyzed attributes)
-        NodeList sList = XML.xmlDoc.getElementsByTagName("song"); // TODO: Zase ocekavam ze je jen 1 songs, coz ma byt
-        NodeList nList = XML.xmlDoc.getElementsByTagName("name");
-        System.out.println("file:\t" + file.getName());
-        int index = XML.findNodeWithValue(nList, file.getName());
-        if(index == -1) {		// The song wasn't analyzed before
+        Tohle je posledni vec co se musi opravit
+        Node node = XML.getFirstNodeMatchingGivenAttribute(file.getName());
+        if(node == null) {		// The song wasn't analyzed before
             XML.addAnalyzedFileToXML(XML.xmlDoc, list, "songs", "song");
         }
         else {
-            Node node = sList.item(index);
             NodeList childNodes = node.getChildNodes();
             for(Pair<String, String> p : list) {
-                Node currentPairNode = XML.findNodeXML(childNodes, p.getKey());
+                Node currentPairNode = XML.findFirstNodeWithGivenAttribute(childNodes, p.getKey());
                 if(currentPairNode == null) {		// Add new node
-                    Element elem;
-                    try {
-                        elem = XML.xmlDoc.createElement(p.getKey());
-                    }
-                    catch(Exception e) {
-                        MyLogger.logWithoutIndentation("Invalid name in xml tree");
-                        MyLogger.logException(e);
-                        continue;
-                    }
-                    elem.appendChild(XML.xmlDoc.createTextNode(p.getValue()));
-                    node.appendChild(elem);
+                    XML.addNewNode(node, p);
                 }
                 else {								// Change existing node
-                    currentPairNode.setTextContent(p.getValue());
+                    Tohle je taky spatne ale nevim proc tu mam "value" to neni atribut, to se musim nromalne podivat do toho nodu
+                    currentPairNode.getAttributes().getNamedItem("value").setTextContent(p.getValue());
                 }
             }
         }
+
+        // TODO: VYMAZAT
+//        // Check if the name wasn't already analyzed, if yes then just change the node (and change only the analyzed attributes)
+//        NodeList sList = XML.xmlDoc.getElementsByTagName("song"); // TODO: Zase ocekavam ze je jen 1 songs, coz ma byt
+//        XML.getSongNames();
+//        NodeList nList = XML.xmlDoc.getElementsByTagName("name");
+//        System.out.println("file:\t" + file.getName());
+//        int index = XML.findNodeWithValue(nList, file.getName());
+//        if(index == -1) {		// The song wasn't analyzed before
+//            XML.addAnalyzedFileToXML(XML.xmlDoc, list, "songs", "song");
+//        }
+//        else {
+//            Node node = sList.item(index);
+//            NodeList childNodes = node.getChildNodes();
+//            for(Pair<String, String> p : list) {
+//                Node currentPairNode = XML.findNodeXML(childNodes, p.getKey());
+//                if(currentPairNode == null) {		// Add new node
+//                    Element elem;
+//                    try {
+//                        elem = XML.xmlDoc.createElement(p.getKey());
+//                    }
+//                    catch(Exception e) {
+//                        MyLogger.logWithoutIndentation("Invalid name in xml tree");
+//                        MyLogger.logException(e);
+//                        continue;
+//                    }
+//                    elem.appendChild(XML.xmlDoc.createTextNode(p.getValue()));
+//                    node.appendChild(elem);
+//                }
+//                else {								// Change existing node
+//                    currentPairNode.setTextContent(p.getValue());
+//                }
+//            }
+//        }
+        // TODO: VYMAZAT
     }
 
     private static Pair<String, String> analyzeSampleRate(Program prog) {

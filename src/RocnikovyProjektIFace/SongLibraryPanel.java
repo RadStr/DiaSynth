@@ -105,12 +105,12 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			        	Node n = allFilesPairList.get(i).getValue();
 			        	NodeList childs = n.getChildNodes();
 			        	for(int j = 0; j < dataAllFiles[i].length; j++) {
-			        		Node n1 = XML.findNodeXML(childs, headerAllFiles[j]);
+			        		Node n1 = XML.findFirstNodeWithGivenAttribute(childs, "name", headerAllFiles[j]);
 			        		if(n1 == null) {
 			        			dataAllFiles[i][j] = "UNKNOWN";
 			        		}
 			        		else {
-			        			dataAllFiles[i][j] = n1.getTextContent();
+			        			dataAllFiles[i][j] = XML.getInfoNodeValue(n1);
 			        		}
 			        	}
 			        }

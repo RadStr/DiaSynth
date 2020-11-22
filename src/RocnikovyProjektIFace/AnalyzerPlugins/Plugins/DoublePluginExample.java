@@ -7,7 +7,7 @@ import Rocnikovy_Projekt.DoubleWave;
 public class DoublePluginExample implements AnalyzerDoublePluginIFace {
     @Override
     public Pair<String, String> analyze(DoubleWave wave) {
-        String name = "Double_plugin_name";
+        String name = "Double plugin name";
         String analyzedValue = "Double plugin - analyzed value";
         return new Pair<>(name, analyzedValue);
     }

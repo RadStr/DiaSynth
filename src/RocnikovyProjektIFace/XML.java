@@ -90,7 +90,7 @@ public class XML {
 	// TODO: Umistit na lepsi misto ten koment.
 
 	public static List<String> getSongNames() {
-		return getInfoNodeValuesMatchingGivenAttribute("name", SongLibraryPanel.HEADER_NAME);
+		return getInfoNodeValuesMatchingGivenAttribute("name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE);
 	}
 
 
@@ -129,9 +129,9 @@ public class XML {
 
 				// TODO: DEBUG
 //				ProgramTest.debugPrint("First node matching:", nn.getAttributes().
-//				getNamedItem(SongLibraryPanel.HEADER_NAME), nn.getAttributes().item(0));
+//				getNamedItem(SongLibraryPanel.HEADER_NAME_COLUMN_TITLE), nn.getAttributes().item(0));
 				// TODO: DEBUG
-				if ( isMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME) ) {
+				if ( isMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE) ) {
 					if(getInfoNodeValue(nn).equals(songName)) {
 						return n;
 					}
@@ -319,7 +319,7 @@ public class XML {
 			int len = childs.getLength();
 			for (int j = 0; j < len; j++) {
 				Node n1 = childs.item(j);
-				if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME)) {
+				if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
 					Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);        // TODO: nevim jestli getNodeName da to co ma
 					ProgramTest.debugPrint("Pair name:", getInfoNodeValue(n1));
 					retList.add(pair);

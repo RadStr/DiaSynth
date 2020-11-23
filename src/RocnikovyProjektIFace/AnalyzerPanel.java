@@ -382,7 +382,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     public void analyze(String filename) {
         File file = new File(filename);
         List<Pair<String, String>> list = new ArrayList<>();
-        Pair<String, String> pair = new Pair<>(SongLibraryPanel.HEADER_NAME, file.getName());
+        Pair<String, String> pair = new Pair<>(SongLibraryPanel.HEADER_NAME_COLUMN_TITLE, file.getName());
         list.add(pair);
         pair = new Pair<>("Path", file.getAbsolutePath());
         list.add(pair);
@@ -568,7 +568,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSongLength(Program prog) {
-        return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH,
+        return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH_COLUMN_TITLE,
                 Program.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
     }
 

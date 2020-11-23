@@ -35,10 +35,10 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
 			System.out.println(infoNode.getNodeName() + "\t" + infoNode.getTextContent());
 			System.out.println("--------------------");
 			
-			if(XML.isMatchingGivenAttribute(infoNode, "name", SongLibraryPanel.HEADER_NAME)) {
+			if(XML.isMatchingGivenAttribute(infoNode, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
 				name = XML.getInfoNodeValue(infoNode);
 				int rowCount = dataModel.getRowCount();
-				int col = dataModel.findColumn(SongLibraryPanel.HEADER_NAME);
+				int col = dataModel.findColumn(SongLibraryPanel.HEADER_NAME_COLUMN_TITLE);
 				for(int j = 0; j < rowCount; j++) {
 					if(dataModel.getValueAt(j, col).equals(name)) {
 						dataModel.removeRow(j);

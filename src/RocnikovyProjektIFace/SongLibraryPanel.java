@@ -51,15 +51,15 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 
 	private JFrame thisFrame;
 
-	public static String HEADER_NAME = "Name";
-    public static String HEADER_LENGTH = "Length";
+	public static String HEADER_NAME_COLUMN_TITLE = "Name";
+    public static String HEADER_LENGTH_COLUMN_TITLE = "Length";
 	
 	public SongLibraryPanel(JFrame thisFrame, AddToAudioPlayerIFace addToAudioPlayerIFace) {
 		this.thisFrame = thisFrame;
 		this.setLayout(new BorderLayout());
 		selectedFilesPairList = new ArrayList<>();
-		headerSelectedFiles = new String[] {HEADER_NAME, HEADER_LENGTH};
-		headerAllFiles = new String[] {HEADER_NAME, HEADER_LENGTH};
+		headerSelectedFiles = new String[] {HEADER_NAME_COLUMN_TITLE, HEADER_LENGTH_COLUMN_TITLE};
+		headerAllFiles = new String[] {HEADER_NAME_COLUMN_TITLE, HEADER_LENGTH_COLUMN_TITLE};
 		
 		Box boxSelectedFiles = Box.createVerticalBox();
 		selectedFilesLabel = new JLabel("Selected files");

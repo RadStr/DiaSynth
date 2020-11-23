@@ -731,6 +731,7 @@ public class ProgramTest {
      */
     public boolean performAggregationTestMax() throws IOException {
         boolean isSigned = false;
+        double correctResult;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
         samples[0] = 0;
@@ -742,24 +743,41 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) == 5) {
-            isBigEndian = false;
-            samples[0] = 1;
-            samples[1] = 0;
-            samples[2] = 5;
-            samples[3] = 0;
-            samples[4] = 3;
-            samples[5] = 0;
-            samples[6] = 4;
-            samples[7] = 0;
-            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) == 5) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
             return false;
         }
+
+        isSigned = true;
+        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+            return false;
+        }
+
+
+
+        isBigEndian = false;
+        isSigned = false;
+        samples[0] = 1;
+        samples[1] = 0;
+        samples[2] = 5;
+        samples[3] = 0;
+        samples[4] = 3;
+        samples[5] = 0;
+        samples[6] = 4;
+        samples[7] = 0;
+        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+            return false;
+        }
+
+        isSigned = true;
+        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -770,6 +788,7 @@ public class ProgramTest {
      * @throws IOException can be thrown only if the sample size is invalid
      */
     public boolean performAggregationTestMin() throws IOException {
+        double correctResult;
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -782,24 +801,39 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) == 1) {
-            isBigEndian = false;
-            samples[0] = 3;
-            samples[1] = 0;
-            samples[2] = 1;
-            samples[3] = 0;
-            samples[4] = 3;
-            samples[5] = 0;
-            samples[6] = 4;
-            samples[7] = 0;
-            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
             return false;
         }
+
+        isSigned = true;
+        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+            return false;
+        }
+
+        isSigned = false;
+        isBigEndian = false;
+        samples[0] = 3;
+        samples[1] = 0;
+        samples[2] = 1;
+        samples[3] = 0;
+        samples[4] = 3;
+        samples[5] = 0;
+        samples[6] = 4;
+        samples[7] = 0;
+        correctResult = 1 / (double)Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+            return false;
+        }
+
+        isSigned = true;
+        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -810,6 +844,7 @@ public class ProgramTest {
      * @throws IOException can be thrown only if the sample size is invalid
      */
     public boolean performAggregationTestAvg() throws IOException {
+        double correctResult;
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -821,26 +856,42 @@ public class ProgramTest {
         samples[5] = 3;
         samples[6] = 0;
         samples[7] = 4;
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) ==
-            ((1 + 2 + 3 + 4) / 4.0)) {
-            isBigEndian = false;
-            samples[0] = 1;
-            samples[1] = 0;
-            samples[2] = 2;
-            samples[3] = 0;
-            samples[4] = 3;
-            samples[5] = 0;
-            samples[6] = 4;
-            samples[7] = 0;
-            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) ==
-                ((1 + 2 + 3 + 4) / 4.0)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
             return false;
         }
+
+        isSigned = true;
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+            return false;
+        }
+
+
+        isSigned = false;
+        isBigEndian = false;
+        samples[0] = 1;
+        samples[1] = 0;
+        samples[2] = 2;
+        samples[3] = 0;
+        samples[4] = 3;
+        samples[5] = 0;
+        samples[6] = 4;
+        samples[7] = 0;
+
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+            return false;
+        }
+
+        isSigned = true;
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -850,6 +901,7 @@ public class ProgramTest {
      * @throws IOException can be thrown only if the sample size is invalid
      */
     public boolean performAggregationTestRms() throws IOException {
+        double correctResult;
         boolean isSigned = false;
         boolean isBigEndian = true;
         byte[] samples = new byte[8];
@@ -862,26 +914,44 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) ==
-            Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0))) {
-            isBigEndian = false;
-            samples[0] = 1;
-            samples[1] = 0;
-            samples[2] = 2;
-            samples[3] = 0;
-            samples[4] = 3;
-            samples[5] = 0;
-            samples[6] = 4;
-            samples[7] = 0;
-            if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) ==
-                Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0))) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
+                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
             return false;
         }
+
+        isSigned = true;
+        correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
+                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+            return false;
+        }
+
+        isSigned = false;
+        isBigEndian = false;
+        samples[0] = 1;
+        samples[1] = 0;
+        samples[2] = 2;
+        samples[3] = 0;
+        samples[4] = 3;
+        samples[5] = 0;
+        samples[6] = 4;
+        samples[7] = 0;
+
+        correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
+                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+            return false;
+        }
+
+        isSigned = true;
+        correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
+                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+            return false;
+        }
+
+        return true;
     }
 
 

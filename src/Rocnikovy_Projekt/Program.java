@@ -260,7 +260,7 @@ public class Program {
 
     public static String fileWithModel = "fileWithTheModel";
 
-    int maxAbsoluteValue;
+    private int maxAbsoluteValue;
 
     private int sizeOfOneSecInFrames;
     public int getSizeOfOneSecInFrames() {
@@ -2133,7 +2133,7 @@ public class Program {
             }
         }
 
-        double maxAbsVal = (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+        double maxAbsVal = (double)getMaxAbsoluteValue(sampleSize * 8, isSigned);
         specialValue /= maxAbsVal;
         if (agg == Aggregations.RMS) {
             specialValue /= maxAbsVal;
@@ -2194,13 +2194,11 @@ public class Program {
                             }
                             break;
                         case RMS:
-                            specialValue = specialValue + (double) (sample * sample) / n;
+                            specialValue += sample * (double)sample;
                             break;
                         case AVG:
-                            specialValue = specialValue + (double) sample / n;
-                            break;
                         case SUM:
-                            specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                            specialValue += (double) sample;
                             break;
                     }
                     arrIndex = arrIndex + sampleSize;
@@ -2224,13 +2222,11 @@ public class Program {
                             }
                             break;
                         case RMS:
-                            specialValue = specialValue + (double) (sample * sample) / n;
+                            specialValue += sample * (double)sample;
                             break;
                         case AVG:
-                            specialValue = specialValue + (double) sample / n;
-                            break;
                         case SUM:
-                            specialValue = specialValue + sample / (double)getMaxAbsoluteValueSigned(sampleSize * 8);
+                            specialValue += (double) sample;
                             break;
                     }
                     arrIndex = arrIndex + sampleSize;
@@ -2238,8 +2234,15 @@ public class Program {
             }
         }
 
+
+        double maxAbsVal = (double)getMaxAbsoluteValue(sampleSize * 8, isSigned);
+        specialValue /= maxAbsVal;
         if (agg == Aggregations.RMS) {
-            specialValue = Math.sqrt(specialValue);
+            specialValue /= maxAbsVal;
+            specialValue = Math.sqrt(specialValue / n);
+        }
+        else if(agg == Aggregations.AVG) {
+            specialValue /= n;
         }
 
         return specialValue;

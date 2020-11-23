@@ -4,7 +4,6 @@ import RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces.AnalyzerBytePluginIFac
 import RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces.AnalyzerDoublePluginIFace;
 import RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces.AnalyzerIntPluginIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -538,8 +537,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         list.add(pair);
 
 
-        Tohle je posledni vec co se musi opravit
-        Node node = XML.getFirstNodeMatchingGivenAttribute(file.getName());
+
+        Node node = XML.getFirstSongNodeMatchingGivenName(file.getName());
         if(node == null) {		// The song wasn't analyzed before
             XML.addAnalyzedFileToXML(XML.xmlDoc, list, "songs", "song");
         }
@@ -551,8 +550,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                     XML.addNewNode(node, p);
                 }
                 else {								// Change existing node
-                    Tohle je taky spatne ale nevim proc tu mam "value" to neni atribut, to se musim nromalne podivat do toho nodu
-                    currentPairNode.getAttributes().getNamedItem("value").setTextContent(p.getValue());
+                    XML.getValueNodeFromInfoNode(currentPairNode).setTextContent(p.getValue());
                 }
             }
         }

@@ -84,12 +84,17 @@ public class XML {
 		return -1;
 	}
 
+	// TODO: Umistit na lepsi misto ten koment.
+	// The attrName is in this cases redundant since all attributes are called "name" in our case, it is there just to make
+	// it more general
+	// TODO: Umistit na lepsi misto ten koment.
 
 	public static List<String> getSongNames() {
-		return getElementsWithMatchingGivenAttribute("name", "name");
+		return getInfoNodeValuesMatchingGivenAttribute("name", "name");
 	}
 
-	public static List<String> getElementsWithMatchingGivenAttribute(String attrName, String attrVal) {
+
+	public static List<String> getInfoNodeValuesMatchingGivenAttribute(String attrName, String attrVal) {
 		List<String> names = new ArrayList<>();
 		NodeList nList = xmlDoc.getElementsByTagName("song");
 		int len = nList.getLength();
@@ -99,7 +104,7 @@ public class XML {
 			for(int j = 0; j < nnList.getLength(); j++) {
 				Node nn = nnList.item(j);
 				if ( isMatchingGivenAttribute(nn, attrName, attrVal) ) {
-					names.add(nn.getFirstChild().getTextContent());	// Add the name of the song
+					names.add(nn.getFirstChild().getTextContent());			// Add the name of the song
 					break;
 				}
 			}
@@ -108,12 +113,12 @@ public class XML {
 		return names;
 	}
 
-	public static List<String> getElementsWithMatchingGivenAttribute(String attrVal) {
-		return getElementsWithMatchingGivenAttribute("name", attrVal);
+	public static List<String> getInfoNodeValuesMatchingGivenAttribute(String attrVal) {
+		return getInfoNodeValuesMatchingGivenAttribute("name", attrVal);
 	}
 
 
-	public static Node getFirstNodeMatchingGivenAttribute(String attrName, String attrVal) {
+	public static Node getFirstSongNodeMatchingGivenName(String songName) {
 		NodeList nList = xmlDoc.getElementsByTagName("song");
 		int len = nList.getLength();
 		for (int i = 0; i < len; i++) {
@@ -122,9 +127,16 @@ public class XML {
 			for(int j = 0; j < nnList.getLength(); j++) {
 				Node nn = nnList.item(j);
 
-				ProgramTest.debugPrint("First node matching:", nn.getAttributes().getNamedItem(attrName), nn.getAttributes().item(0));
-				if ( isMatchingGivenAttribute(nn, attrName, attrVal) ) {
-					return n;
+				// TODO: DEBUG
+//				ProgramTest.debugPrint("First node matching:", nn.getAttributes().getNamedItem("name"), nn.getAttributes().item(0));
+				// TODO: DEBUG
+				if ( isMatchingGivenAttribute(nn, "name", "name") ) {
+					if(getInfoNodeValue(nn).equals(songName)) {
+						return n;
+					}
+					else {
+						break;
+					}
 				}
 			}
 		}
@@ -132,27 +144,8 @@ public class XML {
 		return null;
 	}
 
-	Zitra to radsi jeste projdu prijde mi ze jsem tady delal nejak moc stejnych veci
 
 
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Tohle je perfektni priklad toho co se stane kdyz mam zmatek ve jmenech (name = "jmeno") - attrName muze byt jak to name, tak to "jmeno", v nasem
-			pripade to bereme jako to name.
-	A druha vec co to ukazuje, z je tyhle lepsi si tyhle veci s hierarchii psat na papir!!!!!!
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Je to jasny ja do te attrVal davam uz to jmeno souboru, ale tam ma byt name - z toho plyne ze ja chci zmenit ten algoritmus -
-	at tam bere to jmeno jako "jmeno" a value jako tu value uvnitr <value> </value>
-	Problem je ze pro name je to co hledam value, ne ten attribut, pro ostatni veci to je ten atribut ... ja chci vlastne name name a pak getInfoNodeValue
-
-
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Vsak jediny co mi tu staci je to zavolat s name name a pak na tom co dostanu zavolat getInfoNodeValue
-	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	public static Node getFirstNodeMatchingGivenAttribute(String attrVal) {
-		return getFirstNodeMatchingGivenAttribute("name", attrVal);
-	}
-
-	Mel bych to udelat jako tohle
 	public static Node findFirstNodeWithGivenAttribute(NodeList nList, String attrName, String attrVal) {
 		int len = nList.getLength();
 		for(int j = 0; j < len; j++) {
@@ -259,28 +252,6 @@ public class XML {
 				songElem = xmlDoc.createElement(underMainTag);
 				Element roote = (Element) root;
 				roote.appendChild(songElem);
-
-				// TODO: Zkousim xml formatovani
-/*			         Attr attr = xmlDoc.createAttribute("zkouska");
-			         attr.setValue("zkouska_Value");
-			         songElem.setAttributeNode(attr);
-*/                   // TODO:
-
-				// TODO:
-				//elem = xmlDoc.createElement(val.getKey());
-				//elem.appendChild(xmlDoc.createTextNode(val.getValue()));
-				//songElem.appendChild(elem);
-				// TODO:
-/*				   
-				   //xmlDoc.createTextNode(val.getKey());
-				   elem = xmlDoc.createElement(val.getKey());
-//				   elem.setTextContent(val.getValue());				   
-				   elem.setNodeValue(val.getValue());
-				   roote.appendChild(elem);
-				   System.out.println(val.getKey());
-				   System.out.println(val.getValue());
-*/
-
 			} else {
 				return;
 			}
@@ -288,51 +259,16 @@ public class XML {
 
 			while (iter.hasNext()) {
 				val = iter.next();
-//				System.out.println(val.getKey());
-//				System.out.println(val.getValue());
-//
-//				elem = xmlDoc.createElement("info");
-//				elem.setAttribute("name", val.getKey());
-//				Element elementInsideAlg;
-//				elementInsideAlg = xmlDoc.createElement("value");
-//				elementInsideAlg.appendChild(xmlDoc.createTextNode(val.getValue()));
-//				elem.appendChild(elementInsideAlg);
-//				songElem.appendChild(elem);
 				addNewNode(songElem, val);
 
 
 
-//                   try {
-//                       elem = xmlDoc.createElement(val.getKey());
-//                   }
-//                    catch(Exception e) {
-//						MyLogger.logWithoutIndentation("Invalid name in xml tree");
-//                        MyLogger.logException(e);
-//                        continue;
-//                    }
-//
-//				   elem.appendChild(xmlDoc.createTextNode(val.getValue()));
-//				   songElem.appendChild(elem);
-//
-//
-//				   // Problem DOM doesn't care and neither allow to specify order of attributes.
-//				   // So we will have only the name as an attribute
-//				   elem = xmlDoc.createElement("algorithm");
-//				   elem.setAttribute("Name", "Nejaky jmeno s mezerama");
-//				   Element elementInsideAlg;
-//				   elementInsideAlg = xmlDoc.createElement("Value");
-//				   elementInsideAlg.appendChild(xmlDoc.createTextNode("Vysledek algoritmu"));
-//				   elem.appendChild(elementInsideAlg);
-//				   songElem.appendChild(elem);
-//				   // TODO: VYMAZAT
-//				   // Attr attr = xmlDoc.createAttribute(val.getKey());
-//				  // attr.setValue(val.getValue());
-//				  // elem.setAttributeNode(attr);
-//				  // elem.appendChild(xmlDoc.createTextNode(attr.getValue()));
-//				   // TODO: VYMAZAT
 
 
-				System.out.println(val.getKey() + "\t" + val.getValue());
+				// TODO: DEBUG
+//				System.out.println("XML add:" + "\t" + val.getKey() + "\t" + val.getValue());
+				// TODO: DEBUG
+
 // TODO:				   e.setAttribute(val.getKey(), val.getValue());		   
 			}
 
@@ -398,35 +334,4 @@ public class XML {
 
 		return retList;
 	}
-
-// TODO: VYMAZAT
-//	/**
-//	 * Pairs are name of the node and node, where name is the name attribute which corresponds to the name of analyzed file.
-//	 * @param xmlDoc
-//	 * @return
-//	 */
-//	public static List<Pair<String, Node>> getPairs(Document xmlDoc) {
-//		NodeList nList = xmlDoc.getElementsByTagName("song");
-//		List<Pair<String, Node>> retList = new ArrayList<>();
-//
-//		// TODO: Java ...	   Pair<String, Node>[] retArr;// = new Pair<String, Node>[list.getLength()];
-//		// TODO: Java	   retArr = new Pair[1];
-//
-//		for (int i = 0; i < nList.getLength(); i++) {
-//			Node n = nList.item(i);
-//			NodeList childs = n.getChildNodes();
-//			int len = childs.getLength();
-//			for (int j = 0; j < len; j++) {
-//				Node n1 = childs.item(j);
-//				if ("name".equals(n1.getNodeName())) {
-//					Pair<String, Node> pair = new Pair<String, Node>(n1.getTextContent(), n);        // TODO: nevim jestli getNodeName da to co ma
-//					retList.add(pair);
-//				}
-//			}
-//		}
-//
-//
-//		return retList;
-//	}
-// TODO: VYMAZAT
 }

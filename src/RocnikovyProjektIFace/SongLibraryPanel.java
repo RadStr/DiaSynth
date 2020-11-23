@@ -105,7 +105,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			        	Node n = allFilesPairList.get(i).getValue();
 			        	NodeList childs = n.getChildNodes();
 			        	for(int j = 0; j < dataAllFiles[i].length; j++) {
-			        		Node n1 = XML.findFirstNodeWithGivenAttribute(childs, "name", headerAllFiles[j]);
+			        		Node n1 = XML.findFirstNodeWithGivenAttribute(childs, headerAllFiles[j]);
 			        		if(n1 == null) {
 			        			dataAllFiles[i][j] = "UNKNOWN";
 			        		}
@@ -315,7 +315,8 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	// TODO: Muzu to odfocusovat tim ze to delam pres ctrl + kliknuti ale ne pres samotny kliknuti
 	// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
-	
+
+	@Deprecated
 	private void addRowToDataModel(DefaultTableModel tableModel, List<Pair<String, Node>> pairList, Node nodeToAdd) {
 		int colCount = tableModel.getColumnCount();
 		Object[] row = new Object[colCount];

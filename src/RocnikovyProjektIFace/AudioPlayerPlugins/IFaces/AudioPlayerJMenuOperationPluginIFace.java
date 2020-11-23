@@ -1,7 +1,6 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
 import DiagramSynthPackage.Synth.Unit;
-import RocnikovyProjektIFace.AudioPlayerPlugins.Plugins.TestingEnumWithValue;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
@@ -34,7 +33,9 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {
         // TODO: RML
         // TODO: make the path relative and also, I have to take in consideration that I may distribute it using .jar
-        String packageContainingPlugins = TestingEnumWithValue.class.getPackage().getName();
+        String thisPackage = AudioPlayerJMenuOperationPluginIFace.class.getPackage().getName();
+        int lastDot = thisPackage.lastIndexOf('.');
+        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "Plugins";
         return loadPlugins(pluginIface, packageContainingPlugins);
     }
 

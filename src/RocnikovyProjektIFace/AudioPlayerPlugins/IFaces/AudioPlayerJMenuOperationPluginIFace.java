@@ -126,6 +126,9 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         path = classFilesDir + "/" + path;
         // Find all the candidates for plugins
         final File folder = new File(path);
+        if(!folder.exists()) {
+            return list;
+        }
 
         // TODO: PROGRAMO
 //        ClassLoader loader = pluginIface.getClassLoader();

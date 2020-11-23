@@ -21,8 +21,8 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
 	@Override
 	public boolean update(Node nodeToBeRemoved) {
 		String name;
-		NodeList childs = nodeToBeRemoved.getChildNodes();
-		int len = childs.getLength();
+		NodeList infoNodes = nodeToBeRemoved.getChildNodes();
+		int len = infoNodes.getLength();
 		
 		System.out.println("!!!!!!!!!!!!!!DATAMODEL!!!!!!!!!!!!!");
 		for(int i = 0; i < dataModel.getColumnCount(); i++) {
@@ -30,15 +30,15 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
 		}
 		System.out.println("!!!!!!!!!!!!!!UPDATE!!!!!!!!!!!!!");
 		for(int i = 0; i < len; i++) {
-			Node child = childs.item(i);
+			Node infoNode = infoNodes.item(i);
 			
-			System.out.println(child.getNodeName() + "\t" + child.getTextContent());
+			System.out.println(infoNode.getNodeName() + "\t" + infoNode.getTextContent());
 			System.out.println("--------------------");
 			
-			if("name".equals(child.getNodeName())) {
-				name = child.getTextContent();
+			if(XML.isMatchingGivenAttribute(infoNode, "name", SongLibraryPanel.HEADER_NAME)) {
+				name = XML.getInfoNodeValue(infoNode);
 				int rowCount = dataModel.getRowCount();
-				int col = dataModel.findColumn("name");
+				int col = dataModel.findColumn(SongLibraryPanel.HEADER_NAME);
 				for(int j = 0; j < rowCount; j++) {
 					if(dataModel.getValueAt(j, col).equals(name)) {
 						dataModel.removeRow(j);

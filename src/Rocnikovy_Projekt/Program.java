@@ -3064,6 +3064,17 @@ public class Program {
         }
     }
 
+
+    public static int getMaxAbsoluteValue(int sampleSizeInBits, boolean isSigned) {
+        if(isSigned) {
+            return getMaxAbsoluteValueSigned(sampleSizeInBits);
+        }
+        else {
+            return getMaxAbsoluteValueUnsigned(sampleSizeInBits);
+        }
+    }
+
+
     public static int getMaxAbsoluteValueSigned(int sampleSizeInBits) {
         return (1 << (sampleSizeInBits - 1)) - 1;
     }
@@ -3135,6 +3146,16 @@ public class Program {
         }
 
         return true;
+    }
+
+
+    public String getFileFormatType() {
+        if(audioType == AudioType.MP3) {
+            return "MP3 (.mp3)";
+        }
+        else {
+            return type.toString() + " (." + type.getExtension() + ")";
+        }
     }
 
     /**

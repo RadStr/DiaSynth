@@ -127,7 +127,7 @@ public class SongInfoPanel extends JPanel {
 
 	private static String getPathFromXML(Node node) {
 		NodeList childs = node.getChildNodes();
-		Node n = XML.findFirstNodeWithGivenAttribute(childs, "path");
+		Node n = XML.findFirstNodeWithGivenAttribute(childs, "Path");
 		if (n != null) {
 			return XML.getInfoNodeValue(n);
 		}

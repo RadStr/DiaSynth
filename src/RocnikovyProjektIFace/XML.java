@@ -90,7 +90,7 @@ public class XML {
 	// TODO: Umistit na lepsi misto ten koment.
 
 	public static List<String> getSongNames() {
-		return getInfoNodeValuesMatchingGivenAttribute("name", "name");
+		return getInfoNodeValuesMatchingGivenAttribute("name", SongLibraryPanel.HEADER_NAME);
 	}
 
 
@@ -128,9 +128,10 @@ public class XML {
 				Node nn = nnList.item(j);
 
 				// TODO: DEBUG
-//				ProgramTest.debugPrint("First node matching:", nn.getAttributes().getNamedItem("name"), nn.getAttributes().item(0));
+//				ProgramTest.debugPrint("First node matching:", nn.getAttributes().
+//				getNamedItem(SongLibraryPanel.HEADER_NAME), nn.getAttributes().item(0));
 				// TODO: DEBUG
-				if ( isMatchingGivenAttribute(nn, "name", "name") ) {
+				if ( isMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME) ) {
 					if(getInfoNodeValue(nn).equals(songName)) {
 						return n;
 					}
@@ -183,7 +184,7 @@ public class XML {
 		return getValueNodeFromInfoNode(infoNode).getTextContent();
 	}
 
-	private static boolean isMatchingGivenAttribute(Node n, String attrName, String attrVal) {
+	public static boolean isMatchingGivenAttribute(Node n, String attrName, String attrVal) {
 		return attrVal.equals(n.getAttributes().getNamedItem(attrName).getNodeValue());
 	}
 
@@ -237,11 +238,6 @@ public class XML {
 
 
 	public static void addAnalyzedFileToXML(Document xmlDoc, List<Pair<String, String>> list, String mainTag, String underMainTag) {
-	/*	// First argument should be name (for speed reason don't check)
-		   if(map[0].getKey() != "name") {		
-			   return;
-		   }
-	*/
 		ListIterator<Pair<String, String>> iter = list.listIterator();
 		if (iter.hasNext()) {
 			Pair<String, String> val;// TODO: // = iter.next();
@@ -323,7 +319,7 @@ public class XML {
 			int len = childs.getLength();
 			for (int j = 0; j < len; j++) {
 				Node n1 = childs.item(j);
-				if (isMatchingGivenAttribute(n1, "name", "name")) {
+				if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME)) {
 					Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);        // TODO: nevim jestli getNodeName da to co ma
 					ProgramTest.debugPrint("Pair name:", getInfoNodeValue(n1));
 					retList.add(pair);

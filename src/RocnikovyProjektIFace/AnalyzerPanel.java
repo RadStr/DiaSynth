@@ -116,18 +116,19 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         Box box = Box.createVerticalBox();
         checkBoxTextLabel = new JLabel("What information should be extracted from audio file.");
-        checkBoxes = new JCheckBox[11];
-        checkBoxes[0] = new JCheckBox("Find sampling rate");
+        checkBoxes = new JCheckBox[12];
+        checkBoxes[0] = new JCheckBox("Find size in bytes");
         checkBoxes[1] = new JCheckBox("Find length");
-        checkBoxes[2] = new JCheckBox("Find size in bytes");
-        checkBoxes[3] = new JCheckBox("Find sample peaks");
-        checkBoxes[4] = new JCheckBox("Find sample average");
-        checkBoxes[5] = new JCheckBox("Find RMS (special average)");
-        checkBoxes[6] = new JCheckBox("Endianity");
-        checkBoxes[7] = new JCheckBox("Encoding");
-        checkBoxes[8] = new JCheckBox("Sample size");
-        checkBoxes[9] = new JCheckBox("number of channels");
-        checkBoxes[10] = new JCheckBox("BPM");
+        checkBoxes[2] = new JCheckBox("File format");
+        checkBoxes[3] = new JCheckBox("Encoding");
+        checkBoxes[4] = new JCheckBox("Sample size");
+        checkBoxes[5] = new JCheckBox("Find sampling rate");
+        checkBoxes[6] = new JCheckBox("number of channels");
+        checkBoxes[7] = new JCheckBox("Endianness");
+        checkBoxes[8] = new JCheckBox("Find sample peaks");
+        checkBoxes[9] = new JCheckBox("Find sample average");
+        checkBoxes[10] = new JCheckBox("Find RMS (special average)");
+        checkBoxes[11] = new JCheckBox("BPM");
 
         box.add(checkBoxTextLabel);
         for(int i = 0; i < checkBoxes.length; i++) {
@@ -272,14 +273,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-    private NodeList nList;
-
     private File currentDirectory;
     private void performActionForFileChooser(int returnVal) {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             currentDirectory = fileChooser.getCurrentDirectory();
             File[] files = fileChooser.getSelectedFiles();
-            nList = XML.xmlDoc.getElementsByTagName("name");
             addFilesToModel(files);
             //This is where a real application would open the file.
         }
@@ -358,7 +356,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                        Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                        filename + "\n" + Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {
@@ -384,13 +382,15 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     public void analyze(String filename) {
         File file = new File(filename);
         List<Pair<String, String>> list = new ArrayList<>();
-        Pair<String, String> pair = new Pair<>("name", file.getName());
+        Pair<String, String> pair = new Pair<>(SongLibraryPanel.HEADER_NAME, file.getName());
+        list.add(pair);
+        pair = new Pair<>("Path", file.getAbsolutePath());
         list.add(pair);
 
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                             Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                        filename + "\n" + Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {
@@ -414,45 +414,49 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         if(checkBoxes[0].isSelected()) {
-            list.add(analyzeSampleRate(p));
+            list.add(analyzeSizeInBytes(p));
         }
         if(checkBoxes[1].isSelected()) {
             list.add(analyzeSongLength(p));
         }
         if(checkBoxes[2].isSelected()) {
-            list.add(analyzeSizeInBytes(p));
+            list.add(analyzeFileFormat(p));
         }
+        if(checkBoxes[3].isSelected()) {
+            list.add(analyzeEncoding(p));
+        }
+        if(checkBoxes[4].isSelected()) {
+            list.add(analyzeSampleSize(p));
+        }
+        if(checkBoxes[5].isSelected()) {
+            list.add(analyzeSampleRate(p));
+        }
+        if(checkBoxes[6].isSelected()) {
+            list.add(analyzeNumberOfChannels(p));
+        }
+        if(checkBoxes[7].isSelected()) {
+            list.add(analyzeEndianness(p));
+        }
+
         double[] mods = null;
-        if(checkBoxes[3].isSelected() || checkBoxes[4].isSelected() || checkBoxes[5].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
+        if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
             try {
                 mods = Program.getAllMods(p.song, p.sampleSizeInBytes, p.isBigEndian, p.isSigned);
             } catch (IOException e) {
                 new ErrorFrame(frame, "Invalid sample size:\t" + e.getMessage());
             }
         }
-        if(checkBoxes[3].isSelected()) {
+        if(checkBoxes[8].isSelected()) {
             list.add(analyzeSampleMax(mods));
             list.add(analyzeSampleMin(mods));
         }
-        if(checkBoxes[4].isSelected()) {
+        if(checkBoxes[9].isSelected()) {
             list.add(analyzeSampleAverage(mods));
         }
-        if(checkBoxes[5].isSelected()) {
+        if(checkBoxes[10].isSelected()) {
             list.add(analyzeSampleRMS(mods));
         }
-        if(checkBoxes[6].isSelected()) {
-            list.add(analyzeEndianity(p));
-        }
-        if(checkBoxes[7].isSelected()) {
-            list.add(analyzeEncoding(p));
-        }
-        if(checkBoxes[8].isSelected()) {
-            list.add(analyzeSampleSize(p));
-        }
-        if(checkBoxes[9].isSelected()) {
-            list.add(analyzeNumberOfChannels(p));
-        }
-        if(checkBoxes[10].isSelected()) {
+        if(checkBoxes[11].isSelected()) {
             list.add(analyzeBPMSimpleFull(p));
             list.add(analyzeBPMAdvancedFullLinear(p));
 //            list.add(analyzeBPMAdvancedFullLinear2(p));
@@ -533,8 +537,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //			list.add(pair);
 //			c[0]++;
 //		}
-        pair = new Pair<>("path", file.getAbsolutePath());
-        list.add(pair);
 
 
 
@@ -554,100 +556,70 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                 }
             }
         }
+    }
 
-        // TODO: VYMAZAT
-//        // Check if the name wasn't already analyzed, if yes then just change the node (and change only the analyzed attributes)
-//        NodeList sList = XML.xmlDoc.getElementsByTagName("song"); // TODO: Zase ocekavam ze je jen 1 songs, coz ma byt
-//        XML.getSongNames();
-//        NodeList nList = XML.xmlDoc.getElementsByTagName("name");
-//        System.out.println("file:\t" + file.getName());
-//        int index = XML.findNodeWithValue(nList, file.getName());
-//        if(index == -1) {		// The song wasn't analyzed before
-//            XML.addAnalyzedFileToXML(XML.xmlDoc, list, "songs", "song");
-//        }
-//        else {
-//            Node node = sList.item(index);
-//            NodeList childNodes = node.getChildNodes();
-//            for(Pair<String, String> p : list) {
-//                Node currentPairNode = XML.findNodeXML(childNodes, p.getKey());
-//                if(currentPairNode == null) {		// Add new node
-//                    Element elem;
-//                    try {
-//                        elem = XML.xmlDoc.createElement(p.getKey());
-//                    }
-//                    catch(Exception e) {
-//                        MyLogger.logWithoutIndentation("Invalid name in xml tree");
-//                        MyLogger.logException(e);
-//                        continue;
-//                    }
-//                    elem.appendChild(XML.xmlDoc.createTextNode(p.getValue()));
-//                    node.appendChild(elem);
-//                }
-//                else {								// Change existing node
-//                    currentPairNode.setTextContent(p.getValue());
-//                }
-//            }
-//        }
-        // TODO: VYMAZAT
+
+    private static Pair<String, String> analyzeFileFormat(Program prog) {
+        return new Pair<String, String>("File format", prog.getFileFormatType());
     }
 
     private static Pair<String, String> analyzeSampleRate(Program prog) {
-        return new Pair<String, String>("sampleRate", ((Integer)prog.sampleRate).toString());
+        return new Pair<String, String>("Sample rate", ((Integer)prog.sampleRate).toString());
     }
 
     private static Pair<String, String> analyzeSongLength(Program prog) {
-        return new Pair<String, String>("length",
+        return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH,
                 Program.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
     }
 
     private static Pair<String, String> analyzeSizeInBytes(Program prog) {
         Integer len = prog.wholeFileSize;
-        return new Pair<String, String>("fileSizeInBytes", len.toString());
+        return new Pair<String, String>("File size (in bytes)", len.toString());
     }
 
     private static Pair<String, String> analyzeSampleMin(double[] mods) {
         String s = String.format("%.2f", mods[Aggregations.MIN.ordinal()]);
-        return new Pair<String, String>("sampleMINVal", s);
+        return new Pair<String, String>("Minimum sample value", s);
     }
 
     private static Pair<String, String> analyzeSampleMax(double[] mods) {
         String s = String.format("%.2f", mods[Aggregations.MAX.ordinal()]);
-        return new Pair<String, String>("sampleMAXVal", s);
+        return new Pair<String, String>("Maximum sample value", s);
     }
 
     private static Pair<String, String> analyzeSampleAverage(double[] mods) {
         String s = String.format("%.2f", mods[Aggregations.AVG.ordinal()]);
-        return new Pair<String, String>("sampleAVGVal", s);
+        return new Pair<String, String>("Average", s);
     }
 
     private static Pair<String, String> analyzeSampleRMS(double[] mods) {
         String s = String.format("%.2f", mods[Aggregations.RMS.ordinal()]);
-        return new Pair<String, String>("sampleRMSVal", s);
+        return new Pair<String, String>("RMS", s);
     }
 
-    private static Pair<String, String> analyzeEndianity(Program prog) {
+    private static Pair<String, String> analyzeEndianness(Program prog) {
         if(prog.isBigEndian) {
-            return new Pair<String, String>("Endianess", "Big endian");
+            return new Pair<String, String>("Endianness", "Big endian");
         }
         else {
-            return new Pair<String, String>("Endianess", "Little endian");
+            return new Pair<String, String>("Endianness", "Little endian");
         }
     }
 
     private static Pair<String, String> analyzeEncoding(Program prog) {
-        return new Pair<String, String>("encoding", prog.encoding.toString());// TODO: To chce asi pres swithch spis
+        return new Pair<String, String>("Encoding", prog.encoding.toString());// TODO: To chce asi pres swithch spis
     }
 
     private static Pair<String, String> analyzeSampleSize(Program prog) {
-        return new Pair<String, String>("sampleSize", ((Integer)(prog.sampleSizeInBits / 8)).toString());
+        return new Pair<String, String>("Sample Size (In bytes)", ((Integer)(prog.sampleSizeInBits / 8)).toString());
     }
 
     private static Pair<String, String> analyzeNumberOfChannels(Program prog) {
-        return new Pair<String, String>("numberOfChannels", ((Integer)prog.numberOfChannels).toString());
+        return new Pair<String, String>("Number of channels", ((Integer)prog.numberOfChannels).toString());
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(Program prog) {
-        return new Pair<String, String>("BPMSimpleFull", ((Integer)prog.getBPMSimple()).toString());
+        return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.getBPMSimple()).toString());
     }
 
 
@@ -754,7 +726,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.2, 6, 0.0)).toString());
 
 
-        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+        return new Pair<String, String>("BPM (Advanced full)", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
 //        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
 //                splitter, 2.5, 6, 1.12)).toString());
@@ -1322,7 +1294,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 
-        return new Pair<String, String>("BPMBarycenterPart", ((Integer)bpm).toString());
+        return new Pair<String, String>("BPM (Barycenter part)", ((Integer)bpm).toString());
     }
 
     private static Pair<String, String> analyzeBPMAllPart(Program prog) {
@@ -1352,7 +1324,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 
-        return new Pair<String, String>("BPMAllPart", ((Integer)bpm).toString());
+        return new Pair<String, String>("BPM (All part)", ((Integer)bpm).toString());
     }
 
 

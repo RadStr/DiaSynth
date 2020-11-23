@@ -36,7 +36,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	public DataModelObserverIFace getSelectedFilesObserver() {
 		return selectedFilesObserver;
 	}
-	private String[] headerSelectedFiles;
+	private final String[] headerSelectedFiles;
 
 	private DefaultTableModel dataModelAllFiles;
 	private JTable allFilesTable;
@@ -47,16 +47,19 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	public DataModelObserverIFace getAllFilesObserver() {
 		return allFilesObserver;
 	}
-	private String[] headerAllFiles;	// TODO: Asi bych mel zobrazit vsechny ... mel bych je definovat nekde mimo ... a delat to pres pluginy
+	private final String[] headerAllFiles;	// TODO: Asi bych mel zobrazit vsechny ... mel bych je definovat nekde mimo ... a delat to pres pluginy
 
 	private JFrame thisFrame;
+
+	public static String HEADER_NAME = "Name";
+    public static String HEADER_LENGTH = "Length";
 	
 	public SongLibraryPanel(JFrame thisFrame, AddToAudioPlayerIFace addToAudioPlayerIFace) {
 		this.thisFrame = thisFrame;
 		this.setLayout(new BorderLayout());
 		selectedFilesPairList = new ArrayList<>();
-		headerSelectedFiles = new String[] {"name", "length"};
-		headerAllFiles = new String[] {"name", "length"};
+		headerSelectedFiles = new String[] {HEADER_NAME, HEADER_LENGTH};
+		headerAllFiles = new String[] {HEADER_NAME, HEADER_LENGTH};
 		
 		Box boxSelectedFiles = Box.createVerticalBox();
 		selectedFilesLabel = new JLabel("Selected files");
@@ -316,7 +319,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 
-	@Deprecated
+	@Deprecated // Issue with the findNodeXML
 	private void addRowToDataModel(DefaultTableModel tableModel, List<Pair<String, Node>> pairList, Node nodeToAdd) {
 		int colCount = tableModel.getColumnCount();
 		Object[] row = new Object[colCount];

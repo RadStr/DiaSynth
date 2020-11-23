@@ -7035,12 +7035,14 @@ public class Program {
                                     int sampleSize, int frameSize,
                                     int sampleRate, int mask, boolean isBigEndian, boolean isSigned,
                                     int windowsBetweenBeats) {
-         // TODO: DEBUG
+        // TODO: DEBUG
         double maxEnergy = Double.MIN_VALUE;
-         double minCoef = Double.MAX_VALUE;
-         double maxCoef = Double.MIN_VALUE;
-         double maxVariance = Double.MIN_VALUE;
-         // TODO: DEBUG
+        double minCoef = Double.MAX_VALUE;
+        double maxCoef = Double.MIN_VALUE;
+        double maxVariance = Double.MIN_VALUE;
+        // TODO: DEBUG
+
+        final int maxAbsValSigned = getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
 
         int beatCount = 0;
         int sampleIndex = 0;
@@ -7052,15 +7054,14 @@ public class Program {
         for(i = 0; i < windows.length; i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
             if(nextSampleIndex < samples.length) {
                 windows[i] = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
-                    isBigEndian, isSigned);
+                    isBigEndian, isSigned, maxAbsValSigned);
                 energySum += windows[i];
             }
         }
 
 
 
-         double maxVal = getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
-         double maxValueInEnergy = windowSize * maxVal * maxVal;     // max energy
+         double maxValueInEnergy = ((double)windowSize) * maxAbsValSigned * maxAbsValSigned;     // max energy
          double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
          // TODO: It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
          maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
@@ -7076,7 +7077,7 @@ public class Program {
         while(nextSampleIndex < samples.length) {
             energyAvg = energySum / windows.length;
             currEnergy = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
-                isBigEndian, isSigned);
+                    isBigEndian, isSigned, maxAbsValSigned);
             variance = getVariance(energyAvg, windows);
             variance /= maxValueInVariance;
 
@@ -7159,13 +7160,17 @@ public class Program {
 
 
 
-    private static double getEnergy(byte[] samples, int windowSize, int numberOfChannels,
-                                     int sampleSize, int index, int mask, boolean isBigEndian, boolean isSigned) {
+    private static double getEnergy(byte[] samples, int windowSize, int numberOfChannels, int sampleSize,
+                                    int index, int mask, boolean isBigEndian, boolean isSigned,
+                                    int maxAbsoluteValueSigned) {
         double energy = 0;
 
         for(int i = 0; i < windowSize; i++) {
             for(int j = 0; j < numberOfChannels; j++, index += sampleSize) {
                 int val = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                if(!isSigned) {     // Convert unsigned sample to signed
+                    val -= maxAbsoluteValueSigned;
+                }
                 energy += val*(double)val;
             }
         }

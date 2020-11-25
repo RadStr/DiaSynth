@@ -31,13 +31,17 @@ public class SongInfoPanel extends JPanel {
         String[] header = {"Property name", "Property value"};   
 // TODO: Novy uz primo pres ty nody
         NodeList childs = node.getChildNodes();
-        int childsLen = childs.getLength();
+        int childsLen = XML.getValidInfoNodeCount(childs);
         String[][] data = new String[childsLen][2];
         
-        for(int i = 0; i < data.length; i++) {
-        	Node nTmp = childs.item(i);
+        for(int i = 0, j = 0; i < data.length; j++) {
+        	Node nTmp = childs.item(j);
 			data[i][0] = XML.getInfoNodeName(nTmp);
+			if(data[i][0] == null) {
+				continue;
+			}
 			data[i][1] = XML.getInfoNodeValue(nTmp);
+			i++;
         }
 //        
 /*      //  TODO: Bylo stary jen na testovani  
@@ -105,6 +109,7 @@ public class SongInfoPanel extends JPanel {
 				}
 				if(nodeExists) {
 					root.removeChild(node);	// There should be only one such tag ("songs")
+					XML.removeInvalidNodes(root);
 					XML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, previousWindow);
 					subject.notifyObservers(node);
 				}

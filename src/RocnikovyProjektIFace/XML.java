@@ -10,10 +10,7 @@ import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -47,6 +44,16 @@ public class XML {
 			MyLogger.logException(e);
 			new ErrorFrame(callingFrame, "Unknown error in createXMLFile"); // TODO:
 		}
+
+
+		// Otherwise the xml content is on one line - it doesn't really matter, unless you are viewing in text editor.
+		// So maybe in future I will just put it on 1 line, since adding the indent adds small problems to the
+		// processing using XML dom.
+		// The newly added indentation nodes match "\n\\s+" regex pattern
+		// https://stackoverflow.com/questions/8085006/how-to-add-a-carriage-return-to-xml-output-in-java
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
 		DOMSource source = new DOMSource(node);
 		StreamResult result = new StreamResult(new File(filename));
 		try {
@@ -56,6 +63,37 @@ public class XML {
 			new ErrorFrame(callingFrame, "Unknown error in createXMLFile"); // TODO:
 		}
 	}
+
+	/**
+	 * Invalid nodes are the nodes which don't have any content - they are just indentation in the XML).
+	 * @param root
+	 */
+	public static void removeInvalidNodes(Node root) {
+		ProgramTest.debugPrint("XML MAIN NODES LEN:", root.getChildNodes().getLength());
+		boolean isPreviousNodeIndentation = false;
+		NodeList rootChilds = root.getChildNodes();
+		List<Integer> emptyNodesIndices = new ArrayList<>();
+		for(int i = 0; i < rootChilds.getLength(); i++) {
+			Node currNode = rootChilds.item(i);
+			String currNodeText = currNode.getTextContent();
+			ProgramTest.debugPrint("Node " + i + ":" + currNodeText);
+			if(currNodeText.matches("\n\\s+")) {
+				if(isPreviousNodeIndentation) {
+					emptyNodesIndices.add(i);
+				}
+				isPreviousNodeIndentation = true;
+			}
+			else {
+				isPreviousNodeIndentation = false;
+			}
+		}
+
+		for(int i = emptyNodesIndices.size() - 1; i >= 0; i--) {
+			ProgramTest.debugPrint("Empty nodes:", i, emptyNodesIndices.get(i), emptyNodesIndices.size(), rootChilds.getLength());
+			root.removeChild(rootChilds.item(emptyNodesIndices.get(i)));
+		}
+	}
+
 
 
 	public static Node findNodeXML(NodeList list, String name) {
@@ -166,12 +204,32 @@ public class XML {
 
 
 	public static String getAttributeValueFromInfoNode(Node infoNode, String attrName) {
+		// Added because when we are using the indentation, the node can be just the white characters representing the
+		// indentation, so then it doesn't have any attributes. (although this check might be useful even for other cases)
+		if(infoNode.getAttributes() == null) {
+			return null;
+		}
 		return infoNode.getAttributes().getNamedItem(attrName).getNodeValue();
 	}
 
 	// Name is the part in "" name = "name of algorithm"
 	public static String getInfoNodeName(Node infoNode) {
 		return getAttributeValueFromInfoNode(infoNode, "name");
+	}
+
+	/**
+	 * Returns number of valid info nodes inside the given list.
+	 * @param nList
+	 * @return
+	 */
+	public static int getValidInfoNodeCount(NodeList nList) {
+		int count = 0;
+		for(int i = 0; i < nList.getLength(); i++) {
+			if(getInfoNodeName(nList.item(i)) != null) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 
@@ -185,6 +243,11 @@ public class XML {
 	}
 
 	public static boolean isMatchingGivenAttribute(Node n, String attrName, String attrVal) {
+		// Added because when we are using the indentation, the node can be just the white characters representing the
+		// indentation, so then it doesn't have any attributes. (although this check might be useful even for other cases)
+		if(n.getAttributes() == null) {
+			return false;
+		}
 		return attrVal.equals(n.getAttributes().getNamedItem(attrName).getNodeValue());
 	}
 

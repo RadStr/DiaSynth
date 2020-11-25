@@ -282,9 +282,11 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 				new ErrorFrame((JFrame) SwingUtilities.getWindowAncestor(this), "File doesn't exist anymore");
 			}
 		}
+
+		XML.removeInvalidNodes(root);
 		XML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, thisFrame);
 	}
-	
+
 	
 	private void actionAddToSelectedPerformed(ActionEvent e) {
 		int[] rows = allFilesTable.getSelectedRows();

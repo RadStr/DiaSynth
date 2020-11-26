@@ -1315,8 +1315,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         numberOfSeconds = 2.2;
-//        numberOfSeconds = 5.2;
 //        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
+//        numberOfSeconds = 5.2;
 //        numberOfSeconds = 3.2;
 //        numberOfSeconds = 4.15;
         numberOfBeats = (int)Math.ceil(numberOfSeconds);

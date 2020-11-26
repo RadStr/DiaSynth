@@ -1,7 +1,5 @@
 package Rocnikovy_Projekt;
 
-import org.jtransforms.fft.DoubleFFT_1D;
-
 public class GetBPMUsingCombFilterBarycenter implements GetBPMUsingCombFilterIFace {
 
     @Override
@@ -29,7 +27,7 @@ public class GetBPMUsingCombFilterBarycenter implements GetBPMUsingCombFilterIFa
             }
 
             maxEnergySum += maxEnergy;
-            bpm = GetBPMUsingCombFilterIFace.calculateBPMFromInd(startBPM, jumpBPM, maxBpmInd);
+            bpm = GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBpmInd);
             System.out.println(bpm + "\t" + maxEnergy + "\t" + energies[i][6]);
             sum += maxEnergy * bpm;
         }

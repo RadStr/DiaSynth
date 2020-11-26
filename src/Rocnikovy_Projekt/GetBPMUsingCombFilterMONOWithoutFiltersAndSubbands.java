@@ -85,10 +85,10 @@ public class GetBPMUsingCombFilterMONOWithoutFiltersAndSubbands implements GetBP
 //            }
 //
 //            usedIndexes[index] = index;
-//            System.out.println(GetBPMUsingCombFilterIFace.calculateBPMFromInd(startBPM, jumpBPM, index) + ":\t" + energy);
+//            System.out.println(GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, index) + ":\t" + energy);
 //        }
 // TODO: JUST DEBUG
 
-        return GetBPMUsingCombFilterIFace.calculateBPMFromInd(startBPM, jumpBPM, maxBPMIndex);
+        return GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBPMIndex);
     }
 }

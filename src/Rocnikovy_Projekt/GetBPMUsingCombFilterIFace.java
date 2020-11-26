@@ -9,7 +9,15 @@ public interface GetBPMUsingCombFilterIFace {
 
     public int calculateBPMFromEnergies(double[][] energies, int startBPM, int jumpBPM, int bpmCount);
 
-    public static int calculateBPMFromInd(int startBPM, int jumpBPM, int index) {
+
+    /**
+     * Returns BPM based on the given parameters, this is used to get the BPM based on index in the energies array.
+     * @param startBPM
+     * @param jumpBPM
+     * @param index
+     * @return
+     */
+    public static int getBPMFromIndex(int startBPM, int jumpBPM, int index) {
         return startBPM + index * jumpBPM;
     }
 
@@ -172,7 +180,7 @@ public interface GetBPMUsingCombFilterIFace {
                 Program.getCombFilterEnergies(ifftResults[subband], bpmArrays, energies[subband]);       // adds to the energies
 //                System.out.println("!!!!!!!!!!!!!!!!" + subband);
 //                for(int debug = 0; debug < energies[subband].length; debug++) {
-//                    System.out.println(calculateBPMFromInd(bpmStart, bpmJump, debug) + "\t" + energies[subband][debug]);
+//                    System.out.println(getBPMFromIndex(bpmStart, bpmJump, debug) + "\t" + energies[subband][debug]);
 //                }
 //                System.out.println("\n\n\n\n");
             }
@@ -234,7 +242,7 @@ public interface GetBPMUsingCombFilterIFace {
                                     int startIndex, int endIndex,
                                     int subbandCount, SubbandSplitterIFace splitter,
                                     DoubleFFT_1D fft, Program prog) {
-        // TODO: Napsat metodu getBPM array to je to to impulse period + ten for cycklus
+        // TODO: Napsat metodu getBPMFromIndex array to je to to impulse period + ten for cycklus
         // TODO: Vlastne uz to mam napsany vsechno akorat zmensit ty pole a delat fft hned jakmile mam to jedno window
         return calculateBPM(prog.song, bpmArrays, startBPM, jumpBPM,
             prog.sampleSizeInBytes, prog.sampleSizeInBits, windowSize, startIndex, endIndex,

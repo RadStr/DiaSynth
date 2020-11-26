@@ -1,6 +1,6 @@
 package Rocnikovy_Projekt;
 
-public class GetBPMUsingCombFilterAllSubbands implements GetBPMUsingCombFilterIFace {
+public class CombFilterBPMAllSubbandsGetter implements CombFilterBPMGetterIFace {
     @Override
     public int calculateBPMFromEnergies(double[][] energies, int startBPM, int jumpBPM, int bpmCount) {
         int maxBPMIndex = 0;
@@ -15,7 +15,7 @@ public class GetBPMUsingCombFilterAllSubbands implements GetBPMUsingCombFilterIF
             }
         }
 
-        return GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBPMIndex);
+        return CombFilterBPMGetterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBPMIndex);
     }
 
 

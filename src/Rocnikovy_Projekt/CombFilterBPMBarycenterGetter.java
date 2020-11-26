@@ -1,6 +1,6 @@
 package Rocnikovy_Projekt;
 
-public class GetBPMUsingCombFilterBarycenter implements GetBPMUsingCombFilterIFace {
+public class CombFilterBPMBarycenterGetter implements CombFilterBPMGetterIFace {
 
     @Override
     public int calculateBPMFromEnergies(double[][] energies, int startBPM, int jumpBPM, int bpmCount) {
@@ -27,7 +27,7 @@ public class GetBPMUsingCombFilterBarycenter implements GetBPMUsingCombFilterIFa
             }
 
             maxEnergySum += maxEnergy;
-            bpm = GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBpmInd);
+            bpm = CombFilterBPMGetterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBpmInd);
             System.out.println(bpm + "\t" + maxEnergy + "\t" + energies[i][6]);
             sum += maxEnergy * bpm;
         }

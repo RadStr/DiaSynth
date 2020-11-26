@@ -4,7 +4,8 @@ import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.io.IOException;
 
-public class GetBPMUsingCombFilterMONOWithoutFiltersAndSubbands implements GetBPMUsingCombFilterIFace {
+@Deprecated // It was used for testing or something, idk
+public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFilterBPMGetterIFace {
 
     // TODO: This is version for mono signal
     // double[][][] bpmArrays because first dim is for each bpm and the other 2 are the labelReferenceArrs of fft of windows
@@ -85,10 +86,10 @@ public class GetBPMUsingCombFilterMONOWithoutFiltersAndSubbands implements GetBP
 //            }
 //
 //            usedIndexes[index] = index;
-//            System.out.println(GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, index) + ":\t" + energy);
+//            System.out.println(CombFilterBPMGetterIFace.getBPMFromIndex(startBPM, jumpBPM, index) + ":\t" + energy);
 //        }
 // TODO: JUST DEBUG
 
-        return GetBPMUsingCombFilterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBPMIndex);
+        return CombFilterBPMGetterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBPMIndex);
     }
 }

@@ -1124,12 +1124,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterBarycenter();      // Barycenter version
+//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //            numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1150,12 +1150,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 2.2;
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterAllSubbands();     // All subbands version
+//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //            numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1176,12 +1176,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterBarycenter();      // Barycenter version
+//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1203,12 +1203,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 2.2;
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterAllSubbands();     // All subbands version
+//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1230,12 +1230,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterBarycenter();      // Barycenter version
+//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1258,12 +1258,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        double numberOfSeconds;
 //        int numberOfBeats;
 //        int bpm;
-//        GetBPMUsingCombFilterIFace combFilterAlg;
+//        CombFilterBPMGetterIFace combFilterAlg;
 //
 //
 //        numberOfSeconds = 2.2;
 //        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new GetBPMUsingCombFilterAllSubbands();     // All subbands version
+//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
 //        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
 //                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 //
@@ -1285,12 +1285,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         double numberOfSeconds;
         int numberOfBeats;
         int bpm;
-        GetBPMUsingCombFilterIFace combFilterAlg;
+        CombFilterBPMGetterIFace combFilterAlg;
 
 //        numberOfSeconds = 2.2;
         numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
-        combFilterAlg = new GetBPMUsingCombFilterBarycenter();      // Barycenter version
+        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
         bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 
@@ -1311,7 +1311,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         double numberOfSeconds;
         int numberOfBeats;
         int bpm;
-        GetBPMUsingCombFilterIFace combFilterAlg;
+        CombFilterBPMGetterIFace combFilterAlg;
 
 
         numberOfSeconds = 2.2;
@@ -1320,7 +1320,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        numberOfSeconds = 3.2;
 //        numberOfSeconds = 4.15;
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
-        combFilterAlg = new GetBPMUsingCombFilterAllSubbands();     // All subbands version
+        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
         bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 

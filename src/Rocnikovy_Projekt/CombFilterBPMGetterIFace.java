@@ -4,7 +4,7 @@ import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.io.IOException;
 
-public interface GetBPMUsingCombFilterIFace {
+public interface CombFilterBPMGetterIFace {
 
 
     public int calculateBPMFromEnergies(double[][] energies, int startBPM, int jumpBPM, int bpmCount);

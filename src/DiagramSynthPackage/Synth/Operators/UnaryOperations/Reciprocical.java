@@ -49,11 +49,14 @@ public class Reciprocical extends UnaryOperator {
     }
 
 
-    public static final double MIN_ALLOWED_VAL_FOR_POINT_TWO = 0.01;
-    private double minAllowedVal = MIN_ALLOWED_VAL_FOR_POINT_TWO;
+    /**
+     * For amplitude = 1 this is the minimum allowed absolute value.
+     */
+    public static final double MIN_ALLOWED_VAL_FOR_ONE = 0.05;
+    private double minAllowedVal = MIN_ALLOWED_VAL_FOR_ONE;
     @Override
     public void calculateSamples() {
-        minAllowedVal = MIN_ALLOWED_VAL_FOR_POINT_TWO * inputPorts[0].getMaxAbsValue() / 0.2;
+        minAllowedVal = MIN_ALLOWED_VAL_FOR_ONE * inputPorts[0].getMaxAbsValue();
         super.calculateSamples();
     }
 

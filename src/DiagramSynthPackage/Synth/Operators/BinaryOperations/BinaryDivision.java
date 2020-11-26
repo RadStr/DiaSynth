@@ -47,10 +47,10 @@ public class BinaryDivision extends BinaryOperator {
         return "BinaryDivision";
     }
 
-    private double minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_POINT_TWO;
+    private double minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_ONE;
     @Override
     public void calculateSamples() {
-        minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_POINT_TWO * inputPorts[1].getMaxAbsValue() / 0.2;
+        minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_ONE * inputPorts[1].getMaxAbsValue();
         super.calculateSamples();
     }
 

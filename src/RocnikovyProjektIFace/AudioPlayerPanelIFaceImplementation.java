@@ -5013,7 +5013,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
 
         private void resetValues() {
-            changedWaveSizes();
             byte[] arr = audioArr;
             if (arr != null) {
                 for (int i = 0; i < arr.length; i++) {
@@ -5022,6 +5021,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             }
 
             resetPlayVariables();
+            changedWaveSizes();
         }
 
 

@@ -185,9 +185,12 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 
 
-    private void postDeletionAction() {
+    private void postDeletionAction(boolean removedAllWavesFromPlayer) {
         updateWavesForMixing();
-        audioThread.reset();
+        if(removedAllWavesFromPlayer) {
+            clickPauseButtonIfPlaying();
+            audioThread.reset();
+        }
     }
 
     // TODO: PROGRAMO - NEJSEM SI UPLNE JISTEJ JESTLI TO SKUTECNE VSECHNO VYCISTI - MUZE MI TAM ZUSTAT REFERENCE TAKZE SE
@@ -213,7 +216,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         waves.clear();
         splitters.clear();
         resetZoom();
-        postDeletionAction();
+        postDeletionAction(true);
         //stopAudioLoopLikeTotally();
         waveScroller.resetEmptyPanelSize();
         waveScroller.revalidate();
@@ -233,14 +236,15 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
      */
     private void removeWave(int index) {
         int len = waves.size();
-        if(len == 1) {
+        boolean isRemovingLastRemainingWave = len == 1;
+        if(isRemovingLastRemainingWave) {
             removeWaveLastRemaining();
         }
         else if(len > 1) {
             removeWaveMoreThanOneRemaining(index);
         }
 
-        postDeletionAction();
+        postDeletionAction(isRemovingLastRemainingWave);
     }
 
     private void removeWaveLastRemaining() {
@@ -3787,10 +3791,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             thisFrame.setJMenuBar(menuBar);
         }
         else {
-            BooleanButton playButton = playerButtonPanel.getPlayButton();
-            if(!playButton.getBoolVar()) {
-                playButton.doClick();
-            }
+            clickPauseButtonIfPlaying();
             audioThread.reset();
         }
     }
@@ -4821,6 +4822,13 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     private FloatControl masterGainControl;
     private BooleanControl muteControl;
     private PlayerButtonPanelWithZoomAdvanced playerButtonPanel;
+    private void clickPauseButtonIfPlaying() {
+        BooleanButton playButton = playerButtonPanel.getPlayButton();
+        if(!playButton.getBoolVar()) {
+            playButton.doClick();
+        }
+    }
+
     private ActionListener playButtonListener;
 
     @Override
@@ -5005,6 +5013,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
 
         private void resetValues() {
+            changedWaveSizes();
             byte[] arr = audioArr;
             if (arr != null) {
                 for (int i = 0; i < arr.length; i++) {

@@ -18,8 +18,8 @@ public class BooleanButtonWithImages extends BooleanButton {
      * Note for the path parameters: If we are in jar then it should be the absolute path inside the jar,
      * if in classic file system then either relative or absolute is ok
      */
-    public BooleanButtonWithImages(boolean bool, String pathToIfTrueImage, String pathToIfFalseImage) {
-        this.boolVar = bool;
+    public BooleanButtonWithImages(boolean startValue, String pathToIfTrueImage, String pathToIfFalseImage) {
+        this.boolVar = startValue;
         setImageIcons(pathToIfTrueImage, pathToIfFalseImage);
         setButtonVisuals();
     }

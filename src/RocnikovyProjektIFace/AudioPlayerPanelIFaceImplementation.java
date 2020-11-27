@@ -3202,7 +3202,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
     }
 
-    private void postActionAfterWaveAddition() {
+    private void postWaveAdditionAction() {
         updateWavesForMixing();
     }
 
@@ -5117,7 +5117,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
                     // Write the last few bytes
                     int remainingLen = (outputEndIndex - currSample) *
-                            outputAudioFormat.getSampleSizeInBits() / 8 * outputAudioFormat.getChannels();
+                                       outputAudioFormat.getSampleSizeInBits() / 8 * outputAudioFormat.getChannels();
                     if (remainingLen > 0) {
                         performMixing(songs, multFactors, remainingLen);
                         line.write(audioArr, 0, remainingLen);
@@ -5491,7 +5491,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //    }
 
 
-    private void stopAndModifyAudio(boolean isSongsOrMultFactorsUpdatedNeeded, ModifyAudioIFace modifyAudioImpl,
+    private void stopAndModifyAudio(boolean isSongsOrMultFactorsUpdateNeeded, ModifyAudioIFace modifyAudioImpl,
                                     boolean shouldResume, boolean shouldResetAudio) {
         disableZooming();
         BooleanButton playButton = playerButtonPanel.getPlayButton();
@@ -5518,8 +5518,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             playButton.doClick();
         }
 
-        if(isSongsOrMultFactorsUpdatedNeeded) {
-            postActionAfterWaveAddition();
+        if(isSongsOrMultFactorsUpdateNeeded) {
+            postWaveAdditionAction();
         }
 // TODO: PROGRAMO MOD
         enableZooming();

@@ -22,6 +22,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherOperationInput;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
+import RocnikovyProjektIFace.DecibelDetectorPackage.DecibelDetector;
 import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
 import RocnikovyProjektIFace.Drawing.*;
 import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
@@ -808,8 +809,20 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         MyLogger.log("Added audio player plugins", -1);
 
         menuBar.add(audioModJMenu);
+
+
+        JMenu viewMenu = new JMenu("View");
+        JCheckBoxMenuItem shouldViewDecibelsMenuItem = new JCheckBoxMenuItem("Show decibel detector");
+        shouldViewDecibelsMenuItem.setSelected(true);
+        shouldViewDecibelsMenuItem.addItemListener(e -> {
+            DecibelDetector dd = playerButtonPanel.getDecibelDetectorData().getDecibelDetector();
+            dd.setIsDrawingEnabled(e.getStateChange() == ItemEvent.SELECTED);
+        });
+        viewMenu.add(shouldViewDecibelsMenuItem);
+        menuBar.add(viewMenu);
+
+
         frame.setJMenuBar(menuBar);
-        // Analyze
 
         setEnabledAllMenus(false);
         setEnabledWithWaveMenuItems(false);
@@ -3792,7 +3805,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     // Hot to get menu items : https://stackoverflow.com/questions/24850424/get-jmenuitems-from-jmenubar
     private void setEnabledAllMenus(boolean enable) {
         JMenuBar bar = this.thisFrame.getJMenuBar();
-        for(int i = 2; i < bar.getMenuCount(); i++) {
+        for(int i = 2; i < bar.getMenuCount() - 1; i++) {
             JMenu menu = bar.getMenu(i);
             menu.setEnabled(enable);
             // Disabling only menus is better - it is enough and I don't have to deal with the problem when calling setEnabledWithWaveMenuItems
@@ -4865,6 +4878,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         // TODO: LALA
     }
 
+    @Override
     public double[] getValues() {
         double[] outputArr = playerButtonPanel.getDecibelDetectorData().getChannelAmplitudes();
         fillArrayWithCurrentlyPlayedValues(outputArr);

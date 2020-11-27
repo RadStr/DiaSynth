@@ -107,9 +107,22 @@ public class DecibelDetector extends JPanel {
     }
     private int oldWidth;
 
+	public boolean isDrawingEnabled = true;
+	public void setIsDrawingEnabled(boolean enable) {
+		isDrawingEnabled = enable;
+		for(int i = 0; i < decibelReferences.length; i++) {
+			decibelReferences[i].setVisible(enable);
+		}
+	}
+
+
+
 	@Override
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if(!isDrawingEnabled) {
+        	return;
+		}
 
         int w = this.getWidth();
         int h = this.getHeight();

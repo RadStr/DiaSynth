@@ -6262,6 +6262,7 @@ public class Program {
      * @return Returns new array gotten from input samples array by non-recursive filter.
      * @throws IOException is thrown by method calculateMask if the sampleSize is invalid.
      */
+    @Deprecated
     public static byte[] performNonRecursiveFilter(byte[] samples, double[] coef, int numberOfChannels,
                                                    int sampleSize, int frameSize, boolean isBigEndian, boolean isSigned) throws IOException {
         byte[] retArr = new byte[samples.length];
@@ -6782,6 +6783,7 @@ public class Program {
      * @return Returns copy of the samples array on which was performed low pass filter.
      * @throws IOException is thrown by method calculateMask if the sampleSize is invalid.
      */
+    @Deprecated
     public static byte[] runLowPassFilter(byte[] samples, double cutoffFreq, int coefCount, int sampleRate,
                                           int numberOfChannels, int sampleSize, int frameSize,
                                           boolean isBigEndian, boolean isSigned) throws IOException {
@@ -8775,6 +8777,11 @@ if(currBPM == 60) {
         return result;
     }
 
+
+    // TODO: VYMAZAT TEN SPECTROGRAM
+    // TODO: VYMAZAT TEN SPECTROGRAM
+    // TODO: VYMAZAT TEN SPECTROGRAM
+    // TODO: VYMAZAT TEN SPECTROGRAM
 
     public static BufferedImage createSpectrogram(double[] song, int numberOfChannels, int windowSize, int windowShift,
                                                   int startIndex, int endIndex, double freqJump,

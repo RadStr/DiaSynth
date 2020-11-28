@@ -142,6 +142,9 @@ public class ProgramTest {
      * @throws Exception can be thrown
      */
     public void testAll() throws Exception {
+        ProgramTest.debugPrint("65 seconds:", Program.convertSecondsToTime(65, -1));
+        System.exit(11111);
+
 //        new SubbandSplitter(8000, 200, 200, 6);
 //        System.exit(4242);
         List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> list = AnalyzerPanel.createAndPrintDifList();

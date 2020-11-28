@@ -1597,9 +1597,9 @@ public class Program {
      */
     @Deprecated     // The buffer it uses is too small - only of frameSize
     public static double[][] takeEveryNthSampleMoreChannelsDoubleOldAndSlow(InputStream samples, int numberOfChannels,
-                                                                  int sampleSize, int n, int startSample,
-                                                                  boolean isBigEndian, boolean isSigned,
-                                                                  int totalAudioLength) throws IOException {
+                                                                            int sampleSize, int n, int startSample,
+                                                                            boolean isBigEndian, boolean isSigned,
+                                                                            int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
             numberOfChannels, sampleSize);
         double[][] outputArr = new double[numberOfChannels][channelLen];
@@ -2265,6 +2265,7 @@ public class Program {
      * @throws IOException is thrown when the sample size > 4, because then the samples can't fit to int, or when it is <= 0
      */
     public static int calculateMask(int sampleSize) throws IOException {
+        // TODO: Tyhle kontroly asi můžu dát pryč
         if (sampleSize <= 0) {
             throw new IOException("Sample size is <= 0 bytes");
         }
@@ -2660,7 +2661,8 @@ public class Program {
      * @param startIndex is the starting index, where should be put the first byte.
      * @param convertToBigEndian tells if we should convert to big endian or not.
      */
-    public static void convertIntToByteArr(byte[] arr, int numberToConvert, int sampleSize, int startIndex, boolean convertToBigEndian) {   // TODO: Nova metoda
+    public static void convertIntToByteArr(byte[] arr, int numberToConvert, int sampleSize,
+                                           int startIndex, boolean convertToBigEndian) {   // TODO: Nova metoda
         int endIndex = startIndex + sampleSize;                                         // TODO: Predchozi metodu lze prepsat touto
         if(convertToBigEndian) {
             endIndex--;

@@ -704,7 +704,7 @@ public class ProgramTest {
 
 
     /**
-     * Method for testing separateChannelsOfSong by comparing the results of the 2 different implementations.
+     * Method for testing separateChannels by comparing the results of the 2 different implementations.
      * (1 for input stream and 1 for byte array).
      *
      * @param stream            is the input stream, which contains the same content as the byte array samplesFromStream.
@@ -715,9 +715,9 @@ public class ProgramTest {
      * @throws IOException is thrown if error with input stream occurred.
      */
     public boolean separateChannelsOfSongTestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels, int sampleSize) throws IOException {
-        byte[][] channels1 = program.separateChannelsOfSong(samplesFromStream, numberOfChannels, sampleSize);
+        byte[][] channels1 = program.separateChannels(samplesFromStream, numberOfChannels, sampleSize);
         // Passing length of array just for testing measures - else I would have to take the real length from the file
-        byte[][] channels2 = program.separateChannelsOfSong(stream, numberOfChannels, sampleSize, samplesFromStream.length);
+        byte[][] channels2 = program.separateChannels(stream, numberOfChannels, sampleSize, samplesFromStream.length);
 
         return checkEqualityOfArraysTwoDim(channels1, channels2);
     }

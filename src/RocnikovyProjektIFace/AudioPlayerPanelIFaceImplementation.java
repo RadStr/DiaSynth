@@ -3127,7 +3127,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 p.decodedAudioFormat.getFrameSize());
         ProgramTest.debugPrint("properties:", p.decodedAudioStream.getFormat().properties(),
                 p.lengthOfAudioInSeconds, p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
-        double[][] waves = Program.separateChannelsOfSongDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
+        double[][] waves = Program.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
                 p.isBigEndian, p.isSigned, audioLen);
 
         for(int i = 0; i < waves.length; i++) {
@@ -3175,7 +3175,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     public void addWaves(InputStream audio, int audioLen, AudioFormatWithSign format, boolean shouldConvertSampleRate) {
         double[][] waves;
         try {
-            waves = Program.separateChannelsOfSongDouble(audio, format.getChannels(), format.getSampleSizeInBits() / 8,
+            waves = Program.separateChannelsDouble(audio, format.getChannels(), format.getSampleSizeInBits() / 8,
                     format.isBigEndian(), format.isSigned, audioLen);
             if(shouldConvertSampleRate) {
                 int outputSampleRate = getOutputSampleRate();

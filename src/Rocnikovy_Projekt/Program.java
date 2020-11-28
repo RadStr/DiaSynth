@@ -1438,8 +1438,8 @@ public class Program {
      * @return Returns 2D byte array, where each byte array corresponds to 1 channel.
      * @throws IOException is thrown when error with input
      */
-    public static byte[][] separateChannelsOfSong(InputStream samples, int numberOfChannels, int sampleSize,
-                                                  int totalAudioLength) throws IOException {
+    public static byte[][] separateChannels(InputStream samples, int numberOfChannels, int sampleSize,
+                                            int totalAudioLength) throws IOException {
         // TODO: PROGRAMO
         //return takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
         return takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0, totalAudioLength);
@@ -1455,8 +1455,8 @@ public class Program {
      * @return Returns 2D byte array, where each double array corresponds to 1 channel.
      * @throws IOException is thrown when error with input
      */
-    public static double[][] separateChannelsOfSongDouble(InputStream samples, int numberOfChannels, int sampleSize,
-                                                          boolean isBigEndian, boolean isSigned, int totalAudioLength) throws IOException {
+    public static double[][] separateChannelsDouble(InputStream samples, int numberOfChannels, int sampleSize,
+                                                    boolean isBigEndian, boolean isSigned, int totalAudioLength) throws IOException {
         return takeEveryNthSampleMoreChannelsDouble(samples, numberOfChannels, sampleSize, 1,
             0, isBigEndian, isSigned, totalAudioLength);
     }
@@ -1727,7 +1727,7 @@ public class Program {
      * @return Returns 2D byte array, where each byte array corresponds to 1 channel.
      * @throws IOException is thrown when error with input
      */
-    public static byte[][] separateChannelsOfSong(byte[] samples, int numberOfChannels, int sampleSize) throws IOException {
+    public static byte[][] separateChannels(byte[] samples, int numberOfChannels, int sampleSize) throws IOException {
         return takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
     }
 

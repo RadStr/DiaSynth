@@ -1868,12 +1868,12 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //    @Override
 //    public void operationUsingWave(double[] wave, int startIndexInGivenWave, int startOutputIndex, int len, MathOperation opType) {
 //        double[] thisWave = getDoubleWave().getSong();
-//        Program.operationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
+//        Program.performOperationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
 //    }
 //    @Override
 //    public void operationUsingValue(double val, int startOutputIndex, int len, MathOperation opType) {
 //        double[] wave = getDoubleWave().getSong();
-//        Program.operationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
+//        Program.performOperationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
 //    }
 //
 

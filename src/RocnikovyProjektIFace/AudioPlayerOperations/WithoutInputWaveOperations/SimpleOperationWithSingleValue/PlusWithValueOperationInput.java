@@ -14,7 +14,7 @@ public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.operationOnSamples(wave, startIndex, endIndex, value, MathOperation.PLUS);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, MathOperation.PLUS);
     }
 
     @Override

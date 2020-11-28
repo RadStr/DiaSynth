@@ -14,7 +14,7 @@ public class PowerWithValueOperationInput implements WithoutInputWavePluginIFace
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.operationOnSamples(wave, startIndex, endIndex, value, MathOperation.POWER);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, MathOperation.POWER);
     }
 
     @Override

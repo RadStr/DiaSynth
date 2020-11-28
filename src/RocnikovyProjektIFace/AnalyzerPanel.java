@@ -441,7 +441,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         double[] mods = null;
         if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
             try {
-                mods = Program.getAllMods(p.song, p.sampleSizeInBytes, p.isBigEndian, p.isSigned);
+                mods = Program.calculateAllAggregations(p.song, p.sampleSizeInBytes, p.isBigEndian, p.isSigned);
             } catch (IOException e) {
                 new ErrorFrame(frame, "Invalid sample size:\t" + e.getMessage());
             }

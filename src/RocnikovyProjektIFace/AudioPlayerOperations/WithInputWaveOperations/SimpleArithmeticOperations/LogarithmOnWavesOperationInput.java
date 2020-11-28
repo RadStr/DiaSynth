@@ -15,7 +15,7 @@ public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        Program.operationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
+        Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
             outputStartIndex, outputEndIndex, MathOperation.LOG);
     }
 

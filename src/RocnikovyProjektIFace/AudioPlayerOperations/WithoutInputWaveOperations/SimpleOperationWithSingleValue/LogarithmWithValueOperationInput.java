@@ -15,7 +15,7 @@ public class LogarithmWithValueOperationInput implements WithoutInputWavePluginI
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.operationOnSamples(wave, startIndex, endIndex, value, MathOperation.LOG);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, MathOperation.LOG);
     }
 
     @Override

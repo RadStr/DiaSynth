@@ -33,7 +33,7 @@ public class WaveStretcherOperationInput implements WithoutInputWavePluginIFace 
         // If == then it is already stretched as much as it should be, don't do anything
         if(extreme != newAbsoluteMax && extreme != 0) {
             double ratio = newAbsoluteMax / extreme;
-            Program.operationOnSamples(wave, startIndex, endIndex, ratio, MathOperation.MULTIPLY);
+            Program.performOperationOnSamples(wave, startIndex, endIndex, ratio, MathOperation.MULTIPLY);
         }
     }
 

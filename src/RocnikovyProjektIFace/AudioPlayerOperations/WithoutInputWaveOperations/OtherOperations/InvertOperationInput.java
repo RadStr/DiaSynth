@@ -10,7 +10,7 @@ public class InvertOperationInput implements WithoutInputWavePluginIFace {
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
         int len = endIndex - startIndex;
-        Program.operationOnSamples(wave, wave, startIndex, startIndex, len, (double)-1, MathOperation.MULTIPLY);
+        Program.performOperationOnSamples(wave, wave, startIndex, startIndex, len, (double)-1, MathOperation.MULTIPLY);
     }
 
     @Override

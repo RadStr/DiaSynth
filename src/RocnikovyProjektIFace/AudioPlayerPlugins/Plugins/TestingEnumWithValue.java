@@ -16,7 +16,7 @@ public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWr
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.operationOnSamples(wave, startIndex, endIndex, value, mathOperation);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, mathOperation);
     }
 
     @Override

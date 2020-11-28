@@ -150,7 +150,7 @@ public interface CombFilterBPMGetterIFace {
 //                    if(maxEnergy < ifftResults[subband][remove]) maxEnergy = ifftResults[subband][remove];
 //                }
 //                System.out.println("MAX:"+maxEnergy);
-//            //    Program.operationOnSamples(ifftResults[subband], (double)1/Math.ceil(maxEnergy), MathOperation.MULTIPLY);
+//            //    Program.performOperationOnSamples(ifftResults[subband], (double)1/Math.ceil(maxEnergy), MathOperation.MULTIPLY);
 //                maxEnergy = 0;
 //TODO: DEBUG
 

@@ -14,7 +14,7 @@ public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIF
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.operationOnSamples(wave, startIndex, endIndex, value, MathOperation.MULTIPLY);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, MathOperation.MULTIPLY);
     }
 
     @Override

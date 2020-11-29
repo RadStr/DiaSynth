@@ -225,13 +225,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private void runCheckedPlugins(Program prog, List<Pair<String, String>> list) {
-        runCheckedPluginsByte(prog, list);
-        runCheckedPluginsInt(prog, list);
-        runCheckedPluginsDouble(prog, list);
+    private void runSelectedPlugins(Program prog, List<Pair<String, String>> list) {
+        runSelectedPluginsByte(prog, list);
+        runSelectedPluginsInt(prog, list);
+        runSelectedPluginsDouble(prog, list);
     }
 
-    private void runCheckedPluginsByte(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsByte(Program prog, List<Pair<String, String>> list) {
         for(Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
             if(p.getKey().isSelected()) {
                 list.add(analyzeBytePlugin(prog, p.getValue()));
@@ -244,7 +244,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             prog.sampleRate, prog.isBigEndian, prog.isSigned);
     }
 
-    private void runCheckedPluginsInt(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsInt(Program prog, List<Pair<String, String>> list) {
         int[] wave = null;
         for(Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
             if(p.getKey().isSelected()) {
@@ -260,7 +260,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private void runCheckedPluginsDouble(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsDouble(Program prog, List<Pair<String, String>> list) {
         DoubleWave wave = null;
         for(Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
             if(p.getKey().isSelected()) {
@@ -526,9 +526,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             // TODO: BPM - HLEDANI
         }
 
-        runCheckedPluginsByte(p, list);
-        runCheckedPluginsInt(p, list);
-        runCheckedPluginsDouble(p, list);
+        runSelectedPlugins(p, list);
 
 
 //		char[] c = new char[] {'a'};		// TODO:

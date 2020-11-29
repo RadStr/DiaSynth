@@ -298,7 +298,9 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			int k;
 			for(k = 0; k < rowCount; k++) {
 				if(name == dataModelSelectedFiles.getValueAt(k, 0)) {
-					System.out.println("1");
+					// TODO: DEBUG
+					System.out.println("actionAddToSelectedPerformed ... == name");
+					// TODO: DEBUG
 					break;
 				}
 			}

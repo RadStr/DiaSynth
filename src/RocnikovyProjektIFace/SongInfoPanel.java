@@ -22,7 +22,7 @@ public class SongInfoPanel extends JPanel {
 	private JScrollPane scrollPane;
 
 	private DataModelSubjectIFace subject;
-	// TODO: Budu mit metodu String[] getData(String songName) a to mi vr�t� v�echny ty data o tom souboru (ty hodnoty)
+	// TODO: Budu mit metodu String[] getData(String songName) a to mi vrati vsechny ty data o tom souboru (ty hodnoty)
 	public SongInfoPanel(JFrame previousWindow, JFrame thisWindow, Node node, DataModelObserverIFace[] observers,
 						 AddToAudioPlayerIFace addToAudioPlayerIFace) {
 		this.setLayout(new BorderLayout());

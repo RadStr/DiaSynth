@@ -42,10 +42,10 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
     public static final int STATIC_PANEL_START_WIDTH = 128;
     public static final int STATIC_PANEL_START_HEIGHT = 128;
 
-    public static final int STATIC_PANEL_MIN_WIDTH = 16;           // Parameter to play with
-    public static final int STATIC_PANEL_MIN_HEIGHT = 16;         // Parameter to play with
-    public static final int STATIC_PANEL_MAX_WIDTH = 65536;       // Parameter to play with
-    public static final int STATIC_PANEL_MAX_HEIGHT = 65536;      // Parameter to play with
+    public static final int STATIC_PANEL_MIN_WIDTH = 16;            // Parameter to play with
+    public static final int STATIC_PANEL_MIN_HEIGHT = 16;           // Parameter to play with
+    public static final int STATIC_PANEL_MAX_WIDTH = 65536;         // Parameter to play with
+    public static final int STATIC_PANEL_MAX_HEIGHT = 65536;        // Parameter to play with
 
 
     public static final int ZOOM_COUNT_FROM_START_TO_MIN = (int)Math.round(Program.logGeneral(STATIC_PANEL_START_WIDTH, 2)) -
@@ -166,9 +166,9 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
         MyLogger.log("Adding synth diagram to synth part", 1);
         synthDiagram = new SynthDiagram(panels, this, audioThread, true);
         MyLogger.log("Added synth diagram to synth part", -1);
-        MyLogger.log("Starting synth diagram to synth part", 1);
+        MyLogger.log("Starting synth diagram in synth part", 1);
         synthDiagram.start();
-        MyLogger.log("Started synth diagram to synth part", -1);
+        MyLogger.log("Started synth diagram in synth part", -1);
     }
 
 

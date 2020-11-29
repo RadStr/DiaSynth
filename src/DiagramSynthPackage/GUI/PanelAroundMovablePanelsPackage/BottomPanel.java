@@ -87,7 +87,7 @@ public class BottomPanel extends JSplitPane {
                     setDividerLocation(newDivLoc);
                 }
 
-                System.out.println(sp.getDividerLocation() + "\t" + sp.getDividerLocation() + "\t" + sp.getLeftComponent().getWidth() + "\t" + sp.getRightComponent().getWidth());
+                System.out.println("Debug component listener bottom Panel:\t" + sp.getDividerLocation() + "\t" + sp.getDividerLocation() + "\t" + sp.getLeftComponent().getWidth() + "\t" + sp.getRightComponent().getWidth());
             }
         };
         this.addComponentListener(resizeListener);

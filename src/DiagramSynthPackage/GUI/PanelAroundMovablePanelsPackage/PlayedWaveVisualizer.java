@@ -188,8 +188,8 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
             h -= VERTICAL_SPACE;
             currentChannel = 0;
             for (int currY = 0; currentChannel < drawValuesWrappers.length; currentChannel++) {
-                drawValuesWrappers[currentChannel].updatePixelMovement((int)
-                        ((lastPushedSample[currentChannel] - lastDrawnSample[currentChannel]) / samplesPerPixel));
+                int shift = lastPushedSample[currentChannel] - lastDrawnSample[currentChannel];
+                drawValuesWrappers[currentChannel].updatePixelMovement((int) (shift / samplesPerPixel));
 
                 if(currentChannel % 2 == 0) {
                     g.setColor(Color.LIGHT_GRAY);

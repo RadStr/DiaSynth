@@ -2,7 +2,7 @@ package DiagramSynthPackage.GUI.MovablePanelsPackage.PortChooserPackage;
 
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.InputPortsGetterIFace;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.FilterValidPortsIFace;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.PortFilterIFace;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PortChooser extends JPanel {
-    private PortChooser(InputPortsGetterIFace portsGetter, FilterValidPortsIFace filter) {
+    private PortChooser(InputPortsGetterIFace portsGetter, PortFilterIFace filter) {
         portButtons = new ArrayList<>();
         this.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
@@ -82,7 +82,7 @@ public class PortChooser extends JPanel {
 
 
     private static PortChooser portChooser;
-    public static InputPort choosePort(InputPortsGetterIFace portsGetter, FilterValidPortsIFace filter) {
+    public static InputPort choosePort(InputPortsGetterIFace portsGetter, PortFilterIFace filter) {
         portChooser = new PortChooser(portsGetter, filter);
         Component panelContainingPort = (Component) portsGetter.getInputPorts()[0].getPanelWhichContainsPort();
         JOptionPane.showOptionDialog(panelContainingPort, portChooser,

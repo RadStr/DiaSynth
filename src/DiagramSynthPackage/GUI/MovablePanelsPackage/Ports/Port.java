@@ -30,8 +30,9 @@ public abstract class Port implements UnitGeneratedValuesInfo {
 
 
     /**
-     * Removes the given port. Returns index > 0 in the connected ports array if the port was in the port. If not returns -1.
-     * Also remove the connection on the other panel (so in case of input port it removes itself from the output port)
+     * Removes the given port. Returns index >= 0 of the removed port in the connected ports array.
+     * If the port wasn't there then returns -1.
+     * Also removes the connection on the other panel (so in case of input port it removes itself from the output port)
      * @param port is the port to be removed
      * @return
      */
@@ -41,7 +42,7 @@ public abstract class Port implements UnitGeneratedValuesInfo {
 
     /**
      * Should be overridden in input and output port.
-     * @param port
+     * @param port is the port to be removed
      * @param removeTheOtherPort If true removes the cable completely, if false removes only the port from this instance (so on the other side it will still think it is connected to this port)
      * @return
      */
@@ -52,7 +53,7 @@ public abstract class Port implements UnitGeneratedValuesInfo {
 
     /**
      * Abstract method, the implementation usually returns the type of the port where it is created. (InputPort returns InputPort, ...).
-     * This method doesn't make that much sense for OutputPort. from logical standpoint.
+     * This method doesn't make that much sense for OutputPort. From logical standpoint.
      * @param unitToContainNewPort is the unit to which is the port put
      * @param panelToContainNewPort is the panel to which is the port put
      * @return Returns copy of the given port which is associated with the given panel.

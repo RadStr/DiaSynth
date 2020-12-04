@@ -281,10 +281,10 @@ public class ProgramTest {
 
 
         convertBytesToNormalizedSamplesTests();
-        convertMultiChannelToMonoTests();
+        convertToMonoTests();
         System.out.println("convertBytesToSamplesTest2():\t" + convertBytesToSamplesTest2());
-        System.out.println("convertMultiChannelToMono1ByteSamples2ChannelsTest():\t" +
-            convertMultiChannelToMono1ByteSamples2ChannelsTest());
+        System.out.println("convertToMono1ByteSamples2ChannelsTest():\t" +
+            convertToMono1ByteSamples2ChannelsTest());
         convertBytesToSamplesTest3();
         System.out.println("performMovingWindowAverageByRefTest()\t" + performMovingWindowAverageByRefTest());
         convertSampleRatesTests();
@@ -1477,7 +1477,7 @@ public class ProgramTest {
     }
 
 
-    public static boolean convertMultiChannelToMono1ByteSamples2ChannelsTest() {
+    public static boolean convertToMono1ByteSamples2ChannelsTest() {
         byte[] testArr = new byte[100];
         for (int i = 0; i < testArr.length; i++) {
             if (i % 2 == 0) {
@@ -1510,7 +1510,7 @@ public class ProgramTest {
     }
 
 
-    public static boolean convertMultiChannelToMonoUniformTest(int sampleSize, boolean isBigEndian, boolean isSigned, int numberOfChannels) {
+    public static boolean convertToMonoUniformTest(int sampleSize, boolean isBigEndian, boolean isSigned, int numberOfChannels) {
         int[] testArrInt = new int[128];
         byte[] testArrByte = fillIntArrAndReturnByteArr(testArrInt, sampleSize, isBigEndian, isSigned);
 
@@ -1553,57 +1553,57 @@ public class ProgramTest {
     }
 
 
-    public static void convertMultiChannelToMonoTests() {
-        System.out.println("convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian:\t" +
-            convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian());
-        System.out.println("convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsBigEndian:\t" +
-            convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsBigEndian());
-        System.out.println("convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian:\t" +
-            convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian());
-        System.out.println("convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsLittleEndian:\t" +
-            convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsLittleEndian());
-        System.out.println("convertMultiChannelToMonoTest3ByteSamplesSigned4ChannelsLittleEndian:\t" +
-            convertMultiChannelToMonoTest3ByteSamplesSigned4ChannelsLittleEndian());
+    public static void convertToMonoTests() {
+        System.out.println("convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian:\t" +
+            convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian());
+        System.out.println("convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian:\t" +
+            convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian());
+        System.out.println("convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian:\t" +
+            convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian());
+        System.out.println("convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian:\t" +
+            convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian());
+        System.out.println("convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian:\t" +
+            convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian());
     }
 
-    public static boolean convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian() {
+    public static boolean convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian() {
         int sampleSize = 2;
         boolean isBigEndian = true;
         int numberOfChannels = 2;
         boolean isSigned = false;
-        return convertMultiChannelToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
+        return convertToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
     }
 
-    public static boolean convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsBigEndian() {
+    public static boolean convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian() {
         int sampleSize = 2;
         boolean isBigEndian = true;
         int numberOfChannels = 2;
         boolean isSigned = true;
-        return convertMultiChannelToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
+        return convertToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
     }
 
-    public static boolean convertMultiChannelToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian() {
+    public static boolean convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian() {
         int sampleSize = 2;
         boolean isBigEndian = false;
         int numberOfChannels = 2;
         boolean isSigned = false;
-        return convertMultiChannelToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
+        return convertToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
     }
 
-    public static boolean convertMultiChannelToMonoTest2ByteSamplesSigned2ChannelsLittleEndian() {
+    public static boolean convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian() {
         int sampleSize = 2;
         boolean isBigEndian = false;
         int numberOfChannels = 2;
         boolean isSigned = true;
-        return convertMultiChannelToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
+        return convertToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
     }
 
-    public static boolean convertMultiChannelToMonoTest3ByteSamplesSigned4ChannelsLittleEndian() {
+    public static boolean convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian() {
         int sampleSize = 3;
         boolean isBigEndian = false;
         int numberOfChannels = 4;
         boolean isSigned = true;
-        return convertMultiChannelToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
+        return convertToMonoUniformTest(sampleSize, isBigEndian, isSigned, numberOfChannels);
     }
 
 

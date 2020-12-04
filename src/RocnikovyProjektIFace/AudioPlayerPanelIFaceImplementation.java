@@ -4987,7 +4987,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         @Override
         public void run() {
             outputFormatChanged();
-            audioLoop();
+            playAudioLoop();
         }
 
 
@@ -5076,7 +5076,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
 
 
-        private void audioLoop() {
+        private void playAudioLoop() {
             while (true) {
                 updateWavesForMixing();
 

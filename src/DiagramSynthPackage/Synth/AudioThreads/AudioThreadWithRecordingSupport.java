@@ -31,7 +31,7 @@ public class AudioThreadWithRecordingSupport extends AudioThread {
 
 
     @Override
-    public void audioLoop() {
+    public void playAudioLoop() {
         synchronized (audioLock) {
             while (true) {
                 int byteArrIndex = getAudioSamples();

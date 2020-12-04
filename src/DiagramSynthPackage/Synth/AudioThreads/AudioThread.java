@@ -201,10 +201,10 @@ public class AudioThread extends Thread implements OutputFormatGetter, PlayerBut
 
     @Override
     public void run() {
-        audioLoop();
+        playAudioLoop();
     }
 
-    public void audioLoop() {
+    public void playAudioLoop() {
         synchronized (audioLock) {
             while (true) {
 // TODO: RML

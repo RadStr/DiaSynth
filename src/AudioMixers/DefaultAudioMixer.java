@@ -1,7 +1,6 @@
 package AudioMixers;
 
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 
 /**
  * Default implementation. Just implement AudioMixerIFace if overriding, the int variants and byte variants aren't used anyways.
@@ -39,11 +38,11 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
      */
     protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask, boolean isBigEndian, boolean isSigned,
                    int index, int channel) {
-        int sample = Program.convertBytesToSampleSizeInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
+        int sample = Program.convertBytesToInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
         sample = mixOneVal(sample, multFactors[0][channel]);
         int result = sample;
         for (int i = 1; i < vals.length; i++) {
-            sample = Program.convertBytesToSampleSizeInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
+            sample = Program.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
             sample = mixOneVal(sample, multFactors[i][channel]);
             result = mix(result, sample);
         }
@@ -240,7 +239,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 //        int result = 0;
 //        int sample;
 //        for(int i = 0; i < vals.length; i++) {
-//            sample = Program.convertBytesToSampleSizeInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
+//            sample = Program.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
 //            result += mixOneVal(sample, multFactors[i]);
 //        }
 //

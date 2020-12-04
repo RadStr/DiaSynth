@@ -1536,7 +1536,7 @@ public class ProgramTest {
             return false;
         }
         for (int i = 0, testIndex = 0; i < result.length; i += sampleSize) {
-            int val = Program.convertBytesToSampleSizeInt(result, sampleSize, mask, i, isBigEndian, isSigned);
+            int val = Program.convertBytesToInt(result, sampleSize, mask, i, isBigEndian, isSigned);
             int average = 0;
             for (int k = 0; k < numberOfChannels; k++, testIndex++) {
                 average += testArrInt[testIndex];
@@ -2208,7 +2208,7 @@ public class ProgramTest {
         int skipCount = (ratio - 1) * numberOfChannels;
         for (int i = 0, intInd = 0; i < calculatedArr.length; intInd += skipCount) {
             for (int j = 0; j < numberOfChannels; j++, intInd++) {
-                int sample = Program.convertBytesToSampleSizeInt(calculatedArr, sampleSize, mask, i, isBigEndian, isSigned);
+                int sample = Program.convertBytesToInt(calculatedArr, sampleSize, mask, i, isBigEndian, isSigned);
                 i += sampleSize;
                 if (sample != arrInt[intInd]) {
                     System.out.print("FALSE6:\t" + "Index: " + intInd + "\tCorrect value: " +  arrInt[intInd] + "\tCalculated value: " + sample + "\t");

@@ -1681,7 +1681,7 @@ public class Program {
             nextTotalIndex += bytesReadSum;
             while(nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
                 for (int i = 0, arrIndex = nextNByteIndex % buffer.length; i < numberOfChannels; i++, arrIndex += sampleSize) {
-                    int sample = Program.convertBytesToSampleSizeInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
+                    int sample = Program.convertBytesToInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
                     outputArr[i][outputIndex] = Program.normalizeToDoubleBetweenMinusOneAndOne(sample, maxAbsoluteValue, isSigned);
                 }
 
@@ -2052,7 +2052,7 @@ public class Program {
 
 
     // TODO: zbytecne opakujici se kod staci 1 - jediny co je jiny je big a little nedian pro konverzi
-    // TODO:     convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian,isSigned);
+    // TODO:     convertBytesToInt(samples, sampleSize, mask, index, isBigEndian,isSigned);
     // TODO: Akorat neivm jestli to pak nebude pomalejsi
     /**
      * Compresses the audio:
@@ -2085,7 +2085,7 @@ public class Program {
         // TODO: Copy-pasted - probably to make it easier for compiler, but it should probably recognize it, the code is just too old
         if (isBigEndian) {
             for (int j = 0; j < n; j++) {
-                sample = convertBytesToSampleSizeIntBigEndian(samples, sampleSize, mask, index, isSigned);
+                sample = convertBytesToIntBigEndian(samples, sampleSize, mask, index, isSigned);
                 switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                     case MAX:
                         if (specialValue < sample) {
@@ -2109,7 +2109,7 @@ public class Program {
             }
         } else {
             for (int j = 0; j < n; j++) {
-                sample = convertBytesToSampleSizeIntLittleEndian(samples, sampleSize, mask, index, isSigned);
+                sample = convertBytesToIntLittleEndian(samples, sampleSize, mask, index, isSigned);
                 switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                     case MAX:
                         if (specialValue < sample) {
@@ -2180,7 +2180,7 @@ public class Program {
                 bytesRead = readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
-                    sample = convertBytesToSampleSizeIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
+                    sample = convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
                     // TODO: Copy pasted
                     switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                         case MAX:
@@ -2209,7 +2209,7 @@ public class Program {
                 bytesRead = readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
-                    sample = convertBytesToSampleSizeIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
+                    sample = convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
                     switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                         case MAX:
                             if (specialValue < sample) {
@@ -2360,7 +2360,7 @@ public class Program {
             monoSample = 0;
             for (int i = 0; i < numberOfChannels; i++) {
 // TODO: Tenhle for tu podle me nema byt                       for(int j = 0 ; j < sampleSize; j++) {
-                sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                sample = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 // TODO:                        }
                 monoSample = monoSample + sample;
                 index += sampleSize;
@@ -2440,7 +2440,7 @@ public class Program {
 //            monoSample = 0;
 //            for (int i = 0; i < numberOfChannels; i++) {
 //// TODO: Tenhle for tu podle me nema byt                       for(int j = 0 ; j < sampleSize; j++) {
-//                sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+//                sample = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 //// TODO:                        }
 //                monoSample = monoSample + sample;
 //                index = index + sampleSize;
@@ -2491,7 +2491,7 @@ public class Program {
                 monoSample = 0;
                 for(int i = 0; i < numberOfChannels; i++) {
 // TODO: Tenhle for tu podle me nema byt                       for(int j = 0 ; j < sampleSize; j++) {
-                    sample = convertBytesToSampleSizeInt(frame, sampleSize, mask, index, isBigEndian, isSigned);
+                    sample = convertBytesToInt(frame, sampleSize, mask, index, isBigEndian, isSigned);
 // TODO:                        }
                     monoSample = monoSample + sample;
                     index = index + sampleSize;
@@ -2548,7 +2548,7 @@ public class Program {
 //                        sample = 0;
 //                        monoSample = 0;
 //                        for(int j = 0 ; j < sampleSize; j++) {
-//                            sample = convertBytesToSampleSizeIntBigEndian(frame, sampleSize, mask, inverseMask, index);
+//                            sample = convertBytesToIntBigEndian(frame, sampleSize, mask, inverseMask, index);
 //                        }
 //                        monoSample = monoSample + sample;
 //                        index = index + sampleSize;
@@ -2576,7 +2576,7 @@ public class Program {
 //                        sample = 0;
 //                        monoSample = 0;
 //                        for(int j = 0 ; j < sampleSize; j++) {
-//                            sample = convertBytesToSampleSizeIntLittleEndian(frame, sampleSize, mask, inverseMask, index);
+//                            sample = convertBytesToIntLittleEndian(frame, sampleSize, mask, inverseMask, index);
 //                        }
 //                        monoSample = monoSample + sample;
 //                        index = index + sampleSize;
@@ -4251,7 +4251,7 @@ public class Program {
                                                double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels * frameSize) {
-            valInt = convertBytesToSampleSizeInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            valInt = convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
             result[i] = normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
         }
 
@@ -4373,10 +4373,10 @@ public class Program {
                                                double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += (numberOfChannels - 1) * frameSize) {
-            valInt = convertBytesToSampleSizeInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            valInt = convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
             result[i++] = normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
             startIndex += frameSize;
-            valInt = convertBytesToSampleSizeInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            valInt = convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
             result[i] = normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
@@ -4774,13 +4774,13 @@ public class Program {
         if(isBigEndian) {
             arrIndex = 0;
             for(int i = 0; i < result.length; i++) {
-                result[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, isSigned);
+                result[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, isSigned);
                 arrIndex = arrIndex + sampleSize;
             }
         } else {
             arrIndex = 0;
             for(int i = 0; i < result.length; i++) {
-                result[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, isSigned);
+                result[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, isSigned);
                 arrIndex = arrIndex + sampleSize;
             }
         }
@@ -4806,13 +4806,13 @@ public class Program {
 //        if(isBigEndian) {
 //            arrIndex = 0;
 //            for(int i = 0; i < result.length; i++) {
-//                result[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
+//                result[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
 //                arrIndex = arrIndex + sampleSize;
 //            }
 //        } else {
 //            arrIndex = 0;
 //            for(int i = 0; i < result.length; i++) {
-//                result[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
+//                result[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
 //                arrIndex = arrIndex + sampleSize;
 //            }
 //        }
@@ -4841,13 +4841,13 @@ public class Program {
         if(isSigned) {
             if(isBigEndian) {
                 for(int i = 0; i < result.length; i++) {
-                    result[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    result[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     result[i] = result[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = 0; i < result.length; i++) {
-                    result[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    result[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     result[i] = result[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -4856,14 +4856,14 @@ public class Program {
             int convertUnsignedToSigned = maxAbsoluteValue;
             if(isBigEndian) {
                 for(int i = 0; i < result.length; i++) {
-                    result[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    result[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     result[i] = result[i] - convertUnsignedToSigned;
                     result[i] = result[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = 0; i < result.length; i++) {
-                    result[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    result[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     result[i] = result[i] - convertUnsignedToSigned;
                     result[i] = result[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
@@ -4921,13 +4921,13 @@ public class Program {
         if(isSigned) {
             if(isBigEndian) {
                 for(int i = outputStartIndex; i < outputEndIndex; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    outputArr[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = outputStartIndex; i < outputEndIndex; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    outputArr[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -4936,14 +4936,14 @@ public class Program {
             int convertUnsignedToSigned = maxAbsoluteValue;
             if(isBigEndian) {
                 for(int i = outputStartIndex; i < outputEndIndex; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    outputArr[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     outputArr[i] = outputArr[i] - convertUnsignedToSigned;
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = outputStartIndex; i < outputEndIndex; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    outputArr[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     outputArr[i] = outputArr[i] - convertUnsignedToSigned;
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
@@ -4982,13 +4982,13 @@ public class Program {
         if(isSigned) {
             if(isBigEndian) {
                 for(int i = 0; i < outputArr.length; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    outputArr[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = 0; i < outputArr.length; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
+                    outputArr[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, true);
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -4997,14 +4997,14 @@ public class Program {
             int convertUnsignedToSigned = maxAbsoluteValue;
             if(isBigEndian) {
                 for(int i = 0; i < outputArr.length; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    outputArr[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     outputArr[i] = outputArr[i] - convertUnsignedToSigned;
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
                 }
             } else {
                 for(int i = 0; i < outputArr.length; i++) {
-                    outputArr[i] = convertBytesToSampleSizeIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
+                    outputArr[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, arrIndex, false);
                     outputArr[i] = outputArr[i] - convertUnsignedToSigned;
                     outputArr[i] = outputArr[i] / maxAbsoluteValue;
                     arrIndex = arrIndex + sampleSize;
@@ -5098,8 +5098,8 @@ public class Program {
      * @param isSigned says if the given array has signed samples.
      * @return Returns the sample starting at index arrIndex.
      */
-    public static int convertBytesToSampleSizeInt(byte[] bytes, int mask, boolean isBigEndian, boolean isSigned) {
-        return convertBytesToSampleSizeInt(bytes, bytes.length, mask, 0, isBigEndian, isSigned);
+    public static int convertBytesToInt(byte[] bytes, int mask, boolean isBigEndian, boolean isSigned) {
+        return convertBytesToInt(bytes, bytes.length, mask, 0, isBigEndian, isSigned);
     }
         // TODO: tahle metoda je nove pridana
     // TODO: Ted jsem tam dopsal isSigned, ale to by melo byt ... i v tom prevodu mona by to melo byt
@@ -5113,12 +5113,12 @@ public class Program {
      * @param isSigned says if the given array has signed samples.
      * @return Returns the sample starting at index arrIndex.
      */
-    public static int convertBytesToSampleSizeInt(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isBigEndian, boolean isSigned) {
+    public static int convertBytesToInt(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isBigEndian, boolean isSigned) {
         if(isBigEndian) {
-            return convertBytesToSampleSizeIntBigEndian(bytes, sampleSize, mask, arrIndex, isSigned);
+            return convertBytesToIntBigEndian(bytes, sampleSize, mask, arrIndex, isSigned);
         }
         else {
-            return convertBytesToSampleSizeIntLittleEndian(bytes, sampleSize, mask, arrIndex, isSigned);
+            return convertBytesToIntLittleEndian(bytes, sampleSize, mask, arrIndex, isSigned);
         }
     }
 
@@ -5134,7 +5134,7 @@ public class Program {
      * @param isSigned tells if the converted sample is signed or unsigned
      * @return Returns the sample starting at index arrIndex.
      */
-    public static int convertBytesToSampleSizeIntBigEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
+    public static int convertBytesToIntBigEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
         int result = 0;
         arrIndex = arrIndex + sampleSize - 1;
         for (int i = 0; i < sampleSize; i++) {
@@ -5173,7 +5173,7 @@ public class Program {
      * @param isSigned tells if the converted sample is signed or unsigned
      * @return Returns the sample starting at index arrIndex.
      */
-    public static int convertBytesToSampleSizeIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
+    public static int convertBytesToIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
         int result = 0;
         for (int i = 0; i < sampleSize; i++) {
             result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
@@ -5429,7 +5429,7 @@ public class Program {
         int index = 0;
 //        for (int j = 0; j < 2; j++) {
 //            for (int i = 0; i < numberOfChannels; i++) {
-//                currentSamples[i][j] = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+//                currentSamples[i][j] = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 //                index += sampleSize;
 //            }
 //        }
@@ -5455,7 +5455,7 @@ public class Program {
                 if(ratio <= 1) {         // Should be optimized by compiler ... perform the if branching only once
                     for (int j = 0; j < currentSamples.length; j++) {
                         currentSamples[j][0] = currentSamples[j][1];
-                        currentSamples[j][1] = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                        currentSamples[j][1] = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                         index += sampleSize;
                     }
                 }
@@ -5470,9 +5470,9 @@ public class Program {
                     index = setLeftAndRightSamples(currentSamples, samples, sampleSize, numberOfChannels, mask, index, isBigEndian, isSigned);
                     // TODO: tohle je v te metode
 //                    for (int j = 0; j < currentSamples.length; j++) {
-//                        currentSamples[j][0] = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+//                        currentSamples[j][0] = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 //                        index += sampleSize;
-//                        currentSamples[j][1] = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+//                        currentSamples[j][1] = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
 //                        index += sampleSize;
 //                    }
 
@@ -5519,7 +5519,7 @@ public class Program {
         // in frames (samples 1 for all channels then samples 2 for all channels)
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < numberOfChannels; i++) {
-                currentSamples[i][j] = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                currentSamples[i][j] = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                 index += sampleSize;
             }
         }
@@ -6292,7 +6292,7 @@ public class Program {
             for (int j = 0; j < coef.length; j++) {
                 if (index >= 0) {
                     for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
-                        sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                        sample = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                         vals[ch] += coef[j] * sample;
                         // TODO:                      System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
 // TODO:                        System.out.println(index);
@@ -6326,7 +6326,7 @@ public class Program {
 // TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
             for(int j = 0; j < coef.length; j++) {
                 for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
-                    sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                    sample = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                     vals[ch] += coef[j] * sample;
 //TODO:                    System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
                 }
@@ -7171,7 +7171,7 @@ public class Program {
 
         for(int i = 0; i < windowSize; i++) {
             for(int j = 0; j < numberOfChannels; j++, index += sampleSize) {
-                int val = convertBytesToSampleSizeInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                int val = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                 if(!isSigned) {     // Convert unsigned sample to signed
                     val -= maxAbsoluteValueSigned;
                 }
@@ -8331,7 +8331,7 @@ if(currBPM == 60) {
 
         int sample;
         for(int i = 0; i < samples.length;) {
-            sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
+            sample = convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
             if(passPositive) {
                 if(sample < zeroValue) {
                     i = setArrayValues(samples, zeroValueBytes, i);
@@ -8392,7 +8392,7 @@ if(currBPM == 60) {
 
         int sample;
         for(int i = 0; i < samples.length;) {
-            sample = convertBytesToSampleSizeInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
+            sample = convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
             getAbsoluteValueGeneral(sample, zeroValue, passPositive, sampleBytes, sampleSize, isBigEndian);
 
             if(passPositive) {

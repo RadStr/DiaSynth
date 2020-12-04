@@ -253,7 +253,7 @@ public class Program {
 
     private AudioFileFormat originalAudioFileFormat = null;
     private AudioFormat originalAudioFormat = null;
-    public AudioFormat decodedAudioFormat = null;   // TODO: Zmeneno z private na public abych mohl jednodusse vyzkouset AudioPlayer
+    private AudioFormat decodedAudioFormat = null;
     private Type type;
     private AudioType audioType;
     private AudioInputStream originalAudioStream;

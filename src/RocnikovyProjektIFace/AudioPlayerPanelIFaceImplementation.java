@@ -54,7 +54,6 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Tohle jmeno je dost osklivy
 public class AudioPlayerPanelIFaceImplementation extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
         ChangeJMenuBarIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
@@ -3123,7 +3122,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
         int audioLen = p.getOnlyAudioSizeInBytes();
         ProgramTest.debugPrint("Adding waves", audioLen, p.decodedAudioStream.getFrameLength(),
-                p.decodedAudioFormat.getFrameSize());
+                p.frameSize);
         ProgramTest.debugPrint("properties:", p.decodedAudioStream.getFormat().properties(),
                 p.lengthOfAudioInSeconds, p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
         double[][] waves = Program.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,

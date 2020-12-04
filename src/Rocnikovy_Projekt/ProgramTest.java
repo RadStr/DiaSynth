@@ -143,6 +143,25 @@ public class ProgramTest {
      */
     public void testAll() throws Exception {
         ProgramTest.debugPrint("65 seconds:", Program.convertSecondsToTime(65, -1));
+        ProgramTest.debugPrint("65 seconds (alignment == 0):", Program.convertSecondsToTime(65, 0));
+        ProgramTest.debugPrint("65 seconds (alignment == 1):", Program.convertSecondsToTime(65, 1));
+        ProgramTest.debugPrint("65 seconds (alignment == 2):", Program.convertSecondsToTime(65, 2));
+        ProgramTest.debugPrint("55 seconds:", Program.convertSecondsToTime(55, -1));
+        ProgramTest.debugPrint("55 seconds (alignment == 0):", Program.convertSecondsToTime(55, 0));
+        ProgramTest.debugPrint("55 seconds (alignment == 1):", Program.convertSecondsToTime(55, 1));
+        ProgramTest.debugPrint("55 seconds (alignment == 2):", Program.convertSecondsToTime(55, 2));
+
+        ProgramTest.debugPrint("5 seconds:", Program.convertSecondsToTime(5, -1));
+        ProgramTest.debugPrint("5 seconds (alignment == 0):", Program.convertSecondsToTime(5, 0));
+
+        ProgramTest.debugPrint("1065 milliseconds:", Program.convertMillisecondsToTime(1065, -1));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 0):", Program.convertMillisecondsToTime(1065, 0));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 1):", Program.convertMillisecondsToTime(1065, 1));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 2):", Program.convertMillisecondsToTime(1065, 2));
+        ProgramTest.debugPrint("65 milliseconds:", Program.convertMillisecondsToTime(65, -1));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 0):", Program.convertMillisecondsToTime(65, 0));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 1):", Program.convertMillisecondsToTime(65, 1));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 2):", Program.convertMillisecondsToTime(65, 2));
         System.exit(11111);
 
 //        new SubbandSplitter(8000, 200, 200, 6);
@@ -2592,7 +2611,7 @@ public class ProgramTest {
             splitter.getSubband(arr, subbandCount, subband, result);
             for(int i = 0; i < result.length; i++) {
                 if(result[i] != 0) {
-                    System.out.println(i);
+                    System.out.println("Test: " + i);
                     counter++;
                     endIndex = i;
                     if(startIndex == -1) {

@@ -3247,11 +3247,17 @@ public class Program {
     private static final int[] convertSecondsTimeModArray = new int[] { 10, 10, 10 };
     /**
      * This variant can be used when I want to do parallel processing. Resets the stringbuilder.
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                than the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 001.
+     *                                instead of just 001 for alignmentRecursionDepth == 0.
+     *
      */
     public static String convertSecondsToTime(int seconds, StringBuilder timeSB, int alignmentRecursionDepth) {
         String res = convertTimeUniversal(seconds, convertSecondsTimeDivArray,
@@ -3260,11 +3266,16 @@ public class Program {
     }
     /**
      * Doesn't work work for parallel processing
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                than the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 001.
+     *                                instead of just 001 for alignmentRecursionDepth == 0.
      */
     public static String convertSecondsToTime(int seconds, int alignmentRecursionDepth) {
         return convertSecondsToTime(seconds, timeStringBuilder, alignmentRecursionDepth);
@@ -3277,11 +3288,17 @@ public class Program {
     private static final int[] convertMillisecondsTimeModArray = new int[] { 100, 10, 10, 10 };
     /**
      * This variant can be used when I want to do parallel processing. Resets the stringbuilder.
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                than the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 0:001.
+     *                                instead of just 0:001 when calling it with alignmentRecursionDepth == -1 or
+     *                                001 when calling it with alignmentRecursionDepth == 0.
      */
     public static String convertMillisecondsToTime(int millis, StringBuilder timeSB, int alignmentRecursionDepth) {
         if(DEBUG_CLASS.DEBUG) {
@@ -3299,11 +3316,17 @@ public class Program {
     }
     /**
      * Doesn't work work for parallel processing
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                than the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 0:001.
+     *                                instead of just 0:001 when calling it with alignmentRecursionDepth == -1 or
+     *      *                         001 when calling it with alignmentRecursionDepth == 0.
      */
     public static String convertMillisecondsToTime(int millis, int alignmentRecursionDepth) {
         return convertMillisecondsToTime(millis, timeStringBuilder, alignmentRecursionDepth);
@@ -3313,11 +3336,16 @@ public class Program {
 
     /**
      *
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                than the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 001. (When using the millis variant then it would be 00:00:001 and 0:001)
+     *                                instead of just 001 for alignmentRecursionDepth == 0.
      */
     private static String convertTimeUniversal(int timeAmount, int[] timeAmountToNextTimeLevel, int[] modLimitsToAddZero,
                                                StringBuilder timeSB, int alignmentRecursionDepth) {
@@ -3334,11 +3362,16 @@ public class Program {
      * @param modLimitsToAddZero
      * @param depth
      * @param timeSB
-     * @param alignmentRecursionDepth is the depth to which should be the time aligned. If < 0 then no alignment is performed.
+     * @param alignmentRecursionDepth is the depth to which should be the time aligned. To say it easy - The parameter controls number of colons.
+     *                                To get the best results with minimal alignment just call the method with argument -1.
+     *                                If == 0 then no alignment is performed.
+     *                                If < 0 then based on the method called in some special case alignment may be used - for example
+     *                                for milliseconds there will always be at least one ':'. When calling it on other
+     *                                that the millisecond method, it is the same as == 0 case.
      *                                Otherwise it is performed to the given depth (if the depth > modLimitsToAddZero.length)
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
-     *                                instead of just 001. (When using the millis variant then it would be 00:00:001 and 0:001)
+     *                                instead of just 001 for alignmentRecursionDepth == 0.
      */
     private static void convertTimeUniversal(int timeAmount, int[] timeAmountToNextTimeLevel, int[] modLimitsToAddZero,
                                              int depth, StringBuilder timeSB, int alignmentRecursionDepth) {

@@ -5,7 +5,7 @@ import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
 import PartsConnectingGUI.ChangeJMenuBarIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithShouldConvertFlag;
+import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithConvertFlag;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.WithInputWavePluginIFace;
@@ -3270,7 +3270,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 stopAndModifyAudio(true, new ModifyAudioIFace() {
                     @Override
                     public void modifyAudio() {
-                        AudioFormatJPanelWithShouldConvertFlag p = new AudioFormatJPanelWithShouldConvertFlag(outputAudioFormat);
+                        AudioFormatJPanelWithConvertFlag p = new AudioFormatJPanelWithConvertFlag(outputAudioFormat);
                         int result = JOptionPane.showConfirmDialog(null, p,
                                 "Audio audioFormat chooser", JOptionPane.OK_CANCEL_OPTION,
                                 JOptionPane.PLAIN_MESSAGE);

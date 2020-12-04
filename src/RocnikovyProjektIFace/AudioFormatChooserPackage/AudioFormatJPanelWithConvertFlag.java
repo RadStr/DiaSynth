@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class AudioFormatJPanelWithShouldConvertFlag extends AudioFormatJPanel {
-    public AudioFormatJPanelWithShouldConvertFlag(AudioFormat af) {
+public class AudioFormatJPanelWithConvertFlag extends AudioFormatJPanel {
+    public AudioFormatJPanelWithConvertFlag(AudioFormat af) {
         super(af);
         addShouldConvertFlag();
     }

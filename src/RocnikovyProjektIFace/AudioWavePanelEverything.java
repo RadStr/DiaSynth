@@ -14,7 +14,7 @@ import java.awt.event.*;
 
 public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace,
     AudioWavePanelOnlyWavePopupMenuCommunicationIFace {
-    private final String fontName = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
+    private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
 
     private AudioWavePanelOnlyMixSlider mixPanel;
     public void updateChannelSliders(ChannelCount channelCount) {
@@ -72,7 +72,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
 
     public void setCurrentFontSize(int currentFontSize) {   // Ten font vezmu z vrchni listy
         Graphics g = this.getGraphics();
-        g.setFont(new Font(fontName, Font.BOLD, currentFontSize));
+        g.setFont(new Font(FONT_NAME, Font.BOLD, currentFontSize));
     }
 
     private boolean focusLostByEnterPress;

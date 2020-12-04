@@ -4,6 +4,7 @@ import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 
+@Deprecated
 public class AudioWavePanel extends JPanel {
 
     int zoom;

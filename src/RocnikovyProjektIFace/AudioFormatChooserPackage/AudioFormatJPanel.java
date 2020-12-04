@@ -1,7 +1,6 @@
 package RocnikovyProjektIFace.AudioFormatChooserPackage;
 
 import RocnikovyProjektIFace.Pair;
-import Rocnikovy_Projekt.ProgramTest;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -221,15 +220,15 @@ public class AudioFormatJPanel extends JPanel {
         }
     }
 
-    private static final int[] allFormatsInt = new int[] {
+    private static final int[] ALL_FORMATS_INT = new int[] {
             8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200, 96000, 192000
     };
 
     private static final String[] allFormatsString = createAllFormatsString();
     private static String[] createAllFormatsString() {
-        String[] strings = new String[allFormatsInt.length];
-        for(int i = 0; i < allFormatsInt.length; i++) {
-            strings[i] = String.format("%.3f", allFormatsInt[i] / (double) 1000);
+        String[] strings = new String[ALL_FORMATS_INT.length];
+        for(int i = 0; i < ALL_FORMATS_INT.length; i++) {
+            strings[i] = String.format("%.3f", ALL_FORMATS_INT[i] / (double) 1000);
         }
 
         return strings;
@@ -245,7 +244,7 @@ public class AudioFormatJPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 int selectedIndex = cb.getSelectedIndex();
-                format.sampleRate = allFormatsInt[selectedIndex];
+                format.sampleRate = ALL_FORMATS_INT[selectedIndex];
             }
         });
 

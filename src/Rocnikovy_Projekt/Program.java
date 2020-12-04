@@ -2254,7 +2254,7 @@ public class Program {
     /**
      * Mask for top 8 bits in int
      */
-    private static int maskTop8Bits = 0xFF_00_00_00;
+    private static final int TOP_8_BITS_MASK = 0xFF_00_00_00;
 
     /**
      * Creates mask used for converting the byte array to number of size sampleSize bytes, which must fit to int.
@@ -2276,10 +2276,10 @@ public class Program {
         if (sampleSize == 4) {
             return 0x00000000;
         }
-        int mask = maskTop8Bits;
+        int mask = TOP_8_BITS_MASK;
         for (int k = 0; k < Integer.BYTES - sampleSize - 1; k++) {
             mask = mask >> 8;
-            mask = mask | maskTop8Bits;
+            mask = mask | TOP_8_BITS_MASK;
         }
 
         return mask;
@@ -2302,7 +2302,7 @@ public class Program {
         if (sampleSize == 4) {
             return 0xFFFFFFFF;
         }
-        int inverseMaskTop8Bits = ~maskTop8Bits;
+        int inverseMaskTop8Bits = ~TOP_8_BITS_MASK;
         int inverseMask = inverseMaskTop8Bits;
         for (int k = 0; k < Integer.BYTES - sampleSize - 1; k++) {
             inverseMask = inverseMask >> 8;
@@ -7007,15 +7007,15 @@ public class Program {
     // BPM Algorithm 1
     ////////////////////////////////////////////////////
     public int getBPMSimple() {
-    writeVariables();
+        writeVariables();
 
-    int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
-    int windowSize = sampleRate / windowsLen;
-    windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
-    double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
-    return getBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
-        this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
-}
+        int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
+        int windowSize = sampleRate / windowsLen;
+        windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
+        double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
+        return getBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
+                this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
+    }
 
 
 // TODO: Podle me kdyz vezmu jen mono signal, tak ty energie mi budou vychazet stejne
@@ -8199,7 +8199,7 @@ if(currBPM == 60) {
 
 
     public static double[][] getIFFTBasedOnSubbands(double[] fftResult, int subbandCount, DoubleFFT_1D fft,
-                                              SubbandSplitterIFace splitter) {
+                                                    SubbandSplitterIFace splitter) {
         double[][] result = new double[subbandCount][fftResult.length];
         getIFFTBasedOnSubbands(fftResult, subbandCount, fft, splitter, result);
         return result;

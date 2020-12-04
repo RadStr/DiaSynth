@@ -86,7 +86,7 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed.
+    public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed (doesn't need release).
         if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             awpe.setShouldMarkPart(false);
             awpe.setMarkStartXVariablesBasedOnPixel(e.getX());

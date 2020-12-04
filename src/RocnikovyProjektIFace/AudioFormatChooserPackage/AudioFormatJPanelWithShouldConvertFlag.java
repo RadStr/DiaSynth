@@ -24,7 +24,7 @@ public class AudioFormatJPanelWithShouldConvertFlag extends AudioFormatJPanel {
         this.add(new JPanel());
     }
 
-    public boolean getShouldCovert() {
+    public boolean getShouldConvert() {
         return shouldConvertCheckbox.isSelected();
     }
 }

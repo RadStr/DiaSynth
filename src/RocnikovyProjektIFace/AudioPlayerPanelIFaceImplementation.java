@@ -836,7 +836,8 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 
 // TODO: ONLY WAVE
-        waveScroller = new WaveScroller(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, this);
+        waveScroller = new WaveScroller(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+                                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, this);
 
 
         waveScrollerPollTimer = new Timer(64, new ActionListener() {        // TODO: Parameter to play with
@@ -3277,7 +3278,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                                 "Audio audioFormat chooser", JOptionPane.OK_CANCEL_OPTION,
                                 JOptionPane.PLAIN_MESSAGE);
                         if (result == JOptionPane.OK_OPTION) {
-                            setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true), p.getShouldCovert());
+                            setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true), p.getShouldConvert());
                             ProgramTest.debugPrint("outputAudioFormat", outputAudioFormat, p.getFormat());
                         }
                     }
@@ -4832,11 +4833,11 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     private ActionListener playButtonListener;
 
     @Override
-        public FloatControl getGain() {
+    public FloatControl getGain() {
         return masterGainControl;
     }
     @Override
-        public BooleanControl getMuteControl() {
+    public BooleanControl getMuteControl() {
         return muteControl;
     }
 
@@ -5767,7 +5768,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
-    JSplitPane[] todoPanes;
+    private JSplitPane[] todoPanes;
     private void debugInitTodoPanes() {
         todoPanes = new JSplitPane[splitters.size()];
         for(int i = 0; i < todoPanes.length; i++) {

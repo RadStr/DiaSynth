@@ -976,7 +976,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
      * @return Returns true if it is inside any panel, false otherwise.
      */
     public boolean lockMovablePanel(MovableJPanel movablePanel, int x, int y) {
-        Point newPos = getLocationOfStaticPanel(x, y);
+        Point newPos = getStaticPanelLocation(x, y);
         if (newPos != null) {
             int difX = newPos.x - referencePanel.getLeftX();
             int difY = newPos.y - referencePanel.getTopY();
@@ -990,7 +990,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
 
 
     public Point getMovablePanelOnTheLocation(Object panelWhichAsked, int x, int y) {
-        Point staticPanelLoc = getLocationOfStaticPanel(x, y);
+        Point staticPanelLoc = getStaticPanelLocation(x, y);
         if (staticPanelLoc != null) {
             if(checkForCollisions(panelWhichAsked, staticPanelLoc.x, staticPanelLoc.y)) {
                 return staticPanelLoc;
@@ -1010,7 +1010,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
      * @param y
      * @return
      */
-    private Point getLocationOfStaticPanel(int x, int y) {
+    private Point getStaticPanelLocation(int x, int y) {
         int width = currentPanelSize.getFirst();
         int height = currentPanelSize.getSecond();
 
@@ -1989,7 +1989,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
 
     private boolean checkIfMovingAndIsNotInStaticPanel(MovablePanelSpecificGetMethodsIFace panel) {
         return panel.getIsBeingMoved() &&
-                getLocationOfStaticPanel(panel.getLocation().x, panel.getLocation().y) == null;
+                getStaticPanelLocation(panel.getLocation().x, panel.getLocation().y) == null;
     }
 
 

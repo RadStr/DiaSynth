@@ -3129,7 +3129,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 p.isBigEndian, p.isSigned, audioLen);
 
         for(int i = 0; i < waves.length; i++) {
-            waves[i] = Program.convertSampleRates(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
+            waves[i] = Program.convertSampleRate(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
                     true);
         }
         addWaves(waves, p.getFileName(), getOutputSampleRate(), false);
@@ -3178,7 +3178,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if(shouldConvertSampleRate) {
                 int outputSampleRate = getOutputSampleRate();
                 for(int i = 0; i < waves.length; i++) {
-                    waves[i] = Program.convertSampleRates(waves[i], 1, (int)format.getSampleRate(),
+                    waves[i] = Program.convertSampleRate(waves[i], 1, (int)format.getSampleRate(),
                             outputSampleRate, true);
                 }
 

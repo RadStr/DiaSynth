@@ -368,7 +368,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
             p.convertToMono();
-            //p.convertSampleRates(22050);
+            //p.convertSampleRate(22050);
         }
         catch(IOException e) {
             return;
@@ -402,7 +402,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
             p.convertToMono();
-            //p.convertSampleRates(22050);
+            //p.convertSampleRate(22050);
         }
         catch(IOException e) {
             return;

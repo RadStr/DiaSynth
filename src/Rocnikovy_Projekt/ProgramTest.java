@@ -287,7 +287,7 @@ public class ProgramTest {
             convertToMono1ByteSamples2ChannelsTest());
         convertBytesToSamplesTest3();
         System.out.println("performMovingWindowAverageByRefTest()\t" + performMovingWindowAverageByRefTest());
-        convertSampleRatesTests();
+        convertSampleRateTests();
         System.out.println("performNonRecursiveFilterTest():\t" + performNonRecursiveFilterTest());
         System.out.println("performOneNonRecursiveFilterSmallTestDiffCoefs():\t" +
             performOneNonRecursiveFilterSmallTestDiffCoefs());
@@ -2141,8 +2141,8 @@ public class ProgramTest {
      * @param isSigned
      * @return Returns true if all tests passed, else returns false
      */
-    public boolean convertSampleRatesDownSampleTestUniform(int sampleSize, int numberOfChannels, int oldSampleRate,
-                                          int newSampleRate, boolean isBigEndian, boolean isSigned) {
+    public boolean convertSampleRateDownSampleTestUniform(int sampleSize, int numberOfChannels, int oldSampleRate,
+                                                          int newSampleRate, boolean isBigEndian, boolean isSigned) {
         int frameSize = sampleSize * numberOfChannels;
         int ratio = 0;
         if (oldSampleRate > newSampleRate) {
@@ -2160,7 +2160,7 @@ public class ProgramTest {
         System.out.println(byteArr.length);
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRates(byteArr, sampleSize, frameSize, numberOfChannels, oldSampleRate,
+            calculatedArr = Program.convertSampleRate(byteArr, sampleSize, frameSize, numberOfChannels, oldSampleRate,
                 newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE3:\t");
@@ -2222,7 +2222,7 @@ public class ProgramTest {
     }
 
 
-    public boolean convertSampleRatesUpSampleTest1Mono() {
+    public boolean convertSampleRateUpSampleTest1Mono() {
         int sampleSize = 1;
         boolean isBigEndian = true;
         boolean isSigned = false;
@@ -2241,7 +2241,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2261,7 +2261,7 @@ public class ProgramTest {
 
         isSigned = true;
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, 1,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, 1,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE4");
@@ -2281,7 +2281,7 @@ public class ProgramTest {
         return true;
     }
 
-    public boolean convertSampleRatesUpSampleTest1Stereo() {
+    public boolean convertSampleRateUpSampleTest1Stereo() {
         int numberOfChannels = 2;
         int sampleSize = 1;
         int frameSize = numberOfChannels * sampleSize;
@@ -2303,7 +2303,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE1:\t");
@@ -2322,7 +2322,7 @@ public class ProgramTest {
 
         isSigned = true;
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE4");
@@ -2342,7 +2342,7 @@ public class ProgramTest {
         return true;
     }
 
-    public boolean convertSampleRatesUpSampleTestUniform(int numberOfChannels) {
+    public boolean convertSampleRateUpSampleTestUniform(int numberOfChannels) {
         int sampleSize = 1;
         int frameSize = sampleSize * numberOfChannels;
         boolean isBigEndian = true;
@@ -2364,7 +2364,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2386,7 +2386,7 @@ public class ProgramTest {
 
 
     // Test works "only" up to 16 channels
-    public boolean convertSampleRatesUpSampleTestUniform(int numberOfChannels, int sampleSize, boolean isBigEndian, boolean isSigned) {
+    public boolean convertSampleRateUpSampleTestUniform(int numberOfChannels, int sampleSize, boolean isBigEndian, boolean isSigned) {
         if(numberOfChannels > 16) {
             return false;
         }
@@ -2434,7 +2434,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRates(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2455,9 +2455,9 @@ public class ProgramTest {
     }
 
 
-    public void convertSampleRatesTests() {
-        System.out.println("convertSampleRatesUpSampleTest1Mono():\t" + convertSampleRatesUpSampleTest1Mono());
-        System.out.println("convertSampleRatesUpSampleTest1Stereo():\t" + convertSampleRatesUpSampleTest1Stereo());
+    public void convertSampleRateTests() {
+        System.out.println("convertSampleRateUpSampleTest1Mono():\t" + convertSampleRateUpSampleTest1Mono());
+        System.out.println("convertSampleRateUpSampleTest1Stereo():\t" + convertSampleRateUpSampleTest1Stereo());
 
         int sampleSize = 2;
         int numberOfChannels = 2;
@@ -2467,99 +2467,99 @@ public class ProgramTest {
         boolean isSigned = false;
         boolean result;
 
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform1:\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform1:\t" + result);
 
         isBigEndian = true;
         isSigned = false;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform2:\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform2:\t" + result);
 
         isBigEndian = false;
         isSigned = true;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform3:\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform3:\t" + result);
 
         isBigEndian = true;
         isSigned = true;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform4:\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform4:\t" + result);
 
         sampleSize = 3;
         numberOfChannels = 7;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform5:\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform5:\t" + result);
 
         newSampleRate = 22050;
         oldSampleRate = newSampleRate * 4;
         sampleSize = 3;
         numberOfChannels = 7;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform6\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform6\t" + result);
 
 
         newSampleRate = 22050;
         oldSampleRate = newSampleRate * 5;
         sampleSize = 3;
         numberOfChannels = 3;
-        result = convertSampleRatesDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
+        result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
             newSampleRate, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesDownSampleTestUniform7\t" + result);
+        System.out.println("convertSampleRateDownSampleTestUniform7\t" + result);
 
 
         numberOfChannels = 1;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels);
-        System.out.println("convertSampleRatesUpSampleTestUniformChannel1:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels);
+        System.out.println("convertSampleRateUpSampleTestUniformChannel1:\t" + result);
         numberOfChannels = 2;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels);
-        System.out.println("convertSampleRatesUpSampleTestUniformChannel2:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels);
+        System.out.println("convertSampleRateUpSampleTestUniformChannel2:\t" + result);
         numberOfChannels = 3;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels);
-        System.out.println("convertSampleRatesUpSampleTestUniformChannel3:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels);
+        System.out.println("convertSampleRateUpSampleTestUniformChannel3:\t" + result);
         numberOfChannels = 4;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels);
-        System.out.println("convertSampleRatesUpSampleTestUniformChannel4:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels);
+        System.out.println("convertSampleRateUpSampleTestUniformChannel4:\t" + result);
 
         numberOfChannels = 5;
         sampleSize = 3;
         isBigEndian = false;
         isSigned = false;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesUpSampleTestUniform1:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
+        System.out.println("convertSampleRateUpSampleTestUniform1:\t" + result);
 
         numberOfChannels = 5;
         sampleSize = 3;
         isBigEndian = true;
         isSigned = true;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesUpSampleTestUniform2:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
+        System.out.println("convertSampleRateUpSampleTestUniform2:\t" + result);
 
         numberOfChannels = 7;
         sampleSize = 2;
         isBigEndian = false;
         isSigned = false;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesUpSampleTestUniform3:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
+        System.out.println("convertSampleRateUpSampleTestUniform3:\t" + result);
 
         numberOfChannels = 9;
         sampleSize = 4;
         isBigEndian = true;
         isSigned = false;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesUpSampleTestUniform4:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
+        System.out.println("convertSampleRateUpSampleTestUniform4:\t" + result);
 
         numberOfChannels = 9;
         sampleSize = 4;
         isBigEndian = true;
         isSigned = true;
-        result = convertSampleRatesUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
-        System.out.println("convertSampleRatesUpSampleTestUniform4:\t" + result);
+        result = convertSampleRateUpSampleTestUniform(numberOfChannels, sampleSize, isBigEndian, isSigned);
+        System.out.println("convertSampleRateUpSampleTestUniform4:\t" + result);
     }
 
 

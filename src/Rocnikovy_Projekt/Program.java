@@ -5296,8 +5296,8 @@ public class Program {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// TODO: Nove pridany veci, ktery se hodi - prevody sample rate
 
-    public void convertSampleRates(int newSampleRate) throws IOException {
-        this.song = convertSampleRates(this.song, this.sampleSizeInBytes, this.frameSize,
+    public void convertSampleRate(int newSampleRate) throws IOException {
+        this.song = convertSampleRate(this.song, this.sampleSizeInBytes, this.frameSize,
                 this.numberOfChannels, this.sampleRate, newSampleRate,
                 this.isBigEndian, this.isSigned, false);
         this.sampleRate = newSampleRate;
@@ -5318,10 +5318,10 @@ public class Program {
      * @return Returns input samples array but with sampling rate of newSampleRate.
      * @throws IOException is thrown when the sampleSize is invalit (<0 or >4)
      */
-    public static byte[] convertSampleRates(byte[] samples, int sampleSize, int frameSize,
-                                            int numberOfChannels, int oldSampleRate, int newSampleRate,
-                                            boolean isBigEndian, boolean isSigned,
-                                            boolean canChangeInputArr) throws IOException {
+    public static byte[] convertSampleRate(byte[] samples, int sampleSize, int frameSize,
+                                           int numberOfChannels, int oldSampleRate, int newSampleRate,
+                                           boolean isBigEndian, boolean isSigned,
+                                           boolean canChangeInputArr) throws IOException {
         byte[] retArr = null;
         if (oldSampleRate > newSampleRate) {
 //            retArr = convertToLowerSampleRate(samples, sampleSize, numberOfChannels, oldSampleRate, newSampleRate, isBigEndian, isSigned);
@@ -5358,8 +5358,8 @@ public class Program {
     }
 
 
-    public static double[] convertSampleRates(double[] samples, int numberOfChannels, int oldSampleRate,
-                                              int newSampleRate, boolean canChangeInputArr) throws IOException {
+    public static double[] convertSampleRate(double[] samples, int numberOfChannels, int oldSampleRate,
+                                             int newSampleRate, boolean canChangeInputArr) throws IOException {
         double[] retArr;
         if (oldSampleRate > newSampleRate) {
             //retArr = convertToLowerSampleRateByUpSampling(samples, numberOfChannels, oldSampleRate, newSampleRate, canChangeInputArr);
@@ -10137,7 +10137,7 @@ System.out.println();
 //        int oldFrameSize = oldSampleSize * oldNumberOfChannels;
 //        int newFrameSize = newSampleSize * newNumberOfChannels;
 //        if(oldSampleRate != newSampleRate) {
-//            audio = convertSampleRates(audio, oldSampleSize, oldFrameSize, oldNumberOfChannels,
+//            audio = convertSampleRate(audio, oldSampleSize, oldFrameSize, oldNumberOfChannels,
 //                oldSampleRate, newSampleRate, oldIsBigEndian, oldIsSigned);
 //        }
 //        if(oldIsBigEndian != newIsBigEndian) {

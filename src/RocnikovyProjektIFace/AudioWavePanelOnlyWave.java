@@ -232,7 +232,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
     public void setWaveToNewSampleRate(int newSampleRate) {
         double[] newWave;
         try {
-            newWave = Program.convertSampleRates(doubleWave.getSong(), 1,
+            newWave = Program.convertSampleRate(doubleWave.getSong(), 1,
                     doubleWave.getSampleRate(), newSampleRate, true);
             setNewDoubleWave(newWave, newSampleRate);
         }

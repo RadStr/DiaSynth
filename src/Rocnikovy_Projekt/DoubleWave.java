@@ -249,7 +249,7 @@ public class DoubleWave {
         try {
             song = Program.normalizeToDoubles(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
             if(newSampleRate >= 0) {
-                song = Program.convertSampleRates(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
+                song = Program.convertSampleRate(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
                 this.sampleRate = newSampleRate;
             }
             if(shouldCreateDoubleWaveFile) {

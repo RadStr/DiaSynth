@@ -604,8 +604,8 @@ public class ProgramTest {
         byte[][] samples3 = Program.takeEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
-            samples3Double[i] = Program.normalizeToDoublesBetweenMinusOneAndOne(samples3[i],
-                sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
+                                                           isBigEndian, isSigned);
         }
 
         boolean result1 = checkEqualityOfArraysTwoDim(samples1, samples3Double);
@@ -640,8 +640,8 @@ public class ProgramTest {
         byte[][] samples3 = Program.takeEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
-            samples3Double[i] = Program.normalizeToDoublesBetweenMinusOneAndOne(samples3[i],
-                sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
+                                                           isBigEndian, isSigned);
         }
 
         boolean result1 = checkEqualityOfArraysTwoDim(samples1, samples3Double);
@@ -1619,7 +1619,7 @@ public class ProgramTest {
         int sampleSizeInBits = sampleSize * 8;
         double[] result = new double[0];
         try {
-            result = Program.normalizeToDoublesBetweenMinusOneAndOne(byteSamples, sampleSize, sampleSizeInBits, isBigEndian, isSigned);
+            result = Program.normalizeToDoubles(byteSamples, sampleSize, sampleSizeInBits, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE2\t");
             return false;
@@ -2614,7 +2614,7 @@ public class ProgramTest {
         byte[] song = Note.generateFrequencyFreq(freq, sampleRate, neededLenInSecs, sampleSize, isBigEndian, isSigned);
         double[] songDouble;
         try {
-            songDouble = Program.normalizeToDoublesBetweenMinusOneAndOne(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            songDouble = Program.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -2672,7 +2672,7 @@ public class ProgramTest {
         byte[] song = Note.generateFrequencyFreq(freq, sampleRate, lengthInSeconds, sampleSize, isBigEndian, isSigned);
         double[] songDouble;
         try {
-            songDouble = Program.normalizeToDoublesBetweenMinusOneAndOne(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            songDouble = Program.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
         } catch (IOException e) {
             e.printStackTrace();
             return false;

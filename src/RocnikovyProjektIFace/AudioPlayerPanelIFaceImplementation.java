@@ -846,8 +846,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 pollMovement();
             }
         });
-
-        GridLayout panelWithWavesLayout = new GridLayout();
+        
         panelWithWavesEverything = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //panelWithWavesEverything = new PanelWithWavesJScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);

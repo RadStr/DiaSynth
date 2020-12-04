@@ -998,7 +998,7 @@ public class Program {
 //                            ByteArrayInputStream bais = new ByteArrayInputStream(first3MinsOfSong);
 //                            SongPartWithAverageValueOfSamples[] result = takeSongPartsAndAddAggregation(bais, sampleRate, frameSize, isBigEndian, isSigned, sampleSizeInBytes, false, Aggregations.AVG);
 //                            double[] values = takeValuesFromSongParts(result);
-//                            normalizeToDoublesBetweenMinusOneAndOne(values, sampleSizeInBits, isSigned);     // normalization
+//                            normalizeToDoubles(values, sampleSizeInBits, isSigned);     // normalization
 //                            INDArray arr = Nd4j.create(values);
 //                            input.putRow(currentRow, arr);
 //                            labels.putRow(currentRow, labelReferenceArrs[label]);
@@ -1623,8 +1623,8 @@ public class Program {
             if (count % n == 0) {
                 arrIndex = 0;
                 for (int i = 0; i < numberOfChannels; i++, arrIndex += sampleSize) {
-                    Program.normalizeToDoublesBetweenMinusOneAndOne(oneFrame, outputArr[i], sampleSize, sampleSize * 8,
-                        arrIndex, outputIndex, 1, isBigEndian, isSigned);
+                    Program.normalizeToDoubles(oneFrame, outputArr[i], sampleSize, sampleSize * 8,
+                                               arrIndex, outputIndex, 1, isBigEndian, isSigned);
                 }
 
                 outputIndex++;
@@ -1896,7 +1896,7 @@ public class Program {
                 default:
                     throw new IOException();
             }
-            normalizedSongPart = normalizeToDoublesBetweenMinusOneAndOne(intArr, sampleSize * 8, isSigned);
+            normalizedSongPart = normalizeToDoubles(intArr, sampleSize * 8, isSigned);
 
             if (bytesReadSum != songPart.length) {
                 double[] arr = new double[bytesReadSum / sampleSize];
@@ -4422,7 +4422,7 @@ public class Program {
                     System.out.println("Chyba");
                 }
             }*/
-            double[] normalizedSongPart = normalizeToDoublesBetweenMinusOneAndOne(intSamples, sampleSize * 8, isSigned);
+            double[] normalizedSongPart = normalizeToDoubles(intSamples, sampleSize * 8, isSigned);
 //            for(int j = 0; j < normalizedSongPart.length; j++) {
 //                System.out.println(normalizedSongPart[j]);
 //            }
@@ -4554,8 +4554,8 @@ public class Program {
 
         for(int index = 0, i = 0; i < results.length; i++, index += windowSizeInBytes) {
 //            System.out.println(i + ":" + results.length + ":" + samples.length + ":" + windowSizeInBytes + ":" + windowSize);
-            double[] arr = normalizeToDoublesBetweenMinusOneAndOne(samples, sampleSize, sampleSizeInBits, index,
-                windowSize, isBigEndian, isSigned);
+            double[] arr = normalizeToDoubles(samples, sampleSize, sampleSizeInBits,
+                                              index, windowSize, isBigEndian, isSigned);
             fft.realForward(arr);
             FrequencyWithMeasure[] frequenciesWithMeasures = convertImagPartToRealReturnArrWithFrequenciesRealForward(arr,
                 sampleRate, false);
@@ -4586,7 +4586,8 @@ public class Program {
      */
     public static double[][] calculateFFTRealForward(byte[] samples, int sampleSize, int sampleSizeInBits,
                                                      int windowSize, int startIndex, int endIndex,
-                                                     boolean isBigEndian, boolean isSigned, DoubleFFT_1D fft) throws IOException {
+                                                     boolean isBigEndian, boolean isSigned,
+                                                     DoubleFFT_1D fft) throws IOException {
         int windowSizeInBytes = windowSize * sampleSize;
         int len = endIndex - startIndex;
         double[][] results = new double[len / windowSizeInBytes][];
@@ -4595,8 +4596,7 @@ public class Program {
         for(int index = startIndex, i = 0; i < results.length; i++) {
             double[] arr = new double[windowSize];
 // TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
-            index = normalizeToDoublesBetweenMinusOneAndOne(samples, arr, sampleSize, sampleSizeInBits, index,
-                isBigEndian, isSigned);
+            index = normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
             for(int l = 0; l < arr.length; l++) {
 // TODO:                System.out.println(l + "\t" + arr[l]);
             }
@@ -4627,7 +4627,8 @@ public class Program {
      */
     public static double[][] calculateFFTRealForwardOnlyMeasures(byte[] samples, int sampleSize, int sampleSizeInBits,
                                                                  int windowSize, int startIndex, int endIndex,
-                                                                 boolean isBigEndian, boolean isSigned) throws IOException {
+                                                                 boolean isBigEndian,
+                                                                 boolean isSigned) throws IOException {
         int windowSizeInBytes = windowSize * sampleSize;
         int len = endIndex - startIndex;
         double[][] results = new double[len / windowSizeInBytes][];
@@ -4635,8 +4636,7 @@ public class Program {
         double[] arr = new double[windowSize];
 
         for(int index = startIndex, i = 0; i < results.length; i++) {
-            index = normalizeToDoublesBetweenMinusOneAndOne(samples, arr, sampleSize, sampleSizeInBits, index,
-                isBigEndian, isSigned);
+            index = normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
             fft.realForward(arr);
             results[i] = convertResultsOfFFTToRealRealForward(arr);
         }
@@ -4831,8 +4831,8 @@ public class Program {
      * @return Returns normalized samples in form of double[]
      * @throws IOException is thrown when the sample size is invalid.
      */
-    public static double[] normalizeToDoublesBetweenMinusOneAndOne(byte[] byteSamples, int sampleSize, int sampleSizeInBits,
-                                                                   boolean isBigEndian, boolean isSigned) throws IOException {
+    public static double[] normalizeToDoubles(byte[] byteSamples, int sampleSize, int sampleSizeInBits,
+                                              boolean isBigEndian, boolean isSigned) throws IOException {
         double[] result = new double[byteSamples.length / sampleSize];
         int maxAbsoluteValue = getMaxAbsoluteValueSigned(sampleSizeInBits);
         int arrIndex = 0;
@@ -4888,11 +4888,11 @@ public class Program {
      * @return Returns the current index in byteSamples after performing normalization
      * @throws IOException is thrown when the sample size is invalid.
      */
-    public static int normalizeToDoublesBetweenMinusOneAndOne(byte[] byteSamples, double[] outputArr, int sampleSize,
-                                                              int sampleSizeInBits, int arrIndex,
-                                                              boolean isBigEndian, boolean isSigned) throws IOException {
-        return normalizeToDoublesBetweenMinusOneAndOne(byteSamples, outputArr, sampleSize,
-        sampleSizeInBits, arrIndex, 0, outputArr.length, isBigEndian, isSigned);
+    public static int normalizeToDoubles(byte[] byteSamples, double[] outputArr, int sampleSize,
+                                         int sampleSizeInBits, int arrIndex,
+                                         boolean isBigEndian, boolean isSigned) throws IOException {
+        return normalizeToDoubles(byteSamples, outputArr, sampleSize, sampleSizeInBits,
+                                  arrIndex, 0, outputArr.length, isBigEndian, isSigned);
     }
 
 
@@ -4911,9 +4911,9 @@ public class Program {
      * @return Returns the current index in byteSamples after performing normalization
      * @throws IOException is thrown when the sample size is invalid.
      */
-    public static int normalizeToDoublesBetweenMinusOneAndOne(byte[] byteSamples, double[] outputArr, int sampleSize,
-                                                              int sampleSizeInBits, int arrIndex, int outputStartIndex, int outputLen,
-                                                              boolean isBigEndian, boolean isSigned) throws IOException {
+    public static int normalizeToDoubles(byte[] byteSamples, double[] outputArr, int sampleSize,
+                                         int sampleSizeInBits, int arrIndex, int outputStartIndex, int outputLen,
+                                         boolean isBigEndian, boolean isSigned) throws IOException {
         int maxAbsoluteValue = getMaxAbsoluteValueSigned(sampleSizeInBits);
         int mask = calculateMask(sampleSize);
         int outputEndIndex = outputStartIndex + outputLen;
@@ -4968,12 +4968,11 @@ public class Program {
      * @return Returns normalized samples in form of double[]
      * @throws IOException is thrown when the sample size is invalid.
      */
-    public static double[] normalizeToDoublesBetweenMinusOneAndOne(byte[] byteSamples, int sampleSize,
-                                                                   int sampleSizeInBits, int arrIndex, int windowSizeInSamples,
-                                                                   boolean isBigEndian, boolean isSigned) throws IOException {
+    public static double[] normalizeToDoubles(byte[] byteSamples, int sampleSize,
+                                              int sampleSizeInBits, int arrIndex, int windowSizeInSamples,
+                                              boolean isBigEndian, boolean isSigned) throws IOException {
         double[] outputArr = new double[windowSizeInSamples];
-        normalizeToDoublesBetweenMinusOneAndOne(byteSamples, outputArr, sampleSize, sampleSizeInBits, arrIndex,
-        isBigEndian, isSigned);
+        normalizeToDoubles(byteSamples, outputArr, sampleSize, sampleSizeInBits, arrIndex, isBigEndian, isSigned);
 
         // TODO: Zakomentovano protoze to bylo nahrazeno volanim referencni varianty
 /*
@@ -5039,7 +5038,7 @@ public class Program {
      * @param isSigned is true if the samples are signed, is false otherwise.
      * @return Returns normalized samples in form of double[]
      */
-    public static double[] normalizeToDoublesBetweenMinusOneAndOne(int[] samples, int sampleSizeInBits, boolean isSigned) {
+    public static double[] normalizeToDoubles(int[] samples, int sampleSizeInBits, boolean isSigned) {
         double[] result = new double[samples.length];
 //        System.out.println("sample size in bits:\t" + sampleSizeInBits);          // TODO: remove debug prints
         int maxAbsoluteValue = getMaxAbsoluteValueSigned(sampleSizeInBits);
@@ -5070,7 +5069,7 @@ public class Program {
      * @param sampleSizeInBits is the size of 1 sample in bits in the samples array.
      * @param isSigned is true if the samples are signed, is false otherwise.
      */
-    public static void normalizeToDoublesBetweenMinusOneAndOne(double[] samples, int sampleSizeInBits, boolean isSigned) {
+    public static void normalizeToDoubles(double[] samples, int sampleSizeInBits, boolean isSigned) {
 //        System.out.println("sample size in bits:\t" + sampleSizeInBits);          // TODO: remove debug prints
         int maxAbsoluteValue = getMaxAbsoluteValueSigned(sampleSizeInBits);
 //        System.out.println("Max absolute value:\t" + maxAbsoluteValue);

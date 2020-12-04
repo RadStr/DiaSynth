@@ -100,8 +100,8 @@ public interface CombFilterBPMGetterIFace {
             double[] fftResult = new double[windowSize];
 // TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
             try {
-                index = Program.normalizeToDoublesBetweenMinusOneAndOne(samples, fftResult, sampleSize, sampleSizeInBits, index,
-                    isBigEndian, isSigned);
+                index = Program.normalizeToDoubles(samples, fftResult, sampleSize, sampleSizeInBits,
+                                                   index, isBigEndian, isSigned);
             } catch (IOException e) {
                 return null;
             }

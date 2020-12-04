@@ -247,7 +247,7 @@ public class DoubleWave {
         this.sampleRate = p.sampleRate;
         this.numberOfChannels = p.numberOfChannels;
         try {
-            song = Program.normalizeToDoublesBetweenMinusOneAndOne(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
+            song = Program.normalizeToDoubles(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
             if(newSampleRate >= 0) {
                 song = Program.convertSampleRates(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
                 this.sampleRate = newSampleRate;

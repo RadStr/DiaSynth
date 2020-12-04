@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 /**
  * Pause/play button
  */
+@Deprecated // I use images instead - BooleanButtonWithImages
 public class PlayButton extends JButton implements ActionListener {
     public boolean isPaused;
 

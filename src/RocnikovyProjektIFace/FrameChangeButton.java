@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Button which makes current panel invisible and some other visible
  */
+@Deprecated // Not used, but it is ok
 public class FrameChangeButton extends JButton {
 	private static final long serialVersionUID = 1L;	
 	

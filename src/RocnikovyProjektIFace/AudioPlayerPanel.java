@@ -691,8 +691,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private MouseAdapter lastSplitterMouseAdapter;
 
-    private RobotUserEventsGenerator userEventsGenerator;
-
     private final static int DIVIDER_SIZE = 15;
 
     private TimestampsPanel timestampPanel;
@@ -707,8 +705,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         AudioPlayerPanelMouseWheelListener mouseWheelListener = new AudioPlayerPanelMouseWheelListener(this);
         this.addMouseWheelListener(mouseWheelListener);
 
-
-        userEventsGenerator = new RobotUserEventsGenerator();
 
         splitters = new ArrayList<>();
 //        panelWithWavesEverything.setLayout(null);
@@ -1424,7 +1420,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 
-    // TODO: - pouzivam ji v AudioPlayerFrame
+    @Deprecated     // I was testing something.
     public void TODOMETHOD() {
         int w = panelWithWavesEverything.getWidth();
         int startX = panelWithWavesEverything.getX();
@@ -1449,6 +1445,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //                            bot.mouseMove(p.x, p.y);
 //                        }
 
+        RobotUserEventsGenerator userEventsGenerator = new RobotUserEventsGenerator();
         TODOSLEEP(3000);
         userEventsGenerator.moveTo(p1, pStartX, pEndX);
         TODOSLEEP(3000);

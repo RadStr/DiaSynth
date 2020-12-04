@@ -3,6 +3,7 @@ package RocnikovyProjektIFace;
 import java.awt.*;
 import java.awt.event.InputEvent;
 
+@Deprecated // This was one of the first tries to fix some issues with the infinite dragging of last splitter
 public class RobotUserEventsGenerator {
     private Robot bot;
     public RobotUserEventsGenerator() {

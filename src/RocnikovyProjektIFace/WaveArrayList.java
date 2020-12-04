@@ -9,6 +9,9 @@ import java.util.function.Predicate;
 /**
  * Only supported class is AudioWavePanelEverything.
  */
+@Deprecated // I wanted to have dynamic resizing of the label with the index of wave (on the left side), but
+            // Java was resizing the whole wave when the number of digits in label changed, so I just dropped that feature.
+            // Now we have 2(3) digits constantly.
 public class WaveArrayList<T> extends ArrayList<T> {
     @Override
     public boolean add(T o) {

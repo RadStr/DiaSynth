@@ -3,6 +3,7 @@ package RocnikovyProjektIFace;
 import java.awt.*;
 import java.awt.event.InputEvent;
 
+@Deprecated     // Not used anymore, I think that it didn't work so I made RobotUserEventsGenerator
 public class UserEventsGenerator {
     private Robot bot;
     public UserEventsGenerator() {

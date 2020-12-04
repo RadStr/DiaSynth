@@ -6,11 +6,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// TODO: Probably useless, i solve this problem by observer pattern
+// TODO: Probably useless, I solved this problem by observer pattern
 
 /**
  * Button which makes current panel invisible and some other visible. And also update the xmlDoc property in XML.
  */
+@Deprecated
 public class FrameChangeButtonUpdateXML extends JButton {	
 	private static final long serialVersionUID = 1L;
 

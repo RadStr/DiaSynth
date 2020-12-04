@@ -13,7 +13,6 @@ public class MenuPanel extends JPanel implements ChangeJMenuBarIFace {
 	private static final long serialVersionUID = 1L;
 
 
-
 	private JFrame thisFrame;
 	
 	public MenuPanel(JFrame frame, AddToAudioPlayerIFace addToAudioPlayerIFace) {

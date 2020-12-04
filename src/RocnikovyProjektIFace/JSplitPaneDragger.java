@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+@Deprecated
 public class JSplitPaneDragger implements MouseMotionListener {
     JSplitPane splitter;
     JSplitPane[] splitters;

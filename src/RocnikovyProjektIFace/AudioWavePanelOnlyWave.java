@@ -647,7 +647,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             markPart(g, Color.red);
         }
 
-        AudioPlayerPanelIFaceImplementation.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
+        AudioPlayerPanel.ClipboardDrawView clipboard = wholeWavePanel.getClipboardDrawView();
         if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
             Color color;
             if (clipboard.isCut()) {

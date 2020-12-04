@@ -54,7 +54,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AudioPlayerPanelIFaceImplementation extends JPanel implements MouseListener,
+public class AudioPlayerPanel extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
         ChangeJMenuBarIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
 
@@ -699,7 +699,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     private int oldVisibleWidth = -1;
 
-    public AudioPlayerPanelIFaceImplementation(FrameWithFocusControl frame) {
+    public AudioPlayerPanel(FrameWithFocusControl frame) {
         this();
 
         //    program = p;
@@ -3530,7 +3530,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
     private ActionListener createDrawWindowActionListener(final DRAW_PANEL_TYPES DRAW_TYPE) {
-        AudioPlayerPanelIFaceImplementation thisAudioPlayerClass = this;
+        AudioPlayerPanel thisAudioPlayerClass = this;
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -4839,7 +4839,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     }
 
 
-    private AudioPlayerPanelIFaceImplementation() {
+    private AudioPlayerPanel() {
         setOutputAudioFormatToDefault();
         this.setLayout(new GridBagLayout());
 
@@ -6344,7 +6344,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
     public class ClipboardDrawView {
         public ClipboardDrawView() {
-            this.clipboardWave = AudioPlayerPanelIFaceImplementation.this.clipboard;
+            this.clipboardWave = AudioPlayerPanel.this.clipboard;
         }
 
         private final ClipboardWave clipboardWave;
@@ -6360,10 +6360,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
 
         public int getClipboardMarkStartPixel() {
-            return (int) AudioPlayerPanelIFaceImplementation.this.calculatePixel(clipboardWave.markStartSampleClipboardWave);
+            return (int) AudioPlayerPanel.this.calculatePixel(clipboardWave.markStartSampleClipboardWave);
         }
         public int getClipboardMarkEndPixel() {
-            return (int) AudioPlayerPanelIFaceImplementation.this.calculatePixel(clipboardWave.markEndSampleClipboardWave);
+            return (int) AudioPlayerPanel.this.calculatePixel(clipboardWave.markEndSampleClipboardWave);
         }
     }
 

@@ -6,7 +6,7 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.OutputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.Port;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
-import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
+import RocnikovyProjektIFace.AudioPlayerPanel;
 import Rocnikovy_Projekt.Direction;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -648,7 +648,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     @Override
     public void openPropertiesPanel() {
         if(unit.hasProperties()) {
-            AudioPlayerPanelIFaceImplementation.loadPluginParameters(unit.getPropertiesPanel(), false);
+            AudioPlayerPanel.loadPluginParameters(unit.getPropertiesPanel(), false);
             unit.updateAfterPropertiesCall();
         }
     }

@@ -31,7 +31,7 @@ public class WaveScroller extends JPanel {
         this.waveScrollCallback = waveScrollCallback;
         waveScroller.getHorizontalScrollBar().addAdjustmentListener(horizontalBarAdjustmentListener);
 
-        waveScroller.getHorizontalScrollBar().setUnitIncrement(AudioPlayerPanelIFaceImplementation.HORIZONTAL_SCROLL_UNIT_INCREMENT);
+        waveScroller.getHorizontalScrollBar().setUnitIncrement(AudioPlayerPanel.HORIZONTAL_SCROLL_UNIT_INCREMENT);
         waveScroller.setViewportView(emptyPanelForHorizontalScroll);
         emptyPanelForHorizontalScroll.addComponentListener(listener);
 
@@ -101,7 +101,7 @@ public class WaveScroller extends JPanel {
 //                int extent = scrollBar.getModel().getExtent();
 //                ProgramTest.debugPrint("RESIZING SCROLLBAR", oldWidth, newWidth, getOldScrollbarValue(),
 //                    scrollBarVal, scrollBar.getMaximum() - extent);
-//                ProgramTest.debugPrint(((AudioPlayerPanelIFaceImplementation)waveScrollCallback).waves.get(0).getPreferredSize());
+//                ProgramTest.debugPrint(((AudioPlayerPanel)waveScrollCallback).waves.get(0).getPreferredSize());
             // TODO: DEBUG:
 
             int newVal = AudioWavePanelOnlyWave.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,

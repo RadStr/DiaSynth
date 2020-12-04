@@ -11,11 +11,11 @@ public class TODO_CLASS extends TODO_PACKAGE.TODO_CLASS {
 // Vyresit playChunkSize - to souvisi s tim, ze tam jeste musim dat poradne ten vystupni audioFormat u toho playAudio
 
         c:
-        // Po jakykoliv praci s listem waves v AudioPlayerPanelIFaceImplementation musim zavolat upgradeTextFieldIfDigitCountChanges()
+        // Po jakykoliv praci s listem waves v AudioPlayerPanel musim zavolat upgradeTextFieldIfDigitCountChanges()
         // Teoreticky bych si na to mohl napsat metodu a menil bych pocet prvku ve waves jen z ni, ale muzu mit situace kdy pridam i vic prvku, takze bych to pak kontroloval zbytecne
 
         d:
-        // V AudioPlayerPanelIFaceImplementation: upgradeTextFieldIfDigitCountChanges();      // TODO: Ted ani nevim kde to ma byt
+        // V AudioPlayerPanel: upgradeTextFieldIfDigitCountChanges();      // TODO: Ted ani nevim kde to ma byt
 
         e:
         // Vymazat JSplitPaneDividerMouseAdapter a vsechny odkazy na nej

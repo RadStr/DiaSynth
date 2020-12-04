@@ -17,12 +17,12 @@ import java.io.IOException;
 public class AudioPlayerFrame extends FrameWithFocusControl {
 //	private static final long serialVersionUID = 1L;
 //
-//    private AudioPlayerPanelIFaceImplementation panelWithAudioPlayer;
+//    private AudioPlayerPanel panelWithAudioPlayer;
 //    private SwingWorker audioPlayWorker;
 //
 //
 //	public AudioPlayerFrame() {
-//        panelWithAudioPlayer = new AudioPlayerPanelIFaceImplementation(this);
+//        panelWithAudioPlayer = new AudioPlayerPanel(this);
 //        this.add(panelWithAudioPlayer);
 //        panelWithAudioPlayer.setCurrentFontSize(16);     // TODO: Zatim natvrdo takhle, jen pro testovani
 //        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -69,7 +69,7 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 ////                            for(int k = 0; k < 3; k++) {
 ////                                panelWithAudioPlayer.TODOMETHOD();
 ////                            }
-//                            panelWithAudioPlayer.playAudio(false, AudioPlayerPanelIFaceImplementation.MULTIPLY_CONST_FOR_AUDIO_PLAY); // TODO: ten multiplier
+//                            panelWithAudioPlayer.playAudio(false, AudioPlayerPanel.MULTIPLY_CONST_FOR_AUDIO_PLAY); // TODO: ten multiplier
 //                        }
 //                        // TODO: Tahle varianta nefunguje protoze to pak nemuzu otevrit dalsi audio pritom co uz mam nejaky otevreny
 //                        //panelWithAudioPlayer.playAudio(p.song, p.decodedAudioFormat, false, 9 / (double) 10); // TODO: ten multiplier

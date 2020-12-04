@@ -8,7 +8,7 @@ import DiagramSynthPackage.Synth.SynthDiagram;
 import DiagramSynthPackage.Synth.Unit;
 import DiagramSynthPackage.Synth.WaveTables.WaveTable;
 import DiagramSynthPackage.Synth.WaveTables.WaveTableFast;
-import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
+import RocnikovyProjektIFace.AudioPlayerPanel;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -172,7 +172,7 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
     private void loadWaveTable(String path) {
         try {
             DoubleWave doubleWave;
-            doubleWave = AudioPlayerPanelIFaceImplementation.loadMonoDoubleWave(new File(path),
+            doubleWave = AudioPlayerPanel.loadMonoDoubleWave(new File(path),
                     -1, false);
             if (doubleWave == null || doubleWave.getSongLength() <= 0) {
                 RandomAccessFile file = new RandomAccessFile(path, "r");

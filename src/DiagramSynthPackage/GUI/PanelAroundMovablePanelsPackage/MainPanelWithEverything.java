@@ -10,14 +10,12 @@ import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioPlayerPlugins.JTextFieldWithBounds;
 import RocnikovyProjektIFace.AudioPlayerPlugins.SetFieldIFace;
-import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
+import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FileFilterAudioFormats;
 import RocnikovyProjektIFace.PlayerButtonPanelWithZoom;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
 
-import javax.sound.sampled.AudioFormat;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -375,7 +373,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
             recordButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving(chosenFile);
+                    JFileChooser fileChooser = AudioPlayerPanel.getFileChooserForSaving(chosenFile);
 
                     int returnVal = fileChooser.showSaveDialog(frame);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -389,7 +387,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
 
 
             {
-                JFileChooser fileChooser = AudioPlayerPanelIFaceImplementation.getFileChooserForSaving(null);
+                JFileChooser fileChooser = AudioPlayerPanel.getFileChooserForSaving(null);
                 File file = fileChooser.getSelectedFile();
                 filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
                 botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.audioType);

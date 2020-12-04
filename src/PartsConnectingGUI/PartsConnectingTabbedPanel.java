@@ -2,7 +2,7 @@ package PartsConnectingGUI;
 
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.MainPanelWithEverything;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
+import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FrameWithFocusControl;
 import RocnikovyProjektIFace.MenuPanel;
 import Rocnikovy_Projekt.MyLogger;
@@ -25,7 +25,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
         MyLogger.log("Created Analyzer", -1);
 
         MyLogger.log("Creating Audio player", 1);
-        audioPlayerTab = new AudioPlayerPanelIFaceImplementation(frame);
+        audioPlayerTab = new AudioPlayerPanel(frame);
         this.addTab("Audio player", null, audioPlayerTab, "Audio player");
         this.setMnemonicAt(1, KeyEvent.VK_2);
         MyLogger.log("Created Audio player", -1);
@@ -70,7 +70,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
 
     private ChangeJMenuBarIFace oldTab;
     private MenuPanel analyzerTab;
-    private AudioPlayerPanelIFaceImplementation audioPlayerTab;
+    private AudioPlayerPanel audioPlayerTab;
     @Override
     public void addToAudioPlayer(byte[] audio, int len, AudioFormatWithSign format,
                                  boolean shouldConvertToPlayerOutputFormat) {

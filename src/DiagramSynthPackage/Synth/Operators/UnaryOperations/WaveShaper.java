@@ -5,8 +5,7 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPan
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.Unit;
-import RocnikovyProjektIFace.AudioPlayerPanelIFaceImplementation;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.Drawing.DrawJFrame;
 import RocnikovyProjektIFace.Drawing.FunctionWaveDrawPanel;
 import Rocnikovy_Projekt.Aggregations;
@@ -66,9 +65,8 @@ public class WaveShaper extends UnaryOperator {
     @Override
     protected void setPropertiesPanel() {
         // Doesn't have properties
-        propertiesPanel = AudioPlayerPanelIFaceImplementation.
-                createDrawFrame(AudioPlayerPanelIFaceImplementation.DRAW_PANEL_TYPES.WAVESHAPER,
-                        -1, null, null, -1, -1);
+        propertiesPanel = AudioPlayerPanel.createDrawFrame(AudioPlayerPanel.DRAW_PANEL_TYPES.WAVESHAPER, -1,
+                                                           null, null, -1, -1);
         setFunction();
         ((JFrame)propertiesPanel).addWindowListener(new WindowAdapter() {
            @Override

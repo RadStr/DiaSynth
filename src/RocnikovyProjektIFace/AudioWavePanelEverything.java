@@ -34,7 +34,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     private AudioWavePanelOnlyButtons buttonsOnRight;
 
 
-    private AudioPlayerPanelIFaceImplementation panelWithWaves;
+    private AudioPlayerPanel panelWithWaves;
 
     // Indexed from 1
     private JTextFieldResizeable waveIndexTextField;          // TODO: !!!!!!!!!!!
@@ -78,7 +78,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     private boolean focusLostByEnterPress;
     private boolean dragging;
 
-    public AudioWavePanelEverything(DoubleWave doubleWave, AudioPlayerPanelIFaceImplementation panelWithWaves,
+    public AudioWavePanelEverything(DoubleWave doubleWave, AudioPlayerPanel panelWithWaves,
                                     int waveIndex, ChannelCount channelCountInOutputAudio) {
 // TODO: DEBUG
 //        ProgramTest.debugPrint("AudioWavePanelEverything constructor start", super.getPreferredSize());
@@ -492,10 +492,10 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
 // TODO: REVALIDATE
 
 
-    // TODO: AudioPlayerPanelIFaceImplementation - nazev teto tridy zmenim - takze pozor na to aby se zmenili i stringy v komentarich pri rename
+    // TODO: AudioPlayerPanel - nazev teto tridy zmenim - takze pozor na to aby se zmenili i stringy v komentarich pri rename
     // This panel also serves like interface between the panels on this panel and the on which is this panel
-    // That means the child components can call only methods on the AudioPlayerPanelIFaceImplementation through this panel
-    // and AudioPlayerPanelIFaceImplementation can only get info of child components through this panel
+    // That means the child components can call only methods on the AudioPlayerPanel through this panel
+    // and AudioPlayerPanel can only get info of child components through this panel
 
     public int getWaveStartX() {
         int x;
@@ -808,7 +808,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
 
 
 
-    public AudioPlayerPanelIFaceImplementation.ClipboardDrawView getClipboardDrawView() {
+    public AudioPlayerPanel.ClipboardDrawView getClipboardDrawView() {
         return panelWithWaves.getClipboardDrawView();
     }
 

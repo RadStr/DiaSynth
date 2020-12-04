@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class TimestampsPanel extends JPanel {
 
-    private AudioPlayerPanelIFaceImplementation audioPlayerPanel;
+    private AudioPlayerPanel audioPlayerPanel;
     /**
      * Says draw timestamp label every MARKS_PER_TIMESTAMP commas.
      * More in depth description, which says the same:
@@ -17,7 +17,7 @@ public class TimestampsPanel extends JPanel {
      */
     public static final int MARKS_PER_TIMESTAMP = 3;
 
-    public TimestampsPanel(AudioPlayerPanelIFaceImplementation audioPlayerPanel) {
+    public TimestampsPanel(AudioPlayerPanel audioPlayerPanel) {
         this.audioPlayerPanel = audioPlayerPanel;
     }
 

@@ -108,7 +108,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 // TODO: SYNTH - AUDIO PLAYER AUDIO THREAD
             }
         }
-        audioThread.changedOutputFormat();
+        audioThread.outputFormatChanged();
         thisFrame.setEnabled(true);
     }
 
@@ -334,7 +334,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             wave.setNewDoubleWave(newLen);
         }
 
-        audioThread.changedWaveSizes();
+        audioThread.wavesLengthChanged();
     }
 
     private void alignAllWavesToLenWhileOverwritePasting(int newLen, DoubleWave pasteWave) {
@@ -434,7 +434,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //        newWavePanel.setVariablesWhichNeededSize();
 // TODO: PROGRAMO
         setEnabledAllMenus(true);
-        audioThread.changedWaveSizes();
+        audioThread.wavesLengthChanged();
         // This is here because when the first wave is so small that it is already smaller then the available pixels
         // for the drawing of wave then we perform fake zooming to draw only the individual samples instead of drawing
         // aggregation of values
@@ -3407,7 +3407,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
     private void postProcessingAfterChangingWaveLength() {
         shouldMarkPart = false;
         scrollToStart();
-        audioThread.changedWaveSizes();
+        audioThread.wavesLengthChanged();
     }
 
     private void scrollToStart() {
@@ -3470,7 +3470,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             }
         }
 
-        audioThread.changedWaveSizes();
+        audioThread.wavesLengthChanged();
     }
 
     private void deletePart(int startIndex) {
@@ -4986,7 +4986,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 
         @Override
         public void run() {
-            changedOutputFormat();
+            outputFormatChanged();
             audioLoop();
         }
 
@@ -5020,7 +5020,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             }
 
             resetPlayVariables();
-            changedWaveSizes();
+            wavesLengthChanged();
         }
 
 
@@ -5032,7 +5032,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         private int audioLineMaxAvailableBytes;
         private int minAllowedAvailableSize;
         private int oldSampleRate = 0;
-        public void changedOutputFormat() {
+        public void outputFormatChanged() {
             pause();
             while (!isPaused) {
                 setShouldPause(true);
@@ -5064,10 +5064,10 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
             //audioArr = new byte[Program.convertToMultipleUp(maxByteCountInAudioLine / 2, frameSize)];
 
             callOnResize();       // TODO: Volat na resize vzdycky
-            changedWaveSizes();
+            wavesLengthChanged();
         }
 
-        private void changedWaveSizes() {
+        private void wavesLengthChanged() {
             outputEndIndex = getDoubleWaveLength();
             int songSizeInSecs = DoubleWave.convertSampleToSecs(outputEndIndex, (int) outputAudioFormat.getSampleRate());
             songLenInSecs = Program.convertSecondsToTime(songSizeInSecs, -1);

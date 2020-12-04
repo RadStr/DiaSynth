@@ -846,7 +846,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 pollMovement();
             }
         });
-        
+
         panelWithWavesEverything = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //panelWithWavesEverything = new PanelWithWavesJScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -3071,7 +3071,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
                 }
                 return null;
             }
-            p.convertMultiChannelToMono();
+            p.convertToMono();
             wave = new DoubleWave(p, false, newSampleRate);
         } catch (IOException exception) {
             MyLogger.logException(exception);
@@ -4177,7 +4177,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
 //            public boolean modifyAudio() {
 //                try {
 //                    if (program.numberOfChannels != 1) {         // TODO:
-//                        program.convertMultiChannelToMono();
+//                        program.convertToMono();
 //                        return true;
 //                    }
 //                    return false;

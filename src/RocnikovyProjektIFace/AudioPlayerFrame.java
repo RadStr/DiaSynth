@@ -122,21 +122,21 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 //                        case 0:
 //                            testSongPathTODO = "D:\\MP3 HEAVY METAL\\Anthrax\\Anthrax Worship music\\01-Anthrax _ Worship";          // CommunicationWithWaveValues song
 //                            p.setVariables(testSongPathTODO, true);
-//                            p.convertMultiChannelToMono();
+//                            p.convertToMono();
 //                            doubleWave = new DoubleWave(p, false);
 //                            songs[i] = doubleWave;
 //                            break;
 //                        case 1:
 //                            testSongPathTODO = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\70BPMMono.wav";
 //                            p.setVariables(testSongPathTODO, true);
-//                            p.convertMultiChannelToMono();
+//                            p.convertToMono();
 //                            doubleWave = new DoubleWave(p, false);
 //                            songs[i] = doubleWave;
 //                            break;
 //                        case 2:
 //                            testSongPathTODO = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\ruzneklavesy.wav";
 //                            p.setVariables(testSongPathTODO, true);
-//                            p.convertMultiChannelToMono();
+//                            p.convertToMono();
 //                            doubleWave = new DoubleWave(p, false);
 //                            songs[i] = doubleWave;
 //                            break;

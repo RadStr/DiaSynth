@@ -2323,14 +2323,16 @@ public class Program {
     }
 
 
-    public void convertMultiChannelToMono() throws IOException {
-        this.song = convertMultiChannelToMono(this.song, this.frameSize, this.numberOfChannels, this.sampleSizeInBytes,
+    public void convertToMono() throws IOException {
+        this.song = convertToMono(this.song, this.frameSize, this.numberOfChannels, this.sampleSizeInBytes,
             this.isBigEndian, this.isSigned);
         this.numberOfChannels = 1;
         this.frameSize = sampleSizeInBytes;
-        this.decodedAudioFormat = new AudioFormat(decodedAudioFormat.getEncoding(), this.decodedAudioFormat.getSampleRate(),
-            this.decodedAudioFormat.getSampleSizeInBits(), 1, this.frameSize, decodedAudioFormat.getFrameRate(),
-        decodedAudioFormat.isBigEndian());
+        this.decodedAudioFormat = new AudioFormat(decodedAudioFormat.getEncoding(),
+                                                  decodedAudioFormat.getSampleRate(),
+                                                  decodedAudioFormat.getSampleSizeInBits(), 1,
+                                                  this.frameSize, decodedAudioFormat.getFrameRate(),
+                                                  decodedAudioFormat.isBigEndian());
         setSizeOfOneSec();
     }
 
@@ -2346,8 +2348,8 @@ public class Program {
      * @param monoSong         is the arraz in which will be stored the resulting mono song.
      * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
      */
-    public static void convertMultiChannelToMono(byte[] samples, int frameSize, int numberOfChannels, int sampleSize,
-                                                   boolean isBigEndian, boolean isSigned, byte[] monoSong) throws IOException {
+    public static void convertToMono(byte[] samples, int frameSize, int numberOfChannels, int sampleSize,
+                                     boolean isBigEndian, boolean isSigned, byte[] monoSong) throws IOException {
         int sample = 0;
         int monoSample = 0;
 
@@ -2389,10 +2391,10 @@ public class Program {
      * the samples in frame
      * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
      */
-    public static byte[] convertMultiChannelToMono(byte[] samples, int frameSize, int numberOfChannels,
-                                                   int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+    public static byte[] convertToMono(byte[] samples, int frameSize, int numberOfChannels,
+                                       int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
         byte[] monoSong = new byte[samples.length / numberOfChannels];
-        convertMultiChannelToMono(samples, frameSize, numberOfChannels, sampleSize, isBigEndian, isSigned, monoSong);
+        convertToMono(samples, frameSize, numberOfChannels, sampleSize, isBigEndian, isSigned, monoSong);
 
 // TODO: 60 BPM stereo - not both channels are the same
 /*
@@ -2425,7 +2427,7 @@ public class Program {
 //     * the samples in frame
 //     * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
 //     */
-//    public static byte[] convertMultiChannelToMono(byte[] samples, int frameSize, int numberOfChannels,
+//    public static byte[] convertToMono(byte[] samples, int frameSize, int numberOfChannels,
 //                                                   int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
 //        int sample = 0;
 //        int monoSample = 0;
@@ -2470,8 +2472,8 @@ public class Program {
      * the samples in frame
      * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
      */
-    public static byte[] convertMultiChannelToMono(InputStream audioStream, int frameSize, int numberOfChannels,
-                                                   int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+    public static byte[] convertToMono(InputStream audioStream, int frameSize, int numberOfChannels,
+                                       int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
 
         int sample = 0;
         int monoSample = 0;
@@ -2525,7 +2527,7 @@ public class Program {
 //     * the samples in frame
 //     * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
 //     */
-//    public static byte[] convertMultiChannelToMono(InputStream audioStream,
+//    public static byte[] convertToMono(InputStream audioStream,
 //                                                   int frameSize, int frameRate, int numberOfChannels, int sampleSize, boolean isBigEndian) throws IOException {
 //
 //        int sample = 0;

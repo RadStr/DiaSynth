@@ -1489,7 +1489,7 @@ public class ProgramTest {
 
         byte[] result = null;
         try {
-            result = Program.convertMultiChannelToMono(testArr, 2, 2, 1, true, false);
+            result = Program.convertToMono(testArr, 2, 2, 1, true, false);
         } catch (IOException e) {
             System.out.print("FALSE1");
             return false;
@@ -1516,7 +1516,7 @@ public class ProgramTest {
 
         byte[] result = new byte[0];
         try {
-            result = Program.convertMultiChannelToMono(testArrByte, sampleSize * numberOfChannels, numberOfChannels, sampleSize, isBigEndian, isSigned);
+            result = Program.convertToMono(testArrByte, sampleSize * numberOfChannels, numberOfChannels, sampleSize, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE1\t");
             return false;

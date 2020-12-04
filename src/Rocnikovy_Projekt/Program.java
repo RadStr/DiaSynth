@@ -5325,7 +5325,7 @@ public class Program {
         byte[] retArr = null;
         if (oldSampleRate > newSampleRate) {
 //            retArr = convertToLowerSampleRate(samples, sampleSize, numberOfChannels, oldSampleRate, newSampleRate, isBigEndian, isSigned);
-            retArr = convertToLowerSampleRateUsingUpSampling(samples, sampleSize, frameSize, numberOfChannels,
+            retArr = convertToLowerSampleRateByUpSampling(samples, sampleSize, frameSize, numberOfChannels,
                     oldSampleRate, newSampleRate, isBigEndian, isSigned, canChangeInputArr);
         }
         else if (oldSampleRate < newSampleRate) {
@@ -5362,8 +5362,8 @@ public class Program {
                                               int newSampleRate, boolean canChangeInputArr) throws IOException {
         double[] retArr;
         if (oldSampleRate > newSampleRate) {
-            //retArr = convertToLowerSampleRateUsingUpSampling(samples, numberOfChannels, oldSampleRate, newSampleRate, canChangeInputArr);
-            retArr = convertToLowerSampleRateUsingImmediate(samples, numberOfChannels, oldSampleRate, newSampleRate, canChangeInputArr);
+            //retArr = convertToLowerSampleRateByUpSampling(samples, numberOfChannels, oldSampleRate, newSampleRate, canChangeInputArr);
+            retArr = convertToLowerSampleRateByImmediate(samples, numberOfChannels, oldSampleRate, newSampleRate, canChangeInputArr);
         }
         else if (oldSampleRate < newSampleRate) {
             retArr = convertToHigherSampleRate(samples, numberOfChannels, oldSampleRate, newSampleRate);
@@ -5586,10 +5586,10 @@ public class Program {
      * @throws IOException is thrown when the sampleSize is invalid (<0 or >4)
      */
     @Deprecated
-    private static byte[] convertToLowerSampleRateUsingUpSampling(byte[] samples, int sampleSize, int frameSize,
-                                                                  int numberOfChannels, int oldSampleRate, int newSampleRate,
-                                                                  boolean isBigEndian, boolean isSigned,
-                                                                  boolean canChangeInputArr) throws IOException {
+    private static byte[] convertToLowerSampleRateByUpSampling(byte[] samples, int sampleSize, int frameSize,
+                                                               int numberOfChannels, int oldSampleRate, int newSampleRate,
+                                                               boolean isBigEndian, boolean isSigned,
+                                                               boolean canChangeInputArr) throws IOException {
         int upSampleRate = newSampleRate;
         int upSampleRateRatio = 1;
         while(upSampleRate < oldSampleRate) {
@@ -5645,9 +5645,9 @@ public class Program {
      * @return Returns input samples array but with sampling rate of newSampleRate.
      * @throws IOException is thrown when the sampleSize is invalid (<0 or >4)
      */
-    private static double[] convertToLowerSampleRateUsingUpSampling(double[] samples, int numberOfChannels,
-                                                                    int oldSampleRate, int newSampleRate,
-                                                                    boolean canChangeInputArr) throws IOException {
+    private static double[] convertToLowerSampleRateByUpSampling(double[] samples, int numberOfChannels,
+                                                                 int oldSampleRate, int newSampleRate,
+                                                                 boolean canChangeInputArr) throws IOException {
         // First find the first multiple bigger than the old sample rate
         int upSampleRate = newSampleRate;
         int upSampleRateRatio = 1;
@@ -5724,9 +5724,9 @@ public class Program {
      * @return Returns input samples array but with sampling rate of newSampleRate.
      * @throws IOException is thrown when the sampleSize is invalit (<0 or >4)
      */
-    private static double[] convertToLowerSampleRateUsingImmediate(double[] samples, int numberOfChannels,
-                                                                   int oldSampleRate, int newSampleRate,
-                                                                   boolean canChangeInputArr) throws IOException {
+    private static double[] convertToLowerSampleRateByImmediate(double[] samples, int numberOfChannels,
+                                                                int oldSampleRate, int newSampleRate,
+                                                                boolean canChangeInputArr) throws IOException {
         double[] filtered;
         if(canChangeInputArr) {
             filtered = samples;
@@ -5737,7 +5737,7 @@ public class Program {
         }
         // Low pass filter for the nyquist frequency of the new frequency
         runLowPassFilter(samples, 0, numberOfChannels, oldSampleRate,
-                newSampleRate / 2, 64, filtered, 0, filtered.length);
+                         newSampleRate / 2, 64, filtered, 0, filtered.length);
         return convertSampleRateImmediateVersion(filtered, numberOfChannels, oldSampleRate, newSampleRate);
     }
 

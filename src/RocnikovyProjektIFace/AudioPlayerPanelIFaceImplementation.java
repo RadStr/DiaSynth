@@ -217,7 +217,6 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         splitters.clear();
         resetZoom();
         postDeletionAction(true);
-        //stopAudioLoopLikeTotally();
         waveScroller.resetEmptyPanelSize();
         waveScroller.revalidate();
         waveScroller.repaint();
@@ -4988,7 +4987,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         @Override
         public void run() {
             changedOutputFormat();
-            playAudioLoop();
+            audioLoop();
         }
 
 
@@ -5077,7 +5076,7 @@ public class AudioPlayerPanelIFaceImplementation extends JPanel implements Mouse
         }
 
 
-        private void playAudioLoop() {
+        private void audioLoop() {
             while (true) {
                 updateWavesForMixing();
 

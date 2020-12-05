@@ -255,7 +255,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // AudioWavePanelEverything todoLast = waves.get(waves.size() - 1);
         // TODO: DEBUG
 
-        swapAndRemoveLast(index);
+        swapWithLastAndRemove(index);
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         getLastJSplitPane().setBottomComponent(zeroSizePanel);
         //setNewListeners();
@@ -275,7 +275,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        a totez nemusim s tim swapovanim proste si zapamatuju posledni vymazu ji
 //        nahodim znova listenery a az pak to poswapuju - tohle je vic java proof podle me
 
-    private void swapAndRemoveLast(int index) {
+    private void swapWithLastAndRemove(int index) {
         AudioWavePanelEverything deletedWave = waves.get(index);
         clipboard.removeWaveFromClipboard(deletedWave);
         JSplitPane lastSplitter = getLastJSplitPane();

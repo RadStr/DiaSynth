@@ -63,7 +63,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
         waveVisualizer = new PlayedWaveVisualizer();
         MyLogger.log("Created wave visualizer inside synth part", -1);
         MyLogger.log("Creating bottom panel inside synth part", 1);
-        botPanel = new BottomPanel(this, waveVisualizer);
+        botPanel = new DiagramJSplitPane(this, waveVisualizer);
         MyLogger.log("Created bottom panel inside synth part", -1);
 
         MyLogger.log("Adding rest of synth part", 1);
@@ -158,7 +158,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
     private JButton iteratorButton;
     private PlayerButtonPanelWithZoom playerButtons;
     private JPanel buttonPanel;
-    private BottomPanel botPanel;
+    private DiagramJSplitPane botPanel;
     private JFrame frame;
 
     private JMenuBar menuBar;

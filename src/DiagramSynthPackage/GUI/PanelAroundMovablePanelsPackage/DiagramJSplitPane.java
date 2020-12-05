@@ -11,10 +11,10 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class BottomPanel extends JSplitPane {
+public class DiagramJSplitPane extends JSplitPane {
     private static final double THIS_SPLIT_DIVIDER_WEIGHT = 0.8;        // Parameter to play with
 
-    public BottomPanel(MainPanelIFace mainPanelWithEverything, PlayedWaveVisualizer waveVisualizer) {
+    public DiagramJSplitPane(MainPanelIFace mainPanelWithEverything, PlayedWaveVisualizer waveVisualizer) {
         super(HORIZONTAL_SPLIT);
         this.mainPanelWithEverything = mainPanelWithEverything;
         setResizeWeight(THIS_SPLIT_DIVIDER_WEIGHT);

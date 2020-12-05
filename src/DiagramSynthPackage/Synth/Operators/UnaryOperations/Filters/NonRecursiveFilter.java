@@ -1,19 +1,11 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations.Filters;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import DiagramSynthPackage.Synth.Operators.UnaryOperations.UnaryOperator;
-import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.Program;
-
 public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //    public NonRecursiveFilter(Unit u) {
 //        super(u);
 //    }
 //
-//    public NonRecursiveFilter(JPanelWithMovableJPanels panelWithUnits) {
+//    public NonRecursiveFilter(DiagramPanel panelWithUnits) {
 //        super(panelWithUnits);
 //    }
 //
@@ -51,7 +43,7 @@ public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //     * @return
 //     */
 //    @Override
-//    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+//    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
 //        return new RectangleShapedPanel(panelWithUnits, new ConstantTextInternals(getPanelName()), this);
 //    }
 //
@@ -66,7 +58,7 @@ public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //     * @return
 //     */
 //    @Override
-//    protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h, JPanelWithMovableJPanels panelWithUnits) {
+//    protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h, DiagramPanel panelWithUnits) {
 //        return new RectangleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new ConstantTextInternals(getPanelName()), this);
 //    }
 //

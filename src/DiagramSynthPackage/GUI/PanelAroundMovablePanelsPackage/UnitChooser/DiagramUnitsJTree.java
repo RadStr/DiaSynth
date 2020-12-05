@@ -5,13 +5,12 @@ package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitChooser;
 // And also this https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#editrender for reference
 
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.*;
 import DiagramSynthPackage.Synth.OutputUnit;
 import DiagramSynthPackage.Synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 import java.io.File;
@@ -29,8 +28,8 @@ import javax.swing.event.*;
 import javax.swing.tree.*;
 
 public class DiagramUnitsJTree extends JTree {
-    public DiagramUnitsJTree(JPanelWithMovableJPanels  panelWithMovableJPanels) {
-        createTree(this, panelWithMovableJPanels);
+    public DiagramUnitsJTree(DiagramPanel diagramPanel) {
+        createTree(this, diagramPanel);
 
         this.setCellRenderer(new PanelRenderer());
         this.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
@@ -49,15 +48,15 @@ public class DiagramUnitsJTree extends JTree {
     }
 
 
-    public static JTreeCellClickedCallbackIFace getRoot(JPanelWithMovableJPanels panelWithMovableJPanels) {
+    public static JTreeCellClickedCallbackIFace getRoot(DiagramPanel diagramPanel) {
         JTreeCellClickedCallbackIFace root;
-        root = loadJTreeElements(Unit.class.getPackage().getName(), panelWithMovableJPanels);
+        root = loadJTreeElements(Unit.class.getPackage().getName(), diagramPanel);
         return root;
     }
 
 
-    private static void createTree(JTree tree, JPanelWithMovableJPanels panelWithMovableJPanels) {
-        JTreeCellClickedCallbackIFace root = getRoot(panelWithMovableJPanels);
+    private static void createTree(JTree tree, DiagramPanel diagramPanel) {
+        JTreeCellClickedCallbackIFace root = getRoot(diagramPanel);
         List<JTreeCellClickedCallbackIFace> roots = new ArrayList<>();
         roots.add(root);
 
@@ -98,19 +97,19 @@ public class DiagramUnitsJTree extends JTree {
 
     // Copied from the plugins for audio player with slight changes
     public static JTreeCellTextForUnits loadJTreeElements(String pluginPackage,
-                                                          JPanelWithMovableJPanels panelWithMovableJPanels) {
+                                                          DiagramPanel diagramPanel) {
         if (AudioPlayerJMenuOperationPluginIFace.isJar(Unit.class)) {
             String folderName = getStringAfterLastChar(pluginPackage, '.');
             JTreeCellTextForUnits treeCell = new JTreeCellTextForUnits(folderName);
             String pathToJar = AudioPlayerJMenuOperationPluginIFace.getPathToJar(Unit.class);
-            return setMainTreeCellJarVersion(panelWithMovableJPanels, pluginPackage, pathToJar, treeCell);
+            return setMainTreeCellJarVersion(diagramPanel, pluginPackage, pathToJar, treeCell);
         }
         else {
             final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
             String path = classFilesDir + "/" + pluginPackage.replace('.', '/');
             final File folder = new File(path);
             // \\ is there because * is special character in regex
-            return setMainTreeCellNonJarVersion(".*\\.class", folder, pluginPackage, panelWithMovableJPanels);
+            return setMainTreeCellNonJarVersion(".*\\.class", folder, pluginPackage, diagramPanel);
         }
     }
 
@@ -122,14 +121,14 @@ public class DiagramUnitsJTree extends JTree {
 
 
     private static void addChildrenToTreeCellNonJarVersion(String pluginName, String pluginPackage,
-                                                           JPanelWithMovableJPanels panelWithMovableJPanels,
+                                                           DiagramPanel diagramPanel,
                                                            JTreeCellTextForUnits treeCell) {
         pluginName = pluginName.replace(".class", "");
         pluginName = pluginPackage + "." + pluginName;
         try {
             Class<?> clazz = Class.forName(pluginName);
             if(Unit.class.isAssignableFrom(clazz) && clazz != OutputUnit.class) {
-                Constructor<?> constructor = clazz.getConstructor(JPanelWithMovableJPanels.class);
+                Constructor<?> constructor = clazz.getConstructor(DiagramPanel.class);
                 if(Modifier.isAbstract(clazz.getModifiers())) {
                     // EMPTY
                 }
@@ -138,7 +137,7 @@ public class DiagramUnitsJTree extends JTree {
                 }
                 else {
                     Unit u;
-                    u = (Unit) constructor.newInstance(new Object[] { panelWithMovableJPanels });
+                    u = (Unit) constructor.newInstance(new Object[] { diagramPanel });
                     treeCell.addChildren(u);
                 }
             }
@@ -150,12 +149,12 @@ public class DiagramUnitsJTree extends JTree {
 
 
     private static void addChildrenToTreeCellJarVersion(String className, URLClassLoader pluginLoader,
-                                                        JPanelWithMovableJPanels panelWithMovableJPanels,
+                                                        DiagramPanel diagramPanel,
                                                         JTreeCellTextForUnits treeCell) {
         try {
             Class<?> clazz = pluginLoader.loadClass(className.replaceAll("/", ".").replace(".class", ""));
             if (Unit.class.isAssignableFrom(clazz) && clazz != OutputUnit.class) {
-                Constructor<?> constructor = clazz.getConstructor(JPanelWithMovableJPanels.class);
+                Constructor<?> constructor = clazz.getConstructor(DiagramPanel.class);
                 if (Modifier.isAbstract(clazz.getModifiers())) {
                     // EMPTY
                 } else if (constructor == null) {
@@ -163,7 +162,7 @@ public class DiagramUnitsJTree extends JTree {
                 } else {
                     MyLogger.log("Adding Unit: " + className, 0);
                     Unit u;
-                    u = (Unit) constructor.newInstance(new Object[] { panelWithMovableJPanels });
+                    u = (Unit) constructor.newInstance(new Object[] { diagramPanel });
                     treeCell.addChildren(u);
                     MyLogger.log("Added Unit: " + className, 0);
                 }
@@ -176,31 +175,31 @@ public class DiagramUnitsJTree extends JTree {
 
     // Modified code from https://mkyong.com/java/java-how-to-list-all-files-in-a-directory/
     public static JTreeCellTextForUnits setMainTreeCellNonJarVersion(final String pattern, final File folder, String pluginPackage,
-                                                                     JPanelWithMovableJPanels panelWithMovableJPanels) {
+                                                                     DiagramPanel diagramPanel) {
         JTreeCellTextForUnits treeCell = new JTreeCellTextForUnits(folder.getName());
-        setTreeCellRecursive(pattern, folder, pluginPackage, panelWithMovableJPanels, treeCell);
+        setTreeCellRecursive(pattern, folder, pluginPackage, diagramPanel, treeCell);
         return treeCell;
     }
     public static void setTreeCellRecursive(final String pattern, final File folder, String pluginPackage,
-                                            JPanelWithMovableJPanels panelWithMovableJPanels,
+                                            DiagramPanel diagramPanel,
                                             JTreeCellTextForUnits treeCell) {
         for (final File f : folder.listFiles()) {
             if (f.isDirectory()) {
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(f.getName());
                 treeCell.addChildren(newTreeCell);
                 setTreeCellRecursive(pattern, f, pluginPackage + "." + f.getName(),
-                        panelWithMovableJPanels, newTreeCell);
+                        diagramPanel, newTreeCell);
             }
             else if (f.isFile()) {
                 if (f.getName().matches(pattern)) {
-                    addChildrenToTreeCellNonJarVersion(f.getName(), pluginPackage, panelWithMovableJPanels, treeCell);
+                    addChildrenToTreeCellNonJarVersion(f.getName(), pluginPackage, diagramPanel, treeCell);
                 }
             }
         }
     }
 
 
-    public static JTreeCellTextForUnits setMainTreeCellJarVersion(JPanelWithMovableJPanels panelWithMovableJPanels,
+    public static JTreeCellTextForUnits setMainTreeCellJarVersion(DiagramPanel diagramPanel,
                                                                   String packageContainingPlugins, String pathToJar,
                                                                   JTreeCellTextForUnits treeCell) {
                 // + "/" Because I want it to behave as jar directory (which ends with /)
@@ -251,8 +250,8 @@ public class DiagramUnitsJTree extends JTree {
                 if(!jarEntryName.startsWith(path) || jarEntryName.length() == path.length()) {
                     continue;
                 }
-                setTreeCellRecursiveJar(jarEntry, jarFile, path, panelWithMovableJPanels,
-                        treeCell, pluginLoader, processedEntries);
+                setTreeCellRecursiveJar(jarEntry, jarFile, path, diagramPanel,
+                                        treeCell, pluginLoader, processedEntries);
             }
 
         } catch (Exception e) {
@@ -264,7 +263,7 @@ public class DiagramUnitsJTree extends JTree {
 
 
     public static void setTreeCellRecursiveJar(JarEntry jarEntry, JarFile jarFile, String path,
-                                               JPanelWithMovableJPanels panelWithMovableJPanels,
+                                               DiagramPanel diagramPanel,
                                                JTreeCellTextForUnits treeCell, URLClassLoader pluginLoader,
                                                boolean[] processedEntries) {
         Enumeration<JarEntry> entries = jarFile.entries();
@@ -291,11 +290,11 @@ public class DiagramUnitsJTree extends JTree {
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
                 treeCell.addChildren(newTreeCell);
 
-                setTreeCellRecursiveJar(currEntry, jarFile, path, panelWithMovableJPanels,
-                        newTreeCell, pluginLoader, processedEntries);
+                setTreeCellRecursiveJar(currEntry, jarFile, path, diagramPanel,
+                                        newTreeCell, pluginLoader, processedEntries);
             }
             else {
-                addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, panelWithMovableJPanels, treeCell);
+                addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, diagramPanel, treeCell);
             }
         }
     }

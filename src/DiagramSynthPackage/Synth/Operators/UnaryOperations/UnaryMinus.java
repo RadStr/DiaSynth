@@ -1,28 +1,27 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.SubtractionInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.Unit;
 
 public class UnaryMinus extends UnaryOperator {
     public UnaryMinus(Unit u) { super(u); }
-    public UnaryMinus(JPanelWithMovableJPanels panelWithUnits) {
+    public UnaryMinus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new SubtractionInternals(), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new SubtractionInternals(), this);
         return sp;
     }

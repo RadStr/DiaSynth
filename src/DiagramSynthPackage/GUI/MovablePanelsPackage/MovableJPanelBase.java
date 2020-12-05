@@ -6,20 +6,20 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 public abstract class MovableJPanelBase extends JPanel implements UpdateIFace, GetTopLeftIFace {
-    public MovableJPanelBase(int absoluteX, int absoluteY, int w, int h, JPanelWithMovableJPanels mainPanel) {
-        this(absoluteX, absoluteY, mainPanel);
+    public MovableJPanelBase(int absoluteX, int absoluteY, int w, int h, DiagramPanel diagramPanel) {
+        this(absoluteX, absoluteY, diagramPanel);
         Dimension d = new Dimension(w, h);
         this.setSize(d);
         this.setPreferredSize(d);
     }
 
-    public MovableJPanelBase(int absoluteX, int absoluteY, JPanelWithMovableJPanels mainPanel) {
-        this(mainPanel);
+    public MovableJPanelBase(int absoluteX, int absoluteY, DiagramPanel diagramPanel) {
+        this(diagramPanel);
         super.setLocation(absoluteX, absoluteY);
     }
 
-    public MovableJPanelBase(JPanelWithMovableJPanels mainPanel) {
-        this.mainPanel = mainPanel;
+    public MovableJPanelBase(DiagramPanel diagramPanel) {
+        this.diagramPanel = diagramPanel;
         addZoomListener();
     }
 
@@ -29,15 +29,15 @@ public abstract class MovableJPanelBase extends JPanel implements UpdateIFace, G
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int wheelMovement = e.getWheelRotation();
-                mainPanel.zoom(wheelMovement);
+                diagramPanel.zoom(wheelMovement);
             }
         });
     }
 
 
-    protected JPanelWithMovableJPanels mainPanel;
-    public JPanelWithMovableJPanels getMainPanel() {
-        return mainPanel;
+    protected DiagramPanel diagramPanel;
+    public DiagramPanel getDiagramPanel() {
+        return diagramPanel;
     }
 
 

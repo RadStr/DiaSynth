@@ -33,9 +33,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
-        SetMovingPanelIFace, MouseListener, MouseMotionListener, GetMaxElevationIFace, ResizeSplitpaneCallbackIFace,
-        UnitAdditionIFace, AddInputPortToGUIIFace, SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
+public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPanelIFace,
+                                                          MouseListener, MouseMotionListener,
+                                                          GetMaxElevationIFace, ResizeSplitpaneCallbackIFace,
+                                                          UnitAdditionIFace, AddInputPortToGUIIFace,
+                                                          SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;
     public static final int START_CIRCLE_CONNECTION_SIZE = 4;
 
@@ -91,8 +93,8 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
      * The default color has to be passed since JLayeredPane doesn't have any background color until it is added to some component.
      * @param defaultColor is the color of the component to which is this class added.
      */
-    public JPanelWithMovableJPanels(Color defaultColor, MainPanelIFace mainPanelWithEverything,
-                                    PlayedWaveVisualizer waveVisualizer) {
+    public DiagramPanel(Color defaultColor, MainPanelIFace mainPanelWithEverything,
+                        PlayedWaveVisualizer waveVisualizer) {
         this.DEFAULT_COLOR = defaultColor;
         this.mainPanelWithEverything = mainPanelWithEverything;
 
@@ -2746,7 +2748,7 @@ public class JPanelWithMovableJPanels extends JLayeredPane implements ZoomIFace,
 // enum or something and based on that create instance in switch and that would be quite complicated to use with plugin operators
 // I would have to create the enum dynamically at launch of application - would read some string from the plugins and create enum based on that
 // And also this is called only when adding, so the performance hit is pretty small
-            Constructor<?> ctor = unitClass.getConstructor(JPanelWithMovableJPanels.class);
+            Constructor<?> ctor = unitClass.getConstructor(DiagramPanel.class);
             u = (Unit) ctor.newInstance(new Object[] { this });
             ShapedPanel sp = u.getShapedPanel();
             sp.updateSize(new Dimension(this.getReferencePanelWidth(), this.getReferencePanelHeight()));

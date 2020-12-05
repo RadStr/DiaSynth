@@ -1,7 +1,7 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
 import DiagramSynthPackage.GUI.DiagramFileFilter;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.PortChooserPackage.PortChooser;
 import DiagramSynthPackage.Synth.Unit;
 import PartsConnectingGUI.AddToAudioPlayerIFace;
@@ -42,14 +42,14 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
         iteratorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanelWithMovableJPanels diagram = botPanel.getDiagramPanel();
-                JList panelList = new JList(new ListModelForPanels(diagram.getPanels()));
+                DiagramPanel diagramPanel = botPanel.getDiagramPanel();
+                JList panelList = new JList(new ListModelForPanels(diagramPanel.getPanels()));
                 panelList.addListSelectionListener(new ListSelectionListener() {
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
                         //https://stackoverflow.com/questions/3812744/valuechanged-in-listselectionlistener-not-working
                         int index = ((JList) e.getSource()).getSelectedIndex();
-                        diagram.zoomToPanel(index);
+                        diagramPanel.zoomToPanel(index);
                     }
                 });
 
@@ -83,7 +83,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
                 botPanel.getDiagramPanel().getAudioThread(),
                 (e) -> botPanel.getDiagramPanel().zoomToMiddle(1),
                 (e) -> botPanel.getDiagramPanel().zoomToMiddle(-1));
-        playerButtons.getZoomGUI().setNewZoom(JPanelWithMovableJPanels.ZOOM_COUNT_FROM_START_TO_MIN, false);
+        playerButtons.getZoomGUI().setNewZoom(DiagramPanel.ZOOM_COUNT_FROM_START_TO_MIN, false);
         playerButtons.setMasterGainToCurrentSlideValue();
 
         buttonPanel.add(iteratorButton);
@@ -200,7 +200,7 @@ public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFa
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanelWithMovableJPanels diagramPanel = botPanel.getDiagramPanel();
+                DiagramPanel diagramPanel = botPanel.getDiagramPanel();
                 diagramPanel.clearPanelsExceptOutputs();
                 diagramPanel.repaint();
             }

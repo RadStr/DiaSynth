@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.OutputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -35,7 +35,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         this();
         setIsOutputUnit();
         ShapedPanel sp = u.getShapedPanel();
-        this.panelWithUnits = sp.getMainPanel();
+        this.panelWithUnits = sp.getDiagramPanel();
         setPanelName(findFirstNonUsedName(panelWithUnits, getDefaultPanelName()));
         setPropertiesPanel();
         Point relativePos = sp.getRelativePosToReferencePanel();
@@ -51,7 +51,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
      * Constructor used when not copying.  Has to be implemented in all deriving classes.
      * @param panelWithUnits
      */
-    public Unit(JPanelWithMovableJPanels panelWithUnits) {
+    public Unit(DiagramPanel panelWithUnits) {
         this();
         setIsOutputUnit();
         setPanelName(findFirstNonUsedName(panelWithUnits, getDefaultPanelName()));
@@ -115,7 +115,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         return false;
     }
 
-    protected JPanelWithMovableJPanels panelWithUnits;
+    protected DiagramPanel panelWithUnits;
     private String panelName;
     public String getPanelName() {
         return panelName;
@@ -170,7 +170,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
      * Should return InputPort[] which will be set as unit's input ports. It is called inside the constructors.
      * If there are no input ports then set it to new InputPort[0].
      */
-    protected abstract InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues);
+    protected abstract InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues);
 
     /**
      * Returns neutral values for ports, which will be used to set neutral values for ports.
@@ -195,7 +195,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
      * @param panelWithUnits
      * @return
      */
-    protected abstract ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits);
+    protected abstract ShapedPanel createShapedPanel(DiagramPanel panelWithUnits);
 
     /**
      * Creates new shaped panel called with corresponding constructor of same signature as this method (+ the internals of course)
@@ -203,7 +203,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
      * @return
      */
     protected abstract ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                                  JPanelWithMovableJPanels panelWithUnits);
+                                                     DiagramPanel panelWithUnits);
 
 
     /**
@@ -293,7 +293,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     // SerializeIFace
 
 
-    private static String findFirstNonUsedName(JPanelWithMovableJPanels panelWithUnits, String name) {
+    private static String findFirstNonUsedName(DiagramPanel panelWithUnits, String name) {
         int number = 1;
         String panelName = name;
         List<Unit> panels = panelWithUnits.getPanels();

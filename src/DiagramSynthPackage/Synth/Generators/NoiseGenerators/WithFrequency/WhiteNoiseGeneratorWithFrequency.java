@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.NoiseGenerators.WithFrequency;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Generators.NoiseGenerators.NoiseGeneratorWithFrequency;
 import DiagramSynthPackage.Synth.Unit;
 
@@ -11,7 +11,7 @@ public class WhiteNoiseGeneratorWithFrequency extends NoiseGeneratorWithFrequenc
         super(u);
     }
 
-    public WhiteNoiseGeneratorWithFrequency(JPanelWithMovableJPanels panelWithUnits) {
+    public WhiteNoiseGeneratorWithFrequency(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

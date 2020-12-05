@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Operators.BinaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.DivisionInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -12,7 +12,7 @@ public class BinaryDivision extends BinaryOperator {
         super(u);
     }
 
-    public BinaryDivision(JPanelWithMovableJPanels panelWithUnits) {
+    public BinaryDivision(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -22,14 +22,14 @@ public class BinaryDivision extends BinaryOperator {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new DivisionInternals(), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new DivisionInternals(), this);
         return sp;
     }

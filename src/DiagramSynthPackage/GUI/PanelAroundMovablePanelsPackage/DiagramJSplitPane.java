@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;
@@ -17,10 +17,10 @@ public class DiagramJSplitPane extends JSplitPane {
         this.mainPanelWithEverything = mainPanelWithEverything;
         setResizeWeight(THIS_SPLIT_DIVIDER_WEIGHT);
         setOneTouchExpandable(true);
-        MyLogger.log("Adding JPanelWithMovableJPanels", 1);
-        leftPanel = new JPanelWithMovableJPanels(getBackground(), mainPanelWithEverything, waveVisualizer);
+        MyLogger.log("Adding DiagramPanel", 1);
+        leftPanel = new DiagramPanel(getBackground(), mainPanelWithEverything, waveVisualizer);
         this.setLeftComponent(leftPanel);
-        MyLogger.log("Added JPanelWithMovableJPanels", -1);
+        MyLogger.log("Added DiagramPanel", -1);
 
         MyLogger.log("Adding menu", 1);
         // Set the menu
@@ -114,8 +114,8 @@ public class DiagramJSplitPane extends JSplitPane {
     }
 
 
-    private JPanelWithMovableJPanels leftPanel;
-    public JPanelWithMovableJPanels getDiagramPanel() {
+    private DiagramPanel leftPanel;
+    public DiagramPanel getDiagramPanel() {
         return leftPanel;
     }
 

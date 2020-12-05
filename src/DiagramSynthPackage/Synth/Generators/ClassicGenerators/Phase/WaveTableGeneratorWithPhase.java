@@ -1,7 +1,7 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.JFileChooserAudioPluginDefault;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Generators.Generator;
 import DiagramSynthPackage.Synth.Generators.GeneratorWithPhase;
 import DiagramSynthPackage.Synth.SynthDiagram;
@@ -21,7 +21,7 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
         super(u);
     }
 
-    public WaveTableGeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public WaveTableGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
 
         setDefaultWaveTable();

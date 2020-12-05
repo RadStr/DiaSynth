@@ -210,7 +210,7 @@ public class InputPort extends Port {
     public InputPort copy(UnitGeneratedValuesInfo unitToContainNewPort,
                           MovablePanelViewForPort panelToContainNewPort) {
         InputPort port = new InputPort(unitToContainNewPort, panelToContainNewPort, portLabel.getName(), portLabel.FULL_NAME,
-                CONNECTOR_INDEX, panelToContainNewPort.getMainPanel(), portLabel.getAdditionalTooltip(), ARR_WITH_DEFAULT_VALUES[0]);
+                CONNECTOR_INDEX, panelToContainNewPort.getDiagramPanel(), portLabel.getAdditionalTooltip(), ARR_WITH_DEFAULT_VALUES[0]);
         port.copyFields(this);
         return port;
     }

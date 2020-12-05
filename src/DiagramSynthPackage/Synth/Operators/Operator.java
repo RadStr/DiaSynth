@@ -1,12 +1,12 @@
 package DiagramSynthPackage.Synth.Operators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.Synth.Unit;
 
 public abstract class Operator extends Unit {
     public Operator(Unit u) { super(u);}
-    public Operator(JPanelWithMovableJPanels panelWithUnits) {
+    public Operator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

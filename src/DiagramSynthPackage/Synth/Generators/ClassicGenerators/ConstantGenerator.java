@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.RhombusShapedPanel;
@@ -23,7 +23,7 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
         getShapedPanel().setToolTipText(getTooltip());
     }
 
-    public ConstantGenerator(JPanelWithMovableJPanels panelWithUnits) {
+    public ConstantGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
         getShapedPanel().setToolTipText(getTooltip());
     }
@@ -104,7 +104,7 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         return new InputPort[0];
     }
 
@@ -115,7 +115,7 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         DynamicTextInternals textInternals = new DynamicTextInternals(() -> Double.toString(generatedConstant));
         labelShowingValue = textInternals.getLabel();
         ShapedPanel sp = new RhombusShapedPanel(panelWithUnits, textInternals, this);
@@ -124,7 +124,7 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         DynamicTextInternals textInternals = new DynamicTextInternals(() -> Double.toString(generatedConstant));
         labelShowingValue = textInternals.getLabel();
         ShapedPanel sp = new RhombusShapedPanel(relativeX, relativeY, w, h, panelWithUnits,

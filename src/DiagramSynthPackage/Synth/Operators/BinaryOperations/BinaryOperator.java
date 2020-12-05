@@ -1,24 +1,20 @@
 package DiagramSynthPackage.Synth.Operators.BinaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.OperatorInputPort;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.Operators.Operator;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.Program;
 
 public abstract class BinaryOperator extends Operator {
     public BinaryOperator(Unit u) { super(u); }
-    public BinaryOperator(JPanelWithMovableJPanels panelWithUnits) {
+    public BinaryOperator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[2];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new OperatorInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);

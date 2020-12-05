@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 
@@ -12,22 +12,22 @@ public class RectangleShapedPanel extends ShapedPanel {
     private static final int LEFT_THICKNESS_DIV_FACTOR = 16;
 
 
-    public RectangleShapedPanel(JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+    public RectangleShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
                                 UnitCommunicationWithGUI unit) {
-        super(mainPanel, internals, unit);
+        super(diagramPanel, internals, unit);
         constructor();
     }
 
     public RectangleShapedPanel(int relativeX, int relativeY, int w, int h,
-                                JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+                                DiagramPanel diagramPanel, ShapedPanelInternals internals,
                                 UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, w, h, mainPanel, internals, unit);
+        super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
         constructor();
     }
 
-    public RectangleShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public RectangleShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                 ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, mainPanel, internals, unit);
+        super(relativeX, relativeY, diagramPanel, internals, unit);
         constructor();
     }
 

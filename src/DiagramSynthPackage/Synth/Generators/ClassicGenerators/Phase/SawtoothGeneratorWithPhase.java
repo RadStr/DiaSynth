@@ -1,11 +1,8 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
-import DiagramSynthPackage.Synth.Generators.Generator;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Generators.GeneratorWithPhase;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 
 // https://en.wikipedia.org/wiki/Sawtooth_wave
 public class SawtoothGeneratorWithPhase extends GeneratorWithPhase {
@@ -13,7 +10,7 @@ public class SawtoothGeneratorWithPhase extends GeneratorWithPhase {
         super(u);
     }
 
-    public SawtoothGeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public SawtoothGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.Envelopes;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Unit;
 
 public class ExponentialEnvelope extends Envelope {
@@ -8,7 +8,7 @@ public class ExponentialEnvelope extends Envelope {
         super(u);
     }
 
-    public ExponentialEnvelope(JPanelWithMovableJPanels panelWithUnits) {
+    public ExponentialEnvelope(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

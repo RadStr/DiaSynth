@@ -1,21 +1,20 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.OperatorInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.SingleInputPort;
 import DiagramSynthPackage.Synth.Operators.Operator;
 import DiagramSynthPackage.Synth.Unit;
 
 public abstract class UnaryOperator extends Operator {
     public UnaryOperator(Unit u) { super(u); }
-    public UnaryOperator(JPanelWithMovableJPanels panelWithUnits) {
+    public UnaryOperator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new SingleInputPort(this, shapedPanel, panelWithUnits, neutralValues[0]);

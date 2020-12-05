@@ -1,14 +1,11 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
-import DiagramSynthPackage.Synth.Unit;
-
 public class Delay /*extends UnaryOperator*/ {
 //    public Delay(Unit u) {
 //        super(u);
 //    }
 //
-//    public Delay(JPanelWithMovableJPanels panelWithUnits) {
+//    public Delay(DiagramPanel panelWithUnits) {
 //        super(panelWithUnits);
 //    }
 //
@@ -90,7 +87,7 @@ public class Delay /*extends UnaryOperator*/ {
 //
 //
 //
-//1)    prejmenovat mainPanel na panelWithUnits
+//1)    prejmenovat diagramPanel na panelWithUnits
 //
 //        2) // https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-source-and-target.html
 //    // To create Maven - Has to be done first, then just remove all the packages, and make it in such a way it fits

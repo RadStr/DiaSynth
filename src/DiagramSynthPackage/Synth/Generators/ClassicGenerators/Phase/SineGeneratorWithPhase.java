@@ -1,23 +1,12 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ArcShapedPanel;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import DiagramSynthPackage.Synth.Generators.Generator;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Generators.GeneratorWithPhase;
-import DiagramSynthPackage.Synth.SynthDiagram;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
-
-import javax.sound.sampled.AudioFileFormat;
-import java.io.IOException;
 
 public class SineGeneratorWithPhase extends GeneratorWithPhase {
     public SineGeneratorWithPhase(Unit u) { super(u);}
-    public SineGeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public SineGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

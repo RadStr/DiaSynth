@@ -1,29 +1,27 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.MovableJPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
-import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitChooser.JTreeCellClickedCallbackIFace;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.List;
 
 /**
  * This is the base class for panel shapes.
- * NOTE: reshape(new Dimension(mainPanel.getReferencePanelWidth(), mainPanel.getReferencePanelHeight())); or reshape with different argument based on the wanted size
+ * NOTE: reshape(new Dimension(diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight())); or reshape with different argument based on the wanted size
  * should be called every time instance of Shaped panel is created, else the panel won't be drawn correctly since the shape won't be calculated correctly
  */
 public abstract class ShapedPanel extends MovableJPanel {
 	/**
 	 *
-	 * @param mainPanel
+	 * @param diagramPanel
 	 * @param internals - null if we want just the shape without any internals
 	 */
-	public ShapedPanel(JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
-					   UnitCommunicationWithGUI unit) {
-		super(mainPanel, unit);
+	public ShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
+                       UnitCommunicationWithGUI unit) {
+		super(diagramPanel, unit);
 		constructor(internals);
 	}
 
@@ -33,13 +31,13 @@ public abstract class ShapedPanel extends MovableJPanel {
 	 * @param relativeY
 	 * @param w
 	 * @param h
-	 * @param mainPanel
+	 * @param diagramPanel
 	 * @param internals - null if we want just the shape without any internals
 	 */
 	public ShapedPanel(int relativeX, int relativeY, int w, int h,
-					   JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
-					   UnitCommunicationWithGUI unit) {
-		super(relativeX, relativeY, w, h, mainPanel, unit);
+                       DiagramPanel diagramPanel, ShapedPanelInternals internals,
+                       UnitCommunicationWithGUI unit) {
+		super(relativeX, relativeY, w, h, diagramPanel, unit);
 		constructor(internals);
 	}
 
@@ -47,12 +45,12 @@ public abstract class ShapedPanel extends MovableJPanel {
 	 *
 	 * @param relativeX
 	 * @param relativeY
-	 * @param mainPanel
+	 * @param diagramPanel
 	 * @param internals - null if we want just the shape without any internals
 	 */
-	public ShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+	public ShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
 					   ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-		super(relativeX, relativeY, mainPanel, unit);
+		super(relativeX, relativeY, diagramPanel, unit);
 		constructor(internals);
 	}
 

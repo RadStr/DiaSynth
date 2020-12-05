@@ -16,28 +16,28 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFace, LockUpdateIFace,
-        MovablePanelViewForPort {
+public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFace,
+                                                                LockUpdateIFace, MovablePanelViewForPort {
     public boolean getIsCurrentlyConnecting() {
-        return mainPanel.getCurrentlyConnectingPanel() == this;
+        return diagramPanel.getCurrentlyConnectingPanel() == this;
     }
 
     public boolean getIsAnyPanelCurrentlyConnecting() {
-        return mainPanel.getIsAnyPanelCurrentlyConnecting();
+        return diagramPanel.getIsAnyPanelCurrentlyConnecting();
     }
 
 
     @Override
     public boolean getIsBeingMoved() {
-        return mainPanel.getCurrentlyMovingPanel() == this;
+        return diagramPanel.getCurrentlyMovingPanel() == this;
     }
 
     public boolean getIsAnyPanelInMotion() {
-        return mainPanel.getIsAnyPanelCurrentlyMoving();
+        return diagramPanel.getIsAnyPanelCurrentlyMoving();
     }
 
     private boolean getIsCurrentlyBeingConnectingTo() {
-        return this == mainPanel.getPanelCurrenlyConnectingTo();
+        return this == diagramPanel.getPanelCurrenlyConnectingTo();
     }
 
     public boolean getIsPanelCurrentlyUsed() {
@@ -46,9 +46,9 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
     public void changeMoveState() {
         if (getIsBeingMoved()) {      // Ended dragging
-            mainPanel.panelMovementEnded();
+            diagramPanel.panelMovementEnded();
         } else {                      // Started dragging
-            mainPanel.panelMovementStarted(this);
+            diagramPanel.panelMovementStarted(this);
         }
     }
 
@@ -77,24 +77,24 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     /**
      * This constructor should be called when trying to add unit from menu
      *
-     * @param mainPanel
+     * @param diagramPanel
      */
-    public MovableJPanel(JPanelWithMovableJPanels mainPanel, UnitCommunicationWithGUI unit) {
+    public MovableJPanel(DiagramPanel diagramPanel, UnitCommunicationWithGUI unit) {
         // I just put it somewhere far away, so it isn't seen when user starts dragging new unit from the menu
-        this(-10000, -10000, mainPanel.getReferencePanelWidth(), mainPanel.getReferencePanelHeight(), mainPanel, unit);
+        this(-10000, -10000, diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight(), diagramPanel, unit);
     }
 
-    public MovableJPanel(int relativeX, int relativeY, int w, int h, JPanelWithMovableJPanels mainPanel,
+    public MovableJPanel(int relativeX, int relativeY, int w, int h, DiagramPanel diagramPanel,
                          UnitCommunicationWithGUI unit) {
-        this(relativeX, relativeY, mainPanel, unit);
+        this(relativeX, relativeY, diagramPanel, unit);
         Dimension d = new Dimension(w, h);
         this.setSize(d);
         this.setPreferredSize(d);
     }
 
-    public MovableJPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public MovableJPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                          UnitCommunicationWithGUI unit) {
-        super(mainPanel);
+        super(diagramPanel);
         this.unit = unit;
         super.setSize(0, 0);
 
@@ -107,7 +107,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         }
 
         isInCollision = false;
-        isInsideMainPanel = false;
+        isInsideDiagramPanel = false;
         setInputPortsFontSizes();
 
 
@@ -139,37 +139,32 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         return unit;
     }
 
-    private boolean isInsideMainPanel;
-
-    @Override
-    public boolean getIsInsideMainPanel() {
-        return isInsideMainPanel;
-    }
+    private boolean isInsideDiagramPanel;
 
     @Override
     public void noteAdditionToMainPanelPanels() {
-        isInsideMainPanel = true;
+        isInsideDiagramPanel = true;
     }
 
     @Override
     public GetMaxElevationIFace getClassWithMaxElevationInfo() {
-        return mainPanel;
+        return diagramPanel;
     }
 
     @Override
     public int getIndexInPanelList() {
-        return mainPanel.getIndexInPanelList(unit);
+        return diagramPanel.getIndexInPanelList(unit);
     }
 
     @Override
     public void connectToPort(int targetPanelIndexInPanelList, int targetConnectorIndex) {
-        mainPanel.connectOutputPortToInputPort(targetPanelIndexInPanelList, targetConnectorIndex, this.getOutputPort());
+        diagramPanel.connectOutputPortToInputPort(targetPanelIndexInPanelList, targetConnectorIndex, this.getOutputPort());
     }
 
     public Point getLocOnScreen() {
         Point loc = getLocation();
         loc = new Point(loc);
-        SwingUtilities.convertPointToScreen(loc, getMainPanel());
+        SwingUtilities.convertPointToScreen(loc, getDiagramPanel());
         return loc;
     }
 
@@ -214,7 +209,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
     public void noConnectionCallback() {
         panelMouseAdapter.stopCurrentConnecting();
-        mainPanel.setCurrentlyConnectingPanel(null);
+        diagramPanel.setCurrentlyConnectingPanel(null);
     }
 
     @Override
@@ -227,19 +222,19 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     }
 
     public void startedConnecting() {
-        mainPanel.setCurrentlyConnectingPanel(this);
+        diagramPanel.setCurrentlyConnectingPanel(this);
     }
 
     public void connectMovingPanelToThisPanel() {
-        if (!mainPanel.checkIfConnectionValid(this)) {
-            mainPanel.stopConnecting();
+        if (!diagramPanel.checkIfConnectionValid(this)) {
+            diagramPanel.stopConnecting();
         }
         else {
             InputPort selectedInputPort = getPortUsingDialog(
                     () -> {
                         InputPort portChooserResult = PortChooser.choosePort(this,
                                 (ip) -> {
-                                    MovablePanelSpecificGetMethodsIFace panelContainingOutputPort = mainPanel.getCurrentlyConnectingPanel();
+                                    MovablePanelSpecificGetMethodsIFace panelContainingOutputPort = diagramPanel.getCurrentlyConnectingPanel();
                                     OutputPort outputPort = panelContainingOutputPort.getOutputPort();
                                     List<Port> connectedPorts = outputPort.getConnectedPorts();
                                     return !connectedPorts.contains(ip);
@@ -251,10 +246,10 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
             );
 
             if (selectedInputPort != null) {
-                mainPanel.connectCurrentlySelectedPanelToGivenPort(selectedInputPort);
+                diagramPanel.connectCurrentlySelectedPanelToGivenPort(selectedInputPort);
             }
             else {
-                mainPanel.stopConnecting();
+                diagramPanel.stopConnecting();
             }
         }
     }
@@ -267,9 +262,9 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     }
 
     private InputPort getPortUsingDialog(DialogActionIFace actionIFace) {
-        mainPanel.focusLost();
+        diagramPanel.focusLost();
         InputPort selectedInputPort = actionIFace.dialogAction();
-        mainPanel.focusGained();
+        diagramPanel.focusGained();
 
         return selectedInputPort;
     }
@@ -281,20 +276,20 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      * @return
      */
     public InputPort getPortUsingDialog(OutputPort op) {
-        mainPanel.focusLost();
+        diagramPanel.focusLost();
         InputPort selectedInputPort = PortChooser.choosePort(this,
                 (ip) -> {
                     List<Port> connectedPorts = op.getConnectedPorts();
                     return connectedPorts.contains(ip);
                 });
 
-        mainPanel.focusGained();
+        diagramPanel.focusGained();
         return selectedInputPort;
     }
 
 
     public void mouseExitedPanel() {
-        mainPanel.setPanelCurrentlyConnectingTo(null);
+        diagramPanel.setPanelCurrentlyConnectingTo(null);
     }
 
 
@@ -351,7 +346,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      * @return
      */
     public Color getDefaultColor() {
-        return mainPanel.DEFAULT_COLOR;
+        return diagramPanel.DEFAULT_COLOR;
     }
 
     private double[] defaultHSB;
@@ -375,7 +370,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         changeMoveState();
         relativePosBeforeDragging.x = relativePosReferencePanel.x;
         relativePosBeforeDragging.y = relativePosReferencePanel.y;
-        mainPanel.repaint();
+        diagramPanel.repaint();
     }
 
     public void stoppedDragging() {
@@ -387,21 +382,21 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
             resetToStatePositionBeforeDragging();
             isInCollision = false;
         } else {
-            isInsideStaticPanel = mainPanel.lockMovablePanel(this, this.getX(), this.getY());
+            isInsideStaticPanel = diagramPanel.lockMovablePanel(this, this.getX(), this.getY());
             if (!isInsideStaticPanel) {
                 resetToStatePositionBeforeDragging();
             }
             else {
-                mainPanel.panelLocationChanged(this);
-                if (!isInsideMainPanel) {
-                    mainPanel.makeTemporaryPanelPermanent(this);
+                diagramPanel.panelLocationChanged(this);
+                if (!isInsideDiagramPanel) {
+                    diagramPanel.makeTemporaryPanelPermanent(this);
                 }
             }
         }
         isInsideStaticPanel = false;
 
-        mainPanel.recalculateAllCables();
-        mainPanel.repaint();
+        diagramPanel.recalculateAllCables();
+        diagramPanel.repaint();
     }
 
 
@@ -464,17 +459,17 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
     @Override
     public void correctPositionBasedOnRefPosition() {
-        mainPanel.moveToPosBasedOnRelativeToRefPanel(this);
+        diagramPanel.moveToPosBasedOnRelativeToRefPanel(this);
     }
 
     @Override
     public void resetToStatePositionBeforeDragging() {
-        if (isInsideMainPanel) {
+        if (isInsideDiagramPanel) {
             relativePosReferencePanel.x = relativePosBeforeDragging.x;
             relativePosReferencePanel.y = relativePosBeforeDragging.y;
             correctPositionBasedOnRefPosition();
         } else {
-            mainPanel.incorrectTemporaryPanelPosition(this);
+            diagramPanel.incorrectTemporaryPanelPosition(this);
         }
     }
 
@@ -490,7 +485,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         if (getIsBeingMoved()) {
             // Move the panel
             Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
-            SwingUtilities.convertPointFromScreen(mouseLoc, mainPanel);
+            SwingUtilities.convertPointFromScreen(mouseLoc, diagramPanel);
 
             if (!mouseLoc.equals(oldMouseLoc)) {
                 boolean collision = isValidPanelPlacement(mouseLoc.x, mouseLoc.y);
@@ -513,7 +508,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
             } else {
                 resetColor();
             }
-            mainPanel.repaint();
+            diagramPanel.repaint();
         }
     }
 
@@ -521,27 +516,27 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         // Change color
         hsb = outputPanelColorMover.moveOneStep();
         setColorBasedOnHSB();
-        mainPanel.repaint();
+        diagramPanel.repaint();
     }
 
     public void connectorInputTimerEventCallback() {
         // Check where it is currently showing
-        mainPanel.setPanelCurrentlyConnectingTo(this);
+        diagramPanel.setPanelCurrentlyConnectingTo(this);
 
         Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
-        SwingUtilities.convertPointFromScreen(mouseLoc, mainPanel);
+        SwingUtilities.convertPointFromScreen(mouseLoc, diagramPanel);
         if (getInputPortsCount() > 0 && checkIfThisPanelIsValidConnectorInput()) {
             hsb = inputPanelColorMoverCollision.moveOneStep();
         } else {
             hsb = inputPanelColorMoverNoCollision.moveOneStep();
         }
         setColorBasedOnHSB();
-        mainPanel.repaint();
+        diagramPanel.repaint();
     }
 
     private boolean checkIfThisPanelIsValidConnectorInput() {
         Point p = this.getRelativePosToReferencePanel();
-        int y = mainPanel.getCurrentlyConnectingPanel().getRelativePosToReferencePanel().y;
+        int y = diagramPanel.getCurrentlyConnectingPanel().getRelativePosToReferencePanel().y;
         return y < p.y;
     }
 
@@ -589,14 +584,14 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     // TODO: Optimalizace, jakmile mam kolizi tak se mi jen staci divat jestli jsem furt v ni, kdyz ne tak zavolama tuhle metodu, kdyz jo tak nic
     // TODO: RML
     private boolean checkForCollisions(int x, int y) {
-        isInsideStaticPanel = mainPanel.lockMovablePanel(this, x, y);
-        isInCollision = mainPanel.checkForCollisions(this, relativePosReferencePanel.x, relativePosReferencePanel.y);
+        isInsideStaticPanel = diagramPanel.lockMovablePanel(this, x, y);
+        isInCollision = diagramPanel.checkForCollisions(this, relativePosReferencePanel.x, relativePosReferencePanel.y);
         return isInsideStaticPanel;
     }
 
     @Override
     public void removePanel() {
-        mainPanel.remove(this);
+        diagramPanel.remove(this);
     }
 
     @Override
@@ -627,8 +622,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
             ip.removeAllPorts();
         }
 
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        diagramPanel.revalidate();
+        diagramPanel.repaint();
     }
 
 
@@ -636,8 +631,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     public void removeOutputs() {
         unit.getOutputPort().removeAllPorts();
 
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        diagramPanel.revalidate();
+        diagramPanel.repaint();
     }
 
     @Override
@@ -815,7 +810,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     public void setInputPortLoc(InputPort ip) {
         Point p = getLastPoint(ip.CONNECTOR_INDEX);
         JLabel label = ip.getPortLabel();
-        int cableThickness = (int)mainPanel.calculateCableThickness();
+        int cableThickness = (int) diagramPanel.calculateCableThickness();
         cableThickness++;       // So we have some reserve
         cableThickness /= 2;        // Because the last point is in the middle of the cable
         int lw = label.getWidth();
@@ -847,7 +842,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      */
     private void setInputPortFontSizeApproximation(InputPort ip, Dimension newSize) {
         JLabel label = ip.getPortLabel();
-        Program.setFontSize(label, mainPanel.getReferencePanelOldWidth(), newSize.width);
+        Program.setFontSize(label, diagramPanel.getReferencePanelOldWidth(), newSize.width);
     }
 
 
@@ -904,9 +899,9 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
     @Override
     public void calculateAvailableLabelSize(Dimension availableSize, int connectorIndex, int connectorCount) {
-        int w = mainPanel.getReferencePanelWidth();
+        int w = diagramPanel.getReferencePanelWidth();
         int startDistFromCable = 3 * calculateXJumpOnHorizontalLineWithEdges(0, w, connectorCount) / 8;
-        int endX = w - connectorCount * ((int)mainPanel.calculateCableThickness() + startDistFromCable);
+        int endX = w - connectorCount * ((int) diagramPanel.calculateCableThickness() + startDistFromCable);
         availableSize.width = calculateXJumpOnHorizontalLineWithEdges(0, endX, connectorCount);
         availableSize.height = availableSize.width;
     }

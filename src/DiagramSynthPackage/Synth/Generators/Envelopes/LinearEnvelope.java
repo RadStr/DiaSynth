@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.Envelopes;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Unit;
 
 public class LinearEnvelope extends Envelope {
@@ -8,7 +8,7 @@ public class LinearEnvelope extends Envelope {
         super(u);
     }
 
-    public LinearEnvelope(JPanelWithMovableJPanels panelWithUnits) {
+    public LinearEnvelope(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

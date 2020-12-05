@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 
@@ -11,20 +11,20 @@ import java.awt.geom.Ellipse2D;
 public class CircleShapedPanel extends EllipseShapedPanel {
 	private static final int THICKNESS_DIV_FACTOR = 16;
 
-	public CircleShapedPanel(JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
-							 UnitCommunicationWithGUI unit) {
-		super(mainPanel, internals, unit);
+	public CircleShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
+                             UnitCommunicationWithGUI unit) {
+		super(diagramPanel, internals, unit);
 	}
 
 	public CircleShapedPanel(int relativeX, int relativeY, int w, int h,
-							 JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
-							 UnitCommunicationWithGUI unit) {
-		super(relativeX, relativeY, w, h, mainPanel, internals, unit);
+                             DiagramPanel diagramPanel, ShapedPanelInternals internals,
+                             UnitCommunicationWithGUI unit) {
+		super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
 	}
 
-	public CircleShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+	public CircleShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
 							 ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-		super(relativeX, relativeY, mainPanel, internals, unit);
+		super(relativeX, relativeY, diagramPanel, internals, unit);
 	}
 
 	@Override

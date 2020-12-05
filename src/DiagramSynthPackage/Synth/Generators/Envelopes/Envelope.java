@@ -1,13 +1,12 @@
 package DiagramSynthPackage.Synth.Generators.Envelopes;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.*;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.TrapeziumShapedPanel;
 import DiagramSynthPackage.Synth.SynthDiagram;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.ProgramTest;
 
 
 public abstract class Envelope extends Unit {
@@ -15,7 +14,7 @@ public abstract class Envelope extends Unit {
         super(u);
     }
 
-    public Envelope(JPanelWithMovableJPanels panelWithUnits) {
+    public Envelope(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -31,7 +30,7 @@ public abstract class Envelope extends Unit {
 
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[6];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AttackTimeInputPort(this, shapedPanel,
@@ -64,14 +63,14 @@ public abstract class Envelope extends Unit {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new TrapeziumShapedPanel(panelWithUnits, new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new TrapeziumShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;

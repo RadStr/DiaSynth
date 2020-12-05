@@ -11,8 +11,7 @@ public interface MovablePanelSpecificGetMethodsIFace extends PortsGetterIFace {
     Point getLocation();
     Dimension getSize();
 
-    boolean getIsInsideMainPanel();
-    JPanelWithMovableJPanels getMainPanel();
+    DiagramPanel getDiagramPanel();
 
     int getDistanceFromRectangleBorders(int x);
 

@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 
@@ -12,10 +12,10 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
-    public EquilateralParallelogramShapedPanel(JPanelWithMovableJPanels mainPanel, int angle,
+    public EquilateralParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
                                                ShapedPanelInternals internals,
                                                UnitCommunicationWithGUI unit) {
-        super(mainPanel, angle, internals, unit);
+        super(diagramPanel, angle, internals, unit);
     }
 
     /**
@@ -24,10 +24,10 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
-                                               JPanelWithMovableJPanels mainPanel, int angle,
+                                               DiagramPanel diagramPanel, int angle,
                                                ShapedPanelInternals internals,
                                                UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, w, h, mainPanel, angle, internals, unit);
+        super(relativeX, relativeY, w, h, diagramPanel, angle, internals, unit);
     }
 
     /**
@@ -35,10 +35,10 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
-    public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                                int angle, ShapedPanelInternals internals,
                                                UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, mainPanel, angle, internals, unit);
+        super(relativeX, relativeY, diagramPanel, angle, internals, unit);
     }
 
     @Override

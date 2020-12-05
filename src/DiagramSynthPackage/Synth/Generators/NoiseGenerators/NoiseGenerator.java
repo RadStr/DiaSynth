@@ -1,34 +1,32 @@
 package DiagramSynthPackage.Synth.Generators.NoiseGenerators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import DiagramSynthPackage.Synth.Generators.Generator;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.Program;
 
 public abstract class NoiseGenerator extends Unit {
     public NoiseGenerator(Unit u) {
         super(u);
     }
 
-    public NoiseGenerator(JPanelWithMovableJPanels panelWithUnits) {
+    public NoiseGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new RectangleShapedPanel(panelWithUnits, new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new RectangleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
@@ -36,7 +34,7 @@ public abstract class NoiseGenerator extends Unit {
 
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AmplitudeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);

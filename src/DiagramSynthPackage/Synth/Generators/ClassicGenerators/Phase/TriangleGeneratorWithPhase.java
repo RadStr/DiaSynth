@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Unit;
 
 /**
@@ -11,7 +11,7 @@ public class TriangleGeneratorWithPhase extends SineGeneratorWithPhase {
         super(u);
     }
 
-    public TriangleGeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public TriangleGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

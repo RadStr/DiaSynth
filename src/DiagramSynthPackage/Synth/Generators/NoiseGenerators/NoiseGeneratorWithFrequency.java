@@ -1,23 +1,22 @@
 package DiagramSynthPackage.Synth.Generators.NoiseGenerators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.NoiseFrequencyInputPort;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.ProgramTest;
 
 public abstract class NoiseGeneratorWithFrequency extends NoiseGenerator {
     public NoiseGeneratorWithFrequency(Unit u) {
         super(u);
     }
 
-    public NoiseGeneratorWithFrequency(JPanelWithMovableJPanels panelWithUnits) {
+    public NoiseGeneratorWithFrequency(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[2];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AmplitudeInputPort(this, shapedPanel,

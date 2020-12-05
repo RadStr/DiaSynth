@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.PhaseInputPort;
@@ -8,24 +8,23 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.FrequencyInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import DiagramSynthPackage.Synth.SynthDiagram;
 import DiagramSynthPackage.Synth.Unit;
-import Rocnikovy_Projekt.ProgramTest;
 
 public abstract class GeneratorWithPhase extends Generator {
     public GeneratorWithPhase(Unit u) {
         super(u);
     }
 
-    public GeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public GeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         return createInputPorts(this, panelWithUnits, neutralValues);
     }
 
-    public static InputPort[] createInputPorts(Unit u, JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    public static InputPort[] createInputPorts(Unit u, DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[3];
         ShapedPanel shapedPanel = u.getShapedPanel();
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {

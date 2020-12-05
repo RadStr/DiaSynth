@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -24,7 +24,7 @@ public class WaveShaper extends UnaryOperator {
         WaveShaper ws = (WaveShaper)u;
         setWaveShaperPanelDrawValues(ws.functionWrapper.function);
     }
-    public WaveShaper(JPanelWithMovableJPanels panelWithUnits) {
+    public WaveShaper(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -93,7 +93,7 @@ public class WaveShaper extends UnaryOperator {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
@@ -101,7 +101,7 @@ public class WaveShaper extends UnaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;

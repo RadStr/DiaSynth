@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.SingleInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
@@ -10,12 +10,11 @@ import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
-import Rocnikovy_Projekt.MyLogger;
 
 import java.io.PrintWriter;
 
 public final class OutputUnit extends Unit implements PluginDefaultIFace {
-    public OutputUnit(JPanelWithMovableJPanels panelWithUnits, int channel, ChannelCount channelCount,
+    public OutputUnit(DiagramPanel panelWithUnits, int channel, ChannelCount channelCount,
                       AudioThread audioThread) {
         super(panelWithUnits);
         this.channel = channel;
@@ -187,7 +186,7 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
         // The class is final, doesn't have to solve case with neutral values == null
         inputPorts[0] = new SingleInputPort(this, shapedPanel, panelWithUnits, neutralValues[0]);
@@ -200,14 +199,14 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new RectangleShapedPanel(panelWithUnits, new DynamicTextInternals(() -> getPanelName()), this);
         return sp;
     }
 
 
     @Override
-    protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h, JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h, DiagramPanel panelWithUnits) {
         // RETURNS NULL, since output panel can't be copied.
         return null;
     }

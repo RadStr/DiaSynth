@@ -1,7 +1,7 @@
 package DiagramSynthPackage.Synth.Operators.BinaryOperations;
 
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -9,7 +9,7 @@ import DiagramSynthPackage.Synth.Unit;
 
 public class BinaryPlus extends BinaryOperator {
     public BinaryPlus(Unit u) { super(u); }
-    public BinaryPlus(JPanelWithMovableJPanels panelWithUnits) {
+    public BinaryPlus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -21,14 +21,14 @@ public class BinaryPlus extends BinaryOperator {
 
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new PlusInternals(), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                         JPanelWithMovableJPanels panelWithUnits) {
+                                         DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new PlusInternals(), this);
         return sp;
     }

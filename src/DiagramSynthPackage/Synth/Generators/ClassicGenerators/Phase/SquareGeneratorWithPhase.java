@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.Synth.Unit;
 
 public class SquareGeneratorWithPhase extends SineGeneratorWithPhase {
@@ -8,7 +8,7 @@ public class SquareGeneratorWithPhase extends SineGeneratorWithPhase {
         super(u);
     }
 
-    public SquareGeneratorWithPhase(JPanelWithMovableJPanels panelWithUnits) {
+    public SquareGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

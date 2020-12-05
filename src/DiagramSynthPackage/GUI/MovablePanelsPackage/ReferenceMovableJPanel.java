@@ -3,13 +3,13 @@ package DiagramSynthPackage.GUI.MovablePanelsPackage;
 import java.awt.*;
 
 public class ReferenceMovableJPanel extends MovableJPanelBase {
-    public ReferenceMovableJPanel(int absoluteX, int absoluteY, int w, int h, JPanelWithMovableJPanels mainPanel) {
-        super(absoluteX, absoluteY, w, h, mainPanel);
+    public ReferenceMovableJPanel(int absoluteX, int absoluteY, int w, int h, DiagramPanel diagramPanel) {
+        super(absoluteX, absoluteY, w, h, diagramPanel);
         location = new IntPairWithInternalDoublesWithoutMinAndMax(absoluteX, absoluteY);
     }
 
-    public ReferenceMovableJPanel(int absoluteX, int absoluteY, JPanelWithMovableJPanels mainPanel) {
-        super(absoluteX, absoluteY, mainPanel);
+    public ReferenceMovableJPanel(int absoluteX, int absoluteY, DiagramPanel diagramPanel) {
+        super(absoluteX, absoluteY, diagramPanel);
         location = new IntPairWithInternalDoublesWithoutMinAndMax(absoluteX, absoluteY);
     }
 
@@ -65,6 +65,6 @@ public class ReferenceMovableJPanel extends MovableJPanelBase {
     @Override
     public void updateSize(Dimension newSize) {
         super.updateSize(newSize);
-        mainPanel.sizeChangeCallback();
+        diagramPanel.sizeChangeCallback();
     }
 }

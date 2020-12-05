@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.MovableJPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
@@ -15,22 +15,22 @@ public class RhombusShapedPanel extends ShapedPanel {
     private static final int LEFT_THICKNESS_DIV_FACTOR = 16;
 
 
-    public RhombusShapedPanel(JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+    public RhombusShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitCommunicationWithGUI unit) {
-        super(mainPanel, internals, unit);
+        super(diagramPanel, internals, unit);
         constructor();
     }
 
     public RhombusShapedPanel(int relativeX, int relativeY, int w, int h,
-                              JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+                              DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, w, h, mainPanel, internals, unit);
+        super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
         constructor();
     }
 
-    public RhombusShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public RhombusShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                               ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, mainPanel, internals, unit);
+        super(relativeX, relativeY, diagramPanel, internals, unit);
         constructor();
     }
 

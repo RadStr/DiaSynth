@@ -1,10 +1,9 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SawtoothGeneratorWithPhase;
 import DiagramSynthPackage.Synth.Generators.Generator;
-import DiagramSynthPackage.Synth.Generators.GeneratorWithPhase;
 import DiagramSynthPackage.Synth.Unit;
 
 // https://en.wikipedia.org/wiki/Triangle_wave
@@ -13,12 +12,12 @@ public class SawtoothGenerator extends SawtoothGeneratorWithPhase {
         super(u);
     }
 
-    public SawtoothGenerator(JPanelWithMovableJPanels panelWithUnits) {
+    public SawtoothGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         return Generator.createInputPorts(this, panelWithUnits, neutralValues);
     }
 }

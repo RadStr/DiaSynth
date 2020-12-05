@@ -6,7 +6,7 @@ import javax.sound.sampled.AudioFormat;
 import java.awt.*;
 
 /**
- * Used by JPanelWithMovableJPanels to communicate with MainPanelWithEverything
+ * Used by DiagramPanel to communicate with MainPanelWithEverything
  */
 public interface MainPanelIFace extends PlayerButtonPanelGetterIFace {
     void clickRealTimeRecordingCheckbox();

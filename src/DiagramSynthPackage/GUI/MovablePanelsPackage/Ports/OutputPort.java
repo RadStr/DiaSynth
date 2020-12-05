@@ -1,7 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.Ports;
 
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Cable;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.MovablePanelViewForPort;
 import DiagramSynthPackage.Synth.SerializeIFace;
 import DiagramSynthPackage.Synth.UnitGeneratedValuesInfo;

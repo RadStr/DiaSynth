@@ -1,6 +1,6 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.MovableJPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
@@ -18,9 +18,9 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
-    public ParallelogramShapedPanel(JPanelWithMovableJPanels mainPanel, int angle,
+    public ParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
                                     ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(mainPanel, internals, unit);
+        super(diagramPanel, internals, unit);
         constructor(angle);
     }
 
@@ -30,9 +30,9 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
-                                    JPanelWithMovableJPanels mainPanel, int angle,
+                                    DiagramPanel diagramPanel, int angle,
                                     ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, w, h, mainPanel, internals, unit);
+        super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
         constructor(angle);
     }
 
@@ -41,9 +41,9 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
-    public ParallelogramShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public ParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                     int angle, ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, mainPanel, internals, unit);
+        super(relativeX, relativeY, diagramPanel, internals, unit);
         constructor(angle);
     }
 

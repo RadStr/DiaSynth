@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.WaveTableGeneratorWithPhase;
 import DiagramSynthPackage.Synth.Generators.Generator;
@@ -11,12 +11,12 @@ public class WaveTableGenerator extends WaveTableGeneratorWithPhase {
         super(u);
     }
 
-    public WaveTableGenerator(JPanelWithMovableJPanels panelWithUnits) {
+    public WaveTableGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         return Generator.createInputPorts(this, panelWithUnits, neutralValues);
     }
 }

@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Generators;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.InputPort;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.Ports.FrequencyInputPort;
@@ -15,19 +15,19 @@ abstract public class Generator extends Unit {
         super(u);
     }
 
-    public Generator(JPanelWithMovableJPanels panelWithUnits) {
+    public Generator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ArcShapedPanel(panelWithUnits, new ArcConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ArcShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ArcConstantTextInternals(getPanelName()), this);
         return sp;
@@ -45,11 +45,11 @@ abstract public class Generator extends Unit {
     }
 
     @Override
-    protected InputPort[] createInputPorts(JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         return createInputPorts(this, panelWithUnits, neutralValues);
     }
 
-    public static InputPort[] createInputPorts(Unit u, JPanelWithMovableJPanels panelWithUnits, double[] neutralValues) {
+    public static InputPort[] createInputPorts(Unit u, DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[2];
         ShapedPanel shapedPanel = u.getShapedPanel();
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {

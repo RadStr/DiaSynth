@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -11,7 +11,7 @@ public class Reciprocical extends UnaryOperator {
         super(u);
     }
 
-    public Reciprocical(JPanelWithMovableJPanels panelWithUnits) {
+    public Reciprocical(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -21,7 +21,7 @@ public class Reciprocical extends UnaryOperator {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
                 new ConstantTextInternals(getDefaultPanelName()), this);
         return sp;
@@ -29,7 +29,7 @@ public class Reciprocical extends UnaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ConstantTextInternals(getDefaultPanelName()), this);
         return sp;

@@ -1,6 +1,6 @@
 package DiagramSynthPackage.Synth.Operators.UnaryOperations;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ParallelogramShapedPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
@@ -11,7 +11,7 @@ public class NormalizeOperation extends UnaryOperator {
         super(u);
     }
 
-    public NormalizeOperation(JPanelWithMovableJPanels panelWithUnits) {
+    public NormalizeOperation(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -33,7 +33,7 @@ public class NormalizeOperation extends UnaryOperator {
     }
 
     @Override
-    protected ShapedPanel createShapedPanel(JPanelWithMovableJPanels panelWithUnits) {
+    protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ParallelogramShapedPanel(panelWithUnits, 75,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
@@ -41,7 +41,7 @@ public class NormalizeOperation extends UnaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                            JPanelWithMovableJPanels panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ParallelogramShapedPanel(relativeX, relativeY, w, h, panelWithUnits, 75,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;

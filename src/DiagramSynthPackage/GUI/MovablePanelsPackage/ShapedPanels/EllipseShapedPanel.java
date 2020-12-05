@@ -1,11 +1,10 @@
 package DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels;
 
-import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
+import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.MovableJPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import Rocnikovy_Projekt.Direction;
-import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -14,22 +13,22 @@ import java.awt.geom.Ellipse2D;
 public class EllipseShapedPanel extends ShapedPanel {
     private static final int THICKNESS_DIV_FACTOR = 16;
 
-    public EllipseShapedPanel(JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+    public EllipseShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitCommunicationWithGUI unit) {
-        super(mainPanel, internals, unit);
+        super(diagramPanel, internals, unit);
         constuctor();
     }
 
     public EllipseShapedPanel(int relativeX, int relativeY, int w, int h,
-                              JPanelWithMovableJPanels mainPanel, ShapedPanelInternals internals,
+                              DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, w, h, mainPanel, internals, unit);
+        super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
         constuctor();
     }
 
-    public EllipseShapedPanel(int relativeX, int relativeY, JPanelWithMovableJPanels mainPanel,
+    public EllipseShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                               ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
-        super(relativeX, relativeY, mainPanel, internals, unit);
+        super(relativeX, relativeY, diagramPanel, internals, unit);
         constuctor();
     }
 

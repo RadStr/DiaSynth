@@ -93,10 +93,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
      * The default color has to be passed since JLayeredPane doesn't have any background color until it is added to some component.
      * @param defaultColor is the color of the component to which is this class added.
      */
-    public DiagramPanel(Color defaultColor, MainPanelIFace mainPanelWithEverything,
+    public DiagramPanel(Color defaultColor, SynthesizerMainPanelIFace synthesizerMainPanel,
                         PlayedWaveVisualizer waveVisualizer) {
         this.DEFAULT_COLOR = defaultColor;
-        this.mainPanelWithEverything = mainPanelWithEverything;
+        this.synthesizerMainPanel = synthesizerMainPanel;
 
         this.setLayout(null);
         this.addMouseListener(this);
@@ -194,12 +194,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
 
 
     public void recordInstantly() {
-        PlayerButtonPanelSimple playerButtonPanel = mainPanelWithEverything.getPlayerButtonPanel();
+        PlayerButtonPanelSimple playerButtonPanel = synthesizerMainPanel.getPlayerButtonPanel();
         playerButtonPanel.setEnabled(false);
         stopAudioUsingClick();
         byte[] instantRecord = synthDiagram.recordInstantlyBytes(recordAudioLen);
         if(isRecordingToPlayer) {
-            mainPanelWithEverything.putRecordedWaveToPlayer(instantRecord, instantRecord.length,
+            synthesizerMainPanel.putRecordedWaveToPlayer(instantRecord, instantRecord.length,
                     audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
         }
         if(isRecordingToFile) {
@@ -256,7 +256,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
         }
         if(realTimeRecordingCurrIndex > 0) {
             if (isRecordingToPlayer) {
-                mainPanelWithEverything.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
+                synthesizerMainPanel.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
                         audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
             }
             if (isRecordingToFile) {
@@ -289,7 +289,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
             realTimeRecordingCurrIndex += copyLen;
 
             if(shouldWriteRecordToFile) {
-                mainPanelWithEverything.clickRealTimeRecordingCheckbox();
+                synthesizerMainPanel.clickRealTimeRecordingCheckbox();
             }
             isAudioThreadInsideCallback = false;
         }
@@ -347,7 +347,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
     }
 
     private void stopAudioUsingClick() {
-        BooleanButton playButton = mainPanelWithEverything.getPlayerButtonPanel().getPlayButton();
+        BooleanButton playButton = synthesizerMainPanel.getPlayerButtonPanel().getPlayButton();
         if(!playButton.getBoolVar()) {
             playButton.doClick();
         }
@@ -400,11 +400,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
         return maxWrittenSamples;
     }
 
-    private MainPanelIFace mainPanelWithEverything;
+    private SynthesizerMainPanelIFace synthesizerMainPanel;
 
     public void setOutputAudioFormat(AudioFormatWithSign audioFormat) {
         audioFormat = AudioFormatJPanel.getSupportedAudioFormat(audioFormat);
-        PlayerButtonPanelSimple playerButtonPanel = mainPanelWithEverything.getPlayerButtonPanel();
+        PlayerButtonPanelSimple playerButtonPanel = synthesizerMainPanel.getPlayerButtonPanel();
         if(synthDiagram != null) {     // When setting the first audio audioFormat
             BooleanButton playButton = playerButtonPanel.getPlayButton();
             if(!playButton.getBoolVar()) {
@@ -661,8 +661,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
             updateAllPanelsInsideZoomBased();
         }
 
-        mainPanelWithEverything.getPlayerButtonPanel().getZoomGUI().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
-                currentZoom,getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
+        synthesizerMainPanel.getPlayerButtonPanel().getZoomGUI().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
+                currentZoom, getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
         this.repaint();
     }
 

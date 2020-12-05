@@ -6,9 +6,9 @@ import javax.sound.sampled.AudioFormat;
 import java.awt.*;
 
 /**
- * Used by DiagramPanel to communicate with MainPanelWithEverything
+ * Used by DiagramPanel to communicate with SynthesizerMainPanel
  */
-public interface MainPanelIFace extends PlayerButtonPanelGetterIFace {
+public interface SynthesizerMainPanelIFace extends PlayerButtonPanelGetterIFace {
     void clickRealTimeRecordingCheckbox();
     void putRecordedWaveToPlayer(byte[] record, int len, AudioFormatWithSign outputFormat,
                                  boolean shouldConvertToPlayerOutputFormat);

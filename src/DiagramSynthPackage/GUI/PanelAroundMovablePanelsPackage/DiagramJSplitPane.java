@@ -12,13 +12,13 @@ import java.awt.event.*;
 public class DiagramJSplitPane extends JSplitPane {
     private static final double THIS_SPLIT_DIVIDER_WEIGHT = 0.8;        // Parameter to play with
 
-    public DiagramJSplitPane(MainPanelIFace mainPanelWithEverything, PlayedWaveVisualizer waveVisualizer) {
+    public DiagramJSplitPane(SynthesizerMainPanelIFace synthesizerMainPanel, PlayedWaveVisualizer waveVisualizer) {
         super(HORIZONTAL_SPLIT);
-        this.mainPanelWithEverything = mainPanelWithEverything;
+        this.synthesizerMainPanel = synthesizerMainPanel;
         setResizeWeight(THIS_SPLIT_DIVIDER_WEIGHT);
         setOneTouchExpandable(true);
         MyLogger.log("Adding DiagramPanel", 1);
-        leftPanel = new DiagramPanel(getBackground(), mainPanelWithEverything, waveVisualizer);
+        leftPanel = new DiagramPanel(getBackground(), synthesizerMainPanel, waveVisualizer);
         this.setLeftComponent(leftPanel);
         MyLogger.log("Added DiagramPanel", -1);
 
@@ -93,7 +93,7 @@ public class DiagramJSplitPane extends JSplitPane {
     }
 
 
-    private MainPanelIFace mainPanelWithEverything;
+    private SynthesizerMainPanelIFace synthesizerMainPanel;
 
     // Because java is doing java things, and when there are a lot of panel directories opened in the JTree (the menu with panels)
     // It resizes it up and breaks the layout of the top panels because they don't have enough space as result of that
@@ -101,8 +101,8 @@ public class DiagramJSplitPane extends JSplitPane {
     private Dimension prefSize;
     @Override
     public Dimension getPreferredSize() {
-        int buttonsHeight = mainPanelWithEverything.getTopButtonsPreferredHeight();
-        int mainPanelHeight = mainPanelWithEverything.getSize().height;
+        int buttonsHeight = synthesizerMainPanel.getTopButtonsPreferredHeight();
+        int mainPanelHeight = synthesizerMainPanel.getSize().height;
         Dimension superPrefSize = super.getPreferredSize();
         prefSize.width = superPrefSize.width;
         prefSize.height = mainPanelHeight - buttonsHeight;

@@ -19,7 +19,7 @@ public class Main {
         JFrame frame = new JFrame();
         //frame.getContentPane().setLayout(new FlowLayout());
         frame.getContentPane().setLayout(new BorderLayout()); // TODO:
-        MainPanelWithEverything panel = new MainPanelWithEverything(frame, null);
+        SynthesizerMainPanel panel = new SynthesizerMainPanel(frame, null);
        // DiagramItemsMenu panel = new DiagramItemsMenu();
         //frame.add(panel);
         frame.add(panel, BorderLayout.CENTER);    // TODO:

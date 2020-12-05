@@ -29,8 +29,8 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class MainPanelWithEverything extends JPanel implements ChangeJMenuBarIFace, MainPanelIFace {
-    public MainPanelWithEverything(JFrame frame, AddToAudioPlayerIFace audioPlayerAddIFace) {
+public class SynthesizerMainPanel extends JPanel implements ChangeJMenuBarIFace, SynthesizerMainPanelIFace {
+    public SynthesizerMainPanel(JFrame frame, AddToAudioPlayerIFace audioPlayerAddIFace) {
         this.frame = frame;
         this.audioPlayerAddIFace = audioPlayerAddIFace;
         buttonPanel = new JPanel();

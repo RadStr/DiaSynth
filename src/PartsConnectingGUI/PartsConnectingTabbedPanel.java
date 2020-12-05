@@ -1,6 +1,6 @@
 package PartsConnectingGUI;
 
-import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.MainPanelWithEverything;
+import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FrameWithFocusControl;
@@ -31,7 +31,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
         MyLogger.log("Created Audio player", -1);
 
         MyLogger.log("Creating synthesizer", 1);
-        synthTab = new MainPanelWithEverything(frame, this);
+        synthTab = new SynthesizerMainPanel(frame, this);
         this.addTab("Diagram synthesizer", null, synthTab, "Diagram synthesizer");
         this.setMnemonicAt(2, KeyEvent.VK_3);
         MyLogger.log("Created synthesizer", -1);
@@ -76,7 +76,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
                                  boolean shouldConvertToPlayerOutputFormat) {
         audioPlayerTab.addWaves(new ByteArrayInputStream(audio), len, format, shouldConvertToPlayerOutputFormat);
     }
-    private MainPanelWithEverything synthTab;
+    private SynthesizerMainPanel synthTab;
 
     private ChangeJMenuBarIFace getPanelFromSelectedIndex(int selectedIndex) {
         switch (selectedIndex) {

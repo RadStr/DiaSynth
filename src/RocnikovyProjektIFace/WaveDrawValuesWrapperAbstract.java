@@ -47,7 +47,7 @@ public abstract class WaveDrawValuesWrapperAbstract implements WaveDrawValuesWra
 //     * @param totalWaveWidthInPixels is the total visibleWidth of wave in pixels.
 //     */
 //    public abstract void waveResize(int newWidth, int leftVisiblePixel, int totalWaveWidthInPixels);
-    public abstract void updatePixelMovement(int update);
+    public abstract void shiftBuffer(int pixelShift);
 //    public abstract void updateWaveToLeft(int startIndex);
 
     /**

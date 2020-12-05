@@ -43,9 +43,9 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
         fillWholeBuffer(startIndexInValues);
 
 //        // Not the most effective way, but it works and is simple to understand, that's what matters I move it to 0 and the back to correct position
-//        //updatePixelMovement(-leftPixel);
-//        //updatePixelMovement(mainWaveClass.getCurrentScroll());
-//        updatePixelMovement(-leftPixel + mainWaveClass.getCurrentScroll());
+//        //shiftBuffer(-leftPixel);
+//        //shiftBuffer(mainWaveClass.getCurrentScroll());
+//        shiftBuffer(-leftPixel + mainWaveClass.getCurrentScroll());
 //        ProgramTest.debugPrint("wave resize", mainWaveClass.getCurrentScroll());
 
 
@@ -93,8 +93,8 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
 
     private boolean isFirst = true;
     private int pixelMovement;
-//    public void updatePixelMovement(int update) {
-////        ProgramTest.debugPrint("updatePixelMovement", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
+//    public void shiftBuffer(int update) {
+////        ProgramTest.debugPrint("shiftBuffer", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
 //        pixelMovement += update;
 //        leftPixel += update;
 //        setFirstSamplePixel();
@@ -106,8 +106,8 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
 //    }
 
 
-//    public void updatePixelMovement(int update) {
-////        ProgramTest.debugPrint("updatePixelMovement", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
+//    public void shiftBuffer(int update) {
+////        ProgramTest.debugPrint("shiftBuffer", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
 //        leftPixel += update;
 //
 //        double oldFirstSamplePixel = firstSamplePixel;
@@ -128,8 +128,8 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
 //        }
 //    }
 
-//        public void updatePixelMovement(int update) {
-////        ProgramTest.debugPrint("updatePixelMovement", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
+//        public void shiftBuffer(int update) {
+////        ProgramTest.debugPrint("shiftBuffer", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
 //        pixelMovement += update;
 //        leftPixel += update;
 //        setFirstSamplePixel();
@@ -147,12 +147,12 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
     private int total = 0;
     // TODO: DEBUG
 
-    public void updatePixelMovement(int update) {
-        total += update;
+    public void shiftBuffer(int pixelShift) {
+        total += pixelShift;
 
-//        ProgramTest.debugPrint("updatePixelMovement", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
+//        ProgramTest.debugPrint("shiftBuffer", mainWaveClass.getCurrentScroll(), leftPixel, leftPixel + update);
 
-        leftPixel += update;
+        leftPixel += pixelShift;
         // Because java does some resizing for the scroll by 1 pixel so sometimes the value of leftPixel goes to -1,
         // which makes the the samples moved 1 pixel to right - the 0th sample starts where should be the 1st one, which
         // would be fine if didn't have the tooltips, which are then 1 sample off.

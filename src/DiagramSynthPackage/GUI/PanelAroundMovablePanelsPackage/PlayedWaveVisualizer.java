@@ -1,13 +1,11 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
 import DiagramSynthPackage.Synth.CyclicQueueDouble;
-import DiagramSynthPackage.Synth.Generators.ClassicGenerators.NoPhase.SineGenerator;
 import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
 import RocnikovyProjektIFace.CommunicationWithWaveValuesPanelIFace;
 import RocnikovyProjektIFace.WaveDrawValuesWrapper;
 import RocnikovyProjektIFace.WaveDrawValuesWrapperAbstract;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -188,8 +186,8 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
             h -= VERTICAL_SPACE;
             currentChannel = 0;
             for (int currY = 0; currentChannel < drawValuesWrappers.length; currentChannel++) {
-                int shift = lastPushedSample[currentChannel] - lastDrawnSample[currentChannel];
-                drawValuesWrappers[currentChannel].updatePixelMovement((int) (shift / samplesPerPixel));
+                int sampleShift = lastPushedSample[currentChannel] - lastDrawnSample[currentChannel];
+                drawValuesWrappers[currentChannel].shiftBuffer((int) (sampleShift / samplesPerPixel));
 
                 if(currentChannel % 2 == 0) {
                     g.setColor(Color.LIGHT_GRAY);

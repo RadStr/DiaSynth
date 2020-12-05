@@ -73,7 +73,7 @@ public class WaveDrawValuesWrapper extends WaveDrawValuesWrapperAbstract {
 //    }
 
 // TODO: Stara verze - muzu asi vymazat
-//    public void updatePixelMovement(int update) {
+//    public void shiftBuffer(int update) {
 //
 //        windowBufferDouble.updateInternalBufferScrollingToLeft(startIndex);
 //        int len = windowBufferDouble.getBufferLength();
@@ -94,7 +94,7 @@ public class WaveDrawValuesWrapper extends WaveDrawValuesWrapperAbstract {
     private int totalUpdate = 0;
     // TODO: HOR
 
-    public void updatePixelMovement(int update) {
+    public void shiftBuffer(int pixelShift) {
         // TODO: HOR
 //        totalUpdate += update;
 //        ProgramTest.debugPrint("total Horizontal update:", totalUpdate, mainWaveClass.getCurrentScroll());
@@ -105,8 +105,8 @@ public class WaveDrawValuesWrapper extends WaveDrawValuesWrapperAbstract {
 
         //TODO: HORIZONTAL UPDATE
         // TOOD: AVG - vymazat ten update *= 2 pro avg
-        update *= 2;        // Because min and max
-        windowBufferDouble.updateStartIndex(update);
+        pixelShift *= 2;        // Because min and max
+        windowBufferDouble.updateStartIndex(pixelShift);
 
         // TODO: TEST
 //        if(!IS_FIRST) {

@@ -1747,22 +1747,22 @@ public class AudioWavePanelOnlyWave extends JPanel {
     public void updateWaveDrawValues(int oldLeftPixel, int newLeftPixel) {
         visibleWidthChangedCallback();
 
-        int change = newLeftPixel - oldLeftPixel;
+        int pixelChange = newLeftPixel - oldLeftPixel;
         currScroll = newLeftPixel;
 
         ProgramTest.debugPrint("updateWaveDrawValues",
             getVisibleRect().width, getVisibleRect().height, waveWidth,
-            oldLeftPixel, newLeftPixel, change, doubleWave.getFilenameWithoutExtension());
+            oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
 
 //        if(currentDrawWrapper == individualSamplesDrawWrapper) {
 ////            currScroll = convertScrollValueToIndividualIndexInAudio(newLeftPixel);
-//            change = convertScrollValueToIndividualIndexInAudio(change);
+//            pixelChange = convertScrollValueToIndividualIndexInAudio(pixelChange);
 //        }
 ////        else {
 ////            currScroll = newLeftPixel;
 ////        }
 
-        currentDrawWrapper.updatePixelMovement(change);
+        currentDrawWrapper.shiftBuffer(pixelChange);
     }
 
 

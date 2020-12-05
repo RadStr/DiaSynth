@@ -31,16 +31,16 @@ public class SongInfoPanel extends JPanel {
         String[] header = {"Property name", "Property value"};   
 // TODO: Novy uz primo pres ty nody
         NodeList childs = node.getChildNodes();
-        int childsLen = XML.getValidInfoNodeCount(childs);
+        int childsLen = AnalyzerXML.getValidInfoNodeCount(childs);
         String[][] data = new String[childsLen][2];
         
         for(int i = 0, j = 0; i < data.length; j++) {
         	Node nTmp = childs.item(j);
-			data[i][0] = XML.getInfoNodeName(nTmp);
+			data[i][0] = AnalyzerXML.getInfoNodeName(nTmp);
 			if(data[i][0] == null) {
 				continue;
 			}
-			data[i][1] = XML.getInfoNodeValue(nTmp);
+			data[i][1] = AnalyzerXML.getInfoNodeValue(nTmp);
 			i++;
         }
 //        
@@ -97,7 +97,7 @@ public class SongInfoPanel extends JPanel {
 		deleteMetadata.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Node root = XML.xmlDoc.getElementsByTagName("songs").item(0);
+				Node root = AnalyzerXML.getXMLDoc().getElementsByTagName("songs").item(0);
 				NodeList childs = root.getChildNodes();
 				int len = childs.getLength();
 				boolean nodeExists = false;
@@ -109,8 +109,8 @@ public class SongInfoPanel extends JPanel {
 				}
 				if(nodeExists) {
 					root.removeChild(node);	// There should be only one such tag ("songs")
-					XML.removeInvalidNodes(root);
-					XML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, previousWindow);
+					AnalyzerXML.removeInvalidNodes(root);
+					AnalyzerXML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, previousWindow);
 					subject.notifyObservers(node);
 				}
 			}
@@ -132,9 +132,9 @@ public class SongInfoPanel extends JPanel {
 
 	private static String getPathFromXML(Node node) {
 		NodeList childs = node.getChildNodes();
-		Node n = XML.findFirstNodeWithGivenAttribute(childs, "Path");
+		Node n = AnalyzerXML.findFirstNodeWithGivenAttribute(childs, "Path");
 		if (n != null) {
-			return XML.getInfoNodeValue(n);
+			return AnalyzerXML.getInfoNodeValue(n);
 		}
 
 		return null;

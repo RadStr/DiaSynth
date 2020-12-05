@@ -2,6 +2,7 @@ package RocnikovyProjektIFace;
 
 import PartsConnectingGUI.AddToAudioPlayerIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -99,7 +100,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	    allFilesObserver = new DataModelObserver(dataModelAllFiles, allFilesPairList, thisFrame) {		
 			@Override
 			public void reloadDataModelFromXML() {
-			        allFilesPairList = XML.getPairs(XML.xmlDoc);
+			        allFilesPairList = AnalyzerXML.getPairs(AnalyzerXML.getXMLDoc());
 					Comparator<Pair<String, Node>> comp = 
 						   (Pair<String, Node> p1,Pair<String, Node> p2) -> p1.getKey().compareTo(p2.getKey());
 			        allFilesPairList.sort(comp);
@@ -108,12 +109,12 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			        	Node n = allFilesPairList.get(i).getValue();
 			        	NodeList childs = n.getChildNodes();
 			        	for(int j = 0; j < dataAllFiles[i].length; j++) {
-			        		Node n1 = XML.findFirstNodeWithGivenAttribute(childs, headerAllFiles[j]);
+			        		Node n1 = AnalyzerXML.findFirstNodeWithGivenAttribute(childs, headerAllFiles[j]);
 			        		if(n1 == null) {
 			        			dataAllFiles[i][j] = "UNKNOWN";
 			        		}
 			        		else {
-			        			dataAllFiles[i][j] = XML.getInfoNodeValue(n1);
+			        			dataAllFiles[i][j] = AnalyzerXML.getInfoNodeValue(n1);
 			        		}
 			        	}
 			        }
@@ -248,7 +249,8 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	}
 	
 	private void actionDeletePerformed(ActionEvent e) {
-		Node root = XML.xmlDoc.getFirstChild();
+		Document xmlDoc = AnalyzerXML.getXMLDoc();
+		Node root = xmlDoc.getFirstChild();
 		System.out.println("Text context of songs node:\t" + root.getTextContent());
 		int[] rows = selectedFilesTable.getSelectedRows();
 		Arrays.sort(rows);
@@ -260,7 +262,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 				System.out.println("Text context of node:\t" + selectedFilesPairList.get(l).getValue().getTextContent());
 				System.out.println("NAME of parent node:\t" + selectedFilesPairList.get(l).getValue().getParentNode().getNodeName());
 				System.out.println("Text context of parent node:\t" + selectedFilesPairList.get(l).getValue().getParentNode().getTextContent());
-				System.out.println("Count of nodes with name songs:\t" + XML.xmlDoc.getElementsByTagName("songs").getLength());
+				System.out.println("Count of nodes with name songs:\t" + xmlDoc.getElementsByTagName("songs").getLength());
 				System.out.println("Length of selectedFilesPairList:\t" + selectedFilesPairList.size());
 				System.out.println("Are parent and root same:\t" + (selectedFilesPairList.get(l).getValue().getParentNode() == root));
 				System.out.println("Are pairs the same:\t" + (allFilesPairList.get(l).getValue().getParentNode() == selectedFilesPairList.get(l).getValue().getParentNode()));
@@ -278,13 +280,13 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 				allFilesPairList.remove(j);
 			}
 			catch (ArrayIndexOutOfBoundsException ex) {
-				XML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, thisFrame);
+				AnalyzerXML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, thisFrame);
 				new ErrorFrame((JFrame) SwingUtilities.getWindowAncestor(this), "File doesn't exist anymore");
 			}
 		}
 
-		XML.removeInvalidNodes(root);
-		XML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, thisFrame);
+		AnalyzerXML.removeInvalidNodes(root);
+		AnalyzerXML.createXMLFile(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, root, thisFrame);
 	}
 
 	
@@ -330,7 +332,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 		NodeList childs = nodeToAdd.getChildNodes();
 		for(int i = 0; i < colCount; i++) {
 			String colName = tableModel.getColumnName(i);
-			Node val = XML.findNodeXML(childs, colName);
+			Node val = AnalyzerXML.findNodeXML(childs, colName);
 			if(val == null) {
 				row[i] = "";
 			}
@@ -340,7 +342,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 		}
 		
 		tableModel.addRow(row);
-		Node nameNode = XML.findNodeXML(childs, "name");
+		Node nameNode = AnalyzerXML.findNodeXML(childs, "name");
 		if(nameNode == null) {
 			pairList.add(new Pair<String, Node>("", nodeToAdd));
 		}

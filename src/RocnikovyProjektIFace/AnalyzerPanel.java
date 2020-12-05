@@ -86,7 +86,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                     dataModel.removeRow(0);
                 }
                 if(anyFileAnalyzed) {
-                    XML.createXMLFile(ANALYZED_AUDIO_XML_FILENAME, XML.xmlDoc.getFirstChild(), frame);
+                    AnalyzerXML.createXMLFile(ANALYZED_AUDIO_XML_FILENAME, AnalyzerXML.getXMLDoc().getFirstChild(), frame);
                     subject.notifyObservers();
                 }
             }
@@ -538,19 +538,19 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-        Node node = XML.getFirstSongNodeMatchingGivenName(file.getName());
+        Node node = AnalyzerXML.getFirstSongNodeMatchingGivenName(file.getName());
         if(node == null) {		// The song wasn't analyzed before
-            XML.addAnalyzedFileToXML(XML.xmlDoc, list, "songs", "song");
+            AnalyzerXML.addAnalyzedFileToXML(AnalyzerXML.getXMLDoc(), list, "songs", "song");
         }
         else {
             NodeList childNodes = node.getChildNodes();
             for(Pair<String, String> p : list) {
-                Node currentPairNode = XML.findFirstNodeWithGivenAttribute(childNodes, p.getKey());
+                Node currentPairNode = AnalyzerXML.findFirstNodeWithGivenAttribute(childNodes, p.getKey());
                 if(currentPairNode == null) {		// Add new node
-                    XML.addNewNode(node, p);
+                    AnalyzerXML.addNewNode(node, p);
                 }
                 else {								// Change existing node
-                    XML.getValueNodeFromInfoNode(currentPairNode).setTextContent(p.getValue());
+                    AnalyzerXML.getValueNodeFromInfoNode(currentPairNode).setTextContent(p.getValue());
                 }
             }
         }

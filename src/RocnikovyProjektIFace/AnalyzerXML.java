@@ -20,8 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class XML {
-	static Document xmlDoc;
+// This is very old class so the design is kind of weird. We work with this class only in static way,
+// that means we are not working with instance of this class.
+public class AnalyzerXML {
+	private AnalyzerXML() {
+		// Can't make instance of this class
+	}
+
+	private static Document xmlDoc;
 
 	public static Document getXMLDoc() {
 		return xmlDoc;
@@ -325,7 +331,7 @@ public class XML {
 
 
 				// TODO: DEBUG
-//				System.out.println("XML add:" + "\t" + val.getKey() + "\t" + val.getValue());
+//				System.out.println("AnalyzerXML add:" + "\t" + val.getKey() + "\t" + val.getValue());
 				// TODO: DEBUG
 
 // TODO:				   e.setAttribute(val.getKey(), val.getValue());		   

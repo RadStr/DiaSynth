@@ -16,7 +16,7 @@ public class AnalyzerMainPanel extends JPanel implements TabChangeIFace {
 	private JFrame thisFrame;
 	
 	public AnalyzerMainPanel(JFrame frame, AddToAudioPlayerIFace addToAudioPlayerIFace) {
-		XML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
+		AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
 
     	thisFrame = frame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

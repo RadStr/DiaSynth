@@ -33,7 +33,7 @@ public class FrameChangeButtonUpdateXML extends JButton {
 				}
 				newFrame.setVisible(true);
 				oldFrame.setVisible(false);
-				XML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, oldFrame, "songs");
+				AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, oldFrame, "songs");
 			}
 		});
 	}

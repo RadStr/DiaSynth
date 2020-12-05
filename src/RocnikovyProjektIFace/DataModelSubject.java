@@ -40,7 +40,7 @@ public class DataModelSubject implements DataModelSubjectIFace {
 
 	@Override
 	public void notifyObservers() {
-		XML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
+		AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
 		for(DataModelObserverIFace o : observers) {
 			o.reloadDataModelFromXML();
 		}

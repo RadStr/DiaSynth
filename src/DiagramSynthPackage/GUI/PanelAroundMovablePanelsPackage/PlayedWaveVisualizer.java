@@ -265,13 +265,9 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
     }
 
     @Override
-    public int fillBufferWithCachedValues(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex, int inputLen, int outputLen) {
+    public int fillBufferWithCachedValues(double[] buffer, int bufferStartIndex, int bufferEndIndex,
+                                          int startFillIndex, int inputLen, int outputLen) {
         return 0;
-    }
-
-    @Override
-    public double getDrawValue(int offsetFromStartIndex) {
-        return 0;                   // TODO: SYNTH - WAVE VISUALS - ASI VYMAZAT
     }
 
     @Override
@@ -292,16 +288,6 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
     @Override
     public int convertFromPixelToIndexInAudio(double pixel) {
         return (int)pixel;
-    }
-
-    @Override
-    public double convertFromIndexInValuesToPixel(int indexInValues) {
-        return indexInValues;
-    }
-
-    @Override
-    public int convertFromInputIndexToOutputIndex(double inputIndex) {
-        return 0;                   // TODO: SYNTH - WAVE VISUALS - ASI VYMAZAT
     }
 
     @Override

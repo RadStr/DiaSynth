@@ -41,13 +41,6 @@ public interface CommunicationWithWaveValuesPanelIFace {
         return outIndex;
     }
 
-    /**
-     * Returns the value for the current zoom on index getCurrentScroll() + offsetFromStartIndex
-     * @param offsetFromStartIndex is the offset of the total index from which should be taken value
-     * @return Returns the double on asked offset.
-     */
-    double getDrawValue(int offsetFromStartIndex);
-
     boolean getIsCached();
 
     int getCurrentStartIndexInAudio();
@@ -60,8 +53,6 @@ public interface CommunicationWithWaveValuesPanelIFace {
      * @return
      */
     int convertFromPixelToIndexInAudio(double pixel);
-    double convertFromIndexInValuesToPixel(int indexInValues);
-    int convertFromInputIndexToOutputIndex(double inputIndex);
 
     int getCurrentScroll();
     int getMaxScroll();

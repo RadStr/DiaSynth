@@ -2109,7 +2109,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //
 //
-//        @Override
+//        @Deprecated
 //        public double convertFromIndexInValuesToPixel(int indexInValues) {
 //            double pixelsPerIndex = calculateInputValsPerOutputValsPure(getPreferredSize().width, getSongLen());
 //            return indexInValues * pixelsPerIndex;
@@ -2150,11 +2150,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        }
 //
 //        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
-//        }
-//
-//        @Override
 //        public int getCurrentStartIndexInAudio() {
 //            return convertScrollValueToIndividualIndexInAudio(currScroll);
 //        }
@@ -2192,8 +2187,8 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            return DoubleWave.SAMPLES_POS * Integer.BYTES;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            return (int)inputIndex;
 //        }
 //    }
@@ -2211,7 +2206,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
 //            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
-//                startFillIndex = convertFromInputIndexToOutputIndex(samplesPerPixel * startFillIndex);
+//                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
 //            }
 //            else {
@@ -2277,17 +2272,12 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        }
 //
 //        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
-//        }
-//
-//        @Override
 //        public int convertFromPixelToIndexInAudio(double pixel) {
 //            return (int)pixel;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), getPreferredSize().width);
 //            int outputIndex = (int)(2*inputIndex / samplesPerPixel);
 //            return outputIndex;
@@ -2350,7 +2340,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //
 //
-//        @Override
+//        @Deprecated
 //        public double convertFromIndexInValuesToPixel(int indexInValues) {
 //            double pixelsPerIndex = calculateInputValsPerOutputValsPure(waveWidth, getSongLen());
 //            return indexInValues * pixelsPerIndex;
@@ -2388,11 +2378,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        @Override
 //        public int getAudioLen() {
 //            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
-//        }
-//
-//        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
 //        }
 //
 //        @Override
@@ -2440,8 +2425,8 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            return DoubleWave.SAMPLES_POS * Integer.BYTES;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            return (int)inputIndex;
 //        }
 //    }
@@ -2459,7 +2444,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
 //            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
-//                startFillIndex = convertFromInputIndexToOutputIndex(samplesPerPixel * startFillIndex);
+//                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
 //            }
 //            else {
@@ -2533,17 +2518,12 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        }
 //
 //        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
-//        }
-//
-//        @Override
 //        public int convertFromPixelToIndexInAudio(double pixel) {
 //            return (int)pixel;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
 //            int outputIndex = (int)(2*inputIndex / samplesPerPixel);
 //            return outputIndex;
@@ -2603,7 +2583,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //
 //
-//        @Override
+//        @Deprecated
 //        public double convertFromIndexInValuesToPixel(int indexInValues) {
 //            double pixelsPerIndex = calculateInputValsPerOutputValsPure(getPreferredSize().width, getSongLen());
 //            return indexInValues * pixelsPerIndex;
@@ -2644,11 +2624,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        }
 //
 //        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
-//        }
-//
-//        @Override
 //        public int getCurrentStartIndexInAudio() {
 //            return convertScrollValueToIndividualIndexInAudio(currScroll);
 //        }
@@ -2686,8 +2661,8 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            return DoubleWave.SAMPLES_POS * Integer.BYTES;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            return (int)inputIndex;
 //        }
 //    }
@@ -2705,7 +2680,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
 ////            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
-//                startFillIndex = convertFromInputIndexToOutputIndex(samplesPerPixel * startFillIndex);
+//                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
 ////            }
 ////            else {
@@ -2771,17 +2746,12 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //        }
 //
 //        @Override
-//        public double getDrawValue(int offsetFromStartIndex) {
-//            return offsetFromStartIndex;     // TODO: HNED
-//        }
-//
-//        @Override
 //        public int convertFromPixelToIndexInAudio(double pixel) {
 //            return (int)pixel;
 //        }
 //
-//        @Override
-//        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+//        @Deprecated
+//        public int convertToOutputIndex(double inputIndex) {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), getPreferredSize().width);
 //            int outputIndex = (int)(2*inputIndex / samplesPerPixel);
 //            return outputIndex;
@@ -2847,7 +2817,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             return currScroll;
         }
 
-        @Override
+        @Deprecated
         public double convertFromIndexInValuesToPixel(int indexInValues) {
             double pixelsPerIndex = calculateInputValsPerOutputValsPure(waveWidth, getSongLen());
             return indexInValues * pixelsPerIndex;
@@ -2890,11 +2860,6 @@ public class AudioWavePanelOnlyWave extends JPanel {
         }
 
         @Override
-        public double getDrawValue(int offsetFromStartIndex) {
-            return offsetFromStartIndex;     // TODO: HNED
-        }
-
-        @Override
         public int getCurrentStartIndexInAudio() {
             return convertScrollValueToIndividualIndexInAudio(currScroll);
         }
@@ -2931,8 +2896,8 @@ public class AudioWavePanelOnlyWave extends JPanel {
             return DoubleWave.SAMPLES_POS * Integer.BYTES;
         }
 
-        @Override
-        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+        @Deprecated
+        public int convertToOutputIndex(double inputIndex) {
             return (int)inputIndex;
         }
     }
@@ -2951,7 +2916,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 // TODO: WEIRD CACHE
 //            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
-//                startFillIndex = convertFromInputIndexToOutputIndex(samplesPerPixel * startFillIndex);
+//                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
 //            }
 //            else {
@@ -3017,18 +2982,14 @@ public class AudioWavePanelOnlyWave extends JPanel {
             return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
         }
 
-        @Override
-        public double getDrawValue(int offsetFromStartIndex) {
-            return offsetFromStartIndex;     // TODO: HNED
-        }
 
         @Override
         public int convertFromPixelToIndexInAudio(double pixel) {
             return (int)pixel;
         }
 
-        @Override
-        public int convertFromInputIndexToOutputIndex(double inputIndex) {
+        @Deprecated
+        public int convertToOutputIndex(double inputIndex) {
             double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
             int outputIndex = (int)(2*inputIndex / samplesPerPixel);
             return outputIndex;

@@ -11,8 +11,8 @@ import java.awt.*;
 @Deprecated		// Not used anymore, this was just for testing - Alsi tak a look at the LAMBDA comment
 public class MenuFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private MenuPanel wholeWindowPanel;
-	public MenuPanel getWholeWindowPanel() {
+	private AnalyzerMainPanel wholeWindowPanel;
+	public AnalyzerMainPanel getWholeWindowPanel() {
 	    return wholeWindowPanel;
     }
 	
@@ -27,7 +27,7 @@ public class MenuFrame extends JFrame {
 		this.setTitle("Menu");
 		// LAMBDA - this lambda was added because it is needed when I want to have feature to add analyzed song to the audio player
 		// And since MenuFrame isn't using audio player (it is used when I am testing analyzer separate) then I don't do anything in that method
-		wholeWindowPanel = new MenuPanel(this, null);
+		wholeWindowPanel = new AnalyzerMainPanel(this, null);
 		this.add(wholeWindowPanel);
 	}
 

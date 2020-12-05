@@ -9,13 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuPanel extends JPanel implements ChangeJMenuBarIFace {
+public class AnalyzerMainPanel extends JPanel implements ChangeJMenuBarIFace {
 	private static final long serialVersionUID = 1L;
 
 
 	private JFrame thisFrame;
 	
-	public MenuPanel(JFrame frame, AddToAudioPlayerIFace addToAudioPlayerIFace) {
+	public AnalyzerMainPanel(JFrame frame, AddToAudioPlayerIFace addToAudioPlayerIFace) {
 		XML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
 
     	thisFrame = frame;

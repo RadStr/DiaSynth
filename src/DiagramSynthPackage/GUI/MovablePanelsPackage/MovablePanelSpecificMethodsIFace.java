@@ -10,5 +10,5 @@ public interface MovablePanelSpecificMethodsIFace extends MovablePanelSpecificGe
      */
     void mouseLocationChangedWithoutMouseMovement();
 
-    void noteAdditionToMainPanelPanels();
+    void noteAdditionToDiagram();
 }

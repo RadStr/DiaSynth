@@ -2804,7 +2804,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
 
 
     public void makeTemporaryPanelPermanent(MovableJPanel mp) {
-        mp.noteAdditionToMainPanelPanels();
+        mp.noteAdditionToDiagram();
     }
 
     public void addPanelPermanently(Unit u) {

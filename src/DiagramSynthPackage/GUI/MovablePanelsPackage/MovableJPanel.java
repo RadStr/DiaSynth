@@ -142,7 +142,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     private boolean isInsideDiagramPanel;
 
     @Override
-    public void noteAdditionToMainPanelPanels() {
+    public void noteAdditionToDiagram() {
         isInsideDiagramPanel = true;
     }
 

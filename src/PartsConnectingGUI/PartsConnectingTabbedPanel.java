@@ -41,7 +41,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
         this.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                ChangeJMenuBarIFace p = getPanelFromSelectedIndex(getSelectedIndex());
+                TabChangeIFace p = getPanelFromSelectedIndex(getSelectedIndex());
                 if(oldTab != null) {
                     oldTab.changedTabAction(false);
                 }
@@ -68,7 +68,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
         MAX_LABEL_FONT_SIZE = Program.findMaxFontSize(testLabel);
     }
 
-    private ChangeJMenuBarIFace oldTab;
+    private TabChangeIFace oldTab;
     private AnalyzerMainPanel analyzerTab;
     private AudioPlayerPanel audioPlayerTab;
     @Override
@@ -78,7 +78,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
     }
     private SynthesizerMainPanel synthTab;
 
-    private ChangeJMenuBarIFace getPanelFromSelectedIndex(int selectedIndex) {
+    private TabChangeIFace getPanelFromSelectedIndex(int selectedIndex) {
         switch (selectedIndex) {
             case 0:
                 return analyzerTab;

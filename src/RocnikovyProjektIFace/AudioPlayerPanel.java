@@ -3,7 +3,7 @@ package RocnikovyProjektIFace;
 
 import AudioMixers.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
-import PartsConnectingGUI.ChangeJMenuBarIFace;
+import PartsConnectingGUI.TabChangeIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanelWithConvertFlag;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
@@ -56,7 +56,7 @@ import java.util.List;
 
 public class AudioPlayerPanel extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
-        ChangeJMenuBarIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
+        TabChangeIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
 
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
     public static final int VERTICAL_SCROLL_UNIT_INCREMENT = 32;
@@ -3781,8 +3781,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private JMenuBar menuBar;
     @Override
-    public void changedTabAction(boolean isNewlyVisible) {
-        if(isNewlyVisible) {
+    public void changedTabAction(boolean hasFocus) {
+        if(hasFocus) {
             thisFrame.setJMenuBar(menuBar);
         }
         else {

@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace;
 
 import PartsConnectingGUI.AddToAudioPlayerIFace;
-import PartsConnectingGUI.ChangeJMenuBarIFace;
+import PartsConnectingGUI.TabChangeIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AnalyzerMainPanel extends JPanel implements ChangeJMenuBarIFace {
+public class AnalyzerMainPanel extends JPanel implements TabChangeIFace {
 	private static final long serialVersionUID = 1L;
 
 
@@ -79,8 +79,8 @@ public class AnalyzerMainPanel extends JPanel implements ChangeJMenuBarIFace {
 
 	private JMenuBar menuBar;
 	@Override
-	public void changedTabAction(boolean isNewlyVisible) {
-		if(isNewlyVisible) {
+	public void changedTabAction(boolean hasFocus) {
+		if(hasFocus) {
 			thisFrame.setJMenuBar(menuBar);
 		}
 	}

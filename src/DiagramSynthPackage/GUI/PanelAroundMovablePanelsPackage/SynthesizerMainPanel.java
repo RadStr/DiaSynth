@@ -5,7 +5,7 @@ import DiagramSynthPackage.GUI.MovablePanelsPackage.DiagramPanel;
 import DiagramSynthPackage.GUI.MovablePanelsPackage.PortChooserPackage.PortChooser;
 import DiagramSynthPackage.Synth.Unit;
 import PartsConnectingGUI.AddToAudioPlayerIFace;
-import PartsConnectingGUI.ChangeJMenuBarIFace;
+import PartsConnectingGUI.TabChangeIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioPlayerPlugins.JTextFieldWithBounds;
@@ -29,7 +29,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class SynthesizerMainPanel extends JPanel implements ChangeJMenuBarIFace, SynthesizerMainPanelIFace {
+public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, SynthesizerMainPanelIFace {
     public SynthesizerMainPanel(JFrame frame, AddToAudioPlayerIFace audioPlayerAddIFace) {
         this.frame = frame;
         this.audioPlayerAddIFace = audioPlayerAddIFace;
@@ -431,8 +431,8 @@ public class SynthesizerMainPanel extends JPanel implements ChangeJMenuBarIFace,
 
 
     @Override
-    public void changedTabAction(boolean isNewlyVisible) {
-        if(isNewlyVisible) {
+    public void changedTabAction(boolean hasFocus) {
+        if(hasFocus) {
             frame.setJMenuBar(menuBar);
         }
         else {

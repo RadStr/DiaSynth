@@ -56,7 +56,7 @@ import java.util.List;
 
 public class AudioPlayerPanel extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
-        TabChangeIFace, PlayerButtonPanelSimple.SoundControlGetterIFace, AddWaveIFace {
+        TabChangeIFace, AudioControlPanel.VolumeControlGetterIFace, AddWaveIFace {
 
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
     public static final int VERTICAL_SCROLL_UNIT_INCREMENT = 32;
@@ -543,8 +543,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
     public void setCurrentZoom(int val) {
         zoomVariables.zoom = val;
-        ZoomGUI zoomGUI = playerButtonPanel.getZoomGUI();
-        zoomGUI.setNewZoom(zoomVariables.zoom, zoomVariables.getIsZoomAtMax());
+        ZoomPanel zoomPanel = audioControlPanel.getZoomPanel();
+        zoomPanel.setNewZoom(zoomVariables.zoom, zoomVariables.getIsZoomAtMax());
     }
 
     private void setMaxAllowedZoom() {
@@ -606,7 +606,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         setSongs(waveCount);
         setMultFactors(waveCount);
         int numberOfChannels = outputAudioFormat.getChannels();
-        playerButtonPanel.getDecibelDetectorData().changeNumberOfChannels(numberOfChannels);
+        audioControlPanel.getDecibelDetectorData().changeNumberOfChannels(numberOfChannels);
         hasAtLeastOneWave = waveCount != 0;
     }
 
@@ -813,7 +813,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         JCheckBoxMenuItem shouldViewDecibelsMenuItem = new JCheckBoxMenuItem("Show decibel detector");
         shouldViewDecibelsMenuItem.setSelected(true);
         shouldViewDecibelsMenuItem.addItemListener(e -> {
-            DecibelDetector dd = playerButtonPanel.getDecibelDetectorData().getDecibelDetector();
+            DecibelDetector dd = audioControlPanel.getDecibelDetectorData().getDecibelDetector();
             dd.setIsDrawingEnabled(e.getStateChange() == ItemEvent.SELECTED);
         });
         viewMenu.add(shouldViewDecibelsMenuItem);
@@ -4816,9 +4816,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
     private FloatControl masterGainControl;
     private BooleanControl muteControl;
-    private PlayerButtonPanelWithZoomAdvanced playerButtonPanel;
+    private AudioControlPanelWithZoomAndDecibel audioControlPanel;
     private void clickPauseButtonIfPlaying() {
-        BooleanButton playButton = playerButtonPanel.getPlayButton();
+        BooleanButton playButton = audioControlPanel.getPlayButton();
         if(!playButton.getBoolVar()) {
             playButton.doClick();
         }
@@ -4844,7 +4844,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             // Open lock
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(playerButtonPanel.getPlayButton().getBoolVar()) {
+                if(audioControlPanel.getPlayButton().getBoolVar()) {
                     audioThread.pause();
                 }
                 else {
@@ -4866,7 +4866,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 updateZoom(-1);
             }
         };
-        playerButtonPanel = new PlayerButtonPanelWithZoomAdvanced(this, playButtonListener,
+        audioControlPanel = new AudioControlPanelWithZoomAndDecibel(this, playButtonListener,
                 this, zoomListener, unzoomListener, outputAudioFormat.getChannels());
 
 
@@ -4877,13 +4877,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         c.gridy = 0;
         c.weightx = 0;
         c.weighty = 0;
-        this.add(playerButtonPanel, c);
+        this.add(audioControlPanel, c);
         // TODO: LALA
     }
 
     @Override
     public double[] getValues() {
-        double[] outputArr = playerButtonPanel.getDecibelDetectorData().getChannelAmplitudes();
+        double[] outputArr = audioControlPanel.getDecibelDetectorData().getChannelAmplitudes();
         fillArrayWithCurrentlyPlayedValues(outputArr);
         return outputArr;
     }
@@ -4939,10 +4939,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
 
                 muteControl = (BooleanControl) line.getControl(BooleanControl.Type.MUTE);
-                muteControl.setValue(playerButtonPanel.getMuteButton().getBoolVar());
+                muteControl.setValue(audioControlPanel.getMuteButton().getBoolVar());
                 masterGainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);      // TODO: Type.VOLUME isn't available control
 
-                playerButtonPanel.setMasterGainToCurrentSlideValue();
+                audioControlPanel.setMasterGainToCurrentSlideValue();
                 line.start();
             } catch (Exception e) {
                 MyLogger.logException(e);
@@ -5129,7 +5129,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                     setShouldPause(true);
                     resetValues();
-                    SwingUtilities.invokeLater(() -> playerButtonPanel.getPlayButton().doClick());
+                    SwingUtilities.invokeLater(() -> audioControlPanel.getPlayButton().doClick());
                 }
             }
         }
@@ -5227,7 +5227,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     public void performUserClickedWaveVariableSetPaused() {
-        if(playerButtonPanel.getPlayButton().getBoolVar()) {
+        if(audioControlPanel.getPlayButton().getBoolVar()) {
             performUserClickedWaveVariableSet();
             this.repaint();
         }
@@ -5249,13 +5249,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void drawSongLen(Graphics g, Color c) {
         int y = this.getHeight() - g.getFontMetrics().getHeight();
-        Program.drawStringWithSpace(g, c, songLenInSecs, waveStartX, playerButtonPanel.getPlayButton().getX(), y);
+        Program.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     private void drawCurrentPlayTime(Graphics g, Color c) {
         String time = getCurrentPlayTime();
         int y = this.getHeight();
-        Program.drawStringWithSpace(g, c, time, waveStartX, playerButtonPanel.getPlayButton().getX(), y);
+        Program.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     public String getCurrentPlayTime() {
@@ -5498,7 +5498,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void stopAndModifyAudio(boolean isSongsOrMultFactorsUpdateNeeded, ModifyAudioIFace modifyAudioImpl,
                                     boolean shouldResume, boolean shouldResetAudio) {
         disableZooming();
-        BooleanButton playButton = playerButtonPanel.getPlayButton();
+        BooleanButton playButton = audioControlPanel.getPlayButton();
 
 // TODO: PROGRAMO MOD
         boolean wasNotPaused = !playButton.getBoolVar();

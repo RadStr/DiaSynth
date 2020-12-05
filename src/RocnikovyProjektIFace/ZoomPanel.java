@@ -11,8 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class ZoomGUI extends JPanel {
-    public ZoomGUI(ActionListener zoomButtonListener, ActionListener unzoomButtonListener) {
+public class ZoomPanel extends JPanel {
+    public ZoomPanel(ActionListener zoomButtonListener, ActionListener unzoomButtonListener) {
         unzoomButton = new JButton();
         unzoomButton.addActionListener(unzoomButtonListener);
         disableUnzoomButton();

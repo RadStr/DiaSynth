@@ -12,7 +12,7 @@ import RocnikovyProjektIFace.AudioPlayerPlugins.JTextFieldWithBounds;
 import RocnikovyProjektIFace.AudioPlayerPlugins.SetFieldIFace;
 import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FileFilterAudioFormats;
-import RocnikovyProjektIFace.PlayerButtonPanelWithZoom;
+import RocnikovyProjektIFace.AudioControlPanelWithZoom;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 
@@ -67,7 +67,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
         MyLogger.log("Created bottom panel inside synth part", -1);
 
         MyLogger.log("Adding rest of synth part", 1);
-        playerButtons = new PlayerButtonPanelWithZoom(
+        playerButtons = new AudioControlPanelWithZoom(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                 botPanel.getDiagramPanel().getAudioThread(),
                 (e) -> botPanel.getDiagramPanel().zoomToMiddle(1),
                 (e) -> botPanel.getDiagramPanel().zoomToMiddle(-1));
-        playerButtons.getZoomGUI().setNewZoom(DiagramPanel.ZOOM_COUNT_FROM_START_TO_MIN, false);
+        playerButtons.getZoomPanel().setNewZoom(DiagramPanel.ZOOM_COUNT_FROM_START_TO_MIN, false);
         playerButtons.setMasterGainToCurrentSlideValue();
 
         buttonPanel.add(iteratorButton);
@@ -156,7 +156,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
     private PlayedWaveVisualizer waveVisualizer;
 
     private JButton iteratorButton;
-    private PlayerButtonPanelWithZoom playerButtons;
+    private AudioControlPanelWithZoom playerButtons;
     private JPanel buttonPanel;
     private DiagramJSplitPane botPanel;
     private JFrame frame;
@@ -451,7 +451,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
     }
 
     @Override
-    public PlayerButtonPanelWithZoom getPlayerButtonPanel() {
+    public AudioControlPanelWithZoom getAudioControlPanel() {
         return playerButtons;
     }
 

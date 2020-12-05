@@ -5,7 +5,7 @@ import DiagramSynthPackage.Synth.CyclicQueueDouble;
 import DiagramSynthPackage.Synth.OutputFormatGetter;
 import DiagramSynthPackage.Synth.Unit;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import RocnikovyProjektIFace.PlayerButtonPanelSimple;
+import RocnikovyProjektIFace.AudioControlPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
@@ -15,7 +15,7 @@ import javax.sound.sampled.*;
 /**
  * Just takes requests to put samples to queue and later replays the queue (Unless it is stopped).
  */
-public class AudioThread extends Thread implements OutputFormatGetter, PlayerButtonPanelSimple.SoundControlGetterIFace {
+public class AudioThread extends Thread implements OutputFormatGetter, AudioControlPanel.VolumeControlGetterIFace {
     /**
      *
      * @param maxPlayTimeInMs - there is upper bound which will be known at run time (usually 500ms) after adding more than that, the

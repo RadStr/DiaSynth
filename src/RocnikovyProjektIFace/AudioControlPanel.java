@@ -1,6 +1,5 @@
 package RocnikovyProjektIFace;
 
-import DebugPackage.DEBUG_CLASS;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButtonWithImages;
@@ -16,9 +15,9 @@ import java.awt.event.ActionListener;
 /**
  * Contains the play/pause button, mute button, volume slider
  */
-public class PlayerButtonPanelSimple extends JPanel {
-    public PlayerButtonPanelSimple(ActionListener playButtonActionListener, SoundControlGetterIFace soundControlGetter) {
-        this.soundControlGetter = soundControlGetter;
+public class AudioControlPanel extends JPanel {
+    public AudioControlPanel(ActionListener playButtonActionListener, VolumeControlGetterIFace volumeControlGetter) {
+        this.volumeControlGetter = volumeControlGetter;
         // TODO: make the path relative
         String resourcesDir = "resources/images/";
 
@@ -59,7 +58,7 @@ public class PlayerButtonPanelSimple extends JPanel {
         }
         buttons[1] = muteButton;
         muteButton.setToolTipText("Mute button");
-        muteButton.addActionListener((e) -> soundControlGetter.getMuteControl().setValue(muteButton.getBoolVar()));
+        muteButton.addActionListener((e) -> volumeControlGetter.getMuteControl().setValue(muteButton.getBoolVar()));
 
         for(int i = 0; i < buttons.length; i++) {
             insideControlPanel.add(buttons[i]);
@@ -83,9 +82,9 @@ public class PlayerButtonPanelSimple extends JPanel {
     }
 
 
-    private SoundControlGetterIFace soundControlGetter;
+    private VolumeControlGetterIFace volumeControlGetter;
     public void setMasterGainToCurrentSlideValue() {
-        FloatControl masterGainControl = soundControlGetter.getGain();
+        FloatControl masterGainControl = volumeControlGetter.getGain();
         if(masterGainControl != null) {
             // maxGain is 0, because with sound boost, there could be clipping.
             double maxGain = 0;
@@ -133,7 +132,7 @@ public class PlayerButtonPanelSimple extends JPanel {
     }
 
 
-    public interface SoundControlGetterIFace {
+    public interface VolumeControlGetterIFace {
         FloatControl getGain();
         BooleanControl getMuteControl();
     }

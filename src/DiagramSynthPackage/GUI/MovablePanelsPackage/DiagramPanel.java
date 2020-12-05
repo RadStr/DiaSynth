@@ -12,7 +12,7 @@ import DiagramSynthPackage.Synth.AudioThreads.AudioThreadWithRecordingSupport;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import RocnikovyProjektIFace.PlayerButtonPanelSimple;
+import RocnikovyProjektIFace.AudioControlPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -194,8 +194,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
 
 
     public void recordInstantly() {
-        PlayerButtonPanelSimple playerButtonPanel = synthesizerMainPanel.getPlayerButtonPanel();
-        playerButtonPanel.setEnabled(false);
+        AudioControlPanel audioControlPanel = synthesizerMainPanel.getAudioControlPanel();
+        audioControlPanel.setEnabled(false);
         stopAudioUsingClick();
         byte[] instantRecord = synthDiagram.recordInstantlyBytes(recordAudioLen);
         if(isRecordingToPlayer) {
@@ -205,7 +205,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
         if(isRecordingToFile) {
             saveRecordedAudio(instantRecord, 0, instantRecord.length);
         }
-        playerButtonPanel.setEnabled(true);
+        audioControlPanel.setEnabled(true);
     }
 
     private volatile boolean isRecordingRealTime = false;       // volatile because it is read by the audio thread
@@ -326,7 +326,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
         return synthDiagram;
     }
     private AudioThreadWithRecordingSupport audioThread;
-    public PlayerButtonPanelSimple.SoundControlGetterIFace getAudioThread() {
+    public AudioControlPanel.VolumeControlGetterIFace getAudioThread() {
         return audioThread;
     }
     public AudioFormatWithSign getOutputAudioFormat() {
@@ -347,7 +347,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
     }
 
     private void stopAudioUsingClick() {
-        BooleanButton playButton = synthesizerMainPanel.getPlayerButtonPanel().getPlayButton();
+        BooleanButton playButton = synthesizerMainPanel.getAudioControlPanel().getPlayButton();
         if(!playButton.getBoolVar()) {
             playButton.doClick();
         }
@@ -404,20 +404,20 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
 
     public void setOutputAudioFormat(AudioFormatWithSign audioFormat) {
         audioFormat = AudioFormatJPanel.getSupportedAudioFormat(audioFormat);
-        PlayerButtonPanelSimple playerButtonPanel = synthesizerMainPanel.getPlayerButtonPanel();
+        AudioControlPanel audioControlPanel = synthesizerMainPanel.getAudioControlPanel();
         if(synthDiagram != null) {     // When setting the first audio audioFormat
-            BooleanButton playButton = playerButtonPanel.getPlayButton();
+            BooleanButton playButton = audioControlPanel.getPlayButton();
             if(!playButton.getBoolVar()) {
                 playButton.doClick();
             }
-            playerButtonPanel.setEnabled(false);
+            audioControlPanel.setEnabled(false);
             activeWaitingUntilPaused();
         }
         setOutputPanels(ChannelCount.convertNumberToEnum(audioFormat.getChannels()));
         audioThread.setOutputAudioFormat(audioFormat);
         if(synthDiagram != null) {     // When setting the first audio audioFormat
-            playerButtonPanel.setMasterGainToCurrentSlideValue();
-            playerButtonPanel.setEnabled(true);
+            audioControlPanel.setMasterGainToCurrentSlideValue();
+            audioControlPanel.setEnabled(true);
         }
     }
 
@@ -661,7 +661,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
             updateAllPanelsInsideZoomBased();
         }
 
-        synthesizerMainPanel.getPlayerButtonPanel().getZoomGUI().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
+        synthesizerMainPanel.getAudioControlPanel().getZoomPanel().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
                 currentZoom, getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
         this.repaint();
     }

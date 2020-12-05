@@ -20,7 +20,7 @@ public class Main {
         //frame.getContentPane().setLayout(new FlowLayout());
         frame.getContentPane().setLayout(new BorderLayout()); // TODO:
         MainPanelWithEverything panel = new MainPanelWithEverything(frame, null);
-       // MenuWithItems panel = new MenuWithItems();
+       // DiagramItemsMenu panel = new DiagramItemsMenu();
         //frame.add(panel);
         frame.add(panel, BorderLayout.CENTER);    // TODO:
         frame.pack();

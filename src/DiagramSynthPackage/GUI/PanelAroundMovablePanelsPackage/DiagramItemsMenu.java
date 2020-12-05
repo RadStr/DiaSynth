@@ -6,9 +6,9 @@ import DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage.UnitChooser.JTree
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuWithItems extends JScrollPane {
+public class DiagramItemsMenu extends JScrollPane {
 
-    public MenuWithItems(JPanelWithMovableJPanels panelWithMovablePanels) {
+    public DiagramItemsMenu(JPanelWithMovableJPanels panelWithMovablePanels) {
         super(new JTreeUnitChooser(panelWithMovablePanels), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     }
 

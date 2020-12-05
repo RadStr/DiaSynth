@@ -1,9 +1,7 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
 import DiagramSynthPackage.GUI.MovablePanelsPackage.JPanelWithMovableJPanels;
-import DiagramSynthPackage.GUI.MovablePanelsPackage.MovableJPanel;
 import Rocnikovy_Projekt.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import javax.swing.plaf.SplitPaneUI;
@@ -26,7 +24,7 @@ public class DiagramJSplitPane extends JSplitPane {
 
         MyLogger.log("Adding menu", 1);
         // Set the menu
-        MenuWithItems menu = new MenuWithItems(leftPanel);
+        DiagramItemsMenu menu = new DiagramItemsMenu(leftPanel);
         this.setRightComponent(menu);
         MyLogger.log("Adding menu", -1);
 

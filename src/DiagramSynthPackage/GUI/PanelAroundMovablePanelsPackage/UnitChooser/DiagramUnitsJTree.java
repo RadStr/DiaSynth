@@ -28,8 +28,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 
-public class JTreeUnitChooser extends JTree {
-    public JTreeUnitChooser(JPanelWithMovableJPanels  panelWithMovableJPanels) {
+public class DiagramUnitsJTree extends JTree {
+    public DiagramUnitsJTree(JPanelWithMovableJPanels  panelWithMovableJPanels) {
         createTree(this, panelWithMovableJPanels);
 
         this.setCellRenderer(new PanelRenderer());

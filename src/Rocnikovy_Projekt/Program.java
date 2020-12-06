@@ -6866,13 +6866,14 @@ public class Program {
         }
 
         // Calculate coefs for filter
-        for(int k = 0; k < (coefCount - 1) / (double)2; k++) {
+        for(int k = 0; k < (coefCount - 1) / (double)2; k++) {      // From Page 206 Dodge
             double currCoef = 0;
             for(int i = 1; i < (coefCount - 1) / (double)2; i++) {
                 double tmp = (2 * Math.PI * i / coefCount) * (k - (coefCount - 1) / (double)2);
                 currCoef += Math.abs(coefForCalc[i]) * Math.cos(tmp);
             }
             coef[k] =  coefForCalc[0] + 2 * currCoef;
+            coef[k] /= coefCount;
         }
 
         // The rest is symmetric
@@ -8290,10 +8291,6 @@ if(currBPM == 60) {
 
         return bpm;
     }
-
-    // TODO: file:///C:/My%20Web%20Sites/IntroductionToComputerMusic/iub.edu/_emusic/etext/synthesis/chapter4_pv.html
-    // TODO: The analysis actually creates a mirror for each positive frequency band in the negative range, with both having half the magnitude of the real frequency band measured
-    // TODO: Takze bych mel spravne vynasobit vysledky fft 2mi
 
 ////////////////////////////////////////////////
     ////// Implementation of rectification process: https://en.wikipedia.org/wiki/Rectifier

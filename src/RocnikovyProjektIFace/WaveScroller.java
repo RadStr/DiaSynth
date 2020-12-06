@@ -104,7 +104,7 @@ public class WaveScroller extends JPanel {
 //                ProgramTest.debugPrint(((AudioPlayerPanel)waveScrollCallback).waves.get(0).getPreferredSize());
             // TODO: DEBUG:
 
-            int newVal = AudioWavePanelOnlyWave.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
+            int newVal = WavePanel.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
                 getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
             horizontalBarAdjustmentListener.setShouldNotifyWaves(false);
             scrollBar.setValue(newVal);

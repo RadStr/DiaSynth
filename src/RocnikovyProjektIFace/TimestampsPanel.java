@@ -49,7 +49,7 @@ public class TimestampsPanel extends JPanel {
             scrollX = 0;
             waveStartX = 415;
             visibleWaveWidth = audioPlayerPanel.getWidth() - waveStartX;
-            waveWidth = Math.max(visibleWaveWidth, AudioWavePanelOnlyWave.START_DEFAULT_WAVE_WIDTH_IN_PIXELS);
+            waveWidth = Math.max(visibleWaveWidth, WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS);
         }
         else {
             numOfSecs = sampleLen / (double) sampleRate;

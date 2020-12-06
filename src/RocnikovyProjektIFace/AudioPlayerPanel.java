@@ -5553,7 +5553,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public int getDefaultWaveWidth() {
         if(waves.size() == 0) {
-            return AudioWavePanelOnlyWave.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
+            return WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
         int w = waves.get(0).getDefaultWaveWidth();
         return w;
@@ -6024,7 +6024,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if(!isZoom) {
                 int visibleWaveWidth = getWavesVisibleWidth();
                 int currScroll = getCurrentHorizontalScroll();
-                if(currScroll < visibleWaveWidth / AudioWavePanelOnlyWave.ZOOM_VALUE) {     // It would go to negative numbers
+                if(currScroll < visibleWaveWidth / WavePanel.ZOOM_VALUE) {     // It would go to negative numbers
                     zoomToStart();
                 }
                 else {

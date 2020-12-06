@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
 import DiagramSynthPackage.Synth.WaveTables.WaveTable;
-import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
+import RocnikovyProjektIFace.WavePanel;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
@@ -223,11 +223,11 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             }
         }
         else if(newValues.length > outArr.length) {
-            AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+            WavePanel.findAveragesInValues(newValues, outArr,
                     0, 0, newValues.length, outArr.length);
 
             // TODO: DEBUG
-//            int index = AudioWavePanelOnlyWave.findAveragesInValues(newValues, outArr,
+//            int index = WavePanel.findAveragesInValues(newValues, outArr,
 //                    0, 0, newValues.length, outArr.length);
 //            ProgramTest.debugPrint("Out index:", index, outArr.length);
 //            for(int i = 0; i < outArr.length; i++) {

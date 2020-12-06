@@ -1,11 +1,6 @@
 package RocnikovyProjektIFace;
 
-import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Test {
 
@@ -36,22 +31,22 @@ public class Test {
 // Just simple example test
 
 
-        int w = AudioWavePanelOnlyWave.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
+        int w = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
 // Just simple example test
 //        w = 1;
 // Just simple example test
 
-        int maxZoom = AudioWavePanelOnlyWave.calculateMaxCacheZoom(input.length, w);
-        int maxWidth = (int)(w * Math.pow(AudioWavePanelOnlyWave.ZOOM_VALUE, maxZoom));
+        int maxZoom = WavePanel.calculateMaxCacheZoom(input.length, w);
+        int maxWidth = (int)(w * Math.pow(WavePanel.ZOOM_VALUE, maxZoom));
         double[] output = new double[2 * maxWidth];
-        double samplesPerPixel = AudioWavePanelOnlyWave.calculateInputValsPerOutputValsPure(input.length, maxWidth);
+        double samplesPerPixel = WavePanel.calculateInputValsPerOutputValsPure(input.length, maxWidth);
 
-        double[][] cachedResults = AudioWavePanelOnlyWave.cacheToHDDTest(maxZoom, samplesPerPixel, input, output);
+        double[][] cachedResults = WavePanel.cacheToHDDTest(maxZoom, samplesPerPixel, input, output);
         double[] testOutputArr;
         for (int i = cachedResults.length - 1; i >= 0; i--, w *= 2) {
             testOutputArr = new double[2*w];
-//            samplesPerPixel = AudioWavePanelOnlyWave.calculateInputValsPerOutputValsPure(input.length, w);
-            AudioWavePanelOnlyWave.findExtremesInValues(input, testOutputArr, 0, 0, input.length, w);
+//            samplesPerPixel = WavePanel.calculateInputValsPerOutputValsPure(input.length, w);
+            WavePanel.findExtremesInValues(input, testOutputArr, 0, 0, input.length, w);
             result = ProgramTest.checkEqualityOfArraysOneDim(cachedResults[i], testOutputArr, 0,0) && result;
         }
 

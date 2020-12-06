@@ -2019,7 +2019,7 @@ public class Program {
         return specialValue;
     }
 
-    // TODO: Note - can be implemented using class from AudioWavePanelOnlyWave with the extremes but,
+    // TODO: Note - can be implemented using class from WavePanel with the extremes but,
     //  it is way too general and slower, and it is simple enough to implement it again here
     /**
      * Finds the min and max in the samples array at range [startIndex, endIndex]

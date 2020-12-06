@@ -1,7 +1,7 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
 import DiagramSynthPackage.Synth.CyclicQueueDouble;
-import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
+import RocnikovyProjektIFace.WavePanel;
 import RocnikovyProjektIFace.CommunicationWithWaveValuesPanelIFace;
 import RocnikovyProjektIFace.WaveDrawValuesWrapper;
 import RocnikovyProjektIFace.WaveDrawValuesWrapperAbstract;
@@ -251,7 +251,7 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
                     }
                 }
 
-                AudioWavePanelOnlyWave.findExtremesInValues(arrToCopyQueueToConc, buffer,
+                WavePanel.findExtremesInValues(arrToCopyQueueToConc, buffer,
                         0, bufferStartIndex, numberOfSamplesToDraw, samplesPerPixel);
             }
         }

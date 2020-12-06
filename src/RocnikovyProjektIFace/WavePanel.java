@@ -14,7 +14,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class AudioWavePanelOnlyWave extends JPanel {
+public class WavePanel extends JPanel {
     private final int PLAY_CHUNK_SIZE = 666;            // TODO:
 
     public final static int ZOOM_VALUE = 2;
@@ -63,7 +63,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
         waveRightClickPopUpMenu.setEnabledWithWavePopUpItems(enabled);
     }
 
-    public AudioWavePanelOnlyWave(DoubleWave doubleWave, WaveMainPanel wholeWavePanel) {
+    public WavePanel(DoubleWave doubleWave, WaveMainPanel wholeWavePanel) {
         this.doubleWave = doubleWave;
 
         waveRightClickPopUpMenu = new AudioWavePanelOnlyWavePopupMenu(wholeWavePanel);
@@ -993,7 +993,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             return false;
         }
 
-        int maxWidth = (int) (defaultWaveWidthInPixels * Math.pow(AudioWavePanelOnlyWave.ZOOM_VALUE, zoomVariables.maxCacheZoom));
+        int maxWidth = (int) (defaultWaveWidthInPixels * Math.pow(WavePanel.ZOOM_VALUE, zoomVariables.maxCacheZoom));
         double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), maxWidth);
         // * 2 because it is min/max
         double[] values = new double[2 * maxWidth];     // TODO: NE TOHLE MUSIM DELAT PO CASTECH, CO KDYZ TO JE PROSTE MOC VELKY
@@ -1002,7 +1002,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
         String cacheFilename = getCacheFilename(currZoom);
 
-        AudioWavePanelOnlyWave.findExtremesInValues(song, values, 0, 0, song.length, maxWidth);
+        WavePanel.findExtremesInValues(song, values, 0, 0, song.length, maxWidth);
         //findExtremesInValues(song, values, 0, 0, song.length, samplesPerPixel);
         int[] prefix = new int[] { values.length };
         DoubleWave.storeDoubleArray(values, 0, values.length, cacheFilename, prefix);
@@ -1533,7 +1533,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             return doubleWave.getFullPath();
         }
         else {
-            return AudioWavePanelOnlyWave.getCacheFilename(doubleWave.getFilenameWithoutExtension(), wantedZoom);
+            return WavePanel.getCacheFilename(doubleWave.getFilenameWithoutExtension(), wantedZoom);
         }
     }
 
@@ -1646,7 +1646,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
     private int currScroll = 0;
 
     public int convertScrollValueToIndividualIndexInAudio(double scrollValue) {
-        double result = scrollValue * AudioWavePanelOnlyWave.calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
+        double result = scrollValue * WavePanel.calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
         ProgramTest.debugPrint("convertScrollValueToIndividualIndexInAudio start", scrollValue, result, (int)(result + 1));
         if((int)result == 0) {
             if(scrollValue == 0) {
@@ -1690,9 +1690,9 @@ public class AudioWavePanelOnlyWave extends JPanel {
         double ratio;
         int oldMaxScroll = oldWidth - visibleWaveWidth;
         if (isZooming) {
-            ratio = AudioWavePanelOnlyWave.ZOOM_VALUE;
+            ratio = WavePanel.ZOOM_VALUE;
         } else {
-            ratio = 1 / (double) AudioWavePanelOnlyWave.ZOOM_VALUE;
+            ratio = 1 / (double) WavePanel.ZOOM_VALUE;
         }
 
         ProgramTest.debugPrint("Ratio:", ratio, (newWidth - visibleWaveWidth), oldMaxScroll);
@@ -1768,10 +1768,10 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
     public static int calculateMaxCacheZoom(int length, int defaultWaveWidth) {
         int maxCacheZoom = 1;       // TODO: HNED !!!
-        int zoomedWidth = defaultWaveWidth * AudioWavePanelOnlyWave.ZOOM_VALUE;
+        int zoomedWidth = defaultWaveWidth * WavePanel.ZOOM_VALUE;
         while(zoomedWidth < length) {
             maxCacheZoom++;
-            zoomedWidth *= AudioWavePanelOnlyWave.ZOOM_VALUE;
+            zoomedWidth *= WavePanel.ZOOM_VALUE;
 // TODO: DEBUG
 //            ProgramTest.debugPrint(length, zoomedWidth, maxCacheZoom);
 // TODO: DEBUG
@@ -2146,7 +2146,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2212,7 +2212,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            else {
 //                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
 //                startFillIndex = (int)(samplesPerPixel * startFillIndex);
-//                int outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+//                int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 //                if (outIndex != bufferEndIndex) {
 //                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 //                    //System.exit(1548);
@@ -2247,7 +2247,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            }
 //            catch (Exception e) {
 //                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
-//                outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+//                outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 //                if (outIndex != bufferEndIndex) {
 //                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 //                    //System.exit(1548);
@@ -2262,13 +2262,13 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getPrefixLenInBytes() {
-//            return AudioWavePanelOnlyWave.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
+//            return WavePanel.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
 //        }
 //
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2377,7 +2377,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2450,7 +2450,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            else {
 //                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
 //                startFillIndex = (int)(samplesPerPixel * startFillIndex);
-//                int outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+//                int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 //                if (outIndex != bufferEndIndex) {
 //                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 //                    //System.exit(1548);
@@ -2493,7 +2493,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            }
 //            catch (Exception e) {
 //                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
-//                outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+//                outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 //                if (outIndex != bufferEndIndex) {
 //                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 //                    //System.exit(1548);
@@ -2508,13 +2508,13 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getPrefixLenInBytes() {
-//            return AudioWavePanelOnlyWave.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
+//            return WavePanel.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
 //        }
 //
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2620,7 +2620,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2686,7 +2686,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 ////            else {
 ////                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
 ////                startFillIndex = (int)(samplesPerPixel * startFillIndex);
-////                int outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+////                int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 ////                if (outIndex != bufferEndIndex) {
 ////                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 ////                    //System.exit(1548);
@@ -2721,7 +2721,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            }
 //            catch (Exception e) {
 //                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
-//                outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+//                outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
 //                if (outIndex != bufferEndIndex) {
 //                    ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
 //                    //System.exit(1548);
@@ -2736,13 +2736,13 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //
 //        @Override
 //        public int getPrefixLenInBytes() {
-//            return AudioWavePanelOnlyWave.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
+//            return WavePanel.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
 //        }
 //
 //
 //        @Override
 //        public int getAudioLen() {
-//            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+//            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
 //        }
 //
 //        @Override
@@ -2856,7 +2856,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
         @Override
         public int getAudioLen() {
-            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
         }
 
         @Override
@@ -2922,7 +2922,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
 //            else {
             double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
             startFillIndex = (int)(samplesPerPixel * startFillIndex);
-            int outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+            int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
             if (outIndex != bufferEndIndex) {
                 ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
                 //System.exit(1548);
@@ -2958,7 +2958,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
             }
             catch (Exception e) {
                 double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
-                outIndex = AudioWavePanelOnlyWave.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+                outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
                 if (outIndex != bufferEndIndex) {
                     ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
                     //System.exit(1548);
@@ -2973,13 +2973,13 @@ public class AudioWavePanelOnlyWave extends JPanel {
 
         @Override
         public int getPrefixLenInBytes() {
-            return AudioWavePanelOnlyWave.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
+            return WavePanel.PREFIX_BEFORE_CACHED_DATA * Integer.BYTES;
         }
 
 
         @Override
         public int getAudioLen() {
-            return AudioWavePanelOnlyWave.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
         }
 
 

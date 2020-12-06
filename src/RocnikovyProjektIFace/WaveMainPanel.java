@@ -30,7 +30,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
         panelWithWaves.updateMultFactors(this, channel, newValue);
     }
 
-    private AudioWavePanelOnlyWave wave;
+    private WavePanel wave;
     private WaveButtonPanel buttonPanel;
 
 
@@ -275,7 +275,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
         constraints.weighty = 0.1;
         this.add(referenceValues, constraints);
 
-        wave = new AudioWavePanelOnlyWave(doubleWave, this);
+        wave = new WavePanel(doubleWave, this);
         // TODO: It is not needed to create new instance for each component, but it is safer, since if I don't reset certain components it can introduce bugs
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
@@ -752,7 +752,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
         // TOOD: PROGRAMO - maybe problem
         // Solves case when there is only 1 wave and also case when adding multiple waves and non of them are set yet
         if(waveWidth == 0) {
-            waveWidth = AudioWavePanelOnlyWave.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
+            waveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
         // TOOD: PROGRAMO - maybe problem
 
@@ -763,7 +763,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
         // TOOD: PROGRAMO - maybe problem
         // Solves case when there is only 1 wave and also case when adding multiple waves and non of them are set yet
         if(defaultWaveWidth == 0) {
-            defaultWaveWidth = AudioWavePanelOnlyWave.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
+            defaultWaveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
         // TOOD: PROGRAMO - maybe problem
 

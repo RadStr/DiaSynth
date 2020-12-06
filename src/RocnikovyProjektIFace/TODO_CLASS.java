@@ -147,7 +147,7 @@ public class TODO_CLASS extends TODO_PACKAGE.TODO_CLASS {
 
 
         Zooming_And_Sliding_In_Audio_Player:
-        // Kdyz davam zoom/slide tak provolat zoom/slide na vsech tridach v tom AudioWavePanelEverything - tj. wave, values, ...
+        // Kdyz davam zoom/slide tak provolat zoom/slide na vsech tridach v tom WaveMainPanel - tj. wave, values, ...
         // A jeste zavolat zoom/slide na tech timestamps
 
 

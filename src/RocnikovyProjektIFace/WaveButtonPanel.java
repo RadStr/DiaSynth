@@ -16,15 +16,15 @@ public class WaveButtonPanel extends JPanel {
     }
 
 
-    // Main panel (AudioWavePanelEverything) needs to be passed to repaint the wave if checkbox is pressed
-    public WaveButtonPanel(AudioWavePanelEverything awpe) {
+    // Main panel (WaveMainPanel) needs to be passed to repaint the wave if checkbox is pressed
+    public WaveButtonPanel(WaveMainPanel waveMainPanel) {
 
         includeInMixing = new JCheckBox("Include in mixing");
         includeInMixing.setSelected(true);
         includeInMixing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                awpe.updateWavesForMixing();
+                waveMainPanel.updateWavesForMixing();
             }
         });
 
@@ -36,7 +36,7 @@ public class WaveButtonPanel extends JPanel {
         includeInOperations.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                awpe.repaint();     // Repaint because checkbox changes the wave visualisation
+                waveMainPanel.repaint();     // Repaint because checkbox changes the wave visualisation
             }
         });
 

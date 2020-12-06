@@ -8,7 +8,7 @@ import javax.swing.text.DocumentFilter;
 // Inspired by https://stackoverflow.com/questions/10136794/limiting-the-number-of-characters-in-a-jtextfield
 /**
  * Used for limiting number written in document. It cannot exceed certain number threshold (which may change dynamically).
- * Used in AudioWavePanelEverything.
+ * Used in WaveMainPanel.
  */
 public class LimitDocumentFilterInt extends DocumentFilter {
     private LimitGetterIFace getter;

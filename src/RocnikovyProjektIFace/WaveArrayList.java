@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 
 /**
- * Only supported class is AudioWavePanelEverything.
+ * Only supported class is WaveMainPanel.
  */
 @Deprecated // I wanted to have dynamic resizing of the label with the index of wave (on the left side), but
             // Java was resizing the whole wave when the number of digits in label changed, so I just dropped that feature.
@@ -91,11 +91,11 @@ public class WaveArrayList<T> extends ArrayList<T> {
     private void updateWaveIndexTextFields(int digitCount) {
         int len = this.size();
         if(len > 0) {
-            AudioWavePanelEverything wave;
-            wave = (AudioWavePanelEverything) this.get(0);
+            WaveMainPanel wave;
+            wave = (WaveMainPanel) this.get(0);
             Dimension newSize = wave.upgradeWaveIndexTextFieldPreferredSize(digitCount);
             for(int i = 1; i < len; i++) {
-                wave = (AudioWavePanelEverything) this.get(i);
+                wave = (WaveMainPanel) this.get(i);
                 wave.upgradeWaveIndexTextFieldPreferredSize(newSize);
             }
         }
@@ -104,9 +104,9 @@ public class WaveArrayList<T> extends ArrayList<T> {
 //    public void updateWaveIndexTextFields(Dimension newPreferredSize) {
 //        int len = this.size();
 //        if(len > 0) {
-//            AudioWavePanelEverything wave;
+//            WaveMainPanel wave;
 //            for(int i = 0; i < len; i++) {
-//                wave = (AudioWavePanelEverything) this.get(i);
+//                wave = (WaveMainPanel) this.get(i);
 //                wave.upgradeWaveIndexTextFieldPreferredSize(newPreferredSize);
 //            }
 //        }

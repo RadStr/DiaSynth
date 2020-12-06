@@ -12,7 +12,7 @@ import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace,
+public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace,
     AudioWavePanelOnlyWavePopupMenuCommunicationIFace {
     private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
 
@@ -78,12 +78,12 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     private boolean focusLostByEnterPress;
     private boolean dragging;
 
-    public AudioWavePanelEverything(DoubleWave doubleWave, AudioPlayerPanel panelWithWaves,
-                                    int waveIndex, ChannelCount channelCountInOutputAudio) {
+    public WaveMainPanel(DoubleWave doubleWave, AudioPlayerPanel panelWithWaves,
+                         int waveIndex, ChannelCount channelCountInOutputAudio) {
 // TODO: DEBUG
-//        ProgramTest.debugPrint("AudioWavePanelEverything constructor start", super.getPreferredSize());
+//        ProgramTest.debugPrint("WaveMainPanel constructor start", super.getPreferredSize());
 // TODO: DEBUG
-        AudioWavePanelEverything thisPanel = this;
+        WaveMainPanel thisPanel = this;
         dragging = false;
 
         this.panelWithWaves = panelWithWaves;
@@ -296,7 +296,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
         setWavePreferredHeight();
 // TODO: PROGRAMO - height
 // TODO: DEBUG
-//        ProgramTest.debugPrint("AudioWavePanelEverything constructor end", super.getPreferredSize());
+//        ProgramTest.debugPrint("WaveMainPanel constructor end", super.getPreferredSize());
 // TODO: DEBUG
     }
 

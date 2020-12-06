@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, MouseMotionListener {
-    private AudioWavePanelEverything awpe;
+    private WaveMainPanel waveMainPanel;
 
     // TODO: I will do it this way - user may choose the audioFormat to which will be all the audio waves converted - I could
     // make it like the waves will be in some different formats and in the mixing they will be converted to the
@@ -29,14 +29,14 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
 
 
 
-    public AudioWavePanelOnlyWaveMouseListener(AudioWavePanelEverything awpe) {
-        this.awpe = awpe;
+    public AudioWavePanelOnlyWaveMouseListener(WaveMainPanel waveMainPanel) {
+        this.waveMainPanel = waveMainPanel;
 // TODO: PROGRAMO
 //        // TODO: Budu muset brat k uvahu ze muzu scrollovat doleva, doprava a jeste zoomovat
 //        leftestVisibleSampleInWindow = 0;       // If scrolled or zoomed, it changes, it is the literal sample, not the pixel
-//        int frameSize = awpe.getNumberOfChannelsInOutputFormat();
+//        int frameSize = waveMainPanel.getNumberOfChannelsInOutputFormat();
 //        leftestVisibleFrameInWindow = leftestVisibleSampleInWindow / frameSize;
-//        widthOfVisibleAudioWindowInSamples = awpe.getDoubleWaveLength();
+//        widthOfVisibleAudioWindowInSamples = waveMainPanel.getDoubleWaveLength();
 //        widthOfVisibleAudioWindowInFrames = widthOfVisibleAudioWindowInSamples / frameSize;
 // TODO: PROGRAMO
     }
@@ -45,23 +45,23 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
     @Override
     public void mouseClicked(MouseEvent e) {    // mouseClicked is when the mouse button has been pressed and released.
         if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
-            int waveWidth = awpe.getWaveWidth();
-            int songLenInFrames = awpe.getDoubleWaveLength();
+            int waveWidth = waveMainPanel.getWaveWidth();
+            int songLenInFrames = waveMainPanel.getDoubleWaveLength();
 
             int x = e.getX();
             if (x < 0) {
                 x = 0;          // TODO: Nevim jestli je tohle uplne chovani co chci, tj. ze kdyz kliknu pred zacatek vlny tak se to spusti od zacatku
             }
-            x += awpe.getCurrentHorizontalScroll();
+            x += waveMainPanel.getCurrentHorizontalScroll();
             double time = x / (double) waveWidth;
 
 // TODO: DEBUG            System.out.println(currSampleUserSelected + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
 // TODO: PROGRAMO
-//        int currSampleUserSelected = Program.convertToMultipleDown(currSampleRaw, awpe.getNumberOfChannelsInOutputFormat());
-            //int currSampleRaw = (int)(time * awpe.getDoubleWaveLength());
+//        int currSampleUserSelected = Program.convertToMultipleDown(currSampleRaw, waveMainPanel.getNumberOfChannelsInOutputFormat());
+            //int currSampleRaw = (int)(time * waveMainPanel.getDoubleWaveLength());
             int currSampleUserSelected = (int) (time * songLenInFrames);
 // TODO: PROGRAMO
-            awpe.setCurrSampleUserSelected(currSampleUserSelected);
+            waveMainPanel.setCurrSampleUserSelected(currSampleUserSelected);
 // TODO: DEBUG            System.out.println(currSampleUserSelected + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
 
             // TODO: just for debugging test, if the timestamps are drawed correctly
@@ -70,12 +70,12 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
 
             double timeLineX = currSampleUserSelected / (double) songLenInFrames;
             timeLineX *= waveWidth;
-            awpe.setTimeLineXUserSelected(timeLineX);
+            waveMainPanel.setTimeLineXUserSelected(timeLineX);
 
-            int currPlayTimeInMillis = DoubleWave.convertSampleToMillis(currSampleUserSelected, awpe.getOutputSampleRate());
-            awpe.setCurrPlayTimeInMillis(currPlayTimeInMillis);
-            awpe.setUserClickedWave(true);
-            awpe.performUserClickedWaveVariableSetPaused();
+            int currPlayTimeInMillis = DoubleWave.convertSampleToMillis(currSampleUserSelected, waveMainPanel.getOutputSampleRate());
+            waveMainPanel.setCurrPlayTimeInMillis(currPlayTimeInMillis);
+            waveMainPanel.setUserClickedWave(true);
+            waveMainPanel.performUserClickedWaveVariableSetPaused();
 
 
 //        shouldMarkPart = false;
@@ -88,22 +88,22 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed (doesn't need release).
         if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
-            awpe.setShouldMarkPart(false);
-            awpe.setMarkStartXVariablesBasedOnPixel(e.getX());
+            waveMainPanel.setShouldMarkPart(false);
+            waveMainPanel.setMarkStartXVariablesBasedOnPixel(e.getX());
 //        this.setSampleToBePlayedToClickedLocation(startX);        // TODO: Zatim to zpusobi jen exception
-            awpe.repaintPanelWithMultipleWaves();
+            waveMainPanel.repaintPanelWithMultipleWaves();
 
-            awpe.mouseButtonPressed();
+            waveMainPanel.mouseButtonPressed();
         }
         else {
-            awpe.setLastRightPressMouseEvent(e);
+            waveMainPanel.setLastRightPressMouseEvent(e);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        awpe.stoppedDraggingWave();
-        awpe.mouseButtonUnpressed();
+        waveMainPanel.stoppedDraggingWave();
+        waveMainPanel.mouseButtonUnpressed();
     }
 
 
@@ -121,10 +121,10 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
     @Override
     public void mouseDragged(MouseEvent e) {
         if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
-            awpe.draggingWave();
-            awpe.setShouldMarkPart(true);
-            awpe.setMarkEndXVariablesBasedOnPixel(e.getX());
-            awpe.repaintPanelWithMultipleWaves();
+            waveMainPanel.draggingWave();
+            waveMainPanel.setShouldMarkPart(true);
+            waveMainPanel.setMarkEndXVariablesBasedOnPixel(e.getX());
+            waveMainPanel.repaintPanelWithMultipleWaves();
         }
     }
 
@@ -149,11 +149,11 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
     public void mouseMoved(MouseEvent e) {
         // TODO: Asi neni nutny - uz to je pokryty v tech predchozich tohle tu bylo kvuli tomu vykreslovani hodnot samplu ale to budu stejne delat pres toolbox
         int sampleIndex = convertXToSampleIndex(e.getX());
-        if(sampleIndex < awpe.getSongLen()) {
-            double value = awpe.getNthSample(sampleIndex);
+        if(sampleIndex < waveMainPanel.getSongLen()) {
+            double value = waveMainPanel.getNthSample(sampleIndex);
             String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
             String valueString = VerticalReferencesPanel.getStringDouble(value);
-            int sampleTimeInMillis = awpe.convertSampleToMillis(sampleIndex);
+            int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
             String timeInMilis = Program.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
 //            int currIndex = 0;
@@ -164,7 +164,7 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[2], currIndex);
 //            currIndex = insertToTooltip(String.audioFormat("%.3f", sampleTimeInMillis / (double)1000), currIndex);
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[3], currIndex);
-//            currIndex = insertToTooltip(awpe.getWave().getSize().toString(), currIndex);
+//            currIndex = insertToTooltip(waveMainPanel.getWave().getSize().toString(), currIndex);
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[4], currIndex);
 //            tooltip.setLength(currIndex);
             tooltip.setLength(0);
@@ -175,38 +175,38 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
             tooltip.append(TOOLTIP_STRINGS[2]);
             tooltip.append(timeInMilis);
             tooltip.append(TOOLTIP_STRINGS[3]);
-            tooltip.append(awpe.getWave().getSize().toString());
+            tooltip.append(waveMainPanel.getWave().getSize().toString());
             tooltip.append(TOOLTIP_STRINGS[4]);
-            awpe.setWaveTooltipText(tooltip.toString());
+            waveMainPanel.setWaveTooltipText(tooltip.toString());
 
 // TODO: DEBUG
-//            awpe.setWaveTooltipText("<html>Index: " + sampleIndexString + "<br>Value: " + valueString +
-//                "<br>Wave total X: " + awpe.getWave().getX() +
-//                "<br>Wave total Y: " + awpe.getY() +
+//            waveMainPanel.setWaveTooltipText("<html>Index: " + sampleIndexString + "<br>Value: " + valueString +
+//                "<br>Wave total X: " + waveMainPanel.getWave().getX() +
+//                "<br>Wave total Y: " + waveMainPanel.getY() +
 //                "<br>Pixel: " + e.getX() +
 //                "<br>MouseLoc: " + e.getPoint() +
-//                "<br><br>PrefSize everything: " + awpe.getPreferredSize() +
-//                "<br>Size everything: " + awpe.getSize() +
-//                "<br>MinSize everything: " + awpe.getMinimumSize() +
-//                "<br><br>PrefSize wave: " + awpe.getWave().getPreferredSize() +
-//                "<br>Size wave: " + awpe.getWave().getSize() +
-//                "<br>MinSize wave: " + awpe.getWave().getMinimumSize() +
-//                "<br>bot divider: " + awpe.getBotDividerLoc() +
+//                "<br><br>PrefSize everything: " + waveMainPanel.getPreferredSize() +
+//                "<br>Size everything: " + waveMainPanel.getSize() +
+//                "<br>MinSize everything: " + waveMainPanel.getMinimumSize() +
+//                "<br><br>PrefSize wave: " + waveMainPanel.getWave().getPreferredSize() +
+//                "<br>Size wave: " + waveMainPanel.getWave().getSize() +
+//                "<br>MinSize wave: " + waveMainPanel.getWave().getMinimumSize() +
+//                "<br>bot divider: " + waveMainPanel.getBotDividerLoc() +
 //                "</html>");
 // TODO: DEBUG
-            awpe.repaintPanelWithMultipleWaves();
+            waveMainPanel.repaintPanelWithMultipleWaves();
         }
     }
 
 
 
     private int convertXToSampleIndex(int x) {
-        x += awpe.getCurrentHorizontalScroll();
+        x += waveMainPanel.getCurrentHorizontalScroll();
 // TODO: DEBUG
 //        ProgramTest.debugPrint("Mouse x:", x);
 // TODO: DEBUG
-        //double numberOfSamplesPerPixel = widthOfVisibleAudioWindowInFrames / (double)awpe.getWaveWidth();
-        double numberOfSamplesPerPixel = awpe.getAudioLenInFrames() / (double)awpe.getWaveWidth();
+        //double numberOfSamplesPerPixel = widthOfVisibleAudioWindowInFrames / (double)waveMainPanel.getWaveWidth();
+        double numberOfSamplesPerPixel = waveMainPanel.getAudioLenInFrames() / (double)waveMainPanel.getWaveWidth();
         int sampleIndex = (int)(numberOfSamplesPerPixel * x);
 //        sampleIndex += leftestVisibleFrameInWindow;
         return sampleIndex;

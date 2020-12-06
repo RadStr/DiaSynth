@@ -51,7 +51,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
         return isCached;
     }
 
-    private AudioWavePanelEverything wholeWavePanel;
+    private WaveMainPanel wholeWavePanel;
 
     private int waveWidth = 0;
     public int getWaveWidth() {
@@ -63,7 +63,7 @@ public class AudioWavePanelOnlyWave extends JPanel {
         waveRightClickPopUpMenu.setEnabledWithWavePopUpItems(enabled);
     }
 
-    public AudioWavePanelOnlyWave(DoubleWave doubleWave, AudioWavePanelEverything wholeWavePanel) {
+    public AudioWavePanelOnlyWave(DoubleWave doubleWave, WaveMainPanel wholeWavePanel) {
         this.doubleWave = doubleWave;
 
         waveRightClickPopUpMenu = new AudioWavePanelOnlyWavePopupMenu(wholeWavePanel);

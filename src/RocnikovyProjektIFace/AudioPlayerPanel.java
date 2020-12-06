@@ -96,14 +96,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
         outputAudioFormat = newFormat;
         ChannelCount channelCount = getChannelCount();
-        for(AudioWavePanelEverything awpe : waves) {
-            awpe.updateChannelSliders(channelCount);
+        for(WaveMainPanel waveMainPanel : waves) {
+            waveMainPanel.updateChannelSliders(channelCount);
         }
 
         if(shouldConvertAudio) {
-            for(AudioWavePanelEverything awpe : waves) {
+            for(WaveMainPanel waveMainPanel : waves) {
                 // TODO: SYNTH - AUDIO PLAYER AUDIO THREAD
-                awpe.setWaveToNewSampleRate((int)newFormat.getSampleRate());
+                waveMainPanel.setWaveToNewSampleRate((int)newFormat.getSampleRate());
                 // TODO: SYNTH - AUDIO PLAYER AUDIO THREAD
             }
         }
@@ -168,7 +168,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * When working with waves, I have to not only change the JSplitPanes but also propagate it to this array.
      * For example when wave swapping.
      */
-    private List<AudioWavePanelEverything> waves;       // TODO: waves - private
+    private List<WaveMainPanel> waves;       // TODO: waves - private
     public int getWaveCount() {
         return waves.size();
     }
@@ -221,7 +221,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         waveScroller.repaint();
         this.revalidate();
         this.repaint();
-////        for(AudioWavePanelEverything wave : waves) {
+////        for(WaveMainPanel wave : waves) {
 ////            panelWithWavesEverything.remove(wave);
 ////        }
 ////
@@ -252,7 +252,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void removeWaveMoreThanOneRemaining(int index) {
         // TODO: DEBUG
-        // AudioWavePanelEverything todoLast = waves.get(waves.size() - 1);
+        // WaveMainPanel todoLast = waves.get(waves.size() - 1);
         // TODO: DEBUG
 
         swapWithLastAndRemove(index);
@@ -276,7 +276,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        nahodim znova listenery a az pak to poswapuju - tohle je vic java proof podle me
 
     private void swapWithLastAndRemove(int index) {
-        AudioWavePanelEverything deletedWave = waves.get(index);
+        WaveMainPanel deletedWave = waves.get(index);
         clipboard.removeWaveFromClipboard(deletedWave);
         JSplitPane lastSplitter = getLastJSplitPane();
         int lastWaveIndex = waves.size() - 1;
@@ -329,7 +329,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void alignAllWavesToLen(int newLen) {
         clipboard.removeWaveFromClipboard();
         // The copied wave has already values set to 0 if there is cutting involved
-        for(AudioWavePanelEverything wave : waves) {
+        for(WaveMainPanel wave : waves) {
             wave.setNewDoubleWave(newLen);
         }
 
@@ -337,7 +337,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void alignAllWavesToLenWhileOverwritePasting(int newLen, DoubleWave pasteWave) {
-        for(AudioWavePanelEverything wave : waves) {
+        for(WaveMainPanel wave : waves) {
             if (pasteWave != wave.getDoubleWave()) {
                 wave.setNewDoubleWave(newLen);
             }
@@ -386,11 +386,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         int maxVerticalScroll = getMaxVerticalScroll();
         SwingUtilities.invokeLater(() -> verticalScrollBar.setValue(maxVerticalScroll));
 
-//        for(AudioWavePanelEverything awpe : waves) {
-//            awpe.getWave().revalidate();
-//            awpe.getWave().repaint();
-//            awpe.revalidate();
-//            awpe.repaint();
+//        for(WaveMainPanel waveMainPanel : waves) {
+//            waveMainPanel.getWave().revalidate();
+//            waveMainPanel.getWave().repaint();
+//            waveMainPanel.revalidate();
+//            waveMainPanel.repaint();
 //        }
 
 //        panelWithWavesEverything.revalidate();
@@ -411,14 +411,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private JSplitPane addFirstWave(DoubleWave wave) {
-//        AudioWavePanelEverything newWavePanel = new AudioWavePanelEverything(wave, this, waves.size() + 1, outputAudioFormat.getChannels());
+//        WaveMainPanel newWavePanel = new WaveMainPanel(wave, this, waves.size() + 1, outputAudioFormat.getChannels());
 //        waves.add(newWavePanel);        // TODO: PROGRAMO
 //        panelWithWavesEverything.add(newWavePanel);
 
         ChannelCount channelCount = getChannelCount();
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         int waveIndex = waves.size() + 1;
-        AudioWavePanelEverything newWavePanel = new AudioWavePanelEverything(wave, this, waveIndex, channelCount);
+        WaveMainPanel newWavePanel = new WaveMainPanel(wave, this, waveIndex, channelCount);
         JSplitPane splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, newWavePanel, zeroSizePanel);
         splitter.setDividerSize(DIVIDER_SIZE);
         waves.add(newWavePanel);
@@ -448,7 +448,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * part of waves, there is no switch between the individual and aggregate wave visualisation.
      */
     public void fakeZoomUpdate() {
-        for(AudioWavePanelEverything w : waves) {
+        for(WaveMainPanel w : waves) {
             w.updateZoom(getCurrentZoom(), getCurrentZoom(), false, false);
         }
     }
@@ -458,7 +458,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         ChannelCount channelCount = getChannelCount();
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         int waveIndex = waves.size() + 1;
-        AudioWavePanelEverything newWavePanel = new AudioWavePanelEverything(wave, this, waveIndex, channelCount);
+        WaveMainPanel newWavePanel = new WaveMainPanel(wave, this, waveIndex, channelCount);
         JSplitPane lastSplitter = getLastJSplitPane();
         lastSplitter.setBottomComponent(newWavePanel);
 
@@ -520,8 +520,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void setWaveScrollEmptyPanels() {
         // https://stackoverflow.com/questions/19869751/get-size-of-jpanel-before-setvisible-called
         int maxWaveWidth = Integer.MIN_VALUE;
-        AudioWavePanelEverything maxWave = null;
-        for(AudioWavePanelEverything w : waves) {
+        WaveMainPanel maxWave = null;
+        for(WaveMainPanel w : waves) {
 //            w.setVariablesWhichNeededSize();
             int newPossibleMaxWidth = w.getHorizontalScrollSizeForThisWave();
             if(maxWaveWidth < newPossibleMaxWidth) {
@@ -584,7 +584,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private int calculateNumberOfWavesIncludedInMixing() {
         int count = 0;
-        for(AudioWavePanelEverything w : waves) {
+        for(WaveMainPanel w : waves) {
             if(w.getShouldIncludeInMixing()) {
                 count++;
             }
@@ -625,7 +625,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         else {
             songs = new double[waveCount][];
             for (int outIndex = 0, waveIndex = 0; outIndex < songs.length; waveIndex++) {
-                AudioWavePanelEverything wave = waves.get(waveIndex);
+                WaveMainPanel wave = waves.get(waveIndex);
                 if (wave.getShouldIncludeInMixing()) {
                     songs[outIndex] = wave.getDoubleWave().getSong();
                     outIndex++;
@@ -651,7 +651,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         else {
             multFactors = new double[waveCount][outputAudioFormat.getChannels()];
             for (int outIndex = 0, waveIndex = 0; outIndex < multFactors.length; waveIndex++) {
-                AudioWavePanelEverything wave = waves.get(waveIndex);
+                WaveMainPanel wave = waves.get(waveIndex);
                 if (wave.getShouldIncludeInMixing()) {
                     for (int ch = 0; ch < multFactors[outIndex].length; ch++) {
                         multFactors[outIndex][ch] = wave.getMixMultiplier(ch);
@@ -664,7 +664,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         audioThread.mixer.update(multFactors);
     }
 
-    public void updateMultFactors(AudioWavePanelEverything wave, int channel, double newValue) {
+    public void updateMultFactors(WaveMainPanel wave, int channel, double newValue) {
         if(multFactors != null && wave.getShouldIncludeInMixing()) {
             int index = findIndexInMixing(wave);
             multFactors[index][channel] = newValue;
@@ -672,9 +672,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    private int findIndexInMixing(AudioWavePanelEverything wave) {
+    private int findIndexInMixing(WaveMainPanel wave) {
         for(int i = 0, outIndex = 0; i < waves.size(); i++) {
-            AudioWavePanelEverything w = waves.get(i);
+            WaveMainPanel w = waves.get(i);
             if(wave == w) {
                 return outIndex;
             }
@@ -712,7 +712,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         //panelWithWavesEverything.setBounds(0, 100, 600, 600);
         //    panelWithWavesEverything.setPreferredSize(new Dimension(100, 100));
 
-//        panelWithWavesEverything.add(awpe);
+//        panelWithWavesEverything.add(waveMainPanel);
 //        this.add(panelWithWavesEverything);
 
 
@@ -726,27 +726,27 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        waves = new ArrayList<AudioWavePanel>();
 //        Container cont = new Container();
 //        int yJump = 400;
-//        //awpe.setBounds(0, 0, 200, 200);
-//        //awpe.setBounds(200, 200, 2000, 2000);
-//       // awpe.setBounds(0, 0, 2000, 2000);
+//        //waveMainPanel.setBounds(0, 0, 200, 200);
+//        //waveMainPanel.setBounds(200, 200, 2000, 2000);
+//       // waveMainPanel.setBounds(0, 0, 2000, 2000);
 //
 //        int TODOTestCount = 2;
 //        for(int i = 0, y = 0; i < TODOTestCount; i++, y += yJump) {
 //            int TODOVymazatMe = 64;
-//            AudioWavePanel awpe = new AudioWavePanel(program, waveWidth, waveStartX, waveEndX,
+//            AudioWavePanel waveMainPanel = new AudioWavePanel(program, waveWidth, waveStartX, waveEndX,
 //                0, yJump, TODOVymazatMe);  // TODO: jen pro testovani ted
-//            awpe.setPreferredSize(new Dimension(150, 150));
-//            waves.add(awpe);
-//            panelWithWavesEverything.add(awpe);
-//            cont.add(awpe);
-////            awpe.setBounds(0, y, this.getWidth(), yJump);
+//            waveMainPanel.setPreferredSize(new Dimension(150, 150));
+//            waves.add(waveMainPanel);
+//            panelWithWavesEverything.add(waveMainPanel);
+//            cont.add(waveMainPanel);
+////            waveMainPanel.setBounds(0, y, this.getWidth(), yJump);
 //        }
 //
 //        panelWithWavesEverything.getViewport().setView(cont);
 //        //cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
 //        cont.setLayout(new GridLayout(TODOTestCount, 1));
 //        this.add(panelWithWavesEverything);
-//    //    panelWithWavesEverything = new JScrollPane(awpe, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//    //    panelWithWavesEverything = new JScrollPane(waveMainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 //    //    panelWithWavesEverything.setBounds(0, 20, 600, 600);
 
 
@@ -855,8 +855,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // TODO: DYNAMIC LABEL
         // I had to change this, because java was doing weird resizing when digit count changes
         // (It just for 2 seconds broke layout and I couldn't find fix, so instead of that I will have 2(3) digits constantly)
-        //waves = new WaveArrayList<AudioWavePanelEverything>();
-        waves = new ArrayList<AudioWavePanelEverything>();
+        //waves = new WaveArrayList<WaveMainPanel>();
+        waves = new ArrayList<WaveMainPanel>();
 
 
         // Create TIMESTAMP PANEL
@@ -881,16 +881,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;       // BOTH because else there is space with nothing at the bottom of page
-        //this.add(awpe, BorderLayout.CENTER);
+        //this.add(waveMainPanel, BorderLayout.CENTER);
 
 
 ////        // Now just keep adding to the old splitter new splitter which has in top component the sound waves and in bottom component empty panel
 //        for(int i = 0; i < 3; i++, currGridY++) {
 //            // Change the empty bottom panel to the wave
-//            awpe = new AudioWavePanelEverything(doubleWave, this, waveIndex, outputAudioFormat.getChannels());
+//            waveMainPanel = new WaveMainPanel(doubleWave, this, waveIndex, outputAudioFormat.getChannels());
 //            waveIndex++;
-//            splitter.setBottomComponent(awpe);
-////            splitter2.setBottomComponent(awpe.getWave());   // TODO: ONLY WAVE
+//            splitter.setBottomComponent(waveMainPanel);
+////            splitter2.setBottomComponent(waveMainPanel.getWave());   // TODO: ONLY WAVE
 //
 //            // Add empty panel at the bottom so the bottom wave can be pulled down
 //            splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitter, ep);
@@ -903,7 +903,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //            splitter.setDividerSize(DIVIDER_SIZE);
 ////            splitter2.setDividerSize(DIVIDER_SIZE);                      // TODO: ONLY WAVE
 ////            this.add(splitter, constraints);
-//            waves.add(awpe);
+//            waves.add(waveMainPanel);
 //            splitters.add(splitter);
 //            flattenJSplitPane(splitter);        // Delete borders
 ////            flattenJSplitPane(splitter2);                               // TODO: ONLY WAVE
@@ -1020,8 +1020,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 // TODO: DEBUG
-//                for(AudioWavePanelEverything awpe : waves) {
-//                    ProgramTest.debugPrint(awpe.getSize());
+//                for(WaveMainPanel waveMainPanel : waves) {
+//                    ProgramTest.debugPrint(waveMainPanel.getSize());
 //                }
 //                ProgramTest.debugPrint("EMPTY PANEL HORIZONTAL SIZE:", getEmptyPanelForHorizontalScrollSizeDebug());
 // TODO: DEBUG
@@ -1045,14 +1045,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void visibleWidthChangedCallback() {
-        for(AudioWavePanelEverything awpe : waves) {
-            awpe.visibleWidthChangedCallback();
+        for(WaveMainPanel waveMainPanel : waves) {
+            waveMainPanel.visibleWidthChangedCallback();
         }
     }
 
 
     private void reloadDrawValuesForAllWaves() {
-        for(AudioWavePanelEverything w : waves) {
+        for(WaveMainPanel w : waves) {
             w.reloadDrawValues();
         }
     }
@@ -1110,10 +1110,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        }
 //        @Override
 //        public void propertyChange(PropertyChangeEvent evt) {
-//            AudioWavePanelEverything top;
-//            AudioWavePanelEverything bot;
-//            top = (AudioWavePanelEverything) splitter.getTopComponent();
-//            bot = (AudioWavePanelEverything) splitter.getBottomComponent();
+//            WaveMainPanel top;
+//            WaveMainPanel bot;
+//            top = (WaveMainPanel) splitter.getTopComponent();
+//            bot = (WaveMainPanel) splitter.getBottomComponent();
 //            int h;
 //            h = top.getHeight();
 //            top.setPreferredSize(h);
@@ -1139,10 +1139,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        }
 //        @Override
 //        public void propertyChange(PropertyChangeEvent evt) {
-//            AudioWavePanelEverything top;
-//            AudioWavePanelEverything bot;
-//            top = (AudioWavePanelEverything) topSplitter.getBottomComponent();
-//            bot = (AudioWavePanelEverything) botSplitter.getBottomComponent();
+//            WaveMainPanel top;
+//            WaveMainPanel bot;
+//            top = (WaveMainPanel) topSplitter.getBottomComponent();
+//            bot = (WaveMainPanel) botSplitter.getBottomComponent();
 //            int h;
 //            h = top.getHeight();
 //            top.setPreferredSize(h);
@@ -1189,11 +1189,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         // TODO: PROGRAMO - ala
 
                         int dif = newValue - oldValue;
-                        AudioWavePanelEverything top;
-                        AudioWavePanelEverything bot;
-                        top = (AudioWavePanelEverything) splitter.getTopComponent();
+                        WaveMainPanel top;
+                        WaveMainPanel bot;
+                        top = (WaveMainPanel) splitter.getTopComponent();
                         if(waves.size() != 1) {
-                            bot = (AudioWavePanelEverything) splitter.getBottomComponent();
+                            bot = (WaveMainPanel) splitter.getBottomComponent();
                             setPrefSizes(bot, top, dif);
                         }
                         else {
@@ -1238,8 +1238,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     }
                     if (oldValue >= 0) {
                         int dif = newValue - oldValue;
-                        AudioWavePanelEverything top;
-                        AudioWavePanelEverything bot;
+                        WaveMainPanel top;
+                        WaveMainPanel bot;
                         if (newValue < topSplitter.getMinimumDividerLocation()) {
                             ProgramTest.debugPrint("Compound - Smaller than min divider top:", newValue, topSplitter.getMinimumDividerLocation());
                             // TODO: PROGRAMO - ala
@@ -1254,8 +1254,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                             // TODO: PROGRAMO - ala
                             System.exit(1234);
                         }
-                        top = (AudioWavePanelEverything) topSplitter.getBottomComponent();
-                        bot = (AudioWavePanelEverything) botSplitter.getBottomComponent();
+                        top = (WaveMainPanel) topSplitter.getBottomComponent();
+                        bot = (WaveMainPanel) botSplitter.getBottomComponent();
 //                    top.setPreferredSizeByAdding(dif);
 //                    bot.setPreferredSizeByAdding(-dif);
 
@@ -1320,15 +1320,15 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //                int newValue = (int) evt.getNewValue();
 //                if (oldValue >= 0) {
 //                    int dif = newValue - oldValue;
-//                    AudioWavePanelEverything top;
-//                    AudioWavePanelEverything bot;
+//                    WaveMainPanel top;
+//                    WaveMainPanel bot;
 //                    if (newValue < lastSplitter.getMinimumDividerLocation()) {
 //                        ProgramTest.debugPrint("New value:", newValue, lastSplitter.getMinimumDividerLocation());
 //                        System.exit(lastSplitter.getMinimumDividerLocation());
 //                    }
 //
-//                    top = (AudioWavePanelEverything) lastSplitter.getTopComponent(); spatne nevim proc
-//                    bot = new AudioWavePanelEverything(null, null, -1, -1);    // Doesn't matter
+//                    top = (WaveMainPanel) lastSplitter.getTopComponent(); spatne nevim proc
+//                    bot = new WaveMainPanel(null, null, -1, -1);    // Doesn't matter
 //                    setPrefSizes(bot, top, dif);
 //                }
             }
@@ -1341,7 +1341,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     // TODO: PROGRAMO - java bug
 
 
-    private void setPrefSizes(AudioWavePanelEverything bot, AudioWavePanelEverything top, int dif) {
+    private void setPrefSizes(WaveMainPanel bot, WaveMainPanel top, int dif) {
         if(dif < 0) {       // If moving up
             if (movingDivsRecursively) {
 //                    int div1;
@@ -1481,7 +1481,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             int bottomY = oldPos.y + view.getViewRect().height;
             int viewH = view.getViewSize().height;
             if (bottomY == viewH) {     // Increase the size of JSplitPane
-                AudioWavePanelEverything wave = waves.get(waves.size() - 1);
+                WaveMainPanel wave = waves.get(waves.size() - 1);
                 Dimension prefSize = wave.getPreferredSize();
                 wave.setPreferredSizeByAdding(increasedSize);
                 wave.revalidate();
@@ -1527,7 +1527,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //    private void updateWaveIndexTextFields(int digitCount) {
 //        int len = waves.size();
 //        if(len > 0) {
-//            AudioWavePanelEverything wave;
+//            WaveMainPanel wave;
 //            wave = waves.get(0);
 //            Dimension newSize = wave.upgradeWaveIndexTextFieldPreferredSize(digitCount);
 //            for(int i = 1; i < len; i++) {
@@ -1571,8 +1571,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         int oldIndexZero = oldIndex - 1;
         int newIndexZero = newIndex - 1;
-        AudioWavePanelEverything awpe1 = waves.get(oldIndexZero);
-        AudioWavePanelEverything awpe2 = waves.get(newIndexZero);
+        WaveMainPanel waveMainPanel1 = waves.get(oldIndexZero);
+        WaveMainPanel waveMainPanel2 = waves.get(newIndexZero);
         System.out.println(splitters.get(0).getTopComponent());
         System.out.println(splitters.get(0).getBottomComponent());
 
@@ -1582,18 +1582,18 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
 
         swap2WavesIndexes(oldIndex, oldIndexString, oldIndexZero,
-                newIndex, newIndexString, newIndexZero, awpe1, awpe2);
+                newIndex, newIndexString, newIndexZero, waveMainPanel1, waveMainPanel2);
 
-        // Now the indexes are swapped, so awpe2 has lowerBound oldIndexZero. and awpe1 lowerBound newIndexZero.
-        int awpe1Index = newIndexZero;
-        int awpe2Index = oldIndexZero;
+        // Now the indexes are swapped, so waveMainPanel2 has lowerBound oldIndexZero. and waveMainPanel1 lowerBound newIndexZero.
+        int waveMainPanel1Index = newIndexZero;
+        int waveMainPanel2Index = oldIndexZero;
         //        One component can't be part of 2 splitpanes, so we have to take them out and then swap them
-        swapComponentsInSplitters(awpe1Index, awpe2Index);
+        swapComponentsInSplitters(waveMainPanel1Index, waveMainPanel2Index);
 //        if(DEBUG_CLASS.DEBUG) {
 //            System.out.println(splitters.get(0).getTopComponent());
 //            System.out.println(splitters.get(0).getBottomComponent());
-//            ProgramTest.debugPrintWithSep(awpe1Index, awpe2Index);
-//            ProgramTest.debugPrintWithSep(awpe1, awpe2);
+//            ProgramTest.debugPrintWithSep(waveMainPanel1Index, waveMainPanel2Index);
+//            ProgramTest.debugPrintWithSep(waveMainPanel1, waveMainPanel2);
 //            System.out.println();
 //        }
 //
@@ -1606,27 +1606,27 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        int botComponentHeight;
 //        int divLocDif;
 //        boolean containsFirst = false;
-//        if(awpe2Index > awpe1Index) {
-//            lowerBound = awpe1Index;
-//            upperBound = awpe2Index;
-//            if(awpe1Index == 0) {
+//        if(waveMainPanel2Index > waveMainPanel1Index) {
+//            lowerBound = waveMainPanel1Index;
+//            upperBound = waveMainPanel2Index;
+//            if(waveMainPanel1Index == 0) {
 //                containsFirst = true;
 //            }
-//            topComponentHeight = awpe1.getPreferredSize().height;
-//            topComponentHeight = awpe1.getHeight();
-//            botComponentHeight = awpe2.getPreferredSize().height;
-//            botComponentHeight = awpe2.getHeight();
+//            topComponentHeight = waveMainPanel1.getPreferredSize().height;
+//            topComponentHeight = waveMainPanel1.getHeight();
+//            botComponentHeight = waveMainPanel2.getPreferredSize().height;
+//            botComponentHeight = waveMainPanel2.getHeight();
 //        }
 //        else {
-//            lowerBound = awpe2Index;
-//            upperBound = awpe1Index;
-//            if(awpe2Index == 0) {
+//            lowerBound = waveMainPanel2Index;
+//            upperBound = waveMainPanel1Index;
+//            if(waveMainPanel2Index == 0) {
 //                containsFirst = true;
 //            }
-//            topComponentHeight = awpe2.getPreferredSize().height;
-//            topComponentHeight = awpe2.getHeight();
-//            botComponentHeight = awpe1.getPreferredSize().height;
-//            botComponentHeight = awpe1.getHeight();
+//            topComponentHeight = waveMainPanel2.getPreferredSize().height;
+//            topComponentHeight = waveMainPanel2.getHeight();
+//            botComponentHeight = waveMainPanel1.getPreferredSize().height;
+//            botComponentHeight = waveMainPanel1.getHeight();
 //        }
 //        divLocDif = topComponentHeight - botComponentHeight;
 //        ProgramTest.printCharKTimesOnNLines('*');
@@ -1842,13 +1842,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             ProgramTest.printNTimes("===============================================", 2);
 
             JSplitPane splitter = splitters.get(0);
-            AudioWavePanelEverything awpeDEBUG;
-            awpeDEBUG = (AudioWavePanelEverything) splitter.getTopComponent();
+            WaveMainPanel waveMainPanelDEBUG;
+            waveMainPanelDEBUG = (WaveMainPanel) splitter.getTopComponent();
             int indexDEBUG;
-            indexDEBUG = awpeDEBUG.getWaveIndex();
+            indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
             System.out.println("VAL:\t" + 0 + "\t" + indexDEBUG);
-            awpeDEBUG = (AudioWavePanelEverything) splitter.getBottomComponent();
-            indexDEBUG = awpeDEBUG.getWaveIndex();
+            waveMainPanelDEBUG = (WaveMainPanel) splitter.getBottomComponent();
+            indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
             System.out.println("VAL:\t" + 1 + "\t" + indexDEBUG);
 
             if (waves.get(0) != splitters.get(0).getTopComponent()) {
@@ -1860,8 +1860,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             for (int i = 1; i < splitters.size() - 1; i++) {
                 splitter = splitters.get(i);
-                awpeDEBUG = (AudioWavePanelEverything) splitter.getBottomComponent();
-                indexDEBUG = awpeDEBUG.getWaveIndex();
+                waveMainPanelDEBUG = (WaveMainPanel) splitter.getBottomComponent();
+                indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
                 System.out.println("VAL:\t" + (i + 1) + "\t" + indexDEBUG);
                 if (waves.get(i + 1) != splitter.getBottomComponent()) {
                     System.exit(i + 1);
@@ -1921,7 +1921,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
 
         for(int i = 0; i < waves.size(); i++) {
-            AudioWavePanelEverything w = waves.get(i);
+            WaveMainPanel w = waves.get(i);
             Dimension pf = w.getPreferredSize();
             Dimension d = new Dimension(pf.width, pf.height);
             w.setSize(d);
@@ -2360,7 +2360,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         int minDivLoc = lastSplitter.getMinimumDividerLocation();
                         int viewHeight = view.getViewSize().height;
                         int visibleRectH = view.getVisibleRect().height;
-                        AudioWavePanelEverything wave = waves.get(waves.size() - 1);
+                        WaveMainPanel wave = waves.get(waves.size() - 1);
                         int minH = wave.getMinimumSize().height;
                         Dimension oldPrefSize = wave.getPreferredSize();
                         int newPrefHeight = -1;
@@ -2547,7 +2547,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public int getJSplitPaneDividerLoc(AudioWavePanelEverything w) {
+    public int getJSplitPaneDividerLoc(WaveMainPanel w) {
         // I am using the index from 1 because I want the divider and first wave has divider in first splitter, second in second, ...
         // I need the divider location under the wave that is why it is +1
         return getJSplitPaneContainingWaveFromWaveIndex(w.getWaveIndex()).getDividerLocation();
@@ -2573,10 +2573,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param wave is the wave from which we should look up and find in the panels above there is some panel which satisfies the condition that it is bigger than min size.
      * @return
      */
-    private boolean existsPanelBiggerThanMinHeight(AudioWavePanelEverything wave) {
+    private boolean existsPanelBiggerThanMinHeight(WaveMainPanel wave) {
         int arrayIndexOfWaveAbove = wave.getWaveIndex() - 2;
         while(arrayIndexOfWaveAbove >= 0) {
-            AudioWavePanelEverything waveAbove = waves.get(arrayIndexOfWaveAbove);
+            WaveMainPanel waveAbove = waves.get(arrayIndexOfWaveAbove);
             if(waveAbove.getMinimumSize().height != waveAbove.getPreferredSize().height) {
                 return true;
             }
@@ -2667,8 +2667,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      */
     public void moveSwapSplitter(int from, int to) {
 //        debugPrintWaves();
-        AudioWavePanelEverything awpe1;
-        AudioWavePanelEverything awpe2;
+        WaveMainPanel waveMainPanel1;
+        WaveMainPanel waveMainPanel2;
 
         if(panelWithWavesEverything.getViewport().getViewPosition().y < 0) {
             System.out.println(panelWithWavesEverything.getViewport().getViewSize().height);
@@ -2676,25 +2676,25 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
 
         if(from < to) {     // Swapping from up to down
-            awpe1 = waves.get(from);
+            waveMainPanel1 = waves.get(from);
             from++;
             do {
-                awpe2 = waves.get(from);
+                waveMainPanel2 = waves.get(from);
                 from++;
                 // Keep swapping the component which is being dragged with the components between the index from and to.
-                swapSplitterComponents(awpe1.getWaveIndex(), awpe1.getWaveIndexTextFieldText(),
-                        awpe2.getWaveIndex(), awpe2.getWaveIndexTextFieldText());
+                swapSplitterComponents(waveMainPanel1.getWaveIndex(), waveMainPanel1.getWaveIndexTextFieldText(),
+                        waveMainPanel2.getWaveIndex(), waveMainPanel2.getWaveIndexTextFieldText());
             } while(from <= to);
         }
         else if(from > to) {    // Swapping from down to up
-            awpe1 = waves.get(from);
+            waveMainPanel1 = waves.get(from);
             from--;
             do {
-                awpe2 = waves.get(from);
+                waveMainPanel2 = waves.get(from);
                 from--;
                 // Keep swapping the component which is being dragged with the components between the index from and to.
-                swapSplitterComponents(awpe1.getWaveIndex(), awpe1.getWaveIndexTextFieldText(),
-                        awpe2.getWaveIndex(), awpe2.getWaveIndexTextFieldText());
+                swapSplitterComponents(waveMainPanel1.getWaveIndex(), waveMainPanel1.getWaveIndexTextFieldText(),
+                        waveMainPanel2.getWaveIndex(), waveMainPanel2.getWaveIndexTextFieldText());
             } while(from >= to);
         }
 
@@ -2729,42 +2729,42 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     /**
-     * Used for swaping. Used in logic: index1 is from awpe1 and index2 from awp2
+     * Used for swaping. Used in logic: index1 is from waveMainPanel1 and index2 from awp2
      * @param index1
      * @param index1String
      * @param index1FromZero
      * @param index2
      * @param index2String
      * @param index2FromZero
-     * @param awpe1
-     * @param awpe2
+     * @param waveMainPanel1
+     * @param waveMainPanel2
      */
     private void swap2WavesIndexes(int index1, String index1String, int index1FromZero,
                                    int index2, String index2String, int index2FromZero,
-                                   AudioWavePanelEverything awpe1, AudioWavePanelEverything awpe2) {
-        waves.set(index1FromZero, awpe2);
-        awpe2.setWaveIndex(index1);
-        awpe2.setWaveIndexTextField(index1String);
+                                   WaveMainPanel waveMainPanel1, WaveMainPanel waveMainPanel2) {
+        waves.set(index1FromZero, waveMainPanel2);
+        waveMainPanel2.setWaveIndex(index1);
+        waveMainPanel2.setWaveIndexTextField(index1String);
 
-        waves.set(index2FromZero, awpe1);
-        awpe1.setWaveIndex(index2);
-        awpe1.setWaveIndexTextField(index2String);
+        waves.set(index2FromZero, waveMainPanel1);
+        waveMainPanel1.setWaveIndex(index2);
+        waveMainPanel1.setWaveIndexTextField(index2String);
         if(DEBUG_CLASS.DEBUG) {
             System.out.println(index1 + "\t" + index1String + "\t" + index2 + "\t" + index2String);
         }
     }
 
 
-    public void tryMoveSwap(AudioWavePanelEverything awpe, MouseEvent e) {
+    public void tryMoveSwap(WaveMainPanel waveMainPanel, MouseEvent e) {
         if(panelWithWavesEverything.getViewport().getViewPosition().y < 0) {
             System.out.println(panelWithWavesEverything.getViewport().getViewSize().height);
             System.exit(-100000);    // TODO:
         }
-        AudioWavePanelEverything wave;
-        int y = awpe.getY();
+        WaveMainPanel wave;
+        int y = waveMainPanel.getY();
         int mouseY = e.getY();
         mouseY += y;
-        int from = awpe.getWaveIndex();        // Index is from 1
+        int from = waveMainPanel.getWaveIndex();        // Index is from 1
         from--;                                 // Now indexed from 0
         // If it isn't the last wave and if it is at least as low or lower as the start of the wave below
         if(from < waves.size() - 1 && mouseY >= waves.get(from + 1).getY()) {   // If it is wave below
@@ -3438,7 +3438,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             removeAllWaves();
         }
         else {
-            for(AudioWavePanelEverything w : waves) {
+            for(WaveMainPanel w : waves) {
                 if(clipboard.isEqualToClipboardWavePanel(w)) {
                     int clipboardStartIndex = clipboard.getMarkStartSample();
                     int clipboardEndIndex = clipboard.getMarkEndSample();
@@ -3534,7 +3534,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 int markLen = getMarkEndXSample() - getMarkStartXSample();
                 double[] wave = null;
                 if(getShouldMarkPart()) {
-                    for (AudioWavePanelEverything w : waves) {
+                    for (WaveMainPanel w : waves) {
                         if(w.getShouldIncludeInOperations()) {
                             wave = w.getDoubleWave().getSong();
                             break;
@@ -4114,9 +4114,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void performOperationInternal(WithInputWavePluginIFace operation) {
-        for (AudioWavePanelEverything awpe : waves) {
-            if (awpe.getShouldIncludeInOperations()) {
-                DoubleWave doubleWave = awpe.getDoubleWave();
+        for (WaveMainPanel waveMainPanel : waves) {
+            if (waveMainPanel.getShouldIncludeInOperations()) {
+                DoubleWave doubleWave = waveMainPanel.getDoubleWave();
                 if(shouldMarkPart) {
                     operation.performOperation(clipboard.getWave(), doubleWave,
                             clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
@@ -4128,15 +4128,15 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                             0, doubleWave.getSongLength());
                 }
 
-                awpe.reloadDrawValues();
+                waveMainPanel.reloadDrawValues();
             }
         }
     }
 
     private void performOperationInternal(WithoutInputWavePluginIFace operation) {
-        for (AudioWavePanelEverything awpe : waves) {
-            if (awpe.getShouldIncludeInOperations()) {
-                DoubleWave doubleWave = awpe.getDoubleWave();
+        for (WaveMainPanel waveMainPanel : waves) {
+            if (waveMainPanel.getShouldIncludeInOperations()) {
+                DoubleWave doubleWave = waveMainPanel.getDoubleWave();
                 if(shouldMarkPart) {
                     operation.performOperation(doubleWave, getMarkStartXSample(), getMarkEndXSample());
                 }
@@ -4144,7 +4144,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     operation.performOperation(doubleWave, 0, doubleWave.getSongLength());
                 }
 
-                awpe.reloadDrawValues();
+                waveMainPanel.reloadDrawValues();
             }
         }
     }
@@ -4616,12 +4616,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if (splitters.size() >= 1) {
                 JSplitPane currSplitter = splitters.get(0);
                 ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
-                AudioWavePanelEverything top;
-                AudioWavePanelEverything bot;
-                top = (AudioWavePanelEverything) currSplitter.getTopComponent();
+                WaveMainPanel top;
+                WaveMainPanel bot;
+                top = (WaveMainPanel) currSplitter.getTopComponent();
                 top.setPrefSizeToMin();
                 if (waves.size() >= 2) {         // Else there is only 1 wave so the bot panel is empty panel
-                    bot = (AudioWavePanelEverything) currSplitter.getBottomComponent();
+                    bot = (WaveMainPanel) currSplitter.getBottomComponent();
                     bot.setPrefSizeToMin();
                 }
 
@@ -4631,7 +4631,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 for (int i = 1; i < splitters.size() - 1; i++) {
                     currSplitter = splitters.get(i);
                     ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
-                    bot = (AudioWavePanelEverything) currSplitter.getBottomComponent();
+                    bot = (WaveMainPanel) currSplitter.getBottomComponent();
                     bot.setPrefSizeToMin();
                     ProgramTest.debugPrint("bot pref size", bot.getPreferredSize());
                     setDivLocToMinDivLoc(currSplitter);
@@ -5699,7 +5699,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         ProgramTest.printCharKTimesOnNLines('/');
         ProgramTest.printCharKTimesOnNLines('+');
         for(int i = 0; i < waves.size(); i++) {
-            AudioWavePanelEverything w = waves.get(i);
+            WaveMainPanel w = waves.get(i);
             int divLoc = getJSplitPaneContainingWaveFromWaveIndex(i + 1).getDividerLocation();
             ProgramTest.debugPrint(w.getMinimumSize(), w.getPreferredSize(),
                     w.getHeight(), divLoc, splitters.get(i).getPreferredSize(), splitters.get(i).getHeight());
@@ -5752,9 +5752,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public int getWaveIndex(Component awpe) {
+    public int getWaveIndex(Component waveMainPanel) {
         for(int i = 0; i < waves.size(); i++) {
-            if(awpe == waves.get(i)) {
+            if(waveMainPanel == waves.get(i)) {
                 return i;
             }
         }
@@ -5825,8 +5825,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public int getMaxPossibleZoom() {
         int maxPossibleZoom = Integer.MAX_VALUE;
-        for(AudioWavePanelEverything awpe : waves) {
-            maxPossibleZoom = Math.min(awpe.getMaxPossibleZoom(), maxPossibleZoom);
+        for(WaveMainPanel waveMainPanel : waves) {
+            maxPossibleZoom = Math.min(waveMainPanel.getMaxPossibleZoom(), maxPossibleZoom);
         }
 
         if(maxPossibleZoom == Integer.MAX_VALUE) {
@@ -5877,7 +5877,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
 
             // Save images for all waves to bridge the zoom, to understand this problem check javadocs at zoomBridgeImg variable
-            for(AudioWavePanelEverything w : waves) {
+            for(WaveMainPanel w : waves) {
                 w.saveZoomBridgeImg();
             }
 
@@ -5930,8 +5930,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 // TODO: VYMAZAT
 //        ProgramTest.debugPrint("EMPTY:", emptyPanelForHorizontalScroll.getSize());
-//        for(AudioWavePanelEverything awpe : waves) {
-//            ProgramTest.debugPrint(awpe.getSize());
+//        for(WaveMainPanel waveMainPanel : waves) {
+//            ProgramTest.debugPrint(waveMainPanel.getSize());
 //        }
 //        waveScroller.revalidate();
 //        waveScroller.repaint();
@@ -5984,7 +5984,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     public void passZoomChangeToWaves(int newZoom, boolean setToMid, boolean setToEnd) {
-        for(AudioWavePanelEverything wave : waves) {
+        for(WaveMainPanel wave : waves) {
             wave.updateZoom(newZoom, waveScroller.getOldScrollbarValue(), setToMid, setToEnd);
             wave.revalidate();
         }
@@ -6110,13 +6110,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //            Insets d = panelWithWavesEverything.getViewport().getInsets();
             int width = panelWithWavesEverything.getViewport().getWidth();
 
-            for (AudioWavePanelEverything awpe : waves) {
-                int waveVisibleWidth = awpe.getWave().getVisibleRect().width;
+            for (WaveMainPanel waveMainPanel : waves) {
+                int waveVisibleWidth = waveMainPanel.getWave().getVisibleRect().width;
                 if (visibleWidth < waveVisibleWidth && waveVisibleWidth + firstWaveStart <= width) {        // TODO: PROGRAMO - height
                     visibleWidth = waveVisibleWidth;
                 }
 
-                //visibleWidth = Math.max(visibleWidth, awpe.getWave().getVisibleRect().width);
+                //visibleWidth = Math.max(visibleWidth, waveMainPanel.getWave().getVisibleRect().width);
 // TODO: PROGRAMO - DEBUG
 //                ProgramTest.debugPrint("getWavesVisibleWidth", visibleWidth);
 //                if(visibleWidth == 571) {
@@ -6130,8 +6130,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
     public int getWavesVisibleHeight() {
         int visibleHeighth = 0;
-        for(AudioWavePanelEverything awpe : waves) {
-            visibleHeighth = Math.max(visibleHeighth, awpe.getWave().getVisibleRect().height);
+        for(WaveMainPanel waveMainPanel : waves) {
+            visibleHeighth = Math.max(visibleHeighth, waveMainPanel.getWave().getVisibleRect().height);
         }
         return visibleHeighth;
     }
@@ -6161,7 +6161,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void passHorizontalScrollChangeToWaves(int oldVal, int newVal) {
-        for(AudioWavePanelEverything wave : waves) {
+        for(WaveMainPanel wave : waves) {
             wave.updateWaveDrawValues(oldVal, newVal);  // TODO: Possible bug - I will have to recalculate it somehow - maybe it is enough to just pass this
         }
     }
@@ -6193,7 +6193,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     JScrollBar bar = waveScroller.getTheRealWaveScroller().getHorizontalScrollBar();
                     int horizontalMovement = HORIZONTAL_SCROLL_UNIT_INCREMENT;
 
-                    AudioWavePanelEverything lastWave = waves.get(waves.size() - 1);
+                    WaveMainPanel lastWave = waves.get(waves.size() - 1);
                     int lastWaveEndY = lastWave.getY() + lastWave.getHeight();
 
                     if (mouseLoc.y > 0 && mouseLoc.y < lastWaveEndY) {
@@ -6251,7 +6251,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
 
 // TODO: DEBUG PRINT
-//        for(AudioWavePanelEverything wave : waves) {
+//        for(WaveMainPanel wave : waves) {
 //            System.out.println(wave.getLocation());
 //        }
 //        ProgramTest.debugPrint(mouseLoc.y > panelWithWavesEverything.getY(), mouseLoc.y < lastWaveEndY);
@@ -6303,12 +6303,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             markEndSampleClipboardWave = sample;
         }
 
-        private AudioWavePanelEverything wavePanel;
+        private WaveMainPanel wavePanel;
         public DoubleWave getWave() {
             return wavePanel.getDoubleWave();
         }
 
-        public void setValues(AudioWavePanelEverything wave, int markStartSampleClipboardWave,
+        public void setValues(WaveMainPanel wave, int markStartSampleClipboardWave,
                               int markEndSampleClipboardWave, boolean isCut) {
             this.wavePanel = wave;
             this.markStartSampleClipboardWave = markStartSampleClipboardWave;
@@ -6317,7 +6317,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             setEnabledWithWaveMenuItems(true);
         }
 
-        public boolean isEqualToClipboardWavePanel(AudioWavePanelEverything wp) {
+        public boolean isEqualToClipboardWavePanel(WaveMainPanel wp) {
             return wp == wavePanel;
         }
         public boolean isWaveInClipboard() {
@@ -6332,7 +6332,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
          * If equal to the internal remove then wave is removed from clipboard.
          * @param wp
          */
-        public void removeWaveFromClipboard(AudioWavePanelEverything wp) {
+        public void removeWaveFromClipboard(WaveMainPanel wp) {
             if(isEqualToClipboardWavePanel(wp)) {
                 removeWaveFromClipboard();
             }
@@ -6351,7 +6351,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             return clipboardWave.isCut;
         }
 
-        public boolean isEqualToClipboardWavePanel(AudioWavePanelEverything wp) {
+        public boolean isEqualToClipboardWavePanel(WaveMainPanel wp) {
             return clipboardWave.isEqualToClipboardWavePanel(wp);
         }
 
@@ -6365,7 +6365,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public void copyWave(AudioWavePanelEverything wave, boolean isCut) {
+    public void copyWave(WaveMainPanel wave, boolean isCut) {
         DoubleWave doubleWave = wave.getDoubleWave();
         if(shouldMarkPart) {
             clipboard.setValues(wave, getMarkStartXSample(), getMarkEndXSample(), isCut);
@@ -6375,13 +6375,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    public void removeWave(AudioWavePanelEverything wave) {
+    public void removeWave(WaveMainPanel wave) {
         int index = wave.getWaveIndex() - 1;
         removeWave(index);
     }
 
 
-    public void pasteWaveWithOverwriting(AudioWavePanelEverything wave, MouseEvent rightButtonPressMouseEvent, int copyCount) {
+    public void pasteWaveWithOverwriting(WaveMainPanel wave, MouseEvent rightButtonPressMouseEvent, int copyCount) {
         int startPasteIndex = calculateSampleFromWavePixel(rightButtonPressMouseEvent.getX());
         performWaveLengthChangingAction(new ModifyAudioIFace() {
             @Override
@@ -6395,7 +6395,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public void pasteWave(AudioWavePanelEverything wave, MouseEvent rightButtonPressMouseEvent, int copyCount) {
+    public void pasteWave(WaveMainPanel wave, MouseEvent rightButtonPressMouseEvent, int copyCount) {
         int startPasteIndex = calculateSampleFromWavePixel(rightButtonPressMouseEvent.getX());
         performWaveLengthChangingAction(new ModifyAudioIFace() {
             @Override
@@ -6411,7 +6411,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void alignAllWavesToLen(DoubleWave pasteWave, int newLen, int startPasteIndex, int copyLen) {
         // The copied wave has already values set to 0 if there is cutting involved
-        for(AudioWavePanelEverything wave : waves) {
+        for(WaveMainPanel wave : waves) {
             if (pasteWave != wave.getDoubleWave()) {
                 wave.setNewDoubleWave(newLen, startPasteIndex, copyLen);
             }
@@ -6421,7 +6421,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public void moveWave(AudioWavePanelEverything wave, MouseEvent rightButtonPressMouseEvent) {
+    public void moveWave(WaveMainPanel wave, MouseEvent rightButtonPressMouseEvent) {
         int startPasteIndex = calculateSampleFromWavePixel(rightButtonPressMouseEvent.getX());
 
         performWaveLengthChangingAction(new ModifyAudioIFace() {
@@ -6441,7 +6441,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public void cleanWave(AudioWavePanelEverything wave) {
+    public void cleanWave(WaveMainPanel wave) {
         stopAndModifyAudio(false, new ModifyAudioIFace() {
             @Override
             public void modifyAudio() {

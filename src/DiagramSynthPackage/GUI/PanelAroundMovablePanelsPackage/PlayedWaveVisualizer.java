@@ -1,10 +1,10 @@
 package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 
 import DiagramSynthPackage.Synth.CyclicQueueDouble;
+import RocnikovyProjektIFace.WaveDrawValuesAggregated;
 import RocnikovyProjektIFace.WavePanel;
 import RocnikovyProjektIFace.CommunicationWithWaveValuesPanelIFace;
-import RocnikovyProjektIFace.WaveDrawValuesWrapper;
-import RocnikovyProjektIFace.WaveDrawValuesWrapperAbstract;
+import RocnikovyProjektIFace.WaveDrawValues;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
             public void componentResized(ComponentEvent e) {
                 int w = e.getComponent().getWidth();
                 arrToCopyQueueToLen = 0;
-                for(WaveDrawValuesWrapperAbstract wrapper : drawValuesWrappers) {
+                for(WaveDrawValues wrapper : drawValuesWrappers) {
                     wrapper.waveResize(w, w, 0, w);
                 }
                 setArrToCopyQueueTo(w);
@@ -150,16 +150,16 @@ public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWav
         lastPushedSample = new int[newChannelCount];
         lastDrawnSample = new int[newChannelCount];
         setArrToCopyQueueTo(w);
-        drawValuesWrappers = new WaveDrawValuesWrapperAbstract[newChannelCount];
+        drawValuesWrappers = new WaveDrawValues[newChannelCount];
 
         sampleQueues = new CyclicQueueDouble[newChannelCount];
         for(int i = 0; i < sampleQueues.length; i++) {
             sampleQueues[i] = new CyclicQueueDouble(16);
-            drawValuesWrappers[i] = new WaveDrawValuesWrapper(w, w, 0, w, 0, this);
+            drawValuesWrappers[i] = new WaveDrawValuesAggregated(w, w, 0, w, 0, this);
         }
     }
 
-    private WaveDrawValuesWrapperAbstract[] drawValuesWrappers;
+    private WaveDrawValues[] drawValuesWrappers;
     private double[] arrToCopyQueueTo = new double[2048 * 4];
     private int arrToCopyQueueToLen;
     private void setArrToCopyQueueTo(int w) {

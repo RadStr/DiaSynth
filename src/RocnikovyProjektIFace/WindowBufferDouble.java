@@ -1,6 +1,5 @@
 package RocnikovyProjektIFace;
 
-import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 
 /**
@@ -9,8 +8,8 @@ import Rocnikovy_Projekt.ProgramTest;
  */
 public class WindowBufferDouble {
 
-// TODO:    //public WindowBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesWrapperUpdateValuesIFace wrapper) {
-    public WindowBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, WaveDrawValuesWrapperUpdateValuesIFace wrapper) {
+// TODO:    //public WindowBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesUpdaterIFace wrapper) {
+    public WindowBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, WaveDrawValuesUpdaterIFace wrapper) {
         this.wrapper = wrapper;
         windowCount = calculateWindowCount(windowCountToTheRight);
         this.windowSize = windowSize;
@@ -40,7 +39,7 @@ public class WindowBufferDouble {
     }
 
 
-    private WaveDrawValuesWrapperUpdateValuesIFace wrapper;
+    private WaveDrawValuesUpdaterIFace wrapper;
 
     private int minLeftIndex;
     private void resetMinLeftIndexToZero() {
@@ -334,7 +333,7 @@ public class WindowBufferDouble {
 
 // TODO: !!!!!!!!!! Jen zaloha toho puvodniho - ale muzu to pak klidne smazat podle me
 //    TODO: Tohle nen idobre to by se mel;o kontrolovat asi uvnitr tydle tridy, jestli jsem moc vlevo
-//    nebo moc pravo a kdyz jsem tak si zazadat od WaveDrawValuesWrapper o hodnoty z cache/nove vypocitany
+//    nebo moc pravo a kdyz jsem tak si zazadat od WaveDrawValues o hodnoty z cache/nove vypocitany
 //    public int updateInternalBufferScrollingToLeft() {
 //        int dif = getIndexToCopyToWhenScrollingLeft(startIndex);
 //        // In this case we can reuse some old values from buffer, so we don't read it all from HDD cache (or calculate again when caching is disabled)

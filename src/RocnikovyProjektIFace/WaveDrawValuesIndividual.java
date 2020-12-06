@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 
-public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrapperAbstract {
+public class WaveDrawValuesIndividual extends WaveDrawValues {
     /**
      *
      * @param leftPixel is the left visible pixel. but in sense of whole wave
@@ -16,8 +16,8 @@ public class WaveDrawValuesWrapperIndividualSamples extends WaveDrawValuesWrappe
      * @param windowCountToTheRight
      * @param mainWaveClass
      */
-    public WaveDrawValuesWrapperIndividualSamples(int leftPixel, int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                                                  int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+    public WaveDrawValuesIndividual(int leftPixel, int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
+                                    int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
         super(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount, windowCountToTheRight, mainWaveClass);
         pixelMovement = 0;
         this.leftPixel = leftPixel;

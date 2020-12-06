@@ -109,7 +109,7 @@ public class WavePanel extends JPanel {
 //        mainWaveClass = communicationWithWaveValues;
 //        if(valuesDrawWrapper != currentDrawWrapper) {
 //            individualSamplesDrawWrapper = null;
-//            valuesDrawWrapper = new WaveDrawValuesWrapper(wholeWavePanel.getWaveVisibleWidth(),
+//            valuesDrawWrapper = new WaveDrawValuesAggregated(wholeWavePanel.getWaveVisibleWidth(),
 //                    wholeWavePanel.getWaveVisibleWidth(), mainWaveClass.getCurrentStartIndexInAudio(),
 //                    getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
 //            currentDrawWrapper = valuesDrawWrapper;
@@ -119,7 +119,7 @@ public class WavePanel extends JPanel {
 //        mainWaveClass = communicationWithWaveValuesOnlySamples;
 //        if(individualSamplesDrawWrapper != currentDrawWrapper) {
 //            valuesDrawWrapper = null;
-//            individualSamplesDrawWrapper = new WaveDrawValuesWrapperIndividualSamples(0, wholeWavePanel.getWaveVisibleWidth(),
+//            individualSamplesDrawWrapper = new WaveDrawValuesIndividual(0, wholeWavePanel.getWaveVisibleWidth(),
 //                    waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
 //            currentDrawWrapper = individualSamplesDrawWrapper;
 //        }
@@ -367,7 +367,7 @@ public class WavePanel extends JPanel {
         int startIndex = mainWaveClass.getCurrentStartIndexInAudio();
         int valueCount = getSongLen();
 
-        individualSamplesDrawWrapper = new WaveDrawValuesWrapperIndividualSamples(leftPixel, visibleWaveWidth,
+        individualSamplesDrawWrapper = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
             totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValuesOnlySamples);
         currentDrawWrapper = individualSamplesDrawWrapper;
     }
@@ -382,7 +382,7 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         ProgramTest.debugPrint("VisibleWidths", visibleWaveWidth, this.getVisibleRect());
-        valuesDrawWrapper = new WaveDrawValuesWrapper(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
+        valuesDrawWrapper = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
             WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValues);
         currentDrawWrapper = valuesDrawWrapper;
     }
@@ -1618,7 +1618,7 @@ public class WavePanel extends JPanel {
             mainWaveClass = communicationWithWaveValuesOnlySamples;
             if(individualSamplesDrawWrapper != currentDrawWrapper) {
                 valuesDrawWrapper = null;
-                individualSamplesDrawWrapper = new WaveDrawValuesWrapperIndividualSamples(leftPixel, newVisibleWidth,
+                individualSamplesDrawWrapper = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
                         newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
                 currentDrawWrapper = individualSamplesDrawWrapper;
             }
@@ -1630,7 +1630,7 @@ public class WavePanel extends JPanel {
             mainWaveClass = communicationWithWaveValues;
             if(valuesDrawWrapper != currentDrawWrapper) {
                 individualSamplesDrawWrapper = null;
-                valuesDrawWrapper = new WaveDrawValuesWrapper(newVisibleWidth,
+                valuesDrawWrapper = new WaveDrawValuesAggregated(newVisibleWidth,
                         newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
                 currentDrawWrapper = valuesDrawWrapper;
             }
@@ -2050,9 +2050,9 @@ public class WavePanel extends JPanel {
 
 
 
-    private WaveDrawValuesWrapperIndividualSamples individualSamplesDrawWrapper;
-    private WaveDrawValuesWrapper valuesDrawWrapper;
-    private WaveDrawValuesWrapperAbstract currentDrawWrapper;
+    private WaveDrawValuesIndividual individualSamplesDrawWrapper;
+    private WaveDrawValuesAggregated valuesDrawWrapper;
+    private WaveDrawValues currentDrawWrapper;
     private CommunicationWithWaveValuesOnlySamples communicationWithWaveValuesOnlySamples;
     private CommunicationWithWaveValues communicationWithWaveValues;
 

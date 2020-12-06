@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-public interface WaveDrawValuesWrapperUpdateValuesIFace {
+public interface WaveDrawValuesUpdaterIFace {
     /**
      * Putting new values (usually from cache file) to the start of the buffer, this is done when scrolling to left.
      * Updates the buffer from the cache (or by calculating when there is no caching)

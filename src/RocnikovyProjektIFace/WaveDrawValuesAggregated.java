@@ -4,9 +4,9 @@ import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 
-public class WaveDrawValuesWrapper extends WaveDrawValuesWrapperAbstract {
-    public WaveDrawValuesWrapper(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                                 int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+public class WaveDrawValuesAggregated extends WaveDrawValues {
+    public WaveDrawValuesAggregated(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
+                                    int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
         super(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount, windowCountToTheRight, mainWaveClass);
         windowRange = new Range();
     }

@@ -4,9 +4,9 @@ import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 
-public abstract class WaveDrawValuesWrapperAbstract implements WaveDrawValuesWrapperUpdateValuesIFace {
-    public WaveDrawValuesWrapperAbstract(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                                         int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
+    public WaveDrawValues(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
+                          int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
         this.mainWaveClass = mainWaveClass;
         this.windowCountToTheRight = windowCountToTheRight;
         waveResize(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount);

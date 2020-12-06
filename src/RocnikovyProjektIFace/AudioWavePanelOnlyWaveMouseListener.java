@@ -151,8 +151,8 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
         int sampleIndex = convertXToSampleIndex(e.getX());
         if(sampleIndex < awpe.getSongLen()) {
             double value = awpe.getNthSample(sampleIndex);
-            String sampleIndexString = AudioWavePanelReferenceValues.getStringInt(sampleIndex);
-            String valueString = AudioWavePanelReferenceValues.getStringDouble(value);
+            String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
+            String valueString = VerticalReferencesPanel.getStringDouble(value);
             int sampleTimeInMillis = awpe.convertSampleToMillis(sampleIndex);
             String timeInMilis = Program.convertMillisecondsToTime(sampleTimeInMillis, -1);
 

@@ -11,7 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-public class AudioWavePanelReferenceValues extends JPanel {
+public class VerticalReferencesPanel extends JPanel {
     private JComponent[] components;
     private int valuesLongestWidth;
     private double pixelJump;
@@ -47,7 +47,7 @@ public class AudioWavePanelReferenceValues extends JPanel {
         midValue = Program.performAggregation(minValue, maxValue, Aggregations.AVG);
     }
 
-    public AudioWavePanelReferenceValues(double minValue, double maxValue) {
+    public VerticalReferencesPanel(double minValue, double maxValue) {
         setMinValue(minValue);
         setMaxValue(maxValue);
         isDouble = true;

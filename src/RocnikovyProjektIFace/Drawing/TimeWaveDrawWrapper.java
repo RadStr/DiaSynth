@@ -1,10 +1,8 @@
 package RocnikovyProjektIFace.Drawing;
 
-import PartsConnectingGUI.PartsConnectingTabbedPanel;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
-import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
 
 import javax.swing.*;
 import java.awt.*;

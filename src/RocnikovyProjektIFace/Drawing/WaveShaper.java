@@ -1,14 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
-import DiagramSynthPackage.Synth.WaveTables.WaveTable;
-import RocnikovyProjektIFace.AudioWavePanelOnlyWave;
-import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
-import Rocnikovy_Projekt.ProgramTest;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class WaveShaper extends DrawWrapperBase {
     public static WaveShaper createMaxSizeWaveShaper(Color backgroundColor,

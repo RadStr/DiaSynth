@@ -264,7 +264,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
 
         // TODO: Kdyz zvetsim okno tak odstranim vsechny labely a prekreslim, takze v jeden okamzik tam nejsou zadny labely
         // TODO: Proto bych to mel odstranovat nejak lip asi
-        AudioWavePanelReferenceValues referenceValues = new AudioWavePanelReferenceValues(-1, 1);
+        VerticalReferencesPanel referenceValues = new VerticalReferencesPanel(-1, 1);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;

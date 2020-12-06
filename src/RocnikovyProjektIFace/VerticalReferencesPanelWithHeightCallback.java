@@ -2,8 +2,8 @@ package RocnikovyProjektIFace;
 
 import java.awt.*;
 
-public class AudioWavePanelReferenceValuesWithHeightCallback extends AudioWavePanelReferenceValues {
-    public AudioWavePanelReferenceValuesWithHeightCallback(double minValue, double maxValue, HeightGetter heightGetter) {
+public class VerticalReferencesPanelWithHeightCallback extends VerticalReferencesPanel {
+    public VerticalReferencesPanelWithHeightCallback(double minValue, double maxValue, HeightGetter heightGetter) {
         super(minValue, maxValue);
         this.heightGetter = heightGetter;
     }

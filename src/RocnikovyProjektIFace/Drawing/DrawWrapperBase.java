@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace.Drawing;
 
-import RocnikovyProjektIFace.AudioWavePanelReferenceValues;
-import RocnikovyProjektIFace.AudioWavePanelReferenceValuesWithHeightCallback;
+import RocnikovyProjektIFace.VerticalReferencesPanel;
+import RocnikovyProjektIFace.VerticalReferencesPanelWithHeightCallback;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
 
         // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
         // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
-        outputReferenceValues = new AudioWavePanelReferenceValuesWithHeightCallback(minValue, maxValue,
+        outputReferenceValues = new VerticalReferencesPanelWithHeightCallback(minValue, maxValue,
                 () -> this.drawPanel.getPreferredSize().height);
 
         add(outputReferenceValues, constraints);
@@ -33,7 +33,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
 
 
     private final GridBagConstraints constraints;
-    protected final AudioWavePanelReferenceValuesWithHeightCallback outputReferenceValues;
+    protected final VerticalReferencesPanelWithHeightCallback outputReferenceValues;
     protected DrawPanel drawPanel;
     public void setDrawPanel(DrawPanel drawPanel) {
         if(this.drawPanel != null) {
@@ -103,7 +103,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
     public abstract void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder);
 
     public static int calculateMaxSizeBinCount(double minValue, double maxValue) {
-        int referenceValuesWidth = new AudioWavePanelReferenceValues(minValue, maxValue).getPreferredSize().width;
+        int referenceValuesWidth = new VerticalReferencesPanel(minValue, maxValue).getPreferredSize().width;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int binCount = screenSize.width - referenceValuesWidth;
         return binCount;

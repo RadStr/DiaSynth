@@ -31,7 +31,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     }
 
     private AudioWavePanelOnlyWave wave;
-    private WaveButtonPanel buttonsOnRight;
+    private WaveButtonPanel buttonPanel;
 
 
     private AudioPlayerPanel panelWithWaves;
@@ -251,7 +251,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
         this.add(mixPanel, constraints);
         mixPanel.setBorder(border);
 
-        buttonsOnRight = new WaveButtonPanel(this);
+        buttonPanel = new WaveButtonPanel(this);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;
@@ -259,7 +259,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
         constraints.gridy = 0;
         constraints.weightx = 0;
         constraints.weighty = 0.1;
-        this.add(buttonsOnRight, constraints);
+        this.add(buttonPanel, constraints);
 
 
         // TODO: Kdyz zvetsim okno tak odstranim vsechny labely a prekreslim, takze v jeden okamzik tam nejsou zadny labely
@@ -548,11 +548,11 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     }
 
     public boolean getShouldIncludeInMixing() {
-        return buttonsOnRight.shouldIncludeInMixing();
+        return buttonPanel.shouldIncludeInMixing();
     }
 
     public boolean getShouldIncludeInOperations() {
-        return buttonsOnRight.shouldIncludeInOperations();
+        return buttonPanel.shouldIncludeInOperations();
     }
 
     public boolean getShouldMarkPart() {

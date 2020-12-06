@@ -1,7 +1,7 @@
 package AudioMixers;
 
-public class AudioMixerPostProcessingSumDivision extends MixerWithPostProcessing {
-    public AudioMixerPostProcessingSumDivision(double[][] multFactors) {
+public class MixerWithPostProcessingSumDivision extends MixerWithPostProcessing {
+    public MixerWithPostProcessingSumDivision(double[][] multFactors) {
         update(multFactors);
     }
 

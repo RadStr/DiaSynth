@@ -3,7 +3,7 @@ package AudioMixers;
 /**
  * Performs averaging, so the the result will fit into the sample range
  */
-public class SimpleAverageMixerDefault extends DefaultAudioMixer {
+public class SimpleAverageMixer extends DefaultAudioMixer {
     @Override
     protected int mix(int val1, int val2) {
         return (val1 + val2) / 2;

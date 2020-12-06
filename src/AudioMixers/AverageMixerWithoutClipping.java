@@ -4,7 +4,7 @@ package AudioMixers;
  * Performs the mixing like (x_1 / n) + (x_2 / n) + ... + (x_n / n)
  * For less computationally demanding and more accurate variant check AverageMixelWithPossibleClipping, which can mix up to 2^(32-sampleSizeInBits) without clipping.
  */
-public class AverageMixerWithoutPossibleClipping extends DefaultAudioMixer {
+public class AverageMixerWithoutClipping extends DefaultAudioMixer {
     private int waveCount = 1;
 
     /**

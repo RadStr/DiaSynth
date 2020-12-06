@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.Program;
 /**
  * for mixing of n values does (x_1+x_2+x_3+...+x_n) / n
  * That means it can mix up to 2^(32-sampleSizeInBits) waves without clipping.
- * If I want to mix more channels I have to use AverageMixerWithoutPossibleClipping
+ * If I want to mix more channels I have to use AverageMixerWithoutClipping
  */
 public class AverageMixerWithPossibleClipping extends MixerWithPostProcessing {
     public AverageMixerWithPossibleClipping(double[][] multFactors) {

@@ -4955,12 +4955,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         private void setMixer() {
             if (mixer == null) {
-                setMixer(new AudioMixerPostProcessingSumDivision(multFactors));
+                setMixer(new MixerWithPostProcessingSumDivision(multFactors));
                 //mixer = new AverageMixerWithPossibleClipping(multFactors);
 
 
-                //mixer = new AverageMixerWithoutPossibleClipping(songs.length);
-                //mixer = new SimpleAverageMixerDefault();
+                //mixer = new AverageMixerWithoutClipping(songs.length);
+                //mixer = new SimpleAverageMixer();
             }
         }
 

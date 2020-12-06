@@ -1,6 +1,6 @@
-package RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage;
+package RocnikovyProjektIFace.popup;
 
-public interface AudioWavePanelOnlyWavePopupMenuCommunicationIFace {
+public interface WavePanelPopupMenuActionsIFace {
     void copyWave();
     void removeWave();
     void cutWave();

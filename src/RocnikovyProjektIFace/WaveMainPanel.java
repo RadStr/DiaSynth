@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace;
 
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage.AudioWavePanelOnlyWavePopupMenuCommunicationIFace;
+import RocnikovyProjektIFace.popup.WavePanelPopupMenuActionsIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.JTextFieldResizeable;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.ProgramTest;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace,
-    AudioWavePanelOnlyWavePopupMenuCommunicationIFace {
+                                                     WavePanelPopupMenuActionsIFace {
     private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
 
     private AudioWavePanelOnlyMixSlider mixPanel;

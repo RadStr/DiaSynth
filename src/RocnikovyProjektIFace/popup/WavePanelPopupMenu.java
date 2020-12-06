@@ -1,16 +1,16 @@
-package RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage;
+package RocnikovyProjektIFace.popup;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
-    public AudioWavePanelOnlyWavePopupMenu(AudioWavePanelOnlyWavePopupMenuCommunicationIFace communication) {
+public class WavePanelPopupMenu extends JPopupMenu {
+    public WavePanelPopupMenu(WavePanelPopupMenuActionsIFace actions) {
         copyItem = new JMenuItem("Copy wave");
         copyItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                communication.copyWave();
+                actions.copyWave();
             }
         });
         this.add(copyItem);
@@ -19,12 +19,12 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
 
         pasteWithOverwritingMenu = new JMenu("Paste wave with overwriting");
         pasteWithOverwritingItems = new PasteItem[7];
-        setPasteItems(pasteWithOverwritingMenu, pasteWithOverwritingItems, communication::pasteWaveWithOverwriting);
+        setPasteItems(pasteWithOverwritingMenu, pasteWithOverwritingItems, actions::pasteWaveWithOverwriting);
         this.add(pasteWithOverwritingMenu);
 
         pasteMenu = new JMenu("Paste wave");
         pasteItems = new PasteItem[7];
-        setPasteItems(pasteMenu, pasteItems, communication::pasteWave);
+        setPasteItems(pasteMenu, pasteItems, actions::pasteWave);
         this.add(pasteMenu);
 
 
@@ -32,8 +32,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
         cutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                communication.cutWave();
-
+                actions.cutWave();
             }
         });
         this.add(cutItem);
@@ -43,7 +42,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
         moveItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                communication.moveWave();
+                actions.moveWave();
 
             }
         });
@@ -54,7 +53,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
         cleanItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                communication.cleanWave();
+                actions.cleanWave();
 
             }
         });
@@ -65,7 +64,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
         removeItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                communication.removeWave();
+                actions.removeWave();
 
             }
         });
@@ -99,7 +98,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
 
 
 
-    public static void setPasteItems(JMenu pasteMenu, PasteItem[] pasteItems, PasteItemCommunicationIFace communication) {
+    public static void setPasteItems(JMenu pasteMenu, PasteItem[] pasteItems, PasteItemActionIFace pasteAction) {
         pasteItems[0] = new PasteItem(1);
         pasteItems[1] = new PasteItem(2);
         pasteItems[2] = new PasteItem(5);
@@ -111,8 +110,7 @@ public class AudioWavePanelOnlyWavePopupMenu extends JPopupMenu {
             pasteItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    communication.paste(pasteItem.getCopyCount());
-
+                    pasteAction.paste(pasteItem.getCopyCount());
                 }
             });
             pasteMenu.add(pasteItem);

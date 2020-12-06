@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage;
+package RocnikovyProjektIFace.popup;
 
 import javax.swing.*;
 

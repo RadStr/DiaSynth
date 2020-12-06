@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.AudioWavePanelOnlyWavePopupMenuPackage.AudioWavePanelOnlyWavePopupMenu;
+import RocnikovyProjektIFace.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 
 import javax.swing.*;
@@ -58,7 +58,7 @@ public class WavePanel extends JPanel {
         return waveWidth;
     }
 
-    private AudioWavePanelOnlyWavePopupMenu waveRightClickPopUpMenu;
+    private WavePanelPopupMenu waveRightClickPopUpMenu;
     public void setEnabledWithWavePopUpItems(boolean enabled) {
         waveRightClickPopUpMenu.setEnabledWithWavePopUpItems(enabled);
     }
@@ -66,7 +66,7 @@ public class WavePanel extends JPanel {
     public WavePanel(DoubleWave doubleWave, WaveMainPanel wholeWavePanel) {
         this.doubleWave = doubleWave;
 
-        waveRightClickPopUpMenu = new AudioWavePanelOnlyWavePopupMenu(wholeWavePanel);
+        waveRightClickPopUpMenu = new WavePanelPopupMenu(wholeWavePanel);
         this.setComponentPopupMenu(waveRightClickPopUpMenu);
 
 // TODO: PROGRAMO

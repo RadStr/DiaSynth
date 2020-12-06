@@ -139,7 +139,7 @@ public class TODO_CLASS extends TODO_PACKAGE.TODO_CLASS {
 //        TODO: updateZoom() - int startIndexInValues = 0;  RIKA INDEX DOVNITR TOHO BUFFERU, KDE SE MA ZACIT - TO BY ASI MEL BYT TEN MIDDLE INDEX
 //        TODO: updateZoom() - int valueCount = song.length;       // TODO: NEVIM
 
-// setCurrentDrawWrapperBasedOnZoom() - dat do updateZoom ???
+// setCurrentDrawValuesBasedOnZoom() - dat do updateZoom ???
 
 
         // TODO: CACHOVANI TED DELAT NEBUDU

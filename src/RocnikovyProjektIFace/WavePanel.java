@@ -97,8 +97,8 @@ public class WavePanel extends JPanel {
         this.addComponentListener(resizeListener);
         // TODO: PROGRAMO
 //        setVariablesWhichNeededSize();
-//        setCurrentDrawWrapperBasedOnZoom();
-        //setCurrentDrawWrapperIndividual();
+//        setCurrentDrawValuesBasedOnZoom();
+        //setCurrentDrawValuesToNewIndividual();
 
 
         //updateZoom(0, 0, false, false);
@@ -107,21 +107,21 @@ public class WavePanel extends JPanel {
         //setDrawWrapperInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
 
 //        mainWaveClass = communicationWithWaveValues;
-//        if(valuesDrawWrapper != currentDrawWrapper) {
-//            individualSamplesDrawWrapper = null;
-//            valuesDrawWrapper = new WaveDrawValuesAggregated(wholeWavePanel.getWaveVisibleWidth(),
+//        if(drawValuesAggregated != currentDrawValues) {
+//            drawValuesIndividual = null;
+//            drawValuesAggregated = new WaveDrawValuesAggregated(wholeWavePanel.getWaveVisibleWidth(),
 //                    wholeWavePanel.getWaveVisibleWidth(), mainWaveClass.getCurrentStartIndexInAudio(),
 //                    getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-//            currentDrawWrapper = valuesDrawWrapper;
+//            currentDrawValues = drawValuesAggregated;
 //        }
 
 //        System.exit(wholeWavePanel.getWaveVisibleWidth());
 //        mainWaveClass = communicationWithWaveValuesOnlySamples;
-//        if(individualSamplesDrawWrapper != currentDrawWrapper) {
-//            valuesDrawWrapper = null;
-//            individualSamplesDrawWrapper = new WaveDrawValuesIndividual(0, wholeWavePanel.getWaveVisibleWidth(),
+//        if(drawValuesIndividual != currentDrawValues) {
+//            drawValuesAggregated = null;
+//            drawValuesIndividual = new WaveDrawValuesIndividual(0, wholeWavePanel.getWaveVisibleWidth(),
 //                    waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-//            currentDrawWrapper = individualSamplesDrawWrapper;
+//            currentDrawValues = drawValuesIndividual;
 //        }
         // TODO: PROGRAMO
     }
@@ -181,7 +181,7 @@ public class WavePanel extends JPanel {
 //        isCached = cacheToHDD();
 // TODO: TESTING WITHOUT CACHE
 
-        setCurrentDrawWrapperBasedOnZoom();
+        setCurrentDrawValuesBasedOnZoom();
     }
 
 
@@ -279,18 +279,18 @@ public class WavePanel extends JPanel {
 
 
             int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-            currentDrawWrapper.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
+            currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
 
 
 //        if(waveWidth <= visibleWaveWidth) {
 //            int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-//            currentDrawWrapper.waveResize(newVisibleWidth, newVisibleWidth,
+//            currentDrawValues.waveResize(newVisibleWidth, newVisibleWidth,
 //                mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
 //        }
 //        else {
 //            //this.setPreferredSize(new Dimension(visibleWaveWidth, this.getPreferredSize().height));
 //            int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-//            currentDrawWrapper.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
+//            currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
 //        }
 
 //        NEVIM NO co je hodne divny ze jak se to spatne resizne tak se rozhodi ty not first vlny a ty first jsou v pohode
@@ -344,17 +344,17 @@ public class WavePanel extends JPanel {
     }
 
 
-    private void setCurrentDrawWrapperBasedOnZoom() {
-        ProgramTest.debugPrint("setCurrentDrawWrapperBasedOnZoom", zoomVariables.currentZoom, zoomVariables.maxCacheZoom);
+    private void setCurrentDrawValuesBasedOnZoom() {
+        ProgramTest.debugPrint("setCurrentDrawValuesBasedOnZoom", zoomVariables.currentZoom, zoomVariables.maxCacheZoom);
         if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
-            setCurrentDrawWrapperIndividual();
+            setCurrentDrawValuesToNewIndividual();
         }
         else {
-            setCurrentDrawWrapperValues();
+            setCurrentDrawValuesToNewAggregated();
         }
     }
 
-    private void setCurrentDrawWrapperIndividual() {
+    private void setCurrentDrawValuesToNewIndividual() {
         int leftPixel;
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();     // TODO: Possible bug
         int totalWaveWidth = waveWidth;
@@ -367,11 +367,11 @@ public class WavePanel extends JPanel {
         int startIndex = mainWaveClass.getCurrentStartIndexInAudio();
         int valueCount = getSongLen();
 
-        individualSamplesDrawWrapper = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
+        drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
             totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValuesOnlySamples);
-        currentDrawWrapper = individualSamplesDrawWrapper;
+        currentDrawValues = drawValuesIndividual;
     }
-    private void setCurrentDrawWrapperValues() {
+    private void setCurrentDrawValuesToNewAggregated() {
         communicationWithWaveValues = new CommunicationWithWaveValues();
         mainWaveClass = communicationWithWaveValues;
 //        int visibleWaveWidth = this.getWidth();         // TODO: Possible bug
@@ -382,9 +382,9 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         ProgramTest.debugPrint("VisibleWidths", visibleWaveWidth, this.getVisibleRect());
-        valuesDrawWrapper = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
+        drawValuesAggregated = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
             WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValues);
-        currentDrawWrapper = valuesDrawWrapper;
+        currentDrawValues = drawValuesAggregated;
     }
 
 
@@ -682,7 +682,7 @@ public class WavePanel extends JPanel {
         ProgramTest.debugPrint("drawAudioWave:", visibleWaveWidth, wholeWavePanel.getWaveVisibleWidth(),
             this.getHeight(), doubleWave.getFilenameWithoutExtension());
 
-        currentDrawWrapper.drawSamples(g, visibleWaveWidth, this.getHeight(), 0);
+        currentDrawValues.drawSamples(g, visibleWaveWidth, this.getHeight(), 0);
     }
 
 
@@ -1593,19 +1593,19 @@ public class WavePanel extends JPanel {
         // TODO: INDIV
         // TODO: NEW INDIV
         // TODO: NEW INDIV
-//        if(currentDrawWrapper == individualSamplesDrawWrapper) {
-//            startIndexInValues = (int)((currentDrawWrapper.getStartIndex() + newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
+//        if(currentDrawValues == drawValuesIndividual) {
+//            startIndexInValues = (int)((currentDrawValues.getStartIndex() + newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
 //        }
-//        else if(currentDrawWrapper == valuesDrawWrapper) {
-//            startIndexInValues = (int)((currentDrawWrapper.getStartIndex() + 2 * newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
+//        else if(currentDrawValues == drawValuesAggregated) {
+//            startIndexInValues = (int)((currentDrawValues.getStartIndex() + 2 * newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
 //        }
         // TODO: INDIV
-        ProgramTest.debugPrint("ZOOMING BEFORE", currentDrawWrapper.getStartIndex(), startIndexInValues,
+        ProgramTest.debugPrint("ZOOMING BEFORE", currentDrawValues.getStartIndex(), startIndexInValues,
             oldWidth, newWidth, newVisibleWidth);
         ProgramTest.debugPrint(oldZoom, newZoom);
         int valueCount = getSongLen();
 
-//        currentDrawWrapper = null;          // TODO: !!! TED
+//        currentDrawValues = null;          // TODO: !!! TED
 
         setDrawWrapperInZoom(startIndexInValues, newVisibleWidth, newWidth, valueCount);
         ProgramTest.debugPrint("ZOOMING AFTER", startIndexInValues, startIndexInValues + 2 * newVisibleWidth);
@@ -1616,27 +1616,27 @@ public class WavePanel extends JPanel {
         if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
             //currScroll = convertScrollValueToIndividualIndexInAudio(currScroll);
             mainWaveClass = communicationWithWaveValuesOnlySamples;
-            if(individualSamplesDrawWrapper != currentDrawWrapper) {
-                valuesDrawWrapper = null;
-                individualSamplesDrawWrapper = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
+            if(drawValuesIndividual != currentDrawValues) {
+                drawValuesAggregated = null;
+                drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
                         newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-                currentDrawWrapper = individualSamplesDrawWrapper;
+                currentDrawValues = drawValuesIndividual;
             }
             else {
-                currentDrawWrapper.performZoom(mainWaveClass.getCurrentStartIndexInAudio(), newWidth, valueCount);
+                currentDrawValues.performZoom(mainWaveClass.getCurrentStartIndexInAudio(), newWidth, valueCount);
             }
         }
         else {
             mainWaveClass = communicationWithWaveValues;
-            if(valuesDrawWrapper != currentDrawWrapper) {
-                individualSamplesDrawWrapper = null;
-                valuesDrawWrapper = new WaveDrawValuesAggregated(newVisibleWidth,
+            if(drawValuesAggregated != currentDrawValues) {
+                drawValuesIndividual = null;
+                drawValuesAggregated = new WaveDrawValuesAggregated(newVisibleWidth,
                         newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-                currentDrawWrapper = valuesDrawWrapper;
+                currentDrawValues = drawValuesAggregated;
             }
             else {
                 ProgramTest.debugPrint("STARTIND", leftPixel, waveWidth);
-                currentDrawWrapper.performZoom(mainWaveClass.getCurrentStartIndexInAudio(), newWidth, valueCount);
+                currentDrawValues.performZoom(mainWaveClass.getCurrentStartIndexInAudio(), newWidth, valueCount);
             }
         }
     }
@@ -1754,7 +1754,7 @@ public class WavePanel extends JPanel {
             getVisibleRect().width, getVisibleRect().height, waveWidth,
             oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
 
-//        if(currentDrawWrapper == individualSamplesDrawWrapper) {
+//        if(currentDrawValues == drawValuesIndividual) {
 ////            currScroll = convertScrollValueToIndividualIndexInAudio(newLeftPixel);
 //            pixelChange = convertScrollValueToIndividualIndexInAudio(pixelChange);
 //        }
@@ -1762,7 +1762,7 @@ public class WavePanel extends JPanel {
 ////            currScroll = newLeftPixel;
 ////        }
 
-        currentDrawWrapper.shiftBuffer(pixelChange);
+        currentDrawValues.shiftBuffer(pixelChange);
     }
 
 
@@ -2050,9 +2050,9 @@ public class WavePanel extends JPanel {
 
 
 
-    private WaveDrawValuesIndividual individualSamplesDrawWrapper;
-    private WaveDrawValuesAggregated valuesDrawWrapper;
-    private WaveDrawValues currentDrawWrapper;
+    private WaveDrawValuesIndividual drawValuesIndividual;
+    private WaveDrawValuesAggregated drawValuesAggregated;
+    private WaveDrawValues currentDrawValues;
     private CommunicationWithWaveValuesOnlySamples communicationWithWaveValuesOnlySamples;
     private CommunicationWithWaveValues communicationWithWaveValues;
 
@@ -2127,8 +2127,8 @@ public class WavePanel extends JPanel {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-//            if((doubleWave.getIsFullSongLoaded() && currentDrawWrapper != null) && currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+//            if((doubleWave.getIsFullSongLoaded() && currentDrawValues != null) && currentDrawValues.IS_FIRST) {
 //                double[] song = doubleWave.getSong();               // TODO: Full Song loaded (use variable from doubleWave)
 //                for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
 //// TODO: DEBUG
@@ -2203,8 +2203,8 @@ public class WavePanel extends JPanel {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), getPreferredSize().width);
 //            int inputLen = (int)(samplesPerPixel * outputLen);
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-//            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+//            if((getIsCached() && currentDrawValues != null) && !currentDrawValues.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
 //                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
@@ -2358,8 +2358,8 @@ public class WavePanel extends JPanel {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-//            if((doubleWave.getIsFullSongLoaded() && currentDrawWrapper != null) && currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+//            if((doubleWave.getIsFullSongLoaded() && currentDrawValues != null) && currentDrawValues.IS_FIRST) {
 //                double[] song = doubleWave.getSong();               // TODO: Full Song loaded (use variable from doubleWave)
 //                for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
 //// TODO: DEBUG
@@ -2441,8 +2441,8 @@ public class WavePanel extends JPanel {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
 //            int inputLen = (int)(samplesPerPixel * outputLen);
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-//            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+//            if((getIsCached() && currentDrawValues != null) && !currentDrawValues.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
 //                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
@@ -2601,8 +2601,8 @@ public class WavePanel extends JPanel {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-////            if((doubleWave.getIsFullSongLoaded() && currentDrawWrapper != null) && currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+////            if((doubleWave.getIsFullSongLoaded() && currentDrawValues != null) && currentDrawValues.IS_FIRST) {
 ////                double[] song = doubleWave.getSong();               // TODO: Full Song loaded (use variable from doubleWave)
 ////                for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
 ////// TODO: DEBUG
@@ -2677,8 +2677,8 @@ public class WavePanel extends JPanel {
 //            double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), getPreferredSize().width);
 //            int inputLen = (int)(samplesPerPixel * outputLen);
 //
-//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
-////            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
+//            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
+////            if((getIsCached() && currentDrawValues != null) && !currentDrawValues.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
 //                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
@@ -2835,9 +2835,9 @@ public class WavePanel extends JPanel {
         @Override
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 
-            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
+            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
 // TODO: WEIRD CACHE
-//            if((doubleWave.getIsFullSongLoaded() && currentDrawWrapper != null) && currentDrawWrapper.IS_FIRST) {
+//            if((doubleWave.getIsFullSongLoaded() && currentDrawValues != null) && currentDrawValues.IS_FIRST) {
             double[] song = doubleWave.getSong();               // TODO: Full Song loaded (use variable from doubleWave)
             for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
 // TODO: DEBUG
@@ -2912,9 +2912,9 @@ public class WavePanel extends JPanel {
             double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
             int inputLen = (int)(samplesPerPixel * outputLen);
 
-            // TODO: IS_FIRST - s tim souvisi i ten currentDrawWrapper to tam vubec nemusi byt
+            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
 // TODO: WEIRD CACHE
-//            if((getIsCached() && currentDrawWrapper != null) && !currentDrawWrapper.IS_FIRST) {
+//            if((getIsCached() && currentDrawValues != null) && !currentDrawValues.IS_FIRST) {
 //                ProgramTest.debugPrint("Cache");
 //                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
 //                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);

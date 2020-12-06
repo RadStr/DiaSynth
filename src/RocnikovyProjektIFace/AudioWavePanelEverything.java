@@ -31,7 +31,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
     }
 
     private AudioWavePanelOnlyWave wave;
-    private AudioWavePanelOnlyButtons buttonsOnRight;
+    private WaveButtonPanel buttonsOnRight;
 
 
     private AudioPlayerPanel panelWithWaves;
@@ -251,7 +251,7 @@ public class AudioWavePanelEverything extends JPanel implements AudioWavePanelOn
         this.add(mixPanel, constraints);
         mixPanel.setBorder(border);
 
-        buttonsOnRight = new AudioWavePanelOnlyButtons(this);
+        buttonsOnRight = new WaveButtonPanel(this);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;

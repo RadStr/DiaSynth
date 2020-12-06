@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AudioWavePanelOnlyButtons extends JPanel {
+public class WaveButtonPanel extends JPanel {
     private JCheckBox includeInMixing;
     public boolean shouldIncludeInMixing() {
         return includeInMixing.isSelected();
@@ -17,7 +17,7 @@ public class AudioWavePanelOnlyButtons extends JPanel {
 
 
     // Main panel (AudioWavePanelEverything) needs to be passed to repaint the wave if checkbox is pressed
-    public AudioWavePanelOnlyButtons(AudioWavePanelEverything awpe) {
+    public WaveButtonPanel(AudioWavePanelEverything awpe) {
 
         includeInMixing = new JCheckBox("Include in mixing");
         includeInMixing.setSelected(true);

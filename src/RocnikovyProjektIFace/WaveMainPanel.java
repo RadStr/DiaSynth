@@ -16,7 +16,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
                                                      WavePanelPopupMenuActionsIFace {
     private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
 
-    private AudioWavePanelOnlyMixSlider mixPanel;
+    private WaveMixPanel mixPanel;
     public void updateChannelSliders(ChannelCount channelCount) {
         mixPanel.updateChannelCount(channelCount);
     }
@@ -239,7 +239,7 @@ public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSlider
         int maxSliderVal = 100;
         //int defSliderVal = (minSliderVal + maxSliderVal) / 2;
         int defSliderVal = maxSliderVal;
-        mixPanel = new AudioWavePanelOnlyMixSlider(SwingConstants.HORIZONTAL, minSliderVal, maxSliderVal, defSliderVal,
+        mixPanel = new WaveMixPanel(SwingConstants.HORIZONTAL, minSliderVal, maxSliderVal, defSliderVal,
             true, channelCountInOutputAudio, this);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;

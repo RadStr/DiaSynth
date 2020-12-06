@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class AudioWavePanelOnlyMixSlider extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace {
+public class WaveMixPanel extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace {
     private SliderWithLabelPanel[] sliders = null;
 
     private AudioWavePanelOnlyMixSliderUpdateIFace updaterClass;
@@ -25,9 +25,9 @@ public class AudioWavePanelOnlyMixSlider extends JPanel implements AudioWavePane
         return sliders[n].getNormalizedValue();
     }
 
-    public AudioWavePanelOnlyMixSlider(int orientationMixSlider, int minValMixSlider, int maxValMixSlider,
-                                       int defValMixSlider, boolean isLabelOnLeft, ChannelCount numberOfChannels,
-                                       AudioWavePanelOnlyMixSliderUpdateIFace updaterClass) {
+    public WaveMixPanel(int orientationMixSlider, int minValMixSlider, int maxValMixSlider,
+                        int defValMixSlider, boolean isLabelOnLeft, ChannelCount numberOfChannels,
+                        AudioWavePanelOnlyMixSliderUpdateIFace updaterClass) {
         this.updaterClass = updaterClass;
         this.orientationMixSlider = orientationMixSlider;
         this.minValMixSlider = minValMixSlider;

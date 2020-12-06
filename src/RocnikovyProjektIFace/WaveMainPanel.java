@@ -286,9 +286,9 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         constraints.weighty = 0.1;
         this.add(wave, constraints);
 
-        AudioWavePanelOnlyWaveMouseListener mouseListenerForWaves = new AudioWavePanelOnlyWaveMouseListener(this);
-        wave.addMouseListener(mouseListenerForWaves);
-        wave.addMouseMotionListener(mouseListenerForWaves);
+        WavePanelMouseListener mouseListenerForWave = new WavePanelMouseListener(this);
+        wave.addMouseListener(mouseListenerForWave);
+        wave.addMouseMotionListener(mouseListenerForWave);
 
         prefSize = super.getPreferredSize();
 

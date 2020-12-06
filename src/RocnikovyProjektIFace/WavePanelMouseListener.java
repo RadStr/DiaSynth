@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, MouseMotionListener {
+public class WavePanelMouseListener implements MouseListener, MouseMotionListener {
     private WaveMainPanel waveMainPanel;
 
     // TODO: I will do it this way - user may choose the audioFormat to which will be all the audio waves converted - I could
@@ -29,7 +29,7 @@ public class AudioWavePanelOnlyWaveMouseListener implements MouseListener, Mouse
 
 
 
-    public AudioWavePanelOnlyWaveMouseListener(WaveMainPanel waveMainPanel) {
+    public WavePanelMouseListener(WaveMainPanel waveMainPanel) {
         this.waveMainPanel = waveMainPanel;
 // TODO: PROGRAMO
 //        // TODO: Budu muset brat k uvahu ze muzu scrollovat doleva, doprava a jeste zoomovat

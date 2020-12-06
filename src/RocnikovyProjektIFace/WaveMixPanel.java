@@ -1,16 +1,14 @@
 package RocnikovyProjektIFace;
 
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 
-public class WaveMixPanel extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace {
+public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
     private SliderWithLabelPanel[] sliders = null;
 
-    private AudioWavePanelOnlyMixSliderUpdateIFace updaterClass;
+    private WaveMixPanelUpdaterIFace updater;
 
     private int orientationMixSlider;
     private int minValMixSlider;
@@ -27,8 +25,8 @@ public class WaveMixPanel extends JPanel implements AudioWavePanelOnlyMixSliderU
 
     public WaveMixPanel(int orientationMixSlider, int minValMixSlider, int maxValMixSlider,
                         int defValMixSlider, boolean isLabelOnLeft, ChannelCount numberOfChannels,
-                        AudioWavePanelOnlyMixSliderUpdateIFace updaterClass) {
-        this.updaterClass = updaterClass;
+                        WaveMixPanelUpdaterIFace updater) {
+        this.updater = updater;
         this.orientationMixSlider = orientationMixSlider;
         this.minValMixSlider = minValMixSlider;
         this.maxValMixSlider = maxValMixSlider;
@@ -156,7 +154,7 @@ public class WaveMixPanel extends JPanel implements AudioWavePanelOnlyMixSliderU
 
     @Override
     public void update(int index, double newValue) {
-        updaterClass.update(index, newValue);
+        updater.update(index, newValue);
 // TODO: DEBUG PRINT
 //        System.out.println(newValue);
 // TODO: DEBUG PRINT

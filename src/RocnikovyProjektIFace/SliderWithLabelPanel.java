@@ -1,7 +1,5 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.SpecialSwingClasses.JLabelWithGivenConstantWidth;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,7 +22,7 @@ public class SliderWithLabelPanel extends JPanel {
     }
 
     public SliderWithLabelPanel(int orientation, int minVal, int maxVal, int defVal, String sliderName,
-                                AudioWavePanelOnlyMixSliderUpdateIFace mainPanel, int index, boolean isLabelOnLeft) {
+                                WaveMixPanelUpdaterIFace mainPanel, int index, boolean isLabelOnLeft) {
         this.label = new JLabel(sliderName);
         slider = new JSlider(orientation, minVal, maxVal, defVal);
 

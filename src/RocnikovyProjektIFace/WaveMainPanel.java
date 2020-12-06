@@ -12,7 +12,7 @@ import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
 
-public class WaveMainPanel extends JPanel implements AudioWavePanelOnlyMixSliderUpdateIFace,
+public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
                                                      WavePanelPopupMenuActionsIFace {
     private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
 

@@ -12,14 +12,14 @@ import java.awt.event.*;
  * A bit of hack class, I have empty panel connected to this and based on the scroll I scroll the moves. I have to do it myself
  * Can't let java do it.
  */
-public class WaveScroller extends JPanel {
-    public WaveScroller(WaveScrollEventCallbackIFace waveScrollCallback) {
+public class WaveScrollerWrapperPanel extends JPanel {
+    public WaveScrollerWrapperPanel(WaveScrollEventCallbackIFace waveScrollCallback) {
         super();
         waveScroller = new JScrollPane();
         constructorDefaultSet(waveScrollCallback);
     }
 
-    public WaveScroller(int vsbPolicy, int hsbPolicy, WaveScrollEventCallbackIFace waveScrollCallback) {
+    public WaveScrollerWrapperPanel(int vsbPolicy, int hsbPolicy, WaveScrollEventCallbackIFace waveScrollCallback) {
         super();
         waveScroller = new JScrollPane(vsbPolicy, hsbPolicy);
         constructorDefaultSet(waveScrollCallback);
@@ -155,7 +155,7 @@ public class WaveScroller extends JPanel {
 
 
     private final JScrollPane waveScroller;
-    public JScrollPane getTheRealWaveScroller() {
+    public JScrollPane getWaveScroller() {
         return waveScroller;
     }
     public void scrollToStart() {
@@ -242,11 +242,11 @@ public class WaveScroller extends JPanel {
 
 
     public class HorizontalBarAdjustmentListener implements AdjustmentListener {
-        public HorizontalBarAdjustmentListener(WaveScroller scrollPane) {
-            this.scrollPane = scrollPane;
+        public HorizontalBarAdjustmentListener(WaveScrollerWrapperPanel waveScrollerWrapper) {
+            this.waveScrollerWrapper = waveScrollerWrapper;
         }
 
-        private WaveScroller scrollPane;
+        private WaveScrollerWrapperPanel waveScrollerWrapper;
         private int oldValue = 0;
         // TODO: Vymazat hadam - uz to asi nepouzivam
         private boolean shouldNotifyWaves = true;
@@ -259,7 +259,7 @@ public class WaveScroller extends JPanel {
 
         @Override
         public void adjustmentValueChanged(AdjustmentEvent e) {
-            JScrollBar scrollBar = scrollPane.getTheRealWaveScroller().getHorizontalScrollBar();
+            JScrollBar scrollBar = waveScrollerWrapper.getWaveScroller().getHorizontalScrollBar();
 //            if(!e.getValueIsAdjusting()) {
             int value = e.getValue();
             int extent = scrollBar.getModel().getExtent();
@@ -267,9 +267,9 @@ public class WaveScroller extends JPanel {
 
 // TODO: DEBUG            System.out.println("Value:\t" + value);
             if (oldValue != value) {
-                if (scrollPane.waveScrollCallback.getCanZoom()) {
+                if (waveScrollerWrapper.waveScrollCallback.getCanZoom()) {
                     if (oldValue <= max) {       // TODO: UNZOOM
-                        scrollPane.waveScrollCallback.scrollChangeCallback(oldValue, value);
+                        waveScrollerWrapper.waveScrollCallback.scrollChangeCallback(oldValue, value);
                     }                           // TODO: UNZOOM
 // TODO: DEBUG
 //                    else {
@@ -288,7 +288,7 @@ public class WaveScroller extends JPanel {
 //                    int extent = scrollBar.getModel().getExtent();
 //                    ProgramTest.debugPrint("SCROLLBAR ADJUSTMENT", oldValue, value, scrollBar.getMaximum() - extent);
 // TODO: DEBUG
-                    //scrollPane.setOldScrollbarValue(value);
+                    //waveScrollerWrapper.setOldScrollbarValue(value);
                 }
 
                 oldValue = value;

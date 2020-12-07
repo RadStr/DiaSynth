@@ -68,11 +68,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     public int getCurrentHorizontalScroll() {
-        return waveScroller.getCurrentHorizontalScroll();
+        return waveScrollerWrapperPanel.getCurrentHorizontalScroll();
     }
 
     public int getMaxHorizontalScroll() {
-        return waveScroller.getMaxHorizontalScroll();
+        return waveScrollerWrapperPanel.getMaxHorizontalScroll();
     }
 
     public int getMaxVerticalScroll() {
@@ -120,13 +120,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     /**
      * Used for horizontal scrolling on wave
      */
-    private WaveScroller waveScroller;
+    private WaveScrollerWrapperPanel waveScrollerWrapperPanel;
 
     public int getEmptyPanelForHorizontalScrollScrollBarHeight() {
-        return waveScroller.getTheRealWaveScroller().getHorizontalScrollBar().getHeight();
+        return waveScrollerWrapperPanel.getWaveScroller().getHorizontalScrollBar().getHeight();
     }
     public Dimension getEmptyPanelForHorizontalScrollSizeDebug() {
-        return new Dimension(waveScroller.getEmptyPanelSizeDebug());
+        return new Dimension(waveScrollerWrapperPanel.getEmptyPanelSizeDebug());
     }
     private void setWaveScrollPanelsSizes(Dimension size) {
         setWaveScrollPanelsSizes(size.width, size.height);
@@ -136,7 +136,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 // TODO: DEBUG
 //        ProgramTest.debugPrint("EMPTY PANEL SETTING SIZE:", leftPanelWidth, waves.get(0).getWaveStartX(), rightPanelWidth, waves.get(0).getWaveWidth());
 // TODO: DEBUG
-        waveScroller.setEmptyPanelsSizes(leftPanelWidth, rightPanelWidth, h);
+        waveScrollerWrapperPanel.setEmptyPanelsSizes(leftPanelWidth, rightPanelWidth, h);
     }
 
     /**
@@ -221,9 +221,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         splitters.clear();
         resetZoom();
         postDeletionAction(true);
-        waveScroller.resetEmptyPanelSize();
-        waveScroller.revalidate();
-        waveScroller.repaint();
+        waveScrollerWrapperPanel.resetEmptyPanelSize();
+        waveScrollerWrapperPanel.revalidate();
+        waveScrollerWrapperPanel.repaint();
         this.revalidate();
         this.repaint();
 ////        for(WaveMainPanel wave : waves) {
@@ -536,9 +536,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
 
         setWaveScrollPanelsSizes(maxWave.getWaveStartX(), maxWaveWidth);
-        waveScroller.setLastEmptyPanelWidth(getPanelWithWavesVerticalScrollbarWidth());
-        waveScroller.revalidateEmptyPanel();
-        waveScroller.repaintEmptyPanel();
+        waveScrollerWrapperPanel.setLastEmptyPanelWidth(getPanelWithWavesVerticalScrollbarWidth());
+        waveScrollerWrapperPanel.revalidateEmptyPanel();
+        waveScrollerWrapperPanel.repaintEmptyPanel();
     }
 
 
@@ -835,7 +835,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 // TODO: ONLY WAVE
-        waveScroller = new WaveScroller(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+        waveScrollerWrapperPanel = new WaveScrollerWrapperPanel(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
                                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, this);
 
 
@@ -949,14 +949,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 // TODO: ONLY WAVE
 //        constraints.gridy = 3;
-//        waveScroller.setViewportView(splitter2);
-//        this.add(waveScroller, constraints);
+//        waveScrollerWrapperPanel.setViewportView(splitter2);
+//        this.add(waveScrollerWrapperPanel, constraints);
 
 
         constraints.weighty = 0;
         constraints.gridy = 3;
         // TODO: LALA
-        this.add(waveScroller, constraints);
+        this.add(waveScrollerWrapperPanel, constraints);
         // TODO: LALA
 
 
@@ -1014,7 +1014,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //                timestampPanel.revalidate();
 //                timestampPanel.repaint();
 
-//                waveScroller.revalidateEmptyPanel();
+//                waveScrollerWrapperPanel.revalidateEmptyPanel();
 //                c.revalidate();
 //                c.repaint();
 //                panelWithWaves.revalidate();
@@ -3417,7 +3417,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         // Otherwise there will be issue with the drawing of wave,
         // it will be drawn twice, but even after this, it will still be drawn incorrectly (the wave will be moved to right)
-        waveScroller.scrollToStart();
+        waveScrollerWrapperPanel.scrollToStart();
 
         // To fix the wave being moved to right
         fakeZoomUpdate();
@@ -5852,7 +5852,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     @Override
     public void updateZoom(int zoomChange) {
         System.out.println("Can zoom: " + getCanZoom());
-        if(zoomChange != 0 && getCanZoom() && !waveScroller.getIsScrollbarBeingUsed() && waves.size() != 0) {
+        if(zoomChange != 0 && getCanZoom() && !waveScrollerWrapperPanel.getIsScrollbarBeingUsed() && waves.size() != 0) {
             disableZooming();
             setMaxAllowedZoom();
             if(zoomChange > 0) {     // When zooming, we need to check if we are zooming too much
@@ -5887,14 +5887,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
 
 
-            waveScroller.setOldScrollbarValue(waveScroller.getCurrentHorizontalScroll());
+            waveScrollerWrapperPanel.setOldScrollbarValue(waveScrollerWrapperPanel.getCurrentHorizontalScroll());
             setOldWaveVisibleWidth();
             timeLineXForZooming = timeLineX;
             shouldZoomToMid = false;       // Is set to true only when zooming to mid
             shouldZoomToEnd = false;       // Is set to true only when zooming to end
 
             //horizontalBarAdjustmentListener.setShouldNotifyWaves(false);
-            //waveScroller.setIsResizeEvent(true);
+            //waveScrollerWrapperPanel.setIsResizeEvent(true);
 
             if (zoomChange > 0) {
                 // Just pass 1 (-1 when unzooming), because I am not sure if it works for larger numbers (it may works, but this works 100%),
@@ -5911,17 +5911,17 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             // TODO: !!! TED
             callOnResize();
             setWaveScrollPanelsSizes();
-//            waveScroller.updateWhenZooming();
-            //waveScroller.repaintEmptyPanel();
+//            waveScrollerWrapperPanel.updateWhenZooming();
+            //waveScrollerWrapperPanel.repaintEmptyPanel();
 // TODO: DEBUG
-//            ProgramTest.debugPrint("WIDTH:", waveScroller.getEmptyPanelSizeDebug(), waves.get(0).getWaveWidth());
+//            ProgramTest.debugPrint("WIDTH:", waveScrollerWrapperPanel.getEmptyPanelSizeDebug(), waves.get(0).getWaveWidth());
 // TODO: DEBUG
 
-//        waveScroller.revalidate();
-//        waveScroller.repaint();
+//        waveScrollerWrapperPanel.revalidate();
+//        waveScrollerWrapperPanel.repaint();
 
-//        waveScroller.revalidate();
-//        waveScroller.repaint();
+//        waveScrollerWrapperPanel.revalidate();
+//        waveScrollerWrapperPanel.repaint();
 
 //            this.timestampPanel.repaint();
 
@@ -5929,7 +5929,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             this.repaint();
 
             //horizontalBarAdjustmentListener.setShouldNotifyWaves(false);
-            //waveScroller.getHorizontalScrollBar().setValue(waveScroller.getHorizontalScrollBar().getMaximum());
+            //waveScrollerWrapperPanel.getHorizontalScrollBar().setValue(waveScrollerWrapperPanel.getHorizontalScrollBar().getMaximum());
             //horizontalBarAdjustmentListener.setShouldNotifyWaves(true);
         }
 
@@ -5938,8 +5938,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //        for(WaveMainPanel waveMainPanel : waves) {
 //            ProgramTest.debugPrint(waveMainPanel.getSize());
 //        }
-//        waveScroller.revalidate();
-//        waveScroller.repaint();
+//        waveScrollerWrapperPanel.revalidate();
+//        waveScrollerWrapperPanel.repaint();
 //        panelWithWaves.revalidate();
 //        panelWithWaves.repaint();
 //        this.revalidate();
@@ -5947,10 +5947,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     public boolean getScrollReceivedResizeEvent() {
-        return waveScroller.getScrollReceivedResizeEvent();
+        return waveScrollerWrapperPanel.getScrollReceivedResizeEvent();
     }
     public void processScrollReceivedResizeEvent() {
-        waveScroller.processScrollReceivedResizeEvent();
+        waveScrollerWrapperPanel.processScrollReceivedResizeEvent();
     }
 
 
@@ -5990,7 +5990,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public void passZoomChangeToWaves(int newZoom, boolean setToMid, boolean setToEnd) {
         for(WaveMainPanel wave : waves) {
-            wave.updateZoom(newZoom, waveScroller.getOldScrollbarValue(), setToMid, setToEnd);
+            wave.updateZoom(newZoom, waveScrollerWrapperPanel.getOldScrollbarValue(), setToMid, setToEnd);
             wave.revalidate();
         }
     }
@@ -6065,15 +6065,15 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void zoomToStart() {
-//        waveScroller.getTheRealWaveScroller().getHorizontalScrollBar().setValue(0);
-        waveScroller.setOldScrollbarValue(0);
+//        waveScrollerWrapperPanel.getWaveScroller().getHorizontalScrollBar().setValue(0);
+        waveScrollerWrapperPanel.setOldScrollbarValue(0);
     }
 
     private void zoomToEnd() {
-        JScrollBar scrollBar = waveScroller.getTheRealWaveScroller().getHorizontalScrollBar();
+        JScrollBar scrollBar = waveScrollerWrapperPanel.getWaveScroller().getHorizontalScrollBar();
         int extent = scrollBar.getModel().getExtent();
         int max = scrollBar.getMaximum() - extent;
-        waveScroller.setOldScrollbarValue(max);
+        waveScrollerWrapperPanel.setOldScrollbarValue(max);
 
         shouldZoomToEnd = true;
     }
@@ -6083,12 +6083,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void zoomToTimeLine() {
-        JScrollBar scrollBar = waveScroller.getTheRealWaveScroller().getHorizontalScrollBar();
+        JScrollBar scrollBar = waveScrollerWrapperPanel.getWaveScroller().getHorizontalScrollBar();
         int timeLineInMidScroll = (int)getTimeLineXForZooming() - getOldWaveVisibleWidth() / 2;
 //        ProgramTest.debugPrint("zoomToTimeLine", scrollBar.getValue(), (int)getTimeLineXForZooming(), timeLineInMidScroll);
 //        timeLineInMidScroll -= getOldWaveVisibleWidth() / 2;
         //scrollBar.setValue(timeLineInMidScroll);            // TODO: Tady chci aby bylo nastaveni disabled
-        waveScroller.setOldScrollbarValue(timeLineInMidScroll);
+        waveScrollerWrapperPanel.setOldScrollbarValue(timeLineInMidScroll);
         zoomToMid();
     }
 
@@ -6187,7 +6187,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         if (thisFrame.getHasFocus()) {
             // TODO: CAN ZOOMif(getCanZoom()) {
             if (canPoll) {
-                waveScroller.setIsScrollbarBeingUsed(true);
+                waveScrollerWrapperPanel.setIsScrollbarBeingUsed(true);
                 Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
                 SwingUtilities.convertPointFromScreen(mouseLoc, panelWithWaves);
 
@@ -6195,7 +6195,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     int w = this.getWidth();
                     int distanceFromBorder = w / 16;
                     // Micro-optim put these into branches - but it should be done by compiler
-                    JScrollBar bar = waveScroller.getTheRealWaveScroller().getHorizontalScrollBar();
+                    JScrollBar bar = waveScrollerWrapperPanel.getWaveScroller().getHorizontalScrollBar();
                     int horizontalMovement = HORIZONTAL_SCROLL_UNIT_INCREMENT;
 
                     WaveMainPanel lastWave = waves.get(waves.size() - 1);
@@ -6252,7 +6252,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                 panelWithWaves.revalidate();
                 panelWithWaves.repaint();
-                waveScroller.setIsScrollbarBeingUsed(false);
+                waveScrollerWrapperPanel.setIsScrollbarBeingUsed(false);
             }
 
 // TODO: DEBUG PRINT

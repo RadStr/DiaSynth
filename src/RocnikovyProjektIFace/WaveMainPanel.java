@@ -561,7 +561,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public int getMarkStartXPixel() {
         if(getShouldMarkPart()) {
-            return panelWithWaves.getMarkStartX();
+            return panelWithWaves.getMarkStartXPixel();
         }
         else {
             return 0;
@@ -580,7 +580,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public int getMarkEndXPixel() {
         if(getShouldMarkPart()) {
-            return panelWithWaves.getMarkEndX();
+            return panelWithWaves.getMarkEndXPixel();
         }
         else {
             return getDoubleWaveLength();

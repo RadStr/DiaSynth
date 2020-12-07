@@ -4337,16 +4337,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         shouldMarkPart = val;
     }
 
-    private int markStartX;
-    public int getMarkStartX() {
-        return markStartX;
+    private int markStartXPixel;
+    public int getMarkStartXPixel() {
+        return markStartXPixel;
     }
     // TODO: K nicemu pravdepodobne
     public int getMarkStartXWithoutScroll() {
-        return markStartX - getCurrentHorizontalScroll();
+        return markStartXPixel - getCurrentHorizontalScroll();
     }
-    public void setMarkStartX(int val) {
-        markStartX = val;
+    public void setMarkStartXPixel(int val) {
+        markStartXPixel = val;
     }
     private int markStartXSample;
     /**
@@ -4367,22 +4367,22 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void setMarkStartXVariablesBasedOnSample(int sample) {
         markStartXSample = sample;
         double pixel = calculatePixel(sample);
-        markStartX = (int)pixel;
+        markStartXPixel = (int)pixel;
 
-        ProgramTest.debugPrint("mark start", markStartX, markStartXSample);
+        ProgramTest.debugPrint("mark start", markStartXPixel, markStartXSample);
     }
 
 
-    private int markEndX;
-    public int getMarkEndX() {
-        return markEndX;
+    private int markEndXPixel;
+    public int getMarkEndXPixel() {
+        return markEndXPixel;
     }
     // TODO: K nicemu pravdepodobne
     public int getMarkEndXWithoutScroll() {
-        return markEndX - getCurrentHorizontalScroll();
+        return markEndXPixel - getCurrentHorizontalScroll();
     }
-    public void setMarkEndX(int val) {
-        markEndX = val;
+    public void setMarkEndXPixel(int val) {
+        markEndXPixel = val;
     }
     private int markEndXSample;
 
@@ -4401,7 +4401,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void updateMarkEndXVariablesBasedOnPixel(int update, int oldHorizontalScroll) {
         // oldHorizontalScroll moves it to the start, and update updates it.
         // So now the pixel represents relative pixel distance to the visible start of wave.
-        int pixel = markEndX + update - oldHorizontalScroll;
+        int pixel = markEndXPixel + update - oldHorizontalScroll;
         setMarkEndXVariablesBasedOnPixel(pixel);
     }
 
@@ -4424,7 +4424,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         markEndXSample = sample;
         double pixel = calculatePixel(sample);
-        markEndX = (int)pixel;
+        markEndXPixel = (int)pixel;
     }
 
 
@@ -4521,11 +4521,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 ////        return sampleIndex;
 ////    }
 ////
-//////    public void scrollEventListener() {
-//////        TODO: Podle toho kam jsem smeroval mysi pri scrollovani a o kolik to priblizim a od urcityho stavu switchnu na ukazovani jednotlivych samplu
-//////        markStartX = markStartX;
-//////        markEndX = markEndX;
-//////    }
 ////
 ////    private void drawInfo(int sampleIndex, Graphics graphics) {
 ////        double[] song = doubleWave.getSong();
@@ -4573,14 +4568,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 ////    public void markPart(Graphics g) {
 ////        if(shouldMarkPart) {
 ////            g.setColor(Color.red);
-////            if(markStartX > markEndX) {
-////                g.fillRect(markEndX, 0,  markStartX - markEndX, this.getHeight());
+////            if(markStartXPixel > markEndXPixel) {
+////                g.fillRect(markEndXPixel, 0,  markStartXPixel - markEndXPixel, this.getHeight());
 ////            }
 ////            else {
-////                g.fillRect(markStartX, 0,  markEndX - markStartX, this.getHeight());
+////                g.fillRect(markStartXPixel, 0,  markEndXPixel - markStartXPixel, this.getHeight());
 ////            }
 ////            if(DEBUG_CLASS.DEBUG) {
-////                System.out.println("MARK PART:\t" + markStartX + "\t" + (markEndX - markStartX));
+////                System.out.println("MARK PART:\t" + markStartXPixel + "\t" + (markEndXPixel - markStartXPixel));
 ////            }
 ////        }
 ////
@@ -4762,7 +4757,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed.
         shouldMarkPart = false;
         pressedEvent = e;
-        markStartX = e.getX();
+        markStartXPixel = e.getX();
         this.repaint();
     }
 

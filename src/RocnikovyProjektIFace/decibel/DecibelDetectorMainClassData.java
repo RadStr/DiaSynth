@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  * Doesn't add the decibel detector to the panel/frame
  */
 public class DecibelDetectorMainClassData {
-    public DecibelDetectorMainClassData(GetValuesIFace mainClass, int numberOfChannels) {
+    public DecibelDetectorMainClassData(SamplesGetterIFace mainClass, int numberOfChannels) {
         changeNumberOfChannels(numberOfChannels);
         setDecibelDetector(mainClass);
     }
@@ -26,7 +26,7 @@ public class DecibelDetectorMainClassData {
         channelAmplitudes = new double[newChannelCount];
     }
 
-    public void setDecibelDetector(GetValuesIFace mainClass) {
+    public void setDecibelDetector(SamplesGetterIFace mainClass) {
         decibelDetector = new DecibelDetector(mainClass);
 
         decibelTimer = new Timer(96, new ActionListener() {

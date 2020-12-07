@@ -11,10 +11,10 @@ import javax.swing.*;
 // I choose to use doubles instead of ints (for jumps) since it is just a few instructions
 // And the painting won't be called that often.
 public class DecibelDetector extends JPanel {
-	public DecibelDetector(GetValuesIFace valueGetter) {
+	public DecibelDetector(SamplesGetterIFace samplesGetter) {
 		this.setLayout(null);
 		
-		this.valueGetter = valueGetter;
+		this.samplesGetter = samplesGetter;
 		decibelReferences = new JLabel[START_REFERENCE_COUNT];
 		addReferenceLabels();
 		
@@ -52,7 +52,7 @@ public class DecibelDetector extends JPanel {
 		setToolTipText("Contains the amplitude in decibels (dB) for each channel");
 	}
 	
-	private GetValuesIFace valueGetter;
+	private SamplesGetterIFace samplesGetter;
 	private double[] decibels = new double[0];
 	private int[] decibelsWidths = new int[0];
 	
@@ -137,18 +137,18 @@ public class DecibelDetector extends JPanel {
         if (shouldFindNewDecibels) {
             shouldFindNewDecibels = false;
 
-            double[] amplitudes = valueGetter.getValues();
-            if (amplitudes.length != decibels.length) {
-                decibels = new double[amplitudes.length];
+            double[] samples = samplesGetter.getCurrentSamples();
+            if (samples.length != decibels.length) {
+                decibels = new double[samples.length];
                 decibelsWidths = new int[decibels.length];
             }
 
 
             for (int i = 0; i < decibels.length; i++, currY = nextY, nextY += yJump) {
-                decibels[i] = 20 * Math.log10(Math.abs(amplitudes[i]) / 1);     // Math.abs because log is defined only for >0 numbers
+                decibels[i] = 20 * Math.log10(Math.abs(samples[i]) / 1);     // Math.abs because log is defined only for >0 numbers
                 int rectangleHeight = ((int)nextY - (int)currY);
                 g.setColor(Color.blue);
-                decibelsWidths[i] = (int) (w * (decibels[i] / MIN_DECIBEL));      // if amplitudes == 0 then decibels == -infinity then result of this is infinity
+                decibelsWidths[i] = (int) (w * (decibels[i] / MIN_DECIBEL));      // if sample == 0 then decibels == -infinity then result of this is infinity
                 decibelsWidths[i] = Math.min(decibelsWidths[i], w);
                 g.fillRect(0, (int) currY, w - decibelsWidths[i], rectangleHeight);
                 g.setColor(Color.black);

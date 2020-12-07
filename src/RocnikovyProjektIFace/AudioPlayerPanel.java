@@ -23,7 +23,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.decibel.DecibelDetector;
-import RocnikovyProjektIFace.decibel.GetValuesIFace;
+import RocnikovyProjektIFace.decibel.SamplesGetterIFace;
 import RocnikovyProjektIFace.Drawing.*;
 import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AudioPlayerPanel extends JPanel implements MouseListener,
-        AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, GetValuesIFace,
+        AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, SamplesGetterIFace,
         TabChangeIFace, AudioControlPanel.VolumeControlGetterIFace, AddWaveIFace {
 
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
@@ -4882,7 +4882,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     @Override
-    public double[] getValues() {
+    public double[] getCurrentSamples() {
         double[] outputArr = audioControlPanel.getDecibelDetectorData().getChannelAmplitudes();
         fillArrayWithCurrentlyPlayedValues(outputArr);
         return outputArr;

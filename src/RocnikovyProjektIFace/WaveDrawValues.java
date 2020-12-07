@@ -4,7 +4,7 @@ import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
 
-public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
+public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, ShiftBufferBoundsIFace {
     public WaveDrawValues(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
                           int windowCountToTheRight, DrawValuesSupplierIFace mainWaveClass) {
         this.mainWaveClass = mainWaveClass;

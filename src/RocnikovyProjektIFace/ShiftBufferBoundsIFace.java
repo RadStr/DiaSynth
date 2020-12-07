@@ -1,5 +1,9 @@
 package RocnikovyProjektIFace;
-public interface WaveDrawValuesUpdaterIFace {
+
+public interface ShiftBufferBoundsIFace {
+    int calculateMaxRightIndexForShiftBuffer();
+    int calculateMinLeftIndexForShiftBuffer();
+
     /**
      * Putting new values (usually from cache file) to the start of the buffer, this is done when scrolling to left.
      * Updates the buffer from the cache (or by calculating when there is no caching)
@@ -14,28 +18,4 @@ public interface WaveDrawValuesUpdaterIFace {
     void updateBufferWithNewValuesOnRight(int totalCopiedValCount);
 
     int getNewValCountOnRight(int copiedValCount);
-
-    /**
-     * For example when working with min and max there are 2 values in buffer per 1 pixel
-     * @param val
-     * @return
-     */
-    double convertFromBufferToPixel(int val);
-    /**
-     * For example when working with min and max there are 2 values in buffer per 1 pixel
-     * @param val
-     * @return
-     */
-    int convertFromPixelToBuffer(double val);
-
-    int convertFromPixelToIndexInAudio(double val);
-
-    default int convertFromBufferToIndexInAudio(int val) {
-        double pixel = convertFromBufferToPixel(val);
-        int index = convertFromPixelToIndexInAudio(pixel);
-        return index;
-    }
-
-    int calculateMaxRightIndexForShiftBuffer();
-    int calculateMinLeftIndexForShiftBuffer();
 }

@@ -8,9 +8,9 @@ import Rocnikovy_Projekt.ProgramTest;
  */
 public class ShiftBufferDouble {
 
-// TODO:    //public ShiftBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesUpdaterIFace wrapper) {
-    public ShiftBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, WaveDrawValuesUpdaterIFace wrapper) {
-        this.wrapper = wrapper;
+// TODO:    //public ShiftBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesConverterIFace boundsUpdater) {
+    public ShiftBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, ShiftBufferBoundsIFace boundsUpdater) {
+        this.boundsUpdater = boundsUpdater;
         windowCount = calculateWindowCount(windowCountToTheRight);
         this.windowSize = windowSize;
         int bufferSize = calculateBufferSize(windowSize, windowCount);
@@ -39,14 +39,14 @@ public class ShiftBufferDouble {
     }
 
 
-    private WaveDrawValuesUpdaterIFace wrapper;
+    private ShiftBufferBoundsIFace boundsUpdater;
 
     private int minLeftIndex;
     private void resetMinLeftIndexToZero() {
         setMinLeftIndex(0);
     }
     public void setMinLeftIndex() {
-        setMinLeftIndex(wrapper.calculateMinLeftIndexForShiftBuffer());
+        setMinLeftIndex(boundsUpdater.calculateMinLeftIndexForShiftBuffer());
     }
     private void setMinLeftIndex(int val) {
 //        if(val < 0) {
@@ -71,7 +71,7 @@ public class ShiftBufferDouble {
         setMaxRightIndex(buffer.length);
     }
     public void setMaxRightIndex() {
-        setMaxRightIndex(wrapper.calculateMaxRightIndexForShiftBuffer());
+        setMaxRightIndex(boundsUpdater.calculateMaxRightIndexForShiftBuffer());
     }
     public void setMaxRightIndex(int val) {
 //        if(val > buffer.length) {
@@ -86,15 +86,15 @@ public class ShiftBufferDouble {
     }
 // TODO: STARY - VYMAZAT
 //    public void setMaxRightIndex(int totalIndex, int maxIndex) {
-//        double windowSizeInPixels = wrapper.convertFromBufferToPixel(VISIBLE_WIDTH);
+//        double windowSizeInPixels = boundsUpdater.convertFromBufferToPixel(VISIBLE_WIDTH);
 //// TODO: TEDO
-//        int newMaxRightIndex = wrapper.convertFromPixelToBuffer(maxIndex - totalIndex + windowSizeInPixels);
+//        int newMaxRightIndex = boundsUpdater.convertFromPixelToBuffer(maxIndex - totalIndex + windowSizeInPixels);
 //        ProgramTest.debugPrint("setMaxRightIndexCandidate", newMaxRightIndex, maxIndex, totalIndex,
 //            windowSizeInPixels, VISIBLE_WIDTH);
-////        newMaxRightIndex = wrapper.convertFromPixelToBuffer(windowSizeInPixels);
+////        newMaxRightIndex = boundsUpdater.convertFromPixelToBuffer(windowSizeInPixels);
 //
 //
-////        int newMaxRightIndex = wrapper.convertFromPixelToIndexInAudio(maxIndex - totalIndex + windowSizeInPixels);
+////        int newMaxRightIndex = boundsUpdater.convertFromPixelToIndexInAudio(maxIndex - totalIndex + windowSizeInPixels);
 //// TODO: TEDO
 //        setMaxRightIndex(newMaxRightIndex);
 //    }
@@ -278,7 +278,7 @@ public class ShiftBufferDouble {
             //setMaxRightIndex();
             // TODO: SET MIN
             //updateMaxRightIndex(-update);
-            wrapper.updateBufferWithNewValuesOnLeft(copiedValCount);
+            boundsUpdater.updateBufferWithNewValuesOnLeft(copiedValCount);
             resetStartIndex();
 
             return true;
@@ -298,7 +298,7 @@ public class ShiftBufferDouble {
             int totalCopiedValCount = updateInternalBufferScrollingToRight();
 
             //int dif = maxIndex - totalIndex - (endIndex - maxRightIndex) - 100000000;
-            int newValsCount = wrapper.getNewValCountOnRight(totalCopiedValCount);
+            int newValsCount = boundsUpdater.getNewValCountOnRight(totalCopiedValCount);
             //int dif = maxIndex - totalIndex - (endIndex - maxRightIndex) / 2;
 //            int dif = maxIndex - totalIndex - (newValsCount) / 2;       // How far it is from maxIndex
 //            if(dif < 0) {
@@ -322,7 +322,7 @@ public class ShiftBufferDouble {
 //                //setMaxRightIndex(buffer.length);
 //            }
 
-            wrapper.updateBufferWithNewValuesOnRight(totalCopiedValCount);
+            boundsUpdater.updateBufferWithNewValuesOnRight(totalCopiedValCount);
             resetStartIndex();
             return true;
         }

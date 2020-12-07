@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.DecibelDetectorPackage.DecibelDetectorMainClassData;
-import RocnikovyProjektIFace.DecibelDetectorPackage.GetValuesIFace;
+import RocnikovyProjektIFace.decibel.DecibelDetectorMainClassData;
+import RocnikovyProjektIFace.decibel.GetValuesIFace;
 
 import java.awt.event.ActionListener;
 

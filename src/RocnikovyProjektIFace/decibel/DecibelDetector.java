@@ -1,14 +1,10 @@
-package RocnikovyProjektIFace.DecibelDetectorPackage;
-
-import Rocnikovy_Projekt.ProgramTest;
+package RocnikovyProjektIFace.decibel;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.*;
 

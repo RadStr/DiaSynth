@@ -176,7 +176,13 @@ public class WaveScroller extends JPanel {
     private final EmptyPanelWithSetMethod emptyPanelBeforeHorizontalScroll = new EmptyPanelWithSetMethod(0, 0);
     private final EmptyPanelWithSetMethod emptyPanelForHorizontalScroll = new EmptyPanelWithSetMethod(0, 0);
     private final EmptyPanelWithSetMethod emptyPanelAfterHorizontalScroll = new EmptyPanelWithSetMethod();        // Simulates the scrollbar
-    public void setEmptyPanelAfterHorizontalScroll(int width) {
+
+    /**
+     * Sets the width of the panel representing scrollbar, we set it separately, since the width of vertical scrollbar shouldn't
+     * change therefore it is set only once at start and then we call it again after some resizing, just in case.
+     * @param width
+     */
+    public void setLastEmptyPanelWidth(int width) {
         emptyPanelAfterHorizontalScroll.setSizeInternal(new Dimension(width, 0));
     }
 
@@ -184,9 +190,17 @@ public class WaveScroller extends JPanel {
         return new Dimension(emptyPanelForHorizontalScroll.getSize());
     }
     public void resetEmptyPanelSize() {
-        setEmptyPanelSizes(0, 0, 0);
+        setEmptyPanelsSizes(0, 0, 0);
     }
-    public void setEmptyPanelSizes(int leftPanelWidth, int rightPanelWidth, int h) {
+
+    /**
+     * Sets the sizes of the empty panels representing space between the scroll and the scroll space. To set the size
+     * of the last panel, which is representing the vertical scrollbar width you must call setLastEmptyPanelWidth separately.
+     * @param leftPanelWidth
+     * @param rightPanelWidth
+     * @param h
+     */
+    public void setEmptyPanelsSizes(int leftPanelWidth, int rightPanelWidth, int h) {
         Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width, waveScroller.getViewport().getVisibleRect().height);
         emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(leftPanelWidth, h));
         emptyPanelForHorizontalScroll.setSizeInternal(new Dimension(rightPanelWidth, h));

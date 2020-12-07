@@ -128,19 +128,24 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public Dimension getEmptyPanelForHorizontalScrollSizeDebug() {
         return new Dimension(waveScroller.getEmptyPanelSizeDebug());
     }
-    private void setEmptyPanelForHorizontalScrollSize(Dimension size) {
-        setEmptyPanelForHorizontalScrollSize(size.width, size.height);
+    private void setWaveScrollPanelsSizes(Dimension size) {
+        setWaveScrollPanelsSizes(size.width, size.height);
     }
 
-    private void setEmptyPanelForHorizontalScrollSize(int leftPanelWidth, int rightPanelWidth, int h) {
+    private void setWaveScrollPanelsSizes(int leftPanelWidth, int rightPanelWidth, int h) {
 // TODO: DEBUG
 //        ProgramTest.debugPrint("EMPTY PANEL SETTING SIZE:", leftPanelWidth, waves.get(0).getWaveStartX(), rightPanelWidth, waves.get(0).getWaveWidth());
 // TODO: DEBUG
-        waveScroller.setEmptyPanelSizes(leftPanelWidth, rightPanelWidth, h);
+        waveScroller.setEmptyPanelsSizes(leftPanelWidth, rightPanelWidth, h);
     }
 
-    public void setEmptyPanelForHorizontalScrollSize(int leftPanelWidth, int rightPanelWidth) {
-        setEmptyPanelForHorizontalScrollSize(leftPanelWidth, rightPanelWidth, 0);
+    /**
+     * Sets the sizes of panels except the one representing the vertical scrollbar
+     * @param leftPanelWidth
+     * @param rightPanelWidth
+     */
+    public void setWaveScrollPanelsSizes(int leftPanelWidth, int rightPanelWidth) {
+        setWaveScrollPanelsSizes(leftPanelWidth, rightPanelWidth, 0);
     }
 
     private Timer waveScrollerPollTimer;
@@ -510,14 +515,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public void setVariablesWhichNeededSize() {
         // TODO: PROGRAMO 2 - musim ten scroll updatovat kdyz pridam novou pisnicku co je delsi nez vsecnho ostatni
-        setWaveScrollEmptyPanels();
+        setWaveScrollPanelsSizes();
         // TODO: PROGRAMO 2
         if(!waveScrollerPollTimer.isRunning()) {
             waveScrollerPollTimer.start();
         }
     }
 
-    private void setWaveScrollEmptyPanels() {
+    private void setWaveScrollPanelsSizes() {
         // https://stackoverflow.com/questions/19869751/get-size-of-jpanel-before-setvisible-called
         int maxWaveWidth = Integer.MIN_VALUE;
         WaveMainPanel maxWave = null;
@@ -530,8 +535,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         }
 
-        setEmptyPanelForHorizontalScrollSize(maxWave.getWaveStartX(), maxWaveWidth);
-        waveScroller.setEmptyPanelAfterHorizontalScroll(getPanelWithWavesVerticalScrollbarWidth());
+        setWaveScrollPanelsSizes(maxWave.getWaveStartX(), maxWaveWidth);
+        waveScroller.setLastEmptyPanelWidth(getPanelWithWavesVerticalScrollbarWidth());
         waveScroller.revalidateEmptyPanel();
         waveScroller.repaintEmptyPanel();
     }
@@ -1003,7 +1008,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if(oldVisibleWidth != w && waves.size() != 0) {
                     oldVisibleWidth = w;
                     visibleWidthChangedCallback();
-                    setWaveScrollEmptyPanels();
+                    setWaveScrollPanelsSizes();
                 }
 
 //                timestampPanel.revalidate();
@@ -5905,7 +5910,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             // TODO: !!! TED
             callOnResize();
-            setWaveScrollEmptyPanels();
+            setWaveScrollPanelsSizes();
 //            waveScroller.updateWhenZooming();
             //waveScroller.repaintEmptyPanel();
 // TODO: DEBUG

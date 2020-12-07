@@ -720,7 +720,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public void updateHorizontalScrollSize() {
         int newScrollWidth = getHorizontalScrollSizeForThisWave();
-        panelWithWaves.setEmptyPanelForHorizontalScrollSize(wave.getX(), newScrollWidth);
+        panelWithWaves.setWaveScrollPanelsSizes(wave.getX(), newScrollWidth);
     }
 
     public int getHorizontalScrollSizeForThisWave() {

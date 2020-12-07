@@ -3,7 +3,7 @@ package DiagramSynthPackage.GUI.PanelAroundMovablePanelsPackage;
 import DiagramSynthPackage.Synth.CyclicQueueDouble;
 import RocnikovyProjektIFace.WaveDrawValuesAggregated;
 import RocnikovyProjektIFace.WavePanel;
-import RocnikovyProjektIFace.CommunicationWithWaveValuesPanelIFace;
+import RocnikovyProjektIFace.DrawValuesSupplierIFace;
 import RocnikovyProjektIFace.WaveDrawValues;
 import Rocnikovy_Projekt.Program;
 
@@ -14,7 +14,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class PlayedWaveVisualizer extends JPanel implements CommunicationWithWaveValuesPanelIFace {
+public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIFace {
     public PlayedWaveVisualizer() {
         this.addComponentListener(new ComponentListener() {
             @Override

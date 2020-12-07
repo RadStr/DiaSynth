@@ -6,13 +6,13 @@ import java.awt.*;
 
 public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     public WaveDrawValues(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                          int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+                          int windowCountToTheRight, DrawValuesSupplierIFace mainWaveClass) {
         this.mainWaveClass = mainWaveClass;
         this.windowCountToTheRight = windowCountToTheRight;
         waveResize(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount);
     }
 
-    protected CommunicationWithWaveValuesPanelIFace mainWaveClass;
+    protected DrawValuesSupplierIFace mainWaveClass;
 
     protected int windowCountToTheRight;
     public int getWindowCountToTheRight() {

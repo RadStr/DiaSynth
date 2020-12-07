@@ -113,14 +113,14 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 //        DoubleWave[] songs = new DoubleWave[3];
 //        String testSongPathTODO;
 //        if(DEBUG_CLASS.NTB_PATH) {
-//            testSongPathTODO = "C:\\Users\\Radek\\Documents\\Anthrax Worship music\\01-Anthrax _ Worship";          // CommunicationWithWaveValues song
+//            testSongPathTODO = "C:\\Users\\Radek\\Documents\\Anthrax Worship music\\01-Anthrax _ Worship";          // DrawValuesSupplierAggregated song
 //        }
 //        else {
 //            try {
 //                for(int i = 0; i < songs.length; i++) {
 //                    switch(i % 3) {
 //                        case 0:
-//                            testSongPathTODO = "D:\\MP3 HEAVY METAL\\Anthrax\\Anthrax Worship music\\01-Anthrax _ Worship";          // CommunicationWithWaveValues song
+//                            testSongPathTODO = "D:\\MP3 HEAVY METAL\\Anthrax\\Anthrax Worship music\\01-Anthrax _ Worship";          // DrawValuesSupplierAggregated song
 //                            p.setVariables(testSongPathTODO, true);
 //                            p.convertToMono();
 //                            doubleWave = new DoubleWave(p, false);

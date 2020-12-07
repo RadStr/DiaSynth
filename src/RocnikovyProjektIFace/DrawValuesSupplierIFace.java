@@ -9,7 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-public interface CommunicationWithWaveValuesPanelIFace {
+public interface DrawValuesSupplierIFace {
 
     void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex);
 

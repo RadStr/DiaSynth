@@ -17,7 +17,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
      * @param mainWaveClass
      */
     public WaveDrawValuesIndividual(int leftPixel, int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                                    int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+                                    int windowCountToTheRight, DrawValuesSupplierIFace mainWaveClass) {
         super(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount, windowCountToTheRight, mainWaveClass);
         pixelMovement = 0;
         this.leftPixel = leftPixel;

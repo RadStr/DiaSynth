@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class WaveDrawValuesAggregated extends WaveDrawValues {
     public WaveDrawValuesAggregated(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount,
-                                    int windowCountToTheRight, CommunicationWithWaveValuesPanelIFace mainWaveClass) {
+                                    int windowCountToTheRight, DrawValuesSupplierIFace mainWaveClass) {
         super(newVisibleWidth, totalWaveWidthInPixels, startIndexInValues, valueCount, windowCountToTheRight, mainWaveClass);
         windowRange = new Range();
     }

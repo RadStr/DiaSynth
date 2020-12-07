@@ -52,7 +52,7 @@ public class DoubleWave {
     // Partly taken from https://stackoverflow.com/questions/4358875/fastest-way-to-write-an-array-of-integers-to-a-file-in-java
     // Fixed using https://stackoverflow.com/questions/40599842/java-non-writable-channel-exception
     // Note programming the reading is basically the same, I just use getDouble instead of putDouble
-    // I used that inside CommunicationWithWaveValuesPanelIFace class
+    // I used that inside DrawValuesSupplierIFace class
     /**
      *
      * @param doubles

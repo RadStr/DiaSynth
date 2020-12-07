@@ -82,8 +82,8 @@ public class WavePanel extends JPanel {
         this.wholeWavePanel = wholeWavePanel;
 
 
-        communicationWithWaveValuesOnlySamples = new CommunicationWithWaveValuesOnlySamples();
-        communicationWithWaveValues = new CommunicationWithWaveValues();
+        drawValuesSupplierIndividual = new DrawValuesSupplierIndividual();
+        drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
 
         ComponentListener resizeListener = new ComponentAdapter(){
             @Override
@@ -106,7 +106,7 @@ public class WavePanel extends JPanel {
         //setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount);
         //setDrawWrapperInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
 
-//        mainWaveClass = communicationWithWaveValues;
+//        mainWaveClass = drawValuesSupplierAggregated;
 //        if(drawValuesAggregated != currentDrawValues) {
 //            drawValuesIndividual = null;
 //            drawValuesAggregated = new WaveDrawValuesAggregated(wholeWavePanel.getWaveVisibleWidth(),
@@ -116,7 +116,7 @@ public class WavePanel extends JPanel {
 //        }
 
 //        System.exit(wholeWavePanel.getWaveVisibleWidth());
-//        mainWaveClass = communicationWithWaveValuesOnlySamples;
+//        mainWaveClass = drawValuesSupplierIndividual;
 //        if(drawValuesIndividual != currentDrawValues) {
 //            drawValuesAggregated = null;
 //            drawValuesIndividual = new WaveDrawValuesIndividual(0, wholeWavePanel.getWaveVisibleWidth(),
@@ -359,8 +359,8 @@ public class WavePanel extends JPanel {
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();     // TODO: Possible bug
         int totalWaveWidth = waveWidth;
 
-        communicationWithWaveValuesOnlySamples = new CommunicationWithWaveValuesOnlySamples();
-        mainWaveClass = communicationWithWaveValuesOnlySamples;
+        drawValuesSupplierIndividual = new DrawValuesSupplierIndividual();
+        mainWaveClass = drawValuesSupplierIndividual;
 
         leftPixel = wholeWavePanel.getCurrentHorizontalScroll();
         totalWaveWidth = waveWidth;
@@ -368,12 +368,12 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
-            totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValuesOnlySamples);
+            totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierIndividual);
         currentDrawValues = drawValuesIndividual;
     }
     private void setCurrentDrawValuesToNewAggregated() {
-        communicationWithWaveValues = new CommunicationWithWaveValues();
-        mainWaveClass = communicationWithWaveValues;
+        drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
+        mainWaveClass = drawValuesSupplierAggregated;
 //        int visibleWaveWidth = this.getWidth();         // TODO: Possible bug
 //        int totalWaveWidth = wholeWavePanel.getWidth(); // TODO: Possible bug
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
@@ -383,7 +383,7 @@ public class WavePanel extends JPanel {
 
         ProgramTest.debugPrint("VisibleWidths", visibleWaveWidth, this.getVisibleRect());
         drawValuesAggregated = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
-            WINDOW_COUNT_TO_THE_RIGHT, communicationWithWaveValues);
+            WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierAggregated);
         currentDrawValues = drawValuesAggregated;
     }
 
@@ -1615,7 +1615,7 @@ public class WavePanel extends JPanel {
     private void setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount) {
         if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
             //currScroll = convertScrollValueToIndividualIndexInAudio(currScroll);
-            mainWaveClass = communicationWithWaveValuesOnlySamples;
+            mainWaveClass = drawValuesSupplierIndividual;
             if(drawValuesIndividual != currentDrawValues) {
                 drawValuesAggregated = null;
                 drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
@@ -1627,7 +1627,7 @@ public class WavePanel extends JPanel {
             }
         }
         else {
-            mainWaveClass = communicationWithWaveValues;
+            mainWaveClass = drawValuesSupplierAggregated;
             if(drawValuesAggregated != currentDrawValues) {
                 drawValuesIndividual = null;
                 drawValuesAggregated = new WaveDrawValuesAggregated(newVisibleWidth,
@@ -1642,7 +1642,7 @@ public class WavePanel extends JPanel {
     }
 
 
-    private CommunicationWithWaveValuesPanelIFace mainWaveClass = null;
+    private DrawValuesSupplierIFace mainWaveClass = null;
     private int currScroll = 0;
 
     public int convertScrollValueToIndividualIndexInAudio(double scrollValue) {
@@ -2053,8 +2053,8 @@ public class WavePanel extends JPanel {
     private WaveDrawValuesIndividual drawValuesIndividual;
     private WaveDrawValuesAggregated drawValuesAggregated;
     private WaveDrawValues currentDrawValues;
-    private CommunicationWithWaveValuesOnlySamples communicationWithWaveValuesOnlySamples;
-    private CommunicationWithWaveValues communicationWithWaveValues;
+    private DrawValuesSupplierIndividual drawValuesSupplierIndividual;
+    private DrawValuesSupplierAggregated drawValuesSupplierAggregated;
 
 
 
@@ -2064,7 +2064,7 @@ public class WavePanel extends JPanel {
 
 
 
-//        abstract class CommunicationWithWaveValuesBase implements CommunicationWithWaveValuesPanelIFace {
+//        abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
 //        @Override
 //        public boolean getIsCached() {
 //            return isCached;
@@ -2123,7 +2123,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValuesOnlySamples extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierIndividual extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
@@ -2196,7 +2196,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValues extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierAggregated extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //            int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max
@@ -2295,7 +2295,7 @@ public class WavePanel extends JPanel {
 
 
 // TODO: VYMAZAT = OBOJE TAKOVY TO MICHANI
-//    abstract class CommunicationWithWaveValuesBase implements CommunicationWithWaveValuesPanelIFace {
+//    abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
 //        @Override
 //        public boolean getIsCached() {
 //            return isCached;
@@ -2354,7 +2354,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValuesOnlySamples extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierIndividual extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
@@ -2434,7 +2434,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValues extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierAggregated extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //            int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max
@@ -2538,7 +2538,7 @@ public class WavePanel extends JPanel {
 
 
     // TODO: VYMAZAT = ONLY CACHING
-//    abstract class CommunicationWithWaveValuesBase implements CommunicationWithWaveValuesPanelIFace {
+//    abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
 //        @Override
 //        public boolean getIsCached() {
 //            return isCached;
@@ -2597,7 +2597,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValuesOnlySamples extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierIndividual extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //
@@ -2670,7 +2670,7 @@ public class WavePanel extends JPanel {
 //
 //
 //
-//    class CommunicationWithWaveValues extends CommunicationWithWaveValuesBase {
+//    class DrawValuesSupplierAggregated extends DrawValuesSupplier {
 //        @Override
 //        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 //            int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max
@@ -2770,8 +2770,8 @@ public class WavePanel extends JPanel {
 
 
 // TODO: VYMAZAT = NO CACHING
-    abstract class CommunicationWithWaveValuesBase implements CommunicationWithWaveValuesPanelIFace {
-        public CommunicationWithWaveValuesBase() {
+    abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
+        public DrawValuesSupplier() {
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
         }
 
@@ -2831,7 +2831,7 @@ public class WavePanel extends JPanel {
 
 
 
-    class CommunicationWithWaveValuesOnlySamples extends CommunicationWithWaveValuesBase {
+    class DrawValuesSupplierIndividual extends DrawValuesSupplier {
         @Override
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
 
@@ -2905,7 +2905,7 @@ public class WavePanel extends JPanel {
 
 
 
-    class CommunicationWithWaveValues extends CommunicationWithWaveValuesBase {
+    class DrawValuesSupplierAggregated extends DrawValuesSupplier {
         @Override
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
             int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max

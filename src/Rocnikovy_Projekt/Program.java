@@ -106,7 +106,7 @@ import javax.swing.*;
 
 import DebugPackage.DEBUG_CLASS;
 import DiagramSynthPackage.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
-import PartsConnectingGUI.PartsConnectingTabbedPanel;
+import PartsConnectingGUI.DiasynthTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
 import org.jtransforms.fft.DoubleFFT_1D;
@@ -8644,7 +8644,7 @@ if(currBPM == 60) {
         Font newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
         int textWidth = fm.stringWidth(label.getText());
         if(textWidth < maxWidth && textWidth >= 0) {
-            while(currFontSize < PartsConnectingTabbedPanel.MAX_LABEL_FONT_SIZE) {
+            while(currFontSize < DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE) {
                 // TODO: DEBUG
                 //ProgramTest.debugPrint("Font:", newFont, "w and h", maxWidth, maxHeight);
                 // TODO: DEBUG
@@ -8668,7 +8668,7 @@ if(currBPM == 60) {
             }
 
             // If we get here then the maximum label size was reached
-            newFont = new Font(oldFont.getName(), oldFont.getStyle(), PartsConnectingTabbedPanel.MAX_LABEL_FONT_SIZE);
+            newFont = new Font(oldFont.getName(), oldFont.getStyle(), DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE);
             label.setFont(newFont);
             getBiggestFontToFitMaxHeight(label, maxHeight);
         }

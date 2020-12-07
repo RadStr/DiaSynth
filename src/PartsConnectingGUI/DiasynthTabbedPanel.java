@@ -15,8 +15,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 
-public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudioPlayerIFace {
-    public PartsConnectingTabbedPanel(FrameWithFocusControl frame) {
+public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayerIFace {
+    public DiasynthTabbedPanel(FrameWithFocusControl frame) {
         MyLogger.log("Creating parts", 1);
         MyLogger.log("Creating Analyzer", 1);
         analyzerTab = new AnalyzerMainPanel(frame, this);
@@ -87,7 +87,7 @@ public class PartsConnectingTabbedPanel extends JTabbedPane implements AddToAudi
             case 2:
                 return synthTab;
             default:
-                MyLogger.logWithoutIndentation("Invalid selected index inside method getPanelFromSelectedIndex in PartsConnectingTabbedPanel class");
+                MyLogger.logWithoutIndentation("Invalid selected index inside method getPanelFromSelectedIndex in DiasynthTabbedPanel class");
                 System.exit(15);
                 return null;
         }

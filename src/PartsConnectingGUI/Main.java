@@ -3,8 +3,6 @@ package PartsConnectingGUI;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.FrameWithFocusControl;
 import Rocnikovy_Projekt.MyLogger;
-import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,7 +61,7 @@ public class Main {
             MyLogger.log("Created frame", -1);
 
             //Add content to the window.
-            PartsConnectingTabbedPanel program = new PartsConnectingTabbedPanel(frame);
+            DiasynthTabbedPanel program = new DiasynthTabbedPanel(frame);
             frame.add(program, BorderLayout.CENTER);
 
             // Display the window.

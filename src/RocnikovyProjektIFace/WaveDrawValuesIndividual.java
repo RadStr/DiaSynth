@@ -36,7 +36,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         pixelDifferenceBetweenSamples = mainWaveClass.calculatePixelDifferenceBetweenSamples(totalWaveWidthInPixels);
         int w = (int) (visibleWidth / pixelDifferenceBetweenSamples);
         w++;           // + 1 because I have to add the 1 on the left for example 5 /5 == 1 but it contains 2 one on end and one start
-        windowBufferDouble = new WindowBufferDouble(windowCountToTheRight, w, startIndexInValues, valueCount, this);
+        shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, w, startIndexInValues, valueCount, this);
 
         leftPixel = mainWaveClass.getCurrentScroll();
         setFirstSamplePixel();
@@ -51,15 +51,15 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
 
 // TODO: Old - can delete
-        //windowBufferDouble = new WindowBufferDouble(WINDOW_COUNT_TO_THE_RIGHT, newVisibleWidth, leftVisiblePixel, totalWaveWidthInPixels);
+        //shiftBufferDouble = new ShiftBufferDouble(WINDOW_COUNT_TO_THE_RIGHT, newVisibleWidth, leftVisiblePixel, totalWaveWidthInPixels);
 // TODO: newer - can delete
 //            getDrawValues();        // TODO: Volam na tride co se stara o to cachovani
-//            windowBufferDouble.fillBufferWithValuesToDraw();
+//            shiftBufferDouble.fillBufferWithValuesToDraw();
     }
 
     @Override
     public int getStartIndex() {
-        return windowBufferDouble.getStartIndex();
+        return shiftBufferDouble.getStartIndex();
     }
 
 
@@ -74,10 +74,10 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
      */
     private double firstSamplePixel;
     private void setFirstSamplePixel() {
-//        firstSamplePixel = pixelDifferenceBetweenSamples * windowBufferDouble.getTotalIndex();
-//        ProgramTest.debugPrint("setFirstSamplePixel", windowBufferDouble.getTotalIndex(), mainWaveClass.getCurrentScroll());
+//        firstSamplePixel = pixelDifferenceBetweenSamples * shiftBufferDouble.getTotalIndex();
+//        ProgramTest.debugPrint("setFirstSamplePixel", shiftBufferDouble.getTotalIndex(), mainWaveClass.getCurrentScroll());
 
-//        firstSamplePixel = windowBufferDouble.getTotalIndex();
+//        firstSamplePixel = shiftBufferDouble.getTotalIndex();
 
         firstSamplePixel = leftPixel;
         double mod = leftPixel % pixelDifferenceBetweenSamples;
@@ -101,7 +101,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //        int sampleMovement = (int)(pixelMovement / pixelDifferenceBetweenSamples);
 //        if(sampleMovement != 0) {
 //            pixelMovement %= pixelDifferenceBetweenSamples;
-//            windowBufferDouble.updateStartIndex(sampleMovement, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
+//            shiftBufferDouble.updateStartIndex(sampleMovement, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
 //        }
 //    }
 
@@ -120,11 +120,11 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //            ProgramTest.debugPrint("change", change);
 //        }
 //        if(change != 0) {
-//            windowBufferDouble.updateStartIndex(change, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
+//            shiftBufferDouble.updateStartIndex(change, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
 //        }
 //        else if (leftPixel - update == 0 && leftPixel > 0) {
 //            firstSamplePixel = pixelDifferenceBetweenSamples;
-//            windowBufferDouble.updateStartIndex(1, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
+//            shiftBufferDouble.updateStartIndex(1, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
 //        }
 //    }
 
@@ -136,7 +136,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //        int sampleMovement = (int)(pixelMovement / pixelDifferenceBetweenSamples);
 //        if(sampleMovement != 0) {
 //            pixelMovement %= pixelDifferenceBetweenSamples;
-//            windowBufferDouble.updateStartIndex(sampleMovement, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
+//            shiftBufferDouble.updateStartIndex(sampleMovement, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
 //        }
 //    }
 
@@ -181,11 +181,11 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //            }
 //        }
         if(changeInt != 0) {
-            windowBufferDouble.updateStartIndex(changeInt);
+            shiftBufferDouble.updateStartIndex(changeInt);
         }
 //        else if (leftPixel - update == 0 && leftPixel > 0) {
 //            firstSamplePixel = pixelDifferenceBetweenSamples;
-//            windowBufferDouble.updateStartIndex(1, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
+//            shiftBufferDouble.updateStartIndex(1, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
 //        }
     }
 
@@ -200,7 +200,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //        }
 
 //        if(width <= Math.ceil(currentVisiblePixel - pixelDifferenceBetweenSamples +
-//            pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex()))) {
+//            pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()))) {
 //            ProgramTest.debugPrint("Minus");
 //            //currentVisiblePixel += pixelDifferenceBetweenSamples;
 //            currentVisiblePixel -= pixelDifferenceBetweenSamples;
@@ -210,20 +210,20 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //            ProgramTest.debugPrint("Nothing");
 //        }
 //        ProgramTest.debugPrint("IF", width, currentVisiblePixel - pixelDifferenceBetweenSamples +
-//            pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex()));
+//            pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()));
 
 
         ProgramTest.debugPrint("TOHLE MISTO TO JE", width, pixelDifferenceBetweenSamples, width - pixelDifferenceBetweenSamples,
             currentVisiblePixel - pixelDifferenceBetweenSamples +
-                pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex()));
+                pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()));
 //        if(width - pixelDifferenceBetweenSamples >= Math.ceil(currentVisiblePixel - pixelDifferenceBetweenSamples +
-//            pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex()))) {
+//            pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()))) {
 //
 //        }
 
-        //double endPixel = currentVisiblePixel + pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex());
+        //double endPixel = currentVisiblePixel + pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex());
 //        double endPixel = currentVisiblePixel - pixelDifferenceBetweenSamples +
-//            pixelDifferenceBetweenSamples * (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex());
+//            pixelDifferenceBetweenSamples * (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex());
 //        if(width - 1 <= endPixel && width >= endPixel) {
 //            ProgramTest.debugPrint("if");
 //        }
@@ -240,11 +240,11 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         g.drawLine(0, halfHeight + shiftY, width, halfHeight + shiftY);
         g.setColor(Color.blue);
 
-        int index = windowBufferDouble.getStartIndex();
-        ProgramTest.debugPrint("drawSamples", windowBufferDouble.getStartIndex(), windowBufferDouble.getEndIndex(),
-            currentVisiblePixel, width, pixelDifferenceBetweenSamples, windowBufferDouble.getMaxRightIndex());
+        int index = shiftBufferDouble.getStartIndex();
+        ProgramTest.debugPrint("drawSamples", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
+            currentVisiblePixel, width, pixelDifferenceBetweenSamples, shiftBufferDouble.getMaxRightIndex());
 
-        int maxRightIndex = windowBufferDouble.getMaxRightIndex();
+        int maxRightIndex = shiftBufferDouble.getMaxRightIndex();
 //        if(currentVisiblePixel >= width) {
 //            return;
 //        }
@@ -254,12 +254,12 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
         while(currentVisiblePixel < width && index < maxRightIndex) {
 // TODO: DEBUG
-//            if(index > windowBufferDouble.getBuffer().length) {
-//                ProgramTest.debugPrint("Out of bounds", index, windowBufferDouble.getBuffer().length, currentVisiblePixel, width);
+//            if(index > shiftBufferDouble.getBuffer().length) {
+//                ProgramTest.debugPrint("Out of bounds", index, shiftBufferDouble.getBuffer().length, currentVisiblePixel, width);
 //            }
 // TODO: DEBUG
             // minus because it the lowest value has to have to be at the highest pixel
-            int sampleHeight = -(int)(windowBufferDouble.getIndex(index) * halfHeight);
+            int sampleHeight = -(int)(shiftBufferDouble.getIndex(index) * halfHeight);
             // Shift it so it starts in the middle
             sampleHeight += halfHeight + shiftY;
             int currentPixelInt = (int)currentVisiblePixel;
@@ -288,7 +288,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
 
 // TODO: DEBUG
-        ProgramTest.debugPrint("Drawing individual", index, currentVisiblePixel, width, halfHeight, pixelDifferenceBetweenSamples, windowBufferDouble.getMaxRightIndex());
+        ProgramTest.debugPrint("Drawing individual", index, currentVisiblePixel, width, halfHeight, pixelDifferenceBetweenSamples, shiftBufferDouble.getMaxRightIndex());
 
         // TODO: arr uz je pryc ale bylo to ekvivalentni se song z wavy
 //        g.setColor(Color.GREEN);
@@ -362,7 +362,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     @Override
     public int calculateMinLeftIndexForWindowBuffer() {
         int indexInAudio = mainWaveClass.convertFromPixelToIndexInAudio(mainWaveClass.getCurrentScroll());
-        int bufferMidIndex = windowBufferDouble.getMiddleIndex();
+        int bufferMidIndex = shiftBufferDouble.getMiddleIndex();
         int minLeft = bufferMidIndex - indexInAudio;
         minLeft = Math.max(0, minLeft);
         return minLeft;
@@ -372,7 +372,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     public int calculateMaxRightIndexForWindowBuffer() {
         int currValIndex = mainWaveClass.convertFromPixelToIndexInAudio(mainWaveClass.getCurrentScroll());
         int newMaxRightIndex = mainWaveClass.getAudioLen() - currValIndex;
-        newMaxRightIndex += windowBufferDouble.getMiddleIndex();
+        newMaxRightIndex += shiftBufferDouble.getMiddleIndex();
         return newMaxRightIndex;
     }
 }

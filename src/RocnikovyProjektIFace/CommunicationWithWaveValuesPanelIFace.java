@@ -14,7 +14,6 @@ public interface CommunicationWithWaveValuesPanelIFace {
     void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex);
 
 
-
     int getPrefixLenInBytes();
     int fillBufferWithCachedValues(double[] buffer, int bufferStartIndex, int bufferEndIndex,
                                    int startFillIndex, int inputLen, int outputLen);

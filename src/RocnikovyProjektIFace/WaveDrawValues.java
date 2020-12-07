@@ -20,7 +20,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     }
 
     protected int visibleWidth;
-    protected WindowBufferDouble windowBufferDouble;
+    protected ShiftBufferDouble shiftBufferDouble;
 
     abstract public int getStartIndex();
 
@@ -67,11 +67,11 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
      * @param bufferEndIndex
      */
     public void fillBuffer(int startFillIndex, int bufferStartIndex, int bufferEndIndex) {
-        mainWaveClass.fillBufferWithValuesToDraw(windowBufferDouble.getBuffer(), bufferStartIndex, bufferEndIndex, startFillIndex);
+        mainWaveClass.fillBufferWithValuesToDraw(shiftBufferDouble.getBuffer(), bufferStartIndex, bufferEndIndex, startFillIndex);
 
         // TODO: START
-        //windowBufferDouble.setStartIndex(getStartIndex() % windowBufferDouble.getBufferLength());
-        //windowBufferDouble.resetStartIndex();
+        //shiftBufferDouble.setStartIndex(getStartIndex() % shiftBufferDouble.getBufferLength());
+        //shiftBufferDouble.resetStartIndex();
         // TODO: START
     }
 
@@ -79,22 +79,22 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     public void updateBufferWithNewValuesOnLeft(int totalCopiedValCount) {
         // TODO: not sure about these indexes - Possible bug
 //        int bufferStartIndex = 0;
-//        int bufferEndIndex = windowBufferDouble.getNewStartIndexWhenShiftingToRight(totalCopiedValCount);
+//        int bufferEndIndex = shiftBufferDouble.getNewStartIndexWhenShiftingToRight(totalCopiedValCount);
 //        int startFillIndex = mainWaveClass.getCurrentScroll() - totalCopiedValCount; // TODO: Not sure about this - possible bug
         //startFillIndex = mainWaveClass.getNewTotalIndex();              // TODO: Not sure about this - possible bug
 
 
 // TODO: POSUVNY BUFFER
-        int bufferStartIndex = windowBufferDouble.getMinLeftIndex();
-        //int bufferEndIndex = windowBufferDouble.getBufferLength() - totalCopiedValCount;
-        int bufferEndIndex = windowBufferDouble.getMaxRightIndex() - totalCopiedValCount;
+        int bufferStartIndex = shiftBufferDouble.getMinLeftIndex();
+        //int bufferEndIndex = shiftBufferDouble.getBufferLength() - totalCopiedValCount;
+        int bufferEndIndex = shiftBufferDouble.getMaxRightIndex() - totalCopiedValCount;
 //        int startFillIndex = mainWaveClass.getCurrentStartIndexInAudio();     // /2 because it is again min and max // TODO: IND
 //        startFillIndex = convertToNonVisibleMostLeftIndexInAudio(startFillIndex);
 
-//        int distanceFromMidIndex = windowBufferDouble.getMiddleIndex() - totalCopiedValCount;
+//        int distanceFromMidIndex = shiftBufferDouble.getMiddleIndex() - totalCopiedValCount;
 //        double startFillPixel = mainWaveClass.getCurrentScroll() - convertFromBufferToPixel(distanceFromMidIndex);
 //        int startFillIndex = mainWaveClass.convertFromPixelToIndexInAudio(startFillPixel);
-        int beforeMidIndexCount = windowBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
+        int beforeMidIndexCount = shiftBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
         double startFillPixel = mainWaveClass.getCurrentScroll() - convertFromBufferToPixel(beforeMidIndexCount);
         int startFillIndex = mainWaveClass.convertFromPixelToIndexInAudio(startFillPixel);
 
@@ -102,13 +102,13 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
 
         // TODO: EXACT BUFFER
 //        bufferStartIndex = 0;
-//        bufferEndIndex = windowBufferDouble.getBufferLength();
+//        bufferEndIndex = shiftBufferDouble.getBufferLength();
 //        startFillIndex = mainWaveClass.getCurrentScroll();
         // TODO: EXACT BUFFER
 
 
         ProgramTest.debugPrint("updateBufferWithNewValuesOnLeft", bufferStartIndex, bufferEndIndex, startFillIndex,
-            windowBufferDouble.getMinLeftIndex(), windowBufferDouble.getMiddleIndex(), windowBufferDouble.getMaxRightIndex());
+            shiftBufferDouble.getMinLeftIndex(), shiftBufferDouble.getMiddleIndex(), shiftBufferDouble.getMaxRightIndex());
 //        if(bufferEndIndex < 700) {
 //            bufferEndIndex = 700;
 //        }
@@ -119,35 +119,35 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
         fillBuffer(startFillIndex, bufferStartIndex, bufferEndIndex);
         // TODO: Version without IS_FIRST
 //        if(IS_FIRST) {
-////            bufferEndIndex += windowBufferDouble.VISIBLE_WIDTH / 2;
-////            bufferEndIndex = Math.min(bufferEndIndex, windowBufferDouble.getBuffer().length);
+////            bufferEndIndex += shiftBufferDouble.VISIBLE_WIDTH / 2;
+////            bufferEndIndex = Math.min(bufferEndIndex, shiftBufferDouble.getBuffer().length);
 //            fillBuffer(startFillIndex, bufferStartIndex, bufferEndIndex);
 //            ProgramTest.debugPrint("IS_FIRST");
-//            ProgramTest.debugPrint(windowBufferDouble.getBufferLength(), windowBufferDouble.getBuffer().length,
-//                windowBufferDouble.getStartIndex(), windowBufferDouble.getEndIndex(),
-//                windowBufferDouble.getMaxRightIndex(), bufferEndIndex);
+//            ProgramTest.debugPrint(shiftBufferDouble.getBufferLength(), shiftBufferDouble.getBuffer().length,
+//                shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
+//                shiftBufferDouble.getMaxRightIndex(), bufferEndIndex);
 ////            for(; bufferStartIndex < bufferEndIndex; bufferStartIndex++) {
-////                ProgramTest.debugPrint("pixel:", bufferStartIndex, windowBufferDouble.getIndex(bufferStartIndex));
-////                windowBufferDouble.getBuffer()[bufferStartIndex] = 0.75;
+////                ProgramTest.debugPrint("pixel:", bufferStartIndex, shiftBufferDouble.getIndex(bufferStartIndex));
+////                shiftBufferDouble.getBuffer()[bufferStartIndex] = 0.75;
 ////            }
-////            windowBufferDouble.getBuffer()[bufferStartIndex] = -0.75;
-//            //windowBufferDouble.getBuffer()[++bufferStartIndex] = -0.75;
+////            shiftBufferDouble.getBuffer()[bufferStartIndex] = -0.75;
+//            //shiftBufferDouble.getBuffer()[++bufferStartIndex] = -0.75;
 //        }
 //        else {
-//////            //int w = windowBufferDouble.VISIBLE_WIDTH;
-////            int w = windowBufferDouble.getMaxRightIndex();
-////            fillBuffer(startFillIndex, windowBufferDouble.getMinLeftIndex(), w);
-////////            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, windowBufferDouble.getBuffer().length);
+//////            //int w = shiftBufferDouble.VISIBLE_WIDTH;
+////            int w = shiftBufferDouble.getMaxRightIndex();
+////            fillBuffer(startFillIndex, shiftBufferDouble.getMinLeftIndex(), w);
+////////            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, shiftBufferDouble.getBuffer().length);
 //////            ProgramTest.debugPrint("IS_NOT_FIRST");
 ////
-//////            for(int i = 0; i < windowBufferDouble.getBuffer().length; i++) {
-//////                windowBufferDouble.getBuffer()[i] = 0;
+//////            for(int i = 0; i < shiftBufferDouble.getBuffer().length; i++) {
+//////                shiftBufferDouble.getBuffer()[i] = 0;
 //////            }
 //
 //        }
         // TODO: TESTING WAVES
 // TODO: MIDINDEX
-//        windowBufferDouble.resetStartIndex();
+//        shiftBufferDouble.resetStartIndex();
 // TODO: MIDINDEX
     }
 
@@ -155,7 +155,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     public void updateBufferWithNewValuesOnRight(int totalCopiedValCount) {
         // TODO: not sure about these indexes - Possible bug
 //        int bufferStartIndex = totalCopiedValCount;
-//        int bufferEndIndex = windowBufferDouble.getBufferLength();
+//        int bufferEndIndex = shiftBufferDouble.getBufferLength();
 //        int startFillIndex = mainWaveClass.getCurrentScroll() + totalCopiedValCount; // TODO: Not sure about this - possible bug
         //startFillIndex = mainWaveClass.getNewTotalIndex();                  // TODO: Not sure about this - possible bug
 
@@ -165,14 +165,14 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
         int bufferEndIndex = getBufferEndIndexOnRight();
 
 
-        int distanceFromMidIndex = windowBufferDouble.getMiddleIndex() - totalCopiedValCount;
+        int distanceFromMidIndex = shiftBufferDouble.getMiddleIndex() - totalCopiedValCount;
         double startFillPixel = mainWaveClass.getCurrentScroll() - convertFromBufferToPixel(distanceFromMidIndex);
         int startFillIndex = mainWaveClass.convertFromPixelToIndexInAudio(startFillPixel);
 
 
         ProgramTest.debugPrint("updateBufferWithNewValuesOnRight", bufferStartIndex, bufferEndIndex, startFillIndex,
             mainWaveClass.getCurrentScroll(), totalCopiedValCount,
-            windowBufferDouble.getMinLeftIndex(), windowBufferDouble.getMiddleIndex(), windowBufferDouble.getMaxRightIndex());
+            shiftBufferDouble.getMinLeftIndex(), shiftBufferDouble.getMiddleIndex(), shiftBufferDouble.getMaxRightIndex());
 
 //        if(startFillIndex != mainWaveClass.convertFromPixelToIndexInAudio(
 //            mainWaveClass.getCurrentScroll() +
@@ -187,7 +187,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
 
         // TODO: EXACT BUFFER
 //        bufferStartIndex = 0;
-//        bufferEndIndex = windowBufferDouble.getBufferLength();
+//        bufferEndIndex = shiftBufferDouble.getBufferLength();
 //        startFillIndex = mainWaveClass.getCurrentScroll();
         // TODO: EXACT BUFFER
 
@@ -195,8 +195,8 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
 // TODO: NEVIM
 //        if(isFirst) {
 //            for (int i = bufferStartIndex; i < bufferEndIndex; i++) {
-//                windowBufferDouble.getBuffer()[i] = i / (double) windowBufferDouble.getBufferLength();
-////            windowBufferDouble.getBuffer()[i] = 0.75;
+//                shiftBufferDouble.getBuffer()[i] = i / (double) shiftBufferDouble.getBufferLength();
+////            shiftBufferDouble.getBuffer()[i] = 0.75;
 //            }
 //            isFirst = false;
 //        }
@@ -207,44 +207,44 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
         // TODO: Version without IS_FIRST
         fillBuffer(startFillIndex, bufferStartIndex, bufferEndIndex);
         ProgramTest.debugPrint("IS_BOTH");
-        ProgramTest.debugPrint("specs", bufferStartIndex, bufferEndIndex, windowBufferDouble.getMaxRightIndex());
+        ProgramTest.debugPrint("specs", bufferStartIndex, bufferEndIndex, shiftBufferDouble.getMaxRightIndex());
         // TODO: Version without IS_FIRST
 //        if(IS_FIRST) {
 //            fillBuffer(startFillIndex, bufferStartIndex, bufferEndIndex);
 //            ProgramTest.debugPrint("IS_FIRST");
-//            ProgramTest.debugPrint("First specs", bufferStartIndex, bufferEndIndex, windowBufferDouble.getMaxRightIndex());
+//            ProgramTest.debugPrint("First specs", bufferStartIndex, bufferEndIndex, shiftBufferDouble.getMaxRightIndex());
 //        }
 //        else {
 ////            int w;
-////            w = windowBufferDouble.getMaxRightIndex() + 2;          // TODO: Crash - so it is correct
-////            w = Math.min(windowBufferDouble.getBuffer().length, w);
+////            w = shiftBufferDouble.getMaxRightIndex() + 2;          // TODO: Crash - so it is correct
+////            w = Math.min(shiftBufferDouble.getBuffer().length, w);
 ////            if(mainWaveClass.getCurrentScroll() == mainWaveClass.getMaxScroll()) {
 ////                w = mainWaveClass.getAudioLen() - startFillIndex;
 ////            }
 ////
-////            w = windowBufferDouble.getMaxRightIndex();
-////            int beforeMidIndexCount = windowBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
+////            w = shiftBufferDouble.getMaxRightIndex();
+////            int beforeMidIndexCount = shiftBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
 ////            double startFillPixelWhenFillingEveything = mainWaveClass.getCurrentScroll() - convertFromBufferToPixel(beforeMidIndexCount);
 ////            int startFillIndexWhenFillingEveything = mainWaveClass.convertFromPixelToIndexInAudio(startFillPixelWhenFillingEveything);
-////            //fillBuffer(mainWaveClass.getCurrentStartIndexInAudio(), windowBufferDouble.getMinLeftIndex(), w);
-////            fillBuffer(startFillIndexWhenFillingEveything, windowBufferDouble.getMinLeftIndex(), w);
+////            //fillBuffer(mainWaveClass.getCurrentStartIndexInAudio(), shiftBufferDouble.getMinLeftIndex(), w);
+////            fillBuffer(startFillIndexWhenFillingEveything, shiftBufferDouble.getMinLeftIndex(), w);
 ////
 //////////            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, w);
 ////////
 //////////            if(startFillIndex == 0) {
 ////////                fillBufferWithValuesToDraw(mainWaveClass.getCurrentStartIndexInAudio(), 0, w);
-////////                windowBufferDouble.resetStartIndex();
+////////                shiftBufferDouble.resetStartIndex();
 //////////            }
 ////////
 ////
-//////            for(int i = 0; i < windowBufferDouble.getBuffer().length; i++) {
-//////                windowBufferDouble.getBuffer()[i] = 0;
+//////            for(int i = 0; i < shiftBufferDouble.getBuffer().length; i++) {
+//////                shiftBufferDouble.getBuffer()[i] = 0;
 //////            }
 ////
 //////
 //////            ProgramTest.debugPrint("visible width * 2 going right", w);
-////////            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, windowBufferDouble.getBuffer().length);
-//////            ProgramTest.debugPrint(mainWaveClass.getCurrentScroll(), windowBufferDouble.getBufferLength());
+////////            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, shiftBufferDouble.getBuffer().length);
+//////            ProgramTest.debugPrint(mainWaveClass.getCurrentScroll(), shiftBufferDouble.getBufferLength());
 //////            ProgramTest.debugPrint("IS_NOT_FIRST");
 //        }
         // TODO: TESTING WAVES
@@ -252,7 +252,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
 //        }
 // TODO: NEVIM
 // TODO: MIDINDEX
-//        windowBufferDouble.resetStartIndex();
+//        shiftBufferDouble.resetStartIndex();
 // TODO: MIDINDEX
     }
 
@@ -262,11 +262,11 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     // TODO: NEVIM
 
     private int getBufferStartIndexOnRight(int copiedValCount) {
-        return windowBufferDouble.getMinLeftIndex() + copiedValCount;
+        return shiftBufferDouble.getMinLeftIndex() + copiedValCount;
     }
 
     private int getBufferEndIndexOnRight() {
-        return windowBufferDouble.getMaxRightIndex();
+        return shiftBufferDouble.getMaxRightIndex();
     }
 
     @Override
@@ -279,7 +279,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
 
     private int getNewTotalIndex() {
         // I add to the old index how much I moved in the start index and from that I substract the middle index, because I take the middle index values from the left
-        return mainWaveClass.getCurrentScroll() + windowBufferDouble.getStartIndex() - windowBufferDouble.getMiddleIndex();
+        return mainWaveClass.getCurrentScroll() + shiftBufferDouble.getStartIndex() - shiftBufferDouble.getMiddleIndex();
     }
 
     /**
@@ -287,15 +287,15 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
      * @param startIndexInAudio is the start index in audio - the index of the most left currently visible sample.
      */
     protected void fillWholeBuffer(int startIndexInAudio) {        // TODO: Possible bug
-        windowBufferDouble.resetStartIndex();
+        shiftBufferDouble.resetStartIndex();
         ProgramTest.debugPrint("fill whole buffer", startIndexInAudio, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
-        windowBufferDouble.setBounds();
-        //windowBufferDouble.setMaxRightIndex();
-        int minLeftIndex = windowBufferDouble.getMinLeftIndex();
+        shiftBufferDouble.setBounds();
+        //shiftBufferDouble.setMaxRightIndex();
+        int minLeftIndex = shiftBufferDouble.getMinLeftIndex();
         startIndexInAudio = convertToNonVisibleMostLeftIndexInAudio(startIndexInAudio);
 
-        ProgramTest.debugPrint("fill whole buffer2", startIndexInAudio, minLeftIndex, windowBufferDouble.getMaxRightIndex());
-        fillBuffer(startIndexInAudio, minLeftIndex, windowBufferDouble.getMaxRightIndex());
+        ProgramTest.debugPrint("fill whole buffer2", startIndexInAudio, minLeftIndex, shiftBufferDouble.getMaxRightIndex());
+        fillBuffer(startIndexInAudio, minLeftIndex, shiftBufferDouble.getMaxRightIndex());
     }
 
     /**
@@ -304,7 +304,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
      * @return Returns the index in audio corresponding to the most left index in window buffer.
      */
     private int convertToNonVisibleMostLeftIndexInAudio(int startIndexInAudio) {
-        int indexCountBeforeMidIndex = windowBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
+        int indexCountBeforeMidIndex = shiftBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();
         startIndexInAudio -= convertFromBufferToIndexInAudio(indexCountBeforeMidIndex);
         return startIndexInAudio;
     }

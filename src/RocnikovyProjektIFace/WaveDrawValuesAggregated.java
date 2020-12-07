@@ -17,18 +17,18 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 //    }
 //
 //    private int visibleWidth;
-//    protected WindowBufferDouble windowBufferDouble;
+//    protected ShiftBufferDouble shiftBufferDouble;
 
     @Override
     public void waveResize(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount) {
-        if(visibleWidth != newVisibleWidth || windowBufferDouble == null) {
+        if(visibleWidth != newVisibleWidth || shiftBufferDouble == null) {
             visibleWidth = newVisibleWidth;
-            //windowBufferDouble = new WindowBufferDouble(WINDOW_COUNT_TO_THE_RIGHT, newWidth, leftVisiblePixel, totalWaveWidthInPixels);
+            //shiftBufferDouble = new ShiftBufferDouble(WINDOW_COUNT_TO_THE_RIGHT, newWidth, leftVisiblePixel, totalWaveWidthInPixels);
             // TODO: EXACT BUFFER
             //int w = 2 * newVisibleWidth;        // 2 * because it contains min and max
             int w = 2 * newVisibleWidth;        // 2 * because it contains min and max  // TODO: ZOOM
             // TODO: EXACT BUFFER
-            windowBufferDouble = new WindowBufferDouble(windowCountToTheRight, w, startIndexInValues, valueCount, this);      // TODO: ZOOM
+            shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, w, startIndexInValues, valueCount, this);      // TODO: ZOOM
             ProgramTest.debugPrint("visible width * 2", 2 * newVisibleWidth);
             fillWholeBuffer(startIndexInValues);
         }
@@ -50,7 +50,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
     @Override
     public int getStartIndex() {
-        return windowBufferDouble.getStartIndex();
+        return shiftBufferDouble.getStartIndex();
     }
 
 
@@ -59,8 +59,8 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 //     * @param startIndex is the current index in buffer. Must be < 0.
 //     */
 //    private void updateWaveToLeft(int startIndex) {
-//        windowBufferDouble.updateInternalBufferScrollingToLeft(startIndex);
-//        int len = windowBufferDouble.getBufferLength();
+//        shiftBufferDouble.updateInternalBufferScrollingToLeft(startIndex);
+//        int len = shiftBufferDouble.getBufferLength();
 //        int dif = len + startIndex;
 //        // In this case we can reuse some old values from buffer, so we don't read it all from HDD cache (or calculate again when caching is disabled)
 //        // Basically it shifts by the middleIndex - startIndex to the left
@@ -75,8 +75,8 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 // TODO: Stara verze - muzu asi vymazat
 //    public void shiftBuffer(int update) {
 //
-//        windowBufferDouble.updateInternalBufferScrollingToLeft(startIndex);
-//        int len = windowBufferDouble.getBufferLength();
+//        shiftBufferDouble.updateInternalBufferScrollingToLeft(startIndex);
+//        int len = shiftBufferDouble.getBufferLength();
 //        int dif = len + startIndex;
 //        // In this case we can reuse some old values from buffer, so we don't read it all from HDD cache (or calculate again when caching is disabled)
 //        // Basically it shifts by the middleIndex - startIndex to the left
@@ -106,19 +106,19 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         //TODO: HORIZONTAL UPDATE
         // TOOD: AVG - vymazat ten update *= 2 pro avg
         pixelShift *= 2;        // Because min and max
-        windowBufferDouble.updateStartIndex(pixelShift);
+        shiftBufferDouble.updateStartIndex(pixelShift);
 
         // TODO: TEST
 //        if(!IS_FIRST) {
-//            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, windowBufferDouble.VISIBLE_WIDTH);
-//            windowBufferDouble.resetStartIndex();
-//            nonFirstBuffer = windowBufferDouble;
+//            fillBufferWithValuesToDraw(mainWaveClass.getCurrentScroll(), 0, shiftBufferDouble.VISIBLE_WIDTH);
+//            shiftBufferDouble.resetStartIndex();
+//            nonFirstBuffer = shiftBufferDouble;
 //
-//            ProgramTest.debugPrint("Visiblito", windowBufferDouble.VISIBLE_WIDTH);
+//            ProgramTest.debugPrint("Visiblito", shiftBufferDouble.VISIBLE_WIDTH);
 //        }
 //        else {
-////            double[] buffer = windowBufferDouble.getBuffer();
-////            for(int i = 0, j = getStartIndex(); i < windowBufferDouble.VISIBLE_WIDTH; i++, j++) {
+////            double[] buffer = shiftBufferDouble.getBuffer();
+////            for(int i = 0, j = getStartIndex(); i < shiftBufferDouble.VISIBLE_WIDTH; i++, j++) {
 ////                if(buffer[j] != nonFirstBuffer.getIndex(i)) {
 ////                    ProgramTest.debugPrint("Non equal", getStartIndex(), i, j, buffer[j], nonFirstBuffer.getIndex(i));
 //////                    if(Math.abs(buffer[j] - nonFirstBuffer.getIndex(i)) > 0.1) {
@@ -138,16 +138,16 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         g.setColor(Color.blue);
 
 //        try {     // TODO: DEBUG
-        windowBufferDouble.setRange(windowRange);
+        shiftBufferDouble.setRange(windowRange);
 // TODO: DEBUG
-        ProgramTest.debugPrint("START_INDEX:", windowBufferDouble.getStartIndex(), windowBufferDouble.getEndIndex(),
-                windowRange.start, windowRange.end, windowBufferDouble.getMaxRightIndex(), windowBufferDouble.getBufferLength(),
-                windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex(),
-                (windowBufferDouble.getEndIndex() - windowBufferDouble.getStartIndex()) / 2);
+        ProgramTest.debugPrint("START_INDEX:", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
+                windowRange.start, windowRange.end, shiftBufferDouble.getMaxRightIndex(), shiftBufferDouble.getBufferLength(),
+                shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex(),
+                (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()) / 2);
 // TODO: DEBUG
-        for (int i = 0; i < /*windowBufferDouble.getBufferLength()*/windowBufferDouble.getEndIndex(); i++) {
-            if (windowBufferDouble.getIndex(i) != 0) {
-                ProgramTest.debugPrint("first non-zero index", i, windowBufferDouble.getIndex(i));
+        for (int i = 0; i < /*shiftBufferDouble.getBufferLength()*/shiftBufferDouble.getEndIndex(); i++) {
+            if (shiftBufferDouble.getIndex(i) != 0) {
+                ProgramTest.debugPrint("first non-zero index", i, shiftBufferDouble.getIndex(i));
                 break;
             }
         }
@@ -158,9 +158,9 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         // TODO: SQUARE WAVE
         int halfHeight = height / 2;              // TODO: BUG !!! windowRange.end je / 2 skutecne hodnote, protoze neberu k uvahu minima ... nekde tam musim dat *2
         for (int i = windowRange.start, x = 0; i < windowRange.end; i++, x++) {
-            double minY = windowBufferDouble.getIndex(i);
+            double minY = shiftBufferDouble.getIndex(i);
             i++;
-            double maxY = windowBufferDouble.getIndex(i);
+            double maxY = shiftBufferDouble.getIndex(i);
 
             int sampleMinHeightSample = -(int) (minY * halfHeight);    // minus because it the lowest value has to have to be at the highest pixel
             int sampleMaxHeightSample = -(int) (maxY * halfHeight);
@@ -211,15 +211,15 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 //        g.setColor(Color.blue);
 //
 ////        try {     // TODO: DEBUG
-//        windowBufferDouble.setRange(windowRange);
+//        shiftBufferDouble.setRange(windowRange);
 //// TODO: DEBUG
-////            ProgramTest.debugPrint("START_INDEX:", windowBufferDouble.getStartIndex(), windowBufferDouble.getEndIndex(), windowBufferDouble.getBufferLength());
+////            ProgramTest.debugPrint("START_INDEX:", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(), shiftBufferDouble.getBufferLength());
 //// TODO: DEBUG
 //
 //        int halfHeight = height / 2;
 //        // TODO: BUG !!! windowRange.end je / 2 skutecne hodnote, protoze neberu k uvahu minima ... nekde tam musim dat *2
 //        for (int i = windowRange.start / 2, x = 0; i < windowRange.end / 2; i++, x++) {
-//            double avgY = windowBufferDouble.getIndex(i);
+//            double avgY = shiftBufferDouble.getIndex(i);
 //            int sampleAvgHeightSample = -(int) (avgY * halfHeight);    // minus because it the lowest value has to have to be at the highest pixel
 //            // Shift it so it starts in the middle
 //            sampleAvgHeightSample += halfHeight;
@@ -235,7 +235,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
     @Override
     public int calculateMinLeftIndexForWindowBuffer() {
         int currScroll = mainWaveClass.getCurrentScroll();
-        int midIndex = windowBufferDouble.getMiddleIndex();
+        int midIndex = shiftBufferDouble.getMiddleIndex();
 
         int minLeft = midIndex - convertFromPixelToBuffer(currScroll);
         minLeft = Math.max(0, minLeft);
@@ -255,11 +255,11 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
         int pixelCount = mainWaveClass.getTotalWidth() - mainWaveClass.getCurrentScroll();
         int maxRightIndex = convertFromPixelToBuffer(pixelCount);
-        maxRightIndex += windowBufferDouble.getMiddleIndex();
+        maxRightIndex += shiftBufferDouble.getMiddleIndex();
         ProgramTest.debugPrint("calculateMaxRightIndexForWindowBuffer", mainWaveClass.getMaxScroll(), mainWaveClass.getCurrentScroll());
         ProgramTest.debugPrint("calculateMaxRightIndexForWindowBuffer", maxRightIndex, pixelCount, convertFromPixelToBuffer(pixelCount),
-            windowBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < windowBufferDouble.getMiddleIndex(),
-            windowBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
+            shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < shiftBufferDouble.getMiddleIndex(),
+            shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
         return maxRightIndex;
     }
 }

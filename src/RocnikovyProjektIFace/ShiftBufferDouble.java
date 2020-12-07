@@ -6,10 +6,10 @@ import Rocnikovy_Projekt.ProgramTest;
  * Immutable object, basically what it does, in constructor is created buffer, and we move in it by changing
  * setStartIndex method. We can fill the buffer, but can not change the length. So for resizing there is need to create new object.
  */
-public class WindowBufferDouble {
+public class ShiftBufferDouble {
 
-// TODO:    //public WindowBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesUpdaterIFace wrapper) {
-    public WindowBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, WaveDrawValuesUpdaterIFace wrapper) {
+// TODO:    //public ShiftBufferDouble(int WINDOW_COUNT_TO_THE_RIGHT, int windowSize, int leftVisiblePixel, int totalWaveWidthInPixels, WaveDrawValuesUpdaterIFace wrapper) {
+    public ShiftBufferDouble(int windowCountToTheRight, int windowSize, int startIndexInValues, int valueCount, WaveDrawValuesUpdaterIFace wrapper) {
         this.wrapper = wrapper;
         windowCount = calculateWindowCount(windowCountToTheRight);
         this.windowSize = windowSize;

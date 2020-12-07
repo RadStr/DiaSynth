@@ -851,7 +851,7 @@ public class WavePanel extends JPanel {
 
     private ZoomVariablesOneWave zoomVariables;
 // TODO: Possible bug - ale jen pozustatek z minulosti asi    double[][] waveDrawValues;
-//    private WindowBufferDouble drawBuffer;
+//    private ShiftBufferDouble drawBuffer;
 //    private void fillBufferWithValuesToDraw(int startX, int currZoom) {
 //        String drawValues = getDrawDoubles(prog, currZoom);
 //        drawBuffer.fillBufferWithValuesToDraw(startX, drawValues, WAVE_DRAW_VALS_SEPARATOR);

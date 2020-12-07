@@ -1,12 +1,12 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.decibel.DecibelDetectorMainClassData;
+import RocnikovyProjektIFace.decibel.DecibelMeterMain;
 import RocnikovyProjektIFace.decibel.SamplesGetterIFace;
 
 import java.awt.event.ActionListener;
 
 /**
- * Contains the play/pause button, mute button, volume slider, zoom buttons and decibel detector
+ * Contains the play/pause button, mute button, volume slider, zoom buttons and decibel meter
  */
 public class AudioControlPanelWithZoomAndDecibel extends AudioControlPanelWithZoom {
     public AudioControlPanelWithZoomAndDecibel(SamplesGetterIFace panelWithSamples, ActionListener playButtonActionListener,
@@ -14,12 +14,12 @@ public class AudioControlPanelWithZoomAndDecibel extends AudioControlPanelWithZo
                                                ActionListener unzoomListener, int numberOfChannels) {
         super(playButtonActionListener, masterGainGetter, zoomListener, unzoomListener);
 
-        decibelDetectorData = new DecibelDetectorMainClassData(panelWithSamples, numberOfChannels);
-        this.add(decibelDetectorData.getDecibelDetector());
+        decibelMeterMain = new DecibelMeterMain(panelWithSamples, numberOfChannels);
+        this.add(decibelMeterMain.getDecibelMeter());
     }
 
-    private DecibelDetectorMainClassData decibelDetectorData;
-    public DecibelDetectorMainClassData getDecibelDetectorData() {
-        return decibelDetectorData;
+    private DecibelMeterMain decibelMeterMain;
+    public DecibelMeterMain getDecibelMeterMain() {
+        return decibelMeterMain;
     }
 }

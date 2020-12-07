@@ -22,7 +22,7 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Ot
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherOperationInput;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
-import RocnikovyProjektIFace.decibel.DecibelDetector;
+import RocnikovyProjektIFace.decibel.DecibelMeter;
 import RocnikovyProjektIFace.decibel.SamplesGetterIFace;
 import RocnikovyProjektIFace.Drawing.*;
 import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
@@ -606,7 +606,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         setSongs(waveCount);
         setMultFactors(waveCount);
         int numberOfChannels = outputAudioFormat.getChannels();
-        audioControlPanel.getDecibelDetectorData().changeNumberOfChannels(numberOfChannels);
+        audioControlPanel.getDecibelMeterMain().changeNumberOfChannels(numberOfChannels);
         hasAtLeastOneWave = waveCount != 0;
     }
 
@@ -810,11 +810,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
         JMenu viewMenu = new JMenu("View");
-        JCheckBoxMenuItem shouldViewDecibelsMenuItem = new JCheckBoxMenuItem("Show decibel detector");
+        JCheckBoxMenuItem shouldViewDecibelsMenuItem = new JCheckBoxMenuItem("Show decibel meter");
         shouldViewDecibelsMenuItem.setSelected(true);
         shouldViewDecibelsMenuItem.addItemListener(e -> {
-            DecibelDetector dd = audioControlPanel.getDecibelDetectorData().getDecibelDetector();
-            dd.setIsDrawingEnabled(e.getStateChange() == ItemEvent.SELECTED);
+            DecibelMeter dm = audioControlPanel.getDecibelMeterMain().getDecibelMeter();
+            dm.setIsDrawingEnabled(e.getStateChange() == ItemEvent.SELECTED);
         });
         viewMenu.add(shouldViewDecibelsMenuItem);
         menuBar.add(viewMenu);
@@ -4883,7 +4883,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     @Override
     public double[] getCurrentSamples() {
-        double[] outputArr = audioControlPanel.getDecibelDetectorData().getChannelAmplitudes();
+        double[] outputArr = audioControlPanel.getDecibelMeterMain().getChannelSamples();
         fillArrayWithCurrentlyPlayedValues(outputArr);
         return outputArr;
     }

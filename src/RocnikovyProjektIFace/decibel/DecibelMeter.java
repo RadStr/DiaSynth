@@ -10,8 +10,8 @@ import javax.swing.*;
 
 // I choose to use doubles instead of ints (for jumps) since it is just a few instructions
 // And the painting won't be called that often.
-public class DecibelDetector extends JPanel {
-	public DecibelDetector(SamplesGetterIFace samplesGetter) {
+public class DecibelMeter extends JPanel {
+	public DecibelMeter(SamplesGetterIFace samplesGetter) {
 		this.setLayout(null);
 		
 		this.samplesGetter = samplesGetter;

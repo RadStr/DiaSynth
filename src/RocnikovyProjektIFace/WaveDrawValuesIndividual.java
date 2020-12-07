@@ -360,7 +360,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     }
 
     @Override
-    public int calculateMinLeftIndexForWindowBuffer() {
+    public int calculateMinLeftIndexForShiftBuffer() {
         int indexInAudio = mainWaveClass.convertFromPixelToIndexInAudio(mainWaveClass.getCurrentScroll());
         int bufferMidIndex = shiftBufferDouble.getMiddleIndex();
         int minLeft = bufferMidIndex - indexInAudio;
@@ -369,7 +369,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     }
 
     @Override
-    public int calculateMaxRightIndexForWindowBuffer() {
+    public int calculateMaxRightIndexForShiftBuffer() {
         int currValIndex = mainWaveClass.convertFromPixelToIndexInAudio(mainWaveClass.getCurrentScroll());
         int newMaxRightIndex = mainWaveClass.getAudioLen() - currValIndex;
         newMaxRightIndex += shiftBufferDouble.getMiddleIndex();

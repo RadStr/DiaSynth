@@ -233,7 +233,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 //    }
 
     @Override
-    public int calculateMinLeftIndexForWindowBuffer() {
+    public int calculateMinLeftIndexForShiftBuffer() {
         int currScroll = mainWaveClass.getCurrentScroll();
         int midIndex = shiftBufferDouble.getMiddleIndex();
 
@@ -243,7 +243,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
     }
 
     @Override
-    public int calculateMaxRightIndexForWindowBuffer() {
+    public int calculateMaxRightIndexForShiftBuffer() {
         //int currValIndex = mainWaveClass.convertFromPixelToIndexInAudio(mainWaveClass.getCurrentScroll());
 //        int index = mainWaveClass.getAudioLen() - currValIndex;
 //        double newMaxRightIndexPixel = mainWaveClass.convertFromIndexInValuesToPixel(index);
@@ -256,8 +256,8 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         int pixelCount = mainWaveClass.getTotalWidth() - mainWaveClass.getCurrentScroll();
         int maxRightIndex = convertFromPixelToBuffer(pixelCount);
         maxRightIndex += shiftBufferDouble.getMiddleIndex();
-        ProgramTest.debugPrint("calculateMaxRightIndexForWindowBuffer", mainWaveClass.getMaxScroll(), mainWaveClass.getCurrentScroll());
-        ProgramTest.debugPrint("calculateMaxRightIndexForWindowBuffer", maxRightIndex, pixelCount, convertFromPixelToBuffer(pixelCount),
+        ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", mainWaveClass.getMaxScroll(), mainWaveClass.getCurrentScroll());
+        ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", maxRightIndex, pixelCount, convertFromPixelToBuffer(pixelCount),
             shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < shiftBufferDouble.getMiddleIndex(),
             shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
         return maxRightIndex;

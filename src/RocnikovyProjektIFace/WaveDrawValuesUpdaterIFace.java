@@ -36,6 +36,6 @@ public interface WaveDrawValuesUpdaterIFace {
         return index;
     }
 
-    int calculateMaxRightIndexForWindowBuffer();
-    int calculateMinLeftIndexForWindowBuffer();
+    int calculateMaxRightIndexForShiftBuffer();
+    int calculateMinLeftIndexForShiftBuffer();
 }

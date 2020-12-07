@@ -301,7 +301,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesUpdaterIFace {
     /**
      * Shift it to the left because the first visible value will be at middle index
      * @param startIndexInAudio is the start index in audio - the index of the most left currently visible sample.
-     * @return Returns the index in audio corresponding to the most left index in window buffer.
+     * @return Returns the index in audio corresponding to the most left index in shift buffer.
      */
     private int convertToNonVisibleMostLeftIndexInAudio(int startIndexInAudio) {
         int indexCountBeforeMidIndex = shiftBufferDouble.calculateNumberOfIndicesInBufferBeforeMidIndex();

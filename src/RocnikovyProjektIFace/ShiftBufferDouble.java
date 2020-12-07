@@ -46,7 +46,7 @@ public class ShiftBufferDouble {
         setMinLeftIndex(0);
     }
     public void setMinLeftIndex() {
-        setMinLeftIndex(wrapper.calculateMinLeftIndexForWindowBuffer());
+        setMinLeftIndex(wrapper.calculateMinLeftIndexForShiftBuffer());
     }
     private void setMinLeftIndex(int val) {
 //        if(val < 0) {
@@ -71,7 +71,7 @@ public class ShiftBufferDouble {
         setMaxRightIndex(buffer.length);
     }
     public void setMaxRightIndex() {
-        setMaxRightIndex(wrapper.calculateMaxRightIndexForWindowBuffer());
+        setMaxRightIndex(wrapper.calculateMaxRightIndexForShiftBuffer());
     }
     public void setMaxRightIndex(int val) {
 //        if(val > buffer.length) {

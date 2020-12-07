@@ -55,28 +55,23 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
             x += waveMainPanel.getCurrentHorizontalScroll();
             double time = x / (double) waveWidth;
 
-// TODO: DEBUG            System.out.println(currSampleUserSelected + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
+// TODO: DEBUG            System.out.println(userSelectedSample + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
 // TODO: PROGRAMO
-//        int currSampleUserSelected = Program.convertToMultipleDown(currSampleRaw, waveMainPanel.getNumberOfChannelsInOutputFormat());
+//        int userSelectedSample = Program.convertToMultipleDown(currSampleRaw, waveMainPanel.getNumberOfChannelsInOutputFormat());
             //int currSampleRaw = (int)(time * waveMainPanel.getDoubleWaveLength());
-            int currSampleUserSelected = (int) (time * songLenInFrames);
+
 // TODO: PROGRAMO
-            waveMainPanel.setCurrSampleUserSelected(currSampleUserSelected);
-// TODO: DEBUG            System.out.println(currSampleUserSelected + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
+// TODO: DEBUG            System.out.println(userSelectedSample + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
 
             // TODO: just for debugging test, if the timestamps are drawed correctly
-            // TODO:            currSampleUserSelected = 80 * program.getSizeOfOneSecInBytes();
+            // TODO:            userSelectedSample = 80 * program.getSizeOfOneSecInBytes();
             // TODO:
 
-            double timeLineX = currSampleUserSelected / (double) songLenInFrames;
+            int userSelectedSample = (int) (time * songLenInFrames);
+            double timeLineX = userSelectedSample / (double) songLenInFrames;
             timeLineX *= waveWidth;
-            waveMainPanel.setTimeLineXUserSelected(timeLineX);
-
-            int currPlayTimeInMillis = DoubleWave.convertSampleToMillis(currSampleUserSelected, waveMainPanel.getOutputSampleRate());
-            waveMainPanel.setCurrPlayTimeInMillis(currPlayTimeInMillis);
-            waveMainPanel.setUserClickedWave(true);
-            waveMainPanel.performUserClickedWaveVariableSetPaused();
-
+            int currPlayTimeInMillis = DoubleWave.convertSampleToMillis(userSelectedSample, waveMainPanel.getOutputSampleRate());
+            waveMainPanel.processUserClickedWaveEvent(timeLineX, userSelectedSample, currPlayTimeInMillis);
 
 //        shouldMarkPart = false;
 //

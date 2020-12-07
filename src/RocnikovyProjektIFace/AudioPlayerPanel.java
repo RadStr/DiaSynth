@@ -5112,7 +5112,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                         if(filledWithWaveSamples) {
                             if (userClickedWave) {
-                                performUserClickedWaveVariableSet();
+                                switchToUserSelectedSample();
                             } else {
                                 timeLineX += timeLinePixelsPerPlayPart;
                                 //currPlayTimeInMillis += playTimeJumpInMillis;
@@ -5157,7 +5157,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 setShouldPause(false);
                 line.start();
                 if (userClickedWave) {
-                    performUserClickedWaveVariableSet();
+                    switchToUserSelectedSample();
                 }
             }
         }
@@ -5231,14 +5231,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    public void performUserClickedWaveVariableSetPaused() {
+    public void switchToUserSelectedSampleIfPaused() {
         if(audioControlPanel.getPlayButton().getBoolVar()) {
-            performUserClickedWaveVariableSet();
+            switchToUserSelectedSample();
             this.repaint();
         }
     }
 
-    private void performUserClickedWaveVariableSet() {
+    private void switchToUserSelectedSample() {
         currSample = currSampleUserSelected;
         timeLineX = timeLineXUserSelected;
         userClickedWave = false;

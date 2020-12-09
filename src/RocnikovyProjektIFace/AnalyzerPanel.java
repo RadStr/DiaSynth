@@ -468,20 +468,20 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             // TODO: BPM - HLEDANI
 //            for(int i = 5; i < 10; i++) {
 //                SubbandSplitterIFace splitter = new SubbandSplitterLinear(16);
-//                list.add(new Pair<String, String>("BPMAdvancedFullLinearWin" + i, ((Integer)p.getBPMSimpleWithFreqDomainsWithVariance(16, splitter, 2.72, i, 0.16)).toString()));
+//                list.add(new Pair<String, String>("BPMAdvancedFullLinearWin" + i, ((Integer)p.calculateBPMSimpleWithFreqBands(16, splitter, 2.72, i, 0.16)).toString()));
 //            }
 
 
 //            int sc = 8;
 //            SubbandSplitterIFace splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 1, ((Integer)p.getBPMSimpleWithFreqDomainsWithVariance(sc, splitter, 2.5, 6, 0.16)).toString()));
+//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 1, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.5, 6, 0.16)).toString()));
 //            sc = 8;
 //            splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 2, ((Integer)p.getBPMSimpleWithFreqDomainsWithVariance(sc, splitter, 2.5, 6, 0.32)).toString()));
+//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 2, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.5, 6, 0.32)).toString()));
 //
 //            sc = 16;
 //            splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 3, ((Integer)p.getBPMSimpleWithFreqDomainsWithVariance(sc, splitter, 2.7, 6, 0.04)).toString()));
+//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 3, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.7, 6, 0.04)).toString()));
 
 
             // TODO: Tohle je dulezity
@@ -617,7 +617,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(Program prog) {
-        return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.getBPMSimple()).toString());
+        return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.calculateBPMSimple()).toString());
     }
 
 
@@ -716,17 +716,17 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
         // TODO: Vymazat - respektive vyzkouset, az pak vymazat
         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFull3", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull3", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 0.16)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 4, 0.0)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull5", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull5", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.2, 6, 0.0)).toString());
 
 
-        return new Pair<String, String>("BPM (Advanced full)", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+        return new Pair<String, String>("BPM (Advanced full)", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 1.12)).toString());
 
 
@@ -735,12 +735,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.74, 6, 0.0)).toString());
 
 
 //        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLog", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFullLog", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.72, 4, 0.0)).toString());
     }
 
@@ -752,7 +752,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 1.12)).toString());
 //    }
 //
@@ -762,7 +762,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance2", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance2", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 5.12)).toString());
 //    }
 //
@@ -772,7 +772,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance3", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance3", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 10.12)).toString());
 //    }
 //
@@ -782,7 +782,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance4", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount,
+//        return new Pair<String, String>("BPMAdvancedFullBigVariance4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 30.12)).toString());
 //    }
 //
@@ -870,7 +870,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //
 //
 //                        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//                        int bpm = prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
+//                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
 //                        String name = "BPMAdvancedFullLinear" + subbandCount + "Coef" + (int) Math.round(2 * coef) + "Win" + windowsBetweenBeats;
 //                        name += "Var" + (int) Math.round(1 * varianceLimit);
 //                        list.add(new Pair<String, String>(name, ((Integer) bpm).toString()));
@@ -924,7 +924,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 ////                        }
 //
 //                        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//                        int bpm = prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, coef,
+//                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
 //                                windowsBetweenBeats, varianceLimit);
 //
 //                        String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
@@ -981,7 +981,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //////                        }
 ////
 ////                        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-////                        int bpm = prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, coef,
+////                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
 ////                                windowsBetweenBeats, varianceLimit);
 ////
 ////                        String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
@@ -1028,7 +1028,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
                         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-                        int bpm = prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
+                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
                         String name = "BPMAdvancedFullLinear" + subbandCount + "Coef" + (int) Math.round(100 * coef) + "Win" + windowsBetweenBeats;
                         name += "Var" + (int) Math.round(100 * varianceLimit);
 
@@ -1085,7 +1085,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                        }
 
                         splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-                        int bpm = prog.getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, coef,
+                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
                                 windowsBetweenBeats, varianceLimit);
 
                         String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +

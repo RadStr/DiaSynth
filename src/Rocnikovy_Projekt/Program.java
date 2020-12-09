@@ -7041,15 +7041,15 @@ public class Program {
     ////////////////////////////////////////////////////
     // BPM Algorithm 1
     ////////////////////////////////////////////////////
-    public int getBPMSimple() {
+    public int calculateBPMSimple() {
         writeVariables();
 
         int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
         int windowSize = sampleRate / windowsLen;
         windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
         double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
-        return getBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
-                this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
+        return calculateBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
+                                  this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
     }
 
 
@@ -7071,10 +7071,10 @@ public class Program {
 // TODO: beru z tech BPM nejakou funcki g (asi aby to vyslo lip ... ale neni zmineno jaka je ta funkce g)
 
     // sampleRate / windowSize == windows.length
-     public static int getBPMSimple(byte[] samples, int windowSize, double[] windows, int numberOfChannels,
-                                    int sampleSize, int frameSize,
-                                    int sampleRate, int mask, boolean isBigEndian, boolean isSigned,
-                                    int windowsBetweenBeats) {
+     public static int calculateBPMSimple(byte[] samples, int windowSize, double[] windows, int numberOfChannels,
+                                          int sampleSize, int frameSize,
+                                          int sampleRate, int mask, boolean isBigEndian, boolean isSigned,
+                                          int windowsBetweenBeats) {
         // TODO: DEBUG
         double maxEnergy = Double.MIN_VALUE;
         double minCoef = Double.MAX_VALUE;
@@ -7240,29 +7240,29 @@ public class Program {
     ////////////////////////////////////////////////////
     // TODO: Mozna vymazat tyhle 2 metody a volat to primo - nebo aspon zmenit jmeno
     public int getBPMSimpleWithFreqDomainsWithVarianceOld(SubbandSplitterIFace splitter) {
-        return getBPMSimpleWithFreqDomainsWithVariance(splitter.getSubbandCount(), splitter, 4.5, 4, 0);
+        return calculateBPMSimpleWithFreqBands(splitter.getSubbandCount(), splitter, 4.5, 4, 0);
     }
 
     public int getBPMSimpleWithFreqDomainsWithVarianceNew(SubbandSplitterIFace splitter) {
 // TODO:
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 4, 0.16);
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 3.72, 4, 0.0); NE
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 7.72, 4, 0.0); NE uz to je moc uz jsou ty veci co nejsou BPM na nule
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 4, 2);
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 3.4, 4, 0.16);
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 4, 0.16);
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 3.72, 4, 0.0); NE
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 7.72, 4, 0.0); NE uz to je moc uz jsou ty veci co nejsou BPM na nule
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 4, 2);
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 3.4, 4, 0.16);
 
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 5, 0.16); Asi jo - lepsi vysledky o neco
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 5, 0.16); Asi jo - lepsi vysledky o neco
         // This gives the best results
-        return getBPMSimpleWithFreqDomainsWithVariance(splitter.getSubbandCount(), splitter,
+        return calculateBPMSimpleWithFreqBands(splitter.getSubbandCount(), splitter,
                 2.72, 6, 0.16);
-//        return getBPMSimpleWithFreqDomainsWithVariance(subbandCount, splitter, 2.72, 7, 0.16);
+//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 7, 0.16);
 // TODO:
     }
 
 
-     public int getBPMSimpleWithFreqDomainsWithVariance(int subbandCount, SubbandSplitterIFace splitter,
-                                                        double coef, int windowsBetweenBeats,
-                                                        double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
+     public int calculateBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
+                                                double coef, int windowsBetweenBeats,
+                                                double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
         // TODO: Dava smysl ze to vytvorim tady ... protoze to vyrabim v zavislosti na sample rate a tak
 
 
@@ -7288,7 +7288,7 @@ public class Program {
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
 
          try {
-             return getBPMSimpleWithFreqDomainsWithVariance(this.song, this.sampleSizeInBytes, this.sampleRate,
+             return calculateBPMSimpleWithFreqBands(this.song, this.sampleSizeInBytes, this.sampleRate,
                  windowSize, this.isBigEndian, this.isSigned, this.mask, this.maxAbsoluteValue, fft, splitter,
                      subbandEnergies, coef, windowsBetweenBeats, varianceLimit);
          }
@@ -7521,11 +7521,11 @@ public class Program {
     // TODO: Verze s tim ze se to bude delat po 2jicich ta FFT - s realnou i komplexni casti
     // TODO: THIS IS VERSION FOR MONO SIGNAL
     // TODO: double[][][] subbandEnergies in multiple channel case
-    public static int getBPMSimpleWithFreqDomainsWithVariance(byte[] samples, int sampleSize, int sampleRate,
-                                                  int windowSize, boolean isBigEndian, boolean isSigned,
-                                                  int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
-                                                  double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
-                                                              double coef, int windowsBetweenBeats, double varianceLimit
+    public static int calculateBPMSimpleWithFreqBands(byte[] samples, int sampleSize, int sampleRate,
+                                                      int windowSize, boolean isBigEndian, boolean isSigned,
+                                                      int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
+                                                      double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
+                                                      double coef, int windowsBetweenBeats, double varianceLimit
     ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
         // TODO: REMOVE
         final double oldCoef = coef;      // TODO: OLD COEF

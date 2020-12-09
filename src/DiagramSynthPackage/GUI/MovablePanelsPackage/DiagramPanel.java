@@ -1195,7 +1195,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
             p.getOutputPort().resetCables();
         }
 
-        setRelativeCableConnectionsForOutputPanels();
+        setRelativeCableConnections();
         recalculateElevations();
         setAbsoluteCables();
 
@@ -1203,11 +1203,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
     }
 
 
-    public void setRelativeCableConnectionsForOutputPanels() {
+    public void setRelativeCableConnections() {
         for(Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
             for(Cable cable : p.getOutputPort().getCables()) {
-                setRelativeCableConnectionAdvancedAlgorithm(p, cable.getTargetPort(), cable, true);
+                setRelativeCableConnections(p, cable.getTargetPort(), cable, true);
             }
         }
 
@@ -1446,9 +1446,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPa
     private Point tmpPoint = new Point();
     // For isVertical there are 2 or 3 or 5 points - start and end of the first n/2 (where n == 2,3,5) vertical lines
     // and then the location of end of the last vertical line
-    public void setRelativeCableConnectionAdvancedAlgorithm(MovablePanelIFace outputPanel,
-                                                            InputPort connectedPort,
-                                                            Cable cable, boolean onlyVertical) {
+    public void setRelativeCableConnections(MovablePanelIFace outputPanel,
+                                            InputPort connectedPort,
+                                            Cable cable, boolean onlyVertical) {
         cable.setPathAroundTargetPanel();
         MovablePanelSpecificGetMethodsIFace connectedPanel = connectedPort.getPanelWhichContainsPort();
         Point relativeLocStart = outputPanel.getRelativePosToReferencePanel();

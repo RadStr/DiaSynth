@@ -21,8 +21,7 @@ import java.io.*;
 public class WaveShaper extends UnaryOperator {
     public WaveShaper(Unit u) {
         super(u);
-        WaveShaper ws = (WaveShaper)u;
-        setWaveShaperPanelDrawValues(ws.functionWrapper.function);
+        copyInternalState(u);
     }
     public WaveShaper(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
@@ -196,5 +195,10 @@ public class WaveShaper extends UnaryOperator {
             waveShaperPanel.setOutputValues(function);
             setFunction();
         }
+    }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        setWaveShaperPanelDrawValues(((WaveShaper)copySource).functionWrapper.function);
     }
 }

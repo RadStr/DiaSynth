@@ -50,4 +50,9 @@ public class HalfWaveRectifier extends UnaryOperator {
         // https://en.wikipedia.org/wiki/Rectifier
         return "Performs operation of half-wave rectification (Returns input if > 0, 0 otherwise)";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

@@ -30,4 +30,9 @@ public class WhiteNoiseGeneratorWithFrequency extends NoiseGeneratorWithFrequenc
     public String getTooltip() {
         return "This generator generates white noise";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

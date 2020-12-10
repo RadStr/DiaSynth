@@ -79,4 +79,9 @@ public class BinaryDivision extends BinaryOperator {
     public String getTooltip() {
         return "The right input divides the left one";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

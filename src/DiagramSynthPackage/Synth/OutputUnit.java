@@ -379,4 +379,10 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
         output.println(channel);
         super.save(output);
     }
+
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

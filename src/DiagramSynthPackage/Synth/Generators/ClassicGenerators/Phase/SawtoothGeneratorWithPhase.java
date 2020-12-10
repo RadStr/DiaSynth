@@ -65,4 +65,10 @@ public class SawtoothGeneratorWithPhase extends GeneratorWithPhase {
     public String getTooltip() {
         return "Generates sawtooth wave";
     }
+
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

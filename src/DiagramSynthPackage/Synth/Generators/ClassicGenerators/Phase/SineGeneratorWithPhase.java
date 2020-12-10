@@ -63,4 +63,10 @@ public class SineGeneratorWithPhase extends GeneratorWithPhase {
     public String getTooltip() {
         return "Generates sine wave";
     }
+
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

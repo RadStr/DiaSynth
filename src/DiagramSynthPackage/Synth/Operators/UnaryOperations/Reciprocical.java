@@ -96,4 +96,9 @@ public class Reciprocical extends UnaryOperator {
         // TODO: DEBUG
         return 1 / minAllowedVal;
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

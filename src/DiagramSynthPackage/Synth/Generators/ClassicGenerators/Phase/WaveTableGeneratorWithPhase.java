@@ -19,11 +19,11 @@ import java.io.*;
 public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
     public WaveTableGeneratorWithPhase(Unit u) {
         super(u);
+        copyInternalState(u);
     }
 
     public WaveTableGeneratorWithPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
-
         setDefaultWaveTable();
     }
 
@@ -126,16 +126,6 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
         return "Generated specified wave using wave table synthesis technique.";
     }
 
-
-    @Override    // UnitCommunicationWithGUI
-    public Unit copyPanel() {
-        WaveTableGeneratorWithPhase wtGen = (WaveTableGeneratorWithPhase)super.copyPanel();
-        wtGen.setWaveTable(waveTable.getWave(), waveTable.WAVE_PATH);
-        updateAfterPropertiesCall();
-        return wtGen;
-    }
-
-
     @Override
     public void save(PrintWriter output) {
         super.save(output);
@@ -188,5 +178,15 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
         } catch (IOException e) {
             MyLogger.logException(e);
         }
+    }
+
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        WaveTableGeneratorWithPhase copySourceCasted = (WaveTableGeneratorWithPhase)copySource;
+        double[] waveTableWave = copySourceCasted.waveTable.getWave();
+        double[] copiedWaveTableWave = new double[waveTableWave.length];
+        System.arraycopy(waveTableWave, 0, copiedWaveTableWave, 0, waveTableWave.length);
+        setWaveTable(copiedWaveTableWave, copySourceCasted.waveTable.WAVE_PATH);
     }
 }

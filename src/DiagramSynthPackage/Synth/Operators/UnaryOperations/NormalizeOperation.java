@@ -64,4 +64,9 @@ public class NormalizeOperation extends UnaryOperator {
     public double getMaxAbsValue() {
         return 1;
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

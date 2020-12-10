@@ -49,4 +49,10 @@ public class LinearEnvelope extends Envelope {
     public String getTooltip() {
         return "Generates envelope with linear slopes";
     }
+
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

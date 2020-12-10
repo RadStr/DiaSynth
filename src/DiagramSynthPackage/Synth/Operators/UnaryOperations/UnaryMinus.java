@@ -46,4 +46,9 @@ public class UnaryMinus extends UnaryOperator {
     public String getTooltip() {
         return "Multiplies the sample by -1";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

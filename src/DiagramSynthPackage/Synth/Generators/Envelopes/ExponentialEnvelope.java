@@ -57,4 +57,9 @@ public class ExponentialEnvelope extends Envelope {
     public String getTooltip() {
         return "Generates envelope with exponential slopes";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

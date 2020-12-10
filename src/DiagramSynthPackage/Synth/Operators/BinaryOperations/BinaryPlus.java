@@ -57,4 +57,9 @@ public class BinaryPlus extends BinaryOperator {
     public String getTooltip() {
         return "Adds 2 samples together";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

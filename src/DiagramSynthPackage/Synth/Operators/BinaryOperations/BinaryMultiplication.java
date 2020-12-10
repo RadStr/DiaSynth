@@ -51,4 +51,9 @@ public class BinaryMultiplication extends BinaryOperator {
     public String getTooltip() {
         return "Multiplies 2 samples together";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

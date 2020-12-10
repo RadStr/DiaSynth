@@ -50,4 +50,9 @@ public class FullWaveRectifier extends UnaryOperator {
         // https://en.wikipedia.org/wiki/Rectifier
         return "Performs operation of full-wave rectification (Returns absolute value of given inputs)";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

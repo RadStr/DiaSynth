@@ -20,7 +20,8 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
 
     public ConstantGenerator(Unit u) {
         super(u);
-        getShapedPanel().setToolTipText(getTooltip());
+        copyInternalState(u);
+        updateAfterPropertiesCall();
     }
 
     public ConstantGenerator(DiagramPanel panelWithUnits) {
@@ -176,16 +177,6 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
     }
 
 
-
-    @Override    // UnitCommunicationWithGUI
-    public Unit copyPanel() {
-        ConstantGenerator u = (ConstantGenerator)super.copyPanel();
-        u.generatedConstant = generatedConstant;
-        u.updateAfterPropertiesCall();
-        return u;
-    }
-
-
     @Override
     public void save(PrintWriter output) {
         super.save(output);
@@ -203,5 +194,10 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
         catch (IOException e) {
             MyLogger.logException(e);
         }
+    }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        generatedConstant = ((ConstantGenerator)copySource).generatedConstant;
     }
 }

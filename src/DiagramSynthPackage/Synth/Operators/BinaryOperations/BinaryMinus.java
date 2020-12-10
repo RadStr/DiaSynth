@@ -52,4 +52,9 @@ public class BinaryMinus extends BinaryOperator {
     public String getTooltip() {
         return "Subtracts right input from the left.";
     }
+
+    @Override
+    public void copyInternalState(Unit copySource) {
+        // EMPTY
+    }
 }

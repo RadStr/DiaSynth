@@ -248,18 +248,20 @@ public class WavePanel extends JPanel {
     private int oldVisibleWaveWidth = -1;
 
     public void visibleWidthChangedCallback() {
-        ifIsFirst();
+        firstWaveDrawingAction();
         fixIndividualSampleBug();
 
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         if(visibleWaveWidth != oldVisibleWaveWidth || doubleWaveLenChanged || (visibleWaveWidth > waveWidth)) {
+            // TODO: DEBUG
             if(visibleWaveWidth > 1024) {
                 int TODO = 4;
             }
+            // TODO: DEBUG
             resetLengthChangedMarker();
             ProgramTest.debugPrint("visibleWidthChangedCallback()", visibleWaveWidth, getPreferredSize());
 
-// TODO: PROGRAMO - isFirst - tohle uz ani nepouzivam vlastne
+// TODO: PROGRAMO - isFirstWaveDrawing - tohle uz ani nepouzivam vlastne
 //        if(currScroll > mainWaveClass.getMaxScroll()) {
 //            ProgramTest.debugPrint("Curr scroll over", currScroll, currScroll - mainWaveClass.getMaxScroll(),
 //                visibleWaveWidth, oldVisibleWaveWidth, visibleWaveWidth - oldVisibleWaveWidth);
@@ -516,12 +518,12 @@ public class WavePanel extends JPanel {
     private double green = Math.random();
     private double blue = Math.random();
 
-    private boolean isFirst = true;
-    private void ifIsFirst() {
+    private boolean isFirstWaveDrawing = true;
+    private void firstWaveDrawingAction() {
         ProgramTest.debugPrint("wave paintComponent before:", doubleWave.getFilenameWithExtension(),
             this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
-        if(isFirst) {
-            isFirst = false;
+        if(isFirstWaveDrawing) {
+            isFirstWaveDrawing = false;
             setVariablesWhichNeededSize();
         }
         ProgramTest.debugPrint("wave paintComponent after:", doubleWave.getFilenameWithExtension(),

@@ -362,14 +362,15 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     }
 
 
-    // Added for future proofing, because of the possible computation inconsistencies for units with internal state when
-    // panel connection or panel deletion happens
 
-    // Thought: Maybe I could call it at the end of the copyPanel method, but it could a bit problematic with some additional
+    // Thought: Maybe I could call copyInternalState at the end of the copyPanel method, but it could a bit problematic with some additional
     // generators - for example when you copy filter - you copy the values which are currently there - and the values may be
     // in non-consistent state, because all the values are changing since we may be currently in process of generating samples.
     // Because of that it is better to just have
     // all the values set to default for the target of copy (this instance) - like no sample was played before.
+
+    // Added for future proofing, because of the possible computation inconsistencies for units with internal state when
+    // panel connection or panel deletion happens
     /**
      * The method copies the state of the given parameter to the instance on which the method was called. State is
      * everything which is needed for calculation except the fields already defined in the Unit.

@@ -103,8 +103,8 @@ public class WavePanel extends JPanel {
 
         //updateZoom(0, 0, false, false);
 
-        //setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount);
-        //setDrawWrapperInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
+        //setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount);
+        //setDrawValuesInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
 
 //        mainWaveClass = drawValuesSupplierAggregated;
 //        if(drawValuesAggregated != currentDrawValues) {
@@ -565,7 +565,7 @@ public class WavePanel extends JPanel {
         // TODO: DEBUG
         if(zoomVariables.currentZoom < zoomVariables.maxCacheZoom && currentDrawValues == drawValuesIndividual) {
             int visibleWidth = wholeWavePanel.getWaveVisibleWidth();
-            setDrawWrapperInZoom(currScroll, visibleWidth, waveWidth);
+            setDrawValuesInZoom(currScroll, visibleWidth, waveWidth);
         }
     }
 
@@ -1636,12 +1636,12 @@ public class WavePanel extends JPanel {
 
 //        currentDrawValues = null;          // TODO: !!! TED
 
-        setDrawWrapperInZoom(startIndexInValues, newVisibleWidth, newWidth);
+        setDrawValuesInZoom(startIndexInValues, newVisibleWidth, newWidth);
         ProgramTest.debugPrint("ZOOMING AFTER", startIndexInValues, startIndexInValues + 2 * newVisibleWidth);
     }
 
 
-    private void setDrawWrapperInZoom(int leftPixel, int newVisibleWidth, int newWidth) {
+    private void setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth) {
         int valueCount = getSongLen();
         if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
             //currScroll = convertScrollValueToIndividualIndexInAudio(currScroll);

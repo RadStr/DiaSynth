@@ -355,8 +355,6 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         return null;
     }
 
-
-
     public static double freqToRad(double freq) {
         return 2 * Math.PI * freq;
     }

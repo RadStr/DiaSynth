@@ -190,7 +190,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     }
 
 
-    private static final int defaultR = 2;
+    private static final int DOT_RADIUS = 2;
 
     @Override
     public void drawSamples(Graphics g, int width, int height, int shiftY) {
@@ -252,6 +252,9 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //        int iterationCount =  1 + (int)((width - currentVisiblePixel) / pixelDifferenceBetweenSamples);
 //        iterationCount = Math.min(iterationCount, maxRightIndex - index);
 
+        boolean hasDrawnPixelBefore = false;
+        int previousVisiblePixelInt = -1;
+        int previousHeight = -1;
         while(currentVisiblePixel < width && index < maxRightIndex) {
 // TODO: DEBUG
 //            if(index > shiftBufferDouble.getBuffer().length) {
@@ -263,10 +266,40 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
             // Shift it so it starts in the middle
             sampleHeight += halfHeight + shiftY;
             int currentPixelInt = (int)currentVisiblePixel;
-            g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
-            if(pixelDifferenceBetweenSamples >= 4) {        // If there is enough space also draw circles at the end
-                int r = defaultR;
-                StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, r);
+
+
+            if(pixelDifferenceBetweenSamples < 4) {
+                if(hasDrawnPixelBefore) {
+                    // Version with rectangles
+//                    if(previousHeight < halfHeight) {
+//                        g.fillRect(previousVisiblePixelInt, previousHeight, currentPixelInt - previousVisiblePixelInt, halfHeight - previousHeight);
+//                    }
+//                    else {
+//                        g.fillRect(previousVisiblePixelInt, halfHeight, currentPixelInt - previousVisiblePixelInt, previousHeight - halfHeight);
+//                    }
+
+                    // Version with connecting - Probably the best one - to doesn't show the individual samples but
+                    // it is the best to look at
+                    g.drawLine(previousVisiblePixelInt, previousHeight, currentPixelInt, sampleHeight);
+                    // The next line is to show the sample locations, but it doesn't make sense since this the old way of drawing
+                    // and that was wrong because there isn't uniform space between the samples - so from time to time it is
+                    // the pixels are a bit closer to itself and since there isn't much space between them, it is very noticeable
+//                    g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
+
+                    // Just dots
+//                    g.drawLine(currentPixelInt, sampleHeight, currentPixelInt, sampleHeight); // Small dots
+//                    StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, 1); // Bigger dots
+                }
+
+                if(!hasDrawnPixelBefore) {
+                    hasDrawnPixelBefore = true;
+                }
+                previousVisiblePixelInt = currentPixelInt;
+                previousHeight = sampleHeight;
+            }
+            else {      // If there is enough space also draw circles at the end
+                g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
+                StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, DOT_RADIUS);
             }
 
 
@@ -304,7 +337,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //            }
 //            else {
 //                g.drawLine((int)x, halfHeight, (int)x, sampleHeight);
-//                int r = defaultR;
+//                int r = DOT_RADIUS;
 //                StaticDrawMethodsClass.drawCenteredCircle(g, (int)x, sampleHeight, r);
 //            }
 //        }

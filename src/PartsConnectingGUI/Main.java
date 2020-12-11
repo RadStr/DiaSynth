@@ -23,8 +23,8 @@ public class Main {
     public static void main(String[] args) {
         if(!AudioPlayerJMenuOperationPluginIFace.isInJar()) {
             AudioPlayerJMenuOperationPluginIFace.removePreviouslyLoadedPlugins();
+            AudioPlayerJMenuOperationPluginIFace.copyPlugins();
         }
-        AudioPlayerJMenuOperationPluginIFace.copyPlugins();
         MyLogger.logWithoutIndentation("Starting program");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {

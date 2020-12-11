@@ -154,6 +154,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
         // TODO: SQUARE WAVE
         int previousX = -1;
+        int previousYMin = -1;
         int previousYMax = -1;
         // TODO: SQUARE WAVE
         int halfHeight = height / 2;              // TODO: BUG !!! windowRange.end je / 2 skutecne hodnote, protoze neberu k uvahu minima ... nekde tam musim dat *2
@@ -167,12 +168,20 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
             // Shift it so it starts in the middle
             sampleMinHeightSample += halfHeight + shiftY;
             sampleMaxHeightSample += halfHeight + shiftY;
-            if(x > 0) {
-                // Because of square wave
-                g.drawLine(previousX, previousYMax, x, sampleMinHeightSample);
-            }
+
+
             g.drawLine(x, sampleMinHeightSample, x, sampleMaxHeightSample);
+            if(x > 0) {
+                // Now check if we need to connect the the previous sample (sample aggregation) with next one
+                if (previousYMax < sampleMinHeightSample) { // If the previous line is below the current
+                    g.drawLine(previousX, previousYMax, x, sampleMinHeightSample);
+                } else if (previousYMin > sampleMaxHeightSample) { // If the previous line is above the current
+                    g.drawLine(previousX, previousYMin, x, sampleMaxHeightSample);
+                }
+            }
+
             previousX = x;
+            previousYMin = sampleMinHeightSample;
             previousYMax = sampleMaxHeightSample;
             // TODO: SQUARE WAVE
 // TODO: DEBUG

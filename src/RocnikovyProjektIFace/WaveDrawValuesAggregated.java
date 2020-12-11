@@ -173,9 +173,9 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
             g.drawLine(x, sampleMinHeightSample, x, sampleMaxHeightSample);
             if(x > 0) {
                 // Now check if we need to connect the the previous sample (sample aggregation) with next one
-                if (previousYMax < sampleMinHeightSample) { // If the previous line is below the current
+                if (previousYMax < sampleMinHeightSample) {         // If the previous line is below the current
                     g.drawLine(previousX, previousYMax, x, sampleMinHeightSample);
-                } else if (previousYMin > sampleMaxHeightSample) { // If the previous line is above the current
+                } else if (previousYMin > sampleMaxHeightSample) {  // If the previous line is above the current
                     g.drawLine(previousX, previousYMin, x, sampleMaxHeightSample);
                 }
             }

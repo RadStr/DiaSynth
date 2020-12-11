@@ -95,6 +95,6 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
 
     @Override
     public void addToAudioPlayer(String path) {
-        audioPlayerTab.addWaves(path);
+        audioPlayerTab.addWaves(path, true);
     }
 }

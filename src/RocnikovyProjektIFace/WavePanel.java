@@ -1797,7 +1797,9 @@ public class WavePanel extends JPanel {
 
 
     private void setMaxCacheZoom() {
-        zoomVariables.maxCacheZoom = calculateMaxCacheZoom();
+        if(zoomVariables != null) {     // TODO: The if is not needed - but just to be sure don't really want it to crash when presenting the program
+            zoomVariables.maxCacheZoom = calculateMaxCacheZoom();
+        }
     }
     private int calculateMaxCacheZoom() {
         return calculateMaxCacheZoom(getSongLen(), defaultWaveWidthInPixels);

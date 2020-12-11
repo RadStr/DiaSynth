@@ -399,6 +399,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             //new ErrorFrame(frame, "Couldn't set variables for song:\n" + e.getMessage());
         }
 
+        int numberOfChannels = p.numberOfChannels;
+
         // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
             p.convertToMono();
@@ -432,7 +434,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             list.add(analyzeSampleRate(p));
         }
         if(checkBoxes[6].isSelected()) {
-            list.add(analyzeNumberOfChannels(p));
+            list.add(analyzeNumberOfChannels(numberOfChannels));
         }
         if(checkBoxes[7].isSelected()) {
             list.add(analyzeEndianness(p));
@@ -612,8 +614,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         return new Pair<String, String>("Sample Size (In bytes)", ((Integer)(prog.sampleSizeInBits / 8)).toString());
     }
 
-    private static Pair<String, String> analyzeNumberOfChannels(Program prog) {
-        return new Pair<String, String>("Number of channels", ((Integer)prog.numberOfChannels).toString());
+    private static Pair<String, String> analyzeNumberOfChannels(int numberOfChannels) {
+        return new Pair<String, String>("Number of channels", ((Integer)numberOfChannels).toString());
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(Program prog) {

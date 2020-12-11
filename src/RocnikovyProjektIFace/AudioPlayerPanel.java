@@ -2944,7 +2944,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         @Override
                         public void modifyAudio() {
                             try {
-                                addWaves(f);
+                                addWaves(f, false);
                             } catch (IOException exception) {
                                 MyLogger.logException(exception);
                             }
@@ -3100,7 +3100,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         public void modifyAudio() {
                             try {
                                 removeAllWaves();
-                                addWaves(f);
+                                addWaves(f, false);
                             } catch (IOException exception) {
                                 MyLogger.logException(exception);
                             }
@@ -3113,7 +3113,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menu.add(menuItem);
     }
 
-    private void addWaves(File f) throws IOException {
+    private void addWaves(File f, boolean shouldAddLater) throws IOException {
         Program p = new Program();
         boolean audioLoaded = p.setVariables(f, false);
         if(!audioLoaded) {
@@ -3134,7 +3134,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             waves[i] = Program.convertSampleRate(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
                     true);
         }
-        addWaves(waves, p.getFileName(), getOutputSampleRate(), false);
+        addWaves(waves, p.getFileName(), getOutputSampleRate(), shouldAddLater);
     }
 
     /**
@@ -3194,11 +3194,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    public void addWaves(String path) {
+    public void addWaves(String path, boolean shouldAddLater) {
         try {
             File f = new File(path);
             if (f.exists()) {
-                addWaves(f);
+                addWaves(f, shouldAddLater);
             }
         }
         catch(IOException e) {

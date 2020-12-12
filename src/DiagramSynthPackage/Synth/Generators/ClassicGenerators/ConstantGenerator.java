@@ -167,7 +167,7 @@ public class ConstantGenerator extends Unit implements PluginDefaultIFace {
      * @return
      */
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

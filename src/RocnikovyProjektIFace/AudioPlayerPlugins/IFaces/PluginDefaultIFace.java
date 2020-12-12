@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
 /**
- * The class implementing this interface should either return true in isUsingDefaultJPane()
+ * The class implementing this interface should either return true in isUsingDefaultJPanel()
  * or if it returns false, then it should extend JPanel since it will be used in dialog, but it doesn't have to
  * since dialog takes object, but for it to be useful it should.
  */
@@ -17,7 +17,7 @@ public interface PluginDefaultIFace {
      * This parameter matters only when shouldWaitForParametersFromUser returns true
      * @return
      */
-    boolean isUsingDefaultJPane();
+    boolean isUsingDefaultJPanel();
 
     String getPluginName();
 }

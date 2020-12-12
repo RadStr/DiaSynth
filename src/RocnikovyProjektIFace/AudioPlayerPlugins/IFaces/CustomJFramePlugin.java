@@ -23,7 +23,7 @@ public class CustomJFramePlugin extends JFrame implements PluginDefaultIFace {
      * @return
      */
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return false;
     }
 

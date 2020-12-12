@@ -36,7 +36,7 @@ public class TestPluginWithParametersWithInputWave extends AbstractPluginClass i
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

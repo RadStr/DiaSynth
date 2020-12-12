@@ -23,7 +23,7 @@ public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIF
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

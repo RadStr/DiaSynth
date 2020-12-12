@@ -4005,7 +4005,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         if (plugin.shouldWaitForParametersFromUser()) {
             Object panelInDialog;
-            if(plugin.isUsingDefaultJPane()) {
+            if(plugin.isUsingDefaultJPanel()) {
                 PluginJPanelBasedOnAnnotations pl = new PluginJPanelBasedOnAnnotations(plugin, plugin.getClass());
                 panelInDialog = pl;
             }
@@ -4122,6 +4122,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         for (WaveMainPanel waveMainPanel : waves) {
             if (waveMainPanel.getShouldIncludeInOperations()) {
                 DoubleWave doubleWave = waveMainPanel.getDoubleWave();
+                if(doubleWave == clipboard.getWave()) {
+                    continue;
+                }
                 if(shouldMarkPart) {
                     operation.performOperation(clipboard.getWave(), doubleWave,
                             clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),

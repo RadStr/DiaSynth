@@ -146,7 +146,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 //         * @return
 //         */
 //        @Override
-//        public boolean isUsingDefaultJPane() {
+//        public boolean isUsingDefaultJPanel() {
 //            return true;
 //        }
 //

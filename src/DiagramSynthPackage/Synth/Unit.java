@@ -175,8 +175,8 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     protected abstract InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues);
 
     /**
-     * Returns neutral values for ports, which will be used to set neutral values for ports.
-     * If null or short array is returned, then default values in ports are used.
+     * Returns neutral values for ports (will be used to set default values for ports).
+     * If null or if the array is shorter than number of ports then default values in ports are used.
      * @return
      */
     public abstract double[] getNeutralValues();

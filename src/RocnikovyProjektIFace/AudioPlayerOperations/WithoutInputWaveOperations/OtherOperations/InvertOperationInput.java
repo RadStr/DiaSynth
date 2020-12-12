@@ -19,7 +19,7 @@ public class InvertOperationInput implements WithoutInputWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return false;
     }
 

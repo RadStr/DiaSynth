@@ -302,7 +302,7 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
      * @return
      */
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

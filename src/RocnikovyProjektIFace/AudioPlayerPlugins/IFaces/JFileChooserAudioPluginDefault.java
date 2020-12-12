@@ -9,7 +9,7 @@ public class JFileChooserAudioPluginDefault extends JFileChooser implements Plug
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return false;
     }
 

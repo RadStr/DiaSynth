@@ -26,7 +26,7 @@ public class Convolution extends AbstractPluginClass {
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

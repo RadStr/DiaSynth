@@ -24,7 +24,7 @@ public class LogarithmWithValueOperationInput implements WithoutInputWavePluginI
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return true;
     }
 

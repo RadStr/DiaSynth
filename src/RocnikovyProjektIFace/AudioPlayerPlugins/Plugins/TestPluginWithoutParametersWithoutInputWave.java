@@ -19,7 +19,7 @@ public class TestPluginWithoutParametersWithoutInputWave implements WithoutInput
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return false;
     }
 

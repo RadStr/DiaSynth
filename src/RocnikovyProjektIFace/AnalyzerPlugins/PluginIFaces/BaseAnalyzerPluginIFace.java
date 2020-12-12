@@ -7,10 +7,16 @@ import java.util.List;
 
 public interface BaseAnalyzerPluginIFace {
     /**
-     * Returns the name of the checkbox which will be shown to user when choosing what should be analyzed (BPM, RMS, ..).
+     * Returns the name of the checkbox, which will be shown
+     * to user in analyzer panel.(BPM, RMS, ..).
      * @return
      */
     String getName();
+
+    /**
+     * Returns the tooltip for the checkbox in analyzer panel.
+     * @return
+     */
     String getTooltip();
 
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {

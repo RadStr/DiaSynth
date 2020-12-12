@@ -181,7 +181,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPane() {
+        public boolean isUsingDefaultJPanel() {
             return true;
         }
 
@@ -225,7 +225,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPane() {
+        public boolean isUsingDefaultJPanel() {
             return true;
         }
 

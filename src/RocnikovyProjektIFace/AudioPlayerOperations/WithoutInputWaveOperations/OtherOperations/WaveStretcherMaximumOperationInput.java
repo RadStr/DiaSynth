@@ -16,7 +16,7 @@ public class WaveStretcherMaximumOperationInput implements WithoutInputWavePlugi
     }
 
     @Override
-    public boolean isUsingDefaultJPane() {
+    public boolean isUsingDefaultJPanel() {
         return false;
     }
 

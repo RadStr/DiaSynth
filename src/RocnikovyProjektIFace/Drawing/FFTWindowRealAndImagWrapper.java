@@ -325,7 +325,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPane() {
+        public boolean isUsingDefaultJPanel() {
             return true;
         }
 
@@ -360,7 +360,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPane() {
+        public boolean isUsingDefaultJPanel() {
             return true;
         }
 

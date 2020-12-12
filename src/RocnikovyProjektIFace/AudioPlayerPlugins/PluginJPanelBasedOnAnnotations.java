@@ -1,8 +1,7 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.EnumWrapperIFaceForDefaultJPane;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
+import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.EnumWrapperIFaceForDefaultJPanel;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.Pair;
 import Rocnikovy_Projekt.MyLogger;
@@ -122,10 +121,10 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
                 }
             }
             else if(fieldType.isEnum() && AudioPlayerJMenuOperationPluginIFace.
-                    isImplementingIFace(EnumWrapperIFaceForDefaultJPane.class, classWithAnnotations)) {
+                    isImplementingIFace(EnumWrapperIFaceForDefaultJPanel.class, classWithAnnotations)) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();
-                EnumWrapperIFaceForDefaultJPane wrapper = (EnumWrapperIFaceForDefaultJPane) objectWithAnnotations;
+                EnumWrapperIFaceForDefaultJPanel wrapper = (EnumWrapperIFaceForDefaultJPanel) objectWithAnnotations;
 
                 String[] enumValuesStrings = wrapper.getEnumsToStrings(fieldName);
                 JComboBox comboBox = new JComboBox(enumValuesStrings);

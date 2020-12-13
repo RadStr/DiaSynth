@@ -1,4 +1,4 @@
-package synthesizer.synth.generators.Envelopes;
+package synthesizer.synth.generators.envelopes;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.*;

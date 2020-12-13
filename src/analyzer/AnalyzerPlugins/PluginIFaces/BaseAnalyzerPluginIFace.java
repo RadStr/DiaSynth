@@ -1,7 +1,6 @@
-package RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces;
+package analyzer.AnalyzerPlugins.PluginIFaces;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
-import Rocnikovy_Projekt.ProgramTest;
 
 import java.util.List;
 

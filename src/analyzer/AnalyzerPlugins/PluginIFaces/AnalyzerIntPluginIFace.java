@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces;
+package analyzer.AnalyzerPlugins.PluginIFaces;
 
 import RocnikovyProjektIFace.Pair;
 

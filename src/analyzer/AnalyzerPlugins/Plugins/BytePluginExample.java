@@ -1,6 +1,6 @@
-package RocnikovyProjektIFace.AnalyzerPlugins.Plugins;
+package analyzer.AnalyzerPlugins.Plugins;
 
-import RocnikovyProjektIFace.AnalyzerPlugins.PluginIFaces.AnalyzerBytePluginIFace;
+import analyzer.AnalyzerPlugins.PluginIFaces.AnalyzerBytePluginIFace;
 import RocnikovyProjektIFace.Pair;
 
 public class BytePluginExample implements AnalyzerBytePluginIFace {

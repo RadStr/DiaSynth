@@ -4,7 +4,7 @@ import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser.JTreeCellClickedCallbackIFace;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
 import Rocnikovy_Projekt.MyLogger;
@@ -23,7 +23,7 @@ import java.util.List;
  * also change the other calculations, which doesn't have anything to do with the Unit you have written.
  */
 public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIFace,
-        UnitCommunicationWithGUI, UnitGeneratedValuesInfo {
+                                      UnitCommunicationWithGUI, UnitGeneratedValuesInfo {
     public static final int BUFFER_LEN = 512;
 
 

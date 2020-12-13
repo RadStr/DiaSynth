@@ -5,7 +5,7 @@ import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
 import synthesizer.gui.MovablePanelsPackage.port.Port;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.*;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser.UnitAdditionIFace;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.UnitAdditionIFace;
 import synthesizer.synth.*;
 import synthesizer.synth.audio.AudioRecordingCallback;
 import synthesizer.synth.audio.AudioThreadWithRecordingSupport;

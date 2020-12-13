@@ -1,7 +1,7 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser.DiagramUnitsJTree;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.DiagramUnitsJTree;
 
 import javax.swing.*;
 import java.awt.*;

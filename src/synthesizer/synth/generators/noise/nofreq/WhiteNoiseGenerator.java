@@ -1,4 +1,4 @@
-package synthesizer.synth.generators.noise.WithoutFrequency;
+package synthesizer.synth.generators.noise.nofreq;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;

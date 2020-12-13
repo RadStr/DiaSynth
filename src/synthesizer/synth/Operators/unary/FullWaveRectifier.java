@@ -1,40 +1,33 @@
-package synthesizer.synth.Operators.UnaryOperations;
+package synthesizer.synth.Operators.unary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ParallelogramShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class NormalizeOperation extends UnaryOperator {
-    public NormalizeOperation(Unit u) {
+public class FullWaveRectifier extends UnaryOperator {
+    public FullWaveRectifier(Unit u) {
         super(u);
     }
 
-    public NormalizeOperation(DiagramPanel panelWithUnits) {
+    public FullWaveRectifier(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
-    }
-
-    private double maxAbsVal;
-    @Override
-    public void calculateSamples() {
-        maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());
-        super.calculateSamples();
     }
 
     @Override
     public double unaryOperation(double val) {
-        return val / maxAbsVal;
+        return Math.abs(val);
     }
 
     @Override
     public String getDefaultPanelName() {
-        return "NORM";
+        return "RECT";
     }
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new ParallelogramShapedPanel(panelWithUnits, 75,
+        ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
@@ -42,14 +35,11 @@ public class NormalizeOperation extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new ParallelogramShapedPanel(relativeX, relativeY, w, h, panelWithUnits, 75,
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
-    /**
-     * Resets to the default state (as if no sample was ever before played)
-     */
     @Override
     public void resetToDefaultState() {
         // EMPTY
@@ -57,12 +47,8 @@ public class NormalizeOperation extends UnaryOperator {
 
     @Override
     public String getTooltip() {
-        return "Normalizes the given input (Divides the input by the maximum absolute value)";
-    }
-
-    @Override
-    public double getMaxAbsValue() {
-        return 1;
+        // https://en.wikipedia.org/wiki/Rectifier
+        return "Performs operation of full-wave rectification (Returns absolute value of given inputs)";
     }
 
     @Override

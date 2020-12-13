@@ -4,7 +4,7 @@ import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DivisionInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.synth.Operators.UnaryOperations.Reciprocical;
+import synthesizer.synth.Operators.unary.Reciprocical;
 import synthesizer.synth.Unit;
 
 public class BinaryDivision extends BinaryOperator {

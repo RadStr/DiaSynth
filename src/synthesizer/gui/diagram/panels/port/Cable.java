@@ -1,5 +1,7 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.port;
 
+import synthesizer.gui.diagram.GetMaxElevationIFace;
+import synthesizer.gui.diagram.MovablePanelSpecificGetMethodsIFace;
 import synthesizer.gui.diagram.panels.port.InputPort;
 
 import java.awt.*;

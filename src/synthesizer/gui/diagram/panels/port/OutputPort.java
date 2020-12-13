@@ -1,6 +1,5 @@
 package synthesizer.gui.diagram.panels.port;
 
-import synthesizer.gui.diagram.Cable;
 import synthesizer.gui.diagram.MovablePanelViewForPort;
 import synthesizer.synth.SerializeIFace;
 import synthesizer.synth.UnitGeneratedValuesInfo;

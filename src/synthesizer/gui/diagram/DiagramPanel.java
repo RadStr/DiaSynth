@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.port.Cable;
 import synthesizer.gui.diagram.panels.util.color.ColorPalet;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;

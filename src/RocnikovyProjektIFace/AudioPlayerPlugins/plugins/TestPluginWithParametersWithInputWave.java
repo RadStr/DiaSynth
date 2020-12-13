@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.Plugins;
+package RocnikovyProjektIFace.AudioPlayerPlugins.plugins;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.WithInputWavePluginIFace;

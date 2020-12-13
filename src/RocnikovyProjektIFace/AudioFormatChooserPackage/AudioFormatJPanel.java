@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace.AudioFormatChooserPackage;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

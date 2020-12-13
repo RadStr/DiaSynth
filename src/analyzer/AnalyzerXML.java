@@ -1,6 +1,6 @@
 package analyzer;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;

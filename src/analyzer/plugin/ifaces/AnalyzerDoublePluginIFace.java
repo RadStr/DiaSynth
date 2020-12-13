@@ -1,6 +1,6 @@
 package analyzer.plugin.ifaces;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import Rocnikovy_Projekt.DoubleWave;
 
 import java.util.List;

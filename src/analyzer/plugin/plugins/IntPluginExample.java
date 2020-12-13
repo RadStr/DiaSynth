@@ -1,7 +1,7 @@
 package analyzer.plugin.plugins;
 
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 public class IntPluginExample implements AnalyzerIntPluginIFace {
     @Override

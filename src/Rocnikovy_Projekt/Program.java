@@ -602,17 +602,17 @@ public class Program {
 //        }
 //*/
 //
-//        List<RocnikovyProjektIFace.Pair<String, String>> pairs = getInfoPairsForModel();    // TODO: Tenhle Pair je dost nebezpecnej ... jsem uplne zapomnel ze v ty knihovne uz je pair
+//        List<util.Pair<String, String>> pairs = getInfoPairsForModel();    // TODO: Tenhle Pair je dost nebezpecnej ... jsem uplne zapomnel ze v ty knihovne uz je pair
 //        ModelInfo.createModelInfoFile(fileWithModel + ".xml", pairs);                                           // TODO: Nebezpecnej ve smyslu, ze si je zpletu
 //        ModelSerializer.writeModel(modelNN, fileWithModel, true);
 //
 //        return modelNN;
 //    }
 //
-//    private List<RocnikovyProjektIFace.Pair<String, String>> getInfoPairsForModel() {
-//        List<RocnikovyProjektIFace.Pair<String, String>> pairs = new ArrayList<>();
-//        RocnikovyProjektIFace.Pair<String, String> pair =
-//            new RocnikovyProjektIFace.Pair<String, String>("inputAudioLength", ((Integer) numberOfSecondsInInputSong).toString());
+//    private List<util.Pair<String, String>> getInfoPairsForModel() {
+//        List<util.Pair<String, String>> pairs = new ArrayList<>();
+//        util.Pair<String, String> pair =
+//            new util.Pair<String, String>("inputAudioLength", ((Integer) numberOfSecondsInInputSong).toString());
 //        pairs.add(pair);        // TODO: For now only this statistic, but in future it would be nice to add number of training/test data and maybe even name of songs
 //        return pairs;
 //    }

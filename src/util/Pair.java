@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package util;
 
 public class Pair<K, V> {
 	private K key;

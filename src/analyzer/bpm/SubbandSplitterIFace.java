@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 public interface SubbandSplitterIFace {
     int getSubbandCount();

@@ -3,7 +3,7 @@ package RocnikovyProjektIFace.plugin;
 import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
 import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

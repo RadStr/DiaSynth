@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 
 // TODO: Old BPM - it gave some nice results, but was pretty weird and incorrect, but I may incorporate it as next algorithm since the results were

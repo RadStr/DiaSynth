@@ -1,6 +1,6 @@
 package analyzer;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

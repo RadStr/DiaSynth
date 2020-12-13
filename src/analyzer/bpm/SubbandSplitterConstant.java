@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 // Not used, I am just using the linear subbandSplitter
 public class SubbandSplitterConstant implements SubbandSplitterIFace {

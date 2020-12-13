@@ -2,7 +2,7 @@ package analyzer.bpm;
 
 
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import Rocnikovy_Projekt.Program;
 
 /**

@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 // TODO: Just remove it - doesn't make sense to keep after I looked at the horrible code
 @Deprecated     // deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)

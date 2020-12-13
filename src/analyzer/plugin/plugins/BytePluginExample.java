@@ -1,7 +1,7 @@
 package analyzer.plugin.plugins;
 
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 
 public class BytePluginExample implements AnalyzerBytePluginIFace {
     public Pair<String, String> analyze(byte[] samples, int numberOfChannels, int sampleSize,

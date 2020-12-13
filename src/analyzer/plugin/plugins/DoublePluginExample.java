@@ -1,7 +1,7 @@
 package analyzer.plugin.plugins;
 
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
-import RocnikovyProjektIFace.Pair;
+import util.Pair;
 import Rocnikovy_Projekt.DoubleWave;
 
 public class DoublePluginExample implements AnalyzerDoublePluginIFace {

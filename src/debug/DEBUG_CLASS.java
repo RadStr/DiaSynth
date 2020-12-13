@@ -1,4 +1,4 @@
-package DebugPackage;
+package debug;
 
 /**
  * This class servers mainly as static variables which says if we are in debug mode or not.

@@ -104,7 +104,7 @@ import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
-import DebugPackage.DEBUG_CLASS;
+import debug.DEBUG_CLASS;
 import synthesizer.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
 import main.DiasynthTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;

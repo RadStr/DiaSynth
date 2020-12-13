@@ -34,7 +34,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
-import DebugPackage.DEBUG_CLASS;
+import debug.DEBUG_CLASS;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

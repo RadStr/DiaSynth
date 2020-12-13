@@ -1,18 +1,5 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
-import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
-import DebugPackage.DEBUG_CLASS;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-
 @Deprecated
 public class AudioPlayerFrame extends FrameWithFocusControl {
 //	private static final long serialVersionUID = 1L;

@@ -3,6 +3,10 @@ package Rocnikovy_Projekt;
 import analyzer.AnalyzerPanel;
 import RocnikovyProjektIFace.drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.Pair;
+import analyzer.bpm.SubbandSplitter;
+import analyzer.bpm.SubbandSplitterIFace;
+import analyzer.bpm.SubbandSplitterLinear;
+import analyzer.bpm.SubbandSplitterLogarithmic;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.AudioFormat;

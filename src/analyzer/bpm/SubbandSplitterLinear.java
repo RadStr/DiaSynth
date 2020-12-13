@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package analyzer.bpm;
 
 import RocnikovyProjektIFace.Pair;
 

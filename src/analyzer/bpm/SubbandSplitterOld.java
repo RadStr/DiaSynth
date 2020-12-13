@@ -1,8 +1,9 @@
-package Rocnikovy_Projekt;
+package analyzer.bpm;
 
 
 
 import RocnikovyProjektIFace.Pair;
+import Rocnikovy_Projekt.Program;
 
 /**
  * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)

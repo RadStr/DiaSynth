@@ -1,5 +1,6 @@
-package Rocnikovy_Projekt;
+package analyzer.bpm;
 
+import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.io.IOException;

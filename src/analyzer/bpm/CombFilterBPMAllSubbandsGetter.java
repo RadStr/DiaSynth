@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package analyzer.bpm;
 
 public class CombFilterBPMAllSubbandsGetter implements CombFilterBPMGetterIFace {
     @Override

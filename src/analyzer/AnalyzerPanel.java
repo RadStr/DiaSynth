@@ -2,6 +2,7 @@ package analyzer;
 
 import RocnikovyProjektIFace.LeavingPanelIFace;
 import RocnikovyProjektIFace.Pair;
+import analyzer.bpm.*;
 import analyzer.util.UneditableTableModel;
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;

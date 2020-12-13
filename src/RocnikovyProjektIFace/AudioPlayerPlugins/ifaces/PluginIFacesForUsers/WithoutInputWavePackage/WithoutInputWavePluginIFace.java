@@ -1,6 +1,6 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage;
+package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithoutInputWavePackage;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 import java.util.List;

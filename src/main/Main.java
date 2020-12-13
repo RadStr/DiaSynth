@@ -1,6 +1,6 @@
 package main;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.FrameWithFocusControl;
 import Rocnikovy_Projekt.MyLogger;
 

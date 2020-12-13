@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
+package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

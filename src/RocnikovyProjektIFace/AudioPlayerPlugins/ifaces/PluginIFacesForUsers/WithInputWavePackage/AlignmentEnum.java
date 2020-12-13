@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage;
+package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithInputWavePackage;
 
 public enum AlignmentEnum {
     NO_ALIGNMENT {

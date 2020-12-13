@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace.drawing;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;

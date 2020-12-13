@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace.drawing;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.CustomJFramePlugin;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.CustomJFramePlugin;
 
 import javax.swing.*;
 

@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 

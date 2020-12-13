@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
+package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces;
 
 /**
  * Wrapper interface for the enums. FieldName is there to identify the enum in class. (There may be more enums in class)

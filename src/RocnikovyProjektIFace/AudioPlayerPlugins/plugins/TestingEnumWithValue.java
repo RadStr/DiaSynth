@@ -1,8 +1,8 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.plugins;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.EnumWrapperIFaceForDefaultJPanel;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.EnumWrapperIFaceForDefaultJPanel;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;

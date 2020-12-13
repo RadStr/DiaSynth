@@ -1,23 +1,16 @@
-package synthesizer.synth.generators.classic.NoPhase;
+package synthesizer.synth.generators.classic.nophase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.generators.classic.phase.TriangleGeneratorWithPhase;
+import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
-/**
- * https://en.wikipedia.org/wiki/Triangle_wave
- */
-public class TriangleGenerator extends TriangleGeneratorWithPhase {
-    public TriangleGenerator(Unit u) {
-        super(u);
-    }
-
-    public TriangleGenerator(DiagramPanel panelWithUnits) {
+public class SineGenerator extends SineGeneratorWithPhase {
+    public SineGenerator(Unit u) { super(u);}
+    public SineGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
-
 
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {

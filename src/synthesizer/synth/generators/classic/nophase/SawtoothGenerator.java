@@ -1,17 +1,18 @@
-package synthesizer.synth.generators.classic.NoPhase;
+package synthesizer.synth.generators.classic.nophase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.generators.classic.phase.WaveTableGeneratorWithPhase;
+import synthesizer.synth.generators.classic.phase.SawtoothGeneratorWithPhase;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
-public class WaveTableGenerator extends WaveTableGeneratorWithPhase {
-    public WaveTableGenerator(Unit u) {
+// https://en.wikipedia.org/wiki/Triangle_wave
+public class SawtoothGenerator extends SawtoothGeneratorWithPhase {
+    public SawtoothGenerator(Unit u) {
         super(u);
     }
 
-    public WaveTableGenerator(DiagramPanel panelWithUnits) {
+    public SawtoothGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

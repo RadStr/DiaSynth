@@ -1,14 +1,16 @@
-package synthesizer.synth.generators.classic.NoPhase;
+package synthesizer.synth.generators.classic.nophase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
+import synthesizer.synth.generators.classic.phase.SquareGeneratorWithPhase;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
-public class SineGenerator extends SineGeneratorWithPhase {
-    public SineGenerator(Unit u) { super(u);}
-    public SineGenerator(DiagramPanel panelWithUnits) {
+public class SquareGenerator extends SquareGeneratorWithPhase {
+    public SquareGenerator(Unit u) {
+        super(u);
+    }
+    public SquareGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

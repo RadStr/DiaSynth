@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.SpecificAudioPlayerDialogs;
+package RocnikovyProjektIFace.dialogs;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.JTextFieldWithBounds;
 import RocnikovyProjektIFace.AudioPlayerPlugins.SetFieldIFace;

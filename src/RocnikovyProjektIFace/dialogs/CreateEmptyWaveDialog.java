@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.SpecificAudioPlayerDialogs;
+package RocnikovyProjektIFace.dialogs;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

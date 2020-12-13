@@ -1,6 +1,6 @@
 package player;
 
-import player.SpecialSwingClasses.EmptyPanelWithSetMethod;
+import player.util.EmptyPanelWithSetMethod;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;

@@ -1,6 +1,6 @@
 package player;
 
-import player.SpecialSwingClasses.ErrorFrame;
+import player.util.ErrorFrame;
 import analyzer.AnalyzerPanel;
 import analyzer.AnalyzerXML;
 

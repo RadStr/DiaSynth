@@ -1,6 +1,6 @@
 package player;
 
-import player.SpecialSwingClasses.ErrorFrame;
+import player.util.ErrorFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

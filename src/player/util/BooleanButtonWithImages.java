@@ -1,4 +1,4 @@
-package player.SpecialSwingClasses;
+package player.util;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;

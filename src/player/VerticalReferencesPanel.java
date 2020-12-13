@@ -1,6 +1,6 @@
 package player;
 
-import player.SpecialSwingClasses.JLabelWithLineInMid;
+import player.util.JLabelWithLineInMid;
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;

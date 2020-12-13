@@ -7,7 +7,7 @@ import analyzer.util.UneditableTableModel;
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
-import player.SpecialSwingClasses.ErrorFrame;
+import player.util.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

@@ -1,4 +1,4 @@
-package player.SpecialSwingClasses;
+package player.util;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package player.SpecialSwingClasses;
+package player.util;
 
 import Rocnikovy_Projekt.Program;
 

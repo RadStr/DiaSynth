@@ -13,7 +13,7 @@ import player.AudioFormatChooserPackage.AudioFormatJPanel;
 import player.AudioFormatChooserPackage.AudioFormatWithSign;
 import player.AudioFormatChooserPackage.ChannelCount;
 import player.AudioControlPanel;
-import player.SpecialSwingClasses.BooleanButton;
+import player.util.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 

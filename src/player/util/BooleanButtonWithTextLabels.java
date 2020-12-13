@@ -1,4 +1,4 @@
-package player.SpecialSwingClasses;
+package player.util;
 
 public class BooleanButtonWithTextLabels extends BooleanButton {
     private String textIfTrue;

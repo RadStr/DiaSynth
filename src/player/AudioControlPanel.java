@@ -1,8 +1,8 @@
 package player;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
-import player.SpecialSwingClasses.BooleanButton;
-import player.SpecialSwingClasses.BooleanButtonWithImages;
+import player.util.BooleanButton;
+import player.util.BooleanButtonWithImages;
 
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.FloatControl;

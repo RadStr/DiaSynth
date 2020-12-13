@@ -28,7 +28,7 @@ import RocnikovyProjektIFace.drawing.*;
 import RocnikovyProjektIFace.drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
-import dialogs.CreateEmptyWaveDialog;
+import dialogs.EmptyWaveMakerDialog;
 import dialogs.LengthDialog;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.MyLogger;
@@ -2878,8 +2878,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateEmptyWaveDialog createEmptyWaveDialog = new CreateEmptyWaveDialog();
-                int result = JOptionPane.showConfirmDialog(null, createEmptyWaveDialog,
+                EmptyWaveMakerDialog emptyWaveMakerDialog = new EmptyWaveMakerDialog();
+                int result = JOptionPane.showConfirmDialog(null, emptyWaveMakerDialog,
                         "Choose empty wave dialog", JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE);
 
@@ -2888,7 +2888,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     stopAndModifyAudio(true, new ModifyAudioIFace() {
                         @Override
                         public void modifyAudio() {
-                            addEmptyWaves(createEmptyWaveDialog.getLength(), createEmptyWaveDialog.getNumberOfWaves());
+                            addEmptyWaves(emptyWaveMakerDialog.getLength(), emptyWaveMakerDialog.getNumberOfWaves());
                         }
                     }, true, false);
                 }
@@ -2966,8 +2966,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateEmptyWaveDialog createEmptyWaveDialog = new CreateEmptyWaveDialog();
-                int result = JOptionPane.showConfirmDialog(null, createEmptyWaveDialog,
+                EmptyWaveMakerDialog emptyWaveMakerDialog = new EmptyWaveMakerDialog();
+                int result = JOptionPane.showConfirmDialog(null, emptyWaveMakerDialog,
                         "Choose empty wave dialog", JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE);
 
@@ -2977,7 +2977,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         @Override
                         public void modifyAudio() {
                             removeAllWaves();
-                            addEmptyWaves(createEmptyWaveDialog.getLength(), createEmptyWaveDialog.getNumberOfWaves());
+                            addEmptyWaves(emptyWaveMakerDialog.getLength(), emptyWaveMakerDialog.getNumberOfWaves());
                         }
                     }, false, true);
                 }

@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateEmptyWaveDialog extends LengthDialog {
-    public CreateEmptyWaveDialog() {
+public class EmptyWaveMakerDialog extends LengthDialog {
+    public EmptyWaveMakerDialog() {
         super();
         numberOfWaves = 1;
         createPanel();
     }
 
-    public CreateEmptyWaveDialog(int defaultLengthInSeconds) {
+    public EmptyWaveMakerDialog(int defaultLengthInSeconds) {
         super(defaultLengthInSeconds);
         numberOfWaves = 1;
         createPanel();
@@ -48,7 +48,6 @@ public class CreateEmptyWaveDialog extends LengthDialog {
 
 
         unitLabel = new JLabel("waves");
-
 
         this.add(waveCountLabel);
         this.add(waveCountComboBox);

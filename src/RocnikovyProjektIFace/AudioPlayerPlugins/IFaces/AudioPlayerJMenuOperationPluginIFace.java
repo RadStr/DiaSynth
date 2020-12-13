@@ -1,25 +1,18 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
-import DiagramSynthPackage.Synth.Unit;
+import synthesizer.Synth.Unit;
 import Rocnikovy_Projekt.MyLogger;
-import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
-import Rocnikovy_Projekt.SubbandSplitter;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.jar.JarOutputStream;
 
 
 public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace {

@@ -1,0 +1,28 @@
+package synthesizer.Synth.Generators.NoiseGenerators.WithoutFrequency;
+
+import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
+import synthesizer.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
+import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.Synth.Generators.NoiseGenerators.WithFrequency.WhiteNoiseGeneratorWithFrequency;
+import synthesizer.Synth.Unit;
+
+public class WhiteNoiseGenerator extends WhiteNoiseGeneratorWithFrequency {
+    public WhiteNoiseGenerator(Unit u) {
+        super(u);
+    }
+    public WhiteNoiseGenerator(DiagramPanel panelWithUnits) {
+        super(panelWithUnits);
+    }
+
+    @Override
+    protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
+        InputPort[] inputPorts = new InputPort[1];
+        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+            inputPorts[0] = new AmplitudeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
+        }
+        else {
+            inputPorts[0] = new AmplitudeInputPort(this, shapedPanel, 0, panelWithUnits);
+        }
+        return inputPorts;
+    }
+}

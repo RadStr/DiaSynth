@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-import PartsConnectingGUI.AddToAudioPlayerIFace;
+import main.AddToAudioPlayerIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

@@ -1,4 +1,4 @@
-package PartsConnectingGUI;
+package main;
 
 public interface TabChangeIFace {
     /**

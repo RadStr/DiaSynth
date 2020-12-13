@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace;
 
-import PartsConnectingGUI.AddToAudioPlayerIFace;
-import PartsConnectingGUI.TabChangeIFace;
+import main.AddToAudioPlayerIFace;
+import main.TabChangeIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

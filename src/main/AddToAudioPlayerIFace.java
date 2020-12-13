@@ -1,8 +1,6 @@
-package PartsConnectingGUI;
+package main;
 
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-
-import javax.sound.sampled.AudioFormat;
 
 public interface AddToAudioPlayerIFace {
     void addToAudioPlayer(String path);

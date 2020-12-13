@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-import PartsConnectingGUI.AddToAudioPlayerIFace;
+import main.AddToAudioPlayerIFace;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

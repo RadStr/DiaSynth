@@ -1,4 +1,4 @@
-package PartsConnectingGUI;
+package main;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import RocnikovyProjektIFace.FrameWithFocusControl;

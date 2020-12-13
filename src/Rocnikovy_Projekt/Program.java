@@ -106,7 +106,7 @@ import javax.swing.*;
 
 import DebugPackage.DEBUG_CLASS;
 import synthesizer.Synth.Generators.ClassicGenerators.Phase.SineGeneratorWithPhase;
-import PartsConnectingGUI.DiasynthTabbedPanel;
+import main.DiasynthTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
 import org.jtransforms.fft.DoubleFFT_1D;

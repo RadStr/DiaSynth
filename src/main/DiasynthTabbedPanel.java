@@ -1,4 +1,4 @@
-package PartsConnectingGUI;
+package main;
 
 import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;

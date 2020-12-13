@@ -10,7 +10,7 @@
 	<property name="resources.dir"     value="resources"/>
 	<property name="images.dir"     value="${resources.dir}/images"/>
 
-    <property name="main-class"  value="PartsConnectingGUI.Main"/>
+    <property name="main-class"  value="main.Main"/>
 
     <property name="lib.dir"     value="libs"/>
 

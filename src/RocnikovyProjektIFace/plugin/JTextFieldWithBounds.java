@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins;
+package RocnikovyProjektIFace.plugin;
 
 import RocnikovyProjektIFace.LimitDocumentFilterIntAndDouble;
 

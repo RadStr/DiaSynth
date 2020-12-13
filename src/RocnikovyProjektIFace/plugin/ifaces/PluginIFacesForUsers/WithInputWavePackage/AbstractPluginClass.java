@@ -1,7 +1,7 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithInputWavePackage;
+package RocnikovyProjektIFace.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.EnumWrapperIFaceForDefaultJPanel;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 
 /**

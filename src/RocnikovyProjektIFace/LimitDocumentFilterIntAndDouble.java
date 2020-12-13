@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.SetFieldIFace;
+import RocnikovyProjektIFace.plugin.SetFieldIFace;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

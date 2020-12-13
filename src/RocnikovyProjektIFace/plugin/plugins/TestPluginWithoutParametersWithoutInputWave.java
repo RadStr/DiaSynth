@@ -1,6 +1,6 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.plugins;
+package RocnikovyProjektIFace.plugin.plugins;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import RocnikovyProjektIFace.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 public class TestPluginWithoutParametersWithoutInputWave implements WithoutInputWavePluginIFace {

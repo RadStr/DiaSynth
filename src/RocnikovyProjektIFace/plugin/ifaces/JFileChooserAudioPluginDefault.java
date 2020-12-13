@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces;
+package RocnikovyProjektIFace.plugin.ifaces;
 
 import javax.swing.*;
 

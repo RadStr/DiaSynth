@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.ifaces;
+package RocnikovyProjektIFace.plugin.ifaces;
 
 /**
  * The class implementing this interface should either return true in isUsingDefaultJPanel()

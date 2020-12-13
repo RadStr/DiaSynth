@@ -1,7 +1,7 @@
 package player.dialogs;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.JTextFieldWithBounds;
-import RocnikovyProjektIFace.AudioPlayerPlugins.SetFieldIFace;
+import RocnikovyProjektIFace.plugin.JTextFieldWithBounds;
+import RocnikovyProjektIFace.plugin.SetFieldIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

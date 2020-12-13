@@ -1,8 +1,8 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins;
+package RocnikovyProjektIFace.plugin;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.AudioPlayerJMenuOperationPluginIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.EnumWrapperIFaceForDefaultJPanel;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import RocnikovyProjektIFace.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
 import RocnikovyProjektIFace.Pair;
 import Rocnikovy_Projekt.MyLogger;
 

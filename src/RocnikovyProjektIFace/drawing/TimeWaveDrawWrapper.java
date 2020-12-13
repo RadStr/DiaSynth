@@ -1,8 +1,8 @@
 package RocnikovyProjektIFace.drawing;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginDefaultIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
-import RocnikovyProjektIFace.AudioPlayerPlugins.PluginJPanelBasedOnAnnotations;
+import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.PluginJPanelBasedOnAnnotations;
 
 import javax.swing.*;
 import java.awt.*;

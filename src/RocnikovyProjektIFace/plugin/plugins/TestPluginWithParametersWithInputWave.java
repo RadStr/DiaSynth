@@ -1,8 +1,8 @@
-package RocnikovyProjektIFace.AudioPlayerPlugins.plugins;
+package RocnikovyProjektIFace.plugin.plugins;
 
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginIFacesForUsers.WithInputWavePackage.WithInputWavePluginIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
+import RocnikovyProjektIFace.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.WithInputWavePluginIFace;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 
 

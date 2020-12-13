@@ -8,8 +8,8 @@ import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginDefaultIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
 
 import java.io.PrintWriter;
 

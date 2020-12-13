@@ -6,8 +6,8 @@ import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextIn
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RhombusShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginDefaultIFace;
-import RocnikovyProjektIFace.AudioPlayerPlugins.ifaces.PluginParametersAnnotation;
+import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
+import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 

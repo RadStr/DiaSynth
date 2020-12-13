@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.dialogs;
+package player.dialogs;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

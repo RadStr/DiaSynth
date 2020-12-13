@@ -1,9 +1,9 @@
 package synthesizer.gui.diagram;
 
 import synthesizer.gui.diagram.panels.util.color.ColorPalet;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.OutputPort;
-import synthesizer.gui.diagram.port.Port;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.OutputPort;
+import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.ShapedPanels.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.UnitAdditionIFace;

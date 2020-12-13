@@ -1,7 +1,7 @@
 package synthesizer.synth.generators.classic;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.RhombusShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;

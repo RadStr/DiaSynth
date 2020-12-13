@@ -1,9 +1,9 @@
 package synthesizer.synth.generators;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.AmplitudeInputPort;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.FrequencyInputPort;
+import synthesizer.gui.diagram.panels.port.AmplitudeInputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.FrequencyInputPort;
 import synthesizer.gui.diagram.ShapedPanels.ArcShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.internals.arc.ArcConstantTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;

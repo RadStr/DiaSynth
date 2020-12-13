@@ -1,8 +1,8 @@
 package synthesizer.synth;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.OutputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;

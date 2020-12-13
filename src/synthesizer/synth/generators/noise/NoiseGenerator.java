@@ -1,8 +1,8 @@
 package synthesizer.synth.generators.noise;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.AmplitudeInputPort;
-import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.panels.port.AmplitudeInputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.ShapedPanels.internals.ConstantTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;

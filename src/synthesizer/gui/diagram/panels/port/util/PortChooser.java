@@ -1,6 +1,6 @@
-package synthesizer.gui.diagram.port.util;
+package synthesizer.gui.diagram.panels.port.util;
 
-import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.InputPortsGetterIFace;
 import synthesizer.gui.diagram.ShapedPanels.PortFilterIFace;
 

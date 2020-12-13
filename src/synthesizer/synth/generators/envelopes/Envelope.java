@@ -1,7 +1,7 @@
 package synthesizer.synth.generators.envelopes;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.*;
+import synthesizer.gui.diagram.panels.port.*;
 import synthesizer.gui.diagram.ShapedPanels.internals.ConstantTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.TrapeziumShapedPanel;

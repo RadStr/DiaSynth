@@ -1,8 +1,8 @@
 package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.SingleInputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.SingleInputPort;
 import synthesizer.synth.operators.Operator;
 import synthesizer.synth.Unit;
 

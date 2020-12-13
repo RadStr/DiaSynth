@@ -1,8 +1,8 @@
 package synthesizer.synth;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.SingleInputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.SingleInputPort;
 import synthesizer.gui.diagram.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;

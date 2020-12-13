@@ -2,7 +2,7 @@ package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
 import synthesizer.gui.DiagramFileFilter;
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.port.util.PortChooser;
+import synthesizer.gui.diagram.panels.port.util.PortChooser;
 import synthesizer.synth.Unit;
 import main.AddToAudioPlayerIFace;
 import main.TabChangeIFace;

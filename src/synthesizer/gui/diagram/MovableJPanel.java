@@ -2,10 +2,10 @@ package synthesizer.gui.diagram;
 
 import synthesizer.gui.diagram.panels.util.color.ColorMover;
 import synthesizer.gui.diagram.panels.util.color.HSB;
-import synthesizer.gui.diagram.port.util.PortChooser;
-import synthesizer.gui.diagram.port.InputPort;
-import synthesizer.gui.diagram.port.OutputPort;
-import synthesizer.gui.diagram.port.Port;
+import synthesizer.gui.diagram.panels.port.util.PortChooser;
+import synthesizer.gui.diagram.panels.port.InputPort;
+import synthesizer.gui.diagram.panels.port.OutputPort;
+import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.ShapedPanels.internals.ShapedPanelInternals;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import player.AudioPlayerPanel;

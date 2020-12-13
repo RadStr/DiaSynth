@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram;
 
-import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
 import Rocnikovy_Projekt.Direction;
 
 import java.awt.*;

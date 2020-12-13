@@ -1,5 +1,6 @@
 package RocnikovyProjektIFace;
 
+@Deprecated
 public class WaveProportions {
     public WaveProportions(int visibleWaveStartX, int visibleWaveEndX, int totalWaveWidth) {
         this.setVisibleWaveStartX(visibleWaveStartX);

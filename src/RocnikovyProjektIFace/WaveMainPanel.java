@@ -536,8 +536,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         return panelWithWaves.getWavesVisibleHeight();
     }
 
-    private WaveProportions waveProportions;
-
     public Rectangle getWaveRectangle() {
         return panelWithWaves.getScrollPanelViewRect();
     }

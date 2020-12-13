@@ -1,4 +1,4 @@
-package synthesizer.synth.generators.noise.WithFrequency;
+package synthesizer.synth.generators.noise.freq;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.synth.generators.noise.NoiseGeneratorWithFrequency;

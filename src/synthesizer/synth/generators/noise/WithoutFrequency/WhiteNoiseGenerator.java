@@ -3,7 +3,7 @@ package synthesizer.synth.generators.noise.WithoutFrequency;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.generators.noise.WithFrequency.WhiteNoiseGeneratorWithFrequency;
+import synthesizer.synth.generators.noise.freq.WhiteNoiseGeneratorWithFrequency;
 import synthesizer.synth.Unit;
 
 public class WhiteNoiseGenerator extends WhiteNoiseGeneratorWithFrequency {

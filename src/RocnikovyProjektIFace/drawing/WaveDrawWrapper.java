@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 public class WaveDrawWrapper extends DrawWrapper {
     @Override

@@ -24,8 +24,8 @@ import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.Si
 import RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
 import RocnikovyProjektIFace.decibel.DecibelMeter;
 import RocnikovyProjektIFace.decibel.SamplesGetterIFace;
-import RocnikovyProjektIFace.Drawing.*;
-import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
+import RocnikovyProjektIFace.drawing.*;
+import RocnikovyProjektIFace.drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import RocnikovyProjektIFace.SpecificAudioPlayerDialogs.CreateEmptyWaveDialog;

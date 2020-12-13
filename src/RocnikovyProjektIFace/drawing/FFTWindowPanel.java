@@ -1,8 +1,7 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;

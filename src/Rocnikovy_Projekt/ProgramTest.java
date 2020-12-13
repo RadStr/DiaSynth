@@ -1,7 +1,7 @@
 package Rocnikovy_Projekt;
 
 import RocnikovyProjektIFace.AnalyzerPanel;
-import RocnikovyProjektIFace.Drawing.FFTWindowPanel;
+import RocnikovyProjektIFace.drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.Pair;
 import org.jtransforms.fft.DoubleFFT_1D;
 

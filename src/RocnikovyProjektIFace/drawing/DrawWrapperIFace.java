@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 import javax.swing.*;
 

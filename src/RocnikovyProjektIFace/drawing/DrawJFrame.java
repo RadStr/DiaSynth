@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.CustomJFramePlugin;
 

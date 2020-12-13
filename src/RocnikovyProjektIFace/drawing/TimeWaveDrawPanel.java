@@ -1,10 +1,8 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class TimeWaveDrawPanel extends WaveDrawPanel {

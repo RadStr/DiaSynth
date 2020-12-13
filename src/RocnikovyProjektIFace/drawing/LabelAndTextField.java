@@ -1,8 +1,7 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.TextField;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

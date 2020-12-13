@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.Drawing;
+package RocnikovyProjektIFace.drawing;
 
 @Deprecated
 public abstract class DrawWrapper {

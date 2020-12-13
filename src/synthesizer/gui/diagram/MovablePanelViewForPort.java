@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import java.awt.*;
 
 public interface MovablePanelViewForPort extends MovablePanelSpecificGetMethodsIFace {
-    GetMaxElevationIFace getClassWithMaxElevationInfo();
+    MaxElevationGetterIFace getClassWithMaxElevationInfo();
 
     int getIndexInPanelList();
     void connectToPort(int targetPanelIndexInPanelList, int targetConnectorIndex);

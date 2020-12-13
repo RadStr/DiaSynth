@@ -1,8 +1,7 @@
 package synthesizer.gui.diagram.panels.port;
 
-import synthesizer.gui.diagram.GetMaxElevationIFace;
+import synthesizer.gui.diagram.MaxElevationGetterIFace;
 import synthesizer.gui.diagram.MovablePanelSpecificGetMethodsIFace;
-import synthesizer.gui.diagram.panels.port.InputPort;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -10,7 +9,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 
 public class Cable {
-    public Cable(GetMaxElevationIFace maxElevation, MovablePanelSpecificGetMethodsIFace source,
+    public Cable(MaxElevationGetterIFace maxElevation, MovablePanelSpecificGetMethodsIFace source,
                  InputPort targetPort) {
         MAX_ELEVATION = maxElevation;
         pathAroundTargetPanel = new Path2D.Double();
@@ -105,7 +104,7 @@ public class Cable {
         cableType = val;
     }
 
-    private final GetMaxElevationIFace MAX_ELEVATION;
+    private final MaxElevationGetterIFace MAX_ELEVATION;
 
     private MovablePanelSpecificGetMethodsIFace sourcePanel;
     public Point getSourcePanelRelativeLoc() {

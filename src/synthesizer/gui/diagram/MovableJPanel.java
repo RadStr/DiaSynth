@@ -149,7 +149,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     }
 
     @Override
-    public GetMaxElevationIFace getClassWithMaxElevationInfo() {
+    public MaxElevationGetterIFace getClassWithMaxElevationInfo() {
         return diagramPanel;
     }
 

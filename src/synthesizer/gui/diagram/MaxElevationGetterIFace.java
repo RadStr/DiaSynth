@@ -1,5 +1,5 @@
 package synthesizer.gui.diagram;
 
-public interface GetMaxElevationIFace {
+public interface MaxElevationGetterIFace {
     int getMaxElevation();
 }

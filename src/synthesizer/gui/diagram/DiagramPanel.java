@@ -40,7 +40,7 @@ import java.util.List;
 
 public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPanelIFace,
                                                           MouseListener, MouseMotionListener,
-                                                          GetMaxElevationIFace, ResizeSplitpaneCallbackIFace,
+        MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
                                                           UnitAdditionIFace, AddInputPortToGUIIFace,
                                                           SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;

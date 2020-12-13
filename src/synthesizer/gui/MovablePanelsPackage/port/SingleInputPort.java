@@ -2,7 +2,7 @@ package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.AddInputPortToGUIIFace;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class SingleInputPort extends InputPort {
     public SingleInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,

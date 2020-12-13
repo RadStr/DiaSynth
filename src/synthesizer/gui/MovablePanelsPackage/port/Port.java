@@ -1,7 +1,7 @@
 package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public abstract class Port implements UnitGeneratedValuesInfo {
     protected UnitGeneratedValuesInfo unitValsInfo;

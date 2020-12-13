@@ -1,6 +1,6 @@
 package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals;
 
-import synthesizer.Synth.GetStringCallback;
+import synthesizer.synth.GetStringCallback;
 
 import javax.swing.*;
 

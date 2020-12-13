@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace.AudioPlayerPlugins.IFaces;
 
-import synthesizer.Synth.Unit;
+import synthesizer.synth.Unit;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 

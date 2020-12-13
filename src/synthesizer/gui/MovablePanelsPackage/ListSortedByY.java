@@ -1,7 +1,7 @@
 package synthesizer.gui.MovablePanelsPackage;
 
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.Synth.Unit;
+import synthesizer.synth.Unit;
 
 import java.awt.*;
 import java.util.ArrayList;

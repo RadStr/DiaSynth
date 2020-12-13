@@ -1,5 +1,6 @@
 package synthesizer.gui.MovablePanelsPackage.ShapedPanels;
 
+@Deprecated
 public class TODO {
     public void todo() {
         CELY_TO_PAK_NEJAK_ZMENIT_CHCI_TY_JEDNOTLIVY_OBJEKTY_SPOCITAT_JEN_JEDNOU_PRI_ZOOMU_OD_UZIVATELE:

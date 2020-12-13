@@ -1,6 +1,6 @@
 package RocnikovyProjektIFace.Drawing;
 
-import synthesizer.Synth.WaveTables.WaveTable;
+import synthesizer.synth.WaveTables.WaveTable;
 
 import java.awt.*;
 

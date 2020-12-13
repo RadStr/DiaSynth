@@ -2,8 +2,8 @@ package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.AddInputPortToGUIIFace;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.Unit;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.Unit;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

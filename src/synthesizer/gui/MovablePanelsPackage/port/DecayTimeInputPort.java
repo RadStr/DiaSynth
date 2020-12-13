@@ -2,7 +2,7 @@ package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.AddInputPortToGUIIFace;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class DecayTimeInputPort extends InputPort {
     public DecayTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,

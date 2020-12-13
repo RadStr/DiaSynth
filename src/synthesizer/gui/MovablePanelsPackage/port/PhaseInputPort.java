@@ -2,7 +2,7 @@ package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.AddInputPortToGUIIFace;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class PhaseInputPort extends InputPort {
     public PhaseInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,

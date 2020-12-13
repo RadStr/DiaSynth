@@ -2,8 +2,8 @@ package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.Cable;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;
-import synthesizer.Synth.SerializeIFace;
-import synthesizer.Synth.UnitGeneratedValuesInfo;
+import synthesizer.synth.SerializeIFace;
+import synthesizer.synth.UnitGeneratedValuesInfo;
 import Rocnikovy_Projekt.MyLogger;
 
 import java.awt.*;

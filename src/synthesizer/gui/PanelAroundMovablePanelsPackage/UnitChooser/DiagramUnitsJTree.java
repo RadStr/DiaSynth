@@ -7,8 +7,8 @@ package synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.*;
-import synthesizer.Synth.OutputUnit;
-import synthesizer.Synth.Unit;
+import synthesizer.synth.OutputUnit;
+import synthesizer.synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
 

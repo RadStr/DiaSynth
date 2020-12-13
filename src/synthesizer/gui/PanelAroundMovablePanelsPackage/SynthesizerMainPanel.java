@@ -3,7 +3,7 @@ package synthesizer.gui.PanelAroundMovablePanelsPackage;
 import synthesizer.gui.DiagramFileFilter;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.util.PortChooser;
-import synthesizer.Synth.Unit;
+import synthesizer.synth.Unit;
 import main.AddToAudioPlayerIFace;
 import main.TabChangeIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;

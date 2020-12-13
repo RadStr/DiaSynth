@@ -1,6 +1,6 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import synthesizer.Synth.CyclicQueueDouble;
+import synthesizer.synth.CyclicQueueDouble;
 import RocnikovyProjektIFace.WaveDrawValuesAggregated;
 import RocnikovyProjektIFace.WavePanel;
 import RocnikovyProjektIFace.DrawValuesSupplierIFace;

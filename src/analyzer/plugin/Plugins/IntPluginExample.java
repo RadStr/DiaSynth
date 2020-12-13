@@ -1,6 +1,6 @@
 package analyzer.plugin.Plugins;
 
-import analyzer.plugin.PluginIFaces.AnalyzerIntPluginIFace;
+import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
 import RocnikovyProjektIFace.Pair;
 
 public class IntPluginExample implements AnalyzerIntPluginIFace {

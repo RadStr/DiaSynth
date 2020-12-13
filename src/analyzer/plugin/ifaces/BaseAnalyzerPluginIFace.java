@@ -1,4 +1,4 @@
-package analyzer.plugin.PluginIFaces;
+package analyzer.plugin.ifaces;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.AudioPlayerJMenuOperationPluginIFace;
 

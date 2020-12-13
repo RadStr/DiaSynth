@@ -1,4 +1,4 @@
-package synthesizer.synth.Operators;
+package synthesizer.synth.operators;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;

@@ -1,4 +1,4 @@
-package synthesizer.synth.Operators.unary.Filters;
+package synthesizer.synth.operators.unary.Filters;
 
 public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //    public NonRecursiveFilter(Unit u) {

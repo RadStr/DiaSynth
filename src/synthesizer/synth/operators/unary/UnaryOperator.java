@@ -1,9 +1,9 @@
-package synthesizer.synth.Operators.unary;
+package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.SingleInputPort;
-import synthesizer.synth.Operators.Operator;
+import synthesizer.synth.operators.Operator;
 import synthesizer.synth.Unit;
 
 public abstract class UnaryOperator extends Operator {

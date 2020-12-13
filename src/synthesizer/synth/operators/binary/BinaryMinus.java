@@ -1,15 +1,14 @@
-package synthesizer.synth.Operators.binary;
-
+package synthesizer.synth.operators.binary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.SubtractionInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class BinaryPlus extends BinaryOperator {
-    public BinaryPlus(Unit u) { super(u); }
-    public BinaryPlus(DiagramPanel panelWithUnits) {
+public class BinaryMinus extends BinaryOperator {
+    public BinaryMinus(Unit u) { super(u); }
+    public BinaryMinus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
@@ -22,40 +21,36 @@ public class BinaryPlus extends BinaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new PlusInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new SubtractionInternals(), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                         DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new PlusInternals(), this);
+                                            DiagramPanel panelWithUnits) {
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new SubtractionInternals(), this);
         return sp;
     }
 
     @Override
     public String getDefaultPanelName() {
-        return "BinaryPlus";
+        return "Subtraction";
     }
+
 
     @Override
     public void resetToDefaultState() {
         // EMPTY
     }
 
-    @Override
-    public boolean isBinaryPlus() {
-        return true;
-    }
 
-    @Override
     public double binaryOperation(double a, double b) {
-        return a + b;
+        return a - b;
     }
 
     @Override
     public String getTooltip() {
-        return "Adds 2 samples together";
+        return "Subtracts right input from the left.";
     }
 
     @Override

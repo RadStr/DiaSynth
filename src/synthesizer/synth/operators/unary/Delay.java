@@ -1,4 +1,4 @@
-package synthesizer.synth.Operators.unary;
+package synthesizer.synth.operators.unary;
 
 public class Delay /*extends UnaryOperator*/ {
 //    public Delay(Unit u) {

@@ -1,4 +1,4 @@
-package synthesizer.synth.Operators.unary;
+package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
@@ -6,23 +6,23 @@ import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextI
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class HalfWaveRectifier extends UnaryOperator {
-    public HalfWaveRectifier(Unit u) {
+public class FullWaveRectifier extends UnaryOperator {
+    public FullWaveRectifier(Unit u) {
         super(u);
     }
 
-    public HalfWaveRectifier(DiagramPanel panelWithUnits) {
+    public FullWaveRectifier(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
     @Override
     public double unaryOperation(double val) {
-        return val > 0 ? val : 0;
+        return Math.abs(val);
     }
 
     @Override
     public String getDefaultPanelName() {
-        return "H_RECT";
+        return "RECT";
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HalfWaveRectifier extends UnaryOperator {
     @Override
     public String getTooltip() {
         // https://en.wikipedia.org/wiki/Rectifier
-        return "Performs operation of half-wave rectification (Returns input if > 0, 0 otherwise)";
+        return "Performs operation of full-wave rectification (Returns absolute value of given inputs)";
     }
 
     @Override

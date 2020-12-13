@@ -1,9 +1,9 @@
-package synthesizer.synth.Operators.binary;
+package synthesizer.synth.operators.binary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.OperatorInputPort;
-import synthesizer.synth.Operators.Operator;
+import synthesizer.synth.operators.Operator;
 import synthesizer.synth.Unit;
 
 public abstract class BinaryOperator extends Operator {

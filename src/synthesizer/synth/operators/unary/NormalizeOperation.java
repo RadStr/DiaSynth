@@ -1,33 +1,40 @@
-package synthesizer.synth.Operators.unary;
+package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ParallelogramShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class FullWaveRectifier extends UnaryOperator {
-    public FullWaveRectifier(Unit u) {
+public class NormalizeOperation extends UnaryOperator {
+    public NormalizeOperation(Unit u) {
         super(u);
     }
 
-    public FullWaveRectifier(DiagramPanel panelWithUnits) {
+    public NormalizeOperation(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
+    }
+
+    private double maxAbsVal;
+    @Override
+    public void calculateSamples() {
+        maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());
+        super.calculateSamples();
     }
 
     @Override
     public double unaryOperation(double val) {
-        return Math.abs(val);
+        return val / maxAbsVal;
     }
 
     @Override
     public String getDefaultPanelName() {
-        return "RECT";
+        return "NORM";
     }
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
+        ShapedPanel sp = new ParallelogramShapedPanel(panelWithUnits, 75,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
@@ -35,11 +42,14 @@ public class FullWaveRectifier extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
+        ShapedPanel sp = new ParallelogramShapedPanel(relativeX, relativeY, w, h, panelWithUnits, 75,
                 new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
+    /**
+     * Resets to the default state (as if no sample was ever before played)
+     */
     @Override
     public void resetToDefaultState() {
         // EMPTY
@@ -47,8 +57,12 @@ public class FullWaveRectifier extends UnaryOperator {
 
     @Override
     public String getTooltip() {
-        // https://en.wikipedia.org/wiki/Rectifier
-        return "Performs operation of full-wave rectification (Returns absolute value of given inputs)";
+        return "Normalizes the given input (Divides the input by the maximum absolute value)";
+    }
+
+    @Override
+    public double getMaxAbsValue() {
+        return 1;
     }
 
     @Override

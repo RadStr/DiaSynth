@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt.MathOperationPackage;
+package Rocnikovy_Projekt.math;
 
 public enum MathOperation {
     PLUS,

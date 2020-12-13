@@ -108,7 +108,7 @@ import debug.DEBUG_CLASS;
 import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
 import main.DiasynthTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
+import Rocnikovy_Projekt.math.MathOperation;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 // TODO: Vsude mit gettery a settery

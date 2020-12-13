@@ -3,7 +3,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.S
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
+import Rocnikovy_Projekt.math.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class LogarithmWithValueOperationInput implements WithoutInputWavePluginIFace {

@@ -2,7 +2,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.O
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
+import Rocnikovy_Projekt.math.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class InvertOperationInput implements WithoutInputWavePluginIFace {

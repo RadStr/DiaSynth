@@ -2,7 +2,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithInputWaveOperations.Simp
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MathOperationPackage.MathOperation;
+import Rocnikovy_Projekt.math.MathOperation;
 import Rocnikovy_Projekt.Program;
 
 public class PlusOnWavesOperationInput extends AbstractPluginClass {

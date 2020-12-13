@@ -3,7 +3,7 @@ package synthesizer.synth.operators.binary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.PlusInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 

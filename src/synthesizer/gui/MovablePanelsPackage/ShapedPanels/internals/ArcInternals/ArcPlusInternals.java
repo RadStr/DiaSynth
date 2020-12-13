@@ -1,7 +1,7 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ArcInternals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals;
 
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.CenteredRectanglesInternals;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.CenteredRectanglesInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.PlusInternals;
 
 public class ArcPlusInternals extends CenteredRectanglesInternals {
     public ArcPlusInternals() {

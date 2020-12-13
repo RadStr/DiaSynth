@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ArcInternals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals;
 
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ConstantTextInternals;
 
 public class ArcIfInternals extends ConstantTextInternals {
     public static final int RECTANGLE_START_Y_DECREASE_DIV_FACTOR = 16;

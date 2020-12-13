@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals;
 
 public final class MultiplyInternals extends CenteredRectanglesInternals {
     public static final int CIRCLE_DIAMETER_DECREASE_DIV_FACTOR = Integer.MAX_VALUE;

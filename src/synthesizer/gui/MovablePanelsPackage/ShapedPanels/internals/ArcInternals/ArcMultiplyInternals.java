@@ -1,7 +1,7 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ArcInternals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals;
 
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.CenteredRectanglesInternals;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.MultiplyInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.CenteredRectanglesInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.MultiplyInternals;
 
 public class ArcMultiplyInternals extends CenteredRectanglesInternals {
     public static final int CIRCLE_DIAMETER_DECREASE_DIV_FACTOR = 16;

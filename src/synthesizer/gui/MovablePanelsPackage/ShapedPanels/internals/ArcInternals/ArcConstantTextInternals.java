@@ -1,6 +1,6 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ArcInternals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals;
 
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ConstantTextInternals;
 
 import javax.swing.*;
 

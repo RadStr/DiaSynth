@@ -2,7 +2,7 @@ package synthesizer.gui.MovablePanelsPackage.ShapedPanels;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.MovableJPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ShapedPanelInternals;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import Rocnikovy_Projekt.Direction;
 import Rocnikovy_Projekt.MyLogger;

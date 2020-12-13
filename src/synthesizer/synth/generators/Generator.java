@@ -5,7 +5,7 @@ import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.FrequencyInputPort;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ArcShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ArcInternals.ArcConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals.ArcConstantTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;

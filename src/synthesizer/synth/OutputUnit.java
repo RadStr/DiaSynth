@@ -3,7 +3,7 @@ package synthesizer.synth;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.SingleInputPort;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;

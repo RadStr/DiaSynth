@@ -3,7 +3,7 @@ package synthesizer.synth.generators.noise;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ConstantTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;

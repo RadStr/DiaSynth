@@ -2,7 +2,7 @@ package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ConstantTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPanel;

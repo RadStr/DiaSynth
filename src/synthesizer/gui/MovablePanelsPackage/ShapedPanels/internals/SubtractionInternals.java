@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals;
 
 public class SubtractionInternals extends CenteredRectanglesInternals {
     public static final int CIRCLE_DIAMETER_DECREASE = Integer.MAX_VALUE;

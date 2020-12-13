@@ -2,7 +2,7 @@ package synthesizer.synth.generators.classic;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RhombusShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;

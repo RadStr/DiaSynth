@@ -4,7 +4,7 @@ import synthesizer.gui.MovablePanelsPackage.port.util.PortChooser;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
 import synthesizer.gui.MovablePanelsPackage.port.Port;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ShapedPanelInternals;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import RocnikovyProjektIFace.AudioPlayerPanel;
 import Rocnikovy_Projekt.Direction;

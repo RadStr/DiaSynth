@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.port.PortChooserPackage;
+package synthesizer.gui.MovablePanelsPackage.port.util;
 
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.InputPortsGetterIFace;

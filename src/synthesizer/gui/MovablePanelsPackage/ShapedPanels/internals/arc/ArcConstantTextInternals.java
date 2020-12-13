@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ArcInternals;
+package synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.arc;
 
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.ConstantTextInternals;
 

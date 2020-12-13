@@ -8,13 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Field;
 
-public class GetLengthDialog extends JPanel implements SetFieldIFace {
-    public GetLengthDialog() {
+public class LengthDialog extends JPanel implements SetFieldIFace {
+    public LengthDialog() {
         lenInSeconds = 60;
         createPanel();
     }
 
-    public GetLengthDialog(int defaultLengthInSeconds) {
+    public LengthDialog(int defaultLengthInSeconds) {
         lenInSeconds = defaultLengthInSeconds;
         createPanel();
     }
@@ -40,7 +40,7 @@ public class GetLengthDialog extends JPanel implements SetFieldIFace {
 
 
         try {
-            Class<?> thisClass = GetLengthDialog.class;
+            Class<?> thisClass = LengthDialog.class;
             Field[] fields = thisClass.getDeclaredFields();
             Field field = null;
             for(Field f : fields) {

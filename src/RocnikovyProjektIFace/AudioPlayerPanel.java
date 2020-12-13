@@ -29,7 +29,7 @@ import RocnikovyProjektIFace.drawing.FFTWindowPanel;
 import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
 import RocnikovyProjektIFace.SpecialSwingClasses.EmptyPanelWithoutSetMethod;
 import dialogs.CreateEmptyWaveDialog;
-import dialogs.GetLengthDialog;
+import dialogs.LengthDialog;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -3221,8 +3221,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GetLengthDialog getLengthDialog = new GetLengthDialog();
-                int result = JOptionPane.showConfirmDialog(null, getLengthDialog,
+                LengthDialog lengthDialog = new LengthDialog();
+                int result = JOptionPane.showConfirmDialog(null, lengthDialog,
                         "Choose length for waves dialog", JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE);
 
@@ -3230,7 +3230,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     stopAndModifyAudio(true, new ModifyAudioIFace() {
                         @Override
                         public void modifyAudio() {
-                            int newLengthInSamples = getLengthDialog.getLength() * (int)outputAudioFormat.getSampleRate();
+                            int newLengthInSamples = lengthDialog.getLength() * (int)outputAudioFormat.getSampleRate();
                             deletePart(newLengthInSamples);
                         }
                     }, false, true);

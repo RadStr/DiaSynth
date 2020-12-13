@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateEmptyWaveDialog extends GetLengthDialog {
+public class CreateEmptyWaveDialog extends LengthDialog {
     public CreateEmptyWaveDialog() {
         super();
         numberOfWaves = 1;

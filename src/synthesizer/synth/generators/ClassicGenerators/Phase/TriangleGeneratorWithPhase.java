@@ -1,4 +1,4 @@
-package synthesizer.synth.Generators.ClassicGenerators.Phase;
+package synthesizer.synth.generators.ClassicGenerators.Phase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.synth.Unit;

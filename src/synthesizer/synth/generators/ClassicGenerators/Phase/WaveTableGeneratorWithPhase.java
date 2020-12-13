@@ -1,9 +1,9 @@
-package synthesizer.synth.Generators.ClassicGenerators.Phase;
+package synthesizer.synth.generators.ClassicGenerators.Phase;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.JFileChooserAudioPluginDefault;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.synth.Generators.Generator;
-import synthesizer.synth.Generators.GeneratorWithPhase;
+import synthesizer.synth.generators.Generator;
+import synthesizer.synth.generators.GeneratorWithPhase;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
 import synthesizer.synth.WaveTables.WaveTable;

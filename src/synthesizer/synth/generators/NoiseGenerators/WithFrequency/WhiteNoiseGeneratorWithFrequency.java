@@ -1,7 +1,7 @@
-package synthesizer.synth.Generators.NoiseGenerators.WithFrequency;
+package synthesizer.synth.generators.NoiseGenerators.WithFrequency;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.synth.Generators.NoiseGenerators.NoiseGeneratorWithFrequency;
+import synthesizer.synth.generators.NoiseGenerators.NoiseGeneratorWithFrequency;
 import synthesizer.synth.Unit;
 
 import java.util.Random;

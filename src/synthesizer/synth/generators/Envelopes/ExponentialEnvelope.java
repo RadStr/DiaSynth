@@ -1,21 +1,21 @@
-package synthesizer.synth.Generators.Envelopes;
+package synthesizer.synth.generators.Envelopes;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.synth.Unit;
 
-public class LinearEnvelope extends Envelope {
-    public LinearEnvelope(Unit u) {
+public class ExponentialEnvelope extends Envelope {
+    public ExponentialEnvelope(Unit u) {
         super(u);
     }
 
-    public LinearEnvelope(DiagramPanel panelWithUnits) {
+    public ExponentialEnvelope(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
     public String getDefaultPanelName() {
-        return "LINEN";
+        return "EXPEN";
     }
 
     /**
@@ -31,25 +31,32 @@ public class LinearEnvelope extends Envelope {
             genVal = 0;
         }
         else if(timeInSecs > sustainTime) { // Release phase
-            genVal = sustainAmp * (1 - ((timeInSecs - sustainTime) / (releaseTime - sustainTime)));
+            timeInSecs -= sustainTime;
+            releaseTime -= sustainTime;
+            double pow = 1 - (timeInSecs / releaseTime);
+            genVal = sustainAmp * Math.pow(POW_BASE, pow) / POW_BASE;
         }
         else if(timeInSecs > decTime) {     // Sustain phase
             genVal = sustainAmp;
         }
         else if(timeInSecs > attTime) {     // decay phase
-            genVal = sustainAmp + (attAmp - sustainAmp) * (1 - ((timeInSecs - attTime) / (decTime - attTime)));
+            timeInSecs -= attTime;
+            decTime -= attTime;
+            double pow = 1 - (timeInSecs / decTime);
+            genVal = sustainAmp + (attAmp - sustainAmp) * (Math.pow(POW_BASE, pow) / POW_BASE);
         }
         else {                              // Attack phase
-            genVal = attAmp * (timeInSecs / attTime);
+            genVal = attAmp * Math.pow(POW_BASE, (timeInSecs / attTime)) / POW_BASE;
         }
         return genVal;
     }
 
+    private static final int POW_BASE = 64;
+
     @Override
     public String getTooltip() {
-        return "Generates envelope with linear slopes";
+        return "Generates envelope with exponential slopes";
     }
-
 
     @Override
     public void copyInternalState(Unit copySource) {

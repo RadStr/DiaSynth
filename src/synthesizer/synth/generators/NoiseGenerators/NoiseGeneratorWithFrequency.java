@@ -1,4 +1,4 @@
-package synthesizer.synth.Generators.NoiseGenerators;
+package synthesizer.synth.generators.NoiseGenerators;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;

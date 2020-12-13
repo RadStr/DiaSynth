@@ -1,9 +1,9 @@
-package synthesizer.synth.Generators.NoiseGenerators.WithoutFrequency;
+package synthesizer.synth.generators.NoiseGenerators.WithoutFrequency;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.Generators.NoiseGenerators.WithFrequency.WhiteNoiseGeneratorWithFrequency;
+import synthesizer.synth.generators.NoiseGenerators.WithFrequency.WhiteNoiseGeneratorWithFrequency;
 import synthesizer.synth.Unit;
 
 public class WhiteNoiseGenerator extends WhiteNoiseGeneratorWithFrequency {

@@ -1,7 +1,7 @@
-package synthesizer.synth.Generators.ClassicGenerators.Phase;
+package synthesizer.synth.generators.ClassicGenerators.Phase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.synth.Generators.GeneratorWithPhase;
+import synthesizer.synth.generators.GeneratorWithPhase;
 import synthesizer.synth.Unit;
 
 // https://en.wikipedia.org/wiki/Sawtooth_wave

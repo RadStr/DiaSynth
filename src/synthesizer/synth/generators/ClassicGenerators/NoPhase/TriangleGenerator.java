@@ -1,9 +1,9 @@
-package synthesizer.synth.Generators.ClassicGenerators.NoPhase;
+package synthesizer.synth.generators.ClassicGenerators.NoPhase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.Generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase;
-import synthesizer.synth.Generators.Generator;
+import synthesizer.synth.generators.ClassicGenerators.Phase.TriangleGeneratorWithPhase;
+import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
 /**

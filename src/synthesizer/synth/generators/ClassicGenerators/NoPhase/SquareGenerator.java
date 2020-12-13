@@ -1,17 +1,16 @@
-package synthesizer.synth.Generators.ClassicGenerators.NoPhase;
+package synthesizer.synth.generators.ClassicGenerators.NoPhase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.Generators.ClassicGenerators.Phase.WaveTableGeneratorWithPhase;
-import synthesizer.synth.Generators.Generator;
+import synthesizer.synth.generators.ClassicGenerators.Phase.SquareGeneratorWithPhase;
+import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
-public class WaveTableGenerator extends WaveTableGeneratorWithPhase {
-    public WaveTableGenerator(Unit u) {
+public class SquareGenerator extends SquareGeneratorWithPhase {
+    public SquareGenerator(Unit u) {
         super(u);
     }
-
-    public WaveTableGenerator(DiagramPanel panelWithUnits) {
+    public SquareGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

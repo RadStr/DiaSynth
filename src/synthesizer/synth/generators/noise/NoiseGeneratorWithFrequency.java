@@ -1,9 +1,9 @@
 package synthesizer.synth.generators.noise;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
-import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.gui.MovablePanelsPackage.port.NoiseFrequencyInputPort;
+import synthesizer.gui.diagram.DiagramPanel;
+import synthesizer.gui.diagram.port.AmplitudeInputPort;
+import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.port.NoiseFrequencyInputPort;
 import synthesizer.synth.Unit;
 
 public abstract class NoiseGeneratorWithFrequency extends NoiseGenerator {

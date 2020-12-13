@@ -1,9 +1,9 @@
 package synthesizer.synth;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.DiagramPanel;
+import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.port.OutputPort;
+import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;

@@ -5,8 +5,8 @@ package synthesizer.gui.PanelAroundMovablePanelsPackage.tree;
 // And also this https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#editrender for reference
 
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.*;
+import synthesizer.gui.diagram.DiagramPanel;
+import synthesizer.gui.diagram.ShapedPanels.*;
 import synthesizer.synth.OutputUnit;
 import synthesizer.synth.Unit;
 import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;

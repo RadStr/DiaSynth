@@ -1,6 +1,6 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.diagram.DiagramPanel;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

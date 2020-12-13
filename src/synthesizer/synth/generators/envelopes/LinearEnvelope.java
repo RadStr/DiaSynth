@@ -1,6 +1,6 @@
 package synthesizer.synth.generators.envelopes;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.Unit;
 
 public class LinearEnvelope extends Envelope {

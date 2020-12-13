@@ -1,12 +1,12 @@
 package synthesizer.synth.generators;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
-import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.gui.MovablePanelsPackage.port.FrequencyInputPort;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ArcShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.arc.ArcConstantTextInternals;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.DiagramPanel;
+import synthesizer.gui.diagram.port.AmplitudeInputPort;
+import synthesizer.gui.diagram.port.InputPort;
+import synthesizer.gui.diagram.port.FrequencyInputPort;
+import synthesizer.gui.diagram.ShapedPanels.ArcShapedPanel;
+import synthesizer.gui.diagram.ShapedPanels.internals.arc.ArcConstantTextInternals;
+import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
 

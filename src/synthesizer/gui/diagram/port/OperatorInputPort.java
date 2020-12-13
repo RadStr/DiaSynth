@@ -1,0 +1,20 @@
+package synthesizer.gui.diagram.port;
+
+import synthesizer.gui.diagram.AddInputPortToGUIIFace;
+import synthesizer.gui.diagram.MovablePanelViewForPort;
+import synthesizer.synth.UnitGeneratedValuesInfo;
+
+public class OperatorInputPort extends InputPort {
+    public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
+                             int connectorIndex, AddInputPortToGUIIFace addInputPortToGUIIFace, double neutralValue) {
+        super(u, panelWhichContainsPort, "OP" + connectorIndex, "Operand " + connectorIndex,
+                connectorIndex, addInputPortToGUIIFace,
+                "This port gets values for operand number " + connectorIndex,
+                neutralValue);
+    }
+
+    public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
+                             int connectorIndex, AddInputPortToGUIIFace addInputPortToGUIIFace) {
+        this(u, panelWhichContainsPort, connectorIndex, addInputPortToGUIIFace, 1);
+    }
+}

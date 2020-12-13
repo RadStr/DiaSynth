@@ -1,9 +1,9 @@
 package synthesizer.synth.operators.binary;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.internals.DivisionInternals;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.DiagramPanel;
+import synthesizer.gui.diagram.ShapedPanels.CircleShapedPanel;
+import synthesizer.gui.diagram.ShapedPanels.internals.DivisionInternals;
+import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.synth.operators.unary.Reciprocical;
 import synthesizer.synth.Unit;
 

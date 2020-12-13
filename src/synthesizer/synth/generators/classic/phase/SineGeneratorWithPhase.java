@@ -1,6 +1,6 @@
 package synthesizer.synth.generators.classic.phase;
 
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.generators.GeneratorWithPhase;
 import synthesizer.synth.Unit;
 

@@ -1,7 +1,7 @@
 package synthesizer.synth.generators.classic.phase;
 
 import RocnikovyProjektIFace.plugin.ifaces.JFileChooserAudioPluginDefault;
-import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.generators.GeneratorWithPhase;
 import synthesizer.synth.SynthDiagram;

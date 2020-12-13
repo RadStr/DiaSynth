@@ -1,0 +1,18 @@
+package synthesizer.gui.diagram.port;
+
+import synthesizer.gui.diagram.AddInputPortToGUIIFace;
+import synthesizer.gui.diagram.MovablePanelViewForPort;
+import synthesizer.synth.UnitGeneratedValuesInfo;
+
+public class AmplitudeInputPort extends InputPort {
+    public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
+                              int connectorIndex, AddInputPortToGUIIFace addInputPortToGUIIFace, double neutralValue) {
+        super(u, panelWhichContainsPort, "AMP", "AMPLITUDE", connectorIndex, addInputPortToGUIIFace,
+                "This port controls the amplitude of generated wave.", neutralValue);
+    }
+
+    public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
+                              int connectorIndex, AddInputPortToGUIIFace addInputPortToGUIIFace) {
+        this(u, panelWhichContainsPort, connectorIndex, addInputPortToGUIIFace, 0.2);
+    }
+}

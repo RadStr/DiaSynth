@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.util.color;
 
 import java.awt.*;
 

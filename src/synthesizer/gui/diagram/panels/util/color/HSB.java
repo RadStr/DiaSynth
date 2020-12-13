@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.util.color;
 
 public class HSB {
     public HSB() {

@@ -1,4 +1,4 @@
-package synthesizer.synth.WaveTables;
+package synthesizer.synth.tables;
 
 public class WaveTableFast extends WaveTable {
     /**

@@ -1,11 +1,11 @@
 package synthesizer.Synth;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.GUI.MovablePanelsPackage.Ports.OutputPort;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.GUI.PanelAroundMovablePanelsPackage.UnitChooser.JTreeCellClickedCallbackIFace;
-import synthesizer.GUI.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.Ports.OutputPort;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser.JTreeCellClickedCallbackIFace;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import Rocnikovy_Projekt.MyLogger;
 

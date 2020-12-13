@@ -1,11 +1,11 @@
 package synthesizer.Synth;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.GUI.MovablePanelsPackage.Ports.SingleInputPort;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.Ports.SingleInputPort;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.Synth.AudioThreads.AudioThread;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;

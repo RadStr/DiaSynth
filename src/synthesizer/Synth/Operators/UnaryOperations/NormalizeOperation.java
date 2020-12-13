@@ -1,9 +1,9 @@
 package synthesizer.Synth.Operators.UnaryOperations;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ParallelogramShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ParallelogramShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.Synth.Unit;
 
 public class NormalizeOperation extends UnaryOperator {

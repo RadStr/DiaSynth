@@ -1,6 +1,6 @@
 package synthesizer.Synth.Generators.ClassicGenerators.Phase;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.Synth.Unit;
 
 public class SquareGeneratorWithPhase extends SineGeneratorWithPhase {

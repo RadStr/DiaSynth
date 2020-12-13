@@ -1,8 +1,8 @@
 package synthesizer.Synth.Operators.BinaryOperations;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.GUI.MovablePanelsPackage.Ports.OperatorInputPort;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.Ports.OperatorInputPort;
 import synthesizer.Synth.Operators.Operator;
 import synthesizer.Synth.Unit;
 

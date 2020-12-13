@@ -1,8 +1,8 @@
 package synthesizer.Synth.Generators.NoiseGenerators.WithoutFrequency;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.AmplitudeInputPort;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
 import synthesizer.Synth.Generators.NoiseGenerators.WithFrequency.WhiteNoiseGeneratorWithFrequency;
 import synthesizer.Synth.Unit;
 

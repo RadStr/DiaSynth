@@ -1,11 +1,11 @@
 package synthesizer.Synth.Generators.NoiseGenerators;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.AmplitudeInputPort;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.AmplitudeInputPort;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.Synth.Unit;
 
 public abstract class NoiseGenerator extends Unit {

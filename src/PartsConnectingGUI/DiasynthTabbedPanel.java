@@ -1,6 +1,6 @@
 package PartsConnectingGUI;
 
-import synthesizer.GUI.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
+import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FrameWithFocusControl;

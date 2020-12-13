@@ -1,9 +1,9 @@
 package synthesizer.Synth.Operators.BinaryOperations;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.SubtractionInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.SubtractionInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.Synth.Unit;
 
 public class BinaryMinus extends BinaryOperator {

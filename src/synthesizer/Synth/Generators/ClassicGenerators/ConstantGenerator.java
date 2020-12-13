@@ -1,10 +1,10 @@
 package synthesizer.Synth.Generators.ClassicGenerators;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.RhombusShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RhombusShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.Synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;

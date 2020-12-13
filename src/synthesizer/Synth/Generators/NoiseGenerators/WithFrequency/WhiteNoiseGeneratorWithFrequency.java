@@ -1,6 +1,6 @@
 package synthesizer.Synth.Generators.NoiseGenerators.WithFrequency;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.Synth.Generators.NoiseGenerators.NoiseGeneratorWithFrequency;
 import synthesizer.Synth.Unit;
 

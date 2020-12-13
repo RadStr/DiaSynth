@@ -1,10 +1,10 @@
 package synthesizer.Synth.Generators.Envelopes;
 
-import synthesizer.GUI.MovablePanelsPackage.DiagramPanel;
-import synthesizer.GUI.MovablePanelsPackage.Ports.*;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.GUI.MovablePanelsPackage.ShapedPanels.TrapeziumShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
+import synthesizer.gui.MovablePanelsPackage.Ports.*;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.TrapeziumShapedPanel;
 import synthesizer.Synth.SynthDiagram;
 import synthesizer.Synth.Unit;
 

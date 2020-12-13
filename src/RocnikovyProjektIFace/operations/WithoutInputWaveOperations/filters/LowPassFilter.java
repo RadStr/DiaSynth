@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.operations.WithoutInputWaveOperations.Filters;
+package RocnikovyProjektIFace.operations.WithoutInputWaveOperations.filters;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;

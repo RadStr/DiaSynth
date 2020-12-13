@@ -24,7 +24,6 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
         this.classWithAnnotations = objectWithAnnotations;
 
         viewPanel = new JPanel(new GridLayout(0, 2));
-        parameters = new ArrayList<>();
 
         Field[] fields;
         fields = classWithAnnotations.getDeclaredFields();
@@ -43,7 +42,6 @@ public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFi
 
 
     private JPanel viewPanel;
-    private List<Pair<JLabel, JTextField>> parameters;
     private Object classWithAnnotations;
 
 

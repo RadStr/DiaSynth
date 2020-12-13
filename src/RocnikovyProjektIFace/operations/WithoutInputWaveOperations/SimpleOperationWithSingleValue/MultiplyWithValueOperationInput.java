@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
+package RocnikovyProjektIFace.operations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
@@ -6,15 +6,15 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
-        parameterTooltip = "is the constant to be added to the samples")
+public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIFace {
+    @PluginParametersAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+        parameterTooltip = "is the constant to multiply the samples with")
     private double value;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.PLUS);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.MULTIPLY);
     }
 
     @Override
@@ -29,11 +29,11 @@ public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace 
 
     @Override
     public String getPluginName() {
-        return "Add value to samples";
+        return "Multiply samples with value";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Adds given parameter to all samples";
+        return "Multiplies all samples with given parameter";
     }
 }

@@ -1,23 +1,21 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
+package RocnikovyProjektIFace.operations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class SetSamplesToValueOperation implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",
-        defaultValue = "0", parameterTooltip = "Represents the value to set the samples to.")
+public class LogarithmWithValueOperationInput implements WithoutInputWavePluginIFace {
+    // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
+    @PluginParametersAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
+        parameterTooltip = "is the base of the logarithm")
     private double value;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
-        setSamples(audio, startIndex, endIndex, value);
-    }
-
-    public static void setSamples(DoubleWave audio, int startIndex, int endIndex, double value) {
         double[] wave = audio.getSong();
-        Program.setOneDimArr(wave, startIndex, endIndex, value);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
     }
 
     @Override
@@ -32,11 +30,11 @@ public class SetSamplesToValueOperation implements WithoutInputWavePluginIFace {
 
     @Override
     public String getPluginName() {
-        return "Set to value";
+        return "Logarithm samples";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Sets samples to value given by user";
+        return "Logarithm the samples with base of user given value";
     }
 }

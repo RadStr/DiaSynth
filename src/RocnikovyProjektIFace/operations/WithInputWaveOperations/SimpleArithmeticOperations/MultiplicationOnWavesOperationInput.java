@@ -1,10 +1,11 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithInputWaveOperations.OtherOperations;
+package RocnikovyProjektIFace.operations.WithInputWaveOperations.SimpleArithmeticOperations;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
-// TODO: RML
-@Deprecated
-public class Convolution extends AbstractPluginClass {
+import Rocnikovy_Projekt.math.ArithmeticOperation;
+import Rocnikovy_Projekt.Program;
+
+public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -14,11 +15,9 @@ public class Convolution extends AbstractPluginClass {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        // TODO: Konvoluce je napsana dobre, ale musim udelat ty fft pole stejne dlouhy a doplnit je 0ma aby se mohla
-        // TODO: ta konvoluce provest, pokud chci aby to fungovalo jako echo efekt, tak musim povolit zvetseni te vlny a mit parametr na delku echa
-        //Program.convolutionInFreqDomainRealForward();
+        Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
+            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
-
 
     @Override
     public boolean shouldWaitForParametersFromUser() {
@@ -32,14 +31,11 @@ public class Convolution extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Convolution";
+        return "Multiply waves";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "<html>" +
-                "Puts result of convolution between first and second wave to the second wave" +
-                "</html>";
+        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
     }
 }
-// TODO: RML

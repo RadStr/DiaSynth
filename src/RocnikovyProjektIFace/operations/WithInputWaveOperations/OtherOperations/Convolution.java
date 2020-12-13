@@ -1,11 +1,10 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithInputWaveOperations.SimpleArithmeticOperations;
+package RocnikovyProjektIFace.operations.WithInputWaveOperations.OtherOperations;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
-
-public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
+// TODO: RML
+@Deprecated
+public class Convolution extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -15,9 +14,11 @@ public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.LOG);
+        // TODO: Konvoluce je napsana dobre, ale musim udelat ty fft pole stejne dlouhy a doplnit je 0ma aby se mohla
+        // TODO: ta konvoluce provest, pokud chci aby to fungovalo jako echo efekt, tak musim povolit zvetseni te vlny a mit parametr na delku echa
+        //Program.convolutionInFreqDomainRealForward();
     }
+
 
     @Override
     public boolean shouldWaitForParametersFromUser() {
@@ -31,14 +32,14 @@ public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Logarithm waves";
+        return "Convolution";
     }
 
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-            "Logarithms samples of the input wave (the first wave) with base of output wave samples (the second one) and stores result to the output wave<br>" +
-            "log_outputWave[i](inputWave[i])" +
-            "</html>";
+                "Puts result of convolution between first and second wave to the second wave" +
+                "</html>";
     }
 }
+// TODO: RML

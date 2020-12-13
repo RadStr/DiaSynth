@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithInputWaveOperations.OtherOperations;
+package RocnikovyProjektIFace.operations.WithInputWaveOperations.OtherOperations;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;

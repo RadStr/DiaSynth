@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
+package RocnikovyProjektIFace.operations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
@@ -6,16 +6,15 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class LogarithmWithValueOperationInput implements WithoutInputWavePluginIFace {
-    // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
-    @PluginParametersAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
-        parameterTooltip = "is the base of the logarithm")
+public class PowerWithValueOperationInput implements WithoutInputWavePluginIFace {
+    @PluginParametersAnnotation(name = "Power:", defaultValue = "0",
+            parameterTooltip = "is the power to which will be the samples raised.")
     private double value;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.POWER);
     }
 
     @Override
@@ -30,11 +29,11 @@ public class LogarithmWithValueOperationInput implements WithoutInputWavePluginI
 
     @Override
     public String getPluginName() {
-        return "Logarithm samples";
+        return "Raise samples to power";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Logarithm the samples with base of user given value";
+        return "Use samples as base for power (samples ^ userValue)";
     }
 }

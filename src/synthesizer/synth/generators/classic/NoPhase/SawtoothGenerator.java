@@ -2,7 +2,7 @@ package synthesizer.synth.generators.classic.NoPhase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.port.InputPort;
-import synthesizer.synth.generators.classic.Phase.SawtoothGeneratorWithPhase;
+import synthesizer.synth.generators.classic.phase.SawtoothGeneratorWithPhase;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 

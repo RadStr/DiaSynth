@@ -1,4 +1,4 @@
-package synthesizer.synth.generators.classic.Phase;
+package synthesizer.synth.generators.classic.phase;
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.JFileChooserAudioPluginDefault;
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;

@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage;
+package deprecatedclasses;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

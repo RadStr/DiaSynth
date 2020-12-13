@@ -1,4 +1,6 @@
-package player.drawing;
+package deprecatedclasses;
+
+import player.drawing.DoubleDrawPanel;
 
 @Deprecated
 public abstract class DrawWrapper {

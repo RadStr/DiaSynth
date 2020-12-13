@@ -1,4 +1,4 @@
-package player;
+package deprecatedclasses;
 
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;

@@ -1,6 +1,8 @@
-package analyzer.bpm;
+package deprecatedclasses;
 
 import Rocnikovy_Projekt.Program;
+import analyzer.bpm.CombFilterBPMGetterIFace;
+import analyzer.bpm.SubbandSplitterIFace;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.io.IOException;

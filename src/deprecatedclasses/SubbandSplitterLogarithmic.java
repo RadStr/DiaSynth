@@ -1,5 +1,6 @@
-package analyzer.bpm;
+package deprecatedclasses;
 
+import analyzer.bpm.SubbandSplitterIFace;
 import util.Pair;
 
 // TODO: Just remove it - doesn't make sense to keep after I looked at the horrible code

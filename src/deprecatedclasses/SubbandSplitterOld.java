@@ -1,7 +1,8 @@
-package analyzer.bpm;
+package deprecatedclasses;
 
 
 
+import analyzer.bpm.SubbandSplitterIFace;
 import util.Pair;
 import Rocnikovy_Projekt.Program;
 

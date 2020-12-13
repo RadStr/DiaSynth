@@ -1,4 +1,4 @@
-package player;
+package deprecatedclasses;
 
 import Rocnikovy_Projekt.ProgramTest;
 

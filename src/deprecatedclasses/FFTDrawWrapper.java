@@ -1,4 +1,4 @@
-package player.drawing;
+package deprecatedclasses;
 
 @Deprecated
 public class FFTDrawWrapper extends DrawWrapper {

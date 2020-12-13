@@ -1,4 +1,4 @@
-package player;
+package deprecatedclasses;
 
 import java.awt.*;
 import java.awt.event.InputEvent;

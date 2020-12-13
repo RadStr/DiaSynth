@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.ShapedPanels;
+package deprecatedclasses;
 
 @Deprecated
 public class TODO {

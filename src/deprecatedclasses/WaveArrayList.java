@@ -1,4 +1,6 @@
-package player;
+package deprecatedclasses;
+
+import player.WaveMainPanel;
 
 import java.awt.*;
 import java.util.ArrayList;

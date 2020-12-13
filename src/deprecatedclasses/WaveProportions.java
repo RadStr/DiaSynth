@@ -1,4 +1,4 @@
-package player;
+package deprecatedclasses;
 
 @Deprecated
 public class WaveProportions {

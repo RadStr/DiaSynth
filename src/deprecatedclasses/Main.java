@@ -1,4 +1,4 @@
-package player;
+package deprecatedclasses;
 
 import javax.swing.*;
 

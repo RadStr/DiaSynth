@@ -1,6 +1,7 @@
 package player;
 
 
+import deprecatedclasses.RobotUserEventsGenerator;
 import mixer.*;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;

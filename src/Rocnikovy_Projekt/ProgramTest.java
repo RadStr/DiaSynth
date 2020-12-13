@@ -6,7 +6,7 @@ import util.Pair;
 import analyzer.bpm.SubbandSplitter;
 import analyzer.bpm.SubbandSplitterIFace;
 import analyzer.bpm.SubbandSplitterLinear;
-import analyzer.bpm.SubbandSplitterLogarithmic;
+import deprecatedclasses.SubbandSplitterLogarithmic;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import javax.sound.sampled.AudioFormat;

@@ -1,7 +1,7 @@
 package synthesizer.synth;
 
 import synthesizer.gui.MovablePanelsPackage.ListSortedByY;
-import synthesizer.synth.AudioThreads.AudioThread;
+import synthesizer.synth.audio.AudioThread;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

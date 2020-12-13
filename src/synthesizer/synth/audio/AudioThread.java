@@ -1,4 +1,4 @@
-package synthesizer.synth.AudioThreads;
+package synthesizer.synth.audio;
 
 import synthesizer.gui.PanelAroundMovablePanelsPackage.PlayedWaveVisualizer;
 import synthesizer.synth.CyclicQueueDouble;

@@ -1,4 +1,4 @@
-package synthesizer.synth.AudioThreads;
+package synthesizer.synth.audio;
 
 public class AudioThreadWithRecordingSupport extends AudioThread {
     /**

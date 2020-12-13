@@ -6,7 +6,7 @@ import synthesizer.gui.MovablePanelsPackage.port.SingleInputPort;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
-import synthesizer.synth.AudioThreads.AudioThread;
+import synthesizer.synth.audio.AudioThread;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;

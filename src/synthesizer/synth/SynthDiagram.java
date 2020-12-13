@@ -2,7 +2,7 @@ package synthesizer.synth;
 
 import synthesizer.gui.diagram.ListSortedByY;
 import synthesizer.synth.audio.AudioThread;
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 

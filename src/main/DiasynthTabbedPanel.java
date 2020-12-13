@@ -1,7 +1,7 @@
 package main;
 
 import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 import player.AudioPlayerPanel;
 import player.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;

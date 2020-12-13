@@ -1,4 +1,4 @@
-package player.AudioFormatChooserPackage;
+package player.format;
 
 import util.Pair;
 

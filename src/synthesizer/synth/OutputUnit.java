@@ -7,7 +7,7 @@ import synthesizer.gui.diagram.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
-import player.AudioFormatChooserPackage.ChannelCount;
+import player.format.ChannelCount;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 

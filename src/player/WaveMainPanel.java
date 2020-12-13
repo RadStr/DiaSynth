@@ -1,6 +1,6 @@
 package player;
 
-import player.AudioFormatChooserPackage.ChannelCount;
+import player.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import player.util.JTextFieldResizeable;
 import Rocnikovy_Projekt.DoubleWave;

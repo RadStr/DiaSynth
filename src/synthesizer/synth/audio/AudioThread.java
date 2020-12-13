@@ -4,7 +4,7 @@ import synthesizer.gui.PanelAroundMovablePanelsPackage.PlayedWaveVisualizer;
 import synthesizer.synth.CyclicQueueDouble;
 import synthesizer.synth.OutputFormatGetter;
 import synthesizer.synth.Unit;
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 import player.AudioControlPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

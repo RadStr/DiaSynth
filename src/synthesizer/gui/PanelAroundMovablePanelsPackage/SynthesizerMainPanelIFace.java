@@ -1,6 +1,6 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package player.AudioFormatChooserPackage;
+package player.format;
 
 import javax.sound.sampled.AudioFormat;
 import javax.swing.*;

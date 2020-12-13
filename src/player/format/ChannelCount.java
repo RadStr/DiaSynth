@@ -1,4 +1,4 @@
-package player.AudioFormatChooserPackage;
+package player.format;
 
 public enum ChannelCount {
     MONO(1) {

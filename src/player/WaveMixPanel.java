@@ -1,6 +1,6 @@
 package player;
 
-import player.AudioFormatChooserPackage.ChannelCount;
+import player.format.ChannelCount;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

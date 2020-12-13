@@ -1,6 +1,6 @@
 package main;
 
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 
 public interface AddToAudioPlayerIFace {
     void addToAudioPlayer(String path);

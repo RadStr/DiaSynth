@@ -1,6 +1,6 @@
 package synthesizer.synth;
 
-import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.format.AudioFormatWithSign;
 
 public interface OutputFormatGetter {
     AudioFormatWithSign getOutputFormat();

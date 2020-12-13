@@ -1,6 +1,6 @@
 package main;
 
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
 
 public interface AddToAudioPlayerIFace {
     void addToAudioPlayer(String path);

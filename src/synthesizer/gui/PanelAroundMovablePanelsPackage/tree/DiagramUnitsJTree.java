@@ -9,7 +9,7 @@ import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.ShapedPanels.*;
 import synthesizer.synth.OutputUnit;
 import synthesizer.synth.Unit;
-import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import java.awt.*;

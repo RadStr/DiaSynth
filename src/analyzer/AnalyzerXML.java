@@ -1,7 +1,7 @@
 package analyzer;
 
 import util.Pair;
-import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
+import player.SpecialSwingClasses.ErrorFrame;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 import org.w3c.dom.*;

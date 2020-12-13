@@ -1,6 +1,6 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import RocnikovyProjektIFace.AudioControlPanelWithZoom;
+import player.AudioControlPanelWithZoom;
 
 public interface AudioControlPanelGetterIFace {
     AudioControlPanelWithZoom getAudioControlPanel();

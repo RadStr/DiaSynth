@@ -109,7 +109,7 @@ import analyzer.bpm.SubbandSplitterIFace;
 import debug.DEBUG_CLASS;
 import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
 import main.DiasynthTabbedPanel;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 // TODO: Vsude mit gettery a settery

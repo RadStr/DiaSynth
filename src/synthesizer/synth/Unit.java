@@ -6,7 +6,7 @@ import synthesizer.gui.diagram.port.OutputPort;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
-import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginDefaultIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import java.awt.*;

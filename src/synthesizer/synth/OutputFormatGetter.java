@@ -1,6 +1,6 @@
 package synthesizer.synth;
 
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
 
 public interface OutputFormatGetter {
     AudioFormatWithSign getOutputFormat();

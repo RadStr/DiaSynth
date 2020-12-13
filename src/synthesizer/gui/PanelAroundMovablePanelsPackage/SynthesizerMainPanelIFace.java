@@ -1,6 +1,6 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
 
 import java.awt.*;
 

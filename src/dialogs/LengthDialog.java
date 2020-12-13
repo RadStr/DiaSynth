@@ -1,7 +1,7 @@
 package dialogs;
 
-import RocnikovyProjektIFace.plugin.JTextFieldWithBounds;
-import RocnikovyProjektIFace.plugin.SetFieldIFace;
+import player.plugin.JTextFieldWithBounds;
+import player.plugin.SetFieldIFace;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

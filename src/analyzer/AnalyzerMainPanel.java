@@ -1,6 +1,6 @@
 package analyzer;
 
-import RocnikovyProjektIFace.LeavingPanelIFace;
+import player.LeavingPanelIFace;
 import main.AddToAudioPlayerIFace;
 import main.TabChangeIFace;
 import Rocnikovy_Projekt.MyLogger;

@@ -6,7 +6,7 @@ import synthesizer.gui.diagram.port.OutputPort;
 import synthesizer.gui.diagram.port.Port;
 import synthesizer.gui.diagram.ShapedPanels.internals.ShapedPanelInternals;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
-import RocnikovyProjektIFace.AudioPlayerPanel;
+import player.AudioPlayerPanel;
 import Rocnikovy_Projekt.Direction;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

@@ -1,9 +1,9 @@
 package main;
 
 import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import RocnikovyProjektIFace.AudioPlayerPanel;
-import RocnikovyProjektIFace.FrameWithFocusControl;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioPlayerPanel;
+import player.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

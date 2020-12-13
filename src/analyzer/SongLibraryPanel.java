@@ -1,10 +1,10 @@
 package analyzer;
 
-import RocnikovyProjektIFace.LeavingPanelIFace;
+import player.LeavingPanelIFace;
 import util.Pair;
 import analyzer.util.UneditableTableModel;
 import main.AddToAudioPlayerIFace;
-import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
+import player.SpecialSwingClasses.ErrorFrame;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

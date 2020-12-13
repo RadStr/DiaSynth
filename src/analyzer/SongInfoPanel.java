@@ -1,6 +1,6 @@
 package analyzer;
 
-import RocnikovyProjektIFace.FrameChangeWithDisposeButton;
+import player.FrameChangeWithDisposeButton;
 import analyzer.util.UneditableTableModel;
 import main.AddToAudioPlayerIFace;
 import org.w3c.dom.Node;

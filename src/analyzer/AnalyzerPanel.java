@@ -1,13 +1,13 @@
 package analyzer;
 
-import RocnikovyProjektIFace.LeavingPanelIFace;
+import player.LeavingPanelIFace;
 import util.Pair;
 import analyzer.bpm.*;
 import analyzer.util.UneditableTableModel;
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
-import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
+import player.SpecialSwingClasses.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

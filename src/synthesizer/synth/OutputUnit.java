@@ -7,9 +7,9 @@ import synthesizer.gui.diagram.ShapedPanels.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import RocnikovyProjektIFace.plugin.ifaces.PluginDefaultIFace;
-import RocnikovyProjektIFace.plugin.ifaces.PluginParametersAnnotation;
+import player.AudioFormatChooserPackage.ChannelCount;
+import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginParametersAnnotation;
 
 import java.io.PrintWriter;
 

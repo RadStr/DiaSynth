@@ -1,7 +1,7 @@
 package main;
 
-import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
-import RocnikovyProjektIFace.FrameWithFocusControl;
+import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.FrameWithFocusControl;
 import Rocnikovy_Projekt.MyLogger;
 
 import javax.swing.*;

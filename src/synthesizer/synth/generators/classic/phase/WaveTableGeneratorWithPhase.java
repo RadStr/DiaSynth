@@ -1,6 +1,6 @@
 package synthesizer.synth.generators.classic.phase;
 
-import RocnikovyProjektIFace.plugin.ifaces.JFileChooserAudioPluginDefault;
+import player.plugin.ifaces.JFileChooserAudioPluginDefault;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.generators.Generator;
 import synthesizer.synth.generators.GeneratorWithPhase;
@@ -8,7 +8,7 @@ import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
 import synthesizer.synth.tables.WaveTable;
 import synthesizer.synth.tables.WaveTableFast;
-import RocnikovyProjektIFace.AudioPlayerPanel;
+import player.AudioPlayerPanel;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

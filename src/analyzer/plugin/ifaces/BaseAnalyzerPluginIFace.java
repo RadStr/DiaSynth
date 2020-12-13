@@ -1,6 +1,6 @@
 package analyzer.plugin.ifaces;
 
-import RocnikovyProjektIFace.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 
 import java.util.List;
 

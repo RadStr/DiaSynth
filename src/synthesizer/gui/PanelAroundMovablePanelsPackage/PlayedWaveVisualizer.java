@@ -1,10 +1,10 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
 import synthesizer.synth.CyclicQueueDouble;
-import RocnikovyProjektIFace.WaveDrawValuesAggregated;
-import RocnikovyProjektIFace.WavePanel;
-import RocnikovyProjektIFace.DrawValuesSupplierIFace;
-import RocnikovyProjektIFace.WaveDrawValues;
+import player.WaveDrawValuesAggregated;
+import player.WavePanel;
+import player.DrawValuesSupplierIFace;
+import player.WaveDrawValues;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

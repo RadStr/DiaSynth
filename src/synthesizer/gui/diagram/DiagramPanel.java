@@ -9,11 +9,11 @@ import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.UnitAdditionIFace;
 import synthesizer.synth.*;
 import synthesizer.synth.audio.AudioRecordingCallback;
 import synthesizer.synth.audio.AudioThreadWithRecordingSupport;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import RocnikovyProjektIFace.AudioFormatChooserPackage.ChannelCount;
-import RocnikovyProjektIFace.AudioControlPanel;
-import RocnikovyProjektIFace.SpecialSwingClasses.BooleanButton;
+import player.AudioFormatChooserPackage.AudioFormatJPanel;
+import player.AudioFormatChooserPackage.AudioFormatWithSign;
+import player.AudioFormatChooserPackage.ChannelCount;
+import player.AudioControlPanel;
+import player.SpecialSwingClasses.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 

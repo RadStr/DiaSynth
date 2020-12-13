@@ -1,13 +1,13 @@
 package Rocnikovy_Projekt.math;
 
-public enum MathOperation {
+public enum ArithmeticOperation {
     PLUS,
     MULTIPLY,
     LOG,
     POWER;
 
     public static String[] getEnumsToStrings() {
-        MathOperation[] values = MathOperation.values();
+        ArithmeticOperation[] values = ArithmeticOperation.values();
         String[] strings = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             strings[i] = values[i].toString();
@@ -17,9 +17,9 @@ public enum MathOperation {
     }
 
 
-    public static MathOperation convertStringToEnumValue(String s) {
-        MathOperation[] values = MathOperation.values();
-        for (MathOperation v : values) {
+    public static ArithmeticOperation convertStringToEnumValue(String s) {
+        ArithmeticOperation[] values = ArithmeticOperation.values();
+        for (ArithmeticOperation v : values) {
             if(v.toString().equals(s)) {
                 return v;
             }

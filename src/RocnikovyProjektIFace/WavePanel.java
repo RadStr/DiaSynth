@@ -1904,12 +1904,12 @@ public class WavePanel extends JPanel {
 //
 //
 //    @Override
-//    public void operationUsingWave(double[] wave, int startIndexInGivenWave, int startOutputIndex, int len, MathOperation opType) {
+//    public void operationUsingWave(double[] wave, int startIndexInGivenWave, int startOutputIndex, int len, ArithmeticOperation opType) {
 //        double[] thisWave = getDoubleWave().getSong();
 //        Program.performOperationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
 //    }
 //    @Override
-//    public void operationUsingValue(double val, int startOutputIndex, int len, MathOperation opType) {
+//    public void operationUsingValue(double val, int startOutputIndex, int len, ArithmeticOperation opType) {
 //        double[] wave = getDoubleWave().getSong();
 //        Program.performOperationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
 //    }

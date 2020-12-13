@@ -104,11 +104,11 @@ import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import debug.DEBUG_CLASS;
 import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
 import main.DiasynthTabbedPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
-import Rocnikovy_Projekt.math.MathOperation;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 // TODO: Vsude mit gettery a settery
@@ -5795,7 +5795,7 @@ public class Program {
      * @return Returns copy of the samples array with corresponding changes.
      */
     public static double[] performOperationOnSamples(double[] samples, int startIndex, int outputStartIndex,
-                                                     int len, double changeValue, MathOperation op) {
+                                                     int len, double changeValue, ArithmeticOperation op) {
         double[] retArr = new double[samples.length];
         System.arraycopy(samples, 0, retArr, 0, retArr.length);
         performOperationOnSamples(samples, retArr, startIndex, outputStartIndex, len, changeValue, op);
@@ -5817,7 +5817,7 @@ public class Program {
      * @param op is the operation to be performed on the samples.
      */
     public static void performOperationOnSamples(double[] samples, double[] outputArr, int samplesStartIndex, int outputStartIndex,
-                                                 int len, double changeValue, MathOperation op) {
+                                                 int len, double changeValue, ArithmeticOperation op) {
         int endIndex = samplesStartIndex + len;
         for(int i = samplesStartIndex, outIndex = outputStartIndex; i < endIndex; i++, outIndex++) {
             outputArr[outIndex] = performOperation(samples[i], changeValue, op);
@@ -5838,7 +5838,7 @@ public class Program {
      * @param changeValue is the value which will be used on all elements in samples array.
      * @param op is the operation to be performed on the samples.
      */
-    public static void performOperationOnSamples(double[] samples, int startIndex, int endIndex, double changeValue, MathOperation op) {
+    public static void performOperationOnSamples(double[] samples, int startIndex, int endIndex, double changeValue, ArithmeticOperation op) {
         int len = endIndex - startIndex;
         performOperationOnSamples(samples, samples, startIndex, startIndex, len, changeValue, op);
     }
@@ -5848,7 +5848,7 @@ public class Program {
 //    @Deprecated
 //    public static double[] performOperationOnSamples(double[] samples, double[] changeValues,
 //                                              int startSamplesIndex, int startChangeValuesIndex, int outputStartIndex,
-//                                              int len, MathOperation op) {
+//                                              int len, ArithmeticOperation op) {
 //        double[] retArr = new double[samples.length];
 //        performOperationOnSamples(samples, changeValues, retArr, startSamplesIndex, startChangeValuesIndex, outputStartIndex, len, op);
 //        return retArr;
@@ -5858,7 +5858,7 @@ public class Program {
 //    @Deprecated
 //    public static void performOperationOnSamples(double[] samples, double[] changeValues, double[] outputArr,
 //                                          int startSamplesIndex, int startChangeValuesIndex, int outputStartIndex,
-//                                          int len, MathOperation op) {
+//                                          int len, ArithmeticOperation op) {
 //        int changeValuesEndIndex = startChangeValuesIndex + len;
 //        for(int indexInChangeValues = startChangeValuesIndex, samplesIndex = startSamplesIndex, outputIndex = outputStartIndex;
 //                indexInChangeValues < changeValuesEndIndex;
@@ -5883,7 +5883,7 @@ public class Program {
     public static void performOperationOnSamples(double[] input, double[] changeValues, double[] output,
                                                  int inputStartIndex, int inputEndIndex,
                                                  int changeValuesStartIndex, int changeValuesEndIndex,
-                                                 int outputStartIndex, int outputEndIndex, MathOperation op) {
+                                                 int outputStartIndex, int outputEndIndex, ArithmeticOperation op) {
         int inputLen = inputEndIndex - inputStartIndex;
         boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
 
@@ -5923,7 +5923,7 @@ public class Program {
      */
     public static void performOperationOnSamples(double[] input, double[] output,
                                                  int inputStartIndex, int inputEndIndex,
-                                                 int outputStartIndex, int outputEndIndex, MathOperation op) {
+                                                 int outputStartIndex, int outputEndIndex, ArithmeticOperation op) {
         int inputLen = inputEndIndex - inputStartIndex;
         boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
 
@@ -5944,7 +5944,7 @@ public class Program {
 
 
 
-    public static double performOperation(double sample, double changeValue, MathOperation op) {
+    public static double performOperation(double sample, double changeValue, ArithmeticOperation op) {
         switch(op) {
             case PLUS:
                 sample += changeValue;
@@ -8872,7 +8872,7 @@ if(currBPM == 60) {
 //                fftMeasures[j] += 1;      // Not the minimum energy is 1, so the minimum log == 0
 //            }
 //
-//            Program.performOperationOnSamples(fftMeasures, logarithmBase, MathOperation.LOG);
+//            Program.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
 //// TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
 //            for(int j = 0; j < fftMeasures.length; j++) {
 //// TODO: Debug print
@@ -9317,7 +9317,7 @@ TODO: // TODO: Just debug label
 //                fftMeasures[j] += 1;      // Not the minimum energy is 1, so the minimum log == 0
 //            }
 //
-//            Program.performOperationOnSamples(fftMeasures, logarithmBase, MathOperation.LOG);
+//            Program.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
 //// TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
 //            for(int j = 0; j < fftMeasures.length; j++) {
 //// TODO: Debug print
@@ -9770,8 +9770,8 @@ System.out.println();
 //            for (int window = 0; window < tmpArrs.length; window++) {
 //                if((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
 //                    if (counters[window] >= windowOverlapCountForOneWindow) {
-//                        Program.performOperationOnSamples(tmpArrs[window][0], logarithmBase, MathOperation.LOG);
-//                        Program.performOperationOnSamples(tmpArrs[window][1], logarithmBase, MathOperation.LOG);
+//                        Program.performOperationOnSamples(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
+//                        Program.performOperationOnSamples(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
 //                    }
 //                }
 //            }
@@ -9779,21 +9779,21 @@ System.out.println();
 
 // TODO: PROGRAMO - REDOING operations
         Program.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
-            fftMeasures.length, logarithmBase, MathOperation.LOG);
-        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, MathOperation.LOG);
+            fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             Program.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
-                tmpArr.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, MathOperation.LOG);
+                tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             Program.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
-                tmpArr2.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, MathOperation.LOG);
+                tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
             Program.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
-                arrWithNotFullMeasures.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, MathOperation.LOG);
+                arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 
@@ -10011,32 +10011,32 @@ System.out.println();
             if((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
                 if (counters[window] >= windowOverlapCountForOneWindow) {
                     Program.performOperationOnSamples(tmpArrs[window][0], tmpArrs[window][0], 0, 0,
-                        tmpArrs[window][0].length, logarithmBase, MathOperation.LOG);
-                    //Program.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, MathOperation.LOG);
+                        tmpArrs[window][0].length, logarithmBase, ArithmeticOperation.LOG);
+                    //Program.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
                     Program.performOperationOnSamples(tmpArrs[window][1], tmpArrs[window][1], 0, 0,
-                        tmpArrs[window][1].length, logarithmBase, MathOperation.LOG);
-                    //Program.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, MathOperation.LOG);
+                        tmpArrs[window][1].length, logarithmBase, ArithmeticOperation.LOG);
+                    //Program.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
                 }
             }
         }
 //TODO:        System.out.println("TmpArrs1:\t" + tmpArrs[1][0][1]);
 
         Program.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
-            fftMeasures.length, logarithmBase, MathOperation.LOG);
-        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, MathOperation.LOG);
+            fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             Program.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
-                tmpArr.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, MathOperation.LOG);
+                tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             Program.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
-                tmpArr2.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, MathOperation.LOG);
+                tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
             Program.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
-                arrWithNotFullMeasures.length, logarithmBase, MathOperation.LOG);
-            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, MathOperation.LOG);
+                arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 

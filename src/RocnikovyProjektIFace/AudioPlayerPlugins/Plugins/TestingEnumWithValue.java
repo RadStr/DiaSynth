@@ -4,19 +4,19 @@ import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.EnumWrapperIFaceForDefaul
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.MathOperation;
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWrapperIFaceForDefaultJPanel {
     @PluginParametersAnnotation(parameterTooltip = "parameter for operations")
     private double value;
     @PluginParametersAnnotation
-    private MathOperation mathOperation = MathOperation.PLUS;
+    private ArithmeticOperation arithmeticOperation = ArithmeticOperation.PLUS;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, mathOperation);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, arithmeticOperation);
     }
 
     @Override
@@ -48,16 +48,16 @@ public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWr
 
     @Override
     public String[] getEnumsToStrings(String fieldName) {
-        if("mathOperation".equals(fieldName)) {
-            return MathOperation.getEnumsToStrings();
+        if("arithmeticOperation".equals(fieldName)) {
+            return ArithmeticOperation.getEnumsToStrings();
         }
         return null;
     }
 
     @Override
     public void setEnumValue(String value, String fieldName) {
-        if("mathOperation".equals(fieldName)) {
-            mathOperation = MathOperation.convertStringToEnumValue(value);
+        if("arithmeticOperation".equals(fieldName)) {
+            arithmeticOperation = ArithmeticOperation.convertStringToEnumValue(value);
         }
     }
 
@@ -68,14 +68,14 @@ public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWr
 
     @Override
     public String getDefaultEnumString(String fieldName) {
-        if("mathOperation".equals(fieldName)) {
-            return MathOperation.getEnumsToStrings()[getDefaultIndex(fieldName)];
+        if("arithmeticOperation".equals(fieldName)) {
+            return ArithmeticOperation.getEnumsToStrings()[getDefaultIndex(fieldName)];
         }
         return "";
     }
 
     private int getDefaultIndex(String fieldName) {
-        if("mathOperation".equals(fieldName)) {
+        if("arithmeticOperation".equals(fieldName)) {
             return 1;
         }
         return -1;
@@ -83,7 +83,7 @@ public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWr
 
     @Override
     public String getToolTipForComboBox(String fieldName) {
-        if("mathOperation".equals(fieldName)) {
+        if("arithmeticOperation".equals(fieldName)) {
             return "<html>" +
                 "PLUS is addition<br>" +
                 "MULTIPLY is multiplication<br>" +

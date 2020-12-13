@@ -3,7 +3,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.S
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.MathOperation;
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class LogarithmWithValueOperationInput implements WithoutInputWavePluginIFace {
@@ -15,7 +15,7 @@ public class LogarithmWithValueOperationInput implements WithoutInputWavePluginI
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, MathOperation.LOG);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
     }
 
     @Override

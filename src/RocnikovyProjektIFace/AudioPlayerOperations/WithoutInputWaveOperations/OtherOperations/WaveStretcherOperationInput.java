@@ -3,7 +3,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithoutInputWaveOperations.O
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.MathOperation;
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class WaveStretcherOperationInput implements WithoutInputWavePluginIFace {
@@ -33,7 +33,7 @@ public class WaveStretcherOperationInput implements WithoutInputWavePluginIFace 
         // If == then it is already stretched as much as it should be, don't do anything
         if(extreme != newAbsoluteMax && extreme != 0) {
             double ratio = newAbsoluteMax / extreme;
-            Program.performOperationOnSamples(wave, startIndex, endIndex, ratio, MathOperation.MULTIPLY);
+            Program.performOperationOnSamples(wave, startIndex, endIndex, ratio, ArithmeticOperation.MULTIPLY);
         }
     }
 

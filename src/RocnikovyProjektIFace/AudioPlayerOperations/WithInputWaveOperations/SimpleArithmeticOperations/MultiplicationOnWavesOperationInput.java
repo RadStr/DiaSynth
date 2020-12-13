@@ -2,7 +2,7 @@ package RocnikovyProjektIFace.AudioPlayerOperations.WithInputWaveOperations.Simp
 
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.MathOperation;
+import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
@@ -16,7 +16,7 @@ public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, MathOperation.MULTIPLY);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
 
     @Override

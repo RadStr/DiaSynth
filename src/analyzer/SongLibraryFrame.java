@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package analyzer;
 
 import javax.swing.*;
 import java.awt.*;

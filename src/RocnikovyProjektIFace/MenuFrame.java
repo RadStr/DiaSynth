@@ -1,5 +1,7 @@
 package RocnikovyProjektIFace;
 
+import analyzer.AnalyzerMainPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

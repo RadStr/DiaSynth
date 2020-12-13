@@ -23,7 +23,7 @@ public interface BaseAnalyzerPluginIFace {
         // TODO: make the path relative and also, I have to take in consideration that I may distribute it using .jar
         String thisPackage = BaseAnalyzerPluginIFace.class.getPackage().getName();
         int lastDot = thisPackage.lastIndexOf('.');
-        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "Plugins";
+        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "plugins";
         return AudioPlayerJMenuOperationPluginIFace.loadPlugins(pluginIface, packageContainingPlugins);
     }
 }

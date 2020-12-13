@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package analyzer.util;
 
 import javax.swing.table.DefaultTableModel;
 

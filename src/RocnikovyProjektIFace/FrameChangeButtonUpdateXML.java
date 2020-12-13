@@ -1,6 +1,8 @@
 package RocnikovyProjektIFace;
 
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
+import analyzer.AnalyzerPanel;
+import analyzer.AnalyzerXML;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

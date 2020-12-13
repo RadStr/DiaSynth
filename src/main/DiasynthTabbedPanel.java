@@ -4,7 +4,7 @@ import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatWithSign;
 import RocnikovyProjektIFace.AudioPlayerPanel;
 import RocnikovyProjektIFace.FrameWithFocusControl;
-import RocnikovyProjektIFace.AnalyzerMainPanel;
+import analyzer.AnalyzerMainPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;
 

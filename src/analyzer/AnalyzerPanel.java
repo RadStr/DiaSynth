@@ -1,5 +1,8 @@
-package RocnikovyProjektIFace;
+package analyzer;
 
+import RocnikovyProjektIFace.LeavingPanelIFace;
+import RocnikovyProjektIFace.Pair;
+import analyzer.util.UneditableTableModel;
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;

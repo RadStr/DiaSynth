@@ -28,7 +28,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         // TODO: make the path relative and also, I have to take in consideration that I may distribute it using .jar
         String thisPackage = AudioPlayerJMenuOperationPluginIFace.class.getPackage().getName();
         int lastDot = thisPackage.lastIndexOf('.');
-        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "Plugins";
+        String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "plugins";
         return loadPlugins(pluginIface, packageContainingPlugins);
     }
 

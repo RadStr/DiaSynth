@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package analyzer;
 
 import main.AddToAudioPlayerIFace;
 import org.w3c.dom.Node;
@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 
 public class SongInfoFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	JPanel wholeWindowPanel;
+	private JPanel wholeWindowPanel;
 	
 	public SongInfoFrame(JFrame previousWindow, int frameWidth, int frameHeight, Node node, DataModelObserverIFace[] observers,
 						 AddToAudioPlayerIFace addToAudioPlayerIFace) {

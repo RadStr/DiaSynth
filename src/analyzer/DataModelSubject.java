@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package analyzer;
 
 import org.w3c.dom.Node;
 
@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DataModelSubject implements DataModelSubjectIFace {
-	List<DataModelObserverIFace> observers;
-	JFrame frame;		// TODO: tohle chce fakt resit pres exceptiony
+	private List<DataModelObserverIFace> observers;
+	private JFrame frame;		// TODO: tohle chce fakt resit pres exceptiony
 	
 	public DataModelSubject(JFrame f) {
 		observers = new ArrayList<>();

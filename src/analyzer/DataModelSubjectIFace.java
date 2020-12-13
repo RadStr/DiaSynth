@@ -1,4 +1,4 @@
-package RocnikovyProjektIFace;
+package analyzer;
 
 import org.w3c.dom.Node;
 

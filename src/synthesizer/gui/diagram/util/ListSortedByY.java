@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.util;
 
 import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;

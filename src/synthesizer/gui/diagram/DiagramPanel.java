@@ -6,6 +6,7 @@ import synthesizer.gui.diagram.port.Port;
 import synthesizer.gui.diagram.ShapedPanels.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.UnitAdditionIFace;
+import synthesizer.gui.diagram.util.ListSortedByY;
 import synthesizer.synth.*;
 import synthesizer.synth.audio.AudioRecordingCallback;
 import synthesizer.synth.audio.AudioThreadWithRecordingSupport;

@@ -1,6 +1,6 @@
 package synthesizer.synth;
 
-import synthesizer.gui.diagram.ListSortedByY;
+import synthesizer.gui.diagram.util.ListSortedByY;
 import synthesizer.synth.audio.AudioThread;
 import player.format.AudioFormatWithSign;
 import Rocnikovy_Projekt.MyLogger;

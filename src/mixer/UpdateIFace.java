@@ -1,4 +1,4 @@
-package AudioMixers;
+package mixer;
 
 public interface UpdateIFace {
     /**

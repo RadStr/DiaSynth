@@ -1,4 +1,4 @@
-package AudioMixers;
+package mixer;
 
 import Rocnikovy_Projekt.Program;
 

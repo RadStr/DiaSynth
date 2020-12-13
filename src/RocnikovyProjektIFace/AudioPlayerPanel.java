@@ -1,7 +1,7 @@
 package RocnikovyProjektIFace;
 
 
-import AudioMixers.*;
+import mixer.*;
 import DiagramSynthPackage.Synth.AudioThreads.AudioThread;
 import PartsConnectingGUI.TabChangeIFace;
 import RocnikovyProjektIFace.AudioFormatChooserPackage.AudioFormatJPanel;

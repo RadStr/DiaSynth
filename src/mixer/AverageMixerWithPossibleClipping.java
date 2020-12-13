@@ -1,6 +1,4 @@
-package AudioMixers;
-
-import Rocnikovy_Projekt.Program;
+package mixer;
 
 /**
  * for mixing of n values does (x_1+x_2+x_3+...+x_n) / n

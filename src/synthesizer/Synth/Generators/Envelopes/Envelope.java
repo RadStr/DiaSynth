@@ -1,7 +1,7 @@
 package synthesizer.Synth.Generators.Envelopes;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.Ports.*;
+import synthesizer.gui.MovablePanelsPackage.port.*;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.TrapeziumShapedPanel;

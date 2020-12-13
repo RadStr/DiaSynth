@@ -1,8 +1,8 @@
 package synthesizer.gui.MovablePanelsPackage;
 
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.OutputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.Port;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
+import synthesizer.gui.MovablePanelsPackage.port.Port;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.*;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitChooser.UnitAdditionIFace;

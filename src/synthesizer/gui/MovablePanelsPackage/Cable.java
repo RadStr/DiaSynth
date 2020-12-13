@@ -1,6 +1,6 @@
 package synthesizer.gui.MovablePanelsPackage;
 
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

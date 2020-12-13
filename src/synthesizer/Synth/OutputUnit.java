@@ -1,8 +1,8 @@
 package synthesizer.Synth;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.SingleInputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.SingleInputPort;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.DynamicTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;

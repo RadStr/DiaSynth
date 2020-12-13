@@ -1,8 +1,8 @@
 package synthesizer.Synth.Generators.NoiseGenerators;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.Ports.AmplitudeInputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.AmplitudeInputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ConstantTextInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.RectangleShapedPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;

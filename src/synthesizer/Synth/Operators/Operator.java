@@ -1,7 +1,7 @@
 package synthesizer.Synth.Operators;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.Synth.Unit;
 
 public abstract class Operator extends Unit {

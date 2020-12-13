@@ -1,7 +1,7 @@
 package synthesizer.Synth.Generators.ClassicGenerators.NoPhase;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import synthesizer.Synth.Generators.ClassicGenerators.Phase.WaveTableGeneratorWithPhase;
 import synthesizer.Synth.Generators.Generator;
 import synthesizer.Synth.Unit;

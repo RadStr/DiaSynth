@@ -1,6 +1,6 @@
 package synthesizer.gui.MovablePanelsPackage;
 
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
 import Rocnikovy_Projekt.Direction;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package synthesizer.gui.MovablePanelsPackage.Ports;
+package synthesizer.gui.MovablePanelsPackage.port;
 
 import synthesizer.gui.MovablePanelsPackage.AddInputPortToGUIIFace;
 import synthesizer.gui.MovablePanelsPackage.MovablePanelViewForPort;

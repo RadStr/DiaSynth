@@ -1,7 +1,7 @@
 package synthesizer.gui.PanelAroundMovablePanelsPackage;
 
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.OutputPort;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
 import synthesizer.Synth.Unit;
 import RocnikovyProjektIFace.AudioPlayerPlugins.IFaces.PluginDefaultIFace;
 

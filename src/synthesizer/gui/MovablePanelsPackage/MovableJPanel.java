@@ -1,9 +1,9 @@
 package synthesizer.gui.MovablePanelsPackage;
 
 import synthesizer.gui.MovablePanelsPackage.PortChooserPackage.PortChooser;
-import synthesizer.gui.MovablePanelsPackage.Ports.InputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.OutputPort;
-import synthesizer.gui.MovablePanelsPackage.Ports.Port;
+import synthesizer.gui.MovablePanelsPackage.port.InputPort;
+import synthesizer.gui.MovablePanelsPackage.port.OutputPort;
+import synthesizer.gui.MovablePanelsPackage.port.Port;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.ShapedPanelInternals;
 import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
 import RocnikovyProjektIFace.AudioPlayerPanel;

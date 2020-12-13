@@ -1,41 +1,40 @@
-package synthesizer.synth.Operators.BinaryOperations;
-
+package synthesizer.synth.Operators.binary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;
-import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.PlusInternals;
+import synthesizer.gui.MovablePanelsPackage.ShapedPanels.Internals.MultiplyInternals;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class BinaryPlus extends BinaryOperator {
-    public BinaryPlus(Unit u) { super(u); }
-    public BinaryPlus(DiagramPanel panelWithUnits) {
+public class BinaryMultiplication extends BinaryOperator {
+    public BinaryMultiplication(Unit u) { super(u); }
+    public BinaryMultiplication(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 
 
     @Override
     public double[] getNeutralValues() {
-        return new double[] { 0, 0 };
+        return new double[] { 1, 1 };
     }
 
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new PlusInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new MultiplyInternals(), this);
         return sp;
     }
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                         DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new PlusInternals(), this);
+                                            DiagramPanel panelWithUnits) {
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new MultiplyInternals(), this);
         return sp;
     }
 
     @Override
     public String getDefaultPanelName() {
-        return "BinaryPlus";
+        return "BinaryMultiplication";
     }
 
     @Override
@@ -44,18 +43,13 @@ public class BinaryPlus extends BinaryOperator {
     }
 
     @Override
-    public boolean isBinaryPlus() {
-        return true;
-    }
-
-    @Override
     public double binaryOperation(double a, double b) {
-        return a + b;
+        return a * b;
     }
 
     @Override
     public String getTooltip() {
-        return "Adds 2 samples together";
+        return "Multiplies 2 samples together";
     }
 
     @Override

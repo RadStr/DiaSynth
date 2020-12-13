@@ -1,4 +1,4 @@
-package synthesizer.synth.Operators.BinaryOperations;
+package synthesizer.synth.Operators.binary;
 
 import synthesizer.gui.MovablePanelsPackage.DiagramPanel;
 import synthesizer.gui.MovablePanelsPackage.ShapedPanels.CircleShapedPanel;

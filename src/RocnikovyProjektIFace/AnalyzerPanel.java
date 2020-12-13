@@ -1,8 +1,8 @@
 package RocnikovyProjektIFace;
 
-import analyzer.AnalyzerPlugins.PluginIFaces.AnalyzerBytePluginIFace;
-import analyzer.AnalyzerPlugins.PluginIFaces.AnalyzerDoublePluginIFace;
-import analyzer.AnalyzerPlugins.PluginIFaces.AnalyzerIntPluginIFace;
+import analyzer.plugin.PluginIFaces.AnalyzerBytePluginIFace;
+import analyzer.plugin.PluginIFaces.AnalyzerDoublePluginIFace;
+import analyzer.plugin.PluginIFaces.AnalyzerIntPluginIFace;
 import RocnikovyProjektIFace.SpecialSwingClasses.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

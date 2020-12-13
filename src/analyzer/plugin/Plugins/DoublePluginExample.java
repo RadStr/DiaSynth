@@ -1,6 +1,6 @@
-package analyzer.AnalyzerPlugins.Plugins;
+package analyzer.plugin.Plugins;
 
-import analyzer.AnalyzerPlugins.PluginIFaces.AnalyzerDoublePluginIFace;
+import analyzer.plugin.PluginIFaces.AnalyzerDoublePluginIFace;
 import RocnikovyProjektIFace.Pair;
 import Rocnikovy_Projekt.DoubleWave;
 

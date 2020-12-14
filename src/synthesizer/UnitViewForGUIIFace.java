@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.synth.Unit;
 import player.plugin.ifaces.PluginDefaultIFace;
 
-public interface UnitCommunicationWithGUI {
+public interface UnitViewForGUIIFace {
     /**
      *
      * @return Returns the copy of panel

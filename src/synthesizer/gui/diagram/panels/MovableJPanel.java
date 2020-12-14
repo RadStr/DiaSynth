@@ -14,7 +14,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 import player.AudioPlayerPanel;
 import synthesizer.gui.diagram.panels.util.Direction;
 import util.logging.MyLogger;
@@ -88,13 +88,13 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      *
      * @param diagramPanel
      */
-    public MovableJPanel(DiagramPanel diagramPanel, UnitCommunicationWithGUI unit) {
+    public MovableJPanel(DiagramPanel diagramPanel, UnitViewForGUIIFace unit) {
         // I just put it somewhere far away, so it isn't seen when user starts dragging new unit from the menu
         this(-10000, -10000, diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight(), diagramPanel, unit);
     }
 
     public MovableJPanel(int relativeX, int relativeY, int w, int h, DiagramPanel diagramPanel,
-                         UnitCommunicationWithGUI unit) {
+                         UnitViewForGUIIFace unit) {
         this(relativeX, relativeY, diagramPanel, unit);
         Dimension d = new Dimension(w, h);
         this.setSize(d);
@@ -102,7 +102,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     }
 
     public MovableJPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
-                         UnitCommunicationWithGUI unit) {
+                         UnitViewForGUIIFace unit) {
         super(diagramPanel);
         this.unit = unit;
         super.setSize(0, 0);
@@ -143,8 +143,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         this.setLayout(null);
     }
 
-    private UnitCommunicationWithGUI unit;
-    public UnitCommunicationWithGUI getUnit() {
+    private UnitViewForGUIIFace unit;
+    public UnitViewForGUIIFace getUnit() {
         return unit;
     }
 

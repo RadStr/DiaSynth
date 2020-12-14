@@ -2,7 +2,7 @@ package synthesizer.gui.diagram.panels.shape;
 
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -12,18 +12,18 @@ public class SquareShapedPanel extends RectangleShapedPanel {
 
 
     public SquareShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
-                             UnitCommunicationWithGUI unit) {
+                             UnitViewForGUIIFace unit) {
         super(diagramPanel, internals, unit);
     }
 
     public SquareShapedPanel(int relativeX, int relativeY, int w, int h,
                              DiagramPanel diagramPanel, ShapedPanelInternals internals,
-                             UnitCommunicationWithGUI unit) {
+                             UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
     }
 
     public SquareShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
-                             ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
+                             ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, diagramPanel, internals, unit);
     }
 

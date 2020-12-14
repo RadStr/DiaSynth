@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 import player.plugin.ifaces.PluginDefaultIFace;
 import util.logging.MyLogger;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * also change the other calculations, which doesn't have anything to do with the Unit you have written.
  */
 public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIFace,
-                                      UnitCommunicationWithGUI, UnitGeneratedValuesInfo {
+        UnitViewForGUIIFace, UnitGeneratedValuesInfo {
     public static final int BUFFER_LEN = 512;
 
 

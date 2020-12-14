@@ -2,7 +2,7 @@ package synthesizer.gui.diagram.panels.shape;
 
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 
 import java.awt.*;
 
@@ -14,7 +14,7 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
      */
     public EquilateralParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
                                                ShapedPanelInternals internals,
-                                               UnitCommunicationWithGUI unit) {
+                                               UnitViewForGUIIFace unit) {
         super(diagramPanel, angle, internals, unit);
     }
 
@@ -26,7 +26,7 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
     public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
                                                DiagramPanel diagramPanel, int angle,
                                                ShapedPanelInternals internals,
-                                               UnitCommunicationWithGUI unit) {
+                                               UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, w, h, diagramPanel, angle, internals, unit);
     }
 
@@ -37,7 +37,7 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
      */
     public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                                int angle, ShapedPanelInternals internals,
-                                               UnitCommunicationWithGUI unit) {
+                                               UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, diagramPanel, angle, internals, unit);
     }
 

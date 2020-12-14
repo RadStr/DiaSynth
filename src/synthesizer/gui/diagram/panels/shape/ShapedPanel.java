@@ -3,7 +3,7 @@ package synthesizer.gui.diagram.panels.shape;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.MovableJPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -20,7 +20,7 @@ public abstract class ShapedPanel extends MovableJPanel {
 	 * @param internals - null if we want just the shape without any internals
 	 */
 	public ShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
-                       UnitCommunicationWithGUI unit) {
+                       UnitViewForGUIIFace unit) {
 		super(diagramPanel, unit);
 		constructor(internals);
 	}
@@ -36,7 +36,7 @@ public abstract class ShapedPanel extends MovableJPanel {
 	 */
 	public ShapedPanel(int relativeX, int relativeY, int w, int h,
                        DiagramPanel diagramPanel, ShapedPanelInternals internals,
-                       UnitCommunicationWithGUI unit) {
+                       UnitViewForGUIIFace unit) {
 		super(relativeX, relativeY, w, h, diagramPanel, unit);
 		constructor(internals);
 	}
@@ -49,7 +49,7 @@ public abstract class ShapedPanel extends MovableJPanel {
 	 * @param internals - null if we want just the shape without any internals
 	 */
 	public ShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
-					   ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
+					   ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
 		super(relativeX, relativeY, diagramPanel, unit);
 		constructor(internals);
 	}

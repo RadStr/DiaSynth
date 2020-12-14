@@ -3,7 +3,7 @@ package synthesizer.gui.diagram.panels.shape;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.MovableJPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.UnitCommunicationWithGUI;
+import synthesizer.UnitViewForGUIIFace;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -19,7 +19,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
-                                    ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
+                                    ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
         super(diagramPanel, internals, unit);
         constructor(angle);
     }
@@ -31,7 +31,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      */
     public ParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
                                     DiagramPanel diagramPanel, int angle,
-                                    ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
+                                    ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
         constructor(angle);
     }
@@ -42,7 +42,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
      * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
-                                    int angle, ShapedPanelInternals internals, UnitCommunicationWithGUI unit) {
+                                    int angle, ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, diagramPanel, internals, unit);
         constructor(angle);
     }

@@ -1,4 +1,4 @@
-package synthesizer.gui;
+package synthesizer.gui.util;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;

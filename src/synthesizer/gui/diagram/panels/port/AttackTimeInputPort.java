@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.panels.port;
 
-import synthesizer.gui.diagram.AddInputPortToGUIIFace;
+import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
 import synthesizer.gui.diagram.MovablePanelViewForPort;
 import synthesizer.synth.UnitGeneratedValuesInfo;
 

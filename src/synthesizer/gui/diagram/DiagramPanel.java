@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
 import synthesizer.gui.diagram.panels.ifaces.PortsGetterIFace;
 import synthesizer.gui.diagram.panels.port.Cable;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;

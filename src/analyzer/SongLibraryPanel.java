@@ -2,7 +2,6 @@ package analyzer;
 
 import analyzer.observer.DataModelObserver;
 import analyzer.observer.DataModelObserverIFace;
-import player.LeavingPanelIFace;
 import util.Pair;
 import analyzer.util.UneditableTableModel;
 import main.AddToAudioPlayerIFace;

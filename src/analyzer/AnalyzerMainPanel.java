@@ -1,7 +1,6 @@
 package analyzer;
 
 import analyzer.observer.DataModelObserverIFace;
-import player.LeavingPanelIFace;
 import main.AddToAudioPlayerIFace;
 import main.TabChangeIFace;
 import util.logging.MyLogger;

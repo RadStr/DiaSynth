@@ -1,4 +1,4 @@
-package player;
+package analyzer;
 
 public interface LeavingPanelIFace {
     void leavingPanel();

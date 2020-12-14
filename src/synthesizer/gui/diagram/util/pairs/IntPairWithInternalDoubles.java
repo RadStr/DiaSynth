@@ -4,11 +4,11 @@ import synthesizer.gui.diagram.panels.util.MathClass;
 
 import java.awt.*;
 
-public class IntPairWithInternalDoublesWithoutMinAndMax {
-    public IntPairWithInternalDoublesWithoutMinAndMax() {
+public class IntPairWithInternalDoubles {
+    public IntPairWithInternalDoubles() {
         this(0, 0);
     }
-    public IntPairWithInternalDoublesWithoutMinAndMax(double first, double second) {
+    public IntPairWithInternalDoubles(double first, double second) {
         setFirst(first);
         setSecond(second);
     }
@@ -115,7 +115,7 @@ public class IntPairWithInternalDoublesWithoutMinAndMax {
 
     @Override
     public boolean equals(Object o) {
-        IntPairWithInternalDoublesWithoutMinAndMax pair = (IntPairWithInternalDoublesWithoutMinAndMax)o;
+        IntPairWithInternalDoubles pair = (IntPairWithInternalDoubles)o;
         return this.first == pair.first && this.second == pair.second;
     }
 

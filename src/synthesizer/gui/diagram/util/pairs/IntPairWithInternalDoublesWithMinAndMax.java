@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.util.MathClass;
 /**
  * If the size to be set is smaller than the minimum, then old value is kept.
  */
-public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternalDoublesWithoutMinAndMax {
+public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternalDoubles {
     public IntPairWithInternalDoublesWithMinAndMax() {
         this(0, 0, 1, 1, 65536, 65536);
     }

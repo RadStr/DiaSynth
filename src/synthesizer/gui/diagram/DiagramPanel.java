@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class DiagramPanel extends JLayeredPane implements ZoomIFace, SetMovingPanelIFace,
+public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanelSetterIFace,
                                                           MouseListener, MouseMotionListener,
                                                           MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
                                                           UnitAdditionIFace, AddInputPortToGUIIFace,

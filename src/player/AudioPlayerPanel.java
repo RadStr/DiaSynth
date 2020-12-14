@@ -17,7 +17,7 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.WithInputW
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
-import player.operations.wave.OtherOperations.FillWaveWithOtherWaveOperation;
+import player.operations.wave.FillWaveWithOtherWaveOperation;
 import player.operations.wave.arithmetic.LogarithmOnWaves;
 import player.operations.wave.arithmetic.MultiplicationOnWaves;
 import player.operations.wave.arithmetic.AdditionOnWaves;

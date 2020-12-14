@@ -1,7 +1,8 @@
-package synthesizer.gui.diagram;
+package deprecatedclasses;
 
 import java.lang.reflect.Array;
 
+@Deprecated
 public class Debug {
 
     /**

@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram;
 
+import Rocnikovy_Projekt.ProgramTest;
 import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.gui.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;
@@ -2194,7 +2195,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                           double arcW, double arcH, Object outputPanel) {
         double colX = x1 - distToFirstCrossroad;
         double arcEndX = colX - arcW / 2;
-        Debug.debugPrint(x1, arcEndX, colX, x2);
+        ProgramTest.debugPrint("Draw horizontal line to left:", x1, arcEndX, colX, x2);
         if(arcEndX < x2 || distToFirstCrossroad < 0) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
@@ -2217,7 +2218,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                            double arcW, double arcH, Object outputPanel) {
         double colX = x1 + distToFirstCrossroad;
         double arcEndX = colX + arcW / 2;
-        Debug.debugPrint(x1, arcEndX, colX, x2);
+        ProgramTest.debugPrint("Draw horizontal line to right:", x1, arcEndX, colX, x2);
         if(arcEndX > x2 || distToFirstCrossroad < 0) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);

@@ -3,6 +3,7 @@ package player;
 
 import deprecatedclasses.RobotUserEventsGenerator;
 import mixer.*;
+import player.operations.nowave.*;
 import player.operations.nowave.arithmetic.LogarithmOnWave;
 import player.operations.nowave.arithmetic.MultiplicationOnWave;
 import player.operations.nowave.arithmetic.AdditionOnWave;
@@ -23,10 +24,6 @@ import player.operations.wave.arithmetic.MultiplicationOnWaves;
 import player.operations.wave.arithmetic.AdditionOnWaves;
 import player.operations.wave.arithmetic.PowerOnWaves;
 import player.operations.nowave.filters.LowPassFilter;
-import player.operations.nowave.OtherOperations.InvertOnWave;
-import player.operations.nowave.OtherOperations.WaveStretcherOnWave;
-import player.operations.nowave.SimpleOperationWithSingleValue.*;
-import player.operations.nowave.OtherOperations.WaveStretcherMaximumOnWave;
 import player.decibel.DecibelMeter;
 import player.decibel.SamplesGetterIFace;
 import player.drawing.*;

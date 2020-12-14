@@ -1,16 +1,12 @@
-package player.operations.nowave.OtherOperations;
+package player.operations.nowave;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
-public class InvertOnWave implements WithoutInputWavePluginIFace {
+public class SetSamplesToZeroOnWaveOperation implements WithoutInputWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
-        double[] wave = audio.getSong();
-        int len = endIndex - startIndex;
-        Program.performOperationOnSamples(wave, wave, startIndex, startIndex, len, (double)-1, ArithmeticOperation.MULTIPLY);
+        SetSamplesOnWaveOperation.setSamples(audio, startIndex, endIndex, 0);
     }
 
     @Override
@@ -20,16 +16,16 @@ public class InvertOnWave implements WithoutInputWavePluginIFace {
 
     @Override
     public boolean isUsingDefaultJPanel() {
-        return false;
+        return true;
     }
 
     @Override
     public String getPluginName() {
-        return "Invert wave";
+        return "Set samples to 0";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Inverts the given part of wave";
+        return "Sets all the samples to 0 (which is neutral value for mixing)";
     }
 }

@@ -6,6 +6,7 @@ import synthesizer.gui.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;
 import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
 import synthesizer.gui.diagram.ifaces.MovingPanelSetterIFace;
+import synthesizer.gui.diagram.ifaces.ZoomIFace;
 import synthesizer.gui.diagram.panels.ifaces.*;
 import synthesizer.gui.diagram.panels.port.Cable;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;

@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram;
 
-import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
+import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
 import synthesizer.gui.diagram.panels.ifaces.*;
 import synthesizer.gui.diagram.panels.port.Cable;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
@@ -43,7 +43,7 @@ import java.util.List;
 public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanelSetterIFace,
                                                           MouseListener, MouseMotionListener,
                                                           MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
-                                                          UnitAdditionIFace, AddInputPortToGUIIFace,
+                                                          UnitAdditionIFace, InputPortToGUIAdderIFace,
                                                           SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;
     public static final int START_CIRCLE_CONNECTION_SIZE = 4;

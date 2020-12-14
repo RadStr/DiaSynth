@@ -1,6 +1,7 @@
 package synthesizer.gui.diagram;
 
 import synthesizer.gui.diagram.panels.ifaces.GetTopLeftIFace;
+import synthesizer.gui.diagram.panels.ifaces.UpdateIFace;
 
 import javax.swing.*;
 import java.awt.*;

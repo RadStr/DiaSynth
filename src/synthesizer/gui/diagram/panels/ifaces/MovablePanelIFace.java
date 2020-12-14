@@ -1,8 +1,5 @@
 package synthesizer.gui.diagram.panels.ifaces;
 
-import synthesizer.gui.diagram.StopConnectingIFace;
-import synthesizer.gui.diagram.UpdateIFace;
-
 import java.awt.*;
 
 public interface MovablePanelIFace extends GetTopLeftIFace, UpdateIFace, MovablePanelSpecificMethodsIFace,

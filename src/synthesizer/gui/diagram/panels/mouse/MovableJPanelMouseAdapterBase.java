@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.panels.mouse;
 
-import synthesizer.gui.diagram.MovableJPanel;
+import synthesizer.gui.diagram.panels.MovableJPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

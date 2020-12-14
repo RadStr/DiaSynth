@@ -1,7 +1,7 @@
 package synthesizer.gui.diagram.panels.shape;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.MovableJPanel;
+import synthesizer.gui.diagram.panels.MovableJPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import synthesizer.gui.UnitCommunicationWithGUI;
 import synthesizer.gui.diagram.panels.util.Direction;

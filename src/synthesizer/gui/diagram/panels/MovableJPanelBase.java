@@ -1,5 +1,6 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels;
 
+import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.ifaces.GetTopLeftIFace;
 import synthesizer.gui.diagram.panels.ifaces.UpdateIFace;
 

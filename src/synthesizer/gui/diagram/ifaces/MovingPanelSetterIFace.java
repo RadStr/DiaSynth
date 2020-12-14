@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.ifaces;
 
-import synthesizer.gui.diagram.MovableJPanel;
+import synthesizer.gui.diagram.panels.MovableJPanel;
 
 public interface MovingPanelSetterIFace {
     /**

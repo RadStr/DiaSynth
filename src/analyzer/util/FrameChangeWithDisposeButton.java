@@ -1,4 +1,4 @@
-package player;
+package analyzer.util;
 
 import player.util.ErrorFrame;
 

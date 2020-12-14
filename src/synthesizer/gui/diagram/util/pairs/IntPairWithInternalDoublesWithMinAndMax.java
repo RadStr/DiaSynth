@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.util.pairs;
 
 import synthesizer.gui.diagram.panels.util.MathClass;
 

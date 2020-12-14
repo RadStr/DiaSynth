@@ -1,8 +1,8 @@
 package synthesizer.gui.diagram.panels;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.IntPairWithInternalDoublesWithMinAndMax;
-import synthesizer.gui.diagram.IntPairWithInternalDoublesWithoutMinAndMax;
+import synthesizer.gui.diagram.util.pairs.IntPairWithInternalDoublesWithMinAndMax;
+import synthesizer.gui.diagram.util.pairs.IntPairWithInternalDoublesWithoutMinAndMax;
 
 import java.awt.*;
 

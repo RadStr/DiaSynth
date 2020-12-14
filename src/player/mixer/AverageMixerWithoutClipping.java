@@ -1,4 +1,4 @@
-package mixer;
+package player.mixer;
 
 /**
  * Performs the mixing like (x_1 / n) + (x_2 / n) + ... + (x_n / n)

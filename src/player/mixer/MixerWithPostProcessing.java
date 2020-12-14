@@ -1,4 +1,4 @@
-package mixer;
+package player.mixer;
 
 import Rocnikovy_Projekt.Program;
 

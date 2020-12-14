@@ -1,4 +1,4 @@
-package mixer;
+package player.mixer;
 
 public interface AudioMixerIntIFace {
     /**

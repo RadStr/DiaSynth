@@ -1,4 +1,4 @@
-package mixer;
+package player.mixer;
 
 /**
  * Performs averaging, so the the result will fit into the sample range

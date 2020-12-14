@@ -2,7 +2,7 @@ package player;
 
 
 import deprecatedclasses.RobotUserEventsGenerator;
-import mixer.*;
+import player.mixer.*;
 import player.control.AudioControlPanel;
 import player.control.AudioControlPanelWithZoomAndDecibel;
 import player.control.ZoomPanel;

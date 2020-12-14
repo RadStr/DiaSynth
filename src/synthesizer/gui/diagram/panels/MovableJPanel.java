@@ -1,7 +1,7 @@
 package synthesizer.gui.diagram.panels;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.MaxElevationGetterIFace;
+import synthesizer.gui.diagram.ifaces.MaxElevationGetterIFace;
 import synthesizer.gui.diagram.panels.ifaces.LockUpdateIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelSpecificGetMethodsIFace;

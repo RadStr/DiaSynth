@@ -5,6 +5,7 @@ import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.gui.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;
 import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
+import synthesizer.gui.diagram.ifaces.MaxElevationGetterIFace;
 import synthesizer.gui.diagram.ifaces.MovingPanelSetterIFace;
 import synthesizer.gui.diagram.ifaces.ZoomIFace;
 import synthesizer.gui.diagram.panels.MovableJPanel;
@@ -50,7 +51,7 @@ import java.util.List;
 
 public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanelSetterIFace,
                                                           MouseListener, MouseMotionListener,
-                                                          MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
+        MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
                                                           UnitAdditionIFace, InputPortToGUIAdderIFace,
                                                           SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;

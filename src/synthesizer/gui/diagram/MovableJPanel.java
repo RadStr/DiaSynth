@@ -4,6 +4,7 @@ import synthesizer.gui.diagram.panels.ifaces.LockUpdateIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelSpecificGetMethodsIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
+import synthesizer.gui.diagram.panels.mouse.MovableJPanelMouseAdapter;
 import synthesizer.gui.diagram.panels.util.color.ColorMover;
 import synthesizer.gui.diagram.panels.util.color.HSB;
 import synthesizer.gui.diagram.panels.port.util.PortChooser;

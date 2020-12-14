@@ -1,5 +1,7 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.mouse;
 
+
+import synthesizer.gui.diagram.MovableJPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

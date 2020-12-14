@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.mouse;
 
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelControlMethodsIFace;
 

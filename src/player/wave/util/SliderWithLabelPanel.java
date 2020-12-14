@@ -1,4 +1,6 @@
-package player;
+package player.wave.util;
+
+import player.wave.WaveMixPanelUpdaterIFace;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

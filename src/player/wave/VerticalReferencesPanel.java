@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 import player.util.JLabelWithLineInMid;
 import Rocnikovy_Projekt.Aggregations;

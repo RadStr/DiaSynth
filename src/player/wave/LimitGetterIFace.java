@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 /**
  * Class used in LimitDocumentFilterInt

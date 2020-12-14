@@ -8,6 +8,8 @@ import player.operations.nowave.arithmetic.LogarithmOnWave;
 import player.operations.nowave.arithmetic.MultiplicationOnWave;
 import player.operations.nowave.arithmetic.AdditionOnWave;
 import player.operations.nowave.arithmetic.PowerOnWave;
+import player.wave.WaveMainPanel;
+import player.wave.WavePanel;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import player.format.AudioFormatJPanel;

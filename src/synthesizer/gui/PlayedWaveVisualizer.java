@@ -1,10 +1,10 @@
 package synthesizer.gui;
 
 import synthesizer.synth.CyclicQueueDouble;
-import player.WaveDrawValuesAggregated;
-import player.WavePanel;
-import player.DrawValuesSupplierIFace;
-import player.WaveDrawValues;
+import player.wave.WaveDrawValuesAggregated;
+import player.wave.WavePanel;
+import player.wave.DrawValuesSupplierIFace;
+import player.wave.WaveDrawValues;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

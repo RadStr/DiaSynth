@@ -2,6 +2,7 @@ package player;
 
 import player.util.EmptyPanelWithSetMethod;
 import Rocnikovy_Projekt.ProgramTest;
+import player.wave.WavePanel;
 
 import javax.swing.*;
 import java.awt.*;

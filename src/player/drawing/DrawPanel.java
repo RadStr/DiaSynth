@@ -1,7 +1,7 @@
 package player.drawing;
 
 import synthesizer.synth.tables.WaveTable;
-import player.WavePanel;
+import player.wave.WavePanel;
 import Rocnikovy_Projekt.ProgramTest;
 
 import javax.swing.*;

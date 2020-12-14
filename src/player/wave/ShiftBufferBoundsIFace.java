@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 public interface ShiftBufferBoundsIFace {
     int calculateMaxRightIndexForShiftBuffer();

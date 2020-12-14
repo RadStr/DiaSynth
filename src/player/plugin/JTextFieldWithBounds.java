@@ -1,6 +1,6 @@
 package player.plugin;
 
-import player.LimitDocumentFilterIntAndDouble;
+import player.wave.LimitDocumentFilterIntAndDouble;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;

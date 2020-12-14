@@ -1,6 +1,7 @@
 package player;
 
 import Rocnikovy_Projekt.ProgramTest;
+import player.wave.WavePanel;
 
 public class Test {
 

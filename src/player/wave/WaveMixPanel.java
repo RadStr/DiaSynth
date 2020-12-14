@@ -1,5 +1,6 @@
-package player;
+package player.wave;
 
+import player.wave.util.SliderWithLabelPanel;
 import player.format.ChannelCount;
 
 import javax.swing.*;

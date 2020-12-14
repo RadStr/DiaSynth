@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 import java.awt.*;
 

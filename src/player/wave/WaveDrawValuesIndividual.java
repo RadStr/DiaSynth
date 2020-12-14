@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 import player.StaticDrawMethods.StaticDrawMethodsClass;
 import Rocnikovy_Projekt.ProgramTest;

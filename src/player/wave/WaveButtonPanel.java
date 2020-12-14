@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

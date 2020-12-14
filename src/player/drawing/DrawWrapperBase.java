@@ -1,7 +1,7 @@
 package player.drawing;
 
-import player.VerticalReferencesPanel;
-import player.VerticalReferencesPanelWithHeightCallback;
+import player.wave.VerticalReferencesPanel;
+import player.wave.VerticalReferencesPanelWithHeightCallback;
 
 import javax.swing.*;
 import java.awt.*;

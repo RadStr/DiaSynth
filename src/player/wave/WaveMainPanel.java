@@ -1,5 +1,6 @@
-package player;
+package player.wave;
 
+import player.AudioPlayerPanel;
 import player.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import player.util.JTextFieldResizeable;

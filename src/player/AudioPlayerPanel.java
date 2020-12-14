@@ -17,16 +17,16 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.WithInputW
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
-import player.operations.wave.OtherOperations.FillWaveOperationInput;
+import player.operations.wave.OtherOperations.FillWaveWithOtherWaveOperation;
 import player.operations.wave.SimpleArithmeticOperations.LogarithmOnWaves;
 import player.operations.wave.SimpleArithmeticOperations.MultiplicationOnWaves;
 import player.operations.wave.SimpleArithmeticOperations.AdditionOnWaves;
 import player.operations.wave.SimpleArithmeticOperations.PowerOnWaves;
 import player.operations.nowave.filters.LowPassFilter;
-import player.operations.nowave.OtherOperations.InvertOperationInput;
-import player.operations.nowave.OtherOperations.WaveStretcherOperationInput;
+import player.operations.nowave.OtherOperations.InvertOnWave;
+import player.operations.nowave.OtherOperations.WaveStretcherOnWave;
 import player.operations.nowave.SimpleOperationWithSingleValue.*;
-import player.operations.nowave.OtherOperations.WaveStretcherMaximumOperationInput;
+import player.operations.nowave.OtherOperations.WaveStretcherMaximumOnWave;
 import player.decibel.DecibelMeter;
 import player.decibel.SamplesGetterIFace;
 import player.drawing.*;
@@ -3747,21 +3747,21 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new InvertOperationInput();
+        op = new InvertOnWave();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new WaveStretcherOperationInput();
+        op = new WaveStretcherOnWave();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new WaveStretcherMaximumOperationInput();
+        op = new WaveStretcherMaximumOnWave();
         addAudioOperation(op, menu);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new SetSamplesToValueOperation();
+        op = new SetSamplesOnWaveOperation();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new SetSamplesToZeroOperation();
+        op = new SetSamplesToZeroOnWaveOperation();
         addAudioOperation(op, menu);
     }
 
@@ -3827,7 +3827,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         WithInputWavePluginIFace op;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new FillWaveOperationInput();
+        op = new FillWaveWithOtherWaveOperation();
         addAudioOperation(op, menu);
 
 

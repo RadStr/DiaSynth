@@ -4,7 +4,7 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPl
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
-public class FillWaveOperationInput extends AbstractPluginClass {
+public class FillWaveWithOtherWaveOperation extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -14,7 +14,7 @@ public class FillWaveOperationInput extends AbstractPluginClass {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        FillWaveOperationInput.fillArrayWithValues(inputWave, outputWave, inputStartIndex, inputEndIndex, outputStartIndex, outputEndIndex);
+        FillWaveWithOtherWaveOperation.fillArrayWithValues(inputWave, outputWave, inputStartIndex, inputEndIndex, outputStartIndex, outputEndIndex);
     }
 
 

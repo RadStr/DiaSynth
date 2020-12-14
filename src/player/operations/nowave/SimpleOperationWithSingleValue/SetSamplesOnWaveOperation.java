@@ -5,7 +5,7 @@ import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
-public class SetSamplesToValueOperation implements WithoutInputWavePluginIFace {
+public class SetSamplesOnWaveOperation implements WithoutInputWavePluginIFace {
     @PluginParametersAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",
         defaultValue = "0", parameterTooltip = "Represents the value to set the samples to.")
     private double value;

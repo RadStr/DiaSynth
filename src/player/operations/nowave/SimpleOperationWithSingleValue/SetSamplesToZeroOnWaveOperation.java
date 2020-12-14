@@ -3,10 +3,10 @@ package player.operations.nowave.SimpleOperationWithSingleValue;
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
-public class SetSamplesToZeroOperation implements WithoutInputWavePluginIFace {
+public class SetSamplesToZeroOnWaveOperation implements WithoutInputWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
-        SetSamplesToValueOperation.setSamples(audio, startIndex, endIndex, 0);
+        SetSamplesOnWaveOperation.setSamples(audio, startIndex, endIndex, 0);
     }
 
     @Override

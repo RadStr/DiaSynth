@@ -4,10 +4,10 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.Without
 import Rocnikovy_Projekt.DoubleWave;
 
 
-public class WaveStretcherMaximumOperationInput implements WithoutInputWavePluginIFace {
+public class WaveStretcherMaximumOnWave implements WithoutInputWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
-        WaveStretcherOperationInput.stretchWave(audio, startIndex, endIndex, 1);
+        WaveStretcherOnWave.stretchWave(audio, startIndex, endIndex, 1);
     }
 
     @Override

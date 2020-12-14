@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class InvertOperationInput implements WithoutInputWavePluginIFace {
+public class InvertOnWave implements WithoutInputWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();

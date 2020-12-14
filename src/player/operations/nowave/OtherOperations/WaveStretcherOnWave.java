@@ -6,7 +6,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class WaveStretcherOperationInput implements WithoutInputWavePluginIFace {
+public class WaveStretcherOnWave implements WithoutInputWavePluginIFace {
     @PluginParametersAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
             parameterTooltip = "The new maximum value to which will be the wave stretched")
     private double newAbsoluteMax;

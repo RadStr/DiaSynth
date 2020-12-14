@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage;
+package synthesizer.gui;
 
 import synthesizer.gui.util.DiagramFileFilter;
 import synthesizer.gui.diagram.DiagramPanel;

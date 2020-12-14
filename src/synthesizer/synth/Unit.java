@@ -4,8 +4,8 @@ import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.JTreeCellClickedCallbackIFace;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.UnitCommunicationWithGUI;
+import synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
+import synthesizer.gui.UnitCommunicationWithGUI;
 import player.plugin.ifaces.PluginDefaultIFace;
 import Rocnikovy_Projekt.MyLogger;
 

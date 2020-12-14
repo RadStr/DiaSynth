@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage;
+package synthesizer.gui;
 
 import synthesizer.synth.CyclicQueueDouble;
 import player.WaveDrawValuesAggregated;

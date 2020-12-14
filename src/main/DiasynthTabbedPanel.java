@@ -1,6 +1,6 @@
 package main;
 
-import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
+import synthesizer.gui.SynthesizerMainPanel;
 import player.format.AudioFormatWithSign;
 import player.AudioPlayerPanel;
 import player.FrameWithFocusControl;

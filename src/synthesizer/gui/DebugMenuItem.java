@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage;
+package synthesizer.gui;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

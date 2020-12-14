@@ -1,5 +1,8 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.PlayedWaveVisualizer;
+import synthesizer.gui.ResizeSplitpaneCallbackIFace;
+import synthesizer.gui.SynthesizerMainPanelIFace;
 import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
 import synthesizer.gui.diagram.ifaces.MovingPanelSetterIFace;
 import synthesizer.gui.diagram.panels.ifaces.*;
@@ -9,8 +12,7 @@ import synthesizer.gui.diagram.panels.util.color.ColorPalet;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.port.Port;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.*;
-import synthesizer.gui.PanelAroundMovablePanelsPackage.tree.UnitAdditionIFace;
+import synthesizer.gui.tree.UnitAdditionIFace;
 import synthesizer.gui.diagram.util.ListSortedByY;
 import synthesizer.gui.diagram.util.arrow.Arrow;
 import synthesizer.gui.diagram.util.arrow.ArrowDirection;

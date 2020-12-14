@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage.tree;
+package synthesizer.gui.tree;
 
 // Modified code from:
 // https://coderanch.com/t/339685/java/JTree-Setting-node-JPanel

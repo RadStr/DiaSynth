@@ -1,6 +1,6 @@
 package synthesizer.synth.audio;
 
-import synthesizer.gui.PanelAroundMovablePanelsPackage.PlayedWaveVisualizer;
+import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.synth.CyclicQueueDouble;
 import synthesizer.synth.OutputFormatGetter;
 import synthesizer.synth.Unit;

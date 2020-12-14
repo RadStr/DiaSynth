@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import synthesizer.gui.PanelAroundMovablePanelsPackage.SynthesizerMainPanel;
+import synthesizer.gui.SynthesizerMainPanel;
 
 import javax.swing.*;
 import java.awt.*;

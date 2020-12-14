@@ -1,4 +1,4 @@
-package synthesizer.gui.PanelAroundMovablePanelsPackage.tree;
+package synthesizer.gui.tree;
 
 import java.util.List;
 

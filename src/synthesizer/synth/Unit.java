@@ -23,7 +23,7 @@ import java.util.List;
  * also change the other calculations, which doesn't have anything to do with the Unit you have written.
  */
 public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIFace,
-        UnitViewForGUIIFace, UnitGeneratedValuesInfo {
+                                      UnitViewForGUIIFace, UnitGeneratedValuesInfo {
     public static final int BUFFER_LEN = 512;
 
 

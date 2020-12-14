@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.panels.port.util;
+package synthesizer.gui.diagram.panels.ifaces;
 
 import synthesizer.gui.diagram.panels.port.InputPort;
 

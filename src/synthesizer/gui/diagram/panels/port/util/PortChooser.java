@@ -1,7 +1,8 @@
 package synthesizer.gui.diagram.panels.port.util;
 
+import synthesizer.gui.diagram.panels.ifaces.PortFilterIFace;
 import synthesizer.gui.diagram.panels.port.InputPort;
-import synthesizer.gui.diagram.InputPortsGetterIFace;
+import synthesizer.gui.diagram.panels.ifaces.InputPortsGetterIFace;
 
 import javax.swing.*;
 import java.awt.*;

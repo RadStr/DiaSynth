@@ -1,4 +1,4 @@
-package player;
+package player.wave;
 
 public class ZoomVariablesOneWave {
     public ZoomVariablesOneWave(int currentZoom, int maxCacheZoom) {

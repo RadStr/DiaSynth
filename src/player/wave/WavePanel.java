@@ -1,7 +1,6 @@
 package player.wave;
 
 import player.AudioPlayerPanel;
-import player.ZoomVariablesOneWave;
 import player.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 

@@ -2,7 +2,7 @@ package synthesizer.gui.diagram;
 
 import Rocnikovy_Projekt.ProgramTest;
 import synthesizer.gui.PlayedWaveVisualizer;
-import synthesizer.gui.ResizeSplitpaneCallbackIFace;
+import synthesizer.gui.diagram.ifaces.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;
 import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
 import synthesizer.gui.diagram.ifaces.MaxElevationGetterIFace;
@@ -51,7 +51,7 @@ import java.util.List;
 
 public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanelSetterIFace,
                                                           MouseListener, MouseMotionListener,
-        MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
+                                                          MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
                                                           UnitAdditionIFace, InputPortToGUIAdderIFace,
                                                           SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;

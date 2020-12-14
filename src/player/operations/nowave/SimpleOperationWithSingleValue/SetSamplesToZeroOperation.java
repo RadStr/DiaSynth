@@ -1,4 +1,4 @@
-package player.operations.WithoutInputWaveOperations.SimpleOperationWithSingleValue;
+package player.operations.nowave.SimpleOperationWithSingleValue;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;

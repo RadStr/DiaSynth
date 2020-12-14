@@ -18,11 +18,11 @@ import player.operations.wave.SimpleArithmeticOperations.LogarithmOnWavesOperati
 import player.operations.wave.SimpleArithmeticOperations.MultiplicationOnWavesOperationInput;
 import player.operations.wave.SimpleArithmeticOperations.PlusOnWavesOperationInput;
 import player.operations.wave.SimpleArithmeticOperations.PowerOnWavesOperationInput;
-import player.operations.WithoutInputWaveOperations.filters.LowPassFilter;
-import player.operations.WithoutInputWaveOperations.OtherOperations.InvertOperationInput;
-import player.operations.WithoutInputWaveOperations.OtherOperations.WaveStretcherOperationInput;
-import player.operations.WithoutInputWaveOperations.SimpleOperationWithSingleValue.*;
-import player.operations.WithoutInputWaveOperations.OtherOperations.WaveStretcherMaximumOperationInput;
+import player.operations.nowave.filters.LowPassFilter;
+import player.operations.nowave.OtherOperations.InvertOperationInput;
+import player.operations.nowave.OtherOperations.WaveStretcherOperationInput;
+import player.operations.nowave.SimpleOperationWithSingleValue.*;
+import player.operations.nowave.OtherOperations.WaveStretcherMaximumOperationInput;
 import player.decibel.DecibelMeter;
 import player.decibel.SamplesGetterIFace;
 import player.drawing.*;

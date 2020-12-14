@@ -1,4 +1,4 @@
-package player.operations.WithoutInputWaveOperations.filters;
+package player.operations.nowave.filters;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;

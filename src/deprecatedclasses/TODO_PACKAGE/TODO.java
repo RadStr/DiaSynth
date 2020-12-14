@@ -1,4 +1,4 @@
-package deprecatedclasses;
+package deprecatedclasses.TODO_PACKAGE;
 
 @Deprecated
 public class TODO {

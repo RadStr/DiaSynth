@@ -1,6 +1,7 @@
-package player;
+package deprecatedclasses.TODO_PACKAGE;
 
-public class TODO_CLASS extends TODO_PACKAGE.TODO_CLASS {
+@Deprecated
+public class TODO_PLAYER extends deprecatedclasses.TODO_PACKAGE.TODO_CLASS {
     // This method is here so I can use labels
     public void TODO_METHOD() {
         a:

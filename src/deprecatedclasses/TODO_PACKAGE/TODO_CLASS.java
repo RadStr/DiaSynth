@@ -1,5 +1,6 @@
-package TODO_PACKAGE;
+package deprecatedclasses.TODO_PACKAGE;
 
+@Deprecated
 public class TODO_CLASS {
     // This method is here so I can use labels
     public void TODO_METHOD() {

@@ -1,6 +1,7 @@
-package synthesizer.gui.diagram;
+package deprecatedclasses.TODO_PACKAGE;
 
-public class TODO {
+@Deprecated
+public class TODO_SYNTH {
     public void m() {
         VYMAZAT:
         // Vymazat vsechno co ma tohle u sebe //TODO: Vymazat

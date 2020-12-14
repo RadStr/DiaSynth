@@ -1,7 +1,7 @@
 package synthesizer.gui.diagram.panels.ifaces;
 
 import synthesizer.gui.diagram.panels.port.InputPort;
-import Rocnikovy_Projekt.Direction;
+import synthesizer.gui.diagram.panels.util.Direction;
 
 import java.awt.*;
 

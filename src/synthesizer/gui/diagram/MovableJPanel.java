@@ -13,7 +13,7 @@ import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import synthesizer.gui.UnitCommunicationWithGUI;
 import player.AudioPlayerPanel;
-import Rocnikovy_Projekt.Direction;
+import synthesizer.gui.diagram.panels.util.Direction;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 

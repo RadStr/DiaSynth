@@ -4,7 +4,7 @@ import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.MovableJPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import synthesizer.gui.UnitCommunicationWithGUI;
-import Rocnikovy_Projekt.Direction;
+import synthesizer.gui.diagram.panels.util.Direction;
 import util.logging.MyLogger;
 
 import java.awt.*;

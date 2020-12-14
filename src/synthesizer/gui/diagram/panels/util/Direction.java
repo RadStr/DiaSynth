@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package synthesizer.gui.diagram.panels.util;
 
 public enum Direction {
     LEFT,

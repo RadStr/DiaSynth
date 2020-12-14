@@ -379,7 +379,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         chosenFile = fileChooser.getSelectedFile();
                         filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
-                        botPanel.getDiagramPanel().setRecordPathRelatedValues(chosenFile, filter.audioType);
+                        botPanel.getDiagramPanel().setRecordPathRelatedValues(chosenFile, filter.AUDIO_TYPE);
                         closeButton.doClick();
                     }
                 }
@@ -390,7 +390,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                 JFileChooser fileChooser = AudioPlayerPanel.getFileChooserForSaving(null);
                 File file = fileChooser.getSelectedFile();
                 filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
-                botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.audioType);
+                botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.AUDIO_TYPE);
             }
         }
 

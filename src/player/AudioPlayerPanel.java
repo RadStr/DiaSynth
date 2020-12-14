@@ -3359,7 +3359,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                     byte[] outputWave = getOutputWaveBytes();
                     try {
-                        Program.saveAudio(f.getAbsolutePath(), outputAudioFormat, outputWave, filter.audioType);
+                        Program.saveAudio(f.getAbsolutePath(), outputAudioFormat, outputWave, filter.AUDIO_TYPE);
                     }
                     catch (IOException ex) {
                         ex.printStackTrace();

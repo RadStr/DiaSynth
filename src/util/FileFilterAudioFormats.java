@@ -5,12 +5,12 @@ import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 public class FileFilterAudioFormats extends FileFilter {
-    public final AudioFileFormat.Type audioType;
+    public final AudioFileFormat.Type AUDIO_TYPE;
     public final String EXTENSION;
 
     public FileFilterAudioFormats(AudioFileFormat.Type at) {
-        this.audioType = at;
-        EXTENSION = "." + audioType.getExtension();
+        this.AUDIO_TYPE = at;
+        EXTENSION = "." + AUDIO_TYPE.getExtension();
     }
 
 
@@ -21,6 +21,6 @@ public class FileFilterAudioFormats extends FileFilter {
 
     @Override
     public String getDescription() {
-        return audioType.toString() + " (" + EXTENSION + ")";
+        return AUDIO_TYPE.toString() + " (" + EXTENSION + ")";
     }
 }

@@ -1,11 +1,11 @@
-package player.operations.WithInputWaveOperations.SimpleArithmeticOperations;
+package player.operations.wave.SimpleArithmeticOperations;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
+public class PowerOnWavesOperationInput extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -16,7 +16,7 @@ public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.POWER);
     }
 
     @Override
@@ -31,11 +31,14 @@ public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Multiply waves";
+        return "Power waves";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
+        return "<html>" +
+            "Raises samples of the input wave (the first wave) to the power of output wave samples (the second one) and stores result to the output wave<br>" +
+            "inputWave[i] ^ outputWave[i]" +
+            "</html>";
     }
 }

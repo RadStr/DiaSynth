@@ -1,11 +1,11 @@
-package player.operations.WithInputWaveOperations.SimpleArithmeticOperations;
+package player.operations.wave.SimpleArithmeticOperations;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
+public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -16,7 +16,7 @@ public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.LOG);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
 
     @Override
@@ -31,14 +31,11 @@ public class LogarithmOnWavesOperationInput extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Logarithm waves";
+        return "Multiply waves";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "<html>" +
-            "Logarithms samples of the input wave (the first wave) with base of output wave samples (the second one) and stores result to the output wave<br>" +
-            "log_outputWave[i](inputWave[i])" +
-            "</html>";
+        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
     }
 }

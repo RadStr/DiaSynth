@@ -1,7 +1,8 @@
-package synthesizer.gui.diagram.panels.port;
+package synthesizer.gui.diagram.panels.port.ports;
 
 import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
 import synthesizer.gui.diagram.MovablePanelViewForPort;
+import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class SingleInputPort extends InputPort {

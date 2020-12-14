@@ -1,10 +1,10 @@
 package synthesizer.synth.generators;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.panels.port.AmplitudeInputPort;
+import synthesizer.gui.diagram.panels.port.ports.AmplitudeInputPort;
 import synthesizer.gui.diagram.panels.port.InputPort;
-import synthesizer.gui.diagram.panels.port.PhaseInputPort;
-import synthesizer.gui.diagram.panels.port.FrequencyInputPort;
+import synthesizer.gui.diagram.panels.port.ports.PhaseInputPort;
+import synthesizer.gui.diagram.panels.port.ports.FrequencyInputPort;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;

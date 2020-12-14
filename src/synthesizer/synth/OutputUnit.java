@@ -2,7 +2,7 @@ package synthesizer.synth;
 
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
-import synthesizer.gui.diagram.panels.port.SingleInputPort;
+import synthesizer.gui.diagram.panels.port.ports.SingleInputPort;
 import synthesizer.gui.diagram.panels.shape.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.panels.shape.RectangleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;

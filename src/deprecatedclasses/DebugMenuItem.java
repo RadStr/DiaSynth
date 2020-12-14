@@ -1,4 +1,4 @@
-package synthesizer.gui;
+package deprecatedclasses;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // TODO: RML
+@Deprecated
 public class DebugMenuItem extends JPanel {
     private static int labelNumber = 0;
     private static DebugMenuItem itemWithFocus;

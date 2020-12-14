@@ -7,17 +7,17 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class SustainAmplitudeInputPort extends InputPort {
     public SustainAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                     int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace,
+                                     int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder,
                                      double neutralValue) {
         super(u, panelWhichContainsPort, "S_A", "Sustain amplitude",
-                connectorIndex, inputPortToGUIAdderIFace,
+                connectorIndex, inputPortToGUIAdder,
                 "This port controls the amplitude which the envelope has during sustain phase",
                 neutralValue);
     }
 
 
     public SustainAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                    int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace,0.8);
+                                    int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder,0.8);
     }
 }

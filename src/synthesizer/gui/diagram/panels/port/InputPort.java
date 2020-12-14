@@ -19,11 +19,11 @@ public class InputPort extends Port {
      * @param name is saved to the portLabel label as the label name. (Shouldn't contain ")< br >" ... without the spaces).
      * @param fullName is saved to the portLabel under public field FULL_NAME
      * @param connectorIndex
-     * @param inputPortToGUIAdderIFace
+     * @param inputPortToGUIAdder
      */
     public InputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                      String name, String fullName, int connectorIndex,
-                     InputPortToGUIAdderIFace inputPortToGUIAdderIFace, String labelTooltip,
+                     InputPortToGUIAdderIFace inputPortToGUIAdder, String labelTooltip,
                      double neutralValue) {
         super(u, panelWhichContainsPort, connectorIndex);
         if(neutralValue == 0) {
@@ -34,7 +34,7 @@ public class InputPort extends Port {
             Program.setOneDimArr(ARR_WITH_DEFAULT_VALUES, 0, ARR_WITH_DEFAULT_VALUES.length, neutralValue);
         }
         portLabel = new InputPortLabel(name, fullName, this, labelTooltip);
-        inputPortToGUIAdderIFace.addInputPortLabel(portLabel);
+        inputPortToGUIAdder.addInputPortLabel(portLabel);
     }
 
 

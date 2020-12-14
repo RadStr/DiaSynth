@@ -7,14 +7,14 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class ReleaseTimeInputPort extends InputPort {
     public ReleaseTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
-        super(u, panelWhichContainsPort, "R_T", "Release time", connectorIndex, inputPortToGUIAdderIFace,
+                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
+        super(u, panelWhichContainsPort, "R_T", "Release time", connectorIndex, inputPortToGUIAdder,
                 "This port controls the length of the release phase of envelope (length is in seconds)",
                 neutralValue);
     }
 
     public ReleaseTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace, 1);
+                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

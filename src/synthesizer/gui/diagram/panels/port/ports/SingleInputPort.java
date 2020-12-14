@@ -7,14 +7,14 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class SingleInputPort extends InputPort {
     public SingleInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                           InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
+                           InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "INPUT", "INPUT PORT", 0,
-                inputPortToGUIAdderIFace, "Input port for the panel.", neutralValue);
+                inputPortToGUIAdder, "Input port for the panel.", neutralValue);
     }
 
 
     public SingleInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                           InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, inputPortToGUIAdderIFace, 1);
+                           InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, inputPortToGUIAdder, 1);
     }
 }

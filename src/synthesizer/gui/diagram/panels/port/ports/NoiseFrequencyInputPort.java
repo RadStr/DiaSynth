@@ -8,10 +8,10 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 public class NoiseFrequencyInputPort extends InputPort {
     public NoiseFrequencyInputPort(UnitGeneratedValuesInfo u,
                               MovablePanelViewForPort panelWhichContainsPort,
-                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace,
+                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder,
                               double neutralValue) {
         super(u, panelWhichContainsPort, "FRQ", "FREQUENCY",
-                connectorIndex, inputPortToGUIAdderIFace,
+                connectorIndex, inputPortToGUIAdder,
                 "<html>This port controls the frequency of the generated noise.<br> " +
                         "For example when sample rate is 1000Hz, this port gets 10 on input<br>." +
                         "That means the noise generator will generate new value every 100 samples.</html>",
@@ -21,7 +21,7 @@ public class NoiseFrequencyInputPort extends InputPort {
 
     public NoiseFrequencyInputPort(UnitGeneratedValuesInfo u,
                                    MovablePanelViewForPort panelWhichContainsPort,
-                                   int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace, 8000);
+                                   int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 8000);
     }
 }

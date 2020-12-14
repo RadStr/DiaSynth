@@ -7,15 +7,15 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class OperatorInputPort extends InputPort {
     public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                             int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
+                             int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "OP" + connectorIndex, "Operand " + connectorIndex,
-                connectorIndex, inputPortToGUIAdderIFace,
+                connectorIndex, inputPortToGUIAdder,
                 "This port gets values for operand number " + connectorIndex,
                 neutralValue);
     }
 
     public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                             int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace, 1);
+                             int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

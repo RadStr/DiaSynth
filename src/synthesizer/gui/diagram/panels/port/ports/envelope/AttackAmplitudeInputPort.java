@@ -8,14 +8,14 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 public class AttackAmplitudeInputPort extends InputPort {
     public AttackAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                                     int connectorIndex,
-                                    InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
-        super(u, panelWhichContainsPort, "A_A", "Attack amplitude", connectorIndex, inputPortToGUIAdderIFace,
+                                    InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
+        super(u, panelWhichContainsPort, "A_A", "Attack amplitude", connectorIndex, inputPortToGUIAdder,
                 "This port controls the amplitude which is reached at the end of attack phase",
                 neutralValue);
     }
 
     public AttackAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace, 1);
+                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

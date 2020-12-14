@@ -7,13 +7,13 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public class AmplitudeInputPort extends InputPort {
     public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
-        super(u, panelWhichContainsPort, "AMP", "AMPLITUDE", connectorIndex, inputPortToGUIAdderIFace,
+                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
+        super(u, panelWhichContainsPort, "AMP", "AMPLITUDE", connectorIndex, inputPortToGUIAdder,
                 "This port controls the amplitude of generated wave.", neutralValue);
     }
 
     public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace, 0.2);
+                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 0.2);
     }
 }

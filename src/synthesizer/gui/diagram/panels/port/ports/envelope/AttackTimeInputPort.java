@@ -8,14 +8,14 @@ import synthesizer.synth.UnitGeneratedValuesInfo;
 public class AttackTimeInputPort extends InputPort {
     public AttackTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                                int connectorIndex,
-                               InputPortToGUIAdderIFace inputPortToGUIAdderIFace, double neutralValue) {
-        super(u, panelWhichContainsPort, "A_T", "Attack time", connectorIndex, inputPortToGUIAdderIFace,
+                               InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
+        super(u, panelWhichContainsPort, "A_T", "Attack time", connectorIndex, inputPortToGUIAdder,
                 "This port controls the length of the attack phase of envelope (length is in seconds)",
                 neutralValue);
     }
 
     public AttackTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdderIFace) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdderIFace,1);
+                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder,1);
     }
 }

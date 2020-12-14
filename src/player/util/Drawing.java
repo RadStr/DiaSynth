@@ -1,4 +1,4 @@
-package player.StaticDrawMethods;
+package player.util;
 
 
 import java.awt.*;

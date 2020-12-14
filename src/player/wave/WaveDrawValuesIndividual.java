@@ -1,6 +1,6 @@
 package player.wave;
 
-import player.StaticDrawMethods.Drawing;
+import player.util.Drawing;
 import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;

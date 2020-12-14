@@ -3,7 +3,9 @@ package player.StaticDrawMethods;
 
 import java.awt.*;
 
-public class StaticDrawMethodsClass {
+public class Drawing {
+    private Drawing() {}    // To allow only static access
+
     // https://stackoverflow.com/questions/19386951/how-to-draw-a-circle-with-given-x-and-y-coordinates-as-the-middle-spot-of-the-ci
     public static void drawCenteredCircle(Graphics g, int x, int y, int r) {
         x = x - r;

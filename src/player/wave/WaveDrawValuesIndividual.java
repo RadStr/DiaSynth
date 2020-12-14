@@ -1,6 +1,6 @@
 package player.wave;
 
-import player.StaticDrawMethods.StaticDrawMethodsClass;
+import player.StaticDrawMethods.Drawing;
 import Rocnikovy_Projekt.ProgramTest;
 
 import java.awt.*;
@@ -299,7 +299,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
             }
             else {      // If there is enough space also draw circles at the end
                 g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
-                StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, DOT_RADIUS);
+                Drawing.drawCenteredCircle(g, currentPixelInt, sampleHeight, DOT_RADIUS);
             }
 
 

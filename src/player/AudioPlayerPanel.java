@@ -38,7 +38,7 @@ import player.util.EmptyPanelWithoutSetMethod;
 import dialogs.EmptyWaveMakerDialog;
 import dialogs.LengthDialog;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 import debug.DEBUG_CLASS;

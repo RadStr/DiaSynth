@@ -27,9 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import Rocnikovy_Projekt.*;
-
-
-
+import util.logging.MyLogger;
 
 
 public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {

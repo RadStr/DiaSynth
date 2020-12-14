@@ -5,7 +5,7 @@ import player.format.AudioFormatWithSign;
 import player.AudioPlayerPanel;
 import util.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

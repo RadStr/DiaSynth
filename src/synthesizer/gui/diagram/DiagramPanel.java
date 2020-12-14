@@ -24,7 +24,7 @@ import player.format.AudioFormatWithSign;
 import player.format.ChannelCount;
 import player.control.AudioControlPanel;
 import player.util.BooleanButton;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.sound.sampled.AudioFileFormat;

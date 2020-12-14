@@ -1,7 +1,7 @@
 package synthesizer.gui;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import javax.swing.*;
 import javax.swing.plaf.SplitPaneUI;

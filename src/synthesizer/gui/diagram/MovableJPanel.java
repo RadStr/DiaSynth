@@ -14,7 +14,7 @@ import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import synthesizer.gui.UnitCommunicationWithGUI;
 import player.AudioPlayerPanel;
 import Rocnikovy_Projekt.Direction;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

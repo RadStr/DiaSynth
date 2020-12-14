@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util.logging;
 
 import java.io.*;
 import java.text.SimpleDateFormat;

@@ -2,7 +2,7 @@ package analyzer;
 
 import util.Pair;
 import player.util.ErrorFrame;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;

@@ -7,7 +7,7 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.gui.UnitCommunicationWithGUI;
 import player.plugin.ifaces.PluginDefaultIFace;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import java.awt.*;
 import java.io.BufferedReader;

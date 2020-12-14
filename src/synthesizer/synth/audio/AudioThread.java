@@ -6,7 +6,7 @@ import synthesizer.synth.OutputFormatGetter;
 import synthesizer.synth.Unit;
 import player.format.AudioFormatWithSign;
 import player.control.AudioControlPanel;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 

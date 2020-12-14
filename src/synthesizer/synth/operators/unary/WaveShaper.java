@@ -10,7 +10,7 @@ import player.drawing.DrawJFrame;
 import player.drawing.FunctionWaveDrawPanel;
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

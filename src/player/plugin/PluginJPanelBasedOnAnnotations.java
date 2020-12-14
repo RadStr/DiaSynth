@@ -4,15 +4,13 @@ import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import player.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import util.Pair;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFieldIFace {
     /**

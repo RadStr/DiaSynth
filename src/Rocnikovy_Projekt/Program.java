@@ -111,6 +111,7 @@ import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
 import main.DiasynthTabbedPanel;
 import player.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.logging.MyLogger;
 
 // TODO: Vsude mit gettery a settery
 

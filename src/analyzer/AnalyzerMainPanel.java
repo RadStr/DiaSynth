@@ -4,7 +4,7 @@ import analyzer.observer.DataModelObserverIFace;
 import player.LeavingPanelIFace;
 import main.AddToAudioPlayerIFace;
 import main.TabChangeIFace;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;

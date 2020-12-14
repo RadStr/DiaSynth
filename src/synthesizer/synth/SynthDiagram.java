@@ -3,7 +3,7 @@ package synthesizer.synth;
 import synthesizer.gui.diagram.util.ListSortedByY;
 import synthesizer.synth.audio.AudioThread;
 import player.format.AudioFormatWithSign;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.sound.sampled.AudioFormat;

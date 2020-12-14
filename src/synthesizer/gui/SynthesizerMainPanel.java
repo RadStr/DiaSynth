@@ -14,7 +14,7 @@ import player.AudioPlayerPanel;
 import util.FileFilterAudioFormats;
 import player.control.AudioControlPanelWithZoom;
 import player.util.BooleanButton;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;

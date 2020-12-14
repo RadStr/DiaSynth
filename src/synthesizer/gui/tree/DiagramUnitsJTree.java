@@ -10,7 +10,7 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.OutputUnit;
 import synthesizer.synth.Unit;
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import java.awt.*;
 import java.io.File;

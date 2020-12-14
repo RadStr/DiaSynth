@@ -1,7 +1,7 @@
 package player.plugin.ifaces;
 
 import synthesizer.synth.Unit;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 
 import java.io.*;

@@ -3,7 +3,7 @@ package synthesizer.gui.diagram.panels.port;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import synthesizer.synth.SerializeIFace;
 import synthesizer.synth.UnitGeneratedValuesInfo;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import java.awt.*;
 import java.io.BufferedReader;

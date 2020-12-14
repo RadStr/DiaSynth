@@ -8,7 +8,7 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

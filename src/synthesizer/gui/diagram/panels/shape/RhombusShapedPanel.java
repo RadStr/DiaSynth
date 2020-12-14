@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.MovableJPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import synthesizer.gui.UnitCommunicationWithGUI;
 import Rocnikovy_Projekt.Direction;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 
 import java.awt.*;
 import java.awt.geom.Area;

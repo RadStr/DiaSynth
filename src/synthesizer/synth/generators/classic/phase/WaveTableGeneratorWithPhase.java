@@ -10,7 +10,7 @@ import synthesizer.synth.tables.WaveTable;
 import synthesizer.synth.tables.WaveTableFast;
 import player.AudioPlayerPanel;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.MyLogger;
+import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;

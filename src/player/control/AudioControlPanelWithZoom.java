@@ -1,4 +1,4 @@
-package player;
+package player.control;
 
 import java.awt.event.ActionListener;
 

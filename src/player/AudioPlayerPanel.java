@@ -3,6 +3,9 @@ package player;
 
 import deprecatedclasses.RobotUserEventsGenerator;
 import mixer.*;
+import player.control.AudioControlPanel;
+import player.control.AudioControlPanelWithZoomAndDecibel;
+import player.control.ZoomPanel;
 import player.operations.nowave.*;
 import player.operations.nowave.arithmetic.LogarithmOnWave;
 import player.operations.nowave.arithmetic.MultiplicationOnWave;

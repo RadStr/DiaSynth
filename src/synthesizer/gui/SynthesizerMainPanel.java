@@ -12,7 +12,7 @@ import player.plugin.JTextFieldWithBounds;
 import player.plugin.SetFieldIFace;
 import player.AudioPlayerPanel;
 import player.FileFilterAudioFormats;
-import player.AudioControlPanelWithZoom;
+import player.control.AudioControlPanelWithZoom;
 import player.util.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 

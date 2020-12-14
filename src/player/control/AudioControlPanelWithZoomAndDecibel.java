@@ -1,4 +1,4 @@
-package player;
+package player.control;
 
 import player.decibel.DecibelMeterMain;
 import player.decibel.SamplesGetterIFace;

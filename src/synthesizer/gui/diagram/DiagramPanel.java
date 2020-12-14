@@ -22,7 +22,7 @@ import synthesizer.synth.audio.AudioThreadWithRecordingSupport;
 import player.format.AudioFormatJPanel;
 import player.format.AudioFormatWithSign;
 import player.format.ChannelCount;
-import player.AudioControlPanel;
+import player.control.AudioControlPanel;
 import player.util.BooleanButton;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

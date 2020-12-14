@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.panels.port;
 
-import synthesizer.gui.diagram.MovablePanelViewForPort;
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import synthesizer.synth.UnitGeneratedValuesInfo;
 
 public abstract class Port implements UnitGeneratedValuesInfo {

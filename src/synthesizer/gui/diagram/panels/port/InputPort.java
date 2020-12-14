@@ -1,7 +1,7 @@
 package synthesizer.gui.diagram.panels.port;
 
 import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
-import synthesizer.gui.diagram.MovablePanelViewForPort;
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import synthesizer.synth.Unit;
 import synthesizer.synth.UnitGeneratedValuesInfo;
 import Rocnikovy_Projekt.Program;

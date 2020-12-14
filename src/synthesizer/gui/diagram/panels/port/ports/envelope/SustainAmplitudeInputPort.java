@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.panels.port.ports;
+package synthesizer.gui.diagram.panels.port.ports.envelope;
 
 import synthesizer.gui.diagram.ifaces.AddInputPortToGUIIFace;
 import synthesizer.gui.diagram.MovablePanelViewForPort;

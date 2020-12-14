@@ -2,7 +2,7 @@ package synthesizer.synth.generators.envelopes;
 
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.*;
-import synthesizer.gui.diagram.panels.port.ports.*;
+import synthesizer.gui.diagram.panels.port.ports.envelope.*;
 import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.gui.diagram.panels.shape.TrapeziumShapedPanel;

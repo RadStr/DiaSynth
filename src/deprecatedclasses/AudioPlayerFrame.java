@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import player.FrameWithFocusControl;
+import util.FrameWithFocusControl;
 
 @Deprecated
 public class AudioPlayerFrame extends FrameWithFocusControl {

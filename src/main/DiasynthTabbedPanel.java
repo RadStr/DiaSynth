@@ -3,7 +3,7 @@ package main;
 import synthesizer.gui.SynthesizerMainPanel;
 import player.format.AudioFormatWithSign;
 import player.AudioPlayerPanel;
-import player.FrameWithFocusControl;
+import util.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;
 import Rocnikovy_Projekt.MyLogger;
 import Rocnikovy_Projekt.Program;

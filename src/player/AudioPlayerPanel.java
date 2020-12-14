@@ -3,6 +3,10 @@ package player;
 
 import deprecatedclasses.RobotUserEventsGenerator;
 import mixer.*;
+import player.operations.nowave.arithmetic.LogarithmWithValueOperationInput;
+import player.operations.nowave.arithmetic.MultiplyWithValueOperationInput;
+import player.operations.nowave.arithmetic.PlusWithValueOperationInput;
+import player.operations.nowave.arithmetic.PowerWithValueOperationInput;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import player.format.AudioFormatJPanel;

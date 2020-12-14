@@ -1,4 +1,4 @@
-package player.operations.nowave.SimpleOperationWithSingleValue;
+package player.operations.nowave.arithmetic;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
@@ -6,15 +6,15 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
-        parameterTooltip = "is the constant to multiply the samples with")
+public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace {
+    @PluginParametersAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+        parameterTooltip = "is the constant to be added to the samples")
     private double value;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.MULTIPLY);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.PLUS);
     }
 
     @Override
@@ -29,11 +29,11 @@ public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIF
 
     @Override
     public String getPluginName() {
-        return "Multiply samples with value";
+        return "Add value to samples";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Multiplies all samples with given parameter";
+        return "Adds given parameter to all samples";
     }
 }

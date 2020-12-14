@@ -1,6 +1,4 @@
-package synthesizer.gui;
-
-import player.control.AudioControlPanelWithZoom;
+package player.control;
 
 public interface AudioControlPanelGetterIFace {
     AudioControlPanelWithZoom getAudioControlPanel();

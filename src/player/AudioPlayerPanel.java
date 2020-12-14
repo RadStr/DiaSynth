@@ -18,10 +18,10 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.Without
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
 import player.operations.wave.OtherOperations.FillWaveWithOtherWaveOperation;
-import player.operations.wave.SimpleArithmeticOperations.LogarithmOnWaves;
-import player.operations.wave.SimpleArithmeticOperations.MultiplicationOnWaves;
-import player.operations.wave.SimpleArithmeticOperations.AdditionOnWaves;
-import player.operations.wave.SimpleArithmeticOperations.PowerOnWaves;
+import player.operations.wave.arithmetic.LogarithmOnWaves;
+import player.operations.wave.arithmetic.MultiplicationOnWaves;
+import player.operations.wave.arithmetic.AdditionOnWaves;
+import player.operations.wave.arithmetic.PowerOnWaves;
 import player.operations.nowave.filters.LowPassFilter;
 import player.operations.nowave.OtherOperations.InvertOnWave;
 import player.operations.nowave.OtherOperations.WaveStretcherOnWave;

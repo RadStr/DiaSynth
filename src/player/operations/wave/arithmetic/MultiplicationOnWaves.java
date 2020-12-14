@@ -1,4 +1,4 @@
-package player.operations.wave.SimpleArithmeticOperations;
+package player.operations.wave.arithmetic;
 
 import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;

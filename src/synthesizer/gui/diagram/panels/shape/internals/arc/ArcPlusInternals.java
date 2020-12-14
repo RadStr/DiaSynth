@@ -1,7 +1,7 @@
-package synthesizer.gui.diagram.ShapedPanels.internals.arc;
+package synthesizer.gui.diagram.panels.shape.internals.arc;
 
-import synthesizer.gui.diagram.ShapedPanels.internals.CenteredRectanglesInternals;
-import synthesizer.gui.diagram.ShapedPanels.internals.PlusInternals;
+import synthesizer.gui.diagram.panels.shape.internals.CenteredRectanglesInternals;
+import synthesizer.gui.diagram.panels.shape.internals.PlusInternals;
 
 public class ArcPlusInternals extends CenteredRectanglesInternals {
     public ArcPlusInternals() {

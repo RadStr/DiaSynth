@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.port.AmplitudeInputPort;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.PhaseInputPort;
 import synthesizer.gui.diagram.panels.port.FrequencyInputPort;
-import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
 

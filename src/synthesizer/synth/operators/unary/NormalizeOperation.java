@@ -1,9 +1,9 @@
 package synthesizer.synth.operators.unary;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.ShapedPanels.internals.ConstantTextInternals;
-import synthesizer.gui.diagram.ShapedPanels.ParallelogramShapedPanel;
-import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
+import synthesizer.gui.diagram.panels.shape.ParallelogramShapedPanel;
+import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
 public class NormalizeOperation extends UnaryOperator {

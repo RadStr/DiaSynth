@@ -6,7 +6,7 @@ package synthesizer.gui.PanelAroundMovablePanelsPackage.tree;
 
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.gui.diagram.ShapedPanels.*;
+import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.OutputUnit;
 import synthesizer.synth.Unit;
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;

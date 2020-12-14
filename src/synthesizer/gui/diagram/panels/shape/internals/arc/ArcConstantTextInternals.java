@@ -1,6 +1,6 @@
-package synthesizer.gui.diagram.ShapedPanels.internals.arc;
+package synthesizer.gui.diagram.panels.shape.internals.arc;
 
-import synthesizer.gui.diagram.ShapedPanels.internals.ConstantTextInternals;
+import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
 
 import javax.swing.*;
 

@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.util;
 
-import synthesizer.gui.diagram.ShapedPanels.ShapedPanel;
+import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
 import java.awt.*;

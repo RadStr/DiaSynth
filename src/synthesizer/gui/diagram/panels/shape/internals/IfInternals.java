@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.ShapedPanels.internals;
+package synthesizer.gui.diagram.panels.shape.internals;
 
 public class IfInternals extends ConstantTextInternals {
     public IfInternals() {

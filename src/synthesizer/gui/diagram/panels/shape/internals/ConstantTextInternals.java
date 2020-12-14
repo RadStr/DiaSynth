@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.ShapedPanels.internals;
+package synthesizer.gui.diagram.panels.shape.internals;
 
 import Rocnikovy_Projekt.Program;
 

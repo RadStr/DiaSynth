@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class PowerOnWavesOperationInput extends AbstractPluginClass {
+public class MultiplicationOnWaves extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -16,7 +16,7 @@ public class PowerOnWavesOperationInput extends AbstractPluginClass {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.POWER);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
 
     @Override
@@ -31,14 +31,11 @@ public class PowerOnWavesOperationInput extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Power waves";
+        return "Multiply waves";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "<html>" +
-            "Raises samples of the input wave (the first wave) to the power of output wave samples (the second one) and stores result to the output wave<br>" +
-            "inputWave[i] ^ outputWave[i]" +
-            "</html>";
+        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
     }
 }

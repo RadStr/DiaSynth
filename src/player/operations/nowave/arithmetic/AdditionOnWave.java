@@ -6,7 +6,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class PlusWithValueOperationInput implements WithoutInputWavePluginIFace {
+public class AdditionOnWave implements WithoutInputWavePluginIFace {
     @PluginParametersAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
         parameterTooltip = "is the constant to be added to the samples")
     private double value;

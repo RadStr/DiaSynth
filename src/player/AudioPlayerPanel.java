@@ -3,10 +3,10 @@ package player;
 
 import deprecatedclasses.RobotUserEventsGenerator;
 import mixer.*;
-import player.operations.nowave.arithmetic.LogarithmWithValueOperationInput;
-import player.operations.nowave.arithmetic.MultiplyWithValueOperationInput;
-import player.operations.nowave.arithmetic.PlusWithValueOperationInput;
-import player.operations.nowave.arithmetic.PowerWithValueOperationInput;
+import player.operations.nowave.arithmetic.LogarithmOnWave;
+import player.operations.nowave.arithmetic.MultiplicationOnWave;
+import player.operations.nowave.arithmetic.AdditionOnWave;
+import player.operations.nowave.arithmetic.PowerOnWave;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import player.format.AudioFormatJPanel;
@@ -18,10 +18,10 @@ import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.Without
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
 import player.operations.wave.OtherOperations.FillWaveOperationInput;
-import player.operations.wave.SimpleArithmeticOperations.LogarithmOnWavesOperationInput;
-import player.operations.wave.SimpleArithmeticOperations.MultiplicationOnWavesOperationInput;
-import player.operations.wave.SimpleArithmeticOperations.PlusOnWavesOperationInput;
-import player.operations.wave.SimpleArithmeticOperations.PowerOnWavesOperationInput;
+import player.operations.wave.SimpleArithmeticOperations.LogarithmOnWaves;
+import player.operations.wave.SimpleArithmeticOperations.MultiplicationOnWaves;
+import player.operations.wave.SimpleArithmeticOperations.AdditionOnWaves;
+import player.operations.wave.SimpleArithmeticOperations.PowerOnWaves;
 import player.operations.nowave.filters.LowPassFilter;
 import player.operations.nowave.OtherOperations.InvertOperationInput;
 import player.operations.nowave.OtherOperations.WaveStretcherOperationInput;
@@ -3733,16 +3733,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         WithoutInputWavePluginIFace op;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new MultiplyWithValueOperationInput();
+        op = new MultiplicationOnWave();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new PlusWithValueOperationInput();
+        op = new AdditionOnWave();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new LogarithmWithValueOperationInput();
+        op = new LogarithmOnWave();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new PowerWithValueOperationInput();
+        op = new PowerOnWave();
         addAudioOperation(op, menu);
 
 
@@ -3833,16 +3833,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new MultiplicationOnWavesOperationInput();
+        op = new MultiplicationOnWaves();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new PlusOnWavesOperationInput();
+        op = new AdditionOnWaves();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new LogarithmOnWavesOperationInput();
+        op = new LogarithmOnWaves();
         addAudioOperation(op, menu);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        op = new PowerOnWavesOperationInput();
+        op = new PowerOnWaves();
         addAudioOperation(op, menu);
     }
 

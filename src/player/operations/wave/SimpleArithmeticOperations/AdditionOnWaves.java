@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
+public class AdditionOnWaves extends AbstractPluginClass {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -16,7 +16,7 @@ public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.PLUS);
     }
 
     @Override
@@ -31,11 +31,11 @@ public class MultiplicationOnWavesOperationInput extends AbstractPluginClass {
 
     @Override
     public String getPluginName() {
-        return "Multiply waves";
+        return "Add waves";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
+        return "Adds input wave (the first wave) to the output wave (the second one) and stores result to the output wave";
     }
 }

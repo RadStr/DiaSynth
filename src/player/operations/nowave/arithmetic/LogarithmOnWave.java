@@ -6,15 +6,16 @@ import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIFace {
-    @PluginParametersAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
-        parameterTooltip = "is the constant to multiply the samples with")
+public class LogarithmOnWave implements WithoutInputWavePluginIFace {
+    // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
+    @PluginParametersAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
+        parameterTooltip = "is the base of the logarithm")
     private double value;
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.MULTIPLY);
+        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
     }
 
     @Override
@@ -29,11 +30,11 @@ public class MultiplyWithValueOperationInput implements WithoutInputWavePluginIF
 
     @Override
     public String getPluginName() {
-        return "Multiply samples with value";
+        return "Logarithm samples";
     }
 
     @Override
     public String getPluginTooltip() {
-        return "Multiplies all samples with given parameter";
+        return "Logarithm the samples with base of user given value";
     }
 }

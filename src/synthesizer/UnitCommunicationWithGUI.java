@@ -1,4 +1,4 @@
-package synthesizer.gui;
+package synthesizer;
 
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;

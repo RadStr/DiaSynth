@@ -14,7 +14,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.gui.UnitCommunicationWithGUI;
+import synthesizer.UnitCommunicationWithGUI;
 import player.AudioPlayerPanel;
 import synthesizer.gui.diagram.panels.util.Direction;
 import util.logging.MyLogger;

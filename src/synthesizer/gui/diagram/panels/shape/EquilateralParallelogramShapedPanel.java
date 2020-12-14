@@ -2,7 +2,7 @@ package synthesizer.gui.diagram.panels.shape;
 
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
-import synthesizer.gui.UnitCommunicationWithGUI;
+import synthesizer.UnitCommunicationWithGUI;
 
 import java.awt.*;
 

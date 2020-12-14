@@ -5,7 +5,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
-import synthesizer.gui.UnitCommunicationWithGUI;
+import synthesizer.UnitCommunicationWithGUI;
 import player.plugin.ifaces.PluginDefaultIFace;
 import util.logging.MyLogger;
 

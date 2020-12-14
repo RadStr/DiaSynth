@@ -1116,8 +1116,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         Point movingPanelPos = null;
         if(movingPanel != null) {
             movingPanelPos = movingPanel.getLocation();
-            movingPanelPos.x += currentPanelSize.firstInt / 2;
-            movingPanelPos.y += currentPanelSize.secondInt;
+            movingPanelPos.x += currentPanelSize.getFirstHalved();
+            movingPanelPos.y += currentPanelSize.getSecond();
         }
 
         int endCircleWidth = (int)(realZoom * START_CIRCLE_CONNECTION_SIZE);
@@ -1136,8 +1136,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                     MovablePanelSpecificGetMethodsIFace targetPanel = cable.getTargetPort().getPanelWhichContainsPort();
                     if(targetPanel == movingPanel) {
                         Point end = cable.getTargetPort().getLastPoint();
-                        g.drawLine(p.getLeftX() + currentPanelSize.firstInt / 2,
-                                p.getTopY() + currentPanelSize.secondInt,
+                        g.drawLine(p.getLeftX() + currentPanelSize.getFirstHalved(),
+                                p.getTopY() + currentPanelSize.getSecond(),
                                 end.x, end.y);
                     }
                     else {
@@ -1157,10 +1157,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
         if(getIsAnyPanelCurrentlyConnecting()) {
-            int botX = currentlyConnectingPanel.getLeftX() + currentPanelSize.firstInt / 2;
-            int botY = currentlyConnectingPanel.getTopY() + currentPanelSize.secondInt;
+            int botX = currentlyConnectingPanel.getLeftX() + currentPanelSize.getFirstHalved();
+            int botY = currentlyConnectingPanel.getTopY() + currentPanelSize.getSecond();
             if(panelCurrenlyConnectingTo != null) {
-                g.drawLine(botX, botY,panelCurrenlyConnectingTo.getLeftX() + currentPanelSize.firstInt / 2,
+                g.drawLine(botX, botY,panelCurrenlyConnectingTo.getLeftX() + currentPanelSize.getFirstHalved(),
                         panelCurrenlyConnectingTo.getTopY());
             }
             else {
@@ -1918,13 +1918,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private void paintConnectionsAsStraightLines(Graphics g) {
         for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            int x = p.getLeftX() + currentPanelSize.firstInt / 2;
-            int y = p.getTopY() + currentPanelSize.secondInt;
+            int x = p.getLeftX() + currentPanelSize.getFirstHalved();
+            int y = p.getTopY() + currentPanelSize.getSecond();
             List<Port> connectedPorts = p.getOutputPort().getConnectedPorts();
             for (Port port : connectedPorts) {
                 MovablePanelViewForPort c = port.getPanelWhichContainsPort();
                 Point absolutePos = c.getLocation();
-                putInMid(absolutePos, currentPanelSize.firstInt);
+                putInMid(absolutePos, currentPanelSize.getFirst());
                 g.setColor(Color.red);
                 g.drawLine(x,y, absolutePos.x, absolutePos.y);
             }

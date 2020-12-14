@@ -22,6 +22,7 @@ public class IntPairWithInternalDoublesWithoutMinAndMax {
         if(!MathClass.isIntOverflow(val)) {
             first = val;
             firstInt = (int)Math.floor(first);
+            firstIntHalved = firstInt / 2;
         }
     }
 
@@ -45,6 +46,11 @@ public class IntPairWithInternalDoublesWithoutMinAndMax {
     public int getFirst() {
         return firstInt;
     }
+    private int firstIntHalved;
+    public int getFirstHalved() {
+        return firstIntHalved;
+    }
+
     protected int secondInt;
     public int getSecond() {
         return secondInt;

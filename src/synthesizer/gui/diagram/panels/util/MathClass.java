@@ -1,6 +1,8 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.util;
 
 public class MathClass {
+    private MathClass() {}  // To make this class accessible only in static way
+
     /**
      * Taken from the java source codes, java.lang.Math.addExact. Return true if the sum of the arguments overflows.
      * @param x is the first operand of sum.

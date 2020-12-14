@@ -1,5 +1,7 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.util.MathClass;
+
 /**
  * If the size to be set is smaller than the minimum, then old value is kept.
  */

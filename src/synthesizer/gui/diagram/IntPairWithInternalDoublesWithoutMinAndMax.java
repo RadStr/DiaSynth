@@ -1,5 +1,7 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.util.MathClass;
+
 import java.awt.*;
 
 public class IntPairWithInternalDoublesWithoutMinAndMax {

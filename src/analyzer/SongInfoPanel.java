@@ -1,5 +1,8 @@
 package analyzer;
 
+import analyzer.observer.DataModelObserverIFace;
+import analyzer.observer.DataModelSubject;
+import analyzer.observer.DataModelSubjectIFace;
 import player.FrameChangeWithDisposeButton;
 import analyzer.util.UneditableTableModel;
 import main.AddToAudioPlayerIFace;

@@ -1,5 +1,7 @@
 package analyzer;
 
+import analyzer.observer.DataModelObserver;
+import analyzer.observer.DataModelObserverIFace;
 import player.LeavingPanelIFace;
 import util.Pair;
 import analyzer.util.UneditableTableModel;
@@ -77,9 +79,8 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 				selectedFilesPairList.clear();
 				dataModelSelectedFiles = new UneditableTableModel(new String[0][0], headerSelectedFiles);
 				selectedFilesTable.setModel(dataModelSelectedFiles);
-				
-				this.dataModel = dataModelSelectedFiles;
-				this.dataModelPair = selectedFilesPairList;
+
+				this.setDataModel(dataModelSelectedFiles, selectedFilesPairList);
 			}
 		};	
 		        
@@ -123,8 +124,8 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			        }
 			        
 			        dataModelAllFiles = new UneditableTableModel(dataAllFiles, headerAllFiles);
-			        this.dataModel = dataModelAllFiles;
-			        this.dataModelPair = allFilesPairList;
+
+					this.setDataModel(dataModelAllFiles, allFilesPairList);
 			        allFilesTable.setModel(dataModelAllFiles);
 			}
 		};

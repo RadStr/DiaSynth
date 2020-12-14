@@ -1,4 +1,4 @@
-package analyzer;
+package analyzer.observer;
 
 import org.w3c.dom.Node;
 

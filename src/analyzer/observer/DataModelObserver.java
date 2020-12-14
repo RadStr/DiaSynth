@@ -1,5 +1,7 @@
-package analyzer;
+package analyzer.observer;
 
+import analyzer.AnalyzerXML;
+import analyzer.SongLibraryPanel;
 import util.Pair;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,9 +11,14 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public abstract class DataModelObserver implements DataModelObserverIFace {
-	DefaultTableModel dataModel;
-	JFrame frame;
-	List<Pair<String, Node>> dataModelPair;
+	private DefaultTableModel dataModel;
+	private JFrame frame;
+	private List<Pair<String, Node>> dataModelPair;
+
+	public void setDataModel(DefaultTableModel dataModel, List<Pair<String, Node>> dataModelPair) {
+		this.dataModel = dataModel;
+		this.dataModelPair = dataModelPair;
+	}
 	
 	public DataModelObserver(DefaultTableModel dm, List<Pair<String, Node>> dmp, JFrame frame) {
 		this.dataModel = dm;

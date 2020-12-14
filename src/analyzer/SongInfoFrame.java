@@ -1,5 +1,6 @@
 package analyzer;
 
+import analyzer.observer.DataModelObserverIFace;
 import main.AddToAudioPlayerIFace;
 import org.w3c.dom.Node;
 

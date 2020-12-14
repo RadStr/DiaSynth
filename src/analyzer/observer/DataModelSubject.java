@@ -1,5 +1,7 @@
-package analyzer;
+package analyzer.observer;
 
+import analyzer.AnalyzerPanel;
+import analyzer.AnalyzerXML;
 import org.w3c.dom.Node;
 
 import javax.swing.*;

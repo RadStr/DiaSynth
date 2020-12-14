@@ -47,13 +47,13 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
     private void setFirstWithoutOverflow(double val) {
         if (val >= firstMin && val <= firstMax) {
             first = val;
-            firstInt = (int)Math.floor(first);
+            setFirstInt();
         }
     }
     private void setFirstWithOverflow(double val) {
         if (val >= firstMin && val <= firstMax && !MathClass.isIntOverflow(val)) {
             first = val;
-            firstInt = (int)Math.floor(first);
+            setFirstInt();
         }
     }
 

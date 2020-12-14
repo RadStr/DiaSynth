@@ -1,5 +1,8 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.ifaces.LockUpdateIFace;
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelIFace;
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelSpecificGetMethodsIFace;
 import synthesizer.gui.diagram.panels.util.color.ColorMover;
 import synthesizer.gui.diagram.panels.util.color.HSB;
 import synthesizer.gui.diagram.panels.port.util.PortChooser;
@@ -19,7 +22,7 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFace,
-                                                                LockUpdateIFace, MovablePanelViewForPort {
+        LockUpdateIFace, MovablePanelViewForPort {
     public boolean getIsCurrentlyConnecting() {
         return diagramPanel.getCurrentlyConnectingPanel() == this;
     }

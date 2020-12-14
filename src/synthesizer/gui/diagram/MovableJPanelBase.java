@@ -1,5 +1,7 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.ifaces.GetTopLeftIFace;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseWheelEvent;

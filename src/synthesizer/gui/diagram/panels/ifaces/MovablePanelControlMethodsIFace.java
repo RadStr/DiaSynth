@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.ifaces;
 
 public interface MovablePanelControlMethodsIFace {
     void removePanel();

@@ -1,5 +1,7 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelControlMethodsIFace;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

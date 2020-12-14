@@ -1,6 +1,6 @@
-package synthesizer.gui.diagram;
+package synthesizer.gui.diagram.panels.ifaces;
 
-import synthesizer.gui.diagram.panels.ifaces.PortsGetterIFace;
+import synthesizer.gui.diagram.DiagramPanel;
 
 import java.awt.*;
 

@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram;
 
+import synthesizer.gui.diagram.panels.ifaces.MovablePanelSpecificGetMethodsIFace;
 import synthesizer.gui.diagram.panels.port.InputPort;
 
 import java.awt.*;

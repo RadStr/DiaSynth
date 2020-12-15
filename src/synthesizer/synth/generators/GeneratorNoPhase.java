@@ -148,7 +148,7 @@ abstract public class GeneratorNoPhase extends Unit {
         return maxDeviationInFreq / modulatingWaveFreq;
     }
 
-    // Same as the code inside the GeneratorWithPhase but without phase, couldn't think of simple way how to not have
+    // Same as the code inside the Generator but we omit phase here, couldn't think of simple way how to not have
     // it copy-pasted
     // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
     // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.

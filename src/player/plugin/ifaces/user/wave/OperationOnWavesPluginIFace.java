@@ -5,7 +5,7 @@ import Rocnikovy_Projekt.DoubleWave;
 
 import java.util.List;
 
-public interface WithInputWavePluginIFace extends AudioPlayerJMenuOperationPluginIFace {
+public interface OperationOnWavesPluginIFace extends AudioPlayerJMenuOperationPluginIFace {
     /**
      * Input is the wave to use for modification of output and output is some wave which should be modified
      */
@@ -13,8 +13,8 @@ public interface WithInputWavePluginIFace extends AudioPlayerJMenuOperationPlugi
                           int inputStartIndex, int inputEndIndex,
                           int outputStartIndex, int outputEndIndex);
 
-    public static List<WithInputWavePluginIFace> loadPlugins() {
-        Class<WithInputWavePluginIFace> pluginIface = WithInputWavePluginIFace.class;
+    public static List<OperationOnWavesPluginIFace> loadPlugins() {
+        Class<OperationOnWavesPluginIFace> pluginIface = OperationOnWavesPluginIFace.class;
         return AudioPlayerJMenuOperationPluginIFace.loadPlugins(pluginIface);
     }
 }

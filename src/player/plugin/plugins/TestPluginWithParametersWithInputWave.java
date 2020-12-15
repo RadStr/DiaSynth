@@ -1,15 +1,15 @@
 package player.plugin.plugins;
 
 import player.plugin.ifaces.user.wave.PluginWithInputWaveBase;
-import player.plugin.ifaces.user.wave.WithInputWavePluginIFace;
+import player.plugin.ifaces.user.wave.OperationOnWavesPluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 
 
 /**
- * Has implements WithInputWavePluginIFace in signature, else it wouldn't be found as plugin.
+ * Has implements OperationOnWavesPluginIFace in signature, else it wouldn't be found as plugin.
  */
-public class TestPluginWithParametersWithInputWave extends PluginWithInputWaveBase implements WithInputWavePluginIFace {
+public class TestPluginWithParametersWithInputWave extends PluginWithInputWaveBase implements OperationOnWavesPluginIFace {
     @PluginParametersAnnotation(lowerBound = "-0.1", upperBound = "0.1", parameterTooltip = "will be added to the output wave", defaultValue = "0")
     private double param;
 

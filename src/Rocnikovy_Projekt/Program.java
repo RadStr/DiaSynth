@@ -104,9 +104,8 @@ import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
-import Rocnikovy_Projekt.math.ArithmeticOperation;
+import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
-import debug.DEBUG_CLASS;
 import synthesizer.synth.generators.classic.phase.SineGenerator;
 import main.DiasynthTabbedPanel;
 import util.Time;

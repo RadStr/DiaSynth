@@ -2,7 +2,7 @@ package player.operations.wave;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.ArithmeticOperation;
+import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class InvertOnWave implements OperationOnWavePluginIFace {

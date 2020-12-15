@@ -2,7 +2,7 @@ package player.operations.waves.arithmetic;
 
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.ArithmeticOperation;
+import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class AdditionOnWaves extends OperationOnWavesPlugin {

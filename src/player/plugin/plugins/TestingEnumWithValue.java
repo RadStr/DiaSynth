@@ -4,7 +4,7 @@ import player.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.math.ArithmeticOperation;
+import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class TestingEnumWithValue implements OperationOnWavePluginIFace, EnumWrapperIFaceForDefaultJPanel {

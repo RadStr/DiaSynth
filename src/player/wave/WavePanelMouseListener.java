@@ -152,17 +152,6 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
             int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
             String timeInMillis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
-//            int currIndex = 0;
-//            currIndex = insertToTooltip(TOOLTIP_STRINGS[0], currIndex);
-//            currIndex = insertToTooltip(sampleIndexString, currIndex);
-//            currIndex = insertToTooltip(TOOLTIP_STRINGS[1], currIndex);
-//            currIndex = insertToTooltip(valueString, currIndex);
-//            currIndex = insertToTooltip(TOOLTIP_STRINGS[2], currIndex);
-//            currIndex = insertToTooltip(String.audioFormat("%.3f", sampleTimeInMillis / (double)1000), currIndex);
-//            currIndex = insertToTooltip(TOOLTIP_STRINGS[3], currIndex);
-//            currIndex = insertToTooltip(waveMainPanel.getWave().getSize().toString(), currIndex);
-//            currIndex = insertToTooltip(TOOLTIP_STRINGS[4], currIndex);
-//            tooltip.setLength(currIndex);
             tooltip.setLength(0);
             tooltip.append(TOOLTIP_STRINGS[0]);
             tooltip.append(sampleIndexString);

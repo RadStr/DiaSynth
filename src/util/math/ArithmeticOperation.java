@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt.math;
+package util.math;
 
 public enum ArithmeticOperation {
     PLUS,

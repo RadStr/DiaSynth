@@ -100,7 +100,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
     }
 
     @Override
-    public abstract void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder);
+    public abstract void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder);
 
     public static int calculateMaxSizeBinCount(double minValue, double maxValue) {
         int referenceValuesWidth = new VerticalReferencesPanel(minValue, maxValue).getPreferredSize().width;

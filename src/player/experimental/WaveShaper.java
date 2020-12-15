@@ -46,7 +46,7 @@ public class WaveShaper extends DrawWrapperBase {
 
 
     @Override
-    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+    public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
         addReset(menuBar);
     }
 }

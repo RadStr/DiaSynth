@@ -152,7 +152,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     }
 
     @Override
-    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+    public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
         if(!realPartPanel.drawPanel.getIsEditable()) {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);

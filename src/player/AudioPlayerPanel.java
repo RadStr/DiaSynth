@@ -66,7 +66,7 @@ import java.util.List;
 
 public class AudioPlayerPanel extends JPanel implements MouseListener,
         AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, SamplesGetterIFace,
-        TabChangeIFace, AudioControlPanel.VolumeControlGetterIFace, AddWaveIFace {
+        TabChangeIFace, AudioControlPanel.VolumeControlGetterIFace, WaveAdderIFace {
 
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
     public static final int VERTICAL_SCROLL_UNIT_INCREMENT = 32;
@@ -3579,7 +3579,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param windowSize useful only when inputArr is non-null. If <= 0 then set to 1024. Also used only for the FFT draw panels.
      * @return
      */
-    public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, AddWaveIFace waveAdder,
+    public static DrawJFrame createDrawFrame(final DRAW_PANEL_TYPES DRAW_TYPE, int sampleRate, WaveAdderIFace waveAdder,
                                              double[] inputArr, int startIndex, int windowSize) {
         JPanel drawPanel;
         if(inputArr == null) {

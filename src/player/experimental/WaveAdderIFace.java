@@ -2,7 +2,7 @@ package player.experimental;
 
 import javax.swing.*;
 
-public interface AddWaveIFace {
+public interface WaveAdderIFace {
     JSplitPane addWave(double[] wave);
     int getOutputSampleRate();
 }

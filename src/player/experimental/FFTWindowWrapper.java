@@ -54,7 +54,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
 
     @Override
-    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+    public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
         if(!fftPanel.getIsEditable()) {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);

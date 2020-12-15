@@ -46,7 +46,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
     }
 
     @Override
-    public void addMenus(JMenuBar menuBar, AddWaveIFace waveAdder) {
+    public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
 //        JMenu menu = new JMenu("Options");
 //        menuBar.add(menu);
 //        JMenuItem optionsMenuItem = new JMenuItem("Set Time");
@@ -94,7 +94,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 
 
 //    private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {
-//        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel, AddWaveIFace waveAdder) {
+//        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel, WaveAdderIFace waveAdder) {
 //            super(timeWaveDrawPanel);
 //            sampleRate = waveAdder.getOutputSampleRate();
 //        }

@@ -3151,7 +3151,7 @@ public class Program {
             originalAudioFormat = null;
             decodedAudioFormat = null;
             decodedAudioStream = null;
-            audioType = AudioType.NOTSUPPORTED;
+            audioType = AudioType.NOT_SUPPORTED;
             return false;
         }
 

@@ -6,5 +6,5 @@ package util.audio.format;
 public enum AudioType {
     OTHER,
     MP3,
-    NOTSUPPORTED
+    NOT_SUPPORTED
 }

@@ -2,7 +2,7 @@ package synthesizer.synth.generators.classic.phase;
 
 import player.plugin.ifaces.JFileChooserAudioPluginDefault;
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.synth.generators.Generator;
+import synthesizer.synth.generators.GeneratorNoPhase;
 import synthesizer.synth.generators.GeneratorWithPhase;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
@@ -49,7 +49,7 @@ public class WaveTableGeneratorWithPhase extends GeneratorWithPhase {
         return waveTable;
     }
 
-    public void setWaveTable(Generator g, int len, double amp) {
+    public void setWaveTable(GeneratorNoPhase g, int len, double amp) {
         double[] wave = new double[len];
         for(int i = 0; i < len; i++) {
             wave[i] = g.generateSampleConst(i, len, amp, 1);

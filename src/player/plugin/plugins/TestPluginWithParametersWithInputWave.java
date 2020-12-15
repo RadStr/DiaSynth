@@ -1,7 +1,7 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.user.wave.OperationOnWavesPlugin;
-import player.plugin.ifaces.user.wave.OperationOnWavesPluginIFace;
+import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
+import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 

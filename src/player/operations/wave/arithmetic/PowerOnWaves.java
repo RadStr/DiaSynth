@@ -1,6 +1,6 @@
 package player.operations.wave.arithmetic;
 
-import player.plugin.ifaces.user.wave.OperationOnWavesPlugin;
+import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;

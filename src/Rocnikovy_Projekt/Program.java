@@ -120,13 +120,6 @@ import util.logging.MyLogger;
 // TODO: running average filter se chova jinak nez nerekurzivni filtr pro prvnich n samplu, kde n je velikost okenka.
 
 
-/* // TODO:
-public class Program {
-    public static void main(String[] args) throws Exception {
-    }
-}*/
-
-
 // TODO: not enough time - must remove some configs and try them later - such as weight inits etc. - best solution try it for some small parts and choose the best performing on these small samples
 // TODO: Nekde se skore nemeni kdyz je tohle (TODO: nemeni) nekde tak to vymazat to je urceni na to u kterych se to nemeni
 
@@ -2683,13 +2676,6 @@ public class Program {
             }
         }
     }
-
-
-    public static void main(String[] args) throws Exception {
-        ProgramTest test = new ProgramTest();
-        test.testAll();
-    }
-
 
 
     /**

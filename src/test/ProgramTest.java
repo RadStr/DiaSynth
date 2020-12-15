@@ -34,11 +34,18 @@ import java.util.Random;
  */
 public class ProgramTest {
 
-    Program program;
+    private Program program;
 
     public ProgramTest() {
         program = new Program();
     }
+
+
+    public static void main(String[] args) throws Exception {
+        ProgramTest test = new ProgramTest();
+        test.testAll();
+    }
+
 
     // Modified code from stackoverflow, I can't find the source currently, forgot to cite it like 1.5 years ago
     public class Tone {

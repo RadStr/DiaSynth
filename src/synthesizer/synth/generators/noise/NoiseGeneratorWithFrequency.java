@@ -6,7 +6,7 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.ports.NoiseFrequencyInputPort;
 import synthesizer.synth.Unit;
 
-public abstract class NoiseGeneratorWithFrequency extends NoiseGenerator {
+public abstract class NoiseGeneratorWithFrequency extends NoiseGeneratorNoFreq {
     public NoiseGeneratorWithFrequency(Unit u) {
         super(u);
     }

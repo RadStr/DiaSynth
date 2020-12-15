@@ -8,12 +8,12 @@ import synthesizer.gui.diagram.panels.shape.RectangleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public abstract class NoiseGenerator extends Unit {
-    public NoiseGenerator(Unit u) {
+public abstract class NoiseGeneratorNoFreq extends Unit {
+    public NoiseGeneratorNoFreq(Unit u) {
         super(u);
     }
 
-    public NoiseGenerator(DiagramPanel panelWithUnits) {
+    public NoiseGeneratorNoFreq(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

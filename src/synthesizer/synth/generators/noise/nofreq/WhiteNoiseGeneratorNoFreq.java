@@ -6,11 +6,11 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.synth.generators.noise.freq.WhiteNoiseGeneratorWithFrequency;
 import synthesizer.synth.Unit;
 
-public class WhiteNoiseGenerator extends WhiteNoiseGeneratorWithFrequency {
-    public WhiteNoiseGenerator(Unit u) {
+public class WhiteNoiseGeneratorNoFreq extends WhiteNoiseGeneratorWithFrequency {
+    public WhiteNoiseGeneratorNoFreq(Unit u) {
         super(u);
     }
-    public WhiteNoiseGenerator(DiagramPanel panelWithUnits) {
+    public WhiteNoiseGeneratorNoFreq(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

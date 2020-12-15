@@ -12,13 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 
-public class PluginJPanelBasedOnAnnotations extends JScrollPane implements SetFieldIFace {
+public class PanelFromAnnotations extends JScrollPane implements SetFieldIFace {
     /**
      *
      * @param objectWithAnnotations is the object on which should be the fields changed.
      * @param classWithAnnotations is .getClass() of the objectWithAnnotations (It is final, so I can't take it from the object)
      */
-    public PluginJPanelBasedOnAnnotations(Object objectWithAnnotations, Class<?> classWithAnnotations) {
+    public PanelFromAnnotations(Object objectWithAnnotations, Class<?> classWithAnnotations) {
         this.classWithAnnotations = objectWithAnnotations;
 
         viewPanel = new JPanel(new GridLayout(0, 2));

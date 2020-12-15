@@ -55,7 +55,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
 //                TimeOptionsDialogPanel classWithValues = new TimeOptionsDialogPanel(timeWaveDrawPanel);
-//                PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
+//                PanelFromAnnotations dialogPanel = new PanelFromAnnotations(classWithValues,
 //                        classWithValues.getClass());
 //
 //                int result = JOptionPane.showConfirmDialog(null, dialogPanel,
@@ -76,7 +76,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
 //                TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(timeWaveDrawPanel, waveAdder);
-//                PluginJPanelBasedOnAnnotations dialogPanel = new PluginJPanelBasedOnAnnotations(classWithValues,
+//                PanelFromAnnotations dialogPanel = new PanelFromAnnotations(classWithValues,
 //                        classWithValues.getClass());
 //
 //                int result = JOptionPane.showConfirmDialog(null, dialogPanel,

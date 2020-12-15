@@ -1,11 +1,11 @@
-package player.operations.wave.arithmetic;
+package player.operations.waves.arithmetic;
 
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class LogarithmOnWaves extends OperationOnWavesPlugin {
+public class PowerOnWaves extends OperationOnWavesPlugin {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
@@ -16,7 +16,7 @@ public class LogarithmOnWaves extends OperationOnWavesPlugin {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.LOG);
+            outputStartIndex, outputEndIndex, ArithmeticOperation.POWER);
     }
 
     @Override
@@ -31,14 +31,14 @@ public class LogarithmOnWaves extends OperationOnWavesPlugin {
 
     @Override
     public String getPluginName() {
-        return "Logarithm waves";
+        return "Power waves";
     }
 
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-            "Logarithms samples of the input wave (the first wave) with base of output wave samples (the second one) and stores result to the output wave<br>" +
-            "log_outputWave[i](inputWave[i])" +
+            "Raises samples of the input wave (the first wave) to the power of output wave samples (the second one) and stores result to the output wave<br>" +
+            "inputWave[i] ^ outputWave[i]" +
             "</html>";
     }
 }

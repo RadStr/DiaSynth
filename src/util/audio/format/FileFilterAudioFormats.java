@@ -1,4 +1,4 @@
-package util;
+package util.audio.format;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.swing.filechooser.FileFilter;

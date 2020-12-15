@@ -11,7 +11,7 @@ import util.audio.format.AudioFormatWithSign;
 import player.plugin.JTextFieldWithBounds;
 import player.plugin.SetFieldIFace;
 import player.AudioPlayerPanel;
-import util.FileFilterAudioFormats;
+import util.audio.format.FileFilterAudioFormats;
 import player.control.AudioControlPanelWithZoom;
 import util.swing.BooleanButton;
 import util.logging.MyLogger;

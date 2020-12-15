@@ -43,7 +43,7 @@ import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 import debug.DEBUG_CLASS;
-import util.FileFilterAudioFormats;
+import util.audio.format.FileFilterAudioFormats;
 import util.swing.FrameWithFocusControl;
 
 import javax.sound.sampled.*;

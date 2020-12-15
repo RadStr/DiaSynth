@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
+import player.plugin.ifaces.PluginIFacesForUsers.wave.AbstractPluginClass;
 import Rocnikovy_Projekt.DoubleWave;
 // TODO: RML
 @Deprecated

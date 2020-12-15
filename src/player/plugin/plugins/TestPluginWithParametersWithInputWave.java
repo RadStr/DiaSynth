@@ -1,7 +1,7 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.AbstractPluginClass;
-import player.plugin.ifaces.PluginIFacesForUsers.WithInputWavePackage.WithInputWavePluginIFace;
+import player.plugin.ifaces.PluginIFacesForUsers.wave.AbstractPluginClass;
+import player.plugin.ifaces.PluginIFacesForUsers.wave.WithInputWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 

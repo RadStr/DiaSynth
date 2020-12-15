@@ -1,6 +1,6 @@
 package player.wave.util;
 
-import player.plugin.SetFieldIFace;
+import player.plugin.FieldSetterIFace;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -12,12 +12,12 @@ import java.lang.reflect.Field;
 // And the doubles will need that too
 public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
     public LimitDocumentFilterIntAndDouble(double lowerBound, double upperBound, boolean isFloatOrDouble,
-                                           Field field, SetFieldIFace setFieldIFace) {
+                                           Field field, FieldSetterIFace fieldSetter) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.isFloatOrDouble = isFloatOrDouble;
         this.field = field;
-        this.setFieldIFace = setFieldIFace;
+        this.fieldSetter = fieldSetter;
         hasDecimalPoint = false;
     }
 
@@ -27,7 +27,7 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
     private boolean isFloatOrDouble;
     private boolean hasDecimalPoint;
     private Field field;
-    private SetFieldIFace setFieldIFace;
+    private FieldSetterIFace fieldSetter;
 
 
     // text is the added text, and it is starting at offset in the old string
@@ -109,7 +109,7 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
             oldNumString = oldNumString.substring(0, offset) + oldNumString.substring(offset + length);
         }
 
-        setFieldIFace.setField(field, oldNumString);
+        fieldSetter.setField(field, oldNumString);
         return oldNumString;
     }
 
@@ -124,7 +124,7 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
 
     private void internalReplace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs,
                                  String newNumString) throws BadLocationException {
-        setFieldIFace.setField(field, newNumString);
+        fieldSetter.setField(field, newNumString);
         super.replace(fb, offset, length, text, attrs);
     }
 }

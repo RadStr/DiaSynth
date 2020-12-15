@@ -9,7 +9,7 @@ import main.TabChangeIFace;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatWithSign;
 import player.plugin.JTextFieldWithBounds;
-import player.plugin.SetFieldIFace;
+import player.plugin.FieldSetterIFace;
 import player.AudioPlayerPanel;
 import util.audio.format.FileFilterAudioFormats;
 import player.control.AudioControlPanelWithZoom;
@@ -322,7 +322,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
         audioPlayerAddIFace.addToAudioPlayer(record, len, outputFormat, shouldConvertToPlayerOutputFormat);
     }
 
-    public class RecordInfoGetterPanel extends JPanel implements SetFieldIFace {
+    public class RecordInfoGetterPanel extends JPanel implements FieldSetterIFace {
         public RecordInfoGetterPanel() {
             this.setLayout(new GridLayout(0, 2));
             this.add(new JLabel("Record time in seconds: "));

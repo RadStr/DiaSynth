@@ -1,14 +1,14 @@
 package dialogs;
 
 import player.plugin.JTextFieldWithBounds;
-import player.plugin.SetFieldIFace;
+import player.plugin.FieldSetterIFace;
 import util.logging.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Field;
 
-public class LengthDialog extends JPanel implements SetFieldIFace {
+public class LengthDialog extends JPanel implements FieldSetterIFace {
     public LengthDialog() {
         lenInSeconds = 60;
         createPanel();

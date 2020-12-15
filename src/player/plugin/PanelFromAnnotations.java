@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 
-public class PanelFromAnnotations extends JScrollPane implements SetFieldIFace {
+public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFace {
     /**
      *
      * @param objectWithAnnotations is the object on which should be the fields changed.

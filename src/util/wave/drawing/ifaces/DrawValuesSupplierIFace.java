@@ -1,4 +1,4 @@
-package player.wave;
+package util.wave.drawing.ifaces;
 
 import java.io.EOFException;
 import java.io.IOException;

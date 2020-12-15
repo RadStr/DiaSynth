@@ -1,4 +1,4 @@
-package player.wave;
+package util.wave.drawing.ifaces;
 public interface WaveDrawValuesConverterIFace {
     /**
      * For example when working with min and max there are 2 values in buffer per 1 pixel

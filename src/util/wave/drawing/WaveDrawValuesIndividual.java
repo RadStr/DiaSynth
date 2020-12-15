@@ -1,5 +1,6 @@
-package player.wave;
+package util.wave.drawing;
 
+import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import util.swing.Drawing;
 import Rocnikovy_Projekt.ProgramTest;
 import util.wave.ShiftBufferDouble;

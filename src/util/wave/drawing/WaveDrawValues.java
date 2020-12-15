@@ -1,8 +1,10 @@
-package player.wave;
+package util.wave.drawing;
 
 import Rocnikovy_Projekt.ProgramTest;
+import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import util.wave.ShiftBufferBoundsIFace;
 import util.wave.ShiftBufferDouble;
+import util.wave.drawing.ifaces.WaveDrawValuesConverterIFace;
 
 import java.awt.*;
 

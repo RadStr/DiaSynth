@@ -4,6 +4,10 @@ import player.AudioPlayerPanel;
 import player.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 import util.logging.MyLogger;
+import util.wave.drawing.WaveDrawValues;
+import util.wave.drawing.WaveDrawValuesAggregated;
+import util.wave.drawing.WaveDrawValuesIndividual;
+import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 
 import javax.swing.*;
 import java.awt.*;

@@ -150,7 +150,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
             String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
             String valueString = VerticalReferencesPanel.getStringDouble(value);
             int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
-            String timeInMilis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
+            String timeInMillis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
 //            int currIndex = 0;
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[0], currIndex);
@@ -169,7 +169,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
             tooltip.append(TOOLTIP_STRINGS[1]);
             tooltip.append(valueString);
             tooltip.append(TOOLTIP_STRINGS[2]);
-            tooltip.append(timeInMilis);
+            tooltip.append(timeInMillis);
             tooltip.append(TOOLTIP_STRINGS[3]);
             tooltip.append(waveMainPanel.getWave().getSize().toString());
             tooltip.append(TOOLTIP_STRINGS[4]);

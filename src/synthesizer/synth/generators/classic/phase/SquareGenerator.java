@@ -3,12 +3,12 @@ package synthesizer.synth.generators.classic.phase;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.Unit;
 
-public class SquareGeneratorWithPhase extends SineGeneratorWithPhase {
-    public SquareGeneratorWithPhase(Unit u) {
+public class SquareGenerator extends SineGenerator {
+    public SquareGenerator(Unit u) {
         super(u);
     }
 
-    public SquareGeneratorWithPhase(DiagramPanel panelWithUnits) {
+    public SquareGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

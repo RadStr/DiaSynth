@@ -1,16 +1,16 @@
 package synthesizer.synth.generators.classic.phase;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.synth.generators.GeneratorWithPhase;
+import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
 // https://en.wikipedia.org/wiki/Sawtooth_wave
-public class SawtoothGeneratorWithPhase extends GeneratorWithPhase {
-    public SawtoothGeneratorWithPhase(Unit u) {
+public class SawtoothGenerator extends Generator {
+    public SawtoothGenerator(Unit u) {
         super(u);
     }
 
-    public SawtoothGeneratorWithPhase(DiagramPanel panelWithUnits) {
+    public SawtoothGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

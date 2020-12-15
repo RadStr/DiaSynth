@@ -6,12 +6,12 @@ import synthesizer.synth.Unit;
 /**
  * https://en.wikipedia.org/wiki/Triangle_wave
  */
-public class TriangleGeneratorWithPhase extends SineGeneratorWithPhase {
-    public TriangleGeneratorWithPhase(Unit u) {
+public class TriangleGenerator extends SineGenerator {
+    public TriangleGenerator(Unit u) {
         super(u);
     }
 
-    public TriangleGeneratorWithPhase(DiagramPanel panelWithUnits) {
+    public TriangleGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

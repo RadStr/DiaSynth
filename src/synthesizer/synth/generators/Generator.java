@@ -9,12 +9,12 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.SynthDiagram;
 import synthesizer.synth.Unit;
 
-public abstract class GeneratorWithPhase extends GeneratorNoPhase {
-    public GeneratorWithPhase(Unit u) {
+public abstract class Generator extends GeneratorNoPhase {
+    public Generator(Unit u) {
         super(u);
     }
 
-    public GeneratorWithPhase(DiagramPanel panelWithUnits) {
+    public Generator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

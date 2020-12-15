@@ -107,7 +107,7 @@ import javax.swing.*;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
 import debug.DEBUG_CLASS;
-import synthesizer.synth.generators.classic.phase.SineGeneratorWithPhase;
+import synthesizer.synth.generators.classic.phase.SineGenerator;
 import main.DiasynthTabbedPanel;
 import player.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
@@ -6683,7 +6683,7 @@ public class Program {
     public static enum CURVE_TYPE {
         SINE {
             double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
-                return SineGeneratorWithPhase.createSine(len, amp, freq, sampleRate, phase);
+                return SineGenerator.createSine(len, amp, freq, sampleRate, phase);
             }
         },
         LINE {

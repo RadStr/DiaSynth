@@ -1,12 +1,12 @@
 package synthesizer.synth.generators.classic.phase;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.synth.generators.GeneratorWithPhase;
+import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
-public class SineGeneratorWithPhase extends GeneratorWithPhase {
-    public SineGeneratorWithPhase(Unit u) { super(u);}
-    public SineGeneratorWithPhase(DiagramPanel panelWithUnits) {
+public class SineGenerator extends Generator {
+    public SineGenerator(Unit u) { super(u);}
+    public SineGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

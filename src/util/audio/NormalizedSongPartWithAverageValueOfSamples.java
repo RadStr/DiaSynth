@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util.audio;
 
 /**
  * Contains 1D double array, which represents normalized samples (values of the samples are in between -1 and 1), together with the averageAmplitude
@@ -6,9 +6,10 @@ package Rocnikovy_Projekt;
  * When sorting the array with elements represented by this class, then the first element is the element with
  * the lowest average amplitude, next one has higher or the same amplitude, etc.
  */
+@Deprecated
 public class NormalizedSongPartWithAverageValueOfSamples implements Comparable<NormalizedSongPartWithAverageValueOfSamples> {
-    int averageAmplitude;
-    double[] songPart;
+    public int averageAmplitude;
+    public double[] songPart;
 
     public NormalizedSongPartWithAverageValueOfSamples(int averageAmplitude, double[] songPart, boolean makeNewArray) {
         this.averageAmplitude = averageAmplitude;

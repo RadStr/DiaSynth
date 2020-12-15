@@ -1,11 +1,12 @@
-package Rocnikovy_Projekt;
+package util.audio;
 
 /**
  * Contains measure together with the frequency
  * When sorting the array with elements represented by this class, then the first element is the element with
  * the lowest measure, next one has higher or the same measure, etc.
  */
-public class FrequencyWithMeasure implements Comparable<FrequencyWithMeasure>{
+@Deprecated
+public class FrequencyWithMeasure implements Comparable<FrequencyWithMeasure> {
     public int frequency;
     public double measure;
 

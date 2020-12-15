@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util.audio;
 
 /**
  * Contains 1D byte array, which represents samples, together with the averageAmplitude
@@ -6,9 +6,10 @@ package Rocnikovy_Projekt;
  * When sorting the array with elements represented by this class, then the first element is the element with
  * the lowest average amplitude, next one has higher or the same amplitude, etc.
  */
-public class SongPartWithAverageValueOfSamples implements Comparable<SongPartWithAverageValueOfSamples>{
-    int averageAmplitude;
-    byte[] songPart;
+@Deprecated
+public class SongPartWithAverageValueOfSamples implements Comparable<SongPartWithAverageValueOfSamples> {
+    public int averageAmplitude;
+    public byte[] songPart;
 
     public SongPartWithAverageValueOfSamples(int averageAmplitude, byte[] songPart, boolean makeNewArray) {
         this.averageAmplitude = averageAmplitude;

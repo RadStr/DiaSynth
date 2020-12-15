@@ -1,9 +1,9 @@
 package test;
 
 import Rocnikovy_Projekt.Aggregations;
-import Rocnikovy_Projekt.FrequencyWithMeasure;
+import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.SongPartWithAverageValueOfSamples;
+import util.audio.SongPartWithAverageValueOfSamples;
 import analyzer.AnalyzerPanel;
 import player.experimental.FFTWindowPanel;
 import util.Pair;

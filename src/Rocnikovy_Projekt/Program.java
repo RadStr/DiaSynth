@@ -105,6 +105,10 @@ import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
 import test.ProgramTest;
+import util.audio.BytesReadWithArr;
+import util.audio.FrequencyWithMeasure;
+import util.audio.NormalizedSongPartWithAverageValueOfSamples;
+import util.audio.SongPartWithAverageValueOfSamples;
 import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
 import synthesizer.synth.generators.classic.phase.SineGenerator;

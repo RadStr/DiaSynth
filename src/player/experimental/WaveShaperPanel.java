@@ -3,26 +3,26 @@ package player.experimental;
 import javax.swing.*;
 import java.awt.*;
 
-public class WaveShaper extends DrawWrapperBase {
-    public static WaveShaper createMaxSizeWaveShaper(Color backgroundColor,
-                                                     double minValue, double maxValue,
-                                                     boolean shouldDrawLabelsAtTop) {
+public class WaveShaperPanel extends DrawWrapperBase {
+    public static WaveShaperPanel createMaxSizeWaveShaper(Color backgroundColor,
+                                                          double minValue, double maxValue,
+                                                          boolean shouldDrawLabelsAtTop) {
         int windowSize = DrawWrapperBase.calculateMaxSizeBinCount(minValue, maxValue);
-        int firstX = new WaveShaper(windowSize, backgroundColor,
-                minValue, maxValue, shouldDrawLabelsAtTop).drawnFunctionPanel.getFirstBinStartX();
+        int firstX = new WaveShaperPanel(windowSize, backgroundColor, minValue, maxValue, shouldDrawLabelsAtTop).
+                     drawnFunctionPanel.getFirstBinStartX();
         windowSize -= 2 * firstX;
-        return new WaveShaper(windowSize, backgroundColor, minValue, maxValue, shouldDrawLabelsAtTop);
+        return new WaveShaperPanel(windowSize, backgroundColor, minValue, maxValue, shouldDrawLabelsAtTop);
     }
 
-    public WaveShaper(int windowSize,
-                      Color backgroundColor,
-                      double minValue, double maxValue,
-                      boolean shouldDrawLabelsAtTop) {
+    public WaveShaperPanel(int windowSize,
+                           Color backgroundColor,
+                           double minValue, double maxValue,
+                           boolean shouldDrawLabelsAtTop) {
         this(new FunctionWaveDrawPanel(windowSize, true, backgroundColor, shouldDrawLabelsAtTop),
                 minValue, maxValue);
     }
 
-    private WaveShaper(FunctionWaveDrawPanel drawnFunctionPanel, double minValue, double maxValue) {
+    private WaveShaperPanel(FunctionWaveDrawPanel drawnFunctionPanel, double minValue, double maxValue) {
         super(drawnFunctionPanel, minValue, maxValue);
         this.drawnFunctionPanel = drawnFunctionPanel;
     }

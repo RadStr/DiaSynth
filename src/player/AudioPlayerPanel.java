@@ -3616,7 +3616,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         Color.LIGHT_GRAY, Color.LIGHT_GRAY, true);
                 break;
             case WAVESHAPER:
-                drawPanel = WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
+                drawPanel = WaveShaperPanel.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
                         -1, 1, true);
                 break;
             default:

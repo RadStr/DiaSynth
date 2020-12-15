@@ -1,5 +1,6 @@
 package synthesizer.synth.operators.unary;
 
+import player.experimental.WaveShaperPanel;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.CircleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
@@ -54,7 +55,7 @@ public class WaveShaper extends UnaryOperator {
 
     private void setFunction() {
         DrawJFrame f = (DrawJFrame)propertiesPanel;
-        player.experimental.WaveShaper waveShaperPanel = (player.experimental.WaveShaper)f.getDrawPanel();
+        WaveShaperPanel waveShaperPanel = (WaveShaperPanel)f.getDrawPanel();
         double[] waveShaperFunction = waveShaperPanel.getOutputValues();
         double[] newFunction = new double[waveShaperFunction.length];
         System.arraycopy(waveShaperFunction, 0, newFunction, 0, newFunction.length);
@@ -75,7 +76,7 @@ public class WaveShaper extends UnaryOperator {
            }
        });
         // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
-//        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaper.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
+//        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaperPanel.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
 //                -1, 1, true);
         // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
     }
@@ -191,7 +192,7 @@ public class WaveShaper extends UnaryOperator {
     private void setWaveShaperPanelDrawValues(double[] function) {
         if (function != null) {
             DrawJFrame f = (DrawJFrame)propertiesPanel;
-            player.experimental.WaveShaper waveShaperPanel = (player.experimental.WaveShaper)f.getDrawPanel();
+            WaveShaperPanel waveShaperPanel = (WaveShaperPanel)f.getDrawPanel();
             waveShaperPanel.setOutputValues(function);
             setFunction();
         }

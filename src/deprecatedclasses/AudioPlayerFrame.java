@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import util.FrameWithFocusControl;
+import util.swing.FrameWithFocusControl;
 
 @Deprecated
 public class AudioPlayerFrame extends FrameWithFocusControl {

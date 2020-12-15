@@ -1,4 +1,4 @@
-package util;
+package util.swing;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

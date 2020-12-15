@@ -78,9 +78,17 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     public abstract double generateNoise();
 
     public double generateNoise(double amp) {
+        return convertNoise(amp, generateNoise());
+    }
+
+
+    /**
+     * converts random number between 0 and 1 to number between -amp and amp
+     */
+    public static double convertNoise(double amp, double rand) {
         // Modified from https://stackoverflow.com/questions/3680637/generate-a-random-double-in-a-range
         amp = Math.abs(amp);
-        double randomValue = -amp + (2 * amp) * generateNoise();
+        double randomValue = -amp + (2 * amp) * rand;
         return randomValue;
     }
 

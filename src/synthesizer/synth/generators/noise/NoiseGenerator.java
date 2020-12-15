@@ -60,9 +60,8 @@ public abstract class NoiseGenerator extends NoiseGeneratorNoFreq {
             randNumUseCount++;
         }
 
-        amp = Math.abs(amp);
-        double randomValue = -amp + (2 * amp) * oldRandNum;
-        return randomValue;
+
+        return convertNoise(amp, oldRandNum);
     }
 
     @Override

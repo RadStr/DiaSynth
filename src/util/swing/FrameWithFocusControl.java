@@ -25,24 +25,20 @@ public class FrameWithFocusControl extends JFrame {
             @Override
             public void windowIconified(WindowEvent e) {
                 hasFocus = false;
-                System.out.println(hasFocus);
             }
             @Override
             public void windowDeiconified(WindowEvent e) {
                 hasFocus = true;
-                System.out.println(hasFocus);
             }
 
 
             @Override
             public void windowActivated(WindowEvent e) {
                 hasFocus = true;
-                System.out.println(hasFocus);
             }
             @Override
             public void windowDeactivated(WindowEvent e) {
                 hasFocus = false;
-                System.out.println(hasFocus);
             }
         });
     }

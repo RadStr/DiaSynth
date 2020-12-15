@@ -1,4 +1,4 @@
-package player.wave;
+package util.wave;
 
 import Rocnikovy_Projekt.ProgramTest;
 

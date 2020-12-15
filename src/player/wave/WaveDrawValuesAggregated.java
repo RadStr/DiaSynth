@@ -1,6 +1,8 @@
 package player.wave;
 
 import Rocnikovy_Projekt.ProgramTest;
+import util.wave.Range;
+import util.wave.ShiftBufferDouble;
 
 import java.awt.*;
 

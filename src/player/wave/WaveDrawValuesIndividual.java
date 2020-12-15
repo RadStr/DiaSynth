@@ -2,6 +2,7 @@ package player.wave;
 
 import util.swing.Drawing;
 import Rocnikovy_Projekt.ProgramTest;
+import util.wave.ShiftBufferDouble;
 
 import java.awt.*;
 

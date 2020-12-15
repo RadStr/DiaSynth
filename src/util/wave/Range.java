@@ -1,4 +1,4 @@
-package player.wave;
+package util.wave;
 
 public class Range {
     public Range() {}

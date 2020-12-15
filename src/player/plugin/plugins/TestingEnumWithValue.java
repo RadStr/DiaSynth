@@ -1,7 +1,7 @@
 package player.plugin.plugins;
 
 import player.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
-import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
+import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;

@@ -12,7 +12,7 @@ import player.operations.nowave.arithmetic.LogarithmOnWave;
 import player.operations.nowave.arithmetic.MultiplicationOnWave;
 import player.operations.nowave.arithmetic.AdditionOnWave;
 import player.operations.nowave.arithmetic.PowerOnWave;
-import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
+import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import player.wave.WaveMainPanel;
 import player.wave.WavePanel;

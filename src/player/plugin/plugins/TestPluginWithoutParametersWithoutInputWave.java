@@ -1,6 +1,6 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
+import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 public class TestPluginWithoutParametersWithoutInputWave implements OperationOnWavePluginIFace {

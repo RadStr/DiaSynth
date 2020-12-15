@@ -3,7 +3,7 @@ package analyzer;
 import util.Pair;
 import util.swing.ErrorFrame;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 

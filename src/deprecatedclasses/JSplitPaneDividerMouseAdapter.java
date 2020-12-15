@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

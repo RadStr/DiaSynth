@@ -3,7 +3,7 @@ package player.wave;
 import util.swing.JLabelWithLineInMid;
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;

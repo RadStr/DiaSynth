@@ -2,7 +2,7 @@ package util.wave.drawing;
 
 import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import util.swing.Drawing;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import util.wave.ShiftBufferDouble;
 
 import java.awt.*;

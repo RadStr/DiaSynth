@@ -2,7 +2,7 @@ package player.experimental;
 
 import synthesizer.synth.tables.WaveTable;
 import player.wave.WavePanel;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import javax.swing.*;
 import java.awt.*;

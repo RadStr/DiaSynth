@@ -2,7 +2,7 @@ package player.plugin.ifaces;
 
 import synthesizer.synth.Unit;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import java.io.*;
 import java.lang.reflect.Constructor;

@@ -1,7 +1,7 @@
 package player;
 
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import player.wave.WavePanel;
 import util.Time;
 

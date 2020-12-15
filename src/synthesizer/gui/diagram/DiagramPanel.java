@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram;
 
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.gui.diagram.ifaces.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;

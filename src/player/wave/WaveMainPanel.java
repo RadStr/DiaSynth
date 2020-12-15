@@ -7,7 +7,7 @@ import util.audio.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import util.swing.JTextFieldResizeable;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import javax.swing.*;
 import javax.swing.border.Border;

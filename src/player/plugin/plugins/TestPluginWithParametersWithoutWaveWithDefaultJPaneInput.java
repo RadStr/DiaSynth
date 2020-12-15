@@ -3,7 +3,7 @@ package player.plugin.plugins;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 public class TestPluginWithParametersWithoutWaveWithDefaultJPaneInput implements OperationOnWavePluginIFace {
 

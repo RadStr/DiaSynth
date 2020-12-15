@@ -1,6 +1,6 @@
 package util;
 
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import debug.DEBUG_CLASS;
 
 public class Time {

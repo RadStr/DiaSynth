@@ -1,6 +1,6 @@
 package util.wave;
 
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 /**
  * Immutable object, basically what it does, in constructor is created buffer, and we move in it by changing

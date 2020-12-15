@@ -42,7 +42,7 @@ import dialogs.LengthDialog;
 import Rocnikovy_Projekt.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import debug.DEBUG_CLASS;
 import util.audio.format.FileFilterAudioFormats;
 import util.swing.FrameWithFocusControl;

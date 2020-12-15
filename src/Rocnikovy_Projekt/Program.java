@@ -104,6 +104,7 @@ import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
+import test.ProgramTest;
 import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
 import synthesizer.synth.generators.classic.phase.SineGenerator;
@@ -6470,19 +6471,19 @@ public class Program {
 
     public static enum CURVE_TYPE {
         SINE {
-            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
                 return SineGenerator.createSine(len, amp, freq, sampleRate, phase);
             }
         },
         LINE {
-            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
                 double[] line = new double[len];
                 Program.setOneDimArr(line,0, line.length, amp);
                 return line;
             }
         },
         RANDOM {
-            double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
+            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
                 double[] arr = new double[len];
                 Program.fillArrWithRandomValues(arr, amp);
                 return arr;
@@ -6498,7 +6499,7 @@ public class Program {
          * @param phase
          * @return
          */
-        abstract double[] createCurve(int len, double amp, double freq, int sampleRate, double phase);
+        public abstract double[] createCurve(int len, double amp, double freq, int sampleRate, double phase);
     }
 
     public static void fillArrWithRandomValues(double[] arr, double amplitude) {

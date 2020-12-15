@@ -2,7 +2,7 @@ package player.control;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

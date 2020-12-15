@@ -1,6 +1,6 @@
 package util.wave.drawing;
 
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import util.wave.ShiftBufferBoundsIFace;
 import util.wave.ShiftBufferDouble;

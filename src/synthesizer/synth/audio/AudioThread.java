@@ -8,7 +8,7 @@ import util.audio.format.AudioFormatWithSign;
 import player.control.AudioControlPanel;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
-import Rocnikovy_Projekt.ProgramTest;
+import test.ProgramTest;
 
 import javax.sound.sampled.*;
 

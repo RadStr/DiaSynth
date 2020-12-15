@@ -6,8 +6,8 @@ package Rocnikovy_Projekt;
  * the lowest measure, next one has higher or the same measure, etc.
  */
 public class FrequencyWithMeasure implements Comparable<FrequencyWithMeasure>{
-    int frequency;
-    double measure;
+    public int frequency;
+    public double measure;
 
     public FrequencyWithMeasure(int frequency, double measure) {
         this.frequency = frequency;

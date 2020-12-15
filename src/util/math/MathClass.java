@@ -1,5 +1,8 @@
 package util.math;
 
+/**
+ * Contains math operations, has only static access. We chose the name MathClass to not collide with java's STL Math.
+ */
 public class MathClass {
     private MathClass() {}  // To make this class accessible only in static way
 

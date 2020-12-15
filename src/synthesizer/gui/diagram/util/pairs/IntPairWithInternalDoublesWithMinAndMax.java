@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.util.pairs;
 
-import synthesizer.gui.diagram.panels.util.MathClass;
+import util.math.MathClass;
 
 /**
  * If the size to be set is smaller than the minimum, then old value is kept.

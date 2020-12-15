@@ -1,4 +1,4 @@
-package synthesizer.gui.diagram.panels.util;
+package util.math;
 
 public class MathClass {
     private MathClass() {}  // To make this class accessible only in static way

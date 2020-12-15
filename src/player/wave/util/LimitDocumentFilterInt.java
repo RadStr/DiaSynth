@@ -1,4 +1,4 @@
-package player.wave;
+package player.wave.util;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

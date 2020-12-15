@@ -352,7 +352,7 @@ public class PanelFromAnnotations extends JScrollPane implements SetFieldIFace {
         }
         catch (Exception e) {
             // TODO: JUST for now
-            e.printStackTrace();
+            MyLogger.logException(e);
             System.exit(4595457);
         }
     }

@@ -1,6 +1,8 @@
 package player.wave;
 
 import player.AudioPlayerPanel;
+import player.wave.util.LimitDocumentFilterInt;
+import player.wave.util.LimitGetterIFace;
 import util.audio.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import util.swing.JTextFieldResizeable;

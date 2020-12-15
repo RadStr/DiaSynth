@@ -1,4 +1,4 @@
-package player.wave;
+package player.wave.util;
 
 import player.plugin.SetFieldIFace;
 

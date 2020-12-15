@@ -1,6 +1,10 @@
 package player.mixer;
 
 import Rocnikovy_Projekt.Program;
+import player.mixer.ifaces.AudioMixerByteIFace;
+import player.mixer.ifaces.AudioMixerDoubleIFace;
+import player.mixer.ifaces.AudioMixerIFace;
+import player.mixer.ifaces.AudioMixerIntIFace;
 
 /**
  * Default implementation. Just implement AudioMixerIFace if overriding, the int variants and byte variants aren't used anyways.

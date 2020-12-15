@@ -1,4 +1,4 @@
-package player.mixer;
+package player.mixer.ifaces;
 
 /**
  * Just implement this class, if new implementation of mixing is wanted -

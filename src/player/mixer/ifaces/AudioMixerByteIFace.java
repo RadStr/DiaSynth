@@ -1,4 +1,4 @@
-package player.mixer;
+package player.mixer.ifaces;
 
 public interface AudioMixerByteIFace {
     /**

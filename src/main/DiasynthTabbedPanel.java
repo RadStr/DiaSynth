@@ -1,7 +1,7 @@
 package main;
 
 import synthesizer.gui.SynthesizerMainPanel;
-import player.format.AudioFormatWithSign;
+import util.audio.format.AudioFormatWithSign;
 import player.AudioPlayerPanel;
 import util.swing.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;

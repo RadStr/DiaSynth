@@ -109,7 +109,7 @@ import analyzer.bpm.SubbandSplitterIFace;
 import debug.DEBUG_CLASS;
 import synthesizer.synth.generators.classic.phase.SineGenerator;
 import main.DiasynthTabbedPanel;
-import player.format.AudioFormatWithSign;
+import util.audio.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.logging.MyLogger;
 

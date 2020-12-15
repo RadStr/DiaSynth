@@ -1,7 +1,7 @@
 package synthesizer.gui;
 
 import player.control.AudioControlPanelGetterIFace;
-import player.format.AudioFormatWithSign;
+import util.audio.format.AudioFormatWithSign;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package player.format;
+package util.audio.format;
 
 public enum ChannelCount {
     MONO(1) {

@@ -1,7 +1,7 @@
 package player.wave;
 
 import player.wave.util.SliderWithLabelPanel;
-import player.format.ChannelCount;
+import util.audio.format.ChannelCount;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

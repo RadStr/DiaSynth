@@ -1,4 +1,4 @@
-package player.drawing;
+package player.experimental;
 
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;

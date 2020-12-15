@@ -6,8 +6,8 @@ import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 import player.AudioPlayerPanel;
-import player.drawing.DrawJFrame;
-import player.drawing.FunctionWaveDrawPanel;
+import player.experimental.DrawJFrame;
+import player.experimental.FunctionWaveDrawPanel;
 import Rocnikovy_Projekt.Aggregations;
 import Rocnikovy_Projekt.DoubleWave;
 import util.logging.MyLogger;
@@ -54,7 +54,7 @@ public class WaveShaper extends UnaryOperator {
 
     private void setFunction() {
         DrawJFrame f = (DrawJFrame)propertiesPanel;
-        player.drawing.WaveShaper waveShaperPanel = (player.drawing.WaveShaper)f.getDrawPanel();
+        player.experimental.WaveShaper waveShaperPanel = (player.experimental.WaveShaper)f.getDrawPanel();
         double[] waveShaperFunction = waveShaperPanel.getOutputValues();
         double[] newFunction = new double[waveShaperFunction.length];
         System.arraycopy(waveShaperFunction, 0, newFunction, 0, newFunction.length);
@@ -191,7 +191,7 @@ public class WaveShaper extends UnaryOperator {
     private void setWaveShaperPanelDrawValues(double[] function) {
         if (function != null) {
             DrawJFrame f = (DrawJFrame)propertiesPanel;
-            player.drawing.WaveShaper waveShaperPanel = (player.drawing.WaveShaper)f.getDrawPanel();
+            player.experimental.WaveShaper waveShaperPanel = (player.experimental.WaveShaper)f.getDrawPanel();
             waveShaperPanel.setOutputValues(function);
             setFunction();
         }

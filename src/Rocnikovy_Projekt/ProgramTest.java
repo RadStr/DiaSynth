@@ -1,7 +1,7 @@
 package Rocnikovy_Projekt;
 
 import analyzer.AnalyzerPanel;
-import player.drawing.FFTWindowPanel;
+import player.experimental.FFTWindowPanel;
 import util.Pair;
 import analyzer.bpm.SubbandSplitter;
 import analyzer.bpm.SubbandSplitterIFace;

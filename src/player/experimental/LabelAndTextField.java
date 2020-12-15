@@ -1,4 +1,4 @@
-package player.drawing;
+package player.experimental;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

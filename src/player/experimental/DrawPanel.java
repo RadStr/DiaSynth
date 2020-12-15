@@ -1,4 +1,4 @@
-package player.drawing;
+package player.experimental;
 
 import synthesizer.synth.tables.WaveTable;
 import player.wave.WavePanel;

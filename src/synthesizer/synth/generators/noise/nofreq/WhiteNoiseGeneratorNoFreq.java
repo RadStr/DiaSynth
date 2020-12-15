@@ -3,10 +3,10 @@ package synthesizer.synth.generators.noise.nofreq;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.ports.AmplitudeInputPort;
 import synthesizer.gui.diagram.panels.port.InputPort;
-import synthesizer.synth.generators.noise.freq.WhiteNoiseGeneratorWithFrequency;
+import synthesizer.synth.generators.noise.freq.WhiteNoiseGenerator;
 import synthesizer.synth.Unit;
 
-public class WhiteNoiseGeneratorNoFreq extends WhiteNoiseGeneratorWithFrequency {
+public class WhiteNoiseGeneratorNoFreq extends WhiteNoiseGenerator {
     public WhiteNoiseGeneratorNoFreq(Unit u) {
         super(u);
     }

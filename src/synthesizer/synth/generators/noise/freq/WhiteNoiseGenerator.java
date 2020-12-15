@@ -1,17 +1,17 @@
 package synthesizer.synth.generators.noise.freq;
 
 import synthesizer.gui.diagram.DiagramPanel;
-import synthesizer.synth.generators.noise.NoiseGeneratorWithFrequency;
+import synthesizer.synth.generators.noise.NoiseGenerator;
 import synthesizer.synth.Unit;
 
 import java.util.Random;
 
-public class WhiteNoiseGeneratorWithFrequency extends NoiseGeneratorWithFrequency {
-    public WhiteNoiseGeneratorWithFrequency(Unit u) {
+public class WhiteNoiseGenerator extends NoiseGenerator {
+    public WhiteNoiseGenerator(Unit u) {
         super(u);
     }
 
-    public WhiteNoiseGeneratorWithFrequency(DiagramPanel panelWithUnits) {
+    public WhiteNoiseGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

@@ -2,6 +2,7 @@ package player.experimental;
 
 
 import Rocnikovy_Projekt.Program;
+import util.Time;
 
 import java.awt.*;
 
@@ -47,13 +48,13 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
     }
 
     private static void fillTimeLabels(String[] labels, int timeInMs) {
-        String timeInMsLabel = Program.convertMillisecondsToTime(timeInMs, -1);
+        String timeInMsLabel = Time.convertMillisecondsToTime(timeInMs, -1);
         int recursionDepth = Program.calculateCharOccurrences(timeInMsLabel, ':');
 
 
         for(int i = 0; i < labels.length; i++) {
             int labelTime = (int)(timeInMs * (i / (double)labels.length));
-            labels[i] = Program.convertMillisecondsToTime(labelTime, recursionDepth);
+            labels[i] = Time.convertMillisecondsToTime(labelTime, recursionDepth);
         }
     }
 

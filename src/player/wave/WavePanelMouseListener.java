@@ -2,6 +2,7 @@ package player.wave;
 
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
+import util.Time;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -149,7 +150,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
             String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
             String valueString = VerticalReferencesPanel.getStringDouble(value);
             int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
-            String timeInMilis = Program.convertMillisecondsToTime(sampleTimeInMillis, -1);
+            String timeInMilis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
 //            int currIndex = 0;
 //            currIndex = insertToTooltip(TOOLTIP_STRINGS[0], currIndex);

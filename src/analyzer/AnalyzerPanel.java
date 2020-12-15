@@ -9,6 +9,7 @@ import analyzer.util.UneditableTableModel;
 import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
+import util.Time;
 import util.swing.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -573,7 +574,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private static Pair<String, String> analyzeSongLength(Program prog) {
         return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH_COLUMN_TITLE,
-                Program.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
+                Time.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
     }
 
     private static Pair<String, String> analyzeSizeInBytes(Program prog) {

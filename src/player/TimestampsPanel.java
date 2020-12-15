@@ -3,6 +3,7 @@ package player;
 import Rocnikovy_Projekt.Program;
 import Rocnikovy_Projekt.ProgramTest;
 import player.wave.WavePanel;
+import util.Time;
 
 import javax.swing.*;
 import java.awt.*;
@@ -175,9 +176,9 @@ public class TimestampsPanel extends JPanel {
                 lineStartY = yForStampWithLabel;
 
                 if (isTimeInSecs) {
-                    timeString = Program.convertSecondsToTime(timeInt, -1);
+                    timeString = Time.convertSecondsToTime(timeInt, -1);
                 } else {
-                    timeString = Program.convertMillisecondsToTime(timeInt, -1);
+                    timeString = Time.convertMillisecondsToTime(timeInt, -1);
                 }
                 if (xInt >= waveStartX) {        // So I don't draw timelines for the static things such as mix part, etc. I draw it just for the wave
                     Program.drawStringWithDefinedMidLoc(g, color, timeString, xInt, lineStartY);

@@ -19,6 +19,7 @@ import player.wave.WaveMainPanel;
 import player.wave.WavePanel;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
+import util.Time;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
 import util.audio.format.AudioFormatWithSign;
@@ -5079,7 +5080,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         private void wavesLengthChanged() {
             outputEndIndex = getDoubleWaveLength();
             int songSizeInSecs = DoubleWave.convertSampleToSecs(outputEndIndex, (int) outputAudioFormat.getSampleRate());
-            songLenInSecs = Program.convertSecondsToTime(songSizeInSecs, -1);
+            songLenInSecs = Time.convertSecondsToTime(songSizeInSecs, -1);
             indexJumpInDoubleArr = audioArr.length / Program.calculateFrameSize(outputAudioFormat);
             setTimeLinePixelsPerPlayPart();
         }
@@ -5272,7 +5273,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     public String getCurrentPlayTime() {
-        return Program.convertMillisecondsToTime(currPlayTimeInMillis, -1);
+        return Time.convertMillisecondsToTime(currPlayTimeInMillis, -1);
     }
 
 

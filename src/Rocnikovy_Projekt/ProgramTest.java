@@ -8,6 +8,7 @@ import analyzer.bpm.SubbandSplitterIFace;
 import analyzer.bpm.SubbandSplitterLinear;
 import deprecatedclasses.SubbandSplitterLogarithmic;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.Time;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -146,26 +147,26 @@ public class ProgramTest {
      * @throws Exception can be thrown
      */
     public void testAll() throws Exception {
-        ProgramTest.debugPrint("65 seconds:", Program.convertSecondsToTime(65, -1));
-        ProgramTest.debugPrint("65 seconds (alignment == 0):", Program.convertSecondsToTime(65, 0));
-        ProgramTest.debugPrint("65 seconds (alignment == 1):", Program.convertSecondsToTime(65, 1));
-        ProgramTest.debugPrint("65 seconds (alignment == 2):", Program.convertSecondsToTime(65, 2));
-        ProgramTest.debugPrint("55 seconds:", Program.convertSecondsToTime(55, -1));
-        ProgramTest.debugPrint("55 seconds (alignment == 0):", Program.convertSecondsToTime(55, 0));
-        ProgramTest.debugPrint("55 seconds (alignment == 1):", Program.convertSecondsToTime(55, 1));
-        ProgramTest.debugPrint("55 seconds (alignment == 2):", Program.convertSecondsToTime(55, 2));
+        ProgramTest.debugPrint("65 seconds:", Time.convertSecondsToTime(65, -1));
+        ProgramTest.debugPrint("65 seconds (alignment == 0):", Time.convertSecondsToTime(65, 0));
+        ProgramTest.debugPrint("65 seconds (alignment == 1):", Time.convertSecondsToTime(65, 1));
+        ProgramTest.debugPrint("65 seconds (alignment == 2):", Time.convertSecondsToTime(65, 2));
+        ProgramTest.debugPrint("55 seconds:", Time.convertSecondsToTime(55, -1));
+        ProgramTest.debugPrint("55 seconds (alignment == 0):", Time.convertSecondsToTime(55, 0));
+        ProgramTest.debugPrint("55 seconds (alignment == 1):", Time.convertSecondsToTime(55, 1));
+        ProgramTest.debugPrint("55 seconds (alignment == 2):", Time.convertSecondsToTime(55, 2));
 
-        ProgramTest.debugPrint("5 seconds:", Program.convertSecondsToTime(5, -1));
-        ProgramTest.debugPrint("5 seconds (alignment == 0):", Program.convertSecondsToTime(5, 0));
+        ProgramTest.debugPrint("5 seconds:", Time.convertSecondsToTime(5, -1));
+        ProgramTest.debugPrint("5 seconds (alignment == 0):", Time.convertSecondsToTime(5, 0));
 
-        ProgramTest.debugPrint("1065 milliseconds:", Program.convertMillisecondsToTime(1065, -1));
-        ProgramTest.debugPrint("1065 milliseconds (alignment == 0):", Program.convertMillisecondsToTime(1065, 0));
-        ProgramTest.debugPrint("1065 milliseconds (alignment == 1):", Program.convertMillisecondsToTime(1065, 1));
-        ProgramTest.debugPrint("1065 milliseconds (alignment == 2):", Program.convertMillisecondsToTime(1065, 2));
-        ProgramTest.debugPrint("65 milliseconds:", Program.convertMillisecondsToTime(65, -1));
-        ProgramTest.debugPrint("65 milliseconds (alignment == 0):", Program.convertMillisecondsToTime(65, 0));
-        ProgramTest.debugPrint("65 milliseconds (alignment == 1):", Program.convertMillisecondsToTime(65, 1));
-        ProgramTest.debugPrint("65 milliseconds (alignment == 2):", Program.convertMillisecondsToTime(65, 2));
+        ProgramTest.debugPrint("1065 milliseconds:", Time.convertMillisecondsToTime(1065, -1));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 0):", Time.convertMillisecondsToTime(1065, 0));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 1):", Time.convertMillisecondsToTime(1065, 1));
+        ProgramTest.debugPrint("1065 milliseconds (alignment == 2):", Time.convertMillisecondsToTime(1065, 2));
+        ProgramTest.debugPrint("65 milliseconds:", Time.convertMillisecondsToTime(65, -1));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 0):", Time.convertMillisecondsToTime(65, 0));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 1):", Time.convertMillisecondsToTime(65, 1));
+        ProgramTest.debugPrint("65 milliseconds (alignment == 2):", Time.convertMillisecondsToTime(65, 2));
         System.exit(11111);
 
 //        new SubbandSplitter(8000, 200, 200, 6);

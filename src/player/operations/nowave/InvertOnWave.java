@@ -1,11 +1,11 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class InvertOnWave implements WithoutInputWavePluginIFace {
+public class InvertOnWave implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();

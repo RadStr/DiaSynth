@@ -1,10 +1,10 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 
-public class WaveStretcherMaximumOnWave implements WithoutInputWavePluginIFace {
+public class WaveStretcherMaximumOnWave implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         WaveStretcherOnWave.stretchWave(audio, startIndex, endIndex, 1);

@@ -1,11 +1,11 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
-public class SetSamplesOnWaveOperation implements WithoutInputWavePluginIFace {
+public class SetSamplesOnWaveOperation implements OperationOnWavePluginIFace {
     @PluginParametersAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",
         defaultValue = "0", parameterTooltip = "Represents the value to set the samples to.")
     private double value;

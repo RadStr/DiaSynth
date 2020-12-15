@@ -1,12 +1,12 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class WaveStretcherOnWave implements WithoutInputWavePluginIFace {
+public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
     @PluginParametersAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
             parameterTooltip = "The new maximum value to which will be the wave stretched")
     private double newAbsoluteMax;

@@ -1,12 +1,12 @@
 package player.operations.nowave.arithmetic;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class LogarithmOnWave implements WithoutInputWavePluginIFace {
+public class LogarithmOnWave implements OperationOnWavePluginIFace {
     // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
     @PluginParametersAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
         parameterTooltip = "is the base of the logarithm")

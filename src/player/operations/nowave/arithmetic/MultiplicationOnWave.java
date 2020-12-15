@@ -1,12 +1,12 @@
 package player.operations.nowave.arithmetic;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplicationOnWave implements WithoutInputWavePluginIFace {
+public class MultiplicationOnWave implements OperationOnWavePluginIFace {
     @PluginParametersAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
         parameterTooltip = "is the constant to multiply the samples with")
     private double value;

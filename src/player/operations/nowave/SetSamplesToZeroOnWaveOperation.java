@@ -1,9 +1,9 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
-public class SetSamplesToZeroOnWaveOperation implements WithoutInputWavePluginIFace {
+public class SetSamplesToZeroOnWaveOperation implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         SetSamplesOnWaveOperation.setSamples(audio, startIndex, endIndex, 0);

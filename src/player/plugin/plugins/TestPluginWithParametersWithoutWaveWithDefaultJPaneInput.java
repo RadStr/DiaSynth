@@ -1,11 +1,11 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.ProgramTest;
 
-public class TestPluginWithParametersWithoutWaveWithDefaultJPaneInput implements WithoutInputWavePluginIFace {
+public class TestPluginWithParametersWithoutWaveWithDefaultJPaneInput implements OperationOnWavePluginIFace {
 
     @PluginParametersAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0.5", parameterTooltip = "double param")
     private double testParam1;

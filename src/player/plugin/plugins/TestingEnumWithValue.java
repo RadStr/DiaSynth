@@ -1,13 +1,13 @@
 package player.plugin.plugins;
 
 import player.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class TestingEnumWithValue implements WithoutInputWavePluginIFace, EnumWrapperIFaceForDefaultJPanel {
+public class TestingEnumWithValue implements OperationOnWavePluginIFace, EnumWrapperIFaceForDefaultJPanel {
     @PluginParametersAnnotation(parameterTooltip = "parameter for operations")
     private double value;
     @PluginParametersAnnotation

@@ -1,13 +1,13 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TestPluginWithParametersWithoutWaveWithCustomJPaneInput extends JPanel
-    implements WithoutInputWavePluginIFace {
+    implements OperationOnWavePluginIFace {
 
     public TestPluginWithParametersWithoutWaveWithCustomJPaneInput() {
         this.setLayout(new GridLayout(0, 2));

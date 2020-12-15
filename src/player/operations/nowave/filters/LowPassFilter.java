@@ -1,11 +1,11 @@
 package player.operations.nowave.filters;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
-public class LowPassFilter implements WithoutInputWavePluginIFace {
+public class LowPassFilter implements OperationOnWavePluginIFace {
     @PluginParametersAnnotation(name = "Cutoff frequency:",
             lowerBound = "0", defaultValue = "400", parameterTooltip = "Cut-off frequency")
     private double cutoffFreq;

@@ -12,6 +12,7 @@ import player.operations.nowave.arithmetic.LogarithmOnWave;
 import player.operations.nowave.arithmetic.MultiplicationOnWave;
 import player.operations.nowave.arithmetic.AdditionOnWave;
 import player.operations.nowave.arithmetic.PowerOnWave;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.user.wave.OperationOnWavesPluginIFace;
 import player.wave.WaveMainPanel;
 import player.wave.WavePanel;
@@ -21,7 +22,6 @@ import player.format.AudioFormatJPanel;
 import player.format.AudioFormatJPanelWithConvertFlag;
 import player.format.AudioFormatWithSign;
 import player.format.ChannelCount;
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
 import player.operations.wave.FillWaveWithOtherWaveOperation;
@@ -3735,7 +3735,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addAudioOperationsWithoutWave(JMenu menu) {
-        WithoutInputWavePluginIFace op;
+        OperationOnWavePluginIFace op;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         op = new MultiplicationOnWave();
@@ -3770,7 +3770,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         addAudioOperation(op, menu);
     }
 
-    private void addAudioOperation(WithoutInputWavePluginIFace operation, JMenu menu) {
+    private void addAudioOperation(OperationOnWavePluginIFace operation, JMenu menu) {
         JMenuItem menuItem = new JMenuItem(operation.getPluginName());
         menuItem.setToolTipText(operation.getPluginTooltip());
 
@@ -3876,7 +3876,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void addFilters(JMenu menu) {
-        WithoutInputWavePluginIFace op = new LowPassFilter();
+        OperationOnWavePluginIFace op = new LowPassFilter();
         addAudioOperation(op, menu);
     }
 
@@ -3895,26 +3895,26 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void addWithoutWavePlugins(JMenu menu) {
-        List<WithoutInputWavePluginIFace> plugins = WithoutInputWavePluginIFace.loadPlugins();
-        for(WithoutInputWavePluginIFace plugin : plugins) {
+        List<OperationOnWavePluginIFace> plugins = OperationOnWavePluginIFace.loadPlugins();
+        for(OperationOnWavePluginIFace plugin : plugins) {
             addPlugin(plugin, menu);
         }
     }
 
 
     // These addPlugin methods are basically copy pasted. I have to do that because they work with different methods, and to get the correct Class I have to call getClass on the final class.
-    private void addPlugin(WithoutInputWavePluginIFace pluginToAdd, JMenu menu) {
+    private void addPlugin(OperationOnWavePluginIFace pluginToAdd, JMenu menu) {
         JMenuItem menuItem = new JMenuItem(pluginToAdd.getPluginName());
         menuItem.setToolTipText(pluginToAdd.getPluginTooltip());
 
         menuItem.addActionListener(new ActionListener() {
-            WithoutInputWavePluginIFace plugin = pluginToAdd;
+            OperationOnWavePluginIFace plugin = pluginToAdd;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: ASI PREKOMBINOVANY - Podle me staci jen to spodni co je zakomentovany, ted me nenapada duvod
                 // Proc jsem vytvarel i novou instanci - Napadlo me to prootze ten kod je prakticky totoznej s tou metodu
-                // addAudioOperation(WithoutInputWavePluginIFace operation, JMenu menu)
+                // addAudioOperation(OperationOnWavePluginIFace operation, JMenu menu)
                 // Totez plati pro tu druhou addPlugin metodu s OperationOnWavesPluginIFace
 
                 // To reset the plugin
@@ -3926,7 +3926,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         System.out.println("Doesn't have constructor without parameters - inside method addPlugin in action listener");
                         return;
                     }
-                    plugin = (WithoutInputWavePluginIFace) clazz.newInstance();
+                    plugin = (OperationOnWavePluginIFace) clazz.newInstance();
                 }
                 catch(Exception exception) {
                     exception.printStackTrace();
@@ -4151,7 +4151,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    private void performOperationInternal(WithoutInputWavePluginIFace operation) {
+    private void performOperationInternal(OperationOnWavePluginIFace operation) {
         for (WaveMainPanel waveMainPanel : waves) {
             if (waveMainPanel.getShouldIncludeInOperations()) {
                 DoubleWave doubleWave = waveMainPanel.getDoubleWave();

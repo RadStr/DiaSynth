@@ -1,12 +1,12 @@
 package player.operations.nowave.arithmetic;
 
-import player.plugin.ifaces.user.nowave.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.user.nowave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class PowerOnWave implements WithoutInputWavePluginIFace {
+public class PowerOnWave implements OperationOnWavePluginIFace {
     @PluginParametersAnnotation(name = "Power:", defaultValue = "0",
             parameterTooltip = "is the power to which will be the samples raised.")
     private double value;

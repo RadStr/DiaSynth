@@ -1,7 +1,7 @@
 package player.wave;
 
 import util.swing.JLabelWithLineInMid;
-import Rocnikovy_Projekt.Aggregations;
+import util.Aggregations;
 import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 

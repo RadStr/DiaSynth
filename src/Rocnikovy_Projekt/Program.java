@@ -105,6 +105,7 @@ import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
 import test.ProgramTest;
+import util.Aggregations;
 import util.audio.BytesReadWithArr;
 import util.audio.FrequencyWithMeasure;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;

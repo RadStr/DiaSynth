@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util;
 
 // TODO: ABS_MIN and ABS_MAX aren't in all performAggregation methods
 //  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)

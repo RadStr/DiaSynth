@@ -1,6 +1,6 @@
 package player.experimental;
 
-import Rocnikovy_Projekt.Aggregations;
+import util.Aggregations;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 

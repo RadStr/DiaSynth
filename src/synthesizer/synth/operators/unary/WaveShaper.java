@@ -9,7 +9,7 @@ import synthesizer.synth.Unit;
 import player.AudioPlayerPanel;
 import player.experimental.DrawJFrame;
 import player.experimental.FunctionWaveDrawPanel;
-import Rocnikovy_Projekt.Aggregations;
+import util.Aggregations;
 import Rocnikovy_Projekt.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;

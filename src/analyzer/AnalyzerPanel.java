@@ -4,6 +4,7 @@ import analyzer.observer.DataModelObserverIFace;
 import analyzer.observer.DataModelSubject;
 import analyzer.observer.DataModelSubjectIFace;
 import test.ProgramTest;
+import util.Aggregations;
 import util.Pair;
 import analyzer.bpm.*;
 import analyzer.util.UneditableTableModel;

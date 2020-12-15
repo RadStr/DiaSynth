@@ -1,6 +1,6 @@
 package test;
 
-import Rocnikovy_Projekt.Aggregations;
+import util.Aggregations;
 import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
 import util.audio.SongPartWithAverageValueOfSamples;

@@ -1,4 +1,4 @@
-package player.plugin.ifaces.PluginIFacesForUsers.nowave;
+package player.plugin.ifaces.user.nowave;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import Rocnikovy_Projekt.DoubleWave;

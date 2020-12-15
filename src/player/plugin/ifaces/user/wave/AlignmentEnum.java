@@ -1,4 +1,4 @@
-package player.plugin.ifaces.PluginIFacesForUsers.wave;
+package player.plugin.ifaces.user.wave;
 
 public enum AlignmentEnum {
     NO_ALIGNMENT {

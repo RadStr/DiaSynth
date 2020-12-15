@@ -1,4 +1,4 @@
-package player.plugin.ifaces.PluginIFacesForUsers.wave;
+package player.plugin.ifaces.user.wave;
 
 import player.plugin.ifaces.EnumWrapperIFaceForDefaultJPanel;
 import player.plugin.ifaces.PluginParametersAnnotation;

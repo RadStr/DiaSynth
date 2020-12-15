@@ -20,7 +20,7 @@ public class LowPassFilter implements OperationOnWavePluginIFace {
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] samples = audio.getSong();
         Program.runLowPassFilter(samples, startIndex, 1, audio.getSampleRate(),
-            cutoffFreq, coefCount, samples, startIndex, endIndex);
+                                 cutoffFreq, coefCount, samples, startIndex, endIndex);
     }
 
     @Override

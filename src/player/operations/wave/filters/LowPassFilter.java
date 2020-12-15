@@ -1,4 +1,4 @@
-package player.operations.nowave.filters;
+package player.operations.wave.filters;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParametersAnnotation;

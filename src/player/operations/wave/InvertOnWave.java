@@ -1,4 +1,4 @@
-package player.operations.nowave;
+package player.operations.wave;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;

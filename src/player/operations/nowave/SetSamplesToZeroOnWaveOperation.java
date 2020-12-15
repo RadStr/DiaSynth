@@ -1,6 +1,6 @@
 package player.operations.nowave;
 
-import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.PluginIFacesForUsers.nowave.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 public class SetSamplesToZeroOnWaveOperation implements WithoutInputWavePluginIFace {

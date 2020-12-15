@@ -23,7 +23,7 @@ public class JTextFieldWithBounds extends JTextField {
         super(field.get(objectContainingField).toString());         // Set it to the default value
         this.setToolTipText(tooltip);
         ((AbstractDocument) this.getDocument()).
-            setDocumentFilter(new LimitDocumentFilterIntAndDouble(lowerBoundDouble, upperBoundDouble, isFloatOrDouble,
-                field, setFieldIFace));
+            setDocumentFilter(new LimitDocumentFilterIntAndDouble(lowerBoundDouble, upperBoundDouble,
+                                                                  isFloatOrDouble, field, setFieldIFace));
     }
 }

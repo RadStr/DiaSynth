@@ -1,6 +1,6 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.PluginIFacesForUsers.nowave.WithoutInputWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 import javax.swing.*;

@@ -21,7 +21,7 @@ import player.format.AudioFormatJPanelWithConvertFlag;
 import player.format.AudioFormatWithSign;
 import player.format.ChannelCount;
 import player.plugin.ifaces.PluginIFacesForUsers.wave.WithInputWavePluginIFace;
-import player.plugin.ifaces.PluginIFacesForUsers.WithoutInputWavePackage.WithoutInputWavePluginIFace;
+import player.plugin.ifaces.PluginIFacesForUsers.nowave.WithoutInputWavePluginIFace;
 import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.PluginJPanelBasedOnAnnotations;
 import player.operations.wave.FillWaveWithOtherWaveOperation;

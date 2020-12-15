@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util.audio.format;
 
 /**
  * Enumeration representing the audio type of data

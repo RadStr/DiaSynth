@@ -1,11 +1,11 @@
 package player.operations.wave.arithmetic;
 
-import player.plugin.ifaces.user.wave.AbstractPluginClass;
+import player.plugin.ifaces.user.wave.PluginWithInputWaveBase;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class MultiplicationOnWaves extends AbstractPluginClass {
+public class MultiplicationOnWaves extends PluginWithInputWaveBase {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,

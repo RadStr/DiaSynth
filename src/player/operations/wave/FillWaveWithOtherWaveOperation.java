@@ -1,10 +1,10 @@
 package player.operations.wave;
 
-import player.plugin.ifaces.user.wave.AbstractPluginClass;
+import player.plugin.ifaces.user.wave.PluginWithInputWaveBase;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
-public class FillWaveWithOtherWaveOperation extends AbstractPluginClass {
+public class FillWaveWithOtherWaveOperation extends PluginWithInputWaveBase {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,

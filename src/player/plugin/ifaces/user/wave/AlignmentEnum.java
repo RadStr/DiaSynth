@@ -2,7 +2,7 @@ package player.plugin.ifaces.user.wave;
 
 public enum AlignmentEnum {
     NO_ALIGNMENT {
-        public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+        public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -10,7 +10,7 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_SHORTER {
-        public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+        public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -30,7 +30,7 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_LONGER {
-        public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+        public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -49,7 +49,7 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_INPUT {
-        public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+        public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -62,7 +62,7 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_OUTPUT {
-        public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+        public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -75,12 +75,12 @@ public enum AlignmentEnum {
         }
     };
 
-    abstract public void updateDataBasedOnEnumValue(AbstractPluginClass classToBeUpdated,
+    abstract public void updateDataBasedOnEnumValue(PluginWithInputWaveBase classToBeUpdated,
                                                     int inputStartIndex, int inputEndIndex,
                                                     int outputStartIndex, int outputEndIndex,
                                                     int inputSongLength, int outputSongLength);
 
-    private static void setEndIndices(AbstractPluginClass classToBeUpdated, int inputEndIndex, int outputEndIndex) {
+    private static void setEndIndices(PluginWithInputWaveBase classToBeUpdated, int inputEndIndex, int outputEndIndex) {
         classToBeUpdated.setInputEndIndex(inputEndIndex);
         classToBeUpdated.setOutputEndIndex(outputEndIndex);
     }

@@ -1,6 +1,6 @@
 package analyzer.util;
 
-import player.util.ErrorFrame;
+import util.swing.ErrorFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

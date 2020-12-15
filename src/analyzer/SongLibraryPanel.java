@@ -5,7 +5,7 @@ import analyzer.observer.DataModelObserverIFace;
 import util.Pair;
 import analyzer.util.UneditableTableModel;
 import main.AddToAudioPlayerIFace;
-import player.util.ErrorFrame;
+import util.swing.ErrorFrame;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

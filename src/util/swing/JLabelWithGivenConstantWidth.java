@@ -1,4 +1,4 @@
-package player.util;
+package util.swing;
 
 import Rocnikovy_Projekt.Program;
 

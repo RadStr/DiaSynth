@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import player.util.ErrorFrame;
+import util.swing.ErrorFrame;
 import analyzer.AnalyzerPanel;
 import analyzer.AnalyzerXML;
 

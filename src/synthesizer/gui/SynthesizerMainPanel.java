@@ -13,7 +13,7 @@ import player.plugin.SetFieldIFace;
 import player.AudioPlayerPanel;
 import util.FileFilterAudioFormats;
 import player.control.AudioControlPanelWithZoom;
-import player.util.BooleanButton;
+import util.swing.BooleanButton;
 import util.logging.MyLogger;
 
 import javax.swing.*;

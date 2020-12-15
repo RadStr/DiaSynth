@@ -29,7 +29,7 @@ import player.format.AudioFormatJPanel;
 import player.format.AudioFormatWithSign;
 import player.format.ChannelCount;
 import player.control.AudioControlPanel;
-import player.util.BooleanButton;
+import util.swing.BooleanButton;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 

@@ -1,6 +1,6 @@
 package player;
 
-import player.util.EmptyPanelWithSetMethod;
+import util.swing.EmptyPanelWithSetMethod;
 import Rocnikovy_Projekt.ProgramTest;
 import player.wave.WavePanel;
 

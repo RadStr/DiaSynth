@@ -1,4 +1,4 @@
-package player.util;
+package util.swing;
 
 import javax.swing.*;
 import java.awt.*;

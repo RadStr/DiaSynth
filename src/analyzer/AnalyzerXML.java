@@ -1,7 +1,7 @@
 package analyzer;
 
 import util.Pair;
-import player.util.ErrorFrame;
+import util.swing.ErrorFrame;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.ProgramTest;
 import org.w3c.dom.*;

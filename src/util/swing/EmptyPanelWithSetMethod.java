@@ -1,25 +1,22 @@
-package player.util;
+package util.swing;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Panel which has size 0,0. or value set in constructor. And can't be changed
- */
-public class EmptyPanelWithoutSetMethod extends JPanel {
-    public EmptyPanelWithoutSetMethod() {
+public class EmptyPanelWithSetMethod extends JPanel {
+    public EmptyPanelWithSetMethod() {
         size = new Dimension(0,0);
     }
 
-    public EmptyPanelWithoutSetMethod(Dimension dim) {
+    public EmptyPanelWithSetMethod(Dimension dim) {
         this(dim.width, dim.height);
     }
 
-    public EmptyPanelWithoutSetMethod(int w, int h) {
+    public EmptyPanelWithSetMethod(int w, int h) {
         size = new Dimension(w, h);
     }
 
-    private final Dimension size;
+    private Dimension size;
 
     @Override
     public Dimension getPreferredSize() {
@@ -49,13 +46,7 @@ public class EmptyPanelWithoutSetMethod extends JPanel {
         return d;
     }
 
-
-    @Override
-    public void setPreferredSize(Dimension d) { }
-    @Override
-    public void setMinimumSize(Dimension d) { }
-    @Override
-    public void setMaximumSize(Dimension d) { }
-    @Override
-    public void setSize(Dimension d) { }
+    public void setSizeInternal(Dimension d) {
+        size = d;
+    }
 }

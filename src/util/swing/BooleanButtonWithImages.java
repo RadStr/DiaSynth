@@ -1,4 +1,4 @@
-package player.util;
+package util.swing;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import util.logging.MyLogger;

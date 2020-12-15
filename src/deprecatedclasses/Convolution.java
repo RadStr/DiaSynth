@@ -1,10 +1,10 @@
 package deprecatedclasses;
 
-import player.plugin.ifaces.user.wave.PluginWithInputWaveBase;
+import player.plugin.ifaces.user.wave.OperationOnWavesPlugin;
 import Rocnikovy_Projekt.DoubleWave;
 // TODO: RML
 @Deprecated
-public class Convolution extends PluginWithInputWaveBase {
+public class Convolution extends OperationOnWavesPlugin {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,

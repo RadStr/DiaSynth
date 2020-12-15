@@ -10,7 +10,7 @@ import Rocnikovy_Projekt.DoubleWave;
  * The plugin inheriting from this has also has to have implements OperationOnWavesPluginIFace in signature, else it won't
  * be found as plugin.
  */
-abstract public class PluginWithInputWaveBase implements OperationOnWavesPluginIFace, EnumWrapperIFaceForDefaultJPanel {
+abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace, EnumWrapperIFaceForDefaultJPanel {
     @PluginParametersAnnotation(name = "Length alignment:", defaultValue = "TRUE",
         parameterTooltip = "The enum which value tells what alignment should be done. Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;

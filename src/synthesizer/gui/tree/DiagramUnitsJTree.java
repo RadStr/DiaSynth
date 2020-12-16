@@ -280,6 +280,7 @@ public class DiagramUnitsJTree extends JTree {
                                                DiagramPanel diagramPanel,
                                                JTreeCellTextForUnits treeCell, URLClassLoader pluginLoader,
                                                boolean[] processedEntries) {
+        List<String> entriesOnThisLevel = null;
         Enumeration<JarEntry> entries = jarFile.entries();
         int index = -1;
         while(entries.hasMoreElements()) {
@@ -320,10 +321,18 @@ public class DiagramUnitsJTree extends JTree {
             }
             else {
                 MyLogger.log("Current synth file:\t" + currEntry.getName(), 0);
-                addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, diagramPanel, treeCell);
+                if(entriesOnThisLevel == null) {
+                    entriesOnThisLevel = new ArrayList<>();
+                }
+                entriesOnThisLevel.add(currEntry.getName());
             }
         }
 
+        if(entriesOnThisLevel != null) {
+            for (String entryName : entriesOnThisLevel) {
+                addChildrenToTreeCellJarVersion(entryName, pluginLoader, diagramPanel, treeCell);
+            }
+        }
         // TODO: DEBUG
 //        MyLogger.log("ENDED ONE RECURSION:\t" + jarEntry.getName(), 0);
         // TODO: DEBUG

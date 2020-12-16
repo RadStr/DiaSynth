@@ -2,7 +2,7 @@ package player.experimental;
 
 import player.plugin.PanelFromAnnotations;
 import player.plugin.ifaces.PluginDefaultIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
@@ -279,7 +279,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         }
 
 
-        @PluginParametersAnnotation(name = "Window size:",
+        @PluginParameterAnnotation(name = "Window size:",
                 lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
                 upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
                 parameterTooltip = "Controls number of size of the FFT window.")
@@ -288,21 +288,21 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             return windowSize;
         }
 
-        @PluginParametersAnnotation(name = "Change window size:", defaultValue = "TRUE",
+        @PluginParameterAnnotation(name = "Change window size:", defaultValue = "TRUE",
                 parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeWindowSize;
         public boolean getShouldChangeWindowSize() {
             return shouldChangeWindowSize;
         }
 
-        @PluginParametersAnnotation(name = "Sample rate:", lowerBound = "1",
+        @PluginParameterAnnotation(name = "Sample rate:", lowerBound = "1",
                 parameterTooltip = "Controls the sample rate of the input samples.")
         private int sampleRate;
         public int getSampleRate() {
             return sampleRate;
         }
 
-        @PluginParametersAnnotation(name = "Change sample rate:", defaultValue = "TRUE",
+        @PluginParameterAnnotation(name = "Change sample rate:", defaultValue = "TRUE",
                 parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeSampleRate;
         public boolean getShouldChangeSampleRate() {
@@ -336,7 +336,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
 
     private static class IFFTDialogPanel implements PluginDefaultIFace {
-        @PluginParametersAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
+        @PluginParameterAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
                 parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
         private int periodCount;
         public int getPeriodCount() {

@@ -1,13 +1,13 @@
 package player.operations.wave;
 
+import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
-    @PluginParametersAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+    @PluginParameterAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
             parameterTooltip = "The new maximum value to which will be the wave stretched")
     private double newAbsoluteMax;
 

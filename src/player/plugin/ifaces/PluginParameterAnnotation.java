@@ -7,12 +7,12 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface PluginParametersAnnotation {
+public @interface PluginParameterAnnotation {
     public static final String UNDEFINED_VAL = "UNDEFINED";
 
     /**
      * Name which will be shown on the GUI, if not set then the name of the field will be used.
-     * Note for programmers: If the name isn't set then it is equal to PluginParametersAnnotation.UNDEFINED_VALUE
+     * Note for programmers: If the name isn't set then it is equal to PluginParameterAnnotation.UNDEFINED_VALUE
      * @return
      */
     public String name() default UNDEFINED_VAL;

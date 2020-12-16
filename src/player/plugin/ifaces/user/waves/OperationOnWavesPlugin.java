@@ -1,7 +1,7 @@
 package player.plugin.ifaces.user.waves;
 
 import player.plugin.ifaces.EnumWrapperForDefaultPanelIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 
 /**
@@ -11,7 +11,7 @@ import Rocnikovy_Projekt.DoubleWave;
  * be found as plugin.
  */
 abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace, EnumWrapperForDefaultPanelIFace {
-    @PluginParametersAnnotation(name = "Length alignment:", defaultValue = "TRUE",
+    @PluginParameterAnnotation(name = "Length alignment:", defaultValue = "TRUE",
         parameterTooltip = "The enum which value tells what alignment should be done. Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
     public AlignmentEnum getLengthAlignment() {

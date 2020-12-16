@@ -1,12 +1,12 @@
 package player.operations.wave;
 
+import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
 public class SetSamplesOnWaveOperation implements OperationOnWavePluginIFace {
-    @PluginParametersAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",
+    @PluginParameterAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",
         defaultValue = "0", parameterTooltip = "Represents the value to set the samples to.")
     private double value;
 

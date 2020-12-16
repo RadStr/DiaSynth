@@ -1,13 +1,13 @@
 package player.operations.wave.arithmetic;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class PowerOnWave implements OperationOnWavePluginIFace {
-    @PluginParametersAnnotation(name = "Power:", defaultValue = "0",
+    @PluginParameterAnnotation(name = "Power:", defaultValue = "0",
             parameterTooltip = "is the power to which will be the samples raised.")
     private double value;
 

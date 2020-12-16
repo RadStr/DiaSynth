@@ -1,23 +1,23 @@
 package player.plugin.plugins;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import test.ProgramTest;
 
 public class TestPluginWithParametersWithoutWaveWithDefaultJPaneInput implements OperationOnWavePluginIFace {
 
-    @PluginParametersAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0.5", parameterTooltip = "double param")
+    @PluginParameterAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0.5", parameterTooltip = "double param")
     private double testParam1;
-    @PluginParametersAnnotation
+    @PluginParameterAnnotation
     private double testParam2;
-    @PluginParametersAnnotation(lowerBound = "-0.5", upperBound = "0.5")
+    @PluginParameterAnnotation(lowerBound = "-0.5", upperBound = "0.5")
     private double testParam3;
-    @PluginParametersAnnotation(lowerBound = "-20", upperBound = "20", defaultValue = "10", parameterTooltip = "int param")
+    @PluginParameterAnnotation(lowerBound = "-20", upperBound = "20", defaultValue = "10", parameterTooltip = "int param")
     private int testParam4;
-    @PluginParametersAnnotation
+    @PluginParameterAnnotation
     private int testParam5;
-    @PluginParametersAnnotation(lowerBound = "1", upperBound = "9.4")
+    @PluginParameterAnnotation(lowerBound = "1", upperBound = "9.4")
     private double testParam6;
 
 

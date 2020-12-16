@@ -198,9 +198,9 @@ public class WaveScrollerWrapperPanel extends JPanel {
      * Sets the sizes of the empty panels representing space before the wave and space of the wave. To set the size
      * of the last panel, which is representing the vertical scrollbar width you must call setLastEmptyPanelWidth separately.
      */
-    public void setEmptyPanelsSizes(int beforeWavePanelWidth, int wavePanelWidth, int h) {
+    public void setEmptyPanelsSizes(int widthBeforeWavePanel, int wavePanelWidth, int h) {
         Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width, waveScroller.getViewport().getVisibleRect().height);
-        emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(beforeWavePanelWidth, h));
+        emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(widthBeforeWavePanel, h));
         emptyPanelForHorizontalScroll.setSizeInternal(new Dimension(wavePanelWidth, h));
         ProgramTest.debugPrint("Empty panel size inside wave scroller:", emptyPanelBeforeHorizontalScroll.getSize(),
             emptyPanelForHorizontalScroll.getSize(), emptyPanelAfterHorizontalScroll.getSize(), waveScroller.getHorizontalScrollBar().getSize(),

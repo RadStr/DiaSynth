@@ -1,13 +1,13 @@
 package player.operations.wave.arithmetic;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class MultiplicationOnWave implements OperationOnWavePluginIFace {
-    @PluginParametersAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+    @PluginParameterAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
         parameterTooltip = "is the constant to multiply the samples with")
     private double value;
 

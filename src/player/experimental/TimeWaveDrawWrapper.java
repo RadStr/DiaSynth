@@ -2,7 +2,7 @@ package player.experimental;
 
 import player.plugin.PanelFromAnnotations;
 import player.plugin.ifaces.PluginDefaultIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,7 +109,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         }
 
 
-        @PluginParametersAnnotation(name = "Sample rate:", lowerBound = "0",
+        @PluginParameterAnnotation(name = "Sample rate:", lowerBound = "0",
                 parameterTooltip = "Controls the sample rate of the drawn wave")
         private int sampleRate;
 
@@ -117,7 +117,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             return sampleRate;
         }
 
-        @PluginParametersAnnotation(name = "Period count:", lowerBound = "1",
+        @PluginParameterAnnotation(name = "Period count:", lowerBound = "1",
                 parameterTooltip = "Controls the number of periods (repetitions) of drawn wave")
         private int periodCount;
         public int getPeriodCount() {
@@ -136,7 +136,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             timeInMs = timeWaveDrawPanel.getTimeInMs();
         }
 
-        @PluginParametersAnnotation(name = "Time (in Ms):", lowerBound = "1",
+        @PluginParameterAnnotation(name = "Time (in Ms):", lowerBound = "1",
                 parameterTooltip = "Controls the length of the drawn wave. The time is in milliseconds.")
         private int timeInMs;
         public int getTimeInMs() {

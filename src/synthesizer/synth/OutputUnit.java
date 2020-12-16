@@ -1,5 +1,6 @@
 package synthesizer.synth;
 
+import player.plugin.ifaces.PluginParameterAnnotation;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.ports.SingleInputPort;
@@ -9,7 +10,6 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
 import util.audio.format.ChannelCount;
 import player.plugin.ifaces.PluginDefaultIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
 
 import java.io.PrintWriter;
 
@@ -212,10 +212,10 @@ public final class OutputUnit extends Unit implements PluginDefaultIFace {
     }
 
 
-    @PluginParametersAnnotation(name = "Amplitude:", lowerBound = "0", upperBound = "1",
+    @PluginParameterAnnotation(name = "Amplitude:", lowerBound = "0", upperBound = "1",
             parameterTooltip = "Maximum absolute value allowed to output")
     private double maxAbsoluteValue = 1;
-    @PluginParametersAnnotation(name = "Always scale:",
+    @PluginParameterAnnotation(name = "Always scale:",
             parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from first parameter.<br>" +
             "If set to false, then the wave will be scaled to the max absolute value only if its max absolute value is larger than the first parameter</html>")
     private boolean shouldAlwaysSetToMaxAbs = false;

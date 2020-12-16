@@ -2,7 +2,7 @@ package player.plugin;
 
 import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
 import player.plugin.ifaces.EnumWrapperForDefaultPanelIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import util.Pair;
 import util.logging.MyLogger;
 
@@ -48,7 +48,7 @@ public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFac
             // Sets the accessibility only for this object, when I create another Field object for the same variable it doesn't affect that one
             f.setAccessible(true);
             Class<?> fieldType = f.getType();
-            PluginParametersAnnotation annotation = f.getAnnotation(PluginParametersAnnotation.class);
+            PluginParameterAnnotation annotation = f.getAnnotation(PluginParameterAnnotation.class);
             // Is not parameter - skip
             if (annotation == null) {
                 continue;
@@ -276,9 +276,9 @@ public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFac
     }
 
 
-    private static JLabel createLabelBasedOnAnnotation(Field f, PluginParametersAnnotation annotation) {
+    private static JLabel createLabelBasedOnAnnotation(Field f, PluginParameterAnnotation annotation) {
         JLabel parameterName;
-        if(annotation.name().equals(PluginParametersAnnotation.UNDEFINED_VAL)) {
+        if(annotation.name().equals(PluginParameterAnnotation.UNDEFINED_VAL)) {
             parameterName = new JLabel(f.getName());
         }
         else {
@@ -358,7 +358,7 @@ public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFac
     }
 
     private void setDefaultValueField(Field field, String value) {
-        if(!PluginParametersAnnotation.UNDEFINED_VAL.equals(value)) {
+        if(!PluginParameterAnnotation.UNDEFINED_VAL.equals(value)) {
             setField(field, value);
         }
     }

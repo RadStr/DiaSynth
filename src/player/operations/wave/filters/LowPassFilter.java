@@ -1,15 +1,15 @@
 package player.operations.wave.filters;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
+import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
 public class LowPassFilter implements OperationOnWavePluginIFace {
-    @PluginParametersAnnotation(name = "Cutoff frequency:",
+    @PluginParameterAnnotation(name = "Cutoff frequency:",
             lowerBound = "0", defaultValue = "400", parameterTooltip = "Cut-off frequency")
     private double cutoffFreq;
-    @PluginParametersAnnotation(name = "Coefficient count:",
+    @PluginParameterAnnotation(name = "Coefficient count:",
             lowerBound = "2", defaultValue = "32", parameterTooltip = "Represents the number of " +
             "the coefficients used for filtering " +
             "(How many last samples should be used for calculating the current one in the filter)." +

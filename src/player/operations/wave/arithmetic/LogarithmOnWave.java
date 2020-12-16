@@ -1,14 +1,14 @@
 package player.operations.wave.arithmetic;
 
+import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParametersAnnotation;
 import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
 public class LogarithmOnWave implements OperationOnWavePluginIFace {
     // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
-    @PluginParametersAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
+    @PluginParameterAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
         parameterTooltip = "is the base of the logarithm")
     private double value;
 

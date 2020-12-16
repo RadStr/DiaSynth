@@ -1,5 +1,5 @@
 package player.experimental;
 
-public interface TextFieldCallbackInterface {
+public interface TextFieldCallbackIFace {
 	void callback(String newValue);
 }

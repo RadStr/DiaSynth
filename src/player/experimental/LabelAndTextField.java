@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 
 public class LabelAndTextField extends JPanel {
-	public LabelAndTextField(String labelText, double defaultValue, TextFieldCallbackInterface callbackClass) {
+	public LabelAndTextField(String labelText, double defaultValue, TextFieldCallbackIFace callbackClass) {
 		this.callbackClass = callbackClass;
 		this.label = new JLabel(labelText);
 		this.textField = new JTextField(Double.toString(defaultValue));
@@ -35,5 +35,5 @@ public class LabelAndTextField extends JPanel {
 	
 	private JLabel label;
 	private JTextField textField;
-	private TextFieldCallbackInterface callbackClass;
+	private TextFieldCallbackIFace callbackClass;
 }

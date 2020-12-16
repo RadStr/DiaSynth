@@ -1,6 +1,6 @@
 package synthesizer.synth.generators.classic.phase;
 
-import player.plugin.ifaces.JFileChooserAudioPluginDefault;
+import player.plugin.ifaces.PluginJFileChooser;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.generators.GeneratorNoPhase;
 import synthesizer.synth.generators.Generator;
@@ -67,7 +67,7 @@ public class WaveTableGenerator extends Generator {
     private JFileChooser propertiesPanelView;
     @Override
     protected void setPropertiesPanel() {
-        propertiesPanel = new JFileChooserAudioPluginDefault();
+        propertiesPanel = new PluginJFileChooser();
         propertiesPanelView = (JFileChooser) propertiesPanel;
     }
 

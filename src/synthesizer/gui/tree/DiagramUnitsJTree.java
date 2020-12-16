@@ -315,12 +315,16 @@ public class DiagramUnitsJTree extends JTree {
                 currJarEntryName = getStringAfterLastChar(currJarEntryName, '/');
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
                 treeCell.addChildren(newTreeCell);
-                MyLogger.log("Current synth dir:\t" + currEntry.getName(), 0);
+                // TODO: DEBUG
+//                MyLogger.log("Current synth dir:\t" + currEntry.getName(), 0);
+                // TODO: DEBUG
                 setTreeCellRecursiveJar(currEntry, jarFile, path, diagramPanel,
                                         newTreeCell, pluginLoader, processedEntries);
             }
             else {
-                MyLogger.log("Current synth file:\t" + currEntry.getName(), 0);
+                // TODO: DEBUG
+//                MyLogger.log("Current synth file:\t" + currEntry.getName(), 0);
+                // TODO: DEBUG
                 if(entriesOnThisLevel == null) {
                     entriesOnThisLevel = new ArrayList<>();
                 }

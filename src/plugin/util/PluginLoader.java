@@ -263,7 +263,6 @@ public class PluginLoader {
     // Taken from https://mkyong.com/java/java-how-to-list-all-files-in-a-directory/
     public static void search(final String pattern, final File folder, List<String> result) {
         for (final File f : folder.listFiles()) {
-
             if (f.isDirectory()) {
                 search(pattern, f, result);
             }
@@ -273,7 +272,6 @@ public class PluginLoader {
                     result.add(f.getName());
                 }
             }
-
         }
     }
 

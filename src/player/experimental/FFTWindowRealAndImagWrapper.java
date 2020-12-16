@@ -324,7 +324,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPanel() {
+        public boolean isUsingPanelCreatedFromAnnotations() {
             return true;
         }
 
@@ -359,7 +359,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPanel() {
+        public boolean isUsingPanelCreatedFromAnnotations() {
             return true;
         }
 

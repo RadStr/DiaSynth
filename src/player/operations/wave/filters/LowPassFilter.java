@@ -29,7 +29,7 @@ public class LowPassFilter implements OperationOnWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

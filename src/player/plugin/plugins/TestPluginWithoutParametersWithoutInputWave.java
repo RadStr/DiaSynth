@@ -19,7 +19,7 @@ public class TestPluginWithoutParametersWithoutInputWave implements OperationOnW
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return false;
     }
 

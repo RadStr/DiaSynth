@@ -302,7 +302,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
      * @return
      */
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

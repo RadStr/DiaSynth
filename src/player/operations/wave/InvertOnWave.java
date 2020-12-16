@@ -19,7 +19,7 @@ public class InvertOnWave implements OperationOnWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return false;
     }
 

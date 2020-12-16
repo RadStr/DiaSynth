@@ -9,7 +9,7 @@ public class PluginJFileChooser extends JFileChooser implements PluginBaseIFace 
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return false;
     }
 

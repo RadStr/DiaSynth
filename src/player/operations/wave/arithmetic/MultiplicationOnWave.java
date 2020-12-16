@@ -23,7 +23,7 @@ public class MultiplicationOnWave implements OperationOnWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

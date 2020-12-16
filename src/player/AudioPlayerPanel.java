@@ -4016,7 +4016,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         if (plugin.shouldWaitForParametersFromUser()) {
             Object panelInDialog;
-            if(plugin.isUsingDefaultJPanel()) {
+            if(plugin.isUsingPanelCreatedFromAnnotations()) {
                 PanelFromAnnotations pl = new PanelFromAnnotations(plugin, plugin.getClass());
                 panelInDialog = pl;
             }

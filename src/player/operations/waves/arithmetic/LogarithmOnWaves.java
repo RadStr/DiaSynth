@@ -25,7 +25,7 @@ public class LogarithmOnWaves extends OperationOnWavesPlugin {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

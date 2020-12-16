@@ -44,7 +44,7 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

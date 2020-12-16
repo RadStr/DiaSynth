@@ -25,7 +25,7 @@ public class TestingEnumWithValue implements OperationOnWavePluginIFace, EnumWra
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

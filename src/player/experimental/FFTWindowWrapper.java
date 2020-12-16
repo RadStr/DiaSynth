@@ -179,7 +179,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPanel() {
+        public boolean isUsingPanelCreatedFromAnnotations() {
             return true;
         }
 
@@ -223,7 +223,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPanel() {
+        public boolean isUsingPanelCreatedFromAnnotations() {
             return true;
         }
 

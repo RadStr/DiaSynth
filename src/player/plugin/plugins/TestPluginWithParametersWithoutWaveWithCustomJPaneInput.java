@@ -38,7 +38,7 @@ public class TestPluginWithParametersWithoutWaveWithCustomJPaneInput extends JPa
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return false;
     }
 

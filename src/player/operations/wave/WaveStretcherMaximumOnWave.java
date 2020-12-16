@@ -16,7 +16,7 @@ public class WaveStretcherMaximumOnWave implements OperationOnWavePluginIFace {
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return false;
     }
 

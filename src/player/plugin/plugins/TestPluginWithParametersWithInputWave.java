@@ -36,7 +36,7 @@ public class TestPluginWithParametersWithInputWave extends OperationOnWavesPlugi
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

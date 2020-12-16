@@ -1,7 +1,7 @@
 package player.plugin.ifaces;
 
 /**
- * The class implementing this interface should either return true in isUsingDefaultJPanel()
+ * The class implementing this interface should either return true in isUsingPanelCreatedFromAnnotations()
  * or if it returns false, then it should extend JPanel since it will be used in dialog, but it doesn't have to
  * since dialog takes object, but for it to be useful it should.
  */
@@ -17,7 +17,7 @@ public interface PluginBaseIFace {
      * This parameter matters only when shouldWaitForParametersFromUser returns true
      * @return
      */
-    boolean isUsingDefaultJPanel();
+    boolean isUsingPanelCreatedFromAnnotations();
 
     String getPluginName();
 }

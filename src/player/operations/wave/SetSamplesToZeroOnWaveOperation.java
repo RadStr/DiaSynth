@@ -15,7 +15,7 @@ public class SetSamplesToZeroOnWaveOperation implements OperationOnWavePluginIFa
     }
 
     @Override
-    public boolean isUsingDefaultJPanel() {
+    public boolean isUsingPanelCreatedFromAnnotations() {
         return true;
     }
 

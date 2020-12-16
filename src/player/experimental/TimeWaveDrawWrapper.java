@@ -158,7 +158,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
          * @return
          */
         @Override
-        public boolean isUsingDefaultJPanel() {
+        public boolean isUsingPanelCreatedFromAnnotations() {
             return true;
         }
 

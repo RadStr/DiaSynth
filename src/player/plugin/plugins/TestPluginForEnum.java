@@ -7,7 +7,7 @@ import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class TestingEnumWithValue implements OperationOnWavePluginIFace, EnumWrapperForDefaultPanelIFace {
+public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrapperForDefaultPanelIFace {
     @PluginParameterAnnotation(parameterTooltip = "parameter for operations")
     private double value;
     @PluginParameterAnnotation

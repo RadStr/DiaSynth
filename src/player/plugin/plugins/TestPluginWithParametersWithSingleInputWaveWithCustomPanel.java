@@ -6,13 +6,13 @@ import Rocnikovy_Projekt.DoubleWave;
 import javax.swing.*;
 import java.awt.*;
 
-public class TestPluginWithParametersWithoutWaveWithCustomJPaneInput extends JPanel
+public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends JPanel
                                                                   implements OperationOnWavePluginIFace {
 
-    public TestPluginWithParametersWithoutWaveWithCustomJPaneInput() {
+    public TestPluginWithParametersWithSingleInputWaveWithCustomPanel() {
         this.setLayout(new GridLayout(0, 2));
 
-        label = new JLabel("TestPluginWithParametersWithoutWaveWithDefaultJPaneInput");
+        label = new JLabel("TestPluginWithParametersWithSingleInputWaveWithCustomPanel");
         this.add(label);
 
         textField = new JTextField("Put here double");
@@ -44,7 +44,7 @@ public class TestPluginWithParametersWithoutWaveWithCustomJPaneInput extends JPa
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithParametersWithoutWaveWithCustomJPaneInput";
+        return "TestPluginWithParametersWithSingleInputWaveWithCustomPanel";
     }
 
     @Override

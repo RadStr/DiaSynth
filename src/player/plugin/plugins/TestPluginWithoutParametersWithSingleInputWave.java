@@ -3,7 +3,7 @@ package player.plugin.plugins;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
-public class TestPluginWithoutParametersWithoutInputWave implements OperationOnWavePluginIFace {
+public class TestPluginWithoutParametersWithSingleInputWave implements OperationOnWavePluginIFace {
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
@@ -25,7 +25,7 @@ public class TestPluginWithoutParametersWithoutInputWave implements OperationOnW
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithoutParametersWithoutInputWave";
+        return "TestPluginWithoutParametersWithSingleInputWave";
     }
 
     @Override

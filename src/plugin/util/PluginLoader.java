@@ -119,7 +119,7 @@ public class PluginLoader {
         PluginLoader.search(".*\\.class", folder, pluginNames);
 
         for(String pluginName : pluginNames) {
-            pluginName = pluginName.replace(".class", "");
+            pluginName = PluginLoader.removeClassExtension(pluginName);
             pluginName = pluginPackage + "." + pluginName;
             try {
                 Class<?> clazz = Class.forName(pluginName);
@@ -137,6 +137,29 @@ public class PluginLoader {
         }
         return list;
     }
+
+    /**
+     * Doesn't control correctness of parameters
+     * @param s
+     * @param n
+     * @return
+     */
+    public static String removeLastNChars(String s, int n) {
+        return s.substring(0, s.length() - n);
+    }
+
+
+    public static final int CLASS_EXTENSION_LEN = ".class".length();
+    public static String removeClassExtension(String s) {
+        return removeLastNChars(s, CLASS_EXTENSION_LEN);
+    }
+
+    public static String convertPathToPackagePath(String s) {
+        String replacedString = s.replaceAll("/", ".");
+        replacedString = PluginLoader.removeClassExtension(replacedString);
+        return replacedString;
+    }
+
 
     public static <T> void addInstanceToList(Class<?> clazz, List<T> list) throws NoSuchMethodException,
             IllegalAccessException, InstantiationException {
@@ -209,11 +232,12 @@ public class PluginLoader {
         URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
         classes.forEach(s -> {
             try {
-                Class classs = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
+                Class classs = pluginLoader.loadClass(PluginLoader.convertPathToPackagePath(s));
                 Class[] interfaces = classs.getInterfaces();
                 for (Class anInterface : interfaces) {
                     if (anInterface == pluginIface) {
-                        MyLogger.log("LOADED CLASS: " + s.replaceAll("/", ".").replace(".class", ""), 0);
+                        MyLogger.log("LOADED CLASS: " + PluginLoader.convertPathToPackagePath(s),
+                                     0);
                         addInstanceToList(classs, loadedPlugins);
                         break;
                     }

@@ -123,7 +123,7 @@ public class DiagramUnitsJTree extends JTree {
     private static void addChildrenToTreeCellNonJarVersion(String pluginName, String pluginPackage,
                                                            DiagramPanel diagramPanel,
                                                            JTreeCellTextForUnits treeCell) {
-        pluginName = pluginName.replace(".class", "");
+        pluginName = PluginLoader.removeClassExtension(pluginName);
         pluginName = pluginPackage + "." + pluginName;
         try {
             Class<?> clazz = Class.forName(pluginName);
@@ -152,7 +152,7 @@ public class DiagramUnitsJTree extends JTree {
                                                         DiagramPanel diagramPanel,
                                                         JTreeCellTextForUnits treeCell) {
         try {
-            Class<?> clazz = pluginLoader.loadClass(className.replaceAll("/", ".").replace(".class", ""));
+            Class<?> clazz = pluginLoader.loadClass(PluginLoader.convertPathToPackagePath(className));
             if (Unit.class.isAssignableFrom(clazz) && clazz != OutputUnit.class) {
                 Constructor<?> constructor = clazz.getConstructor(DiagramPanel.class);
                 if (Modifier.isAbstract(clazz.getModifiers())) {
@@ -272,8 +272,17 @@ public class DiagramUnitsJTree extends JTree {
             JarEntry currEntry = entries.nextElement();
             String currJarEntryName = currEntry.getName();
             index++;
+            // TODO: DEBUG
+//            MyLogger.log("Current synth entry name:\t" + currJarEntryName, 0);
+            // TODO: DEBUG
             if( !currJarEntryName.startsWith(path) || currJarEntryName.length() == path.length() ||
-                    !currJarEntryName.startsWith(jarEntry.getName()) ) {
+                !currJarEntryName.startsWith(jarEntry.getName()) ) {
+                // TODO: DEBUG
+//                MyLogger.log("synth skipping:\t" + path, 0);
+//                MyLogger.log(Boolean.toString(!currJarEntryName.startsWith(path)) + "\t" +
+//                        Boolean.toString(currJarEntryName.length() == path.length()) + "\t" +
+//                        Boolean.toString(!currJarEntryName.startsWith(jarEntry.getName())), 0);
+                // TODO: DEBUG
                 continue;
             }
 
@@ -289,11 +298,12 @@ public class DiagramUnitsJTree extends JTree {
                 currJarEntryName = getStringAfterLastChar(currJarEntryName, '/');
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
                 treeCell.addChildren(newTreeCell);
-
+                MyLogger.log("Current synth dir:\t" + currEntry.getName(), 0);
                 setTreeCellRecursiveJar(currEntry, jarFile, path, diagramPanel,
                                         newTreeCell, pluginLoader, processedEntries);
             }
             else {
+                MyLogger.log("Current synth file:\t" + currEntry.getName(), 0);
                 addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, diagramPanel, treeCell);
             }
         }

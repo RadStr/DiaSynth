@@ -247,6 +247,12 @@ public class DiagramUnitsJTree extends JTree {
                 // TODO: DEBUG
                 JarEntry jarEntry = entries.nextElement();
                 String jarEntryName = jarEntry.getName();
+                // TODO: DEBUG
+//                if(jarEntry.isDirectory()) {
+//                    MyLogger.log("MAIN DIR:\t" + jarEntryName, 0);
+//                }
+                // TODO: DEBUG
+
                 if(!jarEntryName.startsWith(path) || jarEntryName.length() == path.length()) {
                     continue;
                 }
@@ -262,6 +268,14 @@ public class DiagramUnitsJTree extends JTree {
     }
 
 
+    public static boolean isMaxOneDirectoryAbove(String name, String dir) {
+        if(!name.startsWith(dir)) {
+            return false;
+        }
+        String relative = name.substring(dir.length()); // dir ends with '/' - so if the next one is the next dir it will have only one /.
+        return relative.indexOf('/') == relative.lastIndexOf('/');
+    }
+
     public static void setTreeCellRecursiveJar(JarEntry jarEntry, JarFile jarFile, String path,
                                                DiagramPanel diagramPanel,
                                                JTreeCellTextForUnits treeCell, URLClassLoader pluginLoader,
@@ -276,9 +290,11 @@ public class DiagramUnitsJTree extends JTree {
 //            MyLogger.log("Current synth entry name:\t" + currJarEntryName, 0);
             // TODO: DEBUG
             if( !currJarEntryName.startsWith(path) || currJarEntryName.length() == path.length() ||
-                !currJarEntryName.startsWith(jarEntry.getName()) ) {
+                !isMaxOneDirectoryAbove(currJarEntryName, jarEntry.getName())) {
+                //!currJarEntryName.startsWith(jarEntry.getName() ) ) {
                 // TODO: DEBUG
 //                MyLogger.log("synth skipping:\t" + path, 0);
+////                MyLogger.log("synth skippin2:\t" + jarEntry.getName(), 0);
 //                MyLogger.log(Boolean.toString(!currJarEntryName.startsWith(path)) + "\t" +
 //                        Boolean.toString(currJarEntryName.length() == path.length()) + "\t" +
 //                        Boolean.toString(!currJarEntryName.startsWith(jarEntry.getName())), 0);
@@ -307,6 +323,10 @@ public class DiagramUnitsJTree extends JTree {
                 addChildrenToTreeCellJarVersion(currEntry.getName(), pluginLoader, diagramPanel, treeCell);
             }
         }
+
+        // TODO: DEBUG
+//        MyLogger.log("ENDED ONE RECURSION:\t" + jarEntry.getName(), 0);
+        // TODO: DEBUG
     }
 
 

@@ -182,8 +182,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(realPartPanel.fftWindowPartPanel);
-                    AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                            classWithValues.getClass());
+                    AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues, classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
                             "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,

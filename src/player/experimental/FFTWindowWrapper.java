@@ -1,6 +1,6 @@
 package player.experimental;
 
-import player.plugin.AnnotationPanel;
+import plugin.util.AnnotationPanel;
 import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 

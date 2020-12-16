@@ -1,7 +1,7 @@
 package dialogs;
 
-import player.plugin.JTextFieldWithBounds;
-import player.plugin.FieldSetterIFace;
+import plugin.util.JTextFieldWithBounds;
+import plugin.util.FieldSetterIFace;
 import util.logging.MyLogger;
 
 import javax.swing.*;

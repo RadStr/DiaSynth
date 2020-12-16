@@ -1,6 +1,6 @@
 package player.wave.util;
 
-import player.plugin.FieldSetterIFace;
+import plugin.util.FieldSetterIFace;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

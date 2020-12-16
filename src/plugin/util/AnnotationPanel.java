@@ -1,4 +1,4 @@
-package player.plugin;
+package plugin.util;
 
 import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;

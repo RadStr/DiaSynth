@@ -12,7 +12,7 @@ import player.operations.wave.arithmetic.LogarithmOnWave;
 import player.operations.wave.arithmetic.MultiplicationOnWave;
 import player.operations.wave.arithmetic.AdditionOnWave;
 import player.operations.wave.arithmetic.PowerOnWave;
-import player.plugin.AnnotationPanel;
+import plugin.util.AnnotationPanel;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import player.wave.WaveMainPanel;

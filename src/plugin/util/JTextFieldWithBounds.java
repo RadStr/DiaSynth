@@ -1,4 +1,4 @@
-package player.plugin;
+package plugin.util;
 
 import player.wave.util.LimitDocumentFilterIntAndDouble;
 

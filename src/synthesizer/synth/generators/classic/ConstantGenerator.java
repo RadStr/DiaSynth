@@ -1,12 +1,12 @@
 package synthesizer.synth.generators.classic;
 
+import player.plugin.ifaces.PluginBaseIFace;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.shape.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.panels.shape.RhombusShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
-import player.plugin.ifaces.PluginDefaultIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ConstantGenerator extends Unit implements PluginDefaultIFace {
+public class ConstantGenerator extends Unit implements PluginBaseIFace {
 
     public ConstantGenerator(Unit u) {
         super(u);

@@ -1,9 +1,9 @@
 package synthesizer;
 
+import player.plugin.ifaces.PluginBaseIFace;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.synth.Unit;
-import player.plugin.ifaces.PluginDefaultIFace;
 
 public interface UnitViewForGUIIFace {
     /**
@@ -18,7 +18,7 @@ public interface UnitViewForGUIIFace {
     OutputPort getOutputPort();
     boolean getIsOutputUnit();
 
-    PluginDefaultIFace getPropertiesPanel();
+    PluginBaseIFace getPropertiesPanel();
     default boolean hasProperties() {
         return getPropertiesPanel() != null;
     }

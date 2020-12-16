@@ -1,7 +1,7 @@
 package player.experimental;
 
 import player.plugin.PanelFromAnnotations;
-import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
@@ -272,7 +272,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     }
 
 
-    private static class FFTWindowOptionsDialogPanel implements PluginDefaultIFace {
+    private static class FFTWindowOptionsDialogPanel implements PluginBaseIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
             this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
@@ -335,7 +335,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     }
 
 
-    private static class IFFTDialogPanel implements PluginDefaultIFace {
+    private static class IFFTDialogPanel implements PluginBaseIFace {
         @PluginParameterAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
                 parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
         private int periodCount;

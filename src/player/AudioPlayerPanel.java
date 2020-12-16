@@ -24,7 +24,7 @@ import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
 import util.audio.format.AudioFormatWithSign;
 import util.audio.format.ChannelCount;
-import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginBaseIFace;
 import player.operations.waves.FillWaveWithOtherWaveOperation;
 import player.operations.waves.arithmetic.LogarithmOnWaves;
 import player.operations.waves.arithmetic.MultiplicationOnWaves;
@@ -4011,7 +4011,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param plugin
      * @return
      */
-    public static boolean loadPluginParameters(PluginDefaultIFace plugin, boolean containsCancelOption) {
+    public static boolean loadPluginParameters(PluginBaseIFace plugin, boolean containsCancelOption) {
         boolean canContinueOperation;
 
         if (plugin.shouldWaitForParametersFromUser()) {

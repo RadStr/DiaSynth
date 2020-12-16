@@ -5,7 +5,7 @@ package player.plugin.ifaces;
  * or if it returns false, then it should extend JPanel since it will be used in dialog, but it doesn't have to
  * since dialog takes object, but for it to be useful it should.
  */
-public interface PluginDefaultIFace {
+public interface PluginBaseIFace {
     /**
      *
      * @return Returns true if the operation needs parameters - so user needs to put them to the JPanel.

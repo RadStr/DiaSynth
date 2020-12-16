@@ -93,7 +93,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
     }
 
 
-//    private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {
+//    private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginBaseIFace {
 //        public TimeActionDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel, WaveAdderIFace waveAdder) {
 //            super(timeWaveDrawPanel);
 //            sampleRate = waveAdder.getOutputSampleRate();
@@ -120,7 +120,7 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
 //    }
 //
 //
-//    private static class TimeOptionsDialogPanel implements PluginDefaultIFace {
+//    private static class TimeOptionsDialogPanel implements PluginBaseIFace {
 //        public TimeOptionsDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel) {
 //            timeInMs = timeWaveDrawPanel.getTimeInMs();
 //        }

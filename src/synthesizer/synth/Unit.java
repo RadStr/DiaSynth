@@ -1,12 +1,12 @@
 package synthesizer.synth;
 
+import player.plugin.ifaces.PluginBaseIFace;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
 import synthesizer.UnitViewForGUIIFace;
-import player.plugin.ifaces.PluginDefaultIFace;
 import util.logging.MyLogger;
 
 import java.awt.*;
@@ -81,9 +81,9 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     // JTreeCellClickedCallbackIFace
 
 
-    protected PluginDefaultIFace propertiesPanel;
+    protected PluginBaseIFace propertiesPanel;
     @Override
-    public PluginDefaultIFace getPropertiesPanel() {
+    public PluginBaseIFace getPropertiesPanel() {
         return propertiesPanel;
     }
     protected abstract void setPropertiesPanel();

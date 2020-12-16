@@ -1,6 +1,6 @@
 package player.experimental;
 
-import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.PanelFromAnnotations;
 
@@ -126,7 +126,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
     }
 
 
-    private static class FFTWindowOptionsDialogPanel implements PluginDefaultIFace {
+    private static class FFTWindowOptionsDialogPanel implements PluginBaseIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
             this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
@@ -190,7 +190,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
     }
 
 
-    private static class IFFTDialogPanel implements PluginDefaultIFace {
+    private static class IFFTDialogPanel implements PluginBaseIFace {
         @PluginParameterAnnotation(name = "Set imaginary part to zero:", defaultValue = "FALSE",
                 parameterTooltip = "If set to true, the imaginary part of FFT result will be set to 0. Otherwise it will be set to random number in" +
                         "such way that the measures are correct.")

@@ -9,11 +9,11 @@ import synthesizer.gui.diagram.panels.shape.RectangleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
 import util.audio.format.ChannelCount;
-import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginBaseIFace;
 
 import java.io.PrintWriter;
 
-public final class OutputUnit extends Unit implements PluginDefaultIFace {
+public final class OutputUnit extends Unit implements PluginBaseIFace {
     public OutputUnit(DiagramPanel panelWithUnits, int channel, ChannelCount channelCount,
                       AudioThread audioThread) {
         super(panelWithUnits);

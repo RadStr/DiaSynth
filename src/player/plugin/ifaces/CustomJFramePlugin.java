@@ -2,7 +2,7 @@ package player.plugin.ifaces;
 
 import javax.swing.*;
 
-public class CustomJFramePlugin extends JFrame implements PluginDefaultIFace {
+public class CustomJFramePlugin extends JFrame implements PluginBaseIFace {
     public CustomJFramePlugin(String pluginName) {
         PLUGIN_NAME = pluginName;
     }

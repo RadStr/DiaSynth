@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 
 
-public interface AudioPlayerJMenuPluginIFace extends PluginDefaultIFace {
+public interface AudioPlayerJMenuPluginIFace extends PluginBaseIFace {
     /**
      *
      * @return Returns tooltip which will be shown when hovering over the button which will perform the operation.
@@ -38,7 +38,7 @@ public interface AudioPlayerJMenuPluginIFace extends PluginDefaultIFace {
     // not inside jar.
     public static <T> List<T> loadPlugins(Class<T> pluginIface, String pluginPackage) {
         // https://stackoverflow.com/questions/482560/can-you-tell-on-runtime-if-youre-running-java-from-within-a-jar
-        Class<?> c = PluginDefaultIFace.class;
+        Class<?> c = PluginBaseIFace.class;
         // TODO: DEBUG
 //        System.out.println("loadPlugins:\t" + c.getName() + "\t" + c.getCanonicalName() + "\t" + c.getResource("").toString());
 //        System.out.println("loadPlugins:\t" + c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class" + "\t" +

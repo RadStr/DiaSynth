@@ -1,7 +1,7 @@
 package player.experimental;
 
 import player.plugin.PanelFromAnnotations;
-import player.plugin.ifaces.PluginDefaultIFace;
+import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 
 import javax.swing.*;
@@ -101,7 +101,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
 
 
 
-    private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginDefaultIFace {
+    private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginBaseIFace {
         public TimeActionDialogPanel(TimeWaveDrawWrapper timeWaveDrawWrapper, WaveAdderIFace waveAdder) {
             super(timeWaveDrawWrapper.timeWaveDrawPanel);
             periodCount = timeWaveDrawWrapper.periodCount;
@@ -131,7 +131,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
     }
 
 
-    private static class TimeOptionsDialogPanel implements PluginDefaultIFace {
+    private static class TimeOptionsDialogPanel implements PluginBaseIFace {
         public TimeOptionsDialogPanel(TimeWaveDrawPanel timeWaveDrawPanel) {
             timeInMs = timeWaveDrawPanel.getTimeInMs();
         }

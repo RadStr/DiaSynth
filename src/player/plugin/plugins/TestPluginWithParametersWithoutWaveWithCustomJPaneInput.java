@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TestPluginWithParametersWithoutWaveWithCustomJPaneInput extends JPanel
-    implements OperationOnWavePluginIFace {
+                                                                  implements OperationOnWavePluginIFace {
 
     public TestPluginWithParametersWithoutWaveWithCustomJPaneInput() {
         this.setLayout(new GridLayout(0, 2));

@@ -1,6 +1,6 @@
 package analyzer.plugin.ifaces;
 
-import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
+import plugin.util.PluginLoader;
 
 import java.util.List;
 
@@ -24,6 +24,6 @@ public interface BaseAnalyzerPluginIFace {
         String thisPackage = BaseAnalyzerPluginIFace.class.getPackage().getName();
         int lastDot = thisPackage.lastIndexOf('.');
         String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "plugins";
-        return AudioPlayerJMenuPluginIFace.loadPlugins(pluginIface, packageContainingPlugins);
+        return PluginLoader.loadPlugins(pluginIface, packageContainingPlugins);
     }
 }

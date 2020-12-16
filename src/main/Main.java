@@ -1,6 +1,6 @@
 package main;
 
-import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
+import plugin.util.PluginLoader;
 import util.swing.FrameWithFocusControl;
 import util.logging.MyLogger;
 
@@ -21,9 +21,9 @@ import java.awt.event.WindowEvent;
 // https://stackoverflow.com/questions/1051640/correct-way-to-add-external-jars-lib-jar-to-an-intellij-idea-project
 public class Main {
     public static void main(String[] args) {
-        if(!AudioPlayerJMenuPluginIFace.isInJar()) {
-            AudioPlayerJMenuPluginIFace.removePreviouslyLoadedPlugins();
-            AudioPlayerJMenuPluginIFace.copyPlugins();
+        if(!PluginLoader.isInJar()) {
+            PluginLoader.removePreviouslyLoadedPlugins();
+            PluginLoader.copyPlugins();
         }
         MyLogger.logWithoutIndentation("Starting program");
         SwingUtilities.invokeLater(new Runnable() {

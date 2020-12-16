@@ -116,8 +116,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                     lowerBoundDouble = Double.NEGATIVE_INFINITY;
                 }
             }
-            else if(fieldType.isEnum() && AudioPlayerJMenuPluginIFace.
-                    isImplementingIFace(EnumWrapperForAnnotationPanelIFace.class, classWithAnnotations)) {
+            else if(fieldType.isEnum() && PluginLoader.isImplementingIFace(EnumWrapperForAnnotationPanelIFace.class,
+                                                                           classWithAnnotations)) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();
                 EnumWrapperForAnnotationPanelIFace wrapper = (EnumWrapperForAnnotationPanelIFace) objectWithAnnotations;

@@ -5,11 +5,11 @@ package synthesizer.gui.tree;
 // And also this https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#editrender for reference
 
 
+import plugin.util.PluginLoader;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.OutputUnit;
 import synthesizer.synth.Unit;
-import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import util.logging.MyLogger;
 
 import java.awt.*;
@@ -98,14 +98,14 @@ public class DiagramUnitsJTree extends JTree {
     // Copied from the plugins for audio player with slight changes
     public static JTreeCellTextForUnits loadJTreeElements(String pluginPackage,
                                                           DiagramPanel diagramPanel) {
-        if (AudioPlayerJMenuPluginIFace.isJar(Unit.class)) {
+        if (PluginLoader.isJar(Unit.class)) {
             String folderName = getStringAfterLastChar(pluginPackage, '.');
             JTreeCellTextForUnits treeCell = new JTreeCellTextForUnits(folderName);
-            String pathToJar = AudioPlayerJMenuPluginIFace.getPathToJar(Unit.class);
+            String pathToJar = PluginLoader.getPathToJar(Unit.class);
             return setMainTreeCellJarVersion(diagramPanel, pluginPackage, pathToJar, treeCell);
         }
         else {
-            final File classFilesDir = AudioPlayerJMenuPluginIFace.getClassFilesDirectory();
+            final File classFilesDir = PluginLoader.getClassFilesDirectory();
             String path = classFilesDir + "/" + pluginPackage.replace('.', '/');
             final File folder = new File(path);
             // \\ is there because * is special character in regex

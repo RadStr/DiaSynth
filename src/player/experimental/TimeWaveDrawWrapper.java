@@ -1,6 +1,6 @@
 package player.experimental;
 
-import player.plugin.PanelFromAnnotations;
+import player.plugin.AnnotationPanel;
 import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 
@@ -56,7 +56,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TimeOptionsDialogPanel classWithValues = new TimeOptionsDialogPanel(timeWaveDrawPanel);
-                PanelFromAnnotations dialogPanel = new PanelFromAnnotations(classWithValues,
+                AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
                         classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,
@@ -78,7 +78,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(thisWrapper, waveAdder);
-                PanelFromAnnotations dialogPanel = new PanelFromAnnotations(classWithValues,
+                AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
                         classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,

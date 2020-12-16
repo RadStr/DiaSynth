@@ -12,7 +12,7 @@ import player.operations.wave.arithmetic.LogarithmOnWave;
 import player.operations.wave.arithmetic.MultiplicationOnWave;
 import player.operations.wave.arithmetic.AdditionOnWave;
 import player.operations.wave.arithmetic.PowerOnWave;
-import player.plugin.PanelFromAnnotations;
+import player.plugin.AnnotationPanel;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import player.wave.WaveMainPanel;
@@ -4017,7 +4017,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         if (plugin.shouldWaitForParametersFromUser()) {
             Object panelInDialog;
             if(plugin.isUsingPanelCreatedFromAnnotations()) {
-                PanelFromAnnotations pl = new PanelFromAnnotations(plugin, plugin.getClass());
+                AnnotationPanel pl = new AnnotationPanel(plugin, plugin.getClass());
                 panelInDialog = pl;
             }
             else {

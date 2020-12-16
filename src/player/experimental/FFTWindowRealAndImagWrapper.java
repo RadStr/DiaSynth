@@ -1,6 +1,6 @@
 package player.experimental;
 
-import player.plugin.PanelFromAnnotations;
+import player.plugin.AnnotationPanel;
 import player.plugin.ifaces.PluginBaseIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
@@ -182,7 +182,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(realPartPanel.fftWindowPartPanel);
-                    PanelFromAnnotations dialogPanel = new PanelFromAnnotations(classWithValues,
+                    AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
                             classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
@@ -212,7 +212,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     IFFTDialogPanel classWithValues = new IFFTDialogPanel();
-                    PanelFromAnnotations performIFFTDialog = new PanelFromAnnotations(classWithValues,
+                    AnnotationPanel performIFFTDialog = new AnnotationPanel(classWithValues,
                             classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,

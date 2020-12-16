@@ -1,15 +1,15 @@
 package player.plugin.ifaces.user.wave;
 
-import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 
 import java.util.List;
 
-public interface OperationOnWavePluginIFace extends AudioPlayerJMenuOperationPluginIFace {
+public interface OperationOnWavePluginIFace extends AudioPlayerJMenuPluginIFace {
     void performOperation(DoubleWave audio, int startIndex, int endIndex);
 
     public static List<OperationOnWavePluginIFace> loadPlugins() {
         Class<OperationOnWavePluginIFace> pluginIface = OperationOnWavePluginIFace.class;
-        return AudioPlayerJMenuOperationPluginIFace.loadPlugins(pluginIface);
+        return AudioPlayerJMenuPluginIFace.loadPlugins(pluginIface);
     }
 }

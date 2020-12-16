@@ -1,6 +1,6 @@
 package player.plugin;
 
-import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import player.plugin.ifaces.EnumWrapperForDefaultPanelIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import util.Pair;
@@ -116,7 +116,7 @@ public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFac
                     lowerBoundDouble = Double.NEGATIVE_INFINITY;
                 }
             }
-            else if(fieldType.isEnum() && AudioPlayerJMenuOperationPluginIFace.
+            else if(fieldType.isEnum() && AudioPlayerJMenuPluginIFace.
                     isImplementingIFace(EnumWrapperForDefaultPanelIFace.class, classWithAnnotations)) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();

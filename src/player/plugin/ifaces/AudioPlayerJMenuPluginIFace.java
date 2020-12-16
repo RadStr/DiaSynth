@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 
 
-public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace {
+public interface AudioPlayerJMenuPluginIFace extends PluginDefaultIFace {
     /**
      *
      * @return Returns tooltip which will be shown when hovering over the button which will perform the operation.
@@ -26,7 +26,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {
         // TODO: RML
         // TODO: make the path relative and also, I have to take in consideration that I may distribute it using .jar
-        String thisPackage = AudioPlayerJMenuOperationPluginIFace.class.getPackage().getName();
+        String thisPackage = AudioPlayerJMenuPluginIFace.class.getPackage().getName();
         int lastDot = thisPackage.lastIndexOf('.');
         String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "plugins";
         return loadPlugins(pluginIface, packageContainingPlugins);
@@ -72,7 +72,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     }
 
     public static boolean isInJar() {
-        return isJar(AudioPlayerJMenuOperationPluginIFace.class);
+        return isJar(AudioPlayerJMenuPluginIFace.class);
     }
 
 
@@ -115,7 +115,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
     public static <T> List<T> loadPluginsNotInJar(Class<T> pluginIface, String pluginPackage) {
         List<T> list = new ArrayList<>();
         String path = pluginPackage.replace('.', '/');
-        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+        final File classFilesDir = AudioPlayerJMenuPluginIFace.getClassFilesDirectory();
         path = classFilesDir + "/" + path;
         // Find all the candidates for plugins
         final File folder = new File(path);
@@ -129,7 +129,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
 //        final File folder = new File(urlToPlugin.getPath());
         // TODO: PROGRAMO
         List<String> pluginNames = new ArrayList<>();
-        AudioPlayerJMenuOperationPluginIFace.search(".*\\.class", folder, pluginNames);
+        AudioPlayerJMenuPluginIFace.search(".*\\.class", folder, pluginNames);
 
         for(String pluginName : pluginNames) {
             pluginName = pluginName.replace(".class", "");
@@ -290,7 +290,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
         }
         Path pluginsRootDirPath = pluginsRootDir.toPath();
 
-        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+        final File classFilesDir = AudioPlayerJMenuPluginIFace.getClassFilesDirectory();
         try {
             Files.walkFileTree(pluginsRootDirPath, new SimpleFileVisitor<Path>() {
                 @Override
@@ -324,7 +324,7 @@ public interface AudioPlayerJMenuOperationPluginIFace extends PluginDefaultIFace
 
 
     public static void removePreviouslyLoadedPlugins() {
-        final File classFilesDir = AudioPlayerJMenuOperationPluginIFace.getClassFilesDirectory();
+        final File classFilesDir = AudioPlayerJMenuPluginIFace.getClassFilesDirectory();
         final Path classFilesDirPath = classFilesDir.toPath();
 
         try {

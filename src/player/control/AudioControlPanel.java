@@ -1,6 +1,6 @@
 package player.control;
 
-import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import util.swing.BooleanButton;
 import util.swing.BooleanButtonWithImages;
 
@@ -28,7 +28,7 @@ public class AudioControlPanel extends JPanel {
 //        insideControlPanel.setLayout(new BoxLayout(insideControlPanel, BoxLayout.LINE_AXIS));
         // TODO: PROGAMO
         buttons = new JButton[2];
-        if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+        if (AudioPlayerJMenuPluginIFace.isJar(getClass())) {
             playButton = new BooleanButtonWithImages(true,
                     "/" + resourcesDir + "PlayButtonTrans.png",
                     "/" + resourcesDir + "PauseButtonTrans.png");
@@ -46,7 +46,7 @@ public class AudioControlPanel extends JPanel {
         buttons[0] = playButton;
         playButton.setToolTipText("Play/Pause button");
 
-        if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+        if (AudioPlayerJMenuPluginIFace.isJar(getClass())) {
             muteButton = new BooleanButtonWithImages(false,
                     "/" + resourcesDir + "soundIconOffTrans.png",
                     "/" + resourcesDir + "soundIconOnTrans.png");

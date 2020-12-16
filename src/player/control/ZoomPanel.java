@@ -1,6 +1,6 @@
 package player.control;
 
-import player.plugin.ifaces.AudioPlayerJMenuOperationPluginIFace;
+import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import util.logging.MyLogger;
 import test.ProgramTest;
 
@@ -27,7 +27,7 @@ public class ZoomPanel extends JPanel {
         File file = null;
         Image img;
         try {
-            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+            if (AudioPlayerJMenuPluginIFace.isJar(getClass())) {
                 // Using the variant with getResource(), getResourceAsStream() returns null
                 // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
                 img = ImageIO.read(getClass().getResource("/" + resourcesDir + "PlusTrans.png"));
@@ -43,7 +43,7 @@ public class ZoomPanel extends JPanel {
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
             zoomButton.setIcon(new ImageIcon(img));
 
-            if (AudioPlayerJMenuOperationPluginIFace.isJar(getClass())) {
+            if (AudioPlayerJMenuPluginIFace.isJar(getClass())) {
                 // Using the variant with getResource(), getResourceAsStream() returns null
                 // https://stackoverflow.com/questions/31127/java-swing-displaying-images-from-within-a-jar
                 img = ImageIO.read(getClass().getResource("/" + resourcesDir + "MinusTrans.png"));

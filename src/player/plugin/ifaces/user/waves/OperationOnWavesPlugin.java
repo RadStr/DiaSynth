@@ -1,7 +1,7 @@
 package player.plugin.ifaces.user.waves;
 
-import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.EnumWrapperForAnnotationPanelIFace;
+import plugin.PluginParameterAnnotation;
 import util.audio.wave.DoubleWave;
 
 /**

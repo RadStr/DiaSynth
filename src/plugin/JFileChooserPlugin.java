@@ -1,4 +1,4 @@
-package player.plugin.ifaces;
+package plugin;
 
 import javax.swing.*;
 

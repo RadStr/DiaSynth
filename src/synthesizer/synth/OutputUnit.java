@@ -1,6 +1,6 @@
 package synthesizer.synth;
 
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginParameterAnnotation;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.ports.SingleInputPort;
@@ -9,7 +9,7 @@ import synthesizer.gui.diagram.panels.shape.RectangleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
 import util.audio.format.ChannelCount;
-import player.plugin.ifaces.PluginBaseIFace;
+import plugin.PluginBaseIFace;
 
 import java.io.PrintWriter;
 

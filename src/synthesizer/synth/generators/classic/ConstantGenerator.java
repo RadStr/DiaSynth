@@ -1,13 +1,13 @@
 package synthesizer.synth.generators.classic;
 
-import player.plugin.ifaces.PluginBaseIFace;
+import plugin.PluginBaseIFace;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.shape.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.panels.shape.RhombusShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginParameterAnnotation;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 

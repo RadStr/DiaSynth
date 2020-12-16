@@ -1,6 +1,6 @@
 package player.operations.wave.arithmetic;
 
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;

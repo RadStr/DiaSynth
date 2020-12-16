@@ -1,6 +1,6 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import util.audio.wave.DoubleWave;

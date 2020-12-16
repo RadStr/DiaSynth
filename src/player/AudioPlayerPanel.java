@@ -24,7 +24,7 @@ import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
 import util.audio.format.AudioFormatWithSign;
 import util.audio.format.ChannelCount;
-import player.plugin.ifaces.PluginBaseIFace;
+import plugin.PluginBaseIFace;
 import player.operations.waves.FillWaveWithOtherWaveOperation;
 import player.operations.waves.arithmetic.LogarithmOnWaves;
 import player.operations.waves.arithmetic.MultiplicationOnWaves;

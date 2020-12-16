@@ -1,8 +1,8 @@
 package player.experimental;
 
 import plugin.util.AnnotationPanel;
-import player.plugin.ifaces.PluginBaseIFace;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginBaseIFace;
+import plugin.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 

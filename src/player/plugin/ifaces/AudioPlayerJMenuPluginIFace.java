@@ -1,5 +1,6 @@
 package player.plugin.ifaces;
 
+import plugin.PluginBaseIFace;
 import synthesizer.synth.Unit;
 import util.logging.MyLogger;
 import test.ProgramTest;

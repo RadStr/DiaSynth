@@ -1,6 +1,6 @@
 package player.experimental;
 
-import player.plugin.ifaces.CustomJFramePlugin;
+import plugin.CustomJFramePlugin;
 
 import javax.swing.*;
 

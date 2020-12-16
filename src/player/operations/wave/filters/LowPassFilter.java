@@ -1,7 +1,7 @@
 package player.operations.wave.filters;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.PluginParameterAnnotation;
 import util.audio.wave.DoubleWave;
 import Rocnikovy_Projekt.Program;
 

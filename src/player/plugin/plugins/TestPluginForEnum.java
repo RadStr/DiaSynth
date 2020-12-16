@@ -1,7 +1,7 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.EnumWrapperForAnnotationPanelIFace;
+import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;

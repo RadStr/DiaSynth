@@ -1,6 +1,6 @@
 package synthesizer;
 
-import player.plugin.ifaces.PluginBaseIFace;
+import plugin.PluginBaseIFace;
 import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.synth.Unit;

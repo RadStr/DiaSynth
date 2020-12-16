@@ -1,8 +1,8 @@
 package plugin.util;
 
 import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
-import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
-import player.plugin.ifaces.PluginParameterAnnotation;
+import plugin.EnumWrapperForAnnotationPanelIFace;
+import plugin.PluginParameterAnnotation;
 import util.Pair;
 import util.logging.MyLogger;
 

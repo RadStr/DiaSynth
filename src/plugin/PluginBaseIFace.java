@@ -1,4 +1,4 @@
-package player.plugin.ifaces;
+package plugin;
 
 /**
  * The class implementing this interface should either return true in isUsingPanelCreatedFromAnnotations()

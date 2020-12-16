@@ -1,6 +1,6 @@
 package synthesizer.synth.generators.classic.phase;
 
-import player.plugin.ifaces.JFileChooserPlugin;
+import plugin.JFileChooserPlugin;
 import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.synth.generators.GeneratorNoPhase;
 import synthesizer.synth.generators.Generator;

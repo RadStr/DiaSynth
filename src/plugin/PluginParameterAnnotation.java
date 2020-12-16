@@ -1,4 +1,4 @@
-package player.plugin.ifaces;
+package plugin;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

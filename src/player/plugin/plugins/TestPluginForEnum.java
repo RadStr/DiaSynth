@@ -1,13 +1,13 @@
 package player.plugin.plugins;
 
-import player.plugin.ifaces.EnumWrapperForDefaultPanelIFace;
+import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import Rocnikovy_Projekt.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 
-public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrapperForDefaultPanelIFace {
+public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrapperForAnnotationPanelIFace {
     @PluginParameterAnnotation(parameterTooltip = "parameter for operations")
     private double value;
     @PluginParameterAnnotation
@@ -43,7 +43,7 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////// EnumWrapperForDefaultPanelIFace
+    ///////////////////// EnumWrapperForAnnotationPanelIFace
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override

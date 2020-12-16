@@ -1,7 +1,7 @@
 package player.plugin;
 
 import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
-import player.plugin.ifaces.EnumWrapperForDefaultPanelIFace;
+import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import util.Pair;
 import util.logging.MyLogger;
@@ -117,10 +117,10 @@ public class PanelFromAnnotations extends JScrollPane implements FieldSetterIFac
                 }
             }
             else if(fieldType.isEnum() && AudioPlayerJMenuPluginIFace.
-                    isImplementingIFace(EnumWrapperForDefaultPanelIFace.class, classWithAnnotations)) {
+                    isImplementingIFace(EnumWrapperForAnnotationPanelIFace.class, classWithAnnotations)) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();
-                EnumWrapperForDefaultPanelIFace wrapper = (EnumWrapperForDefaultPanelIFace) objectWithAnnotations;
+                EnumWrapperForAnnotationPanelIFace wrapper = (EnumWrapperForAnnotationPanelIFace) objectWithAnnotations;
 
                 String[] enumValuesStrings = wrapper.getEnumsToStrings(fieldName);
                 JComboBox comboBox = new JComboBox(enumValuesStrings);

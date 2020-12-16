@@ -1,7 +1,6 @@
 package player.wave;
 
-import Rocnikovy_Projekt.DoubleWave;
-import Rocnikovy_Projekt.Program;
+import util.audio.wave.DoubleWave;
 import util.Time;
 
 import javax.swing.*;

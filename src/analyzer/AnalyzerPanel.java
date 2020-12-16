@@ -12,6 +12,7 @@ import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
 import util.Time;
+import util.audio.wave.DoubleWave;
 import util.swing.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

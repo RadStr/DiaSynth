@@ -2,7 +2,7 @@ package player.plugin.plugins;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import test.ProgramTest;
 
 public class TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations implements OperationOnWavePluginIFace {

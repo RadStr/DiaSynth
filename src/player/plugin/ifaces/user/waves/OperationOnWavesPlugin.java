@@ -2,7 +2,7 @@ package player.plugin.ifaces.user.waves;
 
 import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 /**
  * This class should be used as base class for user defined plugin, because the method performOperation, performs alignment

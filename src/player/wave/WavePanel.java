@@ -4,6 +4,7 @@ import player.AudioPlayerPanel;
 import player.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 import test.ProgramTest;
+import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import util.wave.drawing.WaveDrawValues;
 import util.wave.drawing.WaveDrawValuesAggregated;

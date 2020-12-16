@@ -6,7 +6,7 @@ import player.wave.util.LimitGetterIFace;
 import util.audio.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import util.swing.JTextFieldResizeable;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import test.ProgramTest;
 
 import javax.swing.*;

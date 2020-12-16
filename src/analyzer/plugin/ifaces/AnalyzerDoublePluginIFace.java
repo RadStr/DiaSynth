@@ -1,7 +1,7 @@
 package analyzer.plugin.ifaces;
 
 import util.Pair;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 import java.util.List;
 

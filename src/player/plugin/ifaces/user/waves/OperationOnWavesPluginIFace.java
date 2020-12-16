@@ -1,7 +1,7 @@
 package player.plugin.ifaces.user.waves;
 
 import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 import java.util.List;
 

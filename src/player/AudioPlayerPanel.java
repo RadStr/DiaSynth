@@ -39,7 +39,7 @@ import util.swing.BooleanButton;
 import util.swing.EmptyPanelWithoutSetMethod;
 import dialogs.EmptyWaveMakerDialog;
 import dialogs.LengthDialog;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 import test.ProgramTest;

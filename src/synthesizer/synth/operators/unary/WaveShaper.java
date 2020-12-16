@@ -10,7 +10,7 @@ import player.AudioPlayerPanel;
 import player.experimental.DrawJFrame;
 import player.experimental.FunctionWaveDrawPanel;
 import util.Aggregations;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 

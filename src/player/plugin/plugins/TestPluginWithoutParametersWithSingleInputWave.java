@@ -1,7 +1,7 @@
 package player.plugin.plugins;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 public class TestPluginWithoutParametersWithSingleInputWave implements OperationOnWavePluginIFace {
 

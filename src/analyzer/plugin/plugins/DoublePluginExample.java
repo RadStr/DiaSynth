@@ -2,7 +2,7 @@ package analyzer.plugin.plugins;
 
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import util.Pair;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 public class DoublePluginExample implements AnalyzerDoublePluginIFace {
     @Override

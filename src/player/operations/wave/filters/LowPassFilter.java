@@ -2,7 +2,7 @@ package player.operations.wave.filters;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
 public class LowPassFilter implements OperationOnWavePluginIFace {

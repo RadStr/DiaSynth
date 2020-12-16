@@ -3,7 +3,7 @@ package player.plugin.plugins;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 
 
 /**

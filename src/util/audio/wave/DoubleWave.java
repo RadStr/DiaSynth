@@ -1,4 +1,6 @@
-package Rocnikovy_Projekt;
+package util.audio.wave;
+
+import Rocnikovy_Projekt.Program;
 
 import java.io.*;
 import java.nio.ByteBuffer;

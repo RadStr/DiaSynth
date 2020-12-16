@@ -3,7 +3,7 @@ package player.plugin.plugins;
 import player.plugin.ifaces.EnumWrapperForAnnotationPanelIFace;
 import player.plugin.ifaces.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
 

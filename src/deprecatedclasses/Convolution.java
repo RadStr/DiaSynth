@@ -1,7 +1,7 @@
 package deprecatedclasses;
 
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
-import Rocnikovy_Projekt.DoubleWave;
+import util.audio.wave.DoubleWave;
 // TODO: RML
 @Deprecated
 public class Convolution extends OperationOnWavesPlugin {

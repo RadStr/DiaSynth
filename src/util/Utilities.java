@@ -6,8 +6,7 @@ import java.io.File;
 import java.util.Random;
 
 public class Utilities {
-    private Utilities() {
-    }      // Allow only static access
+    private Utilities() {}      // Allow only static access
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

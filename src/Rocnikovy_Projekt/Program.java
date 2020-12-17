@@ -4104,28 +4104,7 @@ public class Program {
     // BPM Algorithm 2
     ////////////////////////////////////////////////////
     // TODO: Mozna vymazat tyhle 2 metody a volat to primo - nebo aspon zmenit jmeno
-    public int getBPMSimpleWithFreqDomainsWithVarianceOld(SubbandSplitterIFace splitter) {
-        return calculateBPMSimpleWithFreqBands(splitter.getSubbandCount(), splitter, 4.5, 4, 0);
-    }
-
-    public int getBPMSimpleWithFreqDomainsWithVarianceNew(SubbandSplitterIFace splitter) {
-// TODO:
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 4, 0.16);
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 3.72, 4, 0.0); NE
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 7.72, 4, 0.0); NE uz to je moc uz jsou ty veci co nejsou BPM na nule
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 4, 2);
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 3.4, 4, 0.16);
-
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 5, 0.16); Asi jo - lepsi vysledky o neco
-        // This gives the best results
-        return calculateBPMSimpleWithFreqBands(splitter.getSubbandCount(), splitter,
-                2.72, 6, 0.16);
-//        return calculateBPMSimpleWithFreqBands(subbandCount, splitter, 2.72, 7, 0.16);
-// TODO:
-    }
-
-
-     public int calculateBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
+    public int calculateBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
                                                 double coef, int windowsBetweenBeats,
                                                 double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
         // TODO: Dava smysl ze to vytvorim tady ... protoze to vyrabim v zavislosti na sample rate a tak
@@ -4889,14 +4868,6 @@ if(currBPM == 60) {
 //    }
 
 
-    public static int geBPMMyVersion(byte[] samples) {
-        int bpm = 0;
-
-
-        return bpm;
-    }
-
-
 
 
     public static double getFreqJump(int sampleRate, double windowSize) {
@@ -5198,6 +5169,4 @@ if(currBPM == 60) {
 }
 
 
-
-// Convolution is like polynom multiplication
 //Math.ceil(1) = 1

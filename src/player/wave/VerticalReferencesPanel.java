@@ -4,6 +4,7 @@ import util.Aggregation;
 import util.swing.JLabelWithLineInMid;
 import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
+import util.swing.SwingUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -548,7 +549,7 @@ public class VerticalReferencesPanel extends JPanel {
 
 
     private void drawValue(String valString, int x, int y, Color color, Graphics g, int shiftForStringY) {
-        int startX = Program.drawStringWithSpace(g, color, valString, 0, this.getWidth(), y + shiftForStringY);
+        int startX = SwingUtilities.drawStringWithSpace(g, color, valString, 0, this.getWidth(), y + shiftForStringY);
         int w = g.getFontMetrics().stringWidth(valString);
         if(w > valuesLongestWidth) {
 // TODO: DEBUG

@@ -5260,13 +5260,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void drawSongLen(Graphics g, Color c) {
         int y = this.getHeight() - g.getFontMetrics().getHeight();
-        Program.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
+        util.swing.SwingUtilities.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     private void drawCurrentPlayTime(Graphics g, Color c) {
         String time = getCurrentPlayTime();
         int y = this.getHeight();
-        Program.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
+        util.swing.SwingUtilities.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     public String getCurrentPlayTime() {
@@ -5484,7 +5484,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // TODO: Debug version:
         g.drawLine(0, y, this.getWidth(), y);
         String valString = String.format("%.2f", valToDraw);
-        Program.drawStringWithSpace(g, color, valString, 0, startXForLine, y + fontMetrics.getHeight() / 4);
+        util.swing.SwingUtilities.drawStringWithSpace(g, color, valString, 0, startXForLine, y + fontMetrics.getHeight() / 4);
     }
 
 

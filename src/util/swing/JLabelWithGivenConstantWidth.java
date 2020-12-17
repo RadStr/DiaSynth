@@ -1,7 +1,5 @@
 package util.swing;
 
-import Rocnikovy_Projekt.Program;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +8,7 @@ public class JLabelWithGivenConstantWidth extends JLabel {
         super(text);
         Font f = this.getFont();
         FontMetrics fm = this.getFontMetrics(f);
-        CHAR_WIDTH = Program.calculateMaxWidthAlfanum(fm);
+        CHAR_WIDTH = SwingUtilities.calculateMaxWidthAlfanum(fm);
         SIZE = new Dimension(CHAR_WIDTH * charCount, fm.getHeight());
     }
 

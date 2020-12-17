@@ -674,7 +674,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             while (fontSize < MIN_FONT && n < labels.length) {
                 fontSize = START_FONT_SIZE;
                 int textWhitespace = textBinWidth / 4;
-                fontSize = Rocnikovy_Projekt.Program.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+                fontSize = util.swing.SwingUtilities.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
                 n *= 2;
                 textBinWidth *= 2;
 // TODO: DEBUG
@@ -810,7 +810,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                     binWidthWithSpace++;
                 }
 
-                Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
+                util.swing.SwingUtilities.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
             }
 
             int lastBinIndex = binCount - 1;
@@ -823,7 +823,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 int x = startX + lastBinIndex * binWidthWithSpace - labelWidth / 2;
                 boolean hasEnoughSpace = currX + lastDrawBinLen + SPACE_BETWEEN_LAST_AND_BEFORE_LAST < x;
                 if(hasEnoughSpace) {
-                    Rocnikovy_Projekt.Program.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
+                    util.swing.SwingUtilities.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
                 }
             }
         }

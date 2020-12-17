@@ -1,7 +1,5 @@
 package util.swing;
 
-import Rocnikovy_Projekt.Program;
-
 import java.awt.*;
 
 public class JTextFieldResizeable extends javax.swing.JTextField {
@@ -35,6 +33,6 @@ public class JTextFieldResizeable extends javax.swing.JTextField {
     private int calculateMaxWidthDigit() {
         Font f = this.getFont();
         FontMetrics fm = this.getFontMetrics(f);
-        return Program.calculateMaxWidthDigit(fm);
+        return SwingUtilities.calculateMaxWidthDigit(fm);
     }
 }

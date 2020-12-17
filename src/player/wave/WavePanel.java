@@ -7,6 +7,7 @@ import test.ProgramTest;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
+import util.swing.SwingUtilities;
 import util.wave.drawing.WaveDrawValues;
 import util.wave.drawing.WaveDrawValuesAggregated;
 import util.wave.drawing.WaveDrawValuesIndividual;
@@ -511,7 +512,7 @@ public class WavePanel extends JPanel {
         g.drawLine(0, y, this.getWidth(), y);
         String valString = String.format("%.2f", valToDraw);
         int h = g.getFontMetrics().getHeight();
-        Program.drawStringWithSpace(g, color, valString, 0, startXForLine, y + h / 4);
+        SwingUtilities.drawStringWithSpace(g, color, valString, 0, startXForLine, y + h / 4);
     }
 
 
@@ -723,7 +724,7 @@ public class WavePanel extends JPanel {
 
     private void drawSongLen(Graphics g, Color c) {
         int y = this.getHeight() - g.getFontMetrics().getHeight();
-        Program.drawStringWithSpace(g, c, songLenInSecs, 0, this.getHeight(), y);
+        SwingUtilities.drawStringWithSpace(g, c, songLenInSecs, 0, this.getHeight(), y);
     }
 
 

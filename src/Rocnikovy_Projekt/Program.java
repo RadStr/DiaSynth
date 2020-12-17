@@ -104,7 +104,6 @@ package Rocnikovy_Projekt;
 
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -264,53 +263,6 @@ public class Program {
 
 
     /**
-     * Reads n samples from stream.
-     *
-     * @param audioStream is the input stream with samples.
-     * @param n           represents number of samples to be read.
-     * @param sampleSize  represents size of one sample.
-     * @return Returns bytes read with the array containing the read bytes (size of the array is always n * sampleSize)
-     * @throws IOException is thrown when error with input stream occurred.
-     */
-    public static BytesReadWithArr readNSamples(InputStream audioStream, int n, int sampleSize) throws IOException {
-        int bytesRead = 0;
-        int bytesReadSum = 0;
-        byte[] arr = new byte[n * sampleSize];
-        int freeIndexesCount = arr.length;
-        while (bytesReadSum != arr.length && bytesRead != -1) {
-            bytesRead = audioStream.read(arr, bytesReadSum, freeIndexesCount);
-            bytesReadSum = bytesReadSum + bytesRead;
-            freeIndexesCount = freeIndexesCount - bytesRead;
-        }
-
-        return new BytesReadWithArr(arr, bytesReadSum);
-    }
-
-
-    /**
-     * Reads bytes from input stream to the array given in parameter,
-     * until either the end of the stream is reached or arr.length bytes are read.
-     *
-     * @param audioStream is the stream with samples.
-     * @param arr         is the array to read the bytes to.
-     * @return Returns number of bytes read.
-     * @throws IOException is thrown when error with input stream occurred.
-     */
-    public static int readNSamples(InputStream audioStream, byte[] arr) throws IOException {
-        int bytesRead = 0;
-        int bytesReadSum = 0;
-        int freeIndexesCount = arr.length;
-        while (bytesReadSum != arr.length && bytesRead != -1) {
-            bytesRead = audioStream.read(arr, bytesReadSum, freeIndexesCount);
-            bytesReadSum = bytesReadSum + bytesRead;
-            freeIndexesCount = freeIndexesCount - bytesRead;
-        }
-
-        return bytesReadSum;
-    }
-
-
-    /**
      * This method takes every x-th read part of length length from input stream
      * Starts at startFame
      * Example: if length = 3, x = 2, frameSize = 4 (bytes), startFrame = 1
@@ -333,13 +285,13 @@ public class Program {
         ArrayList<byte[]> list = new ArrayList<>();
 
         // Skip first startFrame * frameSize bytes ... the library skip method doesn't skip exactly the number of bytes it should
-        bytesRead = readNotNeededSamples(audioStream, frameSize, startFrame);
+        bytesRead = AudioReader.readNotNeededSamples(audioStream, frameSize, startFrame);
 
         int bytesReadSum = 0;
 
         // The algorithm
         while (bytesRead != -1) {
-            bytesReadSum = readNSamples(audioStream, songPart);
+            bytesReadSum = AudioReader.readNSamples(audioStream, songPart);
             if (bytesReadSum != songPart.length) {
                 break;
             }
@@ -460,10 +412,10 @@ public class Program {
         int bytesReadSum = 0;
 
         // skip samples until the startSample is reached
-        bytesRead = readNotNeededSamples(samples, sampleSize, startSample);
+        bytesRead = AudioReader.readNotNeededSamples(samples, sampleSize, startSample);
 
         while (bytesRead != -1) {
-            bytesReadSum = readNSamples(samples, arr);
+            bytesReadSum = AudioReader.readNSamples(samples, arr);
             if (bytesReadSum >= sampleSize) {
                 for (int i = 0; i < sampleSize; i++) {
                     sampleList.add(arr[i]);
@@ -482,66 +434,6 @@ public class Program {
         }
         return newSamples;
     }
-
-
-    /**
-     * Skips n samples from input stream.
-     *
-     * @param samples    is the input stream with samples.
-     * @param sampleSize is the size of one sample.
-     * @param n          is the number of samples to be skipped.
-     * @return Returns the number of read bytes or -1 if end of the stream was reached.
-     * @throws IOException is thrown when error with input stream occurred.
-     */
-    private static int readNotNeededSamples(InputStream samples, int sampleSize, int n) throws IOException {
-        byte[] arr = new byte[4096];
-        int bytesRead = 0;
-        int bytesReadSum = 0;
-        int freeIndexesCount = n * sampleSize;
-
-        while (freeIndexesCount != 0) {
-            if (freeIndexesCount > arr.length) {
-                bytesRead = samples.read(arr, 0, arr.length);
-            } else {
-                bytesRead = samples.read(arr, 0, freeIndexesCount);
-            }
-            bytesReadSum = bytesReadSum + bytesRead;
-            freeIndexesCount = freeIndexesCount - bytesRead;
-            if (bytesRead == -1) {
-                return -1;
-            }
-        }
-
-        return bytesReadSum;
-    }
-
-    // TODO: LONG - mozna bych mel vracet long
-    /**
-     * Returns -1 if exception ocurred otherwise returns the length of input stream
-     * @param samples
-     */
-    public static int getLengthOfInputStream(InputStream samples) {
-        int bytesRead = 0;
-        int bytesReadSum = 0;
-
-        try {
-            byte[] arr = new byte[Math.min(4096, samples.available())];
-            if(arr.length <= 0) {       // available returned incorrect value
-                arr = new byte[4096];
-            }
-            while (bytesRead != -1) {
-                bytesRead = samples.read(arr, 0, arr.length);
-                bytesReadSum = bytesReadSum + bytesRead;
-            }
-        }
-        catch (IOException e) {
-            return -1;
-        }
-        bytesReadSum++;        // Because I added -1
-
-        return bytesReadSum;
-    }
-
 
 
     /**
@@ -712,10 +604,10 @@ public class Program {
         int bytesReadSum = 0;
         int outputIndex = 0;
 
-        bytesRead = readNotNeededSamples(samples, sampleSize, startSample);
+        bytesRead = AudioReader.readNotNeededSamples(samples, sampleSize, startSample);
         while (bytesRead != -1) {
             arrIndex = 0;
-            bytesReadSum = readNSamples(samples, oneFrame);
+            bytesReadSum = AudioReader.readNSamples(samples, oneFrame);
             if (bytesReadSum < oneFrame.length) {
                 break;
             }
@@ -772,10 +664,10 @@ public class Program {
         int bytesReadSum = 0;
         int outputIndex = 0;
 
-        bytesRead = readNotNeededSamples(samples, sampleSize, startSample);
+        bytesRead = AudioReader.readNotNeededSamples(samples, sampleSize, startSample);
         while (bytesRead != -1) {
             arrIndex = 0;
-            bytesReadSum = readNSamples(samples, oneFrame);
+            bytesReadSum = AudioReader.readNSamples(samples, oneFrame);
             if (bytesReadSum < oneFrame.length) {
                 break;
             }
@@ -830,9 +722,9 @@ public class Program {
         int nextNByteIndex = 0;
         int nextTotalIndex = 0;
 
-        bytesRead = readNotNeededSamples(samples, sampleSize, startSample);
+        bytesRead = AudioReader.readNotNeededSamples(samples, sampleSize, startSample);
         while (bytesRead != -1) {
-            bytesReadSum = readNSamples(samples, buffer);
+            bytesReadSum = AudioReader.readNSamples(samples, buffer);
             if (bytesReadSum == -1) {
                 break;
             }
@@ -1153,7 +1045,7 @@ public class Program {
 
         while (bytesRead != -1) {
             try {
-                bytesRead = readNSamples(audioStream, frame);
+                bytesRead = AudioReader.readNSamples(audioStream, frame);
                 int index = 0;
                 // We take the bytes from end, but it doesn't matter, since we take just the average value
                 monoSample = 0;
@@ -1668,7 +1560,7 @@ public class Program {
 
     private boolean setTotalAudioLength() throws IOException {
         // TODO: PROGRAMO
-        onlyAudioSizeInBytes = Program.getLengthOfInputStream(decodedAudioStream);
+        onlyAudioSizeInBytes = AudioReader.getLengthOfInputStream(decodedAudioStream);
         headerSize = wholeFileSize - onlyAudioSizeInBytes;
         decodedAudioStream.close();
         // TODO: PROGRAMO

@@ -4,6 +4,7 @@ package util;
 //  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
 
 import Rocnikovy_Projekt.Program;
+import util.audio.AudioReader;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;
 import util.audio.SongPartWithAverageValueOfSamples;
 
@@ -94,7 +95,7 @@ public enum Aggregation {
 
         int bytesReadSum = 0;
         while (bytesRead != -1) {
-            bytesReadSum = Program.readNSamples(audioStream, songPart);
+            bytesReadSum = AudioReader.readNSamples(audioStream, songPart);
             if (bytesReadSum < sampleSize) {
                 break;
             }
@@ -162,7 +163,7 @@ public enum Aggregation {
 
         int bytesReadSum = 0;
         while (bytesRead != -1) {
-            bytesReadSum = Program.readNSamples(audioStream, songPart);
+            bytesReadSum = AudioReader.readNSamples(audioStream, songPart);
             if (bytesRead < sampleSize) {
                 break;
             }
@@ -474,7 +475,7 @@ public enum Aggregation {
 
         if (isBigEndian) {                // TODO: Again 2 same codes ... maybe can be done better ... currently for optimalization
             while (bytesRead != -1) {
-                bytesRead = Program.readNSamples(stream, arr);
+                bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = Program.convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
@@ -503,7 +504,7 @@ public enum Aggregation {
             }
         } else {
             while (bytesRead != -1) {
-                bytesRead = Program.readNSamples(stream, arr);
+                bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = Program.convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);

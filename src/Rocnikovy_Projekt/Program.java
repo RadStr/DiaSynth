@@ -2419,29 +2419,6 @@ public class Program {
         return arr;
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// TODO: Nove pridany veci, ktery se hodi - ziskani informaci o skladbe.
-    /**
-     * Returns all operations from Aggregation performed on given array.
-     * @param samples is the given array with samples.
-     * @param sampleSize is the size of 1 sample.
-     * @param isBigEndian true if the given samples are in big endian, false if in little endian.
-     * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @return Returns array with mods in Aggregation order (given by calling Aggregation.values()).
-     * @throws IOException is thrown when the sample size is <= 0 or > 4
-     */
-    public static double[] calculateAllAggregations(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
-        double[] arr = new double[Aggregation.values().length];
-        int index = 0;
-        for (Aggregation agg : Aggregation.values()) {
-            arr[index] = Aggregation.performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
-            index++;
-        }
-        return arr;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///// TODO: Nove pridany veci, ktery se hodi - prevody sample rate
 
     public void convertSampleRate(int newSampleRate) throws IOException {
         this.song = convertSampleRate(this.song, this.sampleSizeInBytes, this.frameSize,

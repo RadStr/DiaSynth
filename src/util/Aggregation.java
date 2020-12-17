@@ -53,6 +53,7 @@ public enum Aggregation {
         }
     };
 
+
     /**
      * Returns default value for given aggregation.
      * @return Returns default value for given aggregation.
@@ -544,5 +545,25 @@ public enum Aggregation {
         }
 
         return specialValue;
+    }
+
+
+    /**
+     * Returns all operations from Aggregation performed on given array.
+     * @param samples is the given array with samples.
+     * @param sampleSize is the size of 1 sample.
+     * @param isBigEndian true if the given samples are in big endian, false if in little endian.
+     * @param isSigned true if the samples are signed numbers, false otherwise.
+     * @return Returns array with mods in Aggregation order (given by calling Aggregation.values()).
+     * @throws IOException is thrown when the sample size is <= 0 or > 4
+     */
+    public static double[] calculateAllAggregations(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+        double[] arr = new double[values().length];
+        int index = 0;
+        for (Aggregation agg : values()) {
+            arr[index] = performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
+            index++;
+        }
+        return arr;
     }
 }

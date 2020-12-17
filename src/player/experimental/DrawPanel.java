@@ -3,6 +3,7 @@ package player.experimental;
 import synthesizer.synth.tables.WaveTable;
 import player.wave.WavePanel;
 import test.ProgramTest;
+import util.swing.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -538,8 +539,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        Container parent = getParent();
 //        Container grandParent = parent.getParent();
 //        Container grandGrandParent = grandParent.getParent();
-//        if(parent == SwingUtilities.getWindowAncestor(this) || grandParent == SwingUtilities.getWindowAncestor(this) ||
-//                grandGrandParent == SwingUtilities.getWindowAncestor(this)) {
+//        if(parent == SwingUtils.getWindowAncestor(this) || grandParent == SwingUtils.getWindowAncestor(this) ||
+//                grandGrandParent == SwingUtils.getWindowAncestor(this)) {
 //            System.exit(4578);
 //        }
 //        if(parent == null) {
@@ -549,7 +550,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //
 //        }
 //
-//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//        JFrame topFrame = (JFrame) SwingUtils.getWindowAncestor(this);
 //        JPanel content = (JPanel)topFrame.getContentPane();
 //
 ////        ProgramTest.debugPrint("LOCATION:", getLocation());
@@ -562,7 +563,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 ////            return minSize;
 ////        }
 ////
-//////        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//////        JFrame topFrame = (JFrame) SwingUtils.getWindowAncestor(this);
 //////        prefSize.width = topFrame.getWidth() / 2;
 //////        prefSize.height = topFrame.getHeight() / 2;
 ////////        prefSize.width = Math.max(prefSize.width, 1);
@@ -674,7 +675,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             while (fontSize < MIN_FONT && n < labels.length) {
                 fontSize = START_FONT_SIZE;
                 int textWhitespace = textBinWidth / 4;
-                fontSize = util.swing.SwingUtilities.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+                fontSize = SwingUtils.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
                 n *= 2;
                 textBinWidth *= 2;
 // TODO: DEBUG
@@ -810,7 +811,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                     binWidthWithSpace++;
                 }
 
-                util.swing.SwingUtilities.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
+                SwingUtils.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, y);
             }
 
             int lastBinIndex = binCount - 1;
@@ -823,7 +824,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 int x = startX + lastBinIndex * binWidthWithSpace - labelWidth / 2;
                 boolean hasEnoughSpace = currX + lastDrawBinLen + SPACE_BETWEEN_LAST_AND_BEFORE_LAST < x;
                 if(hasEnoughSpace) {
-                    util.swing.SwingUtilities.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
+                    SwingUtils.drawStringWithSpace(g, c, labels[binCount - 1], x, labelWidth, y);
                 }
             }
         }

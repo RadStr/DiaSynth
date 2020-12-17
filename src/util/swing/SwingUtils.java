@@ -5,8 +5,9 @@ import main.DiasynthTabbedPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class SwingUtilities {
-    private SwingUtilities() {}      // Allow only static access
+// Named SwingUtils so the name doesn't collide with SwingUtilities from Java STL
+public class SwingUtils {
+    private SwingUtils() {}      // Allow only static access
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

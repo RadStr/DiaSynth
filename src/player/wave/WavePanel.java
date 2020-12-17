@@ -7,7 +7,7 @@ import test.ProgramTest;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
-import util.swing.SwingUtilities;
+import util.swing.SwingUtils;
 import util.wave.drawing.WaveDrawValues;
 import util.wave.drawing.WaveDrawValuesAggregated;
 import util.wave.drawing.WaveDrawValuesIndividual;
@@ -512,7 +512,7 @@ public class WavePanel extends JPanel {
         g.drawLine(0, y, this.getWidth(), y);
         String valString = String.format("%.2f", valToDraw);
         int h = g.getFontMetrics().getHeight();
-        SwingUtilities.drawStringWithSpace(g, color, valString, 0, startXForLine, y + h / 4);
+        SwingUtils.drawStringWithSpace(g, color, valString, 0, startXForLine, y + h / 4);
     }
 
 
@@ -724,7 +724,7 @@ public class WavePanel extends JPanel {
 
     private void drawSongLen(Graphics g, Color c) {
         int y = this.getHeight() - g.getFontMetrics().getHeight();
-        SwingUtilities.drawStringWithSpace(g, c, songLenInSecs, 0, this.getHeight(), y);
+        SwingUtils.drawStringWithSpace(g, c, songLenInSecs, 0, this.getHeight(), y);
     }
 
 
@@ -979,7 +979,7 @@ public class WavePanel extends JPanel {
 // TODO: DEBUG
 //            ProgramTest.debugPrint("Thread:", Thread.currentThread());
 // TODO: DEBUG
-//            SwingUtilities.invokeLater(new Runnable() {
+//            SwingUtils.invokeLater(new Runnable() {
 //                @Override
 //                public void run() {
 //                    for ( final File file : files ) {

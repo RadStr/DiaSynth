@@ -8,7 +8,7 @@ public class JLabelWithGivenConstantWidth extends JLabel {
         super(text);
         Font f = this.getFont();
         FontMetrics fm = this.getFontMetrics(f);
-        CHAR_WIDTH = SwingUtilities.calculateMaxWidthAlfanum(fm);
+        CHAR_WIDTH = SwingUtils.calculateMaxWidthAlfanum(fm);
         SIZE = new Dimension(CHAR_WIDTH * charCount, fm.getHeight());
     }
 

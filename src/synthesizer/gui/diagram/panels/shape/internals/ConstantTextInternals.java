@@ -1,6 +1,6 @@
 package synthesizer.gui.diagram.panels.shape.internals;
 
-import util.swing.SwingUtilities;
+import util.swing.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -94,13 +94,13 @@ public class ConstantTextInternals implements ShapedPanelInternals {
             oldWidth = width;
         }
         else {
-            SwingUtilities.setFontSize(textLabel, oldWidth, width);
+            SwingUtils.setFontSize(textLabel, oldWidth, width);
             oldWidth = width;
         }
         // End of Approximation
 
-        SwingUtilities.findBiggestFontToFitSize(textLabel, width, height);
-        SwingUtilities.setLabelLocWithSpace(textLabel, startX, startY, width, height);
+        SwingUtils.findBiggestFontToFitSize(textLabel, width, height);
+        SwingUtils.setLabelLocWithSpace(textLabel, startX, startY, width, height);
 // TODO: RML
         // TODO: DEBUG
 //        ProgramTest.debugPrint("Text:", textLabel.getText(), textLabel.getX(), textLabel.getY(),

@@ -6,7 +6,7 @@ import player.AudioPlayerPanel;
 import util.swing.FrameWithFocusControl;
 import analyzer.AnalyzerMainPanel;
 import util.logging.MyLogger;
-import util.swing.SwingUtilities;
+import util.swing.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -58,14 +58,14 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
     public static final int MAXIMIZED_FRAME_WIDTH;
     public static final int MAXIMIZED_FRAME_HEIGHT;
     static {
-        Dimension size = SwingUtilities.calculateMaximizedFrameSize();
+        Dimension size = SwingUtils.calculateMaximizedFrameSize();
         MAXIMIZED_FRAME_WIDTH = size.width;
         MAXIMIZED_FRAME_HEIGHT = size.height;
     }
     public static final int MAX_LABEL_FONT_SIZE;
     static {
         JLabel testLabel = new JLabel("T");
-        MAX_LABEL_FONT_SIZE = SwingUtilities.findMaxFontSize(testLabel);
+        MAX_LABEL_FONT_SIZE = SwingUtils.findMaxFontSize(testLabel);
     }
 
     private TabChangeIFace oldTab;

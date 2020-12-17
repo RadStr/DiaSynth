@@ -18,6 +18,7 @@ import synthesizer.UnitViewForGUIIFace;
 import player.AudioPlayerPanel;
 import synthesizer.gui.diagram.panels.util.Direction;
 import util.logging.MyLogger;
+import util.swing.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -850,7 +851,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      */
     private void setInputPortFontSizeApproximation(InputPort ip, Dimension newSize) {
         JLabel label = ip.getPortLabel();
-        util.swing.SwingUtilities.setFontSize(label, diagramPanel.getReferencePanelOldWidth(), newSize.width);
+        SwingUtils.setFontSize(label, diagramPanel.getReferencePanelOldWidth(), newSize.width);
     }
 
 
@@ -899,7 +900,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     public int setInputPortFontSize(InputPort ip, Dimension availableSize) {
         JLabel label = ip.getPortLabel();
         calculateAvailableLabelSize(availableSize, ip.CONNECTOR_INDEX, unit.getInputPortsLen());
-        util.swing.SwingUtilities.findBiggestFontToFitSize(label, availableSize.width, availableSize.height);
+        SwingUtils.findBiggestFontToFitSize(label, availableSize.width, availableSize.height);
         label.setSize(label.getPreferredSize());
         return label.getFont().getSize();
     }

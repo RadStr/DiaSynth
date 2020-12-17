@@ -48,6 +48,7 @@ import test.ProgramTest;
 import debug.DEBUG_CLASS;
 import util.audio.format.FileFilterAudioFormats;
 import util.swing.FrameWithFocusControl;
+import util.swing.SwingUtils;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -4068,7 +4069,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 ////                Timer t = new Timer(1000, new ActionListener() {
 ////                    @Override
 ////                    public void actionPerformed(ActionEvent e) {
-////                        Window w = SwingUtilities.getWindowAncestor(shutDownPanel);
+////                        Window w = SwingUtils.getWindowAncestor(shutDownPanel);
 ////                        w.setVisible(!w.isVisible());
 ////                    }
 ////                });
@@ -5260,13 +5261,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void drawSongLen(Graphics g, Color c) {
         int y = this.getHeight() - g.getFontMetrics().getHeight();
-        util.swing.SwingUtilities.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
+        SwingUtils.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     private void drawCurrentPlayTime(Graphics g, Color c) {
         String time = getCurrentPlayTime();
         int y = this.getHeight();
-        util.swing.SwingUtilities.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
+        SwingUtils.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
     }
 
     public String getCurrentPlayTime() {
@@ -5484,7 +5485,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // TODO: Debug version:
         g.drawLine(0, y, this.getWidth(), y);
         String valString = String.format("%.2f", valToDraw);
-        util.swing.SwingUtilities.drawStringWithSpace(g, color, valString, 0, startXForLine, y + fontMetrics.getHeight() / 4);
+        SwingUtils.drawStringWithSpace(g, color, valString, 0, startXForLine, y + fontMetrics.getHeight() / 4);
     }
 
 

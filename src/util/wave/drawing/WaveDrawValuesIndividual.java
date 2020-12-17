@@ -1,6 +1,6 @@
 package util.wave.drawing;
 
-import util.swing.SwingUtilities;
+import util.swing.SwingUtils;
 import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import test.ProgramTest;
 import util.wave.ShiftBufferDouble;
@@ -301,7 +301,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
             }
             else {      // If there is enough space also draw circles at the end
                 g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
-                SwingUtilities.drawCenteredCircle(g, currentPixelInt, sampleHeight, DOT_RADIUS);
+                SwingUtils.drawCenteredCircle(g, currentPixelInt, sampleHeight, DOT_RADIUS);
             }
 
 

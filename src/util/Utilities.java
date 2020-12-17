@@ -110,7 +110,6 @@ public class Utilities {
     /////////////////// Array copying methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * Creates new array of length originalArrLen * copyCount which contains first originalArrLen indices of array arr and they are contained in the result copyCount times.
      *
@@ -308,7 +307,6 @@ public class Utilities {
     /////////////////// Filename related methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * Separates input to extension and name (part without extension). The name as return value of method.
      *

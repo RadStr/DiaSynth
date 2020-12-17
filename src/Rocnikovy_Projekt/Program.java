@@ -116,6 +116,7 @@ import javax.swing.*;
 import test.ProgramTest;
 import util.Aggregation;
 import util.audio.*;
+import util.audio.io.AudioReader;
 import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
 import synthesizer.synth.generators.classic.phase.SineGenerator;

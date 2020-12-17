@@ -4,7 +4,7 @@ package util;
 //  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
 
 import Rocnikovy_Projekt.Program;
-import util.audio.AudioReader;
+import util.audio.io.AudioReader;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;
 import util.audio.SongPartWithAverageValueOfSamples;
 

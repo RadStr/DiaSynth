@@ -1,4 +1,6 @@
-package util.audio;
+package util.audio.io;
+
+import util.audio.BytesReadWithArr;
 
 import java.io.IOException;
 import java.io.InputStream;

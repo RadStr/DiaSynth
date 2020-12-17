@@ -5,6 +5,7 @@ import plugin.PluginBaseIFace;
 import plugin.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.Utilities;
 import util.audio.FFT;
 
 import javax.swing.*;
@@ -138,7 +139,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double[] realFFTPart = new double[fftResult.length / 2];
         FFT.separateOnlyRealPart(realFFTPart, fftResult, fftResult.length);
         FFTWindowPanel.normalize(realFFTPart);
-        double[] ifftResult = Program.copyArr(realFFTPart, realFFTPart.length, periodCount);
+        double[] ifftResult = Utilities.copyArr(realFFTPart, realFFTPart.length, periodCount);
         return ifftResult;
     }
 

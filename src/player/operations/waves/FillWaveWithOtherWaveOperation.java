@@ -1,6 +1,7 @@
 package player.operations.waves;
 
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
+import util.Utilities;
 import util.audio.wave.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
@@ -27,7 +28,7 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
                                            int inputStartIndex, int inputEndIndex,
                                            int outputStartIndex, int outputEndIndex) {
         int inputLen = inputEndIndex - inputStartIndex;
-        boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
+        boolean isPowerOf2 = Utilities.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
 
         if (isPowerOf2) {
             for (int oi = outputStartIndex, ii = 0; oi < outputEndIndex; oi++, ii++) {
@@ -53,7 +54,7 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
      * @param endIndex
      */
     public static void fillArrayWithValues(double[] arr, double[] values, int startIndex, int endIndex) {
-        boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(values.length, 2) >= 0;
+        boolean isPowerOf2 = Utilities.testIfNumberIsPowerOfN(values.length, 2) >= 0;
 
         for(int i = startIndex, valuesInd = 0; i < endIndex; i++, valuesInd++) {
             if(isPowerOf2) {

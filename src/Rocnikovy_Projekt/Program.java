@@ -115,18 +115,17 @@ import javax.swing.*;
 
 import test.ProgramTest;
 import util.Aggregation;
+import util.Utilities;
 import util.audio.*;
 import util.audio.io.AudioReader;
 import util.audio.io.AudioWriter;
 import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
-import synthesizer.synth.generators.classic.phase.SineGenerator;
 import main.DiasynthTabbedPanel;
 import util.Time;
 import util.audio.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.audio.format.AudioType;
-import util.logging.MyLogger;
 
 // TODO: Vsude mit gettery a settery
 
@@ -1588,7 +1587,7 @@ public class Program {
 
     private void setNameVariables(String path) {
         this.path = path;
-        this.fileName = getFileNameFromPath(path);
+        this.fileName = Utilities.getFileNameFromPath(path);
     }
 
 
@@ -2667,7 +2666,7 @@ public class Program {
     private static double[] convertSampleRateImmediateVersion(double[] samples, int numberOfChannels, int oldSampleRate,
                                                               int newSampleRate) {
         double ratio = ((double)newSampleRate) / oldSampleRate;
-        int newLen = Program.convertToMultipleUp((int)(samples.length * ratio), numberOfChannels);
+        int newLen = Utilities.convertToMultipleUp((int)(samples.length * ratio), numberOfChannels);
         double[] convertedArr = new double[newLen];
 
         int i = 0;
@@ -2976,11 +2975,11 @@ public class Program {
                                                  int changeValuesStartIndex, int changeValuesEndIndex,
                                                  int outputStartIndex, int outputEndIndex, ArithmeticOperation op) {
         int inputLen = inputEndIndex - inputStartIndex;
-        boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
+        boolean isPowerOf2 = Utilities.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
 
         if (isPowerOf2) {
             int changeValuesLen = changeValuesEndIndex - changeValuesStartIndex;
-            boolean isPowerOf2CV = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
+            boolean isPowerOf2CV = Utilities.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
             if(isPowerOf2CV) {
                 for (int oi = outputStartIndex, ii = inputStartIndex, cvi = changeValuesStartIndex; oi < outputEndIndex; oi++, ii++, cvi++) {
                     output[oi] = Program.performOperation(input[inputStartIndex + (ii % inputLen)],
@@ -3016,7 +3015,7 @@ public class Program {
                                                  int inputStartIndex, int inputEndIndex,
                                                  int outputStartIndex, int outputEndIndex, ArithmeticOperation op) {
         int inputLen = inputEndIndex - inputStartIndex;
-        boolean isPowerOf2 = Program.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
+        boolean isPowerOf2 = Utilities.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
 
         if (isPowerOf2) {
             for (int oi = outputStartIndex, ii = inputStartIndex; oi < outputEndIndex; oi++, ii++) {
@@ -3634,7 +3633,7 @@ public class Program {
                                                 double[] coef, int numberOfChannels,
                                                 double[] retArr, int retArrStartIndex, final int retArrEndIndex) {
         int bufferLen = 4096;
-        bufferLen = Math.max(bufferLen, Program.getFirstPowerOfNAfterNumber(coef.length, 2));
+        bufferLen = Math.max(bufferLen, Utilities.getFirstPowerOfNAfterNumber(coef.length, 2));
         int indexToStopCopyFrom = bufferLen;
         int indexCountToWaitWithForNextIteration = coef.length - 1;
         bufferLen += indexCountToWaitWithForNextIteration;
@@ -3656,7 +3655,7 @@ public class Program {
             return -2;
         }
 
-        resetTwoDimArr(vals, 0, vals[0].length);
+        Utilities.resetTwoDimArr(vals, 0, vals[0].length);
         for (int i = 0, coefInd = 0; i < vals[0].length;
              i++, startingCoefInd += numberOfChannels, coefInd++) {
             index = startingCoefInd;
@@ -3697,7 +3696,7 @@ public class Program {
             for (int ch = 0; ch < vals.length; ch++) {
                 System.arraycopy(vals[ch], indexToStopCopyFrom, vals[ch], 0, indexCountToWaitWithForNextIteration);
             }
-            resetTwoDimArr(vals, indexCountToWaitWithForNextIteration, vals[0].length);
+            Utilities.resetTwoDimArr(vals, indexCountToWaitWithForNextIteration, vals[0].length);
         }
 
         return 1;
@@ -3725,99 +3724,6 @@ public class Program {
         return resIndAndMethodStart + len * vals.length;
     }
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /* -------------------------------------------- [START] -------------------------------------------- */
-    /////////////////// Fill array with values methods
-    /* -------------------------------------------- [START] -------------------------------------------- */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static void resetTwoDimArr(double[][] arr, int startIndex, int endIndex) {
-        setTwoDimArr(arr, startIndex, endIndex, 0);
-    }
-
-    public static void setTwoDimArr(double[][] arr, int startIndex, int endIndex, double value) {
-        for (int ch = 0; ch < arr.length; ch++) {
-            setOneDimArr(arr[ch], startIndex, endIndex, value);
-        }
-    }
-
-    // Modified code from https://stackoverflow.com/questions/9128737/fastest-way-to-set-all-values-of-an-array
-    /*
-     * initialize a smaller piece of the array and use the System.arraycopy
-     * call to fill in the rest of the array in an expanding binary fashion
-     */
-    public static void setOneDimArr(double[] array, int startIndex, int endIndex, double value) {
-        int len = endIndex - startIndex;
-        array[startIndex] = value;
-
-        //Value of i will be [1, 2, 4, 8, 16, 32, ..., len]
-        for (int i = 1, outIndex = startIndex + 1; i < len; outIndex += i, i += i) {
-            System.arraycopy(array, startIndex, array, outIndex, ((len - i) < i) ? (len - i) : i);
-        }
-    }
-
-    public static void setOneDimArrWithCheck(double[] array, int startIndex, int endIndex, double value) {
-        if(endIndex > startIndex) {
-            int len = endIndex - startIndex;
-            array[startIndex] = value;
-
-            //Value of i will be [1, 2, 4, 8, 16, 32, ..., len]
-            for (int i = 1, outIndex = startIndex + 1; i < len; outIndex += i, i += i) {
-                System.arraycopy(array, startIndex, array, outIndex, ((len - i) < i) ? (len - i) : i);
-            }
-        }
-    }
-
-    public static enum CURVE_TYPE {
-        SINE {
-            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
-                return SineGenerator.createSine(len, amp, freq, sampleRate, phase);
-            }
-        },
-        LINE {
-            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
-                double[] line = new double[len];
-                Program.setOneDimArr(line,0, line.length, amp);
-                return line;
-            }
-        },
-        RANDOM {
-            public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
-                double[] arr = new double[len];
-                Program.fillArrWithRandomValues(arr, amp);
-                return arr;
-            }
-        };
-
-        /**
-         * Fills array with values based on given parameters. Based on curve some parameters may be ignored.
-         * @param len
-         * @param amp
-         * @param freq
-         * @param sampleRate
-         * @param phase
-         * @return
-         */
-        public abstract double[] createCurve(int len, double amp, double freq, int sampleRate, double phase);
-    }
-
-    public static void fillArrWithRandomValues(double[] arr, double amplitude) {
-        Random r = new Random();
-
-        for (int j = 0; j < arr.length; j++) {
-            arr[j] = r.nextDouble();
-            arr[j] *= amplitude;
-            if (r.nextDouble() > 0.5) {
-                arr[j] = -arr[j];
-            }
-        }
-    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /* --------------------------------------------- [END] --------------------------------------------- */
-    /////////////////// Fill array with values methods
-    /* --------------------------------------------- [END] --------------------------------------------- */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -3983,24 +3889,9 @@ public class Program {
             }
         }
         // Now we reverse the array
-        reverse(coef);
+        Utilities.reverseArr(coef);
         return coef;
     }
-
-
-    /**
-     * Reverses given array
-     * @param arr is the given array
-     */
-    private static void reverse(double[] arr) {
-        double tmp;
-        for (int i = 0; i < arr.length / 2; i++) {
-            tmp = arr[i];
-            arr[i] = arr[arr.length - i - 1];
-            arr[arr.length - i - 1] = tmp;
-        }
-    }
-
 
 
     public boolean saveAudio(String path, Type type) {
@@ -4020,7 +3911,7 @@ public class Program {
 
         int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
         int windowSize = sampleRate / windowsLen;
-        windowSize = Program.convertToMultipleDown(windowSize, this.frameSize);
+        windowSize = Utilities.convertToMultipleDown(windowSize, this.frameSize);
         double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
         return calculateBPMSimple(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
                                   this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
@@ -4242,7 +4133,7 @@ public class Program {
 
          int historySubbandsCount = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
          int windowSize = this.sampleRate / historySubbandsCount;
-         int powerOf2After = getFirstPowerOfNAfterNumber(windowSize, 2);
+         int powerOf2After = Utilities.getFirstPowerOfNAfterNumber(windowSize, 2);
          int powerOf2Before = powerOf2After / 2;
          int remainderBefore = windowSize - powerOf2Before;
          int remainderAfter = powerOf2After - windowSize;
@@ -4273,96 +4164,6 @@ public class Program {
 
 
 
-
-    public static int getFirstPowerOfNBeforeNumber(int startNumber, int num, int n) {
-        int result = getFirstPowerOfNAfterNumber(startNumber, num, n);
-        return result / n;
-    }
-
-    public static int getFirstPowerOfNAfterNumber(int startNumber, int num, int n) {
-        int result = startNumber;
-
-        while(result <= num) {
-            result *= n;
-        }
-
-        return result;
-    }
-
-
-    public static int getFirstPowerExponentOfNBeforeNumber(int startNumber, int num, int n) {
-        int e = getFirstPowerExponentOfNAfterNumber(startNumber, num, n);
-        return e - 1;
-    }
-
-    public static int getFirstPowerExponentOfNAfterNumber(int startNumber, int num, int n) {
-        int result = startNumber;
-        int e = 0;
-
-        while(result <= num) {
-            result *= n;
-            e++;
-        }
-
-        return e;
-    }
-
-
-    public static int getFirstPowerOfNBeforeNumber(int num, int n) {
-        return getFirstPowerOfNBeforeNumber(1, num, n);
-    }
-
-     public static int getFirstPowerOfNAfterNumber(int num, int n) {
-        return getFirstPowerOfNAfterNumber(1, num, n);
-     }
-
-
-    public static int getFirstPowerExponentOfNBeforeNumber(int num, int n) {
-        return getFirstPowerExponentOfNBeforeNumber(1, num, n);
-    }
-
-    public static int getFirstPowerExponentOfNAfterNumber(int num, int n) {
-        return getFirstPowerExponentOfNAfterNumber(1, num, n);
-    }
-
-
-    /**
-     * Tests if number num is power of n.
-     * @param num is the number to test.
-     * @param n is the power.
-     * @return Returns -1 if it num is not i-th power of n, returns i otherwise.
-     */
-    public static int testIfNumberIsPowerOfN(int num, int n) {
-        int result = 1;
-
-        int i = 0;
-        while(result < num) {
-            result *= n;
-            i++;
-        }
-        if(result == num) {
-            return i;
-        }
-        else {
-            return -1;
-        }
-    }
-
-
-    /**
-     * Tests if number num is power of n.
-     * @param num is the number to test.
-     * @param n is the power.
-     * @return Returns -1 if it num is not i-th power of n, returns i otherwise. Returns -2 if the number is not integer/
-     */
-    public static int testIfNumberIsPowerOfN(double num, int n) {
-        if(num == Math.floor(num)) {
-            return testIfNumberIsPowerOfN((int)num, n);
-        }
-        else {
-            return -2;
-        }
-    }
 
 
     // TODO: Dont create new array in FFT only measures
@@ -5353,44 +5154,6 @@ if(currBPM == 60) {
 //    }
 
 
-    // TODO: Pouzival jsem na hodne mistech a asi ne na vsech jsem to nahradil volanim timhle funkce
-    public static int convertToMultipleDown(int val, int multiple) {
-        val -= (val % multiple);
-        return val;
-    }
-    public static int convertToMultipleUp(int val, int multiple) {
-        val += multiple - (val % multiple);
-        return val;
-    }
-
-
-    /**
-     * Separates input to extension and name (part without extension). The name as return value of method.
-     * @param input is the input name from which will be taken the name.
-     * @return Returns the name without extension. If there was no extension returns the original name.
-     */
-    public static String getNameWithoutExtension(String input) {
-        int ind = input.lastIndexOf('.');
-        if(ind == -1) {
-            return input;
-        }
-        String name = input.substring(0, ind);
-        return name;
-    }
-
-
-    public static String getFileNameFromPath(String path) {
-        String fileName;
-        int lastIndex = path.lastIndexOf(File.separator);
-        if(lastIndex == -1) {
-            fileName = path;
-        }
-        else {
-            fileName = path.substring(lastIndex + 1);
-        }
-        return fileName;
-    }
-
 
     public static int calculateMaxWidth(char startChar, char endChar, FontMetrics fm) {
         int maxWidth = -1;
@@ -5423,46 +5186,6 @@ if(currBPM == 60) {
     }
 
 
-    /**
-     * Creates new array of length originalArrLen * copyCount which contains first originalArrLen indices of array arr and they are contained in the result copyCount times.
-     * @param arr
-     * @param originalArrLen
-     * @param copyCount
-     * @return
-     */
-    public static double[] copyArr(double[] arr, int originalArrLen, int copyCount) {
-        double[] result = new double[originalArrLen * copyCount];
-        copyArr(arr, originalArrLen, result, copyCount);
-        return result;
-    }
-
-
-    /**
-     * Copies the first originalArrLen indices copyCount times to resultArr.
-     * @param arr
-     * @param originalArrLen
-     * @param resultArr
-     * @param copyCount
-     */
-    public static void copyArr(double[] arr, int originalArrLen, double[] resultArr, int copyCount) {
-        for(int i = 0, c = 0; c < copyCount; c++, i += originalArrLen) {
-            System.arraycopy(arr, 0, resultArr, i, originalArrLen);
-        }
-    }
-
-    /**
-     * The method takes first len indices of array arr and copies them until end of array is reached.
-     * arr.length % len == 0, otherwise the method throws exception.
-     * @param arr
-     * @param len
-     */
-    public static void copyArr(double[] arr, int len) {
-        for(int i = len; i < arr.length; i += len) {
-            System.arraycopy(arr, 0, arr, i, len);
-        }
-    }
-
-
     public static Dimension calculateMaximizedFrameSize() {
         JFrame f = new JFrame();
         f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -5471,18 +5194,6 @@ if(currBPM == 60) {
         f.setVisible(false);
         f.dispose();
         return size;
-    }
-
-
-    public static int calculateCharOccurrences(String s, char c) {
-        int count = 0;
-        for(int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) == c) {
-                count++;
-            }
-        }
-
-        return count;
     }
 }
 

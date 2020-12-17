@@ -3,6 +3,7 @@ package player.experimental;
 import util.Aggregation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.Utilities;
 import util.audio.FFT;
 
 import java.awt.*;
@@ -28,7 +29,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
             FFT.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);
         }
         else {
-            Program.setOneDimArr(fftResult, 0, fftResult.length, 0);
+            Utilities.setOneDimArr(fftResult, 0, fftResult.length, 0);
         }
         FFT.convertResultsOfFFTToRealRealForward(fftResult, DRAW_VALUES);
         normalizeAndSetDrawValues();
@@ -146,7 +147,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         getRealIFFT(fftResult, fft);
         normalize(fftResult);
 
-        double[] ifftResult = Program.copyArr(fftResult, fftResult.length, periodCount);
+        double[] ifftResult = Utilities.copyArr(fftResult, fftResult.length, periodCount);
         return ifftResult;
     }
 

@@ -4,6 +4,7 @@ import player.AudioPlayerPanel;
 import player.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 import test.ProgramTest;
+import util.Utilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import util.wave.drawing.WaveDrawValues;
@@ -1157,7 +1158,7 @@ public class WavePanel extends JPanel {
                                            int inputLen, double inputValsPerOutputVals, int outputLen) {
         // In case if outputLen == w this is the same as samples per pixel
         final int inputValsPerOutputValsInt = (int)inputValsPerOutputVals;
-        final int power = Program.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
+        final int power = Utilities.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
 
         double modulo;
         double currentInputValsPerOutputVals = inputValsPerOutputVals;
@@ -1347,7 +1348,7 @@ public class WavePanel extends JPanel {
                                             int inputLen, double inputValsPerOutputVals, int outputLen) {
         // In case if outputLen == w this is the same as samples per pixel
         final int inputValsPerOutputValsInt = (int)inputValsPerOutputVals;
-        final int power = Program.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
+        final int power = Utilities.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
 
         double modulo;
         double currentInputValsPerOutputVals = inputValsPerOutputVals;
@@ -1948,23 +1949,23 @@ public class WavePanel extends JPanel {
                 if (startPasteIndex >= startCopyIndex && startPasteIndex < endCopyIndex) {
                     int remainingLen = endCopyIndex - startPasteIndex;
                     endCopyIndex = startPasteIndex;
-                    Program.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
 
                     startCopyIndex = endPasteIndex;
                     endCopyIndex = endPasteIndex + remainingLen;
-                    Program.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
                 }
                 else if (startCopyIndex > startPasteIndex) {
                     startCopyIndex += copyLen;
                     endCopyIndex += copyLen;
-                    Program.setOneDimArr(newSong, startCopyIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArr(newSong, startCopyIndex, endCopyIndex, 0);
                 }
                 else {
-                    Program.setOneDimArr(newSong, startCopyIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArr(newSong, startCopyIndex, endCopyIndex, 0);
                 }
             }
             else {
-                Program.setOneDimArr(arrToCopy, startCopyIndex, endCopyIndex, 0);
+                Utilities.setOneDimArr(arrToCopy, startCopyIndex, endCopyIndex, 0);
             }
         }
 
@@ -2002,19 +2003,19 @@ public class WavePanel extends JPanel {
                 int endCopyIndex = startCopyIndex + len;
                 int endPasteIndex = startPasteIndex + copyLen;
                 if(startPasteIndex > startCopyIndex && startPasteIndex < endCopyIndex) {
-                    Program.setOneDimArrWithCheck(newSong, startCopyIndex, startPasteIndex, 0);
+                    Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, startPasteIndex, 0);
                 }
                 else if(endPasteIndex < startCopyIndex || startPasteIndex > endCopyIndex) {
-                    Program.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
                 }
                 else if(endPasteIndex > startCopyIndex && endPasteIndex < endCopyIndex) {
-                    Program.setOneDimArrWithCheck(newSong, endPasteIndex, endCopyIndex, 0);
+                    Utilities.setOneDimArrWithCheck(newSong, endPasteIndex, endCopyIndex, 0);
                 }
                 // Else the the values were already overwritten so no need to set anything to 0
             }
             else {
                 int endCopyIndex = Math.min(arrToCopy.length, startCopyIndex + len);
-                Program.setOneDimArr(arrToCopy, startCopyIndex, endCopyIndex, 0);
+                Utilities.setOneDimArr(arrToCopy, startCopyIndex, endCopyIndex, 0);
             }
         }
 

@@ -1,6 +1,7 @@
 package util.audio.wave;
 
 import Rocnikovy_Projekt.Program;
+import util.Utilities;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -270,7 +271,7 @@ public class DoubleWave {
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      */
     public DoubleWave(Program p, boolean shouldCreateDoubleWaveFile) {
-        this(Program.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile);
+        this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile);
     }
 
     /**
@@ -280,7 +281,7 @@ public class DoubleWave {
      * @param newSampleRate is the new sample rate to which we should convert, < 0 if we want to keep the old audioFormat
      */
     public DoubleWave(Program p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
-        this(Program.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile, newSampleRate);
+        this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile, newSampleRate);
     }
 
     public DoubleWave(double[] wave, DoubleWave oldWave, boolean shouldCreateDoubleWaveFile) {

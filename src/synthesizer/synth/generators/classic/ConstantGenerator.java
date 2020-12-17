@@ -8,6 +8,7 @@ import synthesizer.gui.diagram.panels.shape.RhombusShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 import plugin.PluginParameterAnnotation;
+import util.Utilities;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
 
@@ -141,7 +142,7 @@ public class ConstantGenerator extends Unit implements PluginBaseIFace {
     @Override
     public void calculateSamples() {
         if(results[0] != generatedConstant) {
-            Program.setOneDimArr(results, 0, results.length, generatedConstant);
+            Utilities.setOneDimArr(results, 0, results.length, generatedConstant);
         }
     }
 

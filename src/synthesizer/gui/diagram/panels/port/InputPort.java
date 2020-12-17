@@ -5,6 +5,7 @@ import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import synthesizer.synth.Unit;
 import synthesizer.synth.UnitGeneratedValuesInfo;
 import Rocnikovy_Projekt.Program;
+import util.Utilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class InputPort extends Port {
         }
         else {
             ARR_WITH_DEFAULT_VALUES = new double[Unit.BUFFER_LEN];
-            Program.setOneDimArr(ARR_WITH_DEFAULT_VALUES, 0, ARR_WITH_DEFAULT_VALUES.length, neutralValue);
+            Utilities.setOneDimArr(ARR_WITH_DEFAULT_VALUES, 0, ARR_WITH_DEFAULT_VALUES.length, neutralValue);
         }
         portLabel = new InputPortLabel(name, fullName, this, labelTooltip);
         inputPortToGUIAdder.addInputPortLabel(portLabel);

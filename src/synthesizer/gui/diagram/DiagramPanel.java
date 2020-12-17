@@ -25,6 +25,7 @@ import synthesizer.gui.diagram.util.arrow.ArrowDirection;
 import synthesizer.synth.*;
 import synthesizer.synth.audio.AudioRecordingCallback;
 import synthesizer.synth.audio.AudioThreadWithRecordingSupport;
+import util.Utilities;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatWithSign;
 import util.audio.format.ChannelCount;
@@ -261,7 +262,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         int frameSize = af.getChannels() * af.getSampleSizeInBits() / 8;
         double sampleRate = af.getSampleRate();
         int audioLenInBytes = (int)(recordAudioLen * frameSize * sampleRate);
-        audioLenInBytes = Program.convertToMultipleUp(audioLenInBytes, frameSize);
+        audioLenInBytes = Utilities.convertToMultipleUp(audioLenInBytes, frameSize);
         realTimeRecord = new byte[audioLenInBytes];
         setIsRecordingRealTime(true);
     }

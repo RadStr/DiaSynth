@@ -1,6 +1,7 @@
 package synthesizer.gui;
 
 import synthesizer.synth.CyclicQueueDouble;
+import util.Utilities;
 import util.wave.drawing.WaveDrawValuesAggregated;
 import player.wave.WavePanel;
 import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
@@ -165,7 +166,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     private void setArrToCopyQueueTo(int w) {
         int newLen = (int)(2 * w * samplesPerPixel);
         if(newLen > arrToCopyQueueTo.length) {
-            int newArrLen = Program.getFirstPowerOfNAfterNumber(newLen, 2);
+            int newArrLen = Utilities.getFirstPowerOfNAfterNumber(newLen, 2);
             arrToCopyQueueTo = new double[newArrLen];
         }
 
@@ -218,7 +219,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
             int numberOfSamplesToDraw;
             numberOfSamplesToDraw = (int) ((bufferEndIndex - bufferStartIndex) / 2 * samplesPerPixel);      // / 2 since it is min and max
             if (isPaused) {
-                Program.setOneDimArr(buffer, 0, buffer.length, 0);
+                Utilities.setOneDimArr(buffer, 0, buffer.length, 0);
             }
             else {
                 int currentQueueLen = sampleQueues[currentChannel].getLen();
@@ -240,7 +241,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                     int startIndex = 0;
                     while (remainingLen > 0) {
                         if (isPaused) {
-                            Program.setOneDimArr(buffer, 0, buffer.length, 0);
+                            Utilities.setOneDimArr(buffer, 0, buffer.length, 0);
                             return;
                         }
 

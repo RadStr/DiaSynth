@@ -20,6 +20,7 @@ import player.wave.WavePanel;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import util.Time;
+import util.Utilities;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
 import util.audio.format.AudioFormatWithSign;
@@ -3158,7 +3159,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      */
     private void addWaves(double[][] waves, String filename, int sampleRate, boolean shouldAddLater) {
         DoubleWave[] doubleWaves = new DoubleWave[waves.length];
-        filename = Program.getNameWithoutExtension(filename);
+        filename = Utilities.getNameWithoutExtension(filename);
         for(int i = 0; i < doubleWaves.length; i++) {
             String channelFilename = filename + "_" + i;
             doubleWaves[i] = new DoubleWave(waves[i], sampleRate, 1, channelFilename, false);
@@ -5065,7 +5066,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             // The size is at least frameSize and usually it is at least 2 ms
             audioArrLen = Math.max(frameSize, Math.min(audioArrLen, maxByteCountInAudioLine / 2));
-            Program.convertToMultipleUp(audioArrLen, frameSize);
+            Utilities.convertToMultipleUp(audioArrLen, frameSize);
             audioArr = new byte[audioArrLen];
             //audioArr = new byte[Program.convertToMultipleUp(maxByteCountInAudioLine / 2, frameSize)];
 
@@ -6457,12 +6458,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             public void modifyAudio() {
                 if(shouldMarkPart) {
                     double[] waveAudio = wave.getDoubleWave().getSong();
-                    Program.setOneDimArr(waveAudio, getMarkStartXSample(), getMarkEndXSample(), 0);
+                    Utilities.setOneDimArr(waveAudio, getMarkStartXSample(), getMarkEndXSample(), 0);
                 }
                 else {
                     double[] waveAudio = wave.getDoubleWave().getSong();
                     int len = wave.getDoubleWave().getSongLength();
-                    Program.setOneDimArr(waveAudio, 0, len, 0);
+                    Utilities.setOneDimArr(waveAudio, 0, len, 0);
                 }
 
                 wave.reloadDrawValues();

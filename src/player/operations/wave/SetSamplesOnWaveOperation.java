@@ -2,6 +2,7 @@ package player.operations.wave;
 
 import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
+import util.Utilities;
 import util.audio.wave.DoubleWave;
 import Rocnikovy_Projekt.Program;
 
@@ -17,7 +18,7 @@ public class SetSamplesOnWaveOperation implements OperationOnWavePluginIFace {
 
     public static void setSamples(DoubleWave audio, int startIndex, int endIndex, double value) {
         double[] wave = audio.getSong();
-        Program.setOneDimArr(wave, startIndex, endIndex, value);
+        Utilities.setOneDimArr(wave, startIndex, endIndex, value);
     }
 
     @Override

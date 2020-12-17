@@ -5,6 +5,7 @@ package deprecatedclasses;
 import analyzer.bpm.SubbandSplitterIFace;
 import util.Pair;
 import Rocnikovy_Projekt.Program;
+import util.Utilities;
 
 /**
  * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
@@ -32,7 +33,7 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
      */
     public SubbandSplitterOld(int sampleRate, int startHz, int subbandCount) {
         this.SAMPLE_RATE = sampleRate;
-        SUBBAND_COUNT = Math.min(subbandCount, Program.getFirstPowerExponentOfNBeforeNumber(startHz, sampleRate, 2));
+        SUBBAND_COUNT = Math.min(subbandCount, Utilities.getFirstPowerExponentOfNBeforeNumber(startHz, sampleRate, 2));
         START_HZ = startHz;
     }
 

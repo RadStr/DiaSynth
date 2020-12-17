@@ -3,6 +3,7 @@ package player.experimental;
 
 import Rocnikovy_Projekt.Program;
 import util.Time;
+import util.Utilities;
 
 import java.awt.*;
 
@@ -49,7 +50,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
 
     private static void fillTimeLabels(String[] labels, int timeInMs) {
         String timeInMsLabel = Time.convertMillisecondsToTime(timeInMs, -1);
-        int recursionDepth = Program.calculateCharOccurrences(timeInMsLabel, ':');
+        int recursionDepth = Utilities.calculateCharOccurrences(timeInMsLabel, ':');
 
 
         for(int i = 0; i < labels.length; i++) {
@@ -92,7 +93,7 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
         double[] arr = new double[len * periodCount];
         double samplesPerPixel = len / (double)(wave.length - 1);
         fillArrWithValues(arr, wave, samplesPerPixel);
-        Program.copyArr(arr, len);
+        Utilities.copyArr(arr, len);
         return arr;
     }
 

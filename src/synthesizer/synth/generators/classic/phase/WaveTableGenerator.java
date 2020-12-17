@@ -9,6 +9,7 @@ import synthesizer.synth.Unit;
 import synthesizer.synth.tables.WaveTable;
 import synthesizer.synth.tables.WaveTableFast;
 import player.AudioPlayerPanel;
+import util.Utilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -39,7 +40,7 @@ public class WaveTableGenerator extends Generator {
 
     public static WaveTable createWaveTable(double[] wave, String path) {
         WaveTable waveTable;
-        if(Program.testIfNumberIsPowerOfN(wave.length, 2) > 0) {
+        if(Utilities.testIfNumberIsPowerOfN(wave.length, 2) > 0) {
             waveTable = new WaveTableFast(wave, path);
         }
         else {

@@ -2,6 +2,7 @@ package test;
 
 import deprecatedclasses.Spectrogram;
 import util.Aggregation;
+import util.Utilities;
 import util.audio.FFT;
 import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
@@ -199,26 +200,26 @@ public class ProgramTest {
 // TODO:
 
         // The [3] == -512, which is the imaginary part of the first bin (it is [3], because [0] is 0Hz and [1] is Re[n/2])
-        printRealFFT(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+        printRealFFT(1024, 1, 1, 0, 1024, Utilities.CURVE_TYPE.SINE);
         // [2] == 512, which is real part of the first bin
-        printRealFFT(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+        printRealFFT(1024, 1,  1, Math.PI / 2, 1024, Utilities.CURVE_TYPE.SINE);
 
         ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
-        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
-        printComplexFFTRealOnly(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, Utilities.CURVE_TYPE.SINE);
+        printComplexFFTRealOnly(1024, 1,  1, Math.PI / 2, 1024, Utilities.CURVE_TYPE.SINE);
 
         ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
-        printComplexFFTImagOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
-        printComplexFFTImagOnly(1024, 1,  1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+        printComplexFFTImagOnly(1024, 1, 1, 0, 1024, Utilities.CURVE_TYPE.SINE);
+        printComplexFFTImagOnly(1024, 1,  1, Math.PI / 2, 1024, Utilities.CURVE_TYPE.SINE);
 
         ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
         printComplexFFT(1024, 0.5, 1, 0,
-                1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+                1, 1, 0, 1024, Utilities.CURVE_TYPE.SINE);
         printComplexFFT(1024, 1, 1, 0,
-                1, 1, Math.PI / 2, 1024, Program.CURVE_TYPE.SINE);
+                1, 1, Math.PI / 2, 1024, Utilities.CURVE_TYPE.SINE);
 //        printComplexFFT(1024, 1, 1, 0,
 //                0.5, 1, 0, 1024, Program.CURVE_TYPE.SINE);
 
@@ -294,7 +295,7 @@ public class ProgramTest {
         System.out.println("song length:\t" + song.length);
         int frameSize = numberOfChannels * (sampleSizeInBits / 8);
         System.out.println("takeEveryNthSampleMoreChannels:\t" + takeEveryNthSampleMoreChannelsTestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8, n2,
-            Program.convertToMultipleDown(song.length / (2 * frameSize), frameSize)));
+                Utilities.convertToMultipleDown(song.length / (2 * frameSize), frameSize)));
 
         bais = new ByteArrayInputStream(song);
         bais2 = new ByteArrayInputStream(song);
@@ -2825,7 +2826,7 @@ public class ProgramTest {
                 Arrays.fill(array, 0);
                 Arrays.fill(correctResult, 0);
                 double val = rand.nextDouble();
-                Program.setOneDimArr(array, i, j, val);
+                Utilities.setOneDimArr(array, i, j, val);
                 for(int k = i; k < j; k++) {
                     correctResult[k] = val;
                 }
@@ -2853,7 +2854,7 @@ public class ProgramTest {
         int differentBinsCount = 0;
 
         for(int i = 0; i < testCount; i++) {
-            Program.fillArrWithRandomValues(arr, 1);
+            Utilities.fillArrWithRandomValues(arr, 1);
             fft.realForward(arr);
 
 
@@ -2886,7 +2887,7 @@ public class ProgramTest {
     }
 
 
-    public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate, Program.CURVE_TYPE curve) {
+    public static void printRealFFT(int len, double amp, double freq, double phase, int sampleRate, Utilities.CURVE_TYPE curve) {
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine;
         sine = curve.createCurve(len, amp, freq, sampleRate, phase);
@@ -2905,7 +2906,7 @@ public class ProgramTest {
 
     public static void printComplexFFT(int len, double realAmp, double realFreq, double realPhase,
                                        double imagAmp, double imagFreq, double imagPhase,
-                                       int sampleRate, Program.CURVE_TYPE curve) {
+                                       int sampleRate, Utilities.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine;
@@ -2923,7 +2924,7 @@ public class ProgramTest {
 
     public static void printComplexFFTRealOnly(int len,
                                                double realAmp, double realFreq, double realPhase,
-                                               int sampleRate, Program.CURVE_TYPE curve) {
+                                               int sampleRate, Utilities.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);       // The length of the window is in number of complex numbers not total length of array
         double[] sine;
@@ -2938,7 +2939,7 @@ public class ProgramTest {
 
     public static void printComplexFFTImagOnly(int len,
                                                double imagAmp, double imagFreq, double imagPhase,
-                                               int sampleRate, Program.CURVE_TYPE curve) {
+                                               int sampleRate, Utilities.CURVE_TYPE curve) {
         int complexLen = 2 * len;
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine = new double[len];
@@ -3048,7 +3049,7 @@ public class ProgramTest {
         for(int i = 0; i < iterationCount; i++) {
             int exponent = r.nextInt(9) + 4;
             //int exponent = 3;
-            double[] audio =  Program.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1, 0, 0, 0);
+            double[] audio =  Utilities.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1, 0, 0, 0);
             //double[] audio =  Program.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
             DoubleFFT_1D fft = new DoubleFFT_1D(audio.length);
             FFT.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);

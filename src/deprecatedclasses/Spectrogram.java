@@ -982,20 +982,20 @@ public class Spectrogram {
 //TODO:        System.out.println("TmpArrs1:\t" + tmpArrs[1][0][1]);
 
 // TODO: PROGRAMO - REDOING operations
-        Program.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
+        ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
                 fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
         //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
-            Program.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
                     tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
-            Program.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
                     tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
-            Program.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
                     arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
@@ -1214,10 +1214,10 @@ public class Spectrogram {
         for (int window = 0; window < tmpArrs.length; window++) {
             if((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
                 if (counters[window] >= windowOverlapCountForOneWindow) {
-                    Program.performOperationOnSamples(tmpArrs[window][0], tmpArrs[window][0], 0, 0,
+                    ArithmeticOperation.performOperationOnSamples(tmpArrs[window][0], tmpArrs[window][0], 0, 0,
                             tmpArrs[window][0].length, logarithmBase, ArithmeticOperation.LOG);
                     //Program.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
-                    Program.performOperationOnSamples(tmpArrs[window][1], tmpArrs[window][1], 0, 0,
+                    ArithmeticOperation.performOperationOnSamples(tmpArrs[window][1], tmpArrs[window][1], 0, 0,
                             tmpArrs[window][1].length, logarithmBase, ArithmeticOperation.LOG);
                     //Program.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
                 }
@@ -1225,20 +1225,20 @@ public class Spectrogram {
         }
 //TODO:        System.out.println("TmpArrs1:\t" + tmpArrs[1][0][1]);
 
-        Program.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
+        ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
                 fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
         //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
-            Program.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
                     tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
-            Program.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
                     tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
-            Program.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
+            ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
                     arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
             //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }

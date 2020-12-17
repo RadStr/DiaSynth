@@ -5,7 +5,6 @@ import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
 public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrapperForAnnotationPanelIFace {
     @PluginParameterAnnotation(parameterTooltip = "parameter for operations")
@@ -16,7 +15,7 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, arithmeticOperation);
+        ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex, value, arithmeticOperation);
     }
 
     @Override

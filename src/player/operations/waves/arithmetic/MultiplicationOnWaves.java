@@ -3,7 +3,6 @@ package player.operations.waves.arithmetic;
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
 public class MultiplicationOnWaves extends OperationOnWavesPlugin {
     @Override
@@ -15,7 +14,7 @@ public class MultiplicationOnWaves extends OperationOnWavesPlugin {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        Program.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
+        ArithmeticOperation.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
             outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
 

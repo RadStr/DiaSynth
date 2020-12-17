@@ -4,7 +4,6 @@ import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
 public class LogarithmOnWave implements OperationOnWavePluginIFace {
     // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
@@ -15,7 +14,7 @@ public class LogarithmOnWave implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
+        ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.LOG);
     }
 
     @Override

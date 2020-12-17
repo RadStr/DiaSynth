@@ -4,7 +4,6 @@ import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import plugin.PluginParameterAnnotation;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
 public class PowerOnWave implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "Power:", defaultValue = "0",
@@ -14,7 +13,7 @@ public class PowerOnWave implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
-        Program.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.POWER);
+        ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex, value, ArithmeticOperation.POWER);
     }
 
     @Override

@@ -5,7 +5,6 @@ import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.Aggregation;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
-import Rocnikovy_Projekt.Program;
 
 public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
@@ -34,7 +33,7 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
         // If == then it is already stretched as much as it should be, don't do anything
         if(extreme != newAbsoluteMax && extreme != 0) {
             double ratio = newAbsoluteMax / extreme;
-            Program.performOperationOnSamples(wave, startIndex, endIndex, ratio, ArithmeticOperation.MULTIPLY);
+            ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex, ratio, ArithmeticOperation.MULTIPLY);
         }
     }
 

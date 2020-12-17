@@ -4713,7 +4713,6 @@ if(currBPM == 60) {
     // there are only ones in window. !!! But this only applies to case where the input double values are normalized between -1 and 1.
 
 
-    // TODO: Newly returns the stringStartX
     public static int drawStringWithSpace(Graphics g, Color color, String s, int currX, int binWidth, int y) {
         FontMetrics fontMetrics = g.getFontMetrics();
         g.setColor(color);
@@ -4754,7 +4753,7 @@ if(currBPM == 60) {
     }
 
 
-    public static void getBiggestFontToFitSize(JLabel label, int maxWidth, int maxHeight) {
+    public static void findBiggestFontToFitSize(JLabel label, int maxWidth, int maxHeight) {
         Font oldFont = label.getFont();
         int currFontSize = oldFont.getSize();
         FontMetrics fm = label.getFontMetrics(oldFont);
@@ -4776,7 +4775,7 @@ if(currBPM == 60) {
                     fm = label.getFontMetrics(newFont);
                     label.setFont(newFont);
                     if(fm.getHeight() > maxHeight) {
-                        getBiggestFontToFitMaxHeight(label, maxHeight);
+                        findBiggestFontToFitMaxHeight(label, maxHeight);
                     }
                     return;
                 }
@@ -4788,7 +4787,7 @@ if(currBPM == 60) {
             // If we get here then the maximum label size was reached
             newFont = new Font(oldFont.getName(), oldFont.getStyle(), DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE);
             label.setFont(newFont);
-            getBiggestFontToFitMaxHeight(label, maxHeight);
+            findBiggestFontToFitMaxHeight(label, maxHeight);
         }
         else if (textWidth > maxWidth) {
             while(currFontSize > 1) {
@@ -4805,14 +4804,14 @@ if(currBPM == 60) {
 
             label.setFont(newFont);
             if(fm.getHeight() > maxHeight) {
-                getBiggestFontToFitMaxHeight(label, maxHeight);
+                findBiggestFontToFitMaxHeight(label, maxHeight);
             }
             return;
         }
     }
 
-    // On My system it is java.awt.Font[family=Dialog,name=Dialog,style=bold,size=26822]
     public static int findMaxFontSize(JLabel label) {
+        // On My system the result is java.awt.Font[family=Dialog,name=Dialog,style=bold,size=26822]
         Font oldFont = label.getFont();
         int currFontSize = 0;
         FontMetrics fm ;
@@ -4831,7 +4830,7 @@ if(currBPM == 60) {
     }
 
 
-    public static void getBiggestFontToFitMaxHeight(JLabel label, int maxHeight) {
+    public static void findBiggestFontToFitMaxHeight(JLabel label, int maxHeight) {
         Font newFont = label.getFont();
         int currFontSize = newFont.getSize();
         FontMetrics fm = label.getFontMetrics(newFont);
@@ -4895,8 +4894,7 @@ if(currBPM == 60) {
     }
 
 
-    // Returns fontSize
-    public static int getFont(int startFontSize, Graphics g, String[] texts, int maxWidth, int maxHeight, int checkNthIndexes) {
+    public static int findMaxFontSize(int startFontSize, Graphics g, String[] texts, int maxWidth, int maxHeight, int checkNthIndexes) {
         int fontSize = startFontSize;
         FontMetrics fontMetrics;
         for(int i = 0; fontSize > 0; fontSize--) {

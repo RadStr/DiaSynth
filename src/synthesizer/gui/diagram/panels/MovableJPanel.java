@@ -900,7 +900,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     public int setInputPortFontSize(InputPort ip, Dimension availableSize) {
         JLabel label = ip.getPortLabel();
         calculateAvailableLabelSize(availableSize, ip.CONNECTOR_INDEX, unit.getInputPortsLen());
-        Program.getBiggestFontToFitSize(label, availableSize.width, availableSize.height);
+        Program.findBiggestFontToFitSize(label, availableSize.width, availableSize.height);
         label.setSize(label.getPreferredSize());
         return label.getFont().getSize();
     }

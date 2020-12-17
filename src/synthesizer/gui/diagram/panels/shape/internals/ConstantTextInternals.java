@@ -99,7 +99,7 @@ public class ConstantTextInternals implements ShapedPanelInternals {
         }
         // End of Approximation
 
-        Program.getBiggestFontToFitSize(textLabel, width, height);
+        Program.findBiggestFontToFitSize(textLabel, width, height);
         Program.setLabelLocWithSpace(textLabel, startX, startY, width, height);
 // TODO: RML
         // TODO: DEBUG

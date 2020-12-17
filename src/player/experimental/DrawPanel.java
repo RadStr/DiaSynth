@@ -674,7 +674,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             while (fontSize < MIN_FONT && n < labels.length) {
                 fontSize = START_FONT_SIZE;
                 int textWhitespace = textBinWidth / 4;
-                fontSize = Rocnikovy_Projekt.Program.getFont(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+                fontSize = Rocnikovy_Projekt.Program.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
                 n *= 2;
                 textBinWidth *= 2;
 // TODO: DEBUG

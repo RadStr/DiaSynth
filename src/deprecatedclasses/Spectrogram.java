@@ -728,7 +728,7 @@ public class Spectrogram {
         int n = 8;      // take every nth bin
         double maxTextHeight = n * pixelHeightForBin;
         String[] binFreqs = Program.getFreqs(binCount, freqJump, 0, n, 2);
-        Program.getFont(24, g, binFreqs, spectrogramStart - 15, (int)maxTextHeight, 1);
+        Program.findMaxFontSize(24, g, binFreqs, spectrogramStart - 15, (int)maxTextHeight, 1);
         FontMetrics fontMetrics = g.getFontMetrics();
 
         g.setColor(Color.white);

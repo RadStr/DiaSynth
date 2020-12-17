@@ -3043,7 +3043,7 @@ public class Program {
                 sample *= changeValue;
                 break;
             case LOG:
-                sample = logarithm(sample, changeValue);      // changeValue is the base
+                sample = Utilities.logarithm(sample, changeValue);      // changeValue is the base
                 break;
             case POWER:
                 sample = Math.pow(sample, changeValue);
@@ -3053,10 +3053,6 @@ public class Program {
         return sample;
     }
 
-
-    public static double logarithm(double value, double base) {
-        return Math.log(value) / Math.log(base);
-    }
 
     /**
      * Fills given array with random numbers from range lowestRandom to highestRandom. Usually from -1 to 1.
@@ -4297,7 +4293,7 @@ public class Program {
 //                    divFactor = 1.825;
             // TODO: REMOVE
 
-            double log = Program.logarithm((44100 / (double) sampleRate) - 1, 2.36);
+            double log = Utilities.logarithm((44100 / (double) sampleRate) - 1, 2.36);
             divFactor = 1 + 0.3 * (log + 1);
 
 // TODO: REMOVE

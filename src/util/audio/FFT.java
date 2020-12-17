@@ -229,7 +229,7 @@ public class FFT {
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static interface ComplexToRealInterface {
+    public static interface ComplexToRealIFace {
         double complexToReal(double real, double imag);
     }
 
@@ -361,7 +361,7 @@ public class FFT {
     }
 
     public static void complexToReal(double[] real, int realArrLen, double[] complex,
-                                     ComplexToRealInterface action) {
+                                     ComplexToRealIFace action) {
         complexToReal(real, 0, realArrLen, complex, 0, action);
     }
 
@@ -369,7 +369,7 @@ public class FFT {
 
     public static void complexToReal(double[] real, int realStartIndex, int realArrLen,
                                      double[] complex, int complexStartIndex,
-                                     ComplexToRealInterface action) {
+                                     ComplexToRealIFace action) {
         for(int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c += 2) {
             real[r] = action.complexToReal(complex[c], complex[c + 1]);
         }

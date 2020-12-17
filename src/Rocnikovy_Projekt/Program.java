@@ -4026,8 +4026,6 @@ public class Program {
 
 
 
-    // TODO: If I want to write stream, I would have to do some workaround - like write the header
-    // Then after that write the samples, and then fix the header to correct size
     public boolean saveAudio(String path, Type type) {
         return AudioWriter.saveAudio(path, this.decodedAudioFormat, this.song, type);
     }

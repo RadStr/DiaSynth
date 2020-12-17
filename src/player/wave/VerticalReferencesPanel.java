@@ -1,7 +1,7 @@
 package player.wave;
 
+import util.Aggregation;
 import util.swing.JLabelWithLineInMid;
-import util.Aggregations;
 import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 
@@ -44,7 +44,7 @@ public class VerticalReferencesPanel extends JPanel {
         return midValue;
     }
     private void setMidValue() {
-        midValue = Program.performAggregation(minValue, maxValue, Aggregations.AVG);
+        midValue = Program.performAggregation(minValue, maxValue, Aggregation.AVG);
     }
 
     public VerticalReferencesPanel(double minValue, double maxValue) {

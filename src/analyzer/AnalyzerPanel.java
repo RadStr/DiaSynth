@@ -4,7 +4,7 @@ import analyzer.observer.DataModelObserverIFace;
 import analyzer.observer.DataModelSubject;
 import analyzer.observer.DataModelSubjectIFace;
 import test.ProgramTest;
-import util.Aggregations;
+import util.Aggregation;
 import util.Pair;
 import analyzer.bpm.*;
 import analyzer.util.UneditableTableModel;
@@ -586,22 +586,22 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSampleMin(double[] mods) {
-        String s = String.format("%.2f", mods[Aggregations.MIN.ordinal()]);
+        String s = String.format("%.2f", mods[Aggregation.MIN.ordinal()]);
         return new Pair<String, String>("Minimum sample value", s);
     }
 
     private static Pair<String, String> analyzeSampleMax(double[] mods) {
-        String s = String.format("%.2f", mods[Aggregations.MAX.ordinal()]);
+        String s = String.format("%.2f", mods[Aggregation.MAX.ordinal()]);
         return new Pair<String, String>("Maximum sample value", s);
     }
 
     private static Pair<String, String> analyzeSampleAverage(double[] mods) {
-        String s = String.format("%.2f", mods[Aggregations.AVG.ordinal()]);
+        String s = String.format("%.2f", mods[Aggregation.AVG.ordinal()]);
         return new Pair<String, String>("Average", s);
     }
 
     private static Pair<String, String> analyzeSampleRMS(double[] mods) {
-        String s = String.format("%.2f", mods[Aggregations.RMS.ordinal()]);
+        String s = String.format("%.2f", mods[Aggregation.RMS.ordinal()]);
         return new Pair<String, String>("RMS", s);
     }
 

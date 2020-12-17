@@ -6,7 +6,7 @@ package util;
 /**
  * Enumeration representing the possible aggregation of n values.
  */
-public enum Aggregations {
+public enum Aggregation {
     MIN {
         public int defaultValueForMod() {
             return Integer.MAX_VALUE;

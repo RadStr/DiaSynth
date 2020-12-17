@@ -9,7 +9,7 @@ import synthesizer.synth.Unit;
 import player.AudioPlayerPanel;
 import player.experimental.DrawJFrame;
 import player.experimental.FunctionWaveDrawPanel;
-import util.Aggregations;
+import util.Aggregation;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -41,7 +41,7 @@ public class WaveShaper extends UnaryOperator {
         }
         private double functionOutputMaxAbsVal;
         private void setFunctionOutputMaxAbsVal() {
-            functionOutputMaxAbsVal = Program.performAggregation(function, Aggregations.ABS_MAX);
+            functionOutputMaxAbsVal = Program.performAggregation(function, Aggregation.ABS_MAX);
         }
     }
 

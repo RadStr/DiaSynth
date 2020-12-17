@@ -105,7 +105,7 @@ import javax.sound.sampled.AudioFormat.Encoding;
 import javax.swing.*;
 
 import test.ProgramTest;
-import util.Aggregations;
+import util.Aggregation;
 import util.audio.BytesReadWithArr;
 import util.audio.FrequencyWithMeasure;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;
@@ -929,7 +929,7 @@ public class Program {
     public static SongPartWithAverageValueOfSamples[] takeSongPartsAndAddAggregation(InputStream audioStream,
                                                                                      int numberOfFramesInOneSongPart, int frameSize,
                                                                                      boolean isBigEndian, boolean isSigned, int sampleSize,
-                                                                                     boolean returnSorted, Aggregations agg) throws IOException {
+                                                                                     boolean returnSorted, Aggregation agg) throws IOException {
         ArrayList<SongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
         int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
         byte[] songPart = new byte[size];
@@ -997,7 +997,7 @@ public class Program {
                                                                                                  int sampleSize,
                                                                                                  boolean isSigned,
                                                                                                  boolean returnSorted,
-                                                                                                 Aggregations mod) throws IOException {
+                                                                                                 Aggregation mod) throws IOException {
         ArrayList<NormalizedSongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
         int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
         byte[] songPart = new byte[size];
@@ -1071,7 +1071,7 @@ public class Program {
     }
 
 
-    public static double performAggregation(double val1, double val2, Aggregations agg) {
+    public static double performAggregation(double val1, double val2, Aggregation agg) {
         switch(agg) {
             case ABS_MAX:
                 return Math.max(Math.abs(val1), Math.abs(val2));
@@ -1093,7 +1093,7 @@ public class Program {
     }
 
 
-    public static double performAggregation(double[] arr, Aggregations agg) {
+    public static double performAggregation(double[] arr, Aggregation agg) {
         return performAggregation(arr, 0, arr.length, agg);
     }
 
@@ -1114,7 +1114,7 @@ public class Program {
      * @param agg         represents the aggregation which will be performed on the len samples
      * @return Returns double which is result of the performed operation on len samples.
      */
-    public static double performAggregation(double[] samples, int startIndex, int len, Aggregations agg) {
+    public static double performAggregation(double[] samples, int startIndex, int len, Aggregation agg) {
         double specialValue = agg.defaultValueForMod();
 
         int endIndex = startIndex + len;
@@ -1225,7 +1225,7 @@ public class Program {
      * @throws IOException is thrown when the method calculateMask fails - invalid sample size
      */
     public static double performAggregation(byte[] samples, int sampleSize, boolean isBigEndian,
-                                            boolean isSigned, Aggregations agg) throws IOException {
+                                            boolean isSigned, Aggregation agg) throws IOException {
         int n = samples.length / sampleSize;
 
         int mask = calculateMask(sampleSize);
@@ -1287,11 +1287,11 @@ public class Program {
 
         double maxAbsVal = (double)getMaxAbsoluteValue(sampleSize * 8, isSigned);
         specialValue /= maxAbsVal;
-        if (agg == Aggregations.RMS) {
+        if (agg == Aggregation.RMS) {
             specialValue /= maxAbsVal;
             specialValue = Math.sqrt(specialValue / n);
         }
-        else if(agg == Aggregations.AVG) {
+        else if(agg == Aggregation.AVG) {
             specialValue /= n;
         }
 
@@ -1317,7 +1317,7 @@ public class Program {
      */
     public static double performAggregation(InputStream stream, int numberOfChannels, int sampleSize,
                                             boolean isBigEndian, boolean isSigned, int byteLength,
-                                            Aggregations agg) throws IOException {
+                                            Aggregation agg) throws IOException {
         int n = byteLength / sampleSize;
         double specialValue = agg.defaultValueForMod();
         int bytesRead = 0;
@@ -1389,11 +1389,11 @@ public class Program {
 
         double maxAbsVal = (double)getMaxAbsoluteValue(sampleSize * 8, isSigned);
         specialValue /= maxAbsVal;
-        if (agg == Aggregations.RMS) {
+        if (agg == Aggregation.RMS) {
             specialValue /= maxAbsVal;
             specialValue = Math.sqrt(specialValue / n);
         }
-        else if(agg == Aggregations.AVG) {
+        else if(agg == Aggregation.AVG) {
             specialValue /= n;
         }
 
@@ -2411,7 +2411,7 @@ public class Program {
     @Deprecated
     public static byte[][] forEachChannelModifySamplesMoreChannels(byte[][] channels, int n, int sampleSize,
                                                                    boolean isBigEndian, boolean isSigned,
-                                                                   Aggregations agg) throws IOException {
+                                                                   Aggregation agg) throws IOException {
         byte[][] modChannels = new byte[channels.length][];
         ArrayList<Byte> moddedChannel = new ArrayList<>();
         byte[] samples = new byte[n * sampleSize];
@@ -2455,7 +2455,7 @@ public class Program {
     @Deprecated
     public static byte[] forEachChannelModifySamplesOneChannel(byte[] mono, int n, int sampleSize,
                                                                boolean isBigEndian, boolean isSigned,
-                                                               Aggregations agg) throws IOException {
+                                                               Aggregation agg) throws IOException {
         byte[][] channel = new byte[1][];
         channel[0] = mono;
         byte[][] result = forEachChannelModifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, agg);
@@ -4240,18 +4240,18 @@ public class Program {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///// TODO: Nove pridany veci, ktery se hodi - ziskani informaci o skladbe.
     /**
-     * Returns all operations from Aggregations performed on given array.
+     * Returns all operations from Aggregation performed on given array.
      * @param samples is the given array with samples.
      * @param sampleSize is the size of 1 sample.
      * @param isBigEndian true if the given samples are in big endian, false if in little endian.
      * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @return Returns array with mods in Aggregations order (given by calling Aggregations.values()).
+     * @return Returns array with mods in Aggregation order (given by calling Aggregation.values()).
      * @throws IOException is thrown when the sample size is <= 0 or > 4
      */
     public static double[] calculateAllAggregations(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
-        double[] arr = new double[Aggregations.values().length];
+        double[] arr = new double[Aggregation.values().length];
         int index = 0;
-        for (Aggregations agg : Aggregations.values()) {
+        for (Aggregation agg : Aggregation.values()) {
             arr[index] = performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
             index++;
         }

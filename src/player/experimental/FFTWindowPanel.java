@@ -1,6 +1,6 @@
 package player.experimental;
 
-import util.Aggregations;
+import util.Aggregation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
@@ -151,7 +151,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
 
     public static void normalize(double[] arr) {
-        double max = Program.performAggregation(arr, Aggregations.ABS_MAX);
+        double max = Program.performAggregation(arr, Aggregation.ABS_MAX);
 
         if(max > 1) {
             for (int i = 0; i < arr.length; i++) {
@@ -643,7 +643,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //
 //
 //    public static void normalize(double[] arr) {
-//        double max = Program.performAggregation(arr, Aggregations.ABS_MAX);
+//        double max = Program.performAggregation(arr, Aggregation.ABS_MAX);
 //
 //        for(int i = 0; i < arr.length; i++) {
 //            arr[i] /= max;

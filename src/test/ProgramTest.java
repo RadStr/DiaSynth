@@ -1,6 +1,6 @@
 package test;
 
-import util.Aggregations;
+import util.Aggregation;
 import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
 import util.audio.SongPartWithAverageValueOfSamples;
@@ -468,7 +468,7 @@ public class ProgramTest {
             SongPartWithAverageValueOfSamples[] spwavos = new SongPartWithAverageValueOfSamples[0];
             try {
                 spwavos = Program.takeSongPartsAndAddAggregation(is, sizeOfOneSongPart, frameSize, isBigEndian, isSigned,
-                    sampleSize, false, Aggregations.AVG);
+                    sampleSize, false, Aggregation.AVG);
             } catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION\t");
                 return false;
@@ -701,8 +701,8 @@ public class ProgramTest {
     public boolean performAggregationRMStestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels,
                                                  int sampleSize, boolean isBigEndian, boolean isSigned,
                                                  int byteLength) throws IOException {
-        if (program.performAggregation(stream, numberOfChannels, sampleSize, isBigEndian, isSigned, byteLength, Aggregations.RMS) ==
-            program.performAggregation(samplesFromStream, sampleSize, isBigEndian, isSigned, Aggregations.RMS)) {
+        if (program.performAggregation(stream, numberOfChannels, sampleSize, isBigEndian, isSigned, byteLength, Aggregation.RMS) ==
+            program.performAggregation(samplesFromStream, sampleSize, isBigEndian, isSigned, Aggregation.RMS)) {
             return true;
         } else {
             return false;
@@ -782,13 +782,13 @@ public class ProgramTest {
         samples[7] = 4;
 
         correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
@@ -805,13 +805,13 @@ public class ProgramTest {
         samples[6] = 4;
         samples[7] = 0;
         correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MAX) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
@@ -840,13 +840,13 @@ public class ProgramTest {
         samples[7] = 4;
 
         correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
@@ -861,13 +861,13 @@ public class ProgramTest {
         samples[6] = 4;
         samples[7] = 0;
         correctResult = 1 / (double)Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.MIN) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
@@ -896,13 +896,13 @@ public class ProgramTest {
         samples[7] = 4;
 
         correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
@@ -919,13 +919,13 @@ public class ProgramTest {
         samples[7] = 0;
 
         correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.AVG) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
@@ -954,14 +954,14 @@ public class ProgramTest {
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
                 Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
                 Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
@@ -978,14 +978,14 @@ public class ProgramTest {
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
                 Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
                 Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
-        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregations.RMS) != correctResult) {
+        if (program.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
@@ -2890,7 +2890,7 @@ public class ProgramTest {
         sine = curve.createCurve(len, amp, freq, sampleRate, phase);
 
 // Doesn't even help, the results are just wrong because it is the precision error with double values.
-//        double sum = Program.performAggregation(sine, Aggregations.SUM);
+//        double sum = Program.performAggregation(sine, Aggregation.SUM);
 //        for(int i = 0; i < sine.length; i++) {
 //            sine[i] -= sum;
 //        }
@@ -3061,8 +3061,8 @@ public class ProgramTest {
                 audio[j] = Math.abs(audio[j]);
             }
 
-            double sum1 = Program.performAggregation(audio, Aggregations.SUM);
-            double sum2 = Program.performAggregation(measures, Aggregations.SUM);
+            double sum1 = Program.performAggregation(audio, Aggregation.SUM);
+            double sum2 = Program.performAggregation(measures, Aggregation.SUM);
 
             sum2 -= measures[0];
             sum2 -= measures[measures.length - 1];

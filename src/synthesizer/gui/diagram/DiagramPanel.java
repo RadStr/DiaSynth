@@ -29,6 +29,7 @@ import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatWithSign;
 import util.audio.format.ChannelCount;
 import player.control.AudioControlPanel;
+import util.audio.io.AudioWriter;
 import util.swing.BooleanButton;
 import util.logging.MyLogger;
 import Rocnikovy_Projekt.Program;
@@ -317,21 +318,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
      * @return
      */
     private boolean saveRecordedAudio(byte[] recordedAudio, int startIndex, int endIndex) {
-        return saveRecordedAudio(recordFile.getPath(), recordedAudio, startIndex, endIndex,
-                audioThread.getOutputFormat(), recordAudioType);
-    }
-
-    public static boolean saveRecordedAudio(String path, byte[] audioToSave, int startIndex, int endIndex,
-                                            AudioFormat outputFormat, AudioFileFormat.Type recordAudioType) {
-        boolean savedAudioCorrectly = false;
-        try {
-            Program.saveAudio(path, outputFormat, audioToSave, startIndex, endIndex, recordAudioType);
-            savedAudioCorrectly = true;
-        } catch (IOException e) {
-            MyLogger.logException(e);
-        }
-
-        return savedAudioCorrectly;
+        return AudioWriter.saveAudio(recordFile.getPath(), audioThread.getOutputFormat(),
+                                     recordedAudio, startIndex, endIndex, recordAudioType);
     }
 
 

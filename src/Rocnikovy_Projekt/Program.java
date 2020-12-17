@@ -117,6 +117,7 @@ import test.ProgramTest;
 import util.Aggregation;
 import util.audio.*;
 import util.audio.io.AudioReader;
+import util.audio.io.AudioWriter;
 import util.math.ArithmeticOperation;
 import analyzer.bpm.SubbandSplitterIFace;
 import synthesizer.synth.generators.classic.phase.SineGenerator;
@@ -4027,125 +4028,10 @@ public class Program {
 
     // TODO: If I want to write stream, I would have to do some workaround - like write the header
     // Then after that write the samples, and then fix the header to correct size
-    public void saveAudio(String path, Type type) throws IOException {
-        Program.saveAudio(path, this.decodedAudioFormat, this.song, type);
+    public boolean saveAudio(String path, Type type) {
+        return AudioWriter.saveAudio(path, this.decodedAudioFormat, this.song, type);
     }
 
-
-    public static void saveAudio(String path, float sampleRate,
-                                 int sampleSizeInBits,
-                                 int numberOfChannels, boolean isSigned,
-                                 boolean isBigEndian, byte[] input, Type type) throws IOException
-    {
-        AudioFormat af = new AudioFormat(sampleRate, sampleSizeInBits, numberOfChannels, isSigned, isBigEndian);
-        saveAudio(path, af, input, type);
-    }
-    public static void saveAudio(String path, AudioFormat format, byte[] input, Type type) throws IOException {
-        InputStream is = new ByteArrayInputStream(input);
-        long frameLen = input.length / format.getFrameSize();
-        saveAudio(path, format, is, frameLen, type);
-    }
-
-    public static void saveAudio(String path, AudioFormat format, byte[] input,
-                                 int startIndex, int endIndex, Type type) throws IOException {
-        InputStream is = new ByteArrayInputStream(input, startIndex, endIndex);
-        long frameLen = (endIndex - startIndex) / format.getFrameSize();
-        saveAudio(path, format, is, frameLen, type);
-    }
-
-
-    public static void saveAudio(String path, float sampleRate, int sampleSizeInBits, int numberOfChannels,
-                                 boolean isSigned, boolean isBigEndian,
-                                 InputStream input, long len, Type type) throws IOException
-    {
-        AudioFormat af = new AudioFormat(sampleRate, sampleSizeInBits, numberOfChannels, isSigned, isBigEndian);
-        saveAudio(path, af, input, len, type);
-    }
-    public static void saveAudio(String path, AudioFormat format, InputStream input, long len, Type type) throws IOException {
-        AudioInputStream ais = new AudioInputStream(input, format, len);
-        saveAudio(path, ais, type);
-    }
-
-
-    public static void saveAudio(String path, AudioInputStream audioInputStream, Type type) {
-        File f = new File(path + "." + type.getExtension());
-        try {
-            AudioSystem.write(audioInputStream, type, f);    // TODO: Tohle nefunguje kdyz se to nevejde do pameti ... tak proste ten inputstream dam ze souboru kdyz se to nevejde
-        }
-        catch(Exception e) {
-            MyLogger.logException(e);
-        }
-    }
-
-
-//    // This code about creating wav file is modified example of this http://www.cplusplus.com/forum/beginner/166954/
-//    public static void writeWord(OutputStreamWriter outs, int value, int size) throws IOException {
-//        for (; size > 0; --size, value >>= 8) {
-//            outs.write((value & 0xFF));
-//        }
-//    }
-
-    // TODO: Works in c++ but not in java
-//        // Example for reading wav file http://www.cplusplus.com/forum/beginner/166954/
-//        // Wav file audioFormat reference page http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
-//     public static void createWavFile(String path, byte[] samples, int numberOfChannels,
-//        int samplingRate, int sampleSize, boolean isBigEndian) throws IOException {
-//
-//
-//         boolean needsPadding = false;
-//         int headerSize = 44;        // TODO:
-//         int dataLength = samples.length;
-//
-//         if (samples.length % 2 == 1) {
-//             needsPadding = true;
-//             dataLength++; // Add padding
-//         }
-//         int fileLength = dataLength + headerSize;
-//
-//         try (OutputStreamWriter writer =
-//                  new OutputStreamWriter(new FileOutputStream(path + ".wav"), StandardCharsets.US_ASCII)) {
-//
-//             writer.write("RIFF");
-//             writeWord(writer, fileLength - 8, 4);        // RIFF chunk size, which is (file size - 8) bytes
-//             writer.write("WAVEfmt ");
-//             writeWord(writer, 16, 4);
-//             writeWord(writer, 1, 2);
-//             writeWord(writer, numberOfChannels, 2);
-//             writeWord(writer, samplingRate, 4);
-//
-//
-//             int frameLengthInBytes = sampleSize * numberOfChannels;
-//             // Byte size of one second is calculated as (Sample Rate * BitsPerSample * Channels) / 8
-//             int byteSizeOfOneSecond = samplingRate * frameLengthInBytes;
-//             writeWord(writer, byteSizeOfOneSecond, 4);
-//             writeWord(writer, frameLengthInBytes, 2); // data block size ... size of audio frame in bytes
-//             int sampleSizeInBits = sampleSize * 8;
-//             writeWord(writer, sampleSizeInBits, 2);  // number of bits per sample (use a multiple of 8)
-//             writer.write("data");
-//             writeWord(writer, dataLength, 4);
-//
-//             // Now write all samples to the file, in little endian audioFormat
-//             int i = 0;
-//             while (i < samples.length) {
-//                 for (int j = 0; j < numberOfChannels; j++) {
-//                     int sampleIndex = i;
-//                     for (int k = 0; k < sampleSize; k++) {
-//                         if (isBigEndian) {        // Big endian, it is needed to write bytes in opposite direction
-//                             writer.write(samples[sampleIndex + sampleSize - k - 1]);
-//                         } else {
-//                             writer.write(samples[i]);
-//                         }
-//
-//                         i++;
-//                     }
-//                 }
-//             }
-//
-//             if (needsPadding) {    // If odd number of bytes in chunk then add padding byte
-//                 writer.write(0);
-//             }
-//         }
-//     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// BPM DETECTION ALGORITHMS

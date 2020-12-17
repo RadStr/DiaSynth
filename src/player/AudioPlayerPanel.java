@@ -35,6 +35,7 @@ import player.decibel.DecibelMeter;
 import player.decibel.SamplesGetterIFace;
 import player.experimental.*;
 import player.experimental.FFTWindowPanel;
+import util.audio.io.AudioWriter;
 import util.swing.BooleanButton;
 import util.swing.EmptyPanelWithoutSetMethod;
 import dialogs.EmptyWaveMakerDialog;
@@ -3361,12 +3362,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     FileFilterAudioFormats filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
 
                     byte[] outputWave = getOutputWaveBytes();
-                    try {
-                        Program.saveAudio(f.getAbsolutePath(), outputAudioFormat, outputWave, filter.AUDIO_TYPE);
-                    }
-                    catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                    AudioWriter.saveAudio(f.getAbsolutePath(), outputAudioFormat, outputWave, filter.AUDIO_TYPE);
                 }
             }
         });

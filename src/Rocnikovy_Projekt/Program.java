@@ -1587,7 +1587,7 @@ public class Program {
 
     private void setNameVariables(String path) {
         this.path = path;
-        this.fileName = Utilities.getFileNameFromPath(path);
+        this.fileName = Utilities.getFilenameFromPath(path);
     }
 
 

@@ -1,7 +1,6 @@
 package player.experimental;
 
 import util.Aggregation;
-import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.awt.*;
@@ -80,7 +79,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         }
         else {
             setIsEditable(true);
-            maxAbsolute = Program.performAggregation(DRAW_VALUES, Aggregation.ABS_MAX);
+            maxAbsolute = Aggregation.performAggregation(DRAW_VALUES, Aggregation.ABS_MAX);
             for (int i = 0; i < DRAW_VALUES.length; i++) {
                 setDrawValue(i, DRAW_VALUES[i] / maxAbsolute);
             }

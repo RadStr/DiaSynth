@@ -2,6 +2,7 @@ package player.operations.wave;
 
 import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
+import util.Aggregation;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
 import Rocnikovy_Projekt.Program;
@@ -25,7 +26,7 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
 
     public static void stretchWave(double[] wave, int startIndex, int endIndex, double newAbsoluteMax) {
         double[] minMax = new double[2];
-        Program.convertNSamplesToMinAndMax(wave, startIndex, endIndex, minMax);
+        Aggregation.convertNSamplesToMinAndMax(wave, startIndex, endIndex, minMax);
         double extreme = findAbsoluteExtreme(minMax);
 
         newAbsoluteMax = Math.abs(newAbsoluteMax);

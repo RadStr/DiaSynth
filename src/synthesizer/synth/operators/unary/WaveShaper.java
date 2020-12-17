@@ -12,7 +12,6 @@ import player.experimental.FunctionWaveDrawPanel;
 import util.Aggregation;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -41,7 +40,7 @@ public class WaveShaper extends UnaryOperator {
         }
         private double functionOutputMaxAbsVal;
         private void setFunctionOutputMaxAbsVal() {
-            functionOutputMaxAbsVal = Program.performAggregation(function, Aggregation.ABS_MAX);
+            functionOutputMaxAbsVal = Aggregation.performAggregation(function, Aggregation.ABS_MAX);
         }
     }
 

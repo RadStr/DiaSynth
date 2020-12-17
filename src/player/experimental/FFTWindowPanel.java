@@ -151,7 +151,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
 
     public static void normalize(double[] arr) {
-        double max = Program.performAggregation(arr, Aggregation.ABS_MAX);
+        double max = Aggregation.performAggregation(arr, Aggregation.ABS_MAX);
 
         if(max > 1) {
             for (int i = 0; i < arr.length; i++) {

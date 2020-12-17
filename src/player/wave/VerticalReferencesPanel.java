@@ -44,7 +44,7 @@ public class VerticalReferencesPanel extends JPanel {
         return midValue;
     }
     private void setMidValue() {
-        midValue = Program.performAggregation(minValue, maxValue, Aggregation.AVG);
+        midValue = Aggregation.performAggregation(minValue, maxValue, Aggregation.AVG);
     }
 
     public VerticalReferencesPanel(double minValue, double maxValue) {

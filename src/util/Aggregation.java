@@ -52,9 +52,17 @@ public enum Aggregation {
         }
     };
 
+    /**
+     * Returns default value for given aggregation.
+     * @return Returns default value for given aggregation.
+     */
+    public abstract int defaultValueForMod();
 
 
-    // TODO: Nejak nebere k uvahu pocet kanalu ale tvari se ze jo protoze bere frameSize
+
+
+    // Static aggregation methods:
+// TODO: Nejak nebere k uvahu pocet kanalu ale tvari se ze jo protoze bere frameSize
     /**
      * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the aggregation agg for each part
      * The output is sorted by the int value (which depends on the agg argument), if the output is sorted depends on the value of variable returnSorted.
@@ -73,6 +81,7 @@ public enum Aggregation {
      * @return Returns the array of type SongPartWithAverageValueOfSamples which contains the song parts with the int based on the agg argument.
      * @throws IOException is thrown when error in reading the input stream occurred, or when the method is called with invalid agg.
      */
+    @Deprecated
     public static SongPartWithAverageValueOfSamples[] takeSongPartsAndAddAggregation(InputStream audioStream,
                                                                                      int numberOfFramesInOneSongPart, int frameSize,
                                                                                      boolean isBigEndian, boolean isSigned, int sampleSize,
@@ -534,14 +543,4 @@ public enum Aggregation {
 
         return specialValue;
     }
-
-    /**
-     * Returns default value for given aggregation.
-     * @return Returns default value for given aggregation.
-     */
-    public abstract int defaultValueForMod();
-
-
-    // Static aggregation methods:
-
 }

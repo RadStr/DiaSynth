@@ -3043,7 +3043,7 @@ public class Program {
                 sample *= changeValue;
                 break;
             case LOG:
-                sample = logGeneral(sample, changeValue);      // changeValue is the base
+                sample = logarithm(sample, changeValue);      // changeValue is the base
                 break;
             case POWER:
                 sample = Math.pow(sample, changeValue);
@@ -3054,7 +3054,7 @@ public class Program {
     }
 
 
-    public static double logGeneral(double value, double base) {
+    public static double logarithm(double value, double base) {
         return Math.log(value) / Math.log(base);
     }
 
@@ -4297,7 +4297,7 @@ public class Program {
 //                    divFactor = 1.825;
             // TODO: REMOVE
 
-            double log = Program.logGeneral((44100 / (double) sampleRate) - 1, 2.36);
+            double log = Program.logarithm((44100 / (double) sampleRate) - 1, 2.36);
             divFactor = 1 + 0.3 * (log + 1);
 
 // TODO: REMOVE

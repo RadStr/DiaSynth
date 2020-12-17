@@ -68,8 +68,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static final int STATIC_PANEL_MAX_HEIGHT = 65536;        // Parameter to play with
 
 
-    public static final int ZOOM_COUNT_FROM_START_TO_MIN = (int)Math.round(Program.logGeneral(STATIC_PANEL_START_WIDTH, 2)) -
-            (int)Math.round(Program.logGeneral(STATIC_PANEL_MIN_WIDTH, 2));
+    public static final int ZOOM_COUNT_FROM_START_TO_MIN = (int)Math.round(Program.logarithm(STATIC_PANEL_START_WIDTH, 2)) -
+            (int)Math.round(Program.logarithm(STATIC_PANEL_MIN_WIDTH, 2));
 
 
     public static final int SPACE_BETWEEN_STATIC_PANELS_X = 64;       // Parameter to play with

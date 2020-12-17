@@ -1394,7 +1394,8 @@ public class Program {
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when error with playing the song occurred.
      */
-    public void playSong(byte[] song, AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException {
+    public static void playSong(byte[] song, AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException {
+        int frameSize = (audioFormat.getSampleSizeInBits() / 8) * audioFormat.getChannels();
         int bytesWritten;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
         SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
@@ -1451,7 +1452,9 @@ public class Program {
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
-    public void playSong(byte[] song, Encoding encoding, int sampleRate, int sampleSizeInBits, int numberOfChannels, int frameSize, float frameRate, boolean isBigEndian, boolean playBackwards) throws LineUnavailableException {
+    public static void playSong(byte[] song, Encoding encoding, int sampleRate, int sampleSizeInBits,
+                                int numberOfChannels, int frameSize, float frameRate, boolean isBigEndian,
+                                boolean playBackwards) throws LineUnavailableException {
         AudioFormat audioFormat = new AudioFormat(encoding, sampleRate, sampleSizeInBits, numberOfChannels, frameSize, frameRate, isBigEndian);
         playSong(song, audioFormat, playBackwards);
     }
@@ -1492,7 +1495,7 @@ public class Program {
      * specific values: ascending = false and the song parts should't be sorted* @throws LineUnavailableException
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
-    public void playSongParts(SongPartWithAverageValueOfSamples[] songParts, AudioFormat audioFormat, boolean ascending, boolean playBackwards) throws LineUnavailableException {
+    public static void playSongParts(SongPartWithAverageValueOfSamples[] songParts, AudioFormat audioFormat, boolean ascending, boolean playBackwards) throws LineUnavailableException {
         int bytesWritten;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
         SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
@@ -1560,7 +1563,7 @@ public class Program {
      * specific values: ascending = false and the song parts should't be sorted
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
-    public void playSongParts(SongPartWithAverageValueOfSamples[] songParts, Encoding encoding,
+    public static void playSongParts(SongPartWithAverageValueOfSamples[] songParts, Encoding encoding,
                               int sampleRate, int sampleSizeInBits, int numberOfChannels, int frameSize, float frameRate,
                               boolean isBigEndian, boolean ascending, boolean playBackwards) throws LineUnavailableException {
 

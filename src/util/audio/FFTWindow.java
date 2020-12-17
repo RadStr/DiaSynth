@@ -67,7 +67,6 @@ public class FFTWindow {
         return a0 - a1 * Math.cos(2 * Math.PI * index / lengthPlus1);
     }
 
-    // TODO: Kdyztak implementovat https://en.wikipedia.org/wiki/Window_function#Hann_and_Hamming_windows
-    //  ... cosine-sum windows obecne ... ma to ale nevyhodu, ze to nebude uplne rychly (muselo by se resit bud pres pole
-    //  nebo pres promenny pocet parametru, tj. ...)
+    // Alternatively can be implemented like this https://en.wikipedia.org/wiki/Window_function#Hann_and_Hamming_windows
+    //  ... cosine-sum windows - but not that fast, I would had to have arrays or variable amount of parameters or something.
 }

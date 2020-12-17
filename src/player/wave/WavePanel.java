@@ -979,7 +979,7 @@ public class WavePanel extends JPanel {
 // TODO: DEBUG
 //            ProgramTest.debugPrint("Thread:", Thread.currentThread());
 // TODO: DEBUG
-//            SwingUtils.invokeLater(new Runnable() {
+//            SwingUtilities.invokeLater(new Runnable() {
 //                @Override
 //                public void run() {
 //                    for ( final File file : files ) {

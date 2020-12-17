@@ -4069,7 +4069,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 ////                Timer t = new Timer(1000, new ActionListener() {
 ////                    @Override
 ////                    public void actionPerformed(ActionEvent e) {
-////                        Window w = SwingUtils.getWindowAncestor(shutDownPanel);
+////                        Window w = SwingUtilities.getWindowAncestor(shutDownPanel);
 ////                        w.setVisible(!w.isVisible());
 ////                    }
 ////                });

@@ -539,8 +539,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //        Container parent = getParent();
 //        Container grandParent = parent.getParent();
 //        Container grandGrandParent = grandParent.getParent();
-//        if(parent == SwingUtils.getWindowAncestor(this) || grandParent == SwingUtils.getWindowAncestor(this) ||
-//                grandGrandParent == SwingUtils.getWindowAncestor(this)) {
+//        if(parent == SwingUtilities.getWindowAncestor(this) || grandParent == SwingUtilities.getWindowAncestor(this) ||
+//                grandGrandParent == SwingUtilities.getWindowAncestor(this)) {
 //            System.exit(4578);
 //        }
 //        if(parent == null) {
@@ -550,7 +550,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //
 //        }
 //
-//        JFrame topFrame = (JFrame) SwingUtils.getWindowAncestor(this);
+//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 //        JPanel content = (JPanel)topFrame.getContentPane();
 //
 ////        ProgramTest.debugPrint("LOCATION:", getLocation());
@@ -563,7 +563,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 ////            return minSize;
 ////        }
 ////
-//////        JFrame topFrame = (JFrame) SwingUtils.getWindowAncestor(this);
+//////        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 //////        prefSize.width = topFrame.getWidth() / 2;
 //////        prefSize.height = topFrame.getHeight() / 2;
 ////////        prefSize.width = Math.max(prefSize.width, 1);

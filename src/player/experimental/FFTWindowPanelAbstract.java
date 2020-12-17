@@ -2,6 +2,7 @@ package player.experimental;
 
 import util.Aggregation;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.audio.FFT;
 
 import java.awt.*;
 
@@ -20,12 +21,12 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
                                   boolean isEditable, boolean areValuesSigned,
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {
-        super(Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize), "Frequency",
+        super(FFT.getBinCountRealForward(windowSize), "Frequency",
                 isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop,
                 shouldDrawLineInMiddle);
         this.WINDOW_SIZE = windowSize;
         this.FREQ_JUMP = freqJump;
-        int binCount = Rocnikovy_Projekt.Program.getBinCountRealForward(windowSize);
+        int binCount = FFT.getBinCountRealForward(windowSize);
         labels = Rocnikovy_Projekt.Program.getFreqs(binCount, freqJump, 0, 1, 3);
 
         fftResult = new double[windowSize];

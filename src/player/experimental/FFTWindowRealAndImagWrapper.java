@@ -5,6 +5,7 @@ import plugin.PluginBaseIFace;
 import plugin.PluginParameterAnnotation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.audio.FFT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,19 +28,19 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
                 isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
 
-        int binCount = Program.getBinCountRealForward(windowSize);
+        int binCount = FFT.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize];     // 2* because we will use complex FFT
         fft = new DoubleFFT_1D(windowSize);
 
 
         if(song != null) {
-            Program.calculateFFTRealForward(song, startIndex, windowSize, 1, fft, fftResult);
+            FFT.calculateFFTRealForward(song, startIndex, windowSize, 1, fft, fftResult);
         }
 
         for(int i = 0; i < fftResult.length; i++) {
             fftResult[i] /= (2 * binCount);         // TODO: NORM
         }
-        Program.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
+        FFT.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
                 imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
         realPartPanel.setDrawPanel(realPartPanel.fftWindowPartPanel);
         imagPartPanel.setDrawPanel(imagPartPanel.fftWindowPartPanel);
@@ -127,7 +128,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     public double[] getIFFTResult(int periodCount) {
         double[] realPart = realPartPanel.fftWindowPartPanel.DRAW_VALUES;
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
-        Program.connectRealAndImagPart(realPart, imagPart, fftResult);
+        FFT.connectRealAndImagPart(realPart, imagPart, fftResult);
         for(int i = 0; i < fftResult.length; i++) {
             fftResult[i] *= 2 * realPart.length;            // TODO: NORM
         }
@@ -135,7 +136,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
         // Only the real part is valid, the imaginary is equal to zero.
         double[] realFFTPart = new double[fftResult.length / 2];
-        Program.separateOnlyRealPart(realFFTPart, fftResult, fftResult.length);
+        FFT.separateOnlyRealPart(realFFTPart, fftResult, fftResult.length);
         FFTWindowPanel.normalize(realFFTPart);
         double[] ifftResult = Program.copyArr(realFFTPart, realFFTPart.length, periodCount);
         return ifftResult;

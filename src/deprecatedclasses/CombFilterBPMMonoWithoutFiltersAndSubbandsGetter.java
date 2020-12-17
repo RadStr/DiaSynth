@@ -4,6 +4,7 @@ import Rocnikovy_Projekt.Program;
 import analyzer.bpm.CombFilterBPMGetterIFace;
 import analyzer.bpm.SubbandSplitterIFace;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.audio.FFT;
 
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
                             DoubleFFT_1D fft, int sampleRate) {
         double[][] fftResults;
         try {
-            fftResults = Program.calculateFFTRealForward(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy
+            fftResults = FFT.calculateFFTRealForward(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy
                 windowSize, startIndex, endIndex, isBigEndian, isSigned, fft);     // TODO: tohle vraci measury ... nikoliv imag a real cast ... prizpusobit k tomu tu metodu
             // TODO: A jeste ten nechci volat na cely song ... vypocetne narocny ... melo by se to delat na nejakou 5ti sekundovou cast
             // TODO: !!!!!!!!!!!!!!

@@ -3,6 +3,7 @@ package player.experimental;
 import util.Aggregation;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.audio.FFT;
 
 import java.awt.*;
 
@@ -24,12 +25,12 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
                 isEditable, false, backgroundColor, shouldDrawLabelsAtTop, false);
 
         if(song != null) {
-            Program.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);
+            FFT.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);
         }
         else {
             Program.setOneDimArr(fftResult, 0, fftResult.length, 0);
         }
-        Program.convertResultsOfFFTToRealRealForward(fftResult, DRAW_VALUES);
+        FFT.convertResultsOfFFTToRealRealForward(fftResult, DRAW_VALUES);
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
     }
@@ -130,10 +131,10 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
 
         if(setImagPartToZero) {
-            Program.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
+            FFT.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
         }
         else {
-            Program.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
+            FFT.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
         }
 
         for(int i = 0; i < fftResult.length; i++) {

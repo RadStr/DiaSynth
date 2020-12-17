@@ -1,6 +1,7 @@
 package test;
 
 import util.Aggregation;
+import util.audio.FFT;
 import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
 import util.audio.SongPartWithAverageValueOfSamples;
@@ -476,7 +477,7 @@ public class ProgramTest {
 
             FrequencyWithMeasure[][] freqs = new FrequencyWithMeasure[0][];
             try {
-                freqs = Program.calculateFFTRealForward(spwavos, sampleSize, sampleRate, isBigEndian, isSigned);
+                freqs = FFT.calculateFFTRealForward(spwavos, sampleSize, sampleRate, isBigEndian, isSigned);
             } catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION\t");
                 return false;
@@ -485,7 +486,7 @@ public class ProgramTest {
 
             FrequencyWithMeasure[][] freqsCalculatedStraigthFromBytes;
             try {
-                freqsCalculatedStraigthFromBytes = Program.calculateFFTRealForward(audioWithFreqfreq, sampleSize, sampleSizeInBits,
+                freqsCalculatedStraigthFromBytes = FFT.calculateFFTRealForward(audioWithFreqfreq, sampleSize, sampleSizeInBits,
                     sampleRate, sizeOfOneSongPart, isBigEndian, isSigned);
             } catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION");
@@ -509,7 +510,7 @@ public class ProgramTest {
 
             double[][] onlyMeasures;
             try {
-                onlyMeasures = Program.calculateFFTRealForwardOnlyMeasures(audioWithFreqfreq, sampleSize, sampleSizeInBits,
+                onlyMeasures = FFT.calculateFFTRealForwardOnlyMeasures(audioWithFreqfreq, sampleSize, sampleSizeInBits,
                     sizeOfOneSongPart, 0, audioWithFreqfreq.length, isBigEndian, isSigned);
             } catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION");
@@ -523,9 +524,9 @@ public class ProgramTest {
                 FrequencyWithMeasure[] highestFrequencies2 = new FrequencyWithMeasure[0];
                 double[] highestMeasures = new double[0];
                 try {
-                    highestMeasures = Program.getNHighestMeasures(onlyMeasures[i], topNMeasures);
-                    highestFrequencies = Program.takeNFreqsWithHighestMeasure(freqs[i], topNMeasures, false);
-                    highestFrequencies2 = Program.takeNFreqsWithHighestMeasure(freqsCalculatedStraigthFromBytes[i],
+                    highestMeasures = FFT.getNHighestMeasures(onlyMeasures[i], topNMeasures);
+                    highestFrequencies = FFT.takeNFreqsWithHighestMeasure(freqs[i], topNMeasures, false);
+                    highestFrequencies2 = FFT.takeNFreqsWithHighestMeasure(freqsCalculatedStraigthFromBytes[i],
                         topNMeasures, false);
                 } catch (IOException e) {
                     System.out.println("FALSE: EXCEPTION\t");
@@ -2909,9 +2910,9 @@ public class ProgramTest {
         double[] sine;
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
-        Program.realToComplexRealOnly(sine, arr, false);
+        FFT.realToComplexRealOnly(sine, arr, false);
         sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
-        Program.realToComplexImagOnly(sine, arr, false);
+        FFT.realToComplexImagOnly(sine, arr, false);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -2927,7 +2928,7 @@ public class ProgramTest {
         double[] sine;
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
-        Program.realToComplexRealOnly(sine, arr, true);
+        FFT.realToComplexRealOnly(sine, arr, true);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -2942,7 +2943,7 @@ public class ProgramTest {
         double[] sine = new double[len];
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
-        Program.realToComplexImagOnly(sine, arr, true);
+        FFT.realToComplexImagOnly(sine, arr, true);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -3049,13 +3050,13 @@ public class ProgramTest {
             double[] audio =  Program.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1, 0, 0, 0);
             //double[] audio =  Program.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
             DoubleFFT_1D fft = new DoubleFFT_1D(audio.length);
-            Program.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);
+            FFT.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);
             for(int j = 0; j < audio.length; j++) {
                 //audio[j] /= (audio.length / 2);
                 audio[j] /= audio.length;
             }
-            double[] measures = new double[Program.getBinCountRealForward(audio.length)];
-            Program.convertResultsOfFFTToRealRealForward(audio, measures);
+            double[] measures = new double[FFT.getBinCountRealForward(audio.length)];
+            FFT.convertResultsOfFFTToRealRealForward(audio, measures);
 
             for(int j = 0; j < audio.length; j++) {
                 audio[j] = Math.abs(audio[j]);

@@ -1249,7 +1249,7 @@ public class FFT {
     /////////////////// Convolution methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Convolution is like polynom multiplication
+// Convolution is like polynomial multiplication
 
     public static double[] convolutionInFreqDomainRealForwardFull(double[] fftResult, double[] bpmArray) {  // TODO: "Stereo" verze
         double[] result = new double[fftResult.length];

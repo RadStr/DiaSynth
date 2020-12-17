@@ -2,8 +2,10 @@ package analyzer.bpm;
 
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
+import util.Rectification;
 import util.audio.FFT;
 import util.audio.FFTWindow;
+import util.audio.Utilities;
 
 import java.io.IOException;
 
@@ -136,16 +138,16 @@ public interface CombFilterBPMGetterIFace {
                 //TODO: DEBUG
 
 // TODO: Ted nechapu proc to tady pocitam znova kdyz to mam uz v ifftResults getIFFTBasedOnSubband(fftResult, subbandCount, subband, splitter, ifftResult);
-                Program.fullWaveRectificationDouble(ifftResults[subband], true);
+                Rectification.fullWaveRectificationDouble(ifftResults[subband], true);
 // TODO: Jen debug                System.arraycopy(ifftResults[subband], 0, tmpArray, 0, tmpArray.length); // T
                 fft.realForward(ifftResults[subband]); //TODO:   calculateFFTRealForward(ifftResults[subband], 0, 1, fft, tmpArray);
                 // TODO: !!!!!!!!!!!!!!!! performConvolutionInFreqDomain je getCombFilterEnergyRealForward ... akorat to vsechno nakonec nesectu a nevratim jen ten soucet ... ale ukladam ty mezivysledky nasobeni do pole
-                Program.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]); // TODO: ifftResults[subband] = performConvolutionInFreqDomain(fftRightSideOfHahnWindow, tmpArray);        // TODO: Mozna ten vysledek musim ulozit jinam nez do ifftResults ... zalezi jak funguje to IFFT
+                FFT.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]); // TODO: ifftResults[subband] = performConvolutionInFreqDomain(fftRightSideOfHahnWindow, tmpArray);        // TODO: Mozna ten vysledek musim ulozit jinam nez do ifftResults ... zalezi jak funguje to IFFT
                 FFT.calculateIFFTRealForward(ifftResults[subband], fft, true);      // TODO: To skalovani nevim
                 Program.performNonRecursiveFilter(ifftResults[subband], 0, coefsForFilter,
                     1, ifftResult, 0, ifftResult.length); // TODO: performNonRecursiveFilter(ifftResults[subband], coefsForFilter);  // TODO: Napsat tuhle metodu s nereferencni variantou
                 System.arraycopy(ifftResult, 0, ifftResults[subband], 0, ifftResult.length);
-                Program.halfWaveRectificationDouble(ifftResults[subband], true);
+                Rectification.halfWaveRectificationDouble(ifftResults[subband], true);
 
 //T
 //TODO: DEBUG

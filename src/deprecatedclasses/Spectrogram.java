@@ -13,12 +13,6 @@ public class Spectrogram {
     ////////////////////////////////////////////////////////////////////////////////////
     ///////////////////// Spectrogram
     ////////////////////////////////////////////////////////////////////////////////////
-    public static double getFreqJump(int sampleRate, double windowSize) {
-        double result = sampleRate / (double) windowSize;
-        return result;
-    }
-
-
     // TODO: VYMAZAT TEN SPECTROGRAM
     // TODO: VYMAZAT TEN SPECTROGRAM
     // TODO: VYMAZAT TEN SPECTROGRAM

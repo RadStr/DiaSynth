@@ -3,6 +3,7 @@ package analyzer.bpm;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.audio.FFT;
+import util.audio.FFTWindow;
 
 import java.io.IOException;
 
@@ -72,7 +73,7 @@ public interface CombFilterBPMGetterIFace {
         // This is *2 the value from the source material, because I calculate the hahn window a bit differently -
         // I checked it against the implementation from the source materials and the results are the same now (+/- double error)
         int hahnWindowSize = (int) (hahnWindowSizeInSecs * sampleRate * 2);
-        double[] fftRightSideOfHahnWindow = Program.getHahnWindowWithLimit(windowSize, hahnWindowSize / 2, hahnWindowSize);
+        double[] fftRightSideOfHahnWindow = FFTWindow.getHahnWindowWithLimit(windowSize, hahnWindowSize / 2, hahnWindowSize);
         // TODO: DEBUG
 //        for (int i = 0; i < fftRightSideOfHahnWindow.length; i++) {
 //            if (fftRightSideOfHahnWindow[i] != 0) {

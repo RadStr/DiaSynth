@@ -1,5 +1,6 @@
 package test;
 
+import deprecatedclasses.Spectrogram;
 import util.Aggregation;
 import util.audio.FFT;
 import util.audio.FrequencyWithMeasure;
@@ -2691,7 +2692,7 @@ public class ProgramTest {
 
 
         double freqJump = Program.getFreqJump(prog.sampleRate, windowSize);
-        BufferedImage img = Program.createSpectrogram(songDouble, prog.numberOfChannels, windowSize, windowShift,
+        BufferedImage img = Spectrogram.createSpectrogram(songDouble, prog.numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 
         createTestWindow(img);
@@ -2715,7 +2716,7 @@ public class ProgramTest {
         }
 
         double freqJump = Program.getFreqJump(sampleRate, windowSize);
-        BufferedImage img = Program.createSpectrogram(songDouble, numberOfChannels, windowSize, windowShift,
+        BufferedImage img = Spectrogram.createSpectrogram(songDouble, numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 
         SwingUtilities.invokeLater(new Runnable() {

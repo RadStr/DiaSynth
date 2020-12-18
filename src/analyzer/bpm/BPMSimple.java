@@ -8,6 +8,7 @@ import util.audio.AudioUtilities;
 public class BPMSimple {
     private BPMSimple() {}       // Allow only static access
 
+    
     // windows.length == sampleRate / windowSize
     public static int computeBPM(byte[] samples, int windowSize, double[] windows, int numberOfChannels,
                                  int sampleSize, int frameSize,

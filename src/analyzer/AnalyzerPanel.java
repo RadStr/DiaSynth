@@ -628,7 +628,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(Program prog) {
-        return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.calculateBPMSimple()).toString());
+        return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.computeBPMSimple()).toString());
     }
 
 

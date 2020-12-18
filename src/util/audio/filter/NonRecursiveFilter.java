@@ -28,7 +28,7 @@ public class NonRecursiveFilter {
             windowSum += samples[i];
             oldSampleValues[i] = samples[i];
         }
-        i--;	// We are not calculating the average from current value
+        i--;	// We are calculating the average from values including the "current" one
 
 
         // Now we will just move the window (subtract first element of that window and add the last one)
@@ -77,7 +77,7 @@ public class NonRecursiveFilter {
                 oldSampleValues[ch][i] = samples[sampleInd];
             }
         }
-        sampleInd -= numberOfChannels;			// We are not calculating the average from current value
+        sampleInd -= numberOfChannels;		// We are calculating the average from values including the "current" one
 
 
         // Now we will just move the window (subtract first element of that window and add the last one)

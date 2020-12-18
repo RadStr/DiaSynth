@@ -208,15 +208,21 @@ public class Program {
 
 
     /**
-     * Converts given stream to byte array,
      * setVariables needs to be called before calling this method because
-     * onlyAudioSizeInBytes variable needs to be set to correct byte length of audio
+     * onlyAudioSizeInBytes variable needs to be set to correct byte length of audio.
+     */
+    public byte[] convertStreamToByteArray(InputStream stream) throws IOException {
+        return convertStreamToByteArray(stream, onlyAudioSizeInBytes);
+    }
+
+    /**
+     * Converts given stream to byte array of length streamLen (streamLen should be at least the same size as the stream),
      * @param stream is the stream to convert
      * @return returns the converted stream
      * @throws IOException if error with stream occurred
      */
-    public byte[] convertStreamToByteArray(InputStream stream) throws IOException {
-        byte[] converted = new byte[onlyAudioSizeInBytes];
+    public static byte[] convertStreamToByteArray(InputStream stream, int streamLen) throws IOException {
+        byte[] converted = new byte[streamLen];
         int readCount = 0;
         int totalLen = 0;
         int readLen = stream.available();
@@ -726,15 +732,14 @@ public class Program {
 
 
     /**
-     * Plays the audio given in the input stream in audio audioFormat given as parameter.
-     * @param song is the input stream with the samples to be played.
+     * Plays the loaded song. It is played in audio audioFormat given as parameter.
      * @param audioFormat is the audio audioFormat.
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when error with playing the song occurred.
      */
-    public void playSong(InputStream song, AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException, IOException {
+    public void playSong(AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException, IOException {
         if(playBackwards) {
-            byte[] songArr = convertStreamToByteArray(song);
+            byte[] songArr = convertStreamToByteArray(decodedAudioStream);
             AudioUtilities.playSong(songArr, audioFormat, playBackwards);
         } else {
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
@@ -744,7 +749,7 @@ public class Program {
             int bytesRead = 0;
             byte[] buffer = new byte[frameSize * 256];
             while(bytesRead != -1) {
-                bytesRead = song.read(buffer, 0, buffer.length);
+                bytesRead = decodedAudioStream.read(buffer, 0, buffer.length);
                 line.write(buffer, 0, bytesRead);
             }
             line.drain();
@@ -753,9 +758,8 @@ public class Program {
 
 
     /**
-     * Plays the song given in the input stream song. Other parameters of this method describe the audioFormat in which will be the audio played.
+     * Plays the loaded song. Other parameters of this method describe the audioFormat in which will be the audio played.
      * Playing the audio backwards may be too slow, the input stream has to be transformed to byte array first.
-     * @param song is the input stream containing samples, which will be played.
      * @param encoding is the encoding of the audio data.
      * @param sampleRate is the sample rate of the audio data.
      * @param sampleSizeInBits is the size of 1 sample in bits.
@@ -767,9 +771,9 @@ public class Program {
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      * @throws IOException is thrown when error with the input stream occurred.
      */
-    public void playSong(InputStream song, Encoding encoding, int sampleRate, int sampleSizeInBits, int numberOfChannels, int frameSize, float frameRate, boolean isBigEndian, boolean playBackwards) throws LineUnavailableException, IOException {
+    public void playSong(Encoding encoding, int sampleRate, int sampleSizeInBits, int numberOfChannels, int frameSize, float frameRate, boolean isBigEndian, boolean playBackwards) throws LineUnavailableException, IOException {
         AudioFormat audioFormat = new AudioFormat(encoding, sampleRate, sampleSizeInBits, numberOfChannels, frameSize, frameRate, isBigEndian);
-        playSong(song, audioFormat, playBackwards);
+        playSong(audioFormat, playBackwards);
     }
 
 

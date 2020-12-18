@@ -209,10 +209,11 @@ public class Program {
 
     /**
      * setVariables needs to be called before calling this method because
-     * onlyAudioSizeInBytes variable needs to be set to correct byte length of audio.
+     * onlyAudioSizeInBytes variable needs to be set to correct byte length of audio and
+     * decodedAudioStream needs to be set to correct audio.
      */
-    public byte[] convertStreamToByteArray(InputStream stream) throws IOException {
-        return convertStreamToByteArray(stream, onlyAudioSizeInBytes);
+    public byte[] convertStreamToByteArray() throws IOException {
+        return convertStreamToByteArray(decodedAudioStream, onlyAudioSizeInBytes);
     }
 
     /**
@@ -732,14 +733,14 @@ public class Program {
 
 
     /**
-     * Plays the loaded song. It is played in audio audioFormat given as parameter.
+     * Plays the loaded song. It is played in audioFormat given as parameter.
      * @param audioFormat is the audio audioFormat.
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when error with playing the song occurred.
      */
     public void playSong(AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException, IOException {
         if(playBackwards) {
-            byte[] songArr = convertStreamToByteArray(decodedAudioStream);
+            byte[] songArr = convertStreamToByteArray();
             AudioUtilities.playSong(songArr, audioFormat, playBackwards);
         } else {
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
@@ -881,7 +882,7 @@ public class Program {
     private void setSong() throws IOException  {
         setTotalAudioLength();
         setFormatAndStream(this.path);
-        song = convertStreamToByteArray(decodedAudioStream);
+        song = convertStreamToByteArray();
         onlyAudioSizeInBytes = song.length;
         headerSize = wholeFileSize - onlyAudioSizeInBytes;
         decodedAudioStream.close();

@@ -86,6 +86,7 @@ public class AudioProcessor {
         return bArr;
     }
 
+
     /**
      * This method takes every x-th read part of length length from byte array
      * Starts at startFame
@@ -145,6 +146,8 @@ public class AudioProcessor {
         return result;
     }
 
+
+    // TODO: Called only from test
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
      * If the result of this method wants to be played in some audio player, then it is important to notice, that to
@@ -195,6 +198,8 @@ public class AudioProcessor {
         return newSamples;
     }
 
+
+    // TODO: Called only from test
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
      * If the result of this method wants to be played in some audio player, then it is important to notice, that to

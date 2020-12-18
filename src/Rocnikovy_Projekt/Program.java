@@ -3025,38 +3025,6 @@ if(currBPM == 60) {
 //    }
 
 
-
-
-
-
-    public static double[][] getIFFTBasedOnSubbands(double[] fftResult, int subbandCount, DoubleFFT_1D fft,
-                                                    SubbandSplitterIFace splitter) {
-        double[][] result = new double[subbandCount][fftResult.length];
-        getIFFTBasedOnSubbands(fftResult, subbandCount, fft, splitter, result);
-        return result;
-    }
-    public static void getIFFTBasedOnSubbands(double[] fftResult, int subbandCount, DoubleFFT_1D fft,
-                                             SubbandSplitterIFace splitter, double[][] result) {
-        for(int subband = 0; subband < subbandCount; subband++) {
-            splitter.getSubband(fftResult, subbandCount, subband, result[subband]);
-
-//            // TODO:
-//            System.out.println("\n\n\n\n" + subband);
-//            for(int i = 0; i < result[subband].length; i++) {
-//                System.out.println(i + "\t" + result[subband][i]);
-//            }
-
-            FFT.calculateIFFTRealForward(result[subband], fft, true);      // TODO: To skalovani nevim
-            // TODO: Tady bych mel volat tu metodu podtim asi
-        }
-    }
-
-    public static void getIFFTBasedOnSubband(double[] fftResult, int subbandCount, int subband, DoubleFFT_1D fft,
-                                             SubbandSplitterIFace splitter, double[] result) {
-        splitter.getSubband(fftResult, subbandCount, subband, result);
-        FFT.calculateIFFTRealForward(result, fft, true);     // TODO: To skalovani ... asi se ma davat true, ale nevim proc ... no vzdycky to muze prevadet jako parametr
-    }
-
     // TODO: To je p[odle me jen napsana ta jednoducha verze ... muzu to pak vymazat
 //        int bpm = 0;
 //        int[] maxBPMIndexes = 0;

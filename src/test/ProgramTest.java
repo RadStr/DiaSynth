@@ -3,6 +3,7 @@ package test;
 import deprecatedclasses.Spectrogram;
 import util.Aggregation;
 import util.Utilities;
+import util.audio.AudioUtilities;
 import util.audio.FFT;
 import util.audio.FrequencyWithMeasure;
 import Rocnikovy_Projekt.Program;
@@ -784,13 +785,13 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 5 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 5 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
@@ -807,13 +808,13 @@ public class ProgramTest {
         samples[5] = 0;
         samples[6] = 4;
         samples[7] = 0;
-        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 5 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = 5 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 5 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
@@ -842,13 +843,13 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 1 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 1 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
@@ -863,13 +864,13 @@ public class ProgramTest {
         samples[5] = 0;
         samples[6] = 4;
         samples[7] = 0;
-        correctResult = 1 / (double)Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 1 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = 1 / (double) Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = 1 / (double) AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MIN) != correctResult) {
             return false;
         }
@@ -898,13 +899,13 @@ public class ProgramTest {
         samples[6] = 0;
         samples[7] = 4;
 
-        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
@@ -921,13 +922,13 @@ public class ProgramTest {
         samples[6] = 4;
         samples[7] = 0;
 
-        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
 
         isSigned = true;
-        correctResult = ((1 + 2 + 3 + 4) / 4.0) / Program.getMaxAbsoluteValue(16, isSigned);
+        correctResult = ((1 + 2 + 3 + 4) / 4.0) / AudioUtilities.getMaxAbsoluteValue(16, isSigned);
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.AVG) != correctResult) {
             return false;
         }
@@ -956,14 +957,14 @@ public class ProgramTest {
         samples[7] = 4;
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
@@ -980,14 +981,14 @@ public class ProgramTest {
         samples[7] = 0;
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(Program.getMaxAbsoluteValue(16, isSigned), 2));
+                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
@@ -1568,7 +1569,7 @@ public class ProgramTest {
 
         int mask = 0;
         try {
-            mask = Program.calculateMask(sampleSize);
+            mask = AudioUtilities.calculateMask(sampleSize);
         } catch (IOException e) {
             System.out.print("FALSE3\t");
             return false;
@@ -1667,7 +1668,7 @@ public class ProgramTest {
             return false;
         }
 
-        int maxAbsoluteValue = Program.getMaxAbsoluteValueSigned(sampleSizeInBits);
+        int maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
         for (int i = 0; i < result.length; i++) {
             int val = testArrInt[i];
             if (!isSigned) {
@@ -2238,7 +2239,7 @@ public class ProgramTest {
 
         int mask = 0;
         try {
-            mask = Program.calculateMask(sampleSize);
+            mask = AudioUtilities.calculateMask(sampleSize);
         } catch (IOException e) {
             System.out.print("FALSE5:\t");
             return false;
@@ -2659,7 +2660,7 @@ public class ProgramTest {
         }
 
 
-        double freqJump = Program.getFreqJump(sampleRate, windowSize);
+        double freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
         createFFTWindow(songDouble, windowSize, startIndex, freqJump);
 
         return true;
@@ -2692,7 +2693,7 @@ public class ProgramTest {
         prog.sampleRate = 22050;
 
 
-        double freqJump = Program.getFreqJump(prog.sampleRate, windowSize);
+        double freqJump = AudioUtilities.getFreqJump(prog.sampleRate, windowSize);
         BufferedImage img = Spectrogram.createSpectrogram(songDouble, prog.numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 
@@ -2716,7 +2717,7 @@ public class ProgramTest {
             return false;
         }
 
-        double freqJump = Program.getFreqJump(sampleRate, windowSize);
+        double freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
         BufferedImage img = Spectrogram.createSpectrogram(songDouble, numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 

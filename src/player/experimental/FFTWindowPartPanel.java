@@ -1,6 +1,6 @@
 package player.experimental;
 
-import Rocnikovy_Projekt.Program;
+import util.audio.AudioUtilities;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -10,7 +10,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
                               int startIndex, int sampleRate, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(controlPanel, song, windowSize, startIndex,
-                Rocnikovy_Projekt.Program.getFreqJump(sampleRate, windowSize),
+                AudioUtilities.getFreqJump(sampleRate, windowSize),
                 isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
@@ -45,7 +45,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
             freqJump = this.FREQ_JUMP;
         }
         else {
-            freqJump = Program.getFreqJump(sampleRate, windowSize);
+            freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
         }
 
 

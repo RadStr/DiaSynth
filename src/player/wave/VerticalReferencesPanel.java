@@ -1,8 +1,8 @@
 package player.wave;
 
 import util.Aggregation;
+import util.audio.AudioUtilities;
 import util.swing.JLabelWithLineInMid;
-import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 import util.swing.SwingUtils;
 
@@ -276,7 +276,7 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
     private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
-        int valMax = Program.getMaxAbsoluteValueSigned(sampleSizeInBits);
+        int valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
         int valMin = -valMax;
         valMax--;
         drawSamplesValueRangeInt(g, valMin, valMax, 0);

@@ -12,6 +12,7 @@ import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
 import util.Time;
+import util.audio.AudioUtilities;
 import util.audio.wave.DoubleWave;
 import util.swing.ErrorFrame;
 import org.w3c.dom.Node;
@@ -364,7 +365,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                        filename + "\n" + Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                        filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {
@@ -398,7 +399,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                        filename + "\n" + Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                        filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {

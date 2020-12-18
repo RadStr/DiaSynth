@@ -1,6 +1,7 @@
 package util;
 
 import Rocnikovy_Projekt.Program;
+import util.audio.AudioUtilities;
 
 public class Rectification {
     private Rectification() {}      // Allow only static access
@@ -156,7 +157,7 @@ public class Rectification {
             return 0;
         }
         else {
-            int maxValue = Program.getMaxAbsoluteValueUnsigned(8 * sampleSize);
+            int maxValue = AudioUtilities.getMaxAbsoluteValueUnsigned(8 * sampleSize);
             return maxValue / 2;
         }
     }
@@ -169,7 +170,7 @@ public class Rectification {
             }
         }
         else {
-            int maxValue = Program.getMaxAbsoluteValueUnsigned(8 * sampleSize);
+            int maxValue = AudioUtilities.getMaxAbsoluteValueUnsigned(8 * sampleSize);
             zeroValue = maxValue / 2;
             Program.convertIntToByteArr(zeroValueBytesResult, zeroValue, isBigEndian);
         }

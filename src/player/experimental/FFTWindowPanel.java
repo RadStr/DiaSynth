@@ -1,9 +1,9 @@
 package player.experimental;
 
 import util.Aggregation;
-import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Utilities;
+import util.audio.AudioUtilities;
 import util.audio.FFT;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                           boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        this(song, windowSize, startIndex, Program.getFreqJump(sampleRate, windowSize),
+        this(song, windowSize, startIndex, AudioUtilities.getFreqJump(sampleRate, windowSize),
                 isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
@@ -49,7 +49,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
             freqJump = this.FREQ_JUMP;
         }
         else {
-            freqJump = Program.getFreqJump(sampleRate, windowSize);
+            freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
         }
 
         return new FFTWindowPanel(null, windowSize, -1, freqJump,

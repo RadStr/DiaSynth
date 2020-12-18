@@ -2,9 +2,9 @@ package synthesizer.synth;
 
 import synthesizer.gui.diagram.util.ListSortedByY;
 import synthesizer.synth.audio.AudioThread;
+import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatWithSign;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 
 import javax.sound.sampled.AudioFormat;
 import java.util.ConcurrentModificationException;
@@ -192,7 +192,7 @@ public class SynthDiagram extends Thread {
         AudioFormatWithSign outFormat = outputFormatGetter.getOutputFormat();
         int sampleSizeInBytes = outFormat.getSampleSizeInBits();
         // sampleSizeInBytes == sample size in bits currently
-        int maxAbsoluteValue = Program.getMaxAbsoluteValueSigned(sampleSizeInBytes);
+        int maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBytes);
         sampleSizeInBytes /= 8;
         int frameSize = recordedChannels.length * sampleSizeInBytes;
         byte[] recordedAudio = new byte[frameSize * recordedChannels[0].length];

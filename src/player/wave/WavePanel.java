@@ -5,6 +5,7 @@ import player.popup.WavePanelPopupMenu;
 import Rocnikovy_Projekt.*;
 import test.ProgramTest;
 import util.Utilities;
+import util.audio.AudioUtilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import util.swing.SwingUtils;
@@ -448,7 +449,7 @@ public class WavePanel extends JPanel {
     }
 
     private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
-        double valMax = Program.getMaxAbsoluteValueSigned(sampleSizeInBits);
+        double valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
         double valMin = -valMax - 1;
         drawSamplesValueRange(g, valMin, valMax);
     }

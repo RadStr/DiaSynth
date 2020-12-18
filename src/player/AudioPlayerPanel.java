@@ -21,6 +21,7 @@ import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import util.Time;
 import util.Utilities;
+import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
 import util.audio.format.AudioFormatWithSign;
@@ -3081,7 +3082,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if(!audioLoaded) {
                 if(shouldLog) {
                     MyLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
-                            Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                            AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 }
                 return null;
             }
@@ -3132,7 +3133,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         boolean audioLoaded = p.setVariables(f, false);
         if(!audioLoaded) {
             MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
-                    Program.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                    AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
             return;
         }
 
@@ -5056,7 +5057,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             audioLineMaxAvailableBytes = line.available();
 
             sampleSizeInBytes = outputAudioFormat.getSampleSizeInBits();
-            maxAbsoluteValue = Program.getMaxAbsoluteValueSigned(sampleSizeInBytes);
+            maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBytes);
             sampleSizeInBytes /= 8;
             int frameSize = sampleSizeInBytes * outputAudioFormat.getChannels();
             // Now it contains length of one second in bytes.
@@ -5079,7 +5080,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             outputEndIndex = getDoubleWaveLength();
             int songSizeInSecs = DoubleWave.convertSampleToSecs(outputEndIndex, (int) outputAudioFormat.getSampleRate());
             songLenInSecs = Time.convertSecondsToTime(songSizeInSecs, -1);
-            indexJumpInDoubleArr = audioArr.length / Program.calculateFrameSize(outputAudioFormat);
+            indexJumpInDoubleArr = audioArr.length / AudioUtilities.calculateFrameSize(outputAudioFormat);
             setTimeLinePixelsPerPlayPart();
         }
 
@@ -5229,7 +5230,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public static byte[] getOutputWaveBytes(double[][] songs, double[][] multFactors, int outputLen,
                                             AudioMixerIFace mixer, AudioFormatWithSign outputAudioFormat) {
-        int maxAbsoluteValue = Program.getMaxAbsoluteValueSigned(outputAudioFormat.getSampleSizeInBits());
+        int maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(outputAudioFormat.getSampleSizeInBits());
         byte[] outputWave = new byte[outputLen];
         mixer.mixAllToOutputArr(songs, outputWave, multFactors, outputAudioFormat.getSampleSizeInBits() / 8,
                 outputAudioFormat.isBigEndian(), outputAudioFormat.isSigned, maxAbsoluteValue);
@@ -5331,7 +5332,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void setTimeLinePixelsPerPlayPart() {
         int waveWidth = getWaveWidth();             // TODO: Prekryv jmen promennych - ale tu starou ve tride uz stejne nepouzivam
         int audioLenInSamples = getDoubleWaveLength();
-        int arrLenInFrames = audioThread.audioArr.length / Program.calculateFrameSize(outputAudioFormat);
+        int arrLenInFrames = audioThread.audioArr.length / AudioUtilities.calculateFrameSize(outputAudioFormat);
         timeLinePixelsPerPlayPart = arrLenInFrames / (double) audioLenInSamples;
 // TODO: PROGRAMO TADY TO JE SPATNE KDYZ TO VOLAM TAK JESTE NEZNAM WAVEWIDTH
         timeLinePixelsPerPlayPart *= waveWidth;
@@ -5427,7 +5428,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
-        double valMax = Program.getMaxAbsoluteValueSigned(sampleSizeInBits);
+        double valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
         double valMin = -valMax - 1;
         drawSamplesValueRange(g, valMin, valMax);
     }

@@ -4,6 +4,7 @@ package util;
 //  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
 
 import Rocnikovy_Projekt.Program;
+import util.audio.AudioUtilities;
 import util.audio.io.AudioReader;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;
 import util.audio.SongPartWithAverageValueOfSamples;
@@ -376,7 +377,7 @@ public enum Aggregation {
                                             boolean isSigned, Aggregation agg) throws IOException {
         int n = samples.length / sampleSize;
 
-        int mask = Program.calculateMask(sampleSize);
+        int mask = AudioUtilities.calculateMask(sampleSize);
         double specialValue = agg.defaultValueForMod();
 
         int sample;
@@ -433,7 +434,7 @@ public enum Aggregation {
             }
         }
 
-        double maxAbsVal = (double) Program.getMaxAbsoluteValue(sampleSize * 8, isSigned);
+        double maxAbsVal = (double) AudioUtilities.getMaxAbsoluteValue(sampleSize * 8, isSigned);
         specialValue /= maxAbsVal;
         if (agg == RMS) {
             specialValue /= maxAbsVal;
@@ -470,7 +471,7 @@ public enum Aggregation {
         int bytesRead = 0;
         int sample;
 
-        int mask = Program.calculateMask(sampleSize);
+        int mask = AudioUtilities.calculateMask(sampleSize);
 
         byte[] arr = new byte[sampleSize * numberOfChannels * 16];
 
@@ -534,7 +535,7 @@ public enum Aggregation {
         }
 
 
-        double maxAbsVal = (double) Program.getMaxAbsoluteValue(sampleSize * 8, isSigned);
+        double maxAbsVal = (double) AudioUtilities.getMaxAbsoluteValue(sampleSize * 8, isSigned);
         specialValue /= maxAbsVal;
         if (agg == RMS) {
             specialValue /= maxAbsVal;

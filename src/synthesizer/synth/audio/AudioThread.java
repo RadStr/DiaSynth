@@ -5,6 +5,7 @@ import synthesizer.synth.CyclicQueueDouble;
 import synthesizer.synth.OutputFormatGetter;
 import synthesizer.synth.Unit;
 import util.Utilities;
+import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatWithSign;
 import player.control.AudioControlPanel;
 import util.logging.MyLogger;
@@ -108,7 +109,7 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
         outputAudioFormat = newFormat;
         int channelCount = outputAudioFormat.getChannels();
         sampleSizeInBytes = outputAudioFormat.getSampleSizeInBits() / 8;
-        maxAbsoluteValue = Program.getMaxAbsoluteValueSigned(outputAudioFormat.getSampleSizeInBits());
+        maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(outputAudioFormat.getSampleSizeInBits());
         int sampleRate = (int)outputAudioFormat.getSampleRate();
 
         if(waveVisualizer != null) {
@@ -153,7 +154,7 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
 
 
     public static int convertMsToByteLen(int sampleRate, int frameSize, double msDivFactor) {
-        int byteLen = Program.calculateSizeOfOneSec(sampleRate, frameSize);
+        int byteLen = AudioUtilities.calculateSizeOfOneSec(sampleRate, frameSize);
         byteLen *= (1 / msDivFactor);        // Number of bytes corresponding to the play time
         byteLen = Utilities.convertToMultipleUp(byteLen, frameSize);
         return byteLen;

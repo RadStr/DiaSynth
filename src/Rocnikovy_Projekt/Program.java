@@ -2260,7 +2260,7 @@ public class Program {
             windowsFromLastBeat++;
         }
 
-         int bpm = BPMUtils.convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+         int bpm = BPMUtils.convertBeatsToBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
 
         // TODO: DEBUG
 //         MyLogger.log("END OF BPM SIMPLE:\t" + minCoef + "\t" + maxCoef + "\t" + maxEnergy + "\t" + maxVariance, 0);
@@ -2703,7 +2703,7 @@ public class Program {
         }
 
         ProgramTest.debugPrint("MAX_ENERGY:", todoMaxEnergy);
-        int bpm = BPMUtils.convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+        int bpm = BPMUtils.convertBeatsToBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
         return bpm;
     }
 

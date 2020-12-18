@@ -180,7 +180,7 @@ public interface CombFilterBPMGetterIFace {
 ////                for(int debug = 0; debug < ifftResults[subband].length; debug++) {
 ////                    System.out.println(ifftResults[subband].length + "\t" + ifftResults[subband][debug]);
 ////                }
-                Program.getCombFilterEnergies(ifftResults[subband], bpmArrays, energies[subband]);       // adds to the energies
+                getCombFilterEnergies(ifftResults[subband], bpmArrays, energies[subband]);       // adds to the energies
 //                System.out.println("!!!!!!!!!!!!!!!!" + subband);
 //                for(int debug = 0; debug < energies[subband].length; debug++) {
 //                    System.out.println(getBPMFromIndex(bpmStart, bpmJump, debug) + "\t" + energies[subband][debug]);
@@ -252,6 +252,101 @@ public interface CombFilterBPMGetterIFace {
             prog.isBigEndian, prog.isSigned, subbandCount, splitter, fft, prog.sampleRate);
     }
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Comb filter energies - static methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static double getCombFilterEnergyRealForward(double[][] fftResults, double[][] bpmArray) {
+        double energy = 0;
+        for(int i = 0; i < fftResults.length; i++) {
+            energy += getCombFilterEnergyRealForward(fftResults[i], bpmArray[i]);
+        }
+
+        return energy;
+    }
+
+    static void getCombFilterEnergies(double[] fftResult, double[][][] bpmArray, double[] energies) {
+        for (int i = 0; i < bpmArray.length; i++) {
+            for(int j = 0; j < bpmArray[i].length; j++) {
+                energies[i] += getCombFilterEnergyRealForward(fftResult, bpmArray[i][j]);
+            }
+        }
+    }
+
+    static double getCombFilterEnergyRealForwardFull(double[] fftResult, double[] bpmArray) {      // TODO: "Stereo" verze
+        double real;
+        double imag;
+        double energy = 0;
+
+        for(int i = 0; i < fftResult.length; i = i + 2) {
+            real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
+            real *= real;
+            imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+            imag *= imag;
+            energy += real + imag;
+        }
+
+        return energy;
+    }
+
+    /**
+     * We don't save the results, only calculate energy, which is equal to sum of measures of the convolution result.
+     * @param fftResult
+     * @param bpmArray
+     * @return
+     */
+    static double getCombFilterEnergyRealForward(double[] fftResult, double[] bpmArray) {      // TODO: Monoverze
+        double energy;              // TODO: mozna takhle prepsat i ten prevod na realny ... je to prehlednejsi
+        double real;                // TODO: Ten prevod na realny mozna ani nebude dobre
+        double imag;
+        if(fftResult.length % 2 == 0) {			// It's even
+            real = fftResult[0] * bpmArray[0];
+            energy = FFT.calculateComplexNumMeasure(real, 0);
+            real = fftResult[1] * bpmArray[1];      // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
+            energy += FFT.calculateComplexNumMeasure(real, 0);
+            for(int i = 2; i < fftResult.length; i = i + 2) {
+                real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
+                imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+                energy += FFT.calculateComplexNumMeasure(real, imag);
+            }
+        } else {
+            real = fftResult[0] * bpmArray[0];
+            energy = FFT.calculateComplexNumMeasure(real, 0);
+            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
+                real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
+                imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+                energy += FFT.calculateComplexNumMeasure(real, imag);
+            }
+
+            real =  fftResult[fftResult.length - 1] * bpmArray[fftResult.length - 1] - fftResult[1] * bpmArray[1];
+            imag = fftResult[fftResult.length - 1] * bpmArray[1] + fftResult[1] * bpmArray[fftResult.length - 1];
+            energy += FFT.calculateComplexNumMeasure(real, imag);
+        }
+
+        return energy;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Comb filter energies - static methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Comb filter energies - static methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Comb filter energies - static methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

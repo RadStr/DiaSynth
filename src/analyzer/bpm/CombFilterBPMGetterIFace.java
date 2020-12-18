@@ -42,10 +42,10 @@ public interface CombFilterBPMGetterIFace {
     // Now we have vector of energies and we pick the one with maximum energy and the bpm with which was that energy gotten
     // is the bpm of the song.
     // Additionally I can put emphasis on certain frequency bands.
-    public default int calculateBPM(byte[] samples, double[][][] bpmArrays, int bpmStart, int bpmJump,
-                                    int sampleSize, int sampleSizeInBits, int windowSize, int startIndex, int endIndex,
-                                    boolean isBigEndian, boolean isSigned, int subbandCount, SubbandSplitterIFace splitter,
-                                    DoubleFFT_1D fft, int sampleRate) {
+    public default int computeBPM(byte[] samples, double[][][] bpmArrays, int bpmStart, int bpmJump,
+                                  int sampleSize, int sampleSizeInBits, int windowSize, int startIndex, int endIndex,
+                                  boolean isBigEndian, boolean isSigned, int subbandCount, SubbandSplitterIFace splitter,
+                                  DoubleFFT_1D fft, int sampleRate) {
         double[][] energies;
         energies = computeEnergies(samples, bpmArrays, sampleSize, sampleSizeInBits,
             windowSize, startIndex, endIndex, isBigEndian, isSigned, subbandCount, splitter, fft, sampleRate);
@@ -200,10 +200,10 @@ public interface CombFilterBPMGetterIFace {
 
     // TODO: Copy paste ... Lisi se to od getBPMUsingCombFilterMONOWithoutFiltersWithoutSubbands jen v tom ze se vola jina metoda a je tam subbandCount
     // TODO: This is not really ideal, using Program ... flawed design
-    public default int calculateBPM(int startBPM, int jumpBPM, int upperBoundBPM,
-                                    double numberOfSeconds,
-                                    int subbandCount, SubbandSplitterIFace splitter,
-                                    int numberOfBeats, Program prog) {
+    public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
+                                  double numberOfSeconds,
+                                  int subbandCount, SubbandSplitterIFace splitter,
+                                  int numberOfBeats, Program prog) {
 
         int lenOfOneSecond = prog.sampleSizeInBytes * prog.sampleRate;
         int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);
@@ -226,28 +226,28 @@ public interface CombFilterBPMGetterIFace {
         int windowSize = (endIndex - startIndex) / prog.sampleSizeInBytes;  // this is Window size in samples
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
 
-        return calculateBPM(startBPM, jumpBPM, upperBoundBPM,
+        return computeBPM(startBPM, jumpBPM, upperBoundBPM,
             numberOfSeconds, windowSize, startIndex, endIndex, subbandCount, splitter, fft, numberOfBeats, prog);
     }
 
-    public default int calculateBPM(int startBPM, int jumpBPM, int upperBoundBPM,
-                                    double numberOfSeconds, int windowSize,
-                                    int startIndex, int endIndex,
-                                    int subbandCount, SubbandSplitterIFace splitter,
-                                    DoubleFFT_1D fft, int numberOfBeats, Program prog) {
+    public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
+                                  double numberOfSeconds, int windowSize,
+                                  int startIndex, int endIndex,
+                                  int subbandCount, SubbandSplitterIFace splitter,
+                                  DoubleFFT_1D fft, int numberOfBeats, Program prog) {
         double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
-        return calculateBPM(bpmArrays, startBPM, jumpBPM, windowSize,
+        return computeBPM(bpmArrays, startBPM, jumpBPM, windowSize,
             startIndex, endIndex, subbandCount, splitter, fft, prog);
     }
 
-    public default int calculateBPM(double[][][] bpmArrays, int startBPM,
-                                    int jumpBPM, int windowSize,
-                                    int startIndex, int endIndex,
-                                    int subbandCount, SubbandSplitterIFace splitter,
-                                    DoubleFFT_1D fft, Program prog) {
+    public default int computeBPM(double[][][] bpmArrays, int startBPM,
+                                  int jumpBPM, int windowSize,
+                                  int startIndex, int endIndex,
+                                  int subbandCount, SubbandSplitterIFace splitter,
+                                  DoubleFFT_1D fft, Program prog) {
         // TODO: Napsat metodu getBPMFromIndex array to je to to impulse period + ten for cycklus
         // TODO: Vlastne uz to mam napsany vsechno akorat zmensit ty pole a delat fft hned jakmile mam to jedno window
-        return calculateBPM(prog.song, bpmArrays, startBPM, jumpBPM,
+        return computeBPM(prog.song, bpmArrays, startBPM, jumpBPM,
             prog.sampleSizeInBytes, prog.sampleSizeInBits, windowSize, startIndex, endIndex,
             prog.isBigEndian, prog.isSigned, subbandCount, splitter, fft, prog.sampleRate);
     }

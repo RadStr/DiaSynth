@@ -10,11 +10,11 @@ import java.io.IOException;
 public class BPMSimpleWithFreqBands {
     private BPMSimpleWithFreqBands() {}     // Allow only static access
 
-    public static int calculateBPMSimpleWithFreqBands(byte[] samples, int sampleSize, int sampleRate,
-                                                      int windowSize, boolean isBigEndian, boolean isSigned,
-                                                      int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
-                                                      double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
-                                                      double coef, int windowsBetweenBeats, double varianceLimit
+    public static int computeBPM(byte[] samples, int sampleSize, int sampleRate,
+                                 int windowSize, boolean isBigEndian, boolean isSigned,
+                                 int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
+                                 double[][] subbandEnergies, // TODO: 1D are the past values, 2D are the subbands
+                                 double coef, int windowsBetweenBeats, double varianceLimit
     ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
         // TODO: REMOVE
         final double oldCoef = coef;      // TODO: OLD COEF

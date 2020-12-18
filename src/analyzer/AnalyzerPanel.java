@@ -1300,7 +1300,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
         combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
-        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
+        bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 
         return new Pair<String, String>("BPM (Barycenter part)", ((Integer)bpm).toString());
@@ -1330,7 +1330,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        numberOfSeconds = 4.15;
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
         combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
-        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
+        bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM,
                 numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
 
         return new Pair<String, String>("BPM (All part)", ((Integer)bpm).toString());

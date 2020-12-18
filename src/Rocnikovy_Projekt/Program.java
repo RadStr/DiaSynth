@@ -2159,7 +2159,7 @@ public class Program {
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
 
          try {
-             return BPMSimpleWithFreqBands.calculateBPMSimpleWithFreqBands(this.song, this.sampleSizeInBytes, this.sampleRate,
+             return BPMSimpleWithFreqBands.computeBPM(this.song, this.sampleSizeInBytes, this.sampleRate,
                  windowSize, this.isBigEndian, this.isSigned, this.mask, this.maxAbsoluteValue, fft, splitter,
                      subbandEnergies, coef, windowsBetweenBeats, varianceLimit);
          }

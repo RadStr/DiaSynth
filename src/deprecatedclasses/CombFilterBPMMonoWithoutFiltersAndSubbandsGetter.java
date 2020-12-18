@@ -13,10 +13,10 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
     // TODO: This is version for mono signal
     // double[][][] bpmArrays because first dim is for each bpm and the other 2 are the labelReferenceArrs of fft of windows
     @Override
-    public int calculateBPM(byte[] samples, double[][][] bpmArrays, int bpmStart, int bpmJump,
-                            int sampleSize, int sampleSizeInBits, int windowSize, int startIndex, int endIndex,
-                            boolean isBigEndian, boolean isSigned, int subbandCount, SubbandSplitterIFace splitter,
-                            DoubleFFT_1D fft, int sampleRate) {
+    public int computeBPM(byte[] samples, double[][][] bpmArrays, int bpmStart, int bpmJump,
+                          int sampleSize, int sampleSizeInBits, int windowSize, int startIndex, int endIndex,
+                          boolean isBigEndian, boolean isSigned, int subbandCount, SubbandSplitterIFace splitter,
+                          DoubleFFT_1D fft, int sampleRate) {
         double[][] fftResults;
         try {
             fftResults = FFT.calculateFFTRealForward(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy

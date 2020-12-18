@@ -51,6 +51,7 @@ public class Utilities {
         }
     }
 
+
     public static enum CURVE_TYPE {
         SINE {
             public double[] createCurve(int len, double amp, double freq, int sampleRate, double phase) {
@@ -370,6 +371,17 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static double logarithm(double value, double base) {
         return Math.log(value) / Math.log(base);
+    }
+
+    public static double computeVariance(double average, double[] values) {
+        double variance = 0;
+        double val;
+        for(int i = 0; i < values.length; i++) {
+            val = values[i] - average;
+            variance += val*val;
+        }
+
+        return variance / values.length;
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */

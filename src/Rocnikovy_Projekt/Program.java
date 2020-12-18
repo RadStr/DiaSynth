@@ -2196,7 +2196,7 @@ public class Program {
             energyAvg = energySum / windows.length;
             currEnergy = computeEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                     isBigEndian, isSigned, maxAbsValSigned);
-            variance = computeVariance(energyAvg, windows);
+            variance = Utilities.computeVariance(energyAvg, windows);
             variance /= maxValueInVariance;
 
             variance *= varianceMultFactor;
@@ -2287,22 +2287,6 @@ public class Program {
 
         return energy;
      }
-
-    // Currently is expected to run only on small labelReferenceArrs, so there is no need to parallelize this method.
-     private static double computeVariance(double average, double[] values) {
-        double variance = 0;
-        double val;
-        for(int i = 0; i < values.length; i++) {
-            val = values[i] - average;
-            variance += val*val;
-        }
-
-        return variance / values.length;
-     }
-
-
-
-
 
 
     ////////////////////////////////////////////////////

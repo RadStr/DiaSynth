@@ -55,7 +55,7 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
         // TODO:        System.out.println(fftResults.length + "\t!\t" + fftResults[0].length);
         for(int i = 0; i < bpmArrays.length; i++) {
 // TODO:            System.out.println(bpmArrays[i].length + "\t!\t" + bpmArrays[i][0].length);
-            energy = CombFilterBPMGetterIFace.getCombFilterEnergyRealForward(fftResults, bpmArrays[i]);
+            energy = CombFilterBPMGetterIFace.computeEnergyRealForward(fftResults, bpmArrays[i]);
 //            System.out.println((startBPM + i * jumpBPM) + ":\t" + energy);
 
 //// TODO: Measure verze ... ale je to jeste horsi

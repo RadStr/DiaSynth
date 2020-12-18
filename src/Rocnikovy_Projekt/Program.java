@@ -105,7 +105,6 @@ package Rocnikovy_Projekt;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.sampled.*;
 import javax.sound.sampled.AudioFileFormat.Type;
@@ -2171,7 +2170,7 @@ public class Program {
         double energyAvg;
         for(i = 0; i < windows.length; i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
             if(nextSampleIndex < samples.length) {
-                windows[i] = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
+                windows[i] = computeEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                     isBigEndian, isSigned, maxAbsValSigned);
                 energySum += windows[i];
             }
@@ -2194,9 +2193,9 @@ public class Program {
         double coef;
         while(nextSampleIndex < samples.length) {
             energyAvg = energySum / windows.length;
-            currEnergy = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
+            currEnergy = computeEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
                     isBigEndian, isSigned, maxAbsValSigned);
-            variance = getVariance(energyAvg, windows);
+            variance = computeVariance(energyAvg, windows);
             variance /= maxValueInVariance;
 
             variance *= varianceMultFactor;
@@ -2278,9 +2277,9 @@ public class Program {
 
 
 
-    private static double getEnergy(byte[] samples, int windowSize, int numberOfChannels, int sampleSize,
-                                    int index, int mask, boolean isBigEndian, boolean isSigned,
-                                    int maxAbsoluteValueSigned) {
+    private static double computeEnergy(byte[] samples, int windowSize, int numberOfChannels, int sampleSize,
+                                        int index, int mask, boolean isBigEndian, boolean isSigned,
+                                        int maxAbsoluteValueSigned) {
         double energy = 0;
 
         for(int i = 0; i < windowSize; i++) {
@@ -2297,7 +2296,7 @@ public class Program {
      }
 
     // Currently is expected to run only on small labelReferenceArrs, so there is no need to parallelize this method.
-     private static double getVariance(double average, double[] values) {
+     private static double computeVariance(double average, double[] values) {
         double variance = 0;
         double val;
         for(int i = 0; i < values.length; i++) {
@@ -2578,7 +2577,7 @@ public class Program {
             i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
             if(nextSampleIndex < samples.length) {
                 // TODO: Vymazat ten startIndex
-                getSubbandEnergiesUsingFFT(samples, subbandEnergies[i], sampleIndex,//int startIndex,
+                computeSubbandEnergiesUsingFFT(samples, subbandEnergies[i], sampleIndex,//int startIndex,
                     numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                     maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
 // TODO:                subbandEnergies[i] = currEnergies;
@@ -2597,7 +2596,7 @@ public class Program {
             boolean hasBeat = false;
             // TODO: BPM NOVY
             // TODO: Ten startIndex pod timhle dat pryc
-            getSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
+            computeSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
                 numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
                 maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
             //            currEnergies = getSubbandEnergiesUsingFFT(...);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
@@ -2608,7 +2607,7 @@ public class Program {
                 todoMaxEnergy = Math.max(currEnergies[j], todoMaxEnergy);       // TODO: Finding the difference in coefs
 
                 avg = energySums[j] / historySubbandsCount; // TODO:
-                double variance = getVariance(avg, subbandEnergies, j);
+                double variance = computeVariance(avg, subbandEnergies, j);
                 // TODO: OLD - REMOVE
 //                coef = 3;
 //                    coef = 6;
@@ -2715,7 +2714,7 @@ public class Program {
         return bpm;
     }
 
-    private static double getVariance(double average, double[][] values, int subbandIndex) {
+    private static double computeVariance(double average, double[][] values, int subbandIndex) {
         double variance = 0;
         double val;
         for(int i = 0; i < values.length; i++) {
@@ -2727,18 +2726,18 @@ public class Program {
     }
 
 
-    public static void getSubbandEnergiesUsingFFT(byte[] samples, double[] currEnergies,
-                                                  int startIndex,
-                                                  int numberOfChannels,
-                                                  int sampleSize,
-                                                  int frameSize,
-                                                  int mask,
-                                                  DoubleFFT_1D fft,
-                                                  double[] fftArray, double[] fftArrayMeasures,
-                                                  int maxAbsoluteValue,
-                                                  boolean isBigEndian,
-                                                  boolean isSigned,
-                                                  SubbandSplitterIFace splitter) {
+    public static void computeSubbandEnergiesUsingFFT(byte[] samples, double[] currEnergies,
+                                                      int startIndex,
+                                                      int numberOfChannels,
+                                                      int sampleSize,
+                                                      int frameSize,
+                                                      int mask,
+                                                      DoubleFFT_1D fft,
+                                                      double[] fftArray, double[] fftArrayMeasures,
+                                                      int maxAbsoluteValue,
+                                                      boolean isBigEndian,
+                                                      boolean isSigned,
+                                                      SubbandSplitterIFace splitter) {
         FFT.calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize,
                 frameSize, mask, fft, fftArray, maxAbsoluteValue, isBigEndian, isSigned);
 

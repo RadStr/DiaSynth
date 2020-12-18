@@ -2660,7 +2660,7 @@ public class ProgramTest {
         }
 
 
-        double freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
+        double freqJump = AudioUtilities.computeFreqJump(sampleRate, windowSize);
         createFFTWindow(songDouble, windowSize, startIndex, freqJump);
 
         return true;
@@ -2693,7 +2693,7 @@ public class ProgramTest {
         prog.sampleRate = 22050;
 
 
-        double freqJump = AudioUtilities.getFreqJump(prog.sampleRate, windowSize);
+        double freqJump = AudioUtilities.computeFreqJump(prog.sampleRate, windowSize);
         BufferedImage img = Spectrogram.createSpectrogram(songDouble, prog.numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 
@@ -2717,7 +2717,7 @@ public class ProgramTest {
             return false;
         }
 
-        double freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
+        double freqJump = AudioUtilities.computeFreqJump(sampleRate, windowSize);
         BufferedImage img = Spectrogram.createSpectrogram(songDouble, numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 

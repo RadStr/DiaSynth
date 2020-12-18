@@ -16,7 +16,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                           boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        this(song, windowSize, startIndex, AudioUtilities.getFreqJump(sampleRate, windowSize),
+        this(song, windowSize, startIndex, AudioUtilities.computeFreqJump(sampleRate, windowSize),
                 isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
@@ -49,7 +49,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
             freqJump = this.FREQ_JUMP;
         }
         else {
-            freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
+            freqJump = AudioUtilities.computeFreqJump(sampleRate, windowSize);
         }
 
         return new FFTWindowPanel(null, windowSize, -1, freqJump,

@@ -13,7 +13,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {
         this(song, windowSize, startIndex,
-                AudioUtilities.getFreqJump(sampleRate, windowSize),
+                AudioUtilities.computeFreqJump(sampleRate, windowSize),
                 isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
     }
 
@@ -28,7 +28,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
         this.WINDOW_SIZE = windowSize;
         this.FREQ_JUMP = freqJump;
         int binCount = FFT.getBinCountRealForward(windowSize);
-        labels = AudioUtilities.getFreqs(binCount, freqJump, 0, 1, 3);
+        labels = AudioUtilities.computeFreqs(binCount, freqJump, 0, 1, 3);
 
         fftResult = new double[windowSize];
         fft = new DoubleFFT_1D(windowSize);

@@ -10,7 +10,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
                               int startIndex, int sampleRate, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(controlPanel, song, windowSize, startIndex,
-                AudioUtilities.getFreqJump(sampleRate, windowSize),
+                AudioUtilities.computeFreqJump(sampleRate, windowSize),
                 isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
@@ -45,7 +45,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
             freqJump = this.FREQ_JUMP;
         }
         else {
-            freqJump = AudioUtilities.getFreqJump(sampleRate, windowSize);
+            freqJump = AudioUtilities.computeFreqJump(sampleRate, windowSize);
         }
 
 

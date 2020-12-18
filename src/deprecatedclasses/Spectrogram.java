@@ -728,7 +728,7 @@ public class Spectrogram {
         // Draw frequency labels
         int n = 8;      // take every nth bin
         double maxTextHeight = n * pixelHeightForBin;
-        String[] binFreqs = AudioUtilities.getFreqs(binCount, freqJump, 0, n, 2);
+        String[] binFreqs = AudioUtilities.computeFreqs(binCount, freqJump, 0, n, 2);
         SwingUtils.findMaxFontSize(24, g, binFreqs, spectrogramStart - 15, (int)maxTextHeight, 1);
         FontMetrics fontMetrics = g.getFontMetrics();
 

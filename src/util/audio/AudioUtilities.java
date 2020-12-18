@@ -284,13 +284,13 @@ public class AudioUtilities {
     /////////////////// Frequencies help methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static double getFreqJump(int sampleRate, double windowSize) {
+    public static double computeFreqJump(int sampleRate, double windowSize) {
         double result = sampleRate / (double) windowSize;
         return result;
     }
 
     // Get frequencies in khz
-    public static String[] getFreqs(int binCount, double freqJump, double startFreq, int takeEveryNthFreq, int precision) {
+    public static String[] computeFreqs(int binCount, double freqJump, double startFreq, int takeEveryNthFreq, int precision) {
         int len = 1 + (binCount - 1) / takeEveryNthFreq;  // -1 Because for example for binCount = takeEveryNthFreq = 4 I'd have 2 without the -1
         String[] binFreqs = new String[len];
         double currFreqHz = startFreq;

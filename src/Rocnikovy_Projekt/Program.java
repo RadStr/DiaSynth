@@ -272,7 +272,7 @@ public class Program {
                                             int totalAudioLength) throws IOException {
         // TODO: PROGRAMO
         //return takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
-        return AudioProcessor.takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0, totalAudioLength);
+        return AudioProcessor.getEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0, totalAudioLength);
         // TODO: PROGRAMO
     }
 
@@ -287,7 +287,7 @@ public class Program {
      */
     public static double[][] separateChannelsDouble(InputStream samples, int numberOfChannels, int sampleSize,
                                                     boolean isBigEndian, boolean isSigned, int totalAudioLength) throws IOException {
-        return AudioProcessor.takeEveryNthSampleMoreChannelsDouble(samples, numberOfChannels, sampleSize, 1,
+        return AudioProcessor.getEveryNthSampleMoreChannelsDouble(samples, numberOfChannels, sampleSize, 1,
             0, isBigEndian, isSigned, totalAudioLength);
     }
 
@@ -362,7 +362,7 @@ public class Program {
      * @throws IOException is thrown when error with input
      */
     public static byte[][] separateChannels(byte[] samples, int numberOfChannels, int sampleSize) throws IOException {
-        return AudioProcessor.takeEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
+        return AudioProcessor.getEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
     }
 
 

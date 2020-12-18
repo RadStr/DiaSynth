@@ -15,7 +15,7 @@ public class AudioProcessor {
      * @param songParts are the samples of the song part together with int, which represents some property of the song part.
      * @return Returns 1D double array containing the int values which are in the SongPartWithAverageValueOfSamples as int property.
      */
-    public static double[] takeValuesFromSongParts(SongPartWithAverageValueOfSamples[] songParts) {
+    public static double[] getValuesFromSongParts(SongPartWithAverageValueOfSamples[] songParts) {
         double[] values = new double[songParts.length];
 
         for (int i = 0; i < values.length; i++) {
@@ -155,17 +155,16 @@ public class AudioProcessor {
      * @param samples     is the input stream with samples
      * @param sampleSize  is the size of one sample
      * @param n           - Every nth sample is taken
-     * @param frameSize   is the size of one frame (= sampleSize * number of channels)
      * @param startSample is the number of sample to start at
      * @return Returns 1D array containing every nth sample of size sampleSize
      * @throws IOException is thrown when error with InputStream occurred or if the sampleSize is not multiple of the
      *                     original sampleSize or if the startSample is not multiple of the original sampleSize
      */
-    public static byte[] takeEveryNthSampleOneChannel(InputStream samples, int sampleSize, int n, int frameSize, int startSample) throws IOException {
+    public static byte[] getEveryNthSampleOneChannel(InputStream samples, int sampleSize, int n, int startSample) throws IOException {
         int bytesRead = 0;
         byte[] arr = new byte[sampleSize * n];
 
-        if (arr.length % frameSize != 0 || startSample % frameSize != 0) {        // limitation of java library
+        if (arr.length % sampleSize != 0 || startSample % sampleSize != 0) {        // limitation of java library
             throw new IOException("Not supported yet");                        // it's not possible to read smaller
         }                                                                    // chunks than size of frame
         ArrayList<Byte> sampleList = new ArrayList<>();
@@ -207,7 +206,7 @@ public class AudioProcessor {
      * @param startSample is the number of sample to start at
      * @return Returns 1D array containing every nth sample of size sampleSize
      */
-    public static byte[] takeEveryNthSampleOneChannel(byte[] samples, int sampleSize, int n, int startSample) {
+    public static byte[] getEveryNthSampleOneChannel(byte[] samples, int sampleSize, int n, int startSample) {
         // Solved by calling more general method
         byte[][] newSamples = getEveryXthTimePeriodWithLength(samples, 1, n, sampleSize, startSample);
 
@@ -228,8 +227,8 @@ public class AudioProcessor {
      * @return Returns 2D byte array, where each array represents the channels where only every n-th sample is taken
      * @throws IOException is thrown when the error in input stream occurred
      */
-    public static byte[][] takeEveryNthSampleMoreChannels(InputStream samples, int numberOfChannels, int sampleSize,
-                                                          int n, int startSample, int totalAudioLength) throws IOException {
+    public static byte[][] getEveryNthSampleMoreChannels(InputStream samples, int numberOfChannels, int sampleSize,
+                                                         int n, int startSample, int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
             numberOfChannels, sampleSize);
         channelLen *= sampleSize;
@@ -335,10 +334,10 @@ public class AudioProcessor {
      * @return Returns 2D double array, where each array represents the channels where only every n-th sample is taken
      * @throws IOException is thrown when the error in input stream occurred
      */
-    public static double[][] takeEveryNthSampleMoreChannelsDouble(InputStream samples, int numberOfChannels,
-                                                                  int sampleSize, int n, int startSample,
-                                                                  boolean isBigEndian, boolean isSigned,
-                                                                  int totalAudioLength) throws IOException {
+    public static double[][] getEveryNthSampleMoreChannelsDouble(InputStream samples, int numberOfChannels,
+                                                                 int sampleSize, int n, int startSample,
+                                                                 boolean isBigEndian, boolean isSigned,
+                                                                 int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
             numberOfChannels, sampleSize);
         double[][] outputArr = new double[numberOfChannels][channelLen];
@@ -414,11 +413,11 @@ public class AudioProcessor {
      * @param startSample      - The first sample to be taken from each channel
      * @return Returns 2D byte array, where each array represents the channels where only every n-th sample is taken
      */
-    public static byte[][] takeEveryNthSampleMoreChannels(byte[] samples, int numberOfChannels, int sampleSize, int n, int startSample) {
+    public static byte[][] getEveryNthSampleMoreChannels(byte[] samples, int numberOfChannels, int sampleSize, int n, int startSample) {
         byte[][] arr = new byte[numberOfChannels][];
 
         for (int i = 0; i < numberOfChannels; i++) {
-            arr[i] = takeEveryNthSampleOneChannel(samples, sampleSize, n * numberOfChannels, i + startSample);
+            arr[i] = getEveryNthSampleOneChannel(samples, sampleSize, n * numberOfChannels, i + startSample);
         }
 
         return arr;
@@ -474,9 +473,9 @@ public class AudioProcessor {
      * @throws IOException is thrown when the given agg is not supported.
      */
     @Deprecated
-    public static byte[][] forEachChannelModifySamplesMoreChannels(byte[][] channels, int n, int sampleSize,
-                                                                   boolean isBigEndian, boolean isSigned,
-                                                                   Aggregation agg) throws IOException {
+    public static byte[][] modifySamplesMoreChannels(byte[][] channels, int n, int sampleSize,
+                                                     boolean isBigEndian, boolean isSigned,
+                                                     Aggregation agg) throws IOException {
         byte[][] modChannels = new byte[channels.length][];
         ArrayList<Byte> moddedChannel = new ArrayList<>();
         byte[] samples = new byte[n * sampleSize];
@@ -517,12 +516,12 @@ public class AudioProcessor {
      * @throws IOException
      */
     @Deprecated
-    public static byte[] forEachChannelModifySamplesOneChannel(byte[] mono, int n, int sampleSize,
-                                                               boolean isBigEndian, boolean isSigned,
-                                                               Aggregation agg) throws IOException {
+    public static byte[] modifySamplesMono(byte[] mono, int n, int sampleSize,
+                                           boolean isBigEndian, boolean isSigned,
+                                           Aggregation agg) throws IOException {
         byte[][] channel = new byte[1][];
         channel[0] = mono;
-        byte[][] result = forEachChannelModifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, agg);
+        byte[][] result = modifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, agg);
         return result[0];
     }
 }

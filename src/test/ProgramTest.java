@@ -286,7 +286,7 @@ public class ProgramTest {
         bais = new ByteArrayInputStream(song);
         int n1 = 32;
         int startSample = 68;
-        System.out.println("takeEveryNthSampleOneChannel:\t" + takeEveryNthSampleOneChannelTestBoth(bais, song, sampleSizeInBits / 8, n1, numberOfChannels * sampleSizeInBits / 8, startSample));
+        System.out.println("takeEveryNthSampleOneChannel:\t" + takeEveryNthSampleOneChannelTestBoth(bais, song, sampleSizeInBits / 8, n1, startSample));
 
         bais = new ByteArrayInputStream(song);
         int n2 = 18;
@@ -605,14 +605,13 @@ public class ProgramTest {
      * @param samplesFromStream is 1D byte array. Contains the same content as the stream.
      * @param sampleSize        is the sampleSize parameter for calling the methods.
      * @param n                 is the n parameter for calling the methods.
-     * @param frameSize         is the size of one frame (= sampleSize * number of channels)
      * @param startSample       is the startSample parameter for calling the methods.
      * @return Returns true if both methods gave the same output, else returns false.
      * @throws IOException is thrown when error with input stream occurred.
      */
-    public boolean takeEveryNthSampleOneChannelTestBoth(InputStream stream, byte[] samplesFromStream, int sampleSize, int n, int frameSize, int startSample) throws IOException {
-        byte[] samples1 = AudioProcessor.takeEveryNthSampleOneChannel(stream, sampleSize, n, frameSize, startSample);
-        byte[] samples2 = AudioProcessor.takeEveryNthSampleOneChannel(samplesFromStream, sampleSize, n, startSample);
+    public boolean takeEveryNthSampleOneChannelTestBoth(InputStream stream, byte[] samplesFromStream, int sampleSize, int n, int startSample) throws IOException {
+        byte[] samples1 = AudioProcessor.getEveryNthSampleOneChannel(stream, sampleSize, n, startSample);
+        byte[] samples2 = AudioProcessor.getEveryNthSampleOneChannel(samplesFromStream, sampleSize, n, startSample);
 
         return checkEqualityOfArraysOneDim(samples1, samples2, 0);
     }
@@ -621,8 +620,8 @@ public class ProgramTest {
     public boolean takeEveryNthSampleMoreChannelsTestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels,
                                                           int sampleSize, int n, int startSample) throws IOException {
         // Passing length of array just for testing measures - else I would have to take the real length from the file
-        byte[][] samples1 = AudioProcessor.takeEveryNthSampleMoreChannels(stream, numberOfChannels, sampleSize, n, startSample, samplesFromStream.length);
-        byte[][] samples2 = AudioProcessor.takeEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
+        byte[][] samples1 = AudioProcessor.getEveryNthSampleMoreChannels(stream, numberOfChannels, sampleSize, n, startSample, samplesFromStream.length);
+        byte[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         return checkEqualityOfArraysTwoDim(samples1, samples2);
     }
 
@@ -634,10 +633,10 @@ public class ProgramTest {
                                                                                     int totalAudioLen) throws IOException {
         double[][] samples1 = AudioProcessor.takeEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, totalAudioLen);
-        double[][] samples2 = AudioProcessor.takeEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
+        double[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, totalAudioLen);
 
-        byte[][] samples3 = AudioProcessor.takeEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
+        byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
             samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
@@ -670,10 +669,10 @@ public class ProgramTest {
 
         double[][] samples1 = AudioProcessor.takeEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, LEN);
-        double[][] samples2 = AudioProcessor.takeEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
+        double[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, LEN);
 
-        byte[][] samples3 = AudioProcessor.takeEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
+        byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
             samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,

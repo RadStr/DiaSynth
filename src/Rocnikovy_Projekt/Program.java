@@ -110,6 +110,7 @@ import javax.sound.sampled.*;
 import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat.Encoding;
 
+import analyzer.bpm.BPMUtils;
 import test.ProgramTest;
 import util.Utilities;
 import util.audio.*;
@@ -2259,7 +2260,7 @@ public class Program {
             windowsFromLastBeat++;
         }
 
-         int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+         int bpm = BPMUtils.convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
 
         // TODO: DEBUG
 //         MyLogger.log("END OF BPM SIMPLE:\t" + minCoef + "\t" + maxCoef + "\t" + maxEnergy + "\t" + maxVariance, 0);
@@ -2267,14 +2268,6 @@ public class Program {
          // TODO: DEBUG
          return bpm;
      }
-
-     public static int convertBPM(int beats, int sampleCount, int sampleSize, int numberOfChannels, int sampleRate) {
-         int sizeOfOneSecond = sampleSize * numberOfChannels * sampleRate;
-         int bpm = (int) (beats / ((double)sampleCount / (60 * sizeOfOneSecond)));
-         return bpm;
-     }
-
-
 
 
     private static double computeEnergy(byte[] samples, int windowSize, int numberOfChannels, int sampleSize,
@@ -2710,7 +2703,7 @@ public class Program {
         }
 
         ProgramTest.debugPrint("MAX_ENERGY:", todoMaxEnergy);
-        int bpm = convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
+        int bpm = BPMUtils.convertBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
         return bpm;
     }
 

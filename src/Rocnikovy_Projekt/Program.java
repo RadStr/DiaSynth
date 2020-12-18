@@ -1513,8 +1513,8 @@ public class Program {
         int result = 0;
         arrIndex = arrIndex + sampleSize - 1;
 
-        // This part is general, but we may get better performance by having switch for sampleSize on [1,4], but
-        // that needs further testing
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
+        // That would need some performance tests though.
         for (int i = 0; i < sampleSize; i++) {
             result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
             arrIndex--;
@@ -1552,8 +1552,8 @@ public class Program {
     public static int convertBytesToIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
         int result = 0;
 
-        // This part is general, but we may get better performance by having switch for sampleSize on [1,4], but
-        // that needs further testing
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
+        // That would need some performance tests though.
         for (int i = 0; i < sampleSize; i++) {
             result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
             arrIndex++;

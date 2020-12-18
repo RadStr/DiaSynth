@@ -9,22 +9,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AudioProcessor {
-    /**
-     * Takes the int values representing some property (min or max or avg or rms)of each song part and returns them in 1D double array.
-     *
-     * @param songParts are the samples of the song part together with int, which represents some property of the song part.
-     * @return Returns 1D double array containing the int values which are in the SongPartWithAverageValueOfSamples as int property.
-     */
-    public static double[] getValuesFromSongParts(SongPartWithAverageValueOfSamples[] songParts) {
-        double[] values = new double[songParts.length];
-
-        for (int i = 0; i < values.length; i++) {
-            values[i] = songParts[i].averageAmplitude;
-        }
-
-        return values;
-    }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Methods for getting certain part(s) of audio
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * This method takes every x-th read part of length length from input stream
      * Starts at startFame
@@ -286,10 +275,10 @@ public class AudioProcessor {
      * @throws IOException is thrown when the error in input stream occurred
      */
     @Deprecated     // The buffer it uses is too small - only of frameSize
-    public static double[][] takeEveryNthSampleMoreChannelsDoubleOldAndSlow(InputStream samples, int numberOfChannels,
-                                                                            int sampleSize, int n, int startSample,
-                                                                            boolean isBigEndian, boolean isSigned,
-                                                                            int totalAudioLength) throws IOException {
+    public static double[][] getEveryNthSampleMoreChannelsDoubleOldAndSlow(InputStream samples, int numberOfChannels,
+                                                                           int sampleSize, int n, int startSample,
+                                                                           boolean isBigEndian, boolean isSigned,
+                                                                           int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
             numberOfChannels, sampleSize);
         double[][] outputArr = new double[numberOfChannels][channelLen];
@@ -384,29 +373,6 @@ public class AudioProcessor {
     }
 
     /**
-     * Returns int which is the length of channel 0 (if the startSample wasn't multiple of frameSize then some next channels may have length of the 0th channel - 1)
-     * @param totalAudioLength
-     * @param startSample
-     * @param skip
-     * @param numberOfChannels
-     * @param sampleSize
-     * @return
-     */
-    private static int getLengthOfOneChannelInSamplesForSampleSkipping(int totalAudioLength, int startSample,
-                                                                       int skip, int numberOfChannels, int sampleSize) {
-        int channelLen;
-        int totalByteSize = totalAudioLength - (startSample * sampleSize);
-        int frameSize = numberOfChannels * sampleSize;
-        int samplesPerChannel = totalByteSize / frameSize;
-        // Again the thing I wrote to TODO - solving the problem that I want to count the channel if samplesPerChannel == 1 as 1
-        // It is in todo under the tag: PROBLEM_KTEREJ_JSEM_UZ_RESIL_V_NEKOLIKA_PROGRAMECH
-        channelLen = (skip - 1 + samplesPerChannel) / skip;
-
-
-        return channelLen;
-    }
-
-    /**
      * Takes nth sample from each channel.
      * This method basically splits the array to channels and from each channel takes the n-th sample.
      * Internally it is performed a bit different, but the result is the same.
@@ -427,7 +393,19 @@ public class AudioProcessor {
 
         return arr;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Methods for getting certain part(s) of audio
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Audio modification methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Reverses the samples. First sample is last, last is first etc.
      * @param arr samples to be reversed.
@@ -464,6 +442,7 @@ public class AudioProcessor {
             }
         }
     }
+
 
     /**
      * Performs aggregation (compression) agg to all channels. For all channels do respectively, take n samples
@@ -529,4 +508,62 @@ public class AudioProcessor {
         byte[][] result = modifySamplesMoreChannels(channel, n, sampleSize, isBigEndian, isSigned, agg);
         return result[0];
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Audio modification methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Other
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Returns int which is the length of channel 0 (if the startSample wasn't multiple of frameSize then some next channels may have length of the 0th channel - 1)
+     * @param totalAudioLength
+     * @param startSample
+     * @param skip
+     * @param numberOfChannels
+     * @param sampleSize
+     * @return
+     */
+    private static int getLengthOfOneChannelInSamplesForSampleSkipping(int totalAudioLength, int startSample,
+                                                                       int skip, int numberOfChannels, int sampleSize) {
+        int channelLen;
+        int totalByteSize = totalAudioLength - (startSample * sampleSize);
+        int frameSize = numberOfChannels * sampleSize;
+        int samplesPerChannel = totalByteSize / frameSize;
+        // Again the thing I wrote to TODO - solving the problem that I want to count the channel if samplesPerChannel == 1 as 1
+        // It is in todo under the tag: PROBLEM_KTEREJ_JSEM_UZ_RESIL_V_NEKOLIKA_PROGRAMECH
+        channelLen = (skip - 1 + samplesPerChannel) / skip;
+
+
+        return channelLen;
+    }
+
+
+    /**
+     * Takes the int values representing some property (min or max or avg or rms)of each song part and returns them in 1D double array.
+     *
+     * @param songParts are the samples of the song part together with int, which represents some property of the song part.
+     * @return Returns 1D double array containing the int values which are in the SongPartWithAverageValueOfSamples as int property.
+     */
+    public static double[] getValuesFromSongParts(SongPartWithAverageValueOfSamples[] songParts) {
+        double[] values = new double[songParts.length];
+
+        for (int i = 0; i < values.length; i++) {
+            values[i] = songParts[i].averageAmplitude;
+        }
+
+        return values;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Other
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }

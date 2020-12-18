@@ -631,7 +631,7 @@ public class ProgramTest {
                                                                                     int sampleSize, int n, int startSample,
                                                                                     boolean isBigEndian, boolean isSigned,
                                                                                     int totalAudioLen) throws IOException {
-        double[][] samples1 = AudioProcessor.takeEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
+        double[][] samples1 = AudioProcessor.getEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, totalAudioLen);
         double[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, totalAudioLen);
@@ -667,7 +667,7 @@ public class ProgramTest {
         int n = 1;
 
 
-        double[][] samples1 = AudioProcessor.takeEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
+        double[][] samples1 = AudioProcessor.getEveryNthSampleMoreChannelsDoubleOldAndSlow(stream1, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, LEN);
         double[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
             n, startSample, isBigEndian, isSigned, LEN);

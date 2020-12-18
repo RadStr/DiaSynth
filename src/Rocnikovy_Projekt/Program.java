@@ -1095,7 +1095,7 @@ public class Program {
      * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
      * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
      */
-    public byte[][] splitSongToPartsOfSizeNFrames(byte[] samples, int n, int frameSize) {
+    public static byte[][] splitSongToPartsOfSizeNFrames(byte[] samples, int n, int frameSize) {
         byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
         return result;
     }
@@ -1108,8 +1108,8 @@ public class Program {
      * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
      * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
      */
-    public byte[][] splitSongToPartsOfSizeNFrames(InputStream samples, int n, int frameSize) {
-        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(song, n, 1, frameSize, 0);
+    public static byte[][] splitSongToPartsOfSizeNFrames(InputStream samples, int n, int frameSize) throws IOException {
+        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
 
         return result;
     }

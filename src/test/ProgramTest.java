@@ -14,6 +14,7 @@ import analyzer.bpm.SubbandSplitterLinear;
 import deprecatedclasses.SubbandSplitterLogarithmic;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Time;
+import util.audio.filter.NonRecursiveFilter;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -1759,7 +1760,7 @@ public class ProgramTest {
         double[] samples = new double[]{1.5, 2.5, 3.5, 4.5, 5.5};
         int windowSize = 1;
         double[] result = new double[]{1.5, 2.5, 3.5, 4.5, 5.5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE1:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1770,7 +1771,7 @@ public class ProgramTest {
         windowSize = 2;
         samples = new double[]{1.5, 2.5, 3.5, 4.5, 5.5};
         result = new double[]{1.5, 2, 3, 4, 5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE2:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1781,7 +1782,7 @@ public class ProgramTest {
         windowSize = 3;
         samples = new double[]{1.5, 2.5, 3.5, 4.5, 5.5};
         result = new double[]{1.5, 2.5, 2.5, 3.5, 4.5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE3:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1792,7 +1793,7 @@ public class ProgramTest {
         windowSize = 5;
         samples = new double[]{1.5, 2.5, 3.5, 4.5, 5.5};
         result = new double[]{1.5, 2.5, 3.5, 4.5, ((1.5 + 2.5 + 3.5 + 4.5 + 5.5) / 5)};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE4:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1805,7 +1806,7 @@ public class ProgramTest {
         samples = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
         windowSize = 1;
         result = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE5:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1816,7 +1817,7 @@ public class ProgramTest {
         windowSize = 2;
         samples = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
         result = new double[]{1.5, 1.5, 2, 2, 3, 3, 4, 4, 5, 5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE6:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1827,7 +1828,7 @@ public class ProgramTest {
         windowSize = 3;
         samples = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
         result = new double[]{1.5, 1.5, 2.5, 2.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE7:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1839,7 +1840,7 @@ public class ProgramTest {
         samples = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, 5.5, 5.5};
         double lastResultval = (1.5 + 2.5 + 3.5 + 4.5 + 5.5) / 5;
         result = new double[]{1.5, 1.5, 2.5, 2.5, 3.5, 3.5, 4.5, 4.5, lastResultval, lastResultval};
-        Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+        NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
         for (int i = 0; i < samples.length; i++) {
             if (samples[i] != result[i]) {
                 System.out.print("FALSE8:\tCorrect value: " + result[i] + "\tCalculated value: " + samples[i] + "\tIndex:" + i + "\t");
@@ -1863,7 +1864,7 @@ public class ProgramTest {
         // Test for windowSizes from 1 to 10
         for (windowSize = 1; windowSize <= 10; windowSize++) {
             samples = Arrays.copyOf(oldSamples, oldSamples.length);
-            Program.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
+            NonRecursiveFilter.performMovingWindowAverageByRef(samples, windowSize, numberOfChannels);
             for (int i = 0; i < windowSize - 1; i++) {
                 if (oldSamples[i] != samples[i]) {
                     System.out.print("FALSE9:\tStart samples doesn't equal:\tCorrect value: " +
@@ -1915,9 +1916,9 @@ public class ProgramTest {
             }
 
             for(int ch = 1; ch < channelTestCount; ch++) {
-                Program.performNonRecursiveFilter(arr1, 0, coef, ch, result1, 0, result1.length);
+                NonRecursiveFilter.performNonRecursiveFilter(arr1, 0, coef, ch, result1, 0, result1.length);
                 System.arraycopy(arr1, 0, result2, 0, arr1.length);
-                Program.performMovingWindowAverageByRef(result2, coef.length, ch);
+                NonRecursiveFilter.performMovingWindowAverageByRef(result2, coef.length, ch);
 
                 if(!ProgramTest.checkEqualityOfArraysOneDim(result1, result2, coef.length * ch, 0.000000000001)) {
                     System.out.println("Channel that failed:\t" + ch);
@@ -2026,7 +2027,7 @@ public class ProgramTest {
         byte[] samples = getSamples(intSamples, sampleSize, isBigEndian);
         byte[] result = performNonRecursiveFilterTestGetResult(sampleSize, numberOfChannels, windowSize, isBigEndian);
         try {
-            samples = Program.performNonRecursiveFilter(samples, coef, numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
+            samples = NonRecursiveFilter.performNonRecursiveFilter(samples, coef, numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("Exception:\t");
             return false;
@@ -2138,7 +2139,7 @@ public class ProgramTest {
         byte[] samples = new byte[]{1, 2, 3, 4, 5, 1};
         byte[] result = new byte[]{1 * 2, 2 * 2, 1 * 1 + 2 * 3, 1 * 2 + 2 * 4, 1 * 3 + 2 * 5, 1 * 4 + 2 * 1};
         try {
-            samples = Program.performNonRecursiveFilter(samples, coefs, 2, 1, 2, true, false);
+            samples = NonRecursiveFilter.performNonRecursiveFilter(samples, coefs, 2, 1, 2, true, false);
         } catch (IOException e) {
             System.out.println("EXCEPTION" + "\t");
             return false;
@@ -2216,8 +2217,9 @@ public class ProgramTest {
             return false;
         }
         try {
-            byteArr = Program.runLowPassFilter(byteArr, newSampleRate / 2, 64, oldSampleRate,
-                numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
+            byteArr = NonRecursiveFilter.runLowPassFilter(byteArr, newSampleRate / 2, 64,
+                                                          oldSampleRate, numberOfChannels, sampleSize, frameSize,
+                                                          isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE5:\t Invalid sampleSize: " + sampleSize);
             return false;

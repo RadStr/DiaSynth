@@ -2,8 +2,9 @@ package player.operations.wave.filters;
 
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import plugin.PluginParameterAnnotation;
+import util.audio.filter.NonRecursiveFilter;
 import util.audio.wave.DoubleWave;
-import Rocnikovy_Projekt.Program;
+
 
 public class LowPassFilter implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "Cutoff frequency:",
@@ -19,8 +20,8 @@ public class LowPassFilter implements OperationOnWavePluginIFace {
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] samples = audio.getSong();
-        Program.runLowPassFilter(samples, startIndex, 1, audio.getSampleRate(),
-                                 cutoffFreq, coefCount, samples, startIndex, endIndex);
+        NonRecursiveFilter.runLowPassFilter(samples, startIndex, 1, audio.getSampleRate(),
+                                            cutoffFreq, coefCount, samples, startIndex, endIndex);
     }
 
     @Override

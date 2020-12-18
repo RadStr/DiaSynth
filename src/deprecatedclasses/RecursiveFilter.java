@@ -23,7 +23,7 @@ public class RecursiveFilter {
         int len = Math.max(coef.length, coefOutput.length);
 
         // Filter for the first indexes is a bit different, since they dont have all the preceding samples for the filtering.
-        // It's for optimalization because we need to check if there are the preceding samples.
+        // It's for optimization because we need to check if there are the preceding samples.
         startingCoefInd = -coef.length + 1;		// +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
         startingCoefOutputInd = -coefOutput.length;
         int i;

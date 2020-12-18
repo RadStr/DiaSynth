@@ -5,6 +5,7 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import util.Rectification;
 import util.audio.FFT;
 import util.audio.FFTWindow;
+import util.audio.filter.NonRecursiveFilter;
 
 import java.io.IOException;
 
@@ -143,7 +144,7 @@ public interface CombFilterBPMGetterIFace {
                 // TODO: !!!!!!!!!!!!!!!! performConvolutionInFreqDomain je getCombFilterEnergyRealForward ... akorat to vsechno nakonec nesectu a nevratim jen ten soucet ... ale ukladam ty mezivysledky nasobeni do pole
                 FFT.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]); // TODO: ifftResults[subband] = performConvolutionInFreqDomain(fftRightSideOfHahnWindow, tmpArray);        // TODO: Mozna ten vysledek musim ulozit jinam nez do ifftResults ... zalezi jak funguje to IFFT
                 FFT.calculateIFFTRealForward(ifftResults[subband], fft, true);      // TODO: To skalovani nevim
-                Program.performNonRecursiveFilter(ifftResults[subband], 0, coefsForFilter,
+                NonRecursiveFilter.performNonRecursiveFilter(ifftResults[subband], 0, coefsForFilter,
                     1, ifftResult, 0, ifftResult.length); // TODO: performNonRecursiveFilter(ifftResults[subband], coefsForFilter);  // TODO: Napsat tuhle metodu s nereferencni variantou
                 System.arraycopy(ifftResult, 0, ifftResults[subband], 0, ifftResult.length);
                 Rectification.halfWaveRectificationDouble(ifftResults[subband], true);

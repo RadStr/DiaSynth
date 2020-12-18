@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AudioProcessor {
+    private AudioProcessor() {}          // Allow only static access
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Methods for getting certain part(s) of audio

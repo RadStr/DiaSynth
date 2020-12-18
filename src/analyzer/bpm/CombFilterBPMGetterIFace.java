@@ -235,7 +235,7 @@ public interface CombFilterBPMGetterIFace {
                                     int startIndex, int endIndex,
                                     int subbandCount, SubbandSplitterIFace splitter,
                                     DoubleFFT_1D fft, int numberOfBeats, Program prog) {
-        double[][][] bpmArrays = Program.getBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
+        double[][][] bpmArrays = getBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
         return calculateBPM(bpmArrays, startBPM, jumpBPM, windowSize,
             startIndex, endIndex, subbandCount, splitter, fft, prog);
     }
@@ -257,7 +257,7 @@ public interface CombFilterBPMGetterIFace {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
-    /////////////////// Comb filter energies - static methods
+    /////////////////// compute comb filter energies - static methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static double computeEnergyRealForward(double[][] fftResults, double[][] bpmArray) {
@@ -349,17 +349,166 @@ public interface CombFilterBPMGetterIFace {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
-    /////////////////// Comb filter energies - static methods
+    /////////////////// GetBPMArrays methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Returns the FFT results of the generated BPM arrays. The first dimension is equal to the number of BPM arrays.
+     * Second dimension is based on the length of BPM array (computed internally) and the fftWindowSize. It responds to
+     * the number of FFT's performed and the last dimension are the FFT measures. ... the method is not used anymore
+     * @param lowerBoundBPM
+     * @param upperBoundBPM
+     * @param jumpBPM
+     * @param sampleRate
+     * @param numberOfSeconds
+     * @param fftWindowSize
+     * @param numberOfBeats
+     * @return
+     */
+    static double[][][] getBPMArraysFFTMeasures(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
+                                                double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
+        if(upperBoundBPM < lowerBoundBPM) {
+            return null;
+        }
+        int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
+        int arrayLen = (int)(sampleRate * numberOfSeconds);
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
+        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe solve special case when fftWindowsCount == 0
+        double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
+        double[] fftArr = new double[fftWindowSize];
+
+        int impulsePeriod;
+        for(int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
+            int totalIndexInBpm = 0;
+            impulsePeriod = (60 * sampleRate) / currBPM;
+            int beatCount = 0;
+            for(int j = 0; j < fftWindowsCount; j++) {
+                for (int k = 0; k < fftArr.length; k++, totalIndexInBpm++) {
+                    if(beatCount < numberOfBeats) {
+                        if ((totalIndexInBpm % impulsePeriod) == 0) {
+                            fftArr[k] = 1;
+                            beatCount++;
+                        }
+                        else {
+                            fftArr[k] = 0;
+                        }
+                    }
+                    else {
+                        fftArr[k] = 0;
+                    }
+                }
+
+// TODO:                System.out.println(currBPM + "\tImpulsePeriod:\t" + impulsePeriod);
+                fft.realForward(fftArr);
+                bpmFFTArrays[i][j] = FFT.convertResultsOfFFTToRealRealForward(fftArr);
+            }
+        }
+
+        return bpmFFTArrays;
+    }
+
+    /**
+     * Returns the FFT results of the generated BPM arrays. The first dimension is equal to the number of BPM arrays.
+     * Second dimension is based on the length of BPM array (computed internally) and the fftWindowSize. It responds to
+     * the number of FFT's performed and the last dimension are the FFT results.
+     * @param lowerBoundBPM
+     * @param upperBoundBPM
+     * @param jumpBPM
+     * @param sampleRate
+     * @param numberOfSeconds
+     * @param fftWindowSize
+     * @param numberOfBeats
+     * @return
+     */
+    static double[][][] getBPMArraysFFT(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
+                                        double numberOfSeconds, int fftWindowSize, int numberOfBeats) {      // TODO: Maybe later pass the fft with the length, so it doesn't have to allocated over and over again ... but it's only smal optimazation
+        if(upperBoundBPM < lowerBoundBPM) {
+            return null;
+        }
+
+
+        int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
+        int arrayLen = (int)(sampleRate * numberOfSeconds);
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
+        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe solve special case when fftWindowsCount == 0
+        double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
+
+        int impulsePeriod;
+        for(int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
+            int totalIndexInBpm = 0;
+            impulsePeriod = (60 * sampleRate) / currBPM;
+            int beatCount = 0;
+            for(int j = 0; j < fftWindowsCount; j++) {
+                double[] fftArr = new double[fftWindowSize];
+                // TODO: Koment po dlouhy dobe - nechapu proc to nenastavuju na 1 pres modulo
+                for (int k = 0; k < fftArr.length; k++, totalIndexInBpm++) {
+                    int mod = totalIndexInBpm % impulsePeriod;
+
+                    if(beatCount < numberOfBeats) {
+                        if (mod == 0) { // TODO: !!!!!!!!! Kdyz ted vim ze se nedela FFT z tech kousku ale z celyho tak muzu nastavit proste kazdej sample na nasobku impulsePeriod na 1
+                            fftArr[k] = 1;
+                            beatCount++;
+// TODO:                            System.out.println("bpmArrs:\t" + beatCount + "\t" + totalIndexInBpm + "\t" + currBPM);
+                        }
+                    }
+                    else {
+// TODO:                        System.out.println("break");
+                        break;
+                    }
+
+/*
+
+                    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    int sizeOfPeak = 0;      // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
+                    if (mod <= sizeOfPeak || mod > impulsePeriod - sizeOfPeak) {
+                        fftArr[k] = 1;
+                    }
+*/
+                }
+
+//                System.out.println(currBPM + "\tImpulsePeriod:\t" + impulsePeriod);
+                fft.realForward(fftArr);
+
+//                fftArr = convertResultsOfFFTToRealRealForward(fftArr);  // TODO:
+
+                bpmFFTArrays[i][j] = fftArr;
+// TODO: Vymazat
+/*
+if(currBPM == 60) {
+    for (int l = 0; l < fftArr.length; l++) {
+        System.out.println(fftArr[l]);
+    }
+}
+*/
+            }
+        }
+
+        return bpmFFTArrays;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// GetBPMArrays methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// GetBPMArrays methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */
-    /////////////////// Comb filter energies - static methods
+    /////////////////// GetBPMArrays methods
     /* --------------------------------------------- [END] --------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 

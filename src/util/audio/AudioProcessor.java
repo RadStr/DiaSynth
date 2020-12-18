@@ -363,7 +363,7 @@ public class AudioProcessor {
             while(nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
                 for (int i = 0, arrIndex = nextNByteIndex % buffer.length; i < numberOfChannels; i++, arrIndex += sampleSize) {
                     int sample = Program.convertBytesToInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
-                    outputArr[i][outputIndex] = Program.normalizeToDoubleBetweenMinusOneAndOne(sample, maxAbsoluteValue, isSigned);
+                    outputArr[i][outputIndex] = Program.normalizeToDouble(sample, maxAbsoluteValue, isSigned);
                 }
 
                 outputIndex++;

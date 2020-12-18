@@ -695,7 +695,7 @@ public class FFT {
     public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                double[] result, int maxAbsoluteValue, boolean isSigned) {
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels) {
-            result[i] = Program.normalizeToDoubleBetweenMinusOneAndOne(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }
@@ -737,7 +737,7 @@ public class FFT {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels * frameSize) {
             valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i] = Program.normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
+            result[i] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
         }
 
         fft.realForward(result);
@@ -815,9 +815,9 @@ public class FFT {
     public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                   double[] result, int maxAbsoluteValue, boolean isSigned) {
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels - 1) {
-            result[i++] = Program.normalizeToDoubleBetweenMinusOneAndOne(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i++] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
             startIndex++;
-            result[i] = Program.normalizeToDoubleBetweenMinusOneAndOne(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }
@@ -859,10 +859,10 @@ public class FFT {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += (numberOfChannels - 1) * frameSize) {
             valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i++] = Program.normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
+            result[i++] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
             startIndex += frameSize;
             valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i] = Program.normalizeToDoubleBetweenMinusOneAndOne(valInt, maxAbsoluteValue, isSigned);
+            result[i] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }

@@ -1,8 +1,9 @@
 package Rocnikovy_Projekt;
 // When I talk about compiler I mean JVM
-// TODO: Remove the next 2 lines after clean up
+// TODO: Remove the next 3 lines after clean up
 // When I didn't have much knowledge I did copy-pasting to make the code faster, but now after 2 years I see that
 // it was very bad decision and also to compiler optimizes it anyways
+// Oznacuju je typicky // TODO: OPTIM-OLD ... nebo jak rikam dole TODO: Copy pasted
 
 
 
@@ -510,9 +511,9 @@ public class Program {
 //        return monoSong;
 //    }
 
-    // TODO: Tohle je nova verze konverze do mona
     /**
-     * Converts the audio from audioStream to mono signal by averaging the samples in 1 frame.
+     * Converts the audio from audioStream to mono signal by averaging the samples in 1 frame. Pretty memory expensive.
+     * Also not tested, but it should be fine. Still it is preferred to use the byte variant.
      * @param audioStream is the InputStream with samples
      * @param frameSize is the size of 1 frame
      * @param numberOfChannels represents the number of channels
@@ -683,7 +684,7 @@ public class Program {
         return converted;
     }
 
-    // TODO: Can be solved by calling the general convertIntToByteArr method, this should be a bit faster, but it doesn't matter
+
     /**
      * Fills given array with int given in parameter numberToConvert.
      * @param arr is the array to be filled with bytes of numberToConvert in given endianity.
@@ -692,6 +693,7 @@ public class Program {
      * byte of the number, if false, then it contains the least significant
      */
     public static void convertIntToByteArr(byte[] arr, int numberToConvert, boolean convertToBigEndian) {
+        // The implementation could be solved by calling the general variant of this method, but this should be a bit faster.
         if(convertToBigEndian) {
             for (int i = arr.length - 1; i >= 0; i--) {
                 arr[i] = (byte) numberToConvert;
@@ -1124,8 +1126,6 @@ public class Program {
 
 
 
-    // TODO: verze se signed/unsigned
-    // TODO: Taky zbytecne 2 vetve - ale zase kvuli optimalizaci pro ted necham, nevim jestli se to dobre prelozi ... TODO: Zkontrolovat
     /**
      * Converts byte array to int samples of size sampleSize.
      * @param byteSamples are the samples in 1D byte array.
@@ -1136,6 +1136,7 @@ public class Program {
      * @throws IOException is thrown when the sample size is invalid.
      */
     public static int[] convertBytesToSamples(byte[] byteSamples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+        // TODO: OPTIM-OLD
         int[] result = new int[byteSamples.length / sampleSize];
 
         int arrIndex;
@@ -1386,7 +1387,15 @@ public class Program {
     }
 
 
-    public static double normalizeToDoubleBetweenMinusOneAndOne(int sample, int maxAbsoluteValue, boolean isSigned) {
+    /**
+     * Converts the given int sample to normalized double, normalized means that it is on interval [-1, 1]. Only
+     * if the sample is within the [-maxAbsoluteValue, maxAbsoluteValue] of course.
+     * @param sample
+     * @param maxAbsoluteValue
+     * @param isSigned
+     * @return
+     */
+    public static double normalizeToDouble(int sample, int maxAbsoluteValue, boolean isSigned) {
         double result;
 
         if (isSigned) {

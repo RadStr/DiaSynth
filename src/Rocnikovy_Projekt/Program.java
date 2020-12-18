@@ -1439,10 +1439,9 @@ public class Program {
 
 
 
-    // TODO: i think that converting to int before dividing may help for receiving better results
     /**
      * Takes double[] which represents samples (or for example average value) - First converts them to int (since the double values are in these case expected to be ints). Performs normalization on these samples and returns them.
-     * This class exists for optimalization (saving copying and creating array).
+     * This class exists for optimization (saving copying and creating array).
      * @param samples is 1D int array with samples.
      * @param sampleSizeInBits is the size of 1 sample in bits in the samples array.
      * @param isSigned is true if the samples are signed, is false otherwise.
@@ -1479,8 +1478,8 @@ public class Program {
     public static int convertBytesToInt(byte[] bytes, int mask, boolean isBigEndian, boolean isSigned) {
         return convertBytesToInt(bytes, bytes.length, mask, 0, isBigEndian, isSigned);
     }
-        // TODO: tahle metoda je nove pridana
-    // TODO: Ted jsem tam dopsal isSigned, ale to by melo byt ... i v tom prevodu mona by to melo byt
+
+
     /**
      * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int. With given endianity.
      * @param bytes is byte array with sample(s).
@@ -1500,8 +1499,6 @@ public class Program {
         }
     }
 
-    // TODO: maybe it is better performace wise to write it all explicitly
-    // TODO: in switch for each sample size (1..4) then having it in general if
     /**
      * The sample is expected to be in big endian audioFormat.
      * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
@@ -1515,6 +1512,9 @@ public class Program {
     public static int convertBytesToIntBigEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
         int result = 0;
         arrIndex = arrIndex + sampleSize - 1;
+
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4], but
+        // that needs further testing
         for (int i = 0; i < sampleSize; i++) {
             result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
             arrIndex--;
@@ -1539,8 +1539,6 @@ public class Program {
 
 
 
-    // TODO: maybe it is better performace wise to write it all explicitly
-    // TODO: in switch for each sample size (1..4) then having it in general if
     /**
      * The sample is expected to be in little endian audioFormat.
      * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
@@ -1553,6 +1551,9 @@ public class Program {
      */
     public static int convertBytesToIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
         int result = 0;
+
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4], but
+        // that needs further testing
         for (int i = 0; i < sampleSize; i++) {
             result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
             arrIndex++;
@@ -1604,7 +1605,6 @@ public class Program {
         convertIntToByteArr(resultArr, sampleInt, sampleSize, startIndex, isBigEndian);
     }
 
-///////////
 
     public static int[] convertDoubleArrToIntArr(double[] doubleArr, int maxAbsoluteValue, boolean isSigned) {
         int[] intArr = new int[doubleArr.length];
@@ -1616,11 +1616,9 @@ public class Program {
         return intArr;
     }
 
-    // TODO: Not sure about effectivity, maybe I could I just all the more advanced variant.
+
     public static void convertDoubleArrToIntArr(double[] doubleArr, int[] intArr, int maxAbsoluteValue, boolean isSigned) {
-        for(int i = 0; i < doubleArr.length; i++) {
-            intArr[i] = convertDoubleToInt(doubleArr[i], maxAbsoluteValue, isSigned);
-        }
+        convertDoubleArrToIntArr(doubleArr, intArr, 0, 0, intArr.length, maxAbsoluteValue, isSigned);
     }
 
 

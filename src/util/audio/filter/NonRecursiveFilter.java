@@ -21,24 +21,6 @@ public class NonRecursiveFilter {
      * @deprecated Old method works only for mono
      */
     public static void performMovingWindowAverageByRef(double[] samples, int windowSize) {
-//		double oldSampleValue;
-//		double windowSum = 0;
-//
-//		int i = 0;
-//		int firstIndexInWindow = 0;
-//		for(; i < windowSize; i++) {		// Sum of first window
-//			windowSum += samples[i];
-//		}
-//
-//
-//		// Now we will just move the window (subtract first element of that window and add the last one)
-//		for(; i < samples.length; i++, firstIndexInWindow++) {
-//			oldSampleValue = samples[i];
-//			samples[i] = windowSum / windowSize;
-//			windowSum = windowSum - samples[firstIndexInWindow] + oldSampleValue;
-//		}
-
-        // Zmenena verze
         double[] oldSampleValues = new double[windowSize];
         double windowSum = 0;
         int i = 0;
@@ -46,7 +28,7 @@ public class NonRecursiveFilter {
             windowSum += samples[i];
             oldSampleValues[i] = samples[i];
         }
-        i--;			// TODO: Zmena oproti minulemu, protoze mi prijde ze se ten prumer ma pocitat i z te soucasne hodnoty
+        i--;	// We are not calculating the average from current value
 
 
         // Now we will just move the window (subtract first element of that window and add the last one)
@@ -82,24 +64,6 @@ public class NonRecursiveFilter {
      * @param numberOfChannels is the number of channels.
      */
     public static void performMovingWindowAverageByRef(double[] samples, int windowSize, int numberOfChannels) {
-//		double oldSampleValue;
-//		double windowSum = 0;
-//
-//		int i = 0;
-//		int firstIndexInWindow = 0;
-//		for(; i < windowSize; i++) {		// Sum of first window
-//			windowSum += samples[i];
-//		}
-//
-//
-//		// Now we will just move the window (subtract first element of that window and add the last one)
-//		for(; i < samples.length; i++, firstIndexInWindow++) {
-//			oldSampleValue = samples[i];
-//			samples[i] = windowSum / windowSize;
-//			windowSum = windowSum - samples[firstIndexInWindow] + oldSampleValue;
-//		}
-
-        // Zmenena verze
         double[][] oldSampleValues = new double[numberOfChannels][windowSize];
         double[] windowSum = new double[numberOfChannels];
         int sampleInd = 0;
@@ -113,7 +77,7 @@ public class NonRecursiveFilter {
                 oldSampleValues[ch][i] = samples[sampleInd];
             }
         }
-        sampleInd -= numberOfChannels;			// TODO: Zmena oproti minulemu, protoze mi prijde ze se ten prumer ma pocitat i z te soucasne hodnoty
+        sampleInd -= numberOfChannels;			// We are not calculating the average from current value
 
 
         // Now we will just move the window (subtract first element of that window and add the last one)
@@ -284,112 +248,6 @@ public class NonRecursiveFilter {
     }
 
 
-
-//// TODO: !!!!!!!!!!!!!!!!!!!! Jen ted na rychlo double varianta bez testu
-//    // TODO: !!! Not sure if I should work with ints or doubles when multiplying with coeffecients - for example
-//    // for example in doubles 2/3 + 2/3 = 4/3 which will be converted to 1. But when working with ints it is 0+0=0
-//    // TODO: Udelat reference variantu
-//    /**
-//     * Performs non-recursive filter, result is returned in new array. Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
-//     * <br>
-//     * y[n] = coef[0] * x[n - coef.length + 1] + ... + coef[coef.length] x[n]
-//     * @param samples is the input array. It isn't changed.
-//     * @param coef are the coefficients for the input samples. The last index contains index for the currently computed output. The first index is the (coef.length+1)-th before the current sample.
-//     * @param numberOfChannels represents the number of channels
-//     * @param retArr is he array which will contain the result of filter.
-//     * @return Returns -1 if the output array was shorter than length of coefs array else returns 1. In both cases the result of filter is in retArr.
-//     */
-//    // TODO: Returns -1 if the input array was too short ... the function doesn't do anything
-//    public static int performNonRecursiveFilter(double[] samples, double[] coef, int numberOfChannels, double[] retArr) {
-//        double[] vals = new double[numberOfChannels];
-//        int index;
-//        int startingCoefInd;
-//
-//        // Filter for the first indexes is a bit different, since they dont have all the preceding samples for the filtering.
-//        // It's for optimization because we need to check if there are the preceding samples.
-//        startingCoefInd = -coef.length * numberOfChannels + numberOfChannels;		// +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
-//        int resInd;
-//        int coefInd;
-//
-//        if(numberOfChannels * coef.length >= retArr.length) {
-//            return -1;
-//        }
-//
-//        for(resInd = 0, coefInd = 0; coefInd < coef.length - 1; startingCoefInd += numberOfChannels, coefInd++) {
-//            // Covers the case when there is more coefficients than frames,
-//            // but sample.length is expected to be containing only full frames,
-//            // that is samples.length % frameSize == 0
-//            for(int ch = 0; ch < vals.length; ch++) {
-//                vals[ch] = 0;
-//            }
-//            index = startingCoefInd;
-//// TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
-//            for (int j = 0; j < coef.length; j++) {
-//                if (index >= 0) {
-//                    for (int ch = 0; ch < vals.length; ch++, index++) {
-//                        vals[ch] += coef[j] * samples[index];
-//                        // TODO:                      System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
-//// TODO:                        System.out.println(index);
-//                    }
-//                }
-//                else {
-//// TODO:                    System.out.println(":::::::::::" + index);
-//                    index += numberOfChannels;
-//                }
-//            }
-//// TODO:            System.out.println("IND:\t" + index);
-//
-//            for (int ch = 0; ch < vals.length; ch++, resInd++) {
-//// TODO:                System.out.println("VAL:\t" + vals[ch]);
-//                retArr[resInd] = vals[ch];
-//            }
-//        }
-//
-//        // Now we just perform do filtering for the rest, we don't need to check for the preceding elements anymore.
-//        // TODO:        System.out.println("------------------------------------------");
-//
-//        for(; resInd < retArr.length; startingCoefInd += numberOfChannels) {
-//            for(int ch = 0; ch < vals.length; ch++) {
-//                vals[ch] = 0;
-//            }
-//            index = startingCoefInd;
-//// TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
-//            for(int j = 0; j < coef.length; j++) {
-//                for (int ch = 0; ch < vals.length; ch++, index++) {
-//                    vals[ch] += coef[j] * samples[index];
-//                    // TODO: PROGRAMO
-////                    ProgramTest.debugPrint("low-pass filter:", j, coef[j], samples[index], coef[j] * samples[index], vals[ch]);
-////                    // https://stackoverflow.com/questions/16098046/how-do-i-print-a-double-value-without-scientific-notation-using-java
-////                    System.out.printf("v1: %f\n", coef[j]);
-////                    System.out.printf("v2: %f\n", samples[index]);
-////                    System.out.printf("v3: %f\n", coef[j] * samples[index]);
-////                    System.out.printf("v4: %f\n", vals[ch]);
-////                    Tady totiz jsou 2 problemy - 1) je to celkem pomaly protoze to delam jakoby po 1 prvku
-////                    to ale az tak nevadi
-////                        2) co ale vadi je ze kdyz retArr == samples which is the input arr, then it rewrites underlying
-////                        samples so the values become invalid, so I will have to have so buffer and then when I am with
-////                        the index far enough I will copy it - the buffer can be the vals[ch] just make it [][] and I am set
-////                        so I will solve both problems at once
-////                        3) the result has samples larger than 1 - This is fine I can just call set to max after that, or just user let do what he wants -
-////                    to se da vyresit tak ze znormalizuju ty coeficienty
-//                    // TODO: PROGRAMO
-//                }
-//            }
-//
-//            // TODO: the same for cycle as above (30 lines above)
-//            for (int ch = 0; ch < vals.length; ch++, resInd++) {
-////TODO:                System.out.println("VAL:\t" + vals[ch]);
-//                retArr[resInd] = vals[ch];
-//            }
-//        }
-//
-//        return 1;
-//    }
-
-
-    // TODO: !!!!!!!!!!!!!!!!!!!! Jen ted na rychlo double varianta bez testu
-    // TODO: !!! Not sure if I should work with ints or doubles when multiplying with coeffecients - for example
-    // for example in doubles 2/3 + 2/3 = 4/3 which will be converted to 1. But when working with ints it is 0+0=0
     /**
      * Performs non-recursive filter on input array, result is returned in output array (Input and output array can be the same).
      * Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
@@ -501,16 +359,6 @@ public class NonRecursiveFilter {
         return resIndAndMethodStart + len * vals.length;
     }
 
-
-
-
-/* TODO: // ono to je asi celkem zbytecny protoze samotnej filtr je by copy
-	private static byte[] runLowPassFilterByCopy(byte[] samples, int cutoffFreq) {
-		byte[] retArr = Arrays.copyOf(samples, samples.length);
-		runLowPassFilterByRef(retArr, cutoffFreq);
-		return retArr;
-	}
-*/
 
     /**
      * Performs low pass filtering with cutoffFreq on given samples, which are supposed to be sampled at sampleRate.

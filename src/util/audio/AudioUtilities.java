@@ -1,8 +1,6 @@
 package util.audio;
 
 
-import Rocnikovy_Projekt.Program;
-
 import javax.sound.sampled.*;
 import java.io.IOException;
 
@@ -125,7 +123,7 @@ public class AudioUtilities {
         line.open(audioFormat);
         line.start();
         if(playBackwards) {
-            Program.reverseArr(song, audioFormat.getSampleSizeInBits() / 8);
+            AudioProcessor.reverseArr(song, audioFormat.getSampleSizeInBits() / 8);
         }
         // because number of frames needs to be integer, so if some last bytes doesn't fit in the last frame,
         // we don't play them
@@ -177,7 +175,7 @@ public class AudioUtilities {
 
         if(playBackwards) {
             for(int i = 0; i < songParts.length; i++) {
-                Program.reverseArr(songParts[i].songPart, audioFormat.getSampleSizeInBits() / 8);
+                AudioProcessor.reverseArr(songParts[i].songPart, audioFormat.getSampleSizeInBits() / 8);
             }
             if(ascending) {
                 for(int i = 0; i < songParts.length; i++) {

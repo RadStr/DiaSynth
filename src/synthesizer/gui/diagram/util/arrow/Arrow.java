@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram.util.arrow;
 
+
 import java.awt.*;
 
 public class Arrow {

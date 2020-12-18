@@ -735,7 +735,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.2, 6, 0.0)).toString());
 
 
-        return new Pair<String, String>("BPM (Advanced full)", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
+        return new Pair<String, String>("BPM (Advanced full)", ((Integer)prog.computeBPMSimpleWithFreqBands(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
 //        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
 //                splitter, 2.5, 6, 1.12)).toString());
@@ -1039,7 +1039,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
                         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
+                        int bpm = prog.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
                         String name = "BPMAdvancedFullLinear" + subbandCount + "Coef" + (int) Math.round(100 * coef) + "Win" + windowsBetweenBeats;
                         name += "Var" + (int) Math.round(100 * varianceLimit);
 
@@ -1096,7 +1096,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                        }
 
                         splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
+                        int bpm = prog.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef,
                                 windowsBetweenBeats, varianceLimit);
 
                         String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +

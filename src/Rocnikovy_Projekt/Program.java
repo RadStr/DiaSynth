@@ -2131,9 +2131,12 @@ public class Program {
     }
 
 
-    public int calculateBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
-                                                double coef, int windowsBetweenBeats,
-                                                double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
+    ////////////////////////////////////////////////////
+    // BPM Algorithm 2
+    ////////////////////////////////////////////////////
+    public int computeBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
+                                             double coef, int windowsBetweenBeats,
+                                             double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
         // TODO: Dava smysl ze to vytvorim tady ... protoze to vyrabim v zavislosti na sample rate a tak
 
 

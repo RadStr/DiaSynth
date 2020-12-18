@@ -610,8 +610,8 @@ public class ProgramTest {
      * @throws IOException is thrown when error with input stream occurred.
      */
     public boolean takeEveryNthSampleOneChannelTestBoth(InputStream stream, byte[] samplesFromStream, int sampleSize, int n, int startSample) throws IOException {
-        byte[] samples1 = AudioProcessor.getEveryNthSampleOneChannel(stream, sampleSize, n, startSample);
-        byte[] samples2 = AudioProcessor.getEveryNthSampleOneChannel(samplesFromStream, sampleSize, n, startSample);
+        byte[] samples1 = AudioProcessor.getEveryNthSampleMono(stream, sampleSize, n, startSample);
+        byte[] samples2 = AudioProcessor.getEveryNthSampleMono(samplesFromStream, sampleSize, n, startSample);
 
         return checkEqualityOfArraysOneDim(samples1, samples2, 0);
     }

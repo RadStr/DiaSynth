@@ -160,7 +160,7 @@ public class AudioProcessor {
      * @throws IOException is thrown when error with InputStream occurred or if the sampleSize is not multiple of the
      *                     original sampleSize or if the startSample is not multiple of the original sampleSize
      */
-    public static byte[] getEveryNthSampleOneChannel(InputStream samples, int sampleSize, int n, int startSample) throws IOException {
+    public static byte[] getEveryNthSampleMono(InputStream samples, int sampleSize, int n, int startSample) throws IOException {
         int bytesRead = 0;
         byte[] arr = new byte[sampleSize * n];
 
@@ -206,7 +206,7 @@ public class AudioProcessor {
      * @param startSample is the number of sample to start at
      * @return Returns 1D array containing every nth sample of size sampleSize
      */
-    public static byte[] getEveryNthSampleOneChannel(byte[] samples, int sampleSize, int n, int startSample) {
+    public static byte[] getEveryNthSampleMono(byte[] samples, int sampleSize, int n, int startSample) {
         // Solved by calling more general method
         byte[][] newSamples = getEveryXthTimePeriodWithLength(samples, 1, n, sampleSize, startSample);
 
@@ -417,7 +417,7 @@ public class AudioProcessor {
         byte[][] arr = new byte[numberOfChannels][];
 
         for (int i = 0; i < numberOfChannels; i++) {
-            arr[i] = getEveryNthSampleOneChannel(samples, sampleSize, n * numberOfChannels, i + startSample);
+            arr[i] = getEveryNthSampleMono(samples, sampleSize, n * numberOfChannels, i + startSample);
         }
 
         return arr;

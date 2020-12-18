@@ -235,7 +235,7 @@ public interface CombFilterBPMGetterIFace {
                                     int startIndex, int endIndex,
                                     int subbandCount, SubbandSplitterIFace splitter,
                                     DoubleFFT_1D fft, int numberOfBeats, Program prog) {
-        double[][][] bpmArrays = getBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
+        double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
         return calculateBPM(bpmArrays, startBPM, jumpBPM, windowSize,
             startIndex, endIndex, subbandCount, splitter, fft, prog);
     }
@@ -368,8 +368,8 @@ public interface CombFilterBPMGetterIFace {
      * @param numberOfBeats
      * @return
      */
-    static double[][][] getBPMArraysFFTMeasures(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
-                                                double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
+    static double[][][] createBPMArraysFFTMeasures(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
+                                                   double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
         if(upperBoundBPM < lowerBoundBPM) {
             return null;
         }
@@ -423,8 +423,8 @@ public interface CombFilterBPMGetterIFace {
      * @param numberOfBeats
      * @return
      */
-    static double[][][] getBPMArraysFFT(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
-                                        double numberOfSeconds, int fftWindowSize, int numberOfBeats) {      // TODO: Maybe later pass the fft with the length, so it doesn't have to allocated over and over again ... but it's only smal optimazation
+    static double[][][] createBPMArraysFFT(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
+                                           double numberOfSeconds, int fftWindowSize, int numberOfBeats) {      // TODO: Maybe later pass the fft with the length, so it doesn't have to allocated over and over again ... but it's only smal optimazation
         if(upperBoundBPM < lowerBoundBPM) {
             return null;
         }

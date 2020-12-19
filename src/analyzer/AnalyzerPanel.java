@@ -579,7 +579,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private static Pair<String, String> analyzeSongLength(ByteWave prog) {
         return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH_COLUMN_TITLE,
-                Time.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
+                Time.convertSecondsToTime(prog.getLengthOfAudioInSeconds(), -1));
     }
 
     private static Pair<String, String> analyzeSizeInBytes(ByteWave prog) {

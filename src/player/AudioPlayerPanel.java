@@ -3142,7 +3142,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         ProgramTest.debugPrint("Adding waves", audioLen, p.decodedAudioStream.getFrameLength(),
                 p.frameSize);
         ProgramTest.debugPrint("properties:", p.decodedAudioStream.getFormat().properties(),
-                p.lengthOfAudioInSeconds, p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
+                p.getLengthOfAudioInSeconds(), p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
         double[][] waves = AudioConverter.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
                 p.isBigEndian, p.isSigned, audioLen);
 

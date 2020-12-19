@@ -169,7 +169,10 @@ public class ByteWave {
 
     private int headerSize;
 
-    public int lengthOfAudioInSeconds;
+    private int lengthOfAudioInSeconds;
+    public int getLengthOfAudioInSeconds() {
+        return lengthOfAudioInSeconds;
+    }
 
     private String fileName;
     public String getFileName() {

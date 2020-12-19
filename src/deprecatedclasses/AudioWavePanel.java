@@ -8,12 +8,11 @@ import javax.swing.*;
 public class AudioWavePanel extends JPanel {
 
     int zoom;
-    ByteWave prog;
+    ByteWave byteWave;
 
-    public AudioWavePanel(ByteWave prog) {
+    public AudioWavePanel(ByteWave byteWave) {
         zoom = 1;
-        this.prog = prog;
-
+        this.byteWave = byteWave;
     }
 
 }

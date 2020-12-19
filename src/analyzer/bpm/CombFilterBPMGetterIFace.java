@@ -204,15 +204,15 @@ public interface CombFilterBPMGetterIFace {
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  int numberOfBeats, ByteWave prog) {
+                                  int numberOfBeats, ByteWave byteWave) {
 
-        int lenOfOneSecond = prog.sampleSizeInBytes * prog.sampleRate;
+        int lenOfOneSecond = byteWave.sampleSizeInBytes * byteWave.sampleRate;
         int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);
-        int startIndex = prog.song.length / 2;
-        int mod = startIndex % prog.sampleSizeInBytes;
-        startIndex += (prog.sampleSizeInBytes - mod);
+        int startIndex = byteWave.song.length / 2;
+        int mod = startIndex % byteWave.sampleSizeInBytes;
+        startIndex += (byteWave.sampleSizeInBytes - mod);
         int endIndex = startIndex + lenInBytes;
-        int bytesOver = endIndex - prog.song.length;
+        int bytesOver = endIndex - byteWave.song.length;
         if(bytesOver > 0) {     // Move to left if the endIndex is after the length of buffer
             startIndex -= bytesOver;
             if(startIndex < 0) {
@@ -224,33 +224,34 @@ public interface CombFilterBPMGetterIFace {
         //  startIndex = (int)(1.1 * lenOfOneSecond);       // TODO:
         //  endIndex = startIndex + lenInBytes;             // TODO:
 
-        int windowSize = (endIndex - startIndex) / prog.sampleSizeInBytes;  // this is Window size in samples
+        int windowSize = (endIndex - startIndex) / byteWave.sampleSizeInBytes;  // this is Window size in samples
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
 
         return computeBPM(startBPM, jumpBPM, upperBoundBPM,
-            numberOfSeconds, windowSize, startIndex, endIndex, subbandCount, splitter, fft, numberOfBeats, prog);
+            numberOfSeconds, windowSize, startIndex, endIndex, subbandCount, splitter, fft, numberOfBeats, byteWave);
     }
 
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
                                   double numberOfSeconds, int windowSize,
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  DoubleFFT_1D fft, int numberOfBeats, ByteWave prog) {
-        double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
+                                  DoubleFFT_1D fft, int numberOfBeats, ByteWave byteWave) {
+        double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, byteWave.sampleRate,
+                                                    numberOfSeconds, windowSize, numberOfBeats);
         return computeBPM(bpmArrays, startBPM, jumpBPM, windowSize,
-            startIndex, endIndex, subbandCount, splitter, fft, prog);
+            startIndex, endIndex, subbandCount, splitter, fft, byteWave);
     }
 
     public default int computeBPM(double[][][] bpmArrays, int startBPM,
                                   int jumpBPM, int windowSize,
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  DoubleFFT_1D fft, ByteWave prog) {
+                                  DoubleFFT_1D fft, ByteWave byteWave) {
         // TODO: Napsat metodu getBPMFromIndex array to je to to impulse period + ten for cycklus
         // TODO: Vlastne uz to mam napsany vsechno akorat zmensit ty pole a delat fft hned jakmile mam to jedno window
-        return computeBPM(prog.song, bpmArrays, startBPM, jumpBPM,
-            prog.sampleSizeInBytes, prog.sampleSizeInBits, windowSize, startIndex, endIndex,
-            prog.isBigEndian, prog.isSigned, subbandCount, splitter, fft, prog.sampleRate);
+        return computeBPM(byteWave.song, bpmArrays, startBPM, jumpBPM,
+                          byteWave.sampleSizeInBytes, byteWave.sampleSizeInBits, windowSize, startIndex, endIndex,
+                          byteWave.isBigEndian, byteWave.isSigned, subbandCount, splitter, fft, byteWave.sampleRate);
     }
 
 

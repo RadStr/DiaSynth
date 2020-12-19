@@ -2675,17 +2675,17 @@ public class ProgramTest {
 
     public boolean createSpectrogramTest(String path, int windowSize, int windowShift,
                                          int startIndex, int endIndex, int spectrogramWidthInPixels, int spectrogramHeigthInPixels) {
-        ByteWave prog = new ByteWave();
+        ByteWave byteWave = new ByteWave();
         double[] songDouble;
         songDouble = new double[44100 * 180];
         for(int i = 0; i < songDouble.length; i++) {
             songDouble[i] = 1;
         }
-        prog.sampleRate = 22050;
+        byteWave.sampleRate = 22050;
 
 
-        double freqJump = AudioUtilities.computeFreqJump(prog.sampleRate, windowSize);
-        BufferedImage img = Spectrogram.createSpectrogram(songDouble, prog.numberOfChannels, windowSize, windowShift,
+        double freqJump = AudioUtilities.computeFreqJump(byteWave.sampleRate, windowSize);
+        BufferedImage img = Spectrogram.createSpectrogram(songDouble, byteWave.numberOfChannels, windowSize, windowShift,
             startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
 
         createTestWindow(img);

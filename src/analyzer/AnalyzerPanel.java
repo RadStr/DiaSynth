@@ -59,7 +59,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private DataModelSubjectIFace subject;
 
-    private ByteWave p;
+    private ByteWave byteWave;
 
 
     @Override
@@ -72,7 +72,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     public AnalyzerPanel(JFrame thisWindow, DataModelObserverIFace[] observers) {
-        p = new ByteWave();
+        byteWave = new ByteWave();
 
         frame = thisWindow;
         this.setLayout(new BorderLayout());
@@ -359,13 +359,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-    public static void findCoefs(String filename,
-                                 List<Pair<String, Pair<String, Integer>>> bpmList) {
+    public static void findCoefs(String filename, List<Pair<String, Pair<String, Integer>>> bpmList) {
         ProgramTest.debugPrint("Currently working with:", filename);
-        ByteWave p = new ByteWave();
+        ByteWave byteWave = new ByteWave();
 
         try {
-            if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
@@ -378,7 +377,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
-            p.convertToMono();
+            byteWave.convertToMono();
             //p.convertSampleRate(22050);
         }
         catch(IOException e) {
@@ -386,7 +385,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
         // TODO: !!!!!!
 
-        addSongBPMToList(p, bpmList);
+        addSongBPMToList(byteWave, bpmList);
     }
 
 
@@ -399,7 +398,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         list.add(pair);
 
         try {
-            if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
@@ -410,11 +409,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             //new ErrorFrame(frame, "Couldn't set variables for song:\n" + e.getMessage());
         }
 
-        int numberOfChannels = p.numberOfChannels;
+        int numberOfChannels = byteWave.numberOfChannels;
 
         // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
-            p.convertToMono();
+            byteWave.convertToMono();
             //p.convertSampleRate(22050);
         }
         catch(IOException e) {
@@ -427,34 +426,35 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         if(checkBoxes[0].isSelected()) {
-            list.add(analyzeSizeInBytes(p));
+            list.add(analyzeSizeInBytes(byteWave));
         }
         if(checkBoxes[1].isSelected()) {
-            list.add(analyzeSongLength(p));
+            list.add(analyzeSongLength(byteWave));
         }
         if(checkBoxes[2].isSelected()) {
-            list.add(analyzeFileFormat(p));
+            list.add(analyzeFileFormat(byteWave));
         }
         if(checkBoxes[3].isSelected()) {
-            list.add(analyzeEncoding(p));
+            list.add(analyzeEncoding(byteWave));
         }
         if(checkBoxes[4].isSelected()) {
-            list.add(analyzeSampleSize(p));
+            list.add(analyzeSampleSize(byteWave));
         }
         if(checkBoxes[5].isSelected()) {
-            list.add(analyzeSampleRate(p));
+            list.add(analyzeSampleRate(byteWave));
         }
         if(checkBoxes[6].isSelected()) {
             list.add(analyzeNumberOfChannels(numberOfChannels));
         }
         if(checkBoxes[7].isSelected()) {
-            list.add(analyzeEndianness(p));
+            list.add(analyzeEndianness(byteWave));
         }
 
         double[] mods = null;
         if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
             try {
-                mods = Aggregation.calculateAllAggregations(p.song, p.sampleSizeInBytes, p.isBigEndian, p.isSigned);
+                mods = Aggregation.calculateAllAggregations(byteWave.song, byteWave.sampleSizeInBytes,
+                                                            byteWave.isBigEndian, byteWave.isSigned);
             } catch (IOException e) {
                 new ErrorFrame(frame, "Invalid sample size:\t" + e.getMessage());
             }
@@ -470,8 +470,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             list.add(analyzeSampleRMS(mods));
         }
         if(checkBoxes[11].isSelected()) {
-            list.add(analyzeBPMSimpleFull(p));
-            list.add(analyzeBPMAdvancedFullLinear(p));
+            list.add(analyzeBPMSimpleFull(byteWave));
+            list.add(analyzeBPMAdvancedFullLinear(byteWave));
 //            list.add(analyzeBPMAdvancedFullLinear2(p));
 //            list.add(analyzeBPMAdvancedFullLinear3(p));
 //            list.add(analyzeBPMAdvancedFullLinear4(p));
@@ -524,14 +524,14 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-            list.add(analyzeBPMAllPart(p));
+            list.add(analyzeBPMAllPart(byteWave));
             // TODO: BPM - HLEDANI
 //            list.add(analyzeBPMAllPartConstant(p));
 //            list.add(analyzeBPMAllPartLinear(p));
 //            list.add(analyzeBPMAllPart(p));
             // TODO: BPM - HLEDANI
 //
-            list.add(analyzeBPMBarycenterPart(p));
+            list.add(analyzeBPMBarycenterPart(byteWave));
             // TODO: BPM - HLEDANI
 //            list.add(analyzeBPMBarycenterPartConstant(p));
 //            list.add(analyzeBPMBarycenterPartLinear(p));
@@ -539,7 +539,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             // TODO: BPM - HLEDANI
         }
 
-        runSelectedPlugins(p, list);
+        runSelectedPlugins(byteWave, list);
 
 
 //		char[] c = new char[] {'a'};		// TODO:

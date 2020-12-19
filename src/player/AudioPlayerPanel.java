@@ -3078,8 +3078,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public static DoubleWave loadMonoDoubleWave(File f, int newSampleRate, boolean shouldLog) {
         DoubleWave wave = null;
         try {
-            ByteWave p = new ByteWave();
-            boolean audioLoaded = p.setVariables(f, true);
+            ByteWave byteWave = new ByteWave();
+            boolean audioLoaded = byteWave.setVariables(f, true);
             if(!audioLoaded) {
                 if(shouldLog) {
                     MyLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
@@ -3087,8 +3087,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
                 return null;
             }
-            p.convertToMono();
-            wave = new DoubleWave(p, false, newSampleRate);
+            byteWave.convertToMono();
+            wave = new DoubleWave(byteWave, false, newSampleRate);
         } catch (IOException exception) {
             MyLogger.logException(exception);
         }
@@ -3130,27 +3130,29 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void addWaves(File f, boolean shouldAddLater) throws IOException {
-        ByteWave p = new ByteWave();
-        boolean audioLoaded = p.setVariables(f, false);
+        ByteWave byteWave = new ByteWave();
+        boolean audioLoaded = byteWave.setVariables(f, false);
         if(!audioLoaded) {
             MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
                     AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
             return;
         }
 
-        int audioLen = p.getOnlyAudioSizeInBytes();
-        ProgramTest.debugPrint("Adding waves", audioLen, p.decodedAudioStream.getFrameLength(),
-                p.frameSize);
-        ProgramTest.debugPrint("properties:", p.decodedAudioStream.getFormat().properties(),
-                p.getLengthOfAudioInSeconds(), p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
-        double[][] waves = AudioConverter.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
-                p.isBigEndian, p.isSigned, audioLen);
+        int audioLen = byteWave.getOnlyAudioSizeInBytes();
+        ProgramTest.debugPrint("Adding waves", audioLen, byteWave.decodedAudioStream.getFrameLength(),
+                               byteWave.frameSize);
+        ProgramTest.debugPrint("properties:", byteWave.decodedAudioStream.getFormat().properties(),
+                               byteWave.getLengthOfAudioInSeconds(),
+                               byteWave.getOnlyAudioSizeInBytes(), byteWave.wholeFileSize);
+        double[][] waves = AudioConverter.separateChannelsDouble(byteWave.decodedAudioStream, byteWave.numberOfChannels,
+                                                                 byteWave.sampleSizeInBytes, byteWave.isBigEndian,
+                                                                 byteWave.isSigned, audioLen);
 
         for(int i = 0; i < waves.length; i++) {
-            waves[i] = AudioConverter.convertSampleRate(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
-                    true);
+            waves[i] = AudioConverter.convertSampleRate(waves[i], byteWave.numberOfChannels, byteWave.sampleRate,
+                                                        getOutputSampleRate(),true);
         }
-        addWaves(waves, p.getFileName(), getOutputSampleRate(), shouldAddLater);
+        addWaves(waves, byteWave.getFileName(), getOutputSampleRate(), shouldAddLater);
     }
 
     /**

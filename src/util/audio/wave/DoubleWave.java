@@ -232,27 +232,30 @@ public class DoubleWave {
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      * @param filenameWithoutExtension is the file name without the extension which will be created
      */
-    public DoubleWave(String filenameWithoutExtension, ByteWave p, boolean shouldCreateDoubleWaveFile) {
-        this(filenameWithoutExtension, p, shouldCreateDoubleWaveFile, -1);
+    public DoubleWave(String filenameWithoutExtension, ByteWave byteWave, boolean shouldCreateDoubleWaveFile) {
+        this(filenameWithoutExtension, byteWave, shouldCreateDoubleWaveFile, -1);
     }
 
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      * @param filenameWithoutExtension is the file name without the extension which will be created
-     * @param p
+     * @param byteWave
      * @param shouldCreateDoubleWaveFile
      * @param newSampleRate if < 0 then don't perform sample rate conversion
      */
-    public DoubleWave(String filenameWithoutExtension, ByteWave p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
+    public DoubleWave(String filenameWithoutExtension, ByteWave byteWave, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
         doubleWaveFileExists = shouldCreateDoubleWaveFile;
         this.filenameWithoutExtension = filenameWithoutExtension;
 
-        this.sampleRate = p.sampleRate;
-        this.numberOfChannels = p.numberOfChannels;
+        this.sampleRate = byteWave.sampleRate;
+        this.numberOfChannels = byteWave.numberOfChannels;
         try {
-            song = AudioConverter.normalizeToDoubles(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
+            song = AudioConverter.normalizeToDoubles(byteWave.song, byteWave.sampleSizeInBytes,
+                                                     byteWave.sampleSizeInBits, byteWave.isBigEndian,
+                                                     byteWave.isSigned);
             if(newSampleRate >= 0) {
-                song = AudioConverter.convertSampleRate(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
+                song = AudioConverter.convertSampleRate(song, byteWave.numberOfChannels, byteWave.sampleRate,
+                                                        newSampleRate, true);
                 this.sampleRate = newSampleRate;
             }
             if(shouldCreateDoubleWaveFile) {
@@ -270,18 +273,19 @@ public class DoubleWave {
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      */
-    public DoubleWave(ByteWave p, boolean shouldCreateDoubleWaveFile) {
-        this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile);
+    public DoubleWave(ByteWave byteWave, boolean shouldCreateDoubleWaveFile) {
+        this(Utilities.getNameWithoutExtension(byteWave.getFileName()), byteWave, shouldCreateDoubleWaveFile);
     }
 
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
-     * @param p
+     * @param byteWave
      * @param shouldCreateDoubleWaveFile
      * @param newSampleRate is the new sample rate to which we should convert, < 0 if we want to keep the old audioFormat
      */
-    public DoubleWave(ByteWave p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
-        this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile, newSampleRate);
+    public DoubleWave(ByteWave byteWave, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
+        this(Utilities.getNameWithoutExtension(byteWave.getFileName()), byteWave,
+                                               shouldCreateDoubleWaveFile, newSampleRate);
     }
 
     public DoubleWave(double[] wave, DoubleWave oldWave, boolean shouldCreateDoubleWaveFile) {

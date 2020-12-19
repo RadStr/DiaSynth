@@ -35,21 +35,14 @@ import java.util.Random;
  * This class is used for testing, will be later transformed to unit tests
  */
 public class ProgramTest {
-
-    private Program program;
-
-    public ProgramTest() {
-        program = new Program();
-    }
-
-
     public static void main(String[] args) throws Exception {
         ProgramTest test = new ProgramTest();
         test.testAll();
     }
 
 
-    // Modified code from stackoverflow, I can't find the source currently, forgot to cite it like 1.5 years ago
+    // Modified code from stackoverflow, I can't find the source currently, forgot to cite it like 1.5 years ago,
+    // it was wrong anyways
     public class Tone {
         public void main(String[] args) throws LineUnavailableException {
             Tone t = new Tone();

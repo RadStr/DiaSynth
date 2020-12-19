@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import Rocnikovy_Projekt.ByteWave;
+import util.audio.wave.ByteWave;
 
 import javax.swing.*;
 

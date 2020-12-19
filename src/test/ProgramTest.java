@@ -1,6 +1,6 @@
 package test;
 
-import Rocnikovy_Projekt.ByteWave;
+import util.audio.wave.ByteWave;
 import deprecatedclasses.Spectrogram;
 import util.Aggregation;
 import util.Utilities;

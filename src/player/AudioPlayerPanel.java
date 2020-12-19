@@ -1,7 +1,7 @@
 package player;
 
 
-import Rocnikovy_Projekt.ByteWave;
+import util.audio.wave.ByteWave;
 import deprecatedclasses.RobotUserEventsGenerator;
 import player.mixer.*;
 import player.control.AudioControlPanel;

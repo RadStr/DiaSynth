@@ -1,6 +1,5 @@
 package util.audio.wave;
 
-import Rocnikovy_Projekt.ByteWave;
 import util.Utilities;
 import util.audio.AudioConverter;
 

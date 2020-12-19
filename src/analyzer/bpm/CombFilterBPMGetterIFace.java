@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import Rocnikovy_Projekt.ByteWave;
+import util.audio.wave.ByteWave;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Rectification;
 import util.audio.AudioConverter;

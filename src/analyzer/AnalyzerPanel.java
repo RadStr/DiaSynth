@@ -14,6 +14,7 @@ import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
 import util.Time;
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
+import util.audio.wave.ByteWave;
 import util.audio.wave.DoubleWave;
 import util.swing.ErrorFrame;
 import org.w3c.dom.Node;
@@ -31,7 +32,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import Rocnikovy_Projekt.*;
 import util.logging.MyLogger;
 
 

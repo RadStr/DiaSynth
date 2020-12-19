@@ -1,4 +1,4 @@
-package Rocnikovy_Projekt;
+package util.audio.wave;
 // When I talk about compiler I mean JVM
 // TODO: Remove the next 3 lines after clean up
 // When I didn't have much knowledge I did copy-pasting to make the code faster, but now after 2 years I see that

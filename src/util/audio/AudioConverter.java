@@ -12,6 +12,12 @@ public class AudioConverter {
     private AudioConverter() {}         // Allow only static access
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert stream methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Converts given stream to byte array of length streamLen (streamLen should be at least the same size as the stream),
      * @param stream is the stream to convert
@@ -36,31 +42,19 @@ public class AudioConverter {
 
         return converted;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert stream methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Converts the 2D array to 1D array by stacking the labelReferenceArrs
-     *
-     * @param arr is the 2D array to be converted to 1D array
-     * @return Returns 1D array
-     */
-    public static byte[] convertTwoDimArrToOneDim(byte[][] arr) {
-        int length = 0;
-        for (int i = 0; i < arr.length; i++) {
-            length = length + arr[i].length;
-        }
 
-        byte[] result = new byte[length];
-        int index = 0;
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                result[index] = arr[i][j];
-                index++;
-            }
-        }
 
-        return result;
-    }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Separate channels
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Takes the input stream and returns the samples of channels in byte labelReferenceArrs (1 array = 1 channel).
      *
@@ -103,7 +97,19 @@ public class AudioConverter {
     public static byte[][] separateChannels(byte[] samples, int numberOfChannels, int sampleSize) throws IOException {
         return AudioProcessor.getEveryNthSampleMoreChannels(samples, numberOfChannels, sampleSize, 1, 0);
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Separate channels
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert to mono methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Converts the audio from samples to mono signal by averaging the samples in 1 frame.
      *
@@ -237,7 +243,19 @@ public class AudioConverter {
 
         return arr;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert to mono methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert int to bytes (from sample to sample methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Converts the sizeInBytes least significant bytes of int given in parameter numberToConvert to byte array of size sizeInBytes.
      * @param sizeInBytes is the size of the number in bytes.
@@ -310,32 +328,210 @@ public class AudioConverter {
             }
         }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert int to bytes (from sample to sample methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert sample in bytes to sample in int methods (from sample to sample methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Converts sample in byte array of size sampleSize to int. With given endianity.
+     * @param bytes is byte array with sample(s).
+     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
+     * @param isBigEndian says if the given array is in big endian.
+     * @param isSigned says if the given array has signed samples.
+     * @return Returns the sample starting at index arrIndex.
+     */
+    public static int convertBytesToInt(byte[] bytes, int mask, boolean isBigEndian, boolean isSigned) {
+        return convertBytesToInt(bytes, bytes.length, mask, 0, isBigEndian, isSigned);
+    }
 
     /**
-     * Takes the 1D byte array (parameter samples) and split it to parts of size n * frameSize.
-     * @param samples is the 1D byte array with the samples.
-     * @param n is the size of the 1 song part.
-     * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
-     * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
+     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int. With given endianity.
+     * @param bytes is byte array with sample(s).
+     * @param sampleSize is the size of 1 sample.
+     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
+     * @param arrIndex is index in the array, where starts the sample to be converted
+     * @param isBigEndian says if the given array is in big endian.
+     * @param isSigned says if the given array has signed samples.
+     * @return Returns the sample starting at index arrIndex.
      */
-    public static byte[][] splitSongToPartsOfSizeNFrames(byte[] samples, int n, int frameSize) {
-        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
+    public static int convertBytesToInt(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isBigEndian, boolean isSigned) {
+        if(isBigEndian) {
+            return convertBytesToIntBigEndian(bytes, sampleSize, mask, arrIndex, isSigned);
+        }
+        else {
+            return convertBytesToIntLittleEndian(bytes, sampleSize, mask, arrIndex, isSigned);
+        }
+    }
+
+    /**
+     * The sample is expected to be in big endian audioFormat.
+     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
+     * @param bytes is byte array with sample(s).
+     * @param sampleSize is the size of 1 sample.
+     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
+     * @param arrIndex is index in the array, where starts the sample to be converted
+     * @param isSigned tells if the converted sample is signed or unsigned
+     * @return Returns the sample starting at index arrIndex.
+     */
+    public static int convertBytesToIntBigEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
+        int result = 0;
+        arrIndex = arrIndex + sampleSize - 1;
+
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
+        // That would need some performance tests though.
+        for (int i = 0; i < sampleSize; i++) {
+            result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
+            arrIndex--;
+        }
+
+        // TODO: old variant with if
+//        if(isSigned) {
+//            if (((result >> (((sampleSize - 1) * 8) + 7)) & 1) == 1) {  //If true, then copy sign bit
+//                result = result | mask;
+//            }
+//        }
+
+        // TODO: New variant without if
+        if (isSigned) {
+            int sign = (result >> (((sampleSize - 1) * 8) + 7)) & 1;  //If == 1 then there is sign bit, if == 0 then no sign bit
+            mask *= sign;       // mask will be 0 if the number >= 0 (no sign bit); mask == mask if sign == 1
+            result = result | mask;
+        }
+
         return result;
     }
 
     /**
-     * Takes the input stream (parameter samples) and split it to parts of size n * frameSize.
-     * @param samples is the input stream with the samples.
-     * @param n is the size of the 1 song part.
-     * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
-     * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
+     * The sample is expected to be in little endian audioFormat.
+     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
+     * @param bytes is byte array with sample(s).
+     * @param sampleSize is the size of 1 sample.
+     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
+     * @param arrIndex is index in the array, where starts the sample to be converted
+     * @param isSigned tells if the converted sample is signed or unsigned
+     * @return Returns the sample starting at index arrIndex.
      */
-    public static byte[][] splitSongToPartsOfSizeNFrames(InputStream samples, int n, int frameSize) throws IOException {
-        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
+    public static int convertBytesToIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
+        int result = 0;
+
+        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
+        // That would need some performance tests though.
+        for (int i = 0; i < sampleSize; i++) {
+            result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
+            arrIndex++;
+        }
+// TODO: old variant with if
+//        if (isSigned) {
+//            if (((result >> (((sampleSize - 1) * 8) + 7)) & 1) == 1) {  //If true, then copy sign bit
+//                result = result | mask;
+//            }
+//        }
+
+        // TODO: New variant without if
+        if (isSigned) {
+            int sign = (result >> (((sampleSize - 1) * 8) + 7)) & 1;  //If == 1 then there is sign bit, if == 0 then no sign bit
+            mask *= sign;       // mask will be 0 if the number >= 0 (no sign bit); mask == mask if sign == 1
+            result = result | mask;
+        }
 
         return result;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert sample in bytes to sample in int methods (from sample to sample methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert to double sample methods (from sample to sample methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Converts the given int sample to normalized double, normalized means that it is on interval [-1, 1]. Only
+     * if the sample is within the [-maxAbsoluteValue, maxAbsoluteValue] of course.
+     * @param sample
+     * @param maxAbsoluteValue
+     * @param isSigned
+     * @return
+     */
+    public static double normalizeToDouble(int sample, int maxAbsoluteValue, boolean isSigned) {
+        double result;
+
+        if (isSigned) {
+            result = sample / (double) maxAbsoluteValue;
+        } else {
+            int convertUnsignedToSigned = maxAbsoluteValue;
+            result = sample - convertUnsignedToSigned;
+            result = result / (double) maxAbsoluteValue;
+        }
+
+        return result;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert to double sample methods (from sample to sample methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert double sample to other sample types (from sample to sample methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Expects the double to be between -1 and 1
+     * @param sampleDouble
+     * @param maxAbsoluteValue
+     * @param isSigned
+     * @return
+     */
+    public static int convertDoubleToInt(double sampleDouble, int maxAbsoluteValue, boolean isSigned) {
+        int sampleInt = (int)(sampleDouble * maxAbsoluteValue); // TODO: Maybe Math.ceil or something more advanced will have better result
+        if(!isSigned) {
+            sampleInt += maxAbsoluteValue;
+        }
+
+        return sampleInt;
+    }
+
+    public static byte[] convertDoubleToByteArr(double sampleDouble, int sampleSize, int maxAbsoluteValue,
+                                                boolean isBigEndian, boolean isSigned) {
+        byte[] resultArr = new byte[sampleSize];
+        convertDoubleToByteArr(sampleDouble, sampleSize, maxAbsoluteValue, isBigEndian,  isSigned,0, resultArr);
+        return resultArr;
+    }
+
+    public static void convertDoubleToByteArr(double sampleDouble, int sampleSize, int maxAbsoluteValue,
+                                              boolean isBigEndian, boolean isSigned, int startIndex, byte[] resultArr) {
+        int sampleInt = convertDoubleToInt(sampleDouble, maxAbsoluteValue, isSigned);
+        convertIntToByteArr(resultArr, sampleInt, sampleSize, startIndex, isBigEndian);
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert double sample to other sample types (from sample to sample methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert bytes to samples (from array to array methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Converts byte array to int samples of size sampleSize.
      * @param byteSamples are the samples in 1D byte array.
@@ -367,7 +563,19 @@ public class AudioConverter {
 
         return result;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert bytes to samples (from array to array methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert to normalized double samples methods (from array to array methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Converts byte array to int samples, which are then normalized to double number between -1 and 1 which are returned.
      * @param byteSamples are the samples in 1D byte array.
@@ -438,7 +646,7 @@ public class AudioConverter {
                                          int sampleSizeInBits, int arrIndex,
                                          boolean isBigEndian, boolean isSigned) throws IOException {
         return normalizeToDoubles(byteSamples, outputArr, sampleSize, sampleSizeInBits,
-                                  arrIndex, 0, outputArr.length, isBigEndian, isSigned);
+                arrIndex, 0, outputArr.length, isBigEndian, isSigned);
     }
 
     /**
@@ -560,27 +768,7 @@ public class AudioConverter {
         return outputArr;
     }
 
-    /**
-     * Converts the given int sample to normalized double, normalized means that it is on interval [-1, 1]. Only
-     * if the sample is within the [-maxAbsoluteValue, maxAbsoluteValue] of course.
-     * @param sample
-     * @param maxAbsoluteValue
-     * @param isSigned
-     * @return
-     */
-    public static double normalizeToDouble(int sample, int maxAbsoluteValue, boolean isSigned) {
-        double result;
 
-        if (isSigned) {
-            result = sample / (double) maxAbsoluteValue;
-        } else {
-            int convertUnsignedToSigned = maxAbsoluteValue;
-            result = sample - convertUnsignedToSigned;
-            result = result / (double) maxAbsoluteValue;
-        }
-
-        return result;
-    }
 
     /**
      Takes int[] which represents samples converts them to double[] which are normalized samples (values between -1 and 1).
@@ -636,141 +824,19 @@ public class AudioConverter {
             }
         }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert to normalized double samples methods (from array to array methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Converts sample in byte array of size sampleSize to int. With given endianity.
-     * @param bytes is byte array with sample(s).
-     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
-     * @param isBigEndian says if the given array is in big endian.
-     * @param isSigned says if the given array has signed samples.
-     * @return Returns the sample starting at index arrIndex.
-     */
-    public static int convertBytesToInt(byte[] bytes, int mask, boolean isBigEndian, boolean isSigned) {
-        return convertBytesToInt(bytes, bytes.length, mask, 0, isBigEndian, isSigned);
-    }
 
-    /**
-     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int. With given endianity.
-     * @param bytes is byte array with sample(s).
-     * @param sampleSize is the size of 1 sample.
-     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
-     * @param arrIndex is index in the array, where starts the sample to be converted
-     * @param isBigEndian says if the given array is in big endian.
-     * @param isSigned says if the given array has signed samples.
-     * @return Returns the sample starting at index arrIndex.
-     */
-    public static int convertBytesToInt(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isBigEndian, boolean isSigned) {
-        if(isBigEndian) {
-            return convertBytesToIntBigEndian(bytes, sampleSize, mask, arrIndex, isSigned);
-        }
-        else {
-            return convertBytesToIntLittleEndian(bytes, sampleSize, mask, arrIndex, isSigned);
-        }
-    }
 
-    /**
-     * The sample is expected to be in big endian audioFormat.
-     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
-     * @param bytes is byte array with sample(s).
-     * @param sampleSize is the size of 1 sample.
-     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
-     * @param arrIndex is index in the array, where starts the sample to be converted
-     * @param isSigned tells if the converted sample is signed or unsigned
-     * @return Returns the sample starting at index arrIndex.
-     */
-    public static int convertBytesToIntBigEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
-        int result = 0;
-        arrIndex = arrIndex + sampleSize - 1;
-
-        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
-        // That would need some performance tests though.
-        for (int i = 0; i < sampleSize; i++) {
-            result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
-            arrIndex--;
-        }
-
-        // TODO: old variant with if
-//        if(isSigned) {
-//            if (((result >> (((sampleSize - 1) * 8) + 7)) & 1) == 1) {  //If true, then copy sign bit
-//                result = result | mask;
-//            }
-//        }
-
-        // TODO: New variant without if
-        if (isSigned) {
-            int sign = (result >> (((sampleSize - 1) * 8) + 7)) & 1;  //If == 1 then there is sign bit, if == 0 then no sign bit
-            mask *= sign;       // mask will be 0 if the number >= 0 (no sign bit); mask == mask if sign == 1
-            result = result | mask;
-        }
-
-        return result;
-    }
-
-    /**
-     * The sample is expected to be in little endian audioFormat.
-     * Converts sample starting at index arrIndex in byte array bytes of size sampleSize to int.
-     * @param bytes is byte array with sample(s).
-     * @param sampleSize is the size of 1 sample.
-     * @param mask is mask used to mask certain bytes, so that the value in int is same as the value in the sample.
-     * @param arrIndex is index in the array, where starts the sample to be converted
-     * @param isSigned tells if the converted sample is signed or unsigned
-     * @return Returns the sample starting at index arrIndex.
-     */
-    public static int convertBytesToIntLittleEndian(byte[] bytes, int sampleSize, int mask, int arrIndex, boolean isSigned) {
-        int result = 0;
-
-        // This part is general, but we may get better performance by having switch for sampleSize on [1,4].
-        // That would need some performance tests though.
-        for (int i = 0; i < sampleSize; i++) {
-            result = result | (((int) bytes[arrIndex] & 0x00_00_00_FF) << (i * 8));
-            arrIndex++;
-        }
-// TODO: old variant with if
-//        if (isSigned) {
-//            if (((result >> (((sampleSize - 1) * 8) + 7)) & 1) == 1) {  //If true, then copy sign bit
-//                result = result | mask;
-//            }
-//        }
-
-        // TODO: New variant without if
-        if (isSigned) {
-            int sign = (result >> (((sampleSize - 1) * 8) + 7)) & 1;  //If == 1 then there is sign bit, if == 0 then no sign bit
-            mask *= sign;       // mask will be 0 if the number >= 0 (no sign bit); mask == mask if sign == 1
-            result = result | mask;
-        }
-
-        return result;
-    }
-
-    /**
-     * Expects the double to be between -1 and 1
-     * @param sampleDouble
-     * @param maxAbsoluteValue
-     * @param isSigned
-     * @return
-     */
-    public static int convertDoubleToInt(double sampleDouble, int maxAbsoluteValue, boolean isSigned) {
-        int sampleInt = (int)(sampleDouble * maxAbsoluteValue); // TODO: Maybe Math.ceil or something more advanced will have better result
-        if(!isSigned) {
-            sampleInt += maxAbsoluteValue;
-        }
-
-        return sampleInt;
-    }
-
-    public static byte[] convertDoubleToByteArr(double sampleDouble, int sampleSize, int maxAbsoluteValue,
-                                                boolean isBigEndian, boolean isSigned) {
-        byte[] resultArr = new byte[sampleSize];
-        convertDoubleToByteArr(sampleDouble, sampleSize, maxAbsoluteValue, isBigEndian,  isSigned,0, resultArr);
-        return resultArr;
-    }
-
-    public static void convertDoubleToByteArr(double sampleDouble, int sampleSize, int maxAbsoluteValue,
-                                              boolean isBigEndian, boolean isSigned, int startIndex, byte[] resultArr) {
-        int sampleInt = convertDoubleToInt(sampleDouble, maxAbsoluteValue, isSigned);
-        convertIntToByteArr(resultArr, sampleInt, sampleSize, startIndex, isBigEndian);
-    }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert double samples to other types (from array to array methods)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static int[] convertDoubleArrToIntArr(double[] doubleArr, int maxAbsoluteValue, boolean isSigned) {
         int[] intArr = new int[doubleArr.length];
 
@@ -807,7 +873,20 @@ public class AudioConverter {
         maxAbsoluteValue, isBigEndian, isSigned);
         return arr;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert double samples to other types (from array to array methods)
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Convert sample rates methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Input array isn't changed.
      * <br>
@@ -1067,6 +1146,175 @@ public class AudioConverter {
         return convertedArr;
     }
 
+
+    /**
+     * <br>
+     * Converts input "samples" array which is supposed to have "oldSampleRate" to "newSampleRate", where oldSampleRate > newSampleRate.
+     * <br>
+     * The conversion isn't immediate, we convert to some factor "n" of the newSampleRate which is bigger than the oldSampleRate.
+     * And the we take every "n"-th sample of the upsampled array.
+     * @param samples          is input array with samples
+     * @param numberOfChannels is number of channels in samples array.
+     * @param oldSampleRate    is the sampling rate of the given array.
+     * @param newSampleRate    is the sampling rate to which we convert.
+     * @return Returns input samples array but with sampling rate of newSampleRate.
+     * @throws IOException is thrown when the sampleSize is invalid (<0 or >4)
+     */
+    private static double[] convertToLowerSampleRateByUpSampling(double[] samples, int numberOfChannels,
+                                                                 int oldSampleRate, int newSampleRate,
+                                                                 boolean canChangeInputArr) throws IOException {
+        // First find the first multiple bigger than the old sample rate
+        int upSampleRate = newSampleRate;
+        int upSampleRateRatio = 1;
+        while(upSampleRate < oldSampleRate) {
+            upSampleRateRatio++;
+            upSampleRate += newSampleRate;
+        }
+        int skipSize = (upSampleRateRatio - 1);       // Skip all the frames to downsample
+        double[] upSampledArr = null;
+        if(oldSampleRate % newSampleRate == 0) {      // Then the upSampleRate = oldSampleRate
+            if(canChangeInputArr) {
+                upSampledArr = samples;
+            }
+            else {
+                upSampledArr = new double[samples.length];
+                System.arraycopy(samples, 0, upSampledArr, 0, upSampledArr.length);
+            }
+        }
+        else {
+            upSampledArr = convertToHigherSampleRate(samples, numberOfChannels, oldSampleRate, upSampleRate);
+        }
+        // Low pass filter for the nyquist frequency of the new frequency
+        NonRecursiveFilter.runLowPassFilter(upSampledArr, 0, numberOfChannels, oldSampleRate,
+                newSampleRate / 2,64, upSampledArr, 0, upSampledArr.length);
+        int convertArrLen;
+        convertArrLen = (upSampledArr.length / upSampleRateRatio);
+        double[] retArr = new double[convertArrLen];
+
+        for(int retInd = 0, upSampleInd = 0; retInd < retArr.length; upSampleInd += skipSize) {
+            for (int ch = 0; ch < numberOfChannels; ch++, retInd++, upSampleInd++) {
+                retArr[retInd] = upSampledArr[upSampleInd];
+            }
+        }
+
+        return retArr;
+    }
+
+
+    /**
+     * <br>
+     * Converts input "samples" array which is supposed to have "oldSampleRate" to "newSampleRate", where oldSampleRate > newSampleRate
+     * <br>
+     * Performs the conversion immediately.
+     * @param samples          is input array with samples
+     * @param numberOfChannels is number of channels in samples array.
+     * @param oldSampleRate    is the sampling rate of the given array.
+     * @param newSampleRate    is the sampling rate to which we convert.
+     * @return Returns input samples array but with sampling rate of newSampleRate.
+     * @throws IOException is thrown when the sampleSize is invalit (<0 or >4)
+     */
+    private static double[] convertToLowerSampleRateByImmediate(double[] samples, int numberOfChannels,
+                                                                int oldSampleRate, int newSampleRate,
+                                                                boolean canChangeInputArr) throws IOException {
+        double[] filtered;
+        if(canChangeInputArr) {
+            filtered = samples;
+        }
+        else {
+            filtered = new double[samples.length];
+            System.arraycopy(samples, 0, filtered, 0, filtered.length);
+        }
+        // Low pass filter for the nyquist frequency of the new frequency
+        NonRecursiveFilter.runLowPassFilter(samples, 0, numberOfChannels, oldSampleRate,
+                                            newSampleRate / 2, 64, filtered, 0, filtered.length);
+        return convertSampleRateImmediateVersion(filtered, numberOfChannels, oldSampleRate, newSampleRate);
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Convert sample rates methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Help methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Converts the 2D array to 1D array by stacking the labelReferenceArrs
+     *
+     * @param arr is the 2D array to be converted to 1D array
+     * @return Returns 1D array
+     */
+    public static byte[] convertTwoDimArrToOneDim(byte[][] arr) {
+        int length = 0;
+        for (int i = 0; i < arr.length; i++) {
+            length = length + arr[i].length;
+        }
+
+        byte[] result = new byte[length];
+        int index = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                result[index] = arr[i][j];
+                index++;
+            }
+        }
+
+        return result;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Help methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Non-used methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Takes the 1D byte array (parameter samples) and split it to parts of size n * frameSize.
+     * @param samples is the 1D byte array with the samples.
+     * @param n is the size of the 1 song part.
+     * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
+     * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
+     */
+    public static byte[][] splitSongToPartsOfSizeNFrames(byte[] samples, int n, int frameSize) {
+        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
+        return result;
+    }
+
+    /**
+     * Takes the input stream (parameter samples) and split it to parts of size n * frameSize.
+     * @param samples is the input stream with the samples.
+     * @param n is the size of the 1 song part.
+     * @param frameSize is the size of 1 frame (= numberOfChannels * sampleSize).
+     * @return Returns the 2D array where 1 byte array represents the part of size n * frameSize.
+     */
+    public static byte[][] splitSongToPartsOfSizeNFrames(InputStream samples, int n, int frameSize) throws IOException {
+        byte[][] result = AudioProcessor.getEveryXthTimePeriodWithLength(samples, n, 1, frameSize, 0);
+
+        return result;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Non-used methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+    /////////////////// Deprecated methods
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * <br>
      * Converts input "samples" array which is supposed to have "oldSampleRate" to "newSampleRate", where oldSampleRate > newSampleRate.
@@ -1132,58 +1380,7 @@ public class AudioConverter {
         return retArr;
     }
 
-    /**
-     * <br>
-     * Converts input "samples" array which is supposed to have "oldSampleRate" to "newSampleRate", where oldSampleRate > newSampleRate.
-     * <br>
-     * The conversion isn't immediate, we convert to some factor "n" of the newSampleRate which is bigger than the oldSampleRate.
-     * And the we take every "n"-th sample of the upsampled array.
-     * @param samples          is input array with samples
-     * @param numberOfChannels is number of channels in samples array.
-     * @param oldSampleRate    is the sampling rate of the given array.
-     * @param newSampleRate    is the sampling rate to which we convert.
-     * @return Returns input samples array but with sampling rate of newSampleRate.
-     * @throws IOException is thrown when the sampleSize is invalid (<0 or >4)
-     */
-    private static double[] convertToLowerSampleRateByUpSampling(double[] samples, int numberOfChannels,
-                                                                 int oldSampleRate, int newSampleRate,
-                                                                 boolean canChangeInputArr) throws IOException {
-        // First find the first multiple bigger than the old sample rate
-        int upSampleRate = newSampleRate;
-        int upSampleRateRatio = 1;
-        while(upSampleRate < oldSampleRate) {
-            upSampleRateRatio++;
-            upSampleRate += newSampleRate;
-        }
-        int skipSize = (upSampleRateRatio - 1);       // Skip all the frames to downsample
-        double[] upSampledArr = null;
-        if(oldSampleRate % newSampleRate == 0) {      // Then the upSampleRate = oldSampleRate
-            if(canChangeInputArr) {
-                upSampledArr = samples;
-            }
-            else {
-                upSampledArr = new double[samples.length];
-                System.arraycopy(samples, 0, upSampledArr, 0, upSampledArr.length);
-            }
-        }
-        else {
-            upSampledArr = convertToHigherSampleRate(samples, numberOfChannels, oldSampleRate, upSampleRate);
-        }
-        // Low pass filter for the nyquist frequency of the new frequency
-        NonRecursiveFilter.runLowPassFilter(upSampledArr, 0, numberOfChannels, oldSampleRate,
-                newSampleRate / 2,64, upSampledArr, 0, upSampledArr.length);
-        int convertArrLen;
-        convertArrLen = (upSampledArr.length / upSampleRateRatio);
-        double[] retArr = new double[convertArrLen];
 
-        for(int retInd = 0, upSampleInd = 0; retInd < retArr.length; upSampleInd += skipSize) {
-            for (int ch = 0; ch < numberOfChannels; ch++, retInd++, upSampleInd++) {
-                retArr[retInd] = upSampledArr[upSampleInd];
-            }
-        }
-
-        return retArr;
-    }
 
     /**
      * Input array isn't changed.
@@ -1207,36 +1404,14 @@ public class AudioConverter {
                                                    int numberOfChannels, int oldSampleRate, int newSampleRate,
                                                    boolean isBigEndian, boolean isSigned) throws IOException {
         byte[] filtered = NonRecursiveFilter.runLowPassFilter(samples, newSampleRate / 2, 64, oldSampleRate,
-            numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
+                numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
         return convertSampleRateImmediateVersion(filtered, sampleSize, numberOfChannels, oldSampleRate, newSampleRate, isBigEndian, isSigned);
     }
 
-    /**
-     * <br>
-     * Converts input "samples" array which is supposed to have "oldSampleRate" to "newSampleRate", where oldSampleRate > newSampleRate
-     * <br>
-     * Performs the conversion immediately.
-     * @param samples          is input array with samples
-     * @param numberOfChannels is number of channels in samples array.
-     * @param oldSampleRate    is the sampling rate of the given array.
-     * @param newSampleRate    is the sampling rate to which we convert.
-     * @return Returns input samples array but with sampling rate of newSampleRate.
-     * @throws IOException is thrown when the sampleSize is invalit (<0 or >4)
-     */
-    private static double[] convertToLowerSampleRateByImmediate(double[] samples, int numberOfChannels,
-                                                                int oldSampleRate, int newSampleRate,
-                                                                boolean canChangeInputArr) throws IOException {
-        double[] filtered;
-        if(canChangeInputArr) {
-            filtered = samples;
-        }
-        else {
-            filtered = new double[samples.length];
-            System.arraycopy(samples, 0, filtered, 0, filtered.length);
-        }
-        // Low pass filter for the nyquist frequency of the new frequency
-        NonRecursiveFilter.runLowPassFilter(samples, 0, numberOfChannels, oldSampleRate,
-                                            newSampleRate / 2, 64, filtered, 0, filtered.length);
-        return convertSampleRateImmediateVersion(filtered, numberOfChannels, oldSampleRate, newSampleRate);
-    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+    /////////////////// Deprecated methods
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

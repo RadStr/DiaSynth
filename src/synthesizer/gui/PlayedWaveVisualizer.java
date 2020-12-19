@@ -6,7 +6,6 @@ import util.wave.drawing.WaveDrawValuesAggregated;
 import player.wave.WavePanel;
 import util.wave.drawing.ifaces.DrawValuesSupplierIFace;
 import util.wave.drawing.WaveDrawValues;
-import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.awt.*;

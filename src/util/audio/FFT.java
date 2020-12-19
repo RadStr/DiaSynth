@@ -1085,7 +1085,7 @@ public class FFT {
 // TODO:                System.out.println(l + "\t" + arr[l]);
             }
             fft.realForward(arr);
-//            arr = Program.convertResultsOfFFTToRealRealForward(arr);    // TODO:
+//            arr = ByteWave.convertResultsOfFFTToRealRealForward(arr);    // TODO:
             results[i] = arr;
         }
 

@@ -1,6 +1,6 @@
 package util.audio.wave;
 
-import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ByteWave;
 import util.Utilities;
 import util.audio.AudioConverter;
 
@@ -233,7 +233,7 @@ public class DoubleWave {
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      * @param filenameWithoutExtension is the file name without the extension which will be created
      */
-    public DoubleWave(String filenameWithoutExtension, Program p, boolean shouldCreateDoubleWaveFile) {
+    public DoubleWave(String filenameWithoutExtension, ByteWave p, boolean shouldCreateDoubleWaveFile) {
         this(filenameWithoutExtension, p, shouldCreateDoubleWaveFile, -1);
     }
 
@@ -244,7 +244,7 @@ public class DoubleWave {
      * @param shouldCreateDoubleWaveFile
      * @param newSampleRate if < 0 then don't perform sample rate conversion
      */
-    public DoubleWave(String filenameWithoutExtension, Program p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
+    public DoubleWave(String filenameWithoutExtension, ByteWave p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
         doubleWaveFileExists = shouldCreateDoubleWaveFile;
         this.filenameWithoutExtension = filenameWithoutExtension;
 
@@ -271,7 +271,7 @@ public class DoubleWave {
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
      */
-    public DoubleWave(Program p, boolean shouldCreateDoubleWaveFile) {
+    public DoubleWave(ByteWave p, boolean shouldCreateDoubleWaveFile) {
         this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile);
     }
 
@@ -281,7 +281,7 @@ public class DoubleWave {
      * @param shouldCreateDoubleWaveFile
      * @param newSampleRate is the new sample rate to which we should convert, < 0 if we want to keep the old audioFormat
      */
-    public DoubleWave(Program p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
+    public DoubleWave(ByteWave p, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
         this(Utilities.getNameWithoutExtension(p.getFileName()), p, shouldCreateDoubleWaveFile, newSampleRate);
     }
 

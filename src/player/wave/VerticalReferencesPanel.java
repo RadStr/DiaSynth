@@ -605,7 +605,7 @@ public class VerticalReferencesPanel extends JPanel {
 //        g.drawLine(valuesLongestWidth, y, valuesLongestWidth + minLineLen, y);
 // TODO: DEBUG        System.out.println(label.getText() + "\t" + valuesLongestWidth + "\t" + y + "\t" + label.getWidth());
         // TODO:
-        //Program.drawStringWithSpace(g, color, valString, 0, startXForLine, y + shiftForStringY);
+        //ByteWave.drawStringWithSpace(g, color, valString, 0, startXForLine, y + shiftForStringY);
     }
 
 

@@ -3,7 +3,6 @@ package player.experimental;
 import plugin.util.AnnotationPanel;
 import plugin.PluginBaseIFace;
 import plugin.PluginParameterAnnotation;
-import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Utilities;
 import util.audio.FFT;

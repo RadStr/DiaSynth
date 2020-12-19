@@ -10,7 +10,6 @@ import synthesizer.synth.Unit;
 import plugin.PluginParameterAnnotation;
 import util.Utilities;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.io.BufferedReader;

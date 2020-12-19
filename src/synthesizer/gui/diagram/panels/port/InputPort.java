@@ -4,7 +4,6 @@ import synthesizer.gui.diagram.ifaces.InputPortToGUIAdderIFace;
 import synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import synthesizer.synth.Unit;
 import synthesizer.synth.UnitGeneratedValuesInfo;
-import Rocnikovy_Projekt.Program;
 import util.Utilities;
 
 import javax.swing.*;

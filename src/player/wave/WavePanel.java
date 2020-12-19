@@ -81,11 +81,11 @@ public class WavePanel extends JPanel {
         this.setComponentPopupMenu(waveRightClickPopUpMenu);
 
 // TODO: PROGRAMO
-//        int len = Program.convertToMultipleDown(program.song.length, program.frameSize);
+//        int len = ByteWave.convertToMultipleDown(program.song.length, program.frameSize);
 //        int remainder = len % PLAY_CHUNK_SIZE;			// TODO: Problemovy pri prehravani - PLAY_CHUNK_SIZE menim na zaklade toho s jakymi parametry volam playAudio metodu
 //        lastFullChunkEndIndex = len - remainder;
-//        int songSizeInSecs = Program.convertFrameToSecs(lastFullChunkEndIndex, program.getSizeOfOneSecInBytes());
-//        songLenInSecs = Program.convertSecondsToTime(songSizeInSecs);
+//        int songSizeInSecs = ByteWave.convertFrameToSecs(lastFullChunkEndIndex, program.getSizeOfOneSecInBytes());
+//        songLenInSecs = ByteWave.convertSecondsToTime(songSizeInSecs);
 // TODO: PROGRAMO
 
         this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -914,7 +914,7 @@ public class WavePanel extends JPanel {
 //
 //        // TODO: Tohle udelat lip - chci to delat pro kazdou vlnu a navic tohle musim prepocitat s kazdou delete operaci
 //        // TODO: Asi bude lepsi to mit v pameti nez si to brat z hdd
-//        String fileName = Program.getNameWithoutExtension(program.getFileName());
+//        String fileName = ByteWave.getNameWithoutExtension(program.getFileName());
 //        fileName += waveValuesNameSuffix;
 //
 //        try {
@@ -1917,12 +1917,12 @@ public class WavePanel extends JPanel {
 //    @Override
 //    public void operationUsingWave(double[] wave, int startIndexInGivenWave, int startOutputIndex, int len, ArithmeticOperation opType) {
 //        double[] thisWave = getDoubleWave().getSong();
-//        Program.performOperationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
+//        ByteWave.performOperationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
 //    }
 //    @Override
 //    public void operationUsingValue(double val, int startOutputIndex, int len, ArithmeticOperation opType) {
 //        double[] wave = getDoubleWave().getSong();
-//        Program.performOperationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
+//        ByteWave.performOperationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
 //    }
 //
 

@@ -57,7 +57,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
 
 // TODO: DEBUG            System.out.println(userSelectedSample + "\t" + currSampleRaw + "\t" + (program.frameSize - (currSampleRaw % program.frameSize)) + "\t" + x);
 // TODO: PROGRAMO
-//        int userSelectedSample = Program.convertToMultipleDown(currSampleRaw, waveMainPanel.getNumberOfChannelsInOutputFormat());
+//        int userSelectedSample = ByteWave.convertToMultipleDown(currSampleRaw, waveMainPanel.getNumberOfChannelsInOutputFormat());
             //int currSampleRaw = (int)(time * waveMainPanel.getDoubleWaveLength());
 
 // TODO: PROGRAMO

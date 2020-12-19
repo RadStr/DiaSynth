@@ -85,7 +85,7 @@ public class SongInfoPanel extends JPanel {
 				String path = getPathFromXML(node);
 				if(path != null) {
 					String[] arr = new String[2];
-					arr[0] = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";		// TODO: Specific for my system
+					arr[0] = "C:\\ByteWave Files (x86)\\Windows Media Player\\wmplayer.exe";		// TODO: Specific for my system
 					arr[1] = path;
 					System.out.println(arr[1]);
 					ProcessBuilder pb = new ProcessBuilder(arr);	

@@ -10,7 +10,7 @@ public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //    }
 //
 //
-//    private double[] coefs = Program.calculateCoefForLowPass(400, 32, 44100);
+//    private double[] coefs = ByteWave.calculateCoefForLowPass(400, 32, 44100);
 //    private double[] previousInputVals = new double[coefs.length];
 //    private int currIndex = 0;
 //
@@ -67,7 +67,7 @@ public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //     */
 //    @Override
 //    public void resetToDefaultState() {
-//        Program.setOneDimArr(previousInputVals, 0, previousInputVals.length, 0);
+//        ByteWave.setOneDimArr(previousInputVals, 0, previousInputVals.length, 0);
 //        currIndex = 0;
 //    }
 //

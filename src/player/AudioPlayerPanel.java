@@ -1,6 +1,7 @@
 package player;
 
 
+import Rocnikovy_Projekt.ByteWave;
 import deprecatedclasses.RobotUserEventsGenerator;
 import player.mixer.*;
 import player.control.AudioControlPanel;
@@ -45,7 +46,6 @@ import dialogs.EmptyWaveMakerDialog;
 import dialogs.LengthDialog;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 import debug.DEBUG_CLASS;
 import util.audio.format.FileFilterAudioFormats;
@@ -3078,7 +3078,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public static DoubleWave loadMonoDoubleWave(File f, int newSampleRate, boolean shouldLog) {
         DoubleWave wave = null;
         try {
-            Program p = new Program();
+            ByteWave p = new ByteWave();
             boolean audioLoaded = p.setVariables(f, true);
             if(!audioLoaded) {
                 if(shouldLog) {
@@ -3130,7 +3130,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void addWaves(File f, boolean shouldAddLater) throws IOException {
-        Program p = new Program();
+        ByteWave p = new ByteWave();
         boolean audioLoaded = p.setVariables(f, false);
         if(!audioLoaded) {
             MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
@@ -4243,13 +4243,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //
 //                    if(isRecursiveFilter) {
 //                        double[] coefsOutput = new double[] { 1/3.0, 1/3.0, 1/3.0 };
-//                        Program.performRecursiveFilter(program.song, coefs, coefsOutput);       // TODO: !!!!! Spatne - vubec neberu k uvahu sample size
+//                        ByteWave.performRecursiveFilter(program.song, coefs, coefsOutput);       // TODO: !!!!! Spatne - vubec neberu k uvahu sample size
 //                    }
 //                    else {
 //                        // TODO: nejak nefunguje
-//                        //program.song = Program.runLowPassFilter(program.song, 200, 32, program.sampleRate,
+//                        //program.song = ByteWave.runLowPassFilter(program.song, 200, 32, program.sampleRate,
 //                        //    program.numberOfChannels, program.sampleSizeInBytes, program.frameSize, program.isBigEndian, program.isSigned);
-//                        program.song = Program.performNonRecursiveFilter(program.song, coefs, program.numberOfChannels,
+//                        program.song = ByteWave.performNonRecursiveFilter(program.song, coefs, program.numberOfChannels,
 //                            program.sampleSizeInBytes, program.frameSize, program.isBigEndian, program.isSigned);
 //                    }
 //                } catch (IOException e) {
@@ -5071,7 +5071,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             audioArrLen = Math.max(frameSize, Math.min(audioArrLen, maxByteCountInAudioLine / 2));
             Utilities.convertToMultipleUp(audioArrLen, frameSize);
             audioArr = new byte[audioArrLen];
-            //audioArr = new byte[Program.convertToMultipleUp(maxByteCountInAudioLine / 2, frameSize)];
+            //audioArr = new byte[ByteWave.convertToMultipleUp(maxByteCountInAudioLine / 2, frameSize)];
 
             callOnResize();       // TODO: Volat na resize vzdycky
             wavesLengthChanged();
@@ -5391,8 +5391,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 //            g.setColor(color);
 //
 //            if(i % timestampCountBetweenTwoMainTimeStamps == 0) {
-//                timeString = Program.convertSecondsToTime(timeInt);
-//                Program.drawStringWithDefinedMidLoc(g, color, timeString, xInt, timestampsY);
+//                timeString = ByteWave.convertSecondsToTime(timeInt);
+//                ByteWave.drawStringWithDefinedMidLoc(g, color, timeString, xInt, timestampsY);
 //                timeInt += timeJumpInt;
 //            }
 //        }
@@ -5409,9 +5409,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 ////        // TODO: Rozhodne nechci x = 30 takhle defaultne ... i kdyz mozna chci
 ////        for (int i = 0, nextX = x + spaceSizeBetweenTimestampsInPixels; i < labelCount; x = nextX, nextX += spaceSizeBetweenTimestampsInPixels, time += timeJump, i++) {
 ////            g.drawLine(x, 0, x, y);
-////            timeString = Program.convertSecondsToTime((int) time);
+////            timeString = ByteWave.convertSecondsToTime((int) time);
 ////// TODO: DEBUG            System.out.println(time + "\t" + timeString + "\t" + timeJump + "\t" + numOfSecs);
-////            //Program.drawStringWithSpace(g, color, timeString, x / 2, nextX / 2, y, fontMetrics);
+////            //ByteWave.drawStringWithSpace(g, color, timeString, x / 2, nextX / 2, y, fontMetrics);
 ////            g.setColor(color);
 ////            g.drawString(timeString, x, y);
 ////

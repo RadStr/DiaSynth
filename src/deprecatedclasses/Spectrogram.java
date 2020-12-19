@@ -77,7 +77,7 @@ public class Spectrogram {
 //                fftMeasures[j] += 1;      // Not the minimum energy is 1, so the minimum log == 0
 //            }
 //
-//            Program.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
+//            ByteWave.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
 //// TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
 //            for(int j = 0; j < fftMeasures.length; j++) {
 //// TODO: Debug print
@@ -522,7 +522,7 @@ public class Spectrogram {
 //                fftMeasures[j] += 1;      // Not the minimum energy is 1, so the minimum log == 0
 //            }
 //
-//            Program.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
+//            ByteWave.performOperationOnSamples(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
 //// TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
 //            for(int j = 0; j < fftMeasures.length; j++) {
 //// TODO: Debug print
@@ -571,7 +571,7 @@ public class Spectrogram {
 //                        newOldestWindow = window;
 //                    }
 ////TODO:System.exit(currWindow);
-//                    currX = Program.drawOneWindowInSpectrogram(currY, counters, windowsOverlaps, lastWindowParts, currentlyCalculatedMeasures,
+//                    currX = ByteWave.drawOneWindowInSpectrogram(currY, counters, windowsOverlaps, lastWindowParts, currentlyCalculatedMeasures,
 //                        window, oldestWindowSet, newOldestWindow, currWindow, pixelHeightForBin, binCount,
 //                        windowSize, logarithmBase, g, currX, pixelWidthForWindow, lastWindowReminder,
 //                        tmpArrs, windowOverlapCountForOneWindow);
@@ -975,8 +975,8 @@ public class Spectrogram {
 //            for (int window = 0; window < tmpArrs.length; window++) {
 //                if((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
 //                    if (counters[window] >= windowOverlapCountForOneWindow) {
-//                        Program.performOperationOnSamples(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
-//                        Program.performOperationOnSamples(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
+//                        ByteWave.performOperationOnSamples(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
+//                        ByteWave.performOperationOnSamples(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
 //                    }
 //                }
 //            }
@@ -985,20 +985,20 @@ public class Spectrogram {
 // TODO: PROGRAMO - REDOING operations
         ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
                 fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
-        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
+        //ByteWave.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
                     tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
                     tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
                     arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 
@@ -1217,10 +1217,10 @@ public class Spectrogram {
                 if (counters[window] >= windowOverlapCountForOneWindow) {
                     ArithmeticOperation.performOperationOnSamples(tmpArrs[window][0], tmpArrs[window][0], 0, 0,
                             tmpArrs[window][0].length, logarithmBase, ArithmeticOperation.LOG);
-                    //Program.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
+                    //ByteWave.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
                     ArithmeticOperation.performOperationOnSamples(tmpArrs[window][1], tmpArrs[window][1], 0, 0,
                             tmpArrs[window][1].length, logarithmBase, ArithmeticOperation.LOG);
-                    //Program.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
+                    //ByteWave.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
                 }
             }
         }
@@ -1228,20 +1228,20 @@ public class Spectrogram {
 
         ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
                 fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
-        //Program.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
+        //ByteWave.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
         if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
                     tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
                     tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
         if(multiplyFactor != 0 || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
                     arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
-            //Program.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
+            //ByteWave.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 

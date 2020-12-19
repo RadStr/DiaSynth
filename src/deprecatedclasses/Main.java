@@ -22,7 +22,7 @@ public class Main {
 //	    try {
 //            //path = new ClassPathResource("/classification/linear_data_train.csv").getFile().getPath();
 //            System.out.println(path);
-//            System.exit(Program.writeSongToFile(path));
+//            System.exit(ByteWave.writeSongToFile(path));
 //        }
 //	    catch (Exception e) {
 //	        System.out.println(e.getMessage());
@@ -33,12 +33,12 @@ public class Main {
 // TODO: Testovani straigth modelu s pevnymi daty - nejde
 //        try {
 //            ModelInfo modelInfo;
-//            modelInfo = new ModelInfo(Program.fileWithModel + ".xml");
+//            modelInfo = new ModelInfo(ByteWave.fileWithModel + ".xml");
 //            int inputAudioLen = modelInfo.getinputAudioLen();
 //            ModelAbstract modelClass = ModelAbstract.getModel(modelInfo);
 //            MultiLayerNetwork model;
 //
-//            File file = new File(Program.fileWithModel);          // TODO: Tohle nestaci, potrebuju celou cestu k modelu
+//            File file = new File(ByteWave.fileWithModel);          // TODO: Tohle nestaci, potrebuju celou cestu k modelu
 //            if (file.exists()) {
 //                try {
 //                    model = ModelSerializer.restoreMultiLayerNetwork(file, true);

@@ -96,7 +96,7 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 //
 //
 //	public void DEBUG_ADDING_SONGS() {
-//        Program p = new Program();
+//        ByteWave p = new ByteWave();
 //        DoubleWave doubleWave;
 //        // TODO: Vymazat, jen takhle ted pro testovani
 //        DoubleWave[] songs = new DoubleWave[3];

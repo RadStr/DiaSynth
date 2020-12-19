@@ -59,7 +59,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private DataModelSubjectIFace subject;
 
-    private Program p;
+    private ByteWave p;
 
 
     @Override
@@ -72,7 +72,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     public AnalyzerPanel(JFrame thisWindow, DataModelObserverIFace[] observers) {
-        p = new Program();
+        p = new ByteWave();
 
         frame = thisWindow;
         this.setLayout(new BorderLayout());
@@ -235,13 +235,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private void runSelectedPlugins(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPlugins(ByteWave prog, List<Pair<String, String>> list) {
         runSelectedPluginsByte(prog, list);
         runSelectedPluginsInt(prog, list);
         runSelectedPluginsDouble(prog, list);
     }
 
-    private void runSelectedPluginsByte(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsByte(ByteWave prog, List<Pair<String, String>> list) {
         for(Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
             if(p.getKey().isSelected()) {
                 list.add(analyzeBytePlugin(prog, p.getValue()));
@@ -249,12 +249,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private Pair<String, String> analyzeBytePlugin(Program prog, AnalyzerBytePluginIFace plugin) {
+    private Pair<String, String> analyzeBytePlugin(ByteWave prog, AnalyzerBytePluginIFace plugin) {
         return plugin.analyze(prog.song, prog.numberOfChannels, prog.sampleSizeInBytes,
             prog.sampleRate, prog.isBigEndian, prog.isSigned);
     }
 
-    private void runSelectedPluginsInt(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsInt(ByteWave prog, List<Pair<String, String>> list) {
         int[] wave = null;
         for(Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
             if(p.getKey().isSelected()) {
@@ -270,7 +270,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private void runSelectedPluginsDouble(Program prog, List<Pair<String, String>> list) {
+    private void runSelectedPluginsDouble(ByteWave prog, List<Pair<String, String>> list) {
         DoubleWave wave = null;
         for(Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
             if(p.getKey().isSelected()) {
@@ -361,7 +361,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     public static void findCoefs(String filename,
                                  List<Pair<String, Pair<String, Integer>>> bpmList) {
         ProgramTest.debugPrint("Currently working with:", filename);
-        Program p = new Program();
+        ByteWave p = new ByteWave();
 
         try {
             if(!p.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
@@ -569,20 +569,20 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-    private static Pair<String, String> analyzeFileFormat(Program prog) {
+    private static Pair<String, String> analyzeFileFormat(ByteWave prog) {
         return new Pair<String, String>("File format", prog.getFileFormatType());
     }
 
-    private static Pair<String, String> analyzeSampleRate(Program prog) {
+    private static Pair<String, String> analyzeSampleRate(ByteWave prog) {
         return new Pair<String, String>("Sample rate", ((Integer)prog.sampleRate).toString());
     }
 
-    private static Pair<String, String> analyzeSongLength(Program prog) {
+    private static Pair<String, String> analyzeSongLength(ByteWave prog) {
         return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH_COLUMN_TITLE,
                 Time.convertSecondsToTime(prog.lengthOfAudioInSeconds, -1));
     }
 
-    private static Pair<String, String> analyzeSizeInBytes(Program prog) {
+    private static Pair<String, String> analyzeSizeInBytes(ByteWave prog) {
         Integer len = prog.wholeFileSize;
         return new Pair<String, String>("File size (in bytes)", len.toString());
     }
@@ -607,7 +607,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         return new Pair<String, String>("RMS", s);
     }
 
-    private static Pair<String, String> analyzeEndianness(Program prog) {
+    private static Pair<String, String> analyzeEndianness(ByteWave prog) {
         if(prog.isBigEndian) {
             return new Pair<String, String>("Endianness", "Big endian");
         }
@@ -616,11 +616,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
     }
 
-    private static Pair<String, String> analyzeEncoding(Program prog) {
+    private static Pair<String, String> analyzeEncoding(ByteWave prog) {
         return new Pair<String, String>("Encoding", prog.encoding.toString());// TODO: To chce asi pres swithch spis
     }
 
-    private static Pair<String, String> analyzeSampleSize(Program prog) {
+    private static Pair<String, String> analyzeSampleSize(ByteWave prog) {
         return new Pair<String, String>("Sample Size (In bytes)", ((Integer)(prog.sampleSizeInBits / 8)).toString());
     }
 
@@ -628,14 +628,14 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         return new Pair<String, String>("Number of channels", ((Integer)numberOfChannels).toString());
     }
 
-    private static Pair<String, String> analyzeBPMSimpleFull(Program prog) {
+    private static Pair<String, String> analyzeBPMSimpleFull(ByteWave prog) {
         return new Pair<String, String>("BPM (Simple full)", ((Integer)prog.computeBPMSimple()).toString());
     }
 
 
 
     // TODO: BPM - HLEDANI
-//    private static Pair<String, String> analyzeBPMAdvancedFullLog(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLog(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -644,7 +644,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullOldLog", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullOldConstant(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullOldConstant(ByteWave prog) {
 //        int subbandCount = 6;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -653,7 +653,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullOldConstant", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullOld(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullOld(ByteWave prog) {
 //        int subbandCount = 6;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -686,7 +686,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullOld32(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullOld32(ByteWave prog) {
 //        int subbandCount = 32;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -722,7 +722,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-    private static Pair<String, String> analyzeBPMAdvancedFullLinear(Program prog) {
+    private static Pair<String, String> analyzeBPMAdvancedFullLinear(ByteWave prog) {
         int subbandCount = 8;
         // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -758,7 +758,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     // TODO: BPM - HLEDANI (bylo to kdyz jsem hledal ty parametry)
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear2(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear2(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -768,7 +768,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.5, 6, 1.12)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear3(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear3(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -778,7 +778,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.5, 6, 5.12)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear4(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear4(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -788,7 +788,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //                splitter, 2.5, 6, 10.12)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear5(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear5(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -799,7 +799,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -809,7 +809,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear6(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear6(ByteWave prog) {
 //        int subbandCount = 6;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -818,7 +818,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullLinear6", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear8(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear8(ByteWave prog) {
 //        int subbandCount = 8;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -827,7 +827,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullLinear8", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear16(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear16(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -836,7 +836,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullLinear16", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear32(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear32(ByteWave prog) {
 //        int subbandCount = 32;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -845,7 +845,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMAdvancedFullLinear32", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear64(Program prog) {
+//    private static Pair<String, String> analyzeBPMAdvancedFullLinear64(ByteWave prog) {
 //        int subbandCount = 64;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
@@ -855,7 +855,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-//    private static void analyzeBPMAdvancedFullLinearTEST(Program prog, List list) {
+//    private static void analyzeBPMAdvancedFullLinearTEST(ByteWave prog, List list) {
 //        int subbandCount = 64;
 //        double coef = 3;
 //        while(coef < 3.07) {
@@ -896,7 +896,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //
 //
 ////tahle verze je vydelan o 32 - 18 (za koeficienty) + 14 (za varianci)
-//    private static void analyzeBPMAdvancedFullLogarithmicTEST(Program prog, List list) {
+//    private static void analyzeBPMAdvancedFullLogarithmicTEST(ByteWave prog, List list) {
 //        int subbandCount = 64;
 //        double coef = 2;
 //        while(coef < 3) {
@@ -953,7 +953,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-////    private static void analyzeBPMAdvancedFullLogarithmicTEST(Program prog, List list) {
+////    private static void analyzeBPMAdvancedFullLogarithmicTEST(ByteWave prog, List list) {
 ////        int subbandCount = 64;
 ////        double coef = 2;
 ////        while(coef < 3) {
@@ -1012,7 +1012,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-    private static void findBestCoefsAdvancedFullLinear(Program prog, List list) {
+    private static void findBestCoefsAdvancedFullLinear(ByteWave prog, List list) {
         int referenceBPM = -1;
         int subbandCount = 64;
         double coef = 2.3;
@@ -1057,7 +1057,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-    private static void findBestCoefsAdvancedFullLogarithmic(Program prog, List list) {
+    private static void findBestCoefsAdvancedFullLogarithmic(ByteWave prog, List list) {
         int referenceBPM = -1;
         int subbandCount = 64;
         double coef = 2;
@@ -1121,7 +1121,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     // TODO: BPM - HLEDANI
-//    private static Pair<String, String> analyzeBPMBarycenterPart(Program prog) {
+//    private static Pair<String, String> analyzeBPMBarycenterPart(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1146,7 +1146,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMBarycenterPart16Subbands", ((Integer)bpm).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAllPart(Program prog) {
+//    private static Pair<String, String> analyzeBPMAllPart(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1173,7 +1173,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-//    private static Pair<String, String> analyzeBPMBarycenterPartLinear(Program prog) {
+//    private static Pair<String, String> analyzeBPMBarycenterPartLinear(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1198,7 +1198,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMBarycenterPart16SubbandsLinear", ((Integer)bpm).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAllPartLinear(Program prog) {
+//    private static Pair<String, String> analyzeBPMAllPartLinear(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1226,7 +1226,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //    }
 //
 //
-//    private static Pair<String, String> analyzeBPMBarycenterPartConstant(Program prog) {
+//    private static Pair<String, String> analyzeBPMBarycenterPartConstant(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1252,7 +1252,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 //        return new Pair<String, String>("BPMBarycenterPart16SubbandsConstant", ((Integer)bpm).toString());
 //    }
 //
-//    private static Pair<String, String> analyzeBPMAllPartConstant(Program prog) {
+//    private static Pair<String, String> analyzeBPMAllPartConstant(ByteWave prog) {
 //        int subbandCount = 16;
 //        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 ////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1283,7 +1283,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-    private static Pair<String, String> analyzeBPMBarycenterPart(Program prog) {
+    private static Pair<String, String> analyzeBPMBarycenterPart(ByteWave prog) {
         int subbandCount = 6;
         // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
@@ -1307,7 +1307,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         return new Pair<String, String>("BPM (Barycenter part)", ((Integer)bpm).toString());
     }
 
-    private static Pair<String, String> analyzeBPMAllPart(Program prog) {
+    private static Pair<String, String> analyzeBPMAllPart(ByteWave prog) {
         int subbandCount = 6;
         // TODO: Vymazat - respektive vyzkouset, az pak vymazat
 //        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
@@ -1338,7 +1338,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-    public static void addSongBPMToList(Program prog, List<Pair<String, Pair<String, Integer>>> list) {
+    public static void addSongBPMToList(ByteWave prog, List<Pair<String, Pair<String, Integer>>> list) {
         findBestCoefsAdvancedFullLinear(prog, list);
 //        findBestCoefsAdvancedFullLogarithmic(prog, list);
     }
@@ -1366,9 +1366,9 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
      * @param referenceBPM is used if bpm > 0
      * @return Returns the calculated BPM reference value
      */
-    public static int addBPMToList(Program prog, String algName,
-                                    List<Pair<String, Pair<String, Integer>>> list,
-                                    int calculatedBPM, int referenceBPM) {
+    public static int addBPMToList(ByteWave prog, String algName,
+                                   List<Pair<String, Pair<String, Integer>>> list,
+                                   int calculatedBPM, int referenceBPM) {
         int difference;
         int bpm;
 

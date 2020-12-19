@@ -4,7 +4,6 @@ import plugin.PluginParameterAnnotation;
 import player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
-import Rocnikovy_Projekt.Program;
 
 public class SetSamplesOnWaveOperation implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "Value:", lowerBound = "-1", upperBound = "1",

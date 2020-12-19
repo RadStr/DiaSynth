@@ -91,7 +91,7 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
         Pair<Integer, Integer> retPair;
 
         // TODO: DEBUG
-//        double sum2 = Program.performAggregation(arr, Aggregation.SUM);
+//        double sum2 = ByteWave.performAggregation(arr, Aggregation.SUM);
 //        if (sum2 != binCount) {
 //            ProgramTest.debugPrint("FAILED", sum, sum2, binCount);
 //            System.exit(56487);

@@ -1,7 +1,6 @@
 package player.experimental;
 
 
-import Rocnikovy_Projekt.Program;
 import util.Time;
 import util.Utilities;
 

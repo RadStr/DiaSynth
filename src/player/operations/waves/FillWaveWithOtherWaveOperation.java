@@ -3,7 +3,6 @@ package player.operations.waves;
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
-import Rocnikovy_Projekt.Program;
 
 public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
     @Override

@@ -12,7 +12,6 @@ import player.AudioPlayerPanel;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 
 import javax.swing.*;
 import java.io.*;

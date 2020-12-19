@@ -110,8 +110,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 // TODO: DEBUG
 //        double[] todo = new double[fftResult.length];
 //        double[] todo2 = new double[fftResult.length];
-//        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
-//        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
+//        ByteWave.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
+//        ByteWave.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
 //
 //        for(int i = 0; i < fftResult.length; i++) {
 //            todo[i] *= fftMeasures.length;
@@ -470,7 +470,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //        while(fontSize < MIN_FONT && n < binFreqs.length) {
 //            fontSize = START_FONT_SIZE;
 //            int textWhitespace = textBinWidth / 4;
-//            fontSize = Program.getFont(fontSize, g, binFreqs, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
+//            fontSize = ByteWave.getFont(fontSize, g, binFreqs, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
 //            n *= 2;
 //            textBinWidth *= 2;
 //            System.out.println("FT:" + "\t" + fontSize);
@@ -524,12 +524,12 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 ////
 ////                Color c = Color.black;
 ////                if (bin == fftMeasures.length - 1) {
-////                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - 3 * textBinWidth / 4, textBinWidth, h);
+////                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - 3 * textBinWidth / 4, textBinWidth, h);
 ////                } else if (bin == 0) {
-////                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 4, textBinWidth, h);
+////                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 4, textBinWidth, h);
 ////                } else if (bin % n == 0) {
 ////                    // Draw frequency
-////                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 2, textBinWidth, h);
+////                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 2, textBinWidth, h);
 ////                }
 ////            }
 ////        }
@@ -571,12 +571,12 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //
 //                Color c = Color.black;
 //                if (bin == labels.length - 1) {
-//                    Program.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, labels[bin], currX - 3 * labelWidth / 4, labelWidth, h);
 //                } else if (bin == 0) {
-//                    Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 4, labelWidth, h);
 //                } else if (bin % n == 0) {
 //                    // Draw frequency
-//                    Program.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, labels[bin], currX - labelWidth / 2, labelWidth, h);
 //                }
 //            }
 //        }
@@ -604,8 +604,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //// TODO: DEBUG
 ////        double[] todo = new double[fftResult.length];
 ////        double[] todo2 = new double[fftResult.length];
-////        Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
-////        Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
+////        ByteWave.convertFFTAmplitudesToClassicFFTArr(fftMeasures, todo);
+////        ByteWave.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, todo2);
 ////
 ////        for(int i = 0; i < fftResult.length; i++) {
 ////            todo[i] *= fftMeasures.length;
@@ -624,10 +624,10 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //
 //
 //        if(setImagPartToZero) {
-//            Program.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
+//            ByteWave.convertFFTAmplitudesToClassicFFTArr(fftMeasures, fftResult);
 //        }
 //        else {
-//            Program.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, fftResult);
+//            ByteWave.convertFFTAmplitudesToClassicFFTArrRandom(fftMeasures, fftResult);
 //        }
 //
 //
@@ -645,7 +645,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //
 //
 //    public static void normalize(double[] arr) {
-//        double max = Program.performAggregation(arr, Aggregation.ABS_MAX);
+//        double max = ByteWave.performAggregation(arr, Aggregation.ABS_MAX);
 //
 //        for(int i = 0; i < arr.length; i++) {
 //            arr[i] /= max;
@@ -680,7 +680,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //                                                     int startIndex, int windowWidth, int windowHeight) {
 //        double[] fftResult = new double[windowSize];
 //        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
-//        int binCount = Program.getBinCountRealForward(windowSize);
+//        int binCount = ByteWave.getBinCountRealForward(windowSize);
 //        double[] fftMeasures = new double[binCount];
 //
 //        return createFFTWindowImage(song, numberOfChannels, freqJump, startIndex,
@@ -701,8 +701,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //        int indexToStartAddingPixels = binCount - freePixels;
 //        int binWidthWithSpace = binWidth + binsWhitespace;
 //
-//        Program.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
-//        Program.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
+//        ByteWave.calculateFFTRealForward(song, startIndex, numberOfChannels, fft, fftResult);
+//        ByteWave.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
 //
 //        BufferedImage image = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
 //        Graphics g = image.getGraphics();
@@ -729,12 +729,12 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //
 //
 //        // Set frequency labels for bins
-//        String[] binFreqs = Program.getFreqs(binCount, freqJump, 0, 1);
+//        String[] binFreqs = ByteWave.getFreqs(binCount, freqJump, 0, 1);
 //
 //        // Find fitting font for frequency labels amd for energies
 //        int fontSize = 24;
-//        fontSize = Program.getFont(fontSize, g, binFreqs, binWidth, Integer.MAX_VALUE, 1);
-//        fontSize = Program.getFont(fontSize, g, fftMeasuresString, binWidth, Integer.MAX_VALUE, 1);
+//        fontSize = ByteWave.getFont(fontSize, g, binFreqs, binWidth, Integer.MAX_VALUE, 1);
+//        fontSize = ByteWave.getFont(fontSize, g, fftMeasuresString, binWidth, Integer.MAX_VALUE, 1);
 //        FontMetrics fontMetrics = g.getFontMetrics();
 //
 //
@@ -756,9 +756,9 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 //            Color c = Color.black;
 //
 //            // Draw frequency
-//            Program.drawStringWithSpace(g, c, binFreqs[bin], currX, binWidth, windowHeight);
+//            ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX, binWidth, windowHeight);
 //            // Draw measures
-//            Program.drawStringWithSpace(g, c, fftMeasuresString[bin], currX, binWidth, 16);
+//            ByteWave.drawStringWithSpace(g, c, fftMeasuresString[bin], currX, binWidth, 16);
 //        }
 //
 //        return image;

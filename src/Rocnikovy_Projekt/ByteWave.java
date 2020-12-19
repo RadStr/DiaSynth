@@ -137,7 +137,7 @@ import util.audio.format.AudioType;
 
 // TODO: Napsat metodu co zkontroluje jestli ma pole spravnou delku
 //  (Tj. ze tam jsou vsechny framy cely, tedy jestli je tam ten posledni frame cely (Tj. delka pole % frameSize == 0))
-public class Program {
+public class ByteWave {
     public byte[] song;         // TODO: Bylo static
 
     private int mask;                   // TODO: At to zbytecne nepocitam pro kazdou metodu zvlast (i kdyz to je lehkej vypocet)
@@ -848,7 +848,7 @@ public class Program {
 //        for(int indexInChangeValues = startChangeValuesIndex, samplesIndex = startSamplesIndex, outputIndex = outputStartIndex;
 //                indexInChangeValues < changeValuesEndIndex;
 //                indexInChangeValues++, samplesIndex++, outputIndex++) {
-//            outputArr[outputIndex] = Program.performOperation(samples[samplesIndex], changeValues[indexInChangeValues], op);
+//            outputArr[outputIndex] = ByteWave.performOperation(samples[samplesIndex], changeValues[indexInChangeValues], op);
 //        }
 //    }
 

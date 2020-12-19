@@ -1,10 +1,10 @@
 package test;
 
+import Rocnikovy_Projekt.ByteWave;
 import deprecatedclasses.Spectrogram;
 import util.Aggregation;
 import util.Utilities;
 import util.audio.*;
-import Rocnikovy_Projekt.Program;
 import analyzer.AnalyzerPanel;
 import player.experimental.FFTWindowPanel;
 import util.Pair;
@@ -213,30 +213,30 @@ public class ProgramTest {
         printComplexFFT(1024, 1, 1, 0,
                 1, 1, Math.PI / 2, 1024, Utilities.CURVE_TYPE.SINE);
 //        printComplexFFT(1024, 1, 1, 0,
-//                0.5, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+//                0.5, 1, 0, 1024, ByteWave.CURVE_TYPE.SINE);
 
         ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 
 
 //        printComplexFFT(1024, 1, 1, 0,
-//                1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
+//                1, 1, 0, 1024, ByteWave.CURVE_TYPE.SINE);
 //        printComplexFFT(1024, 1, 1, 0,
-//                1, 2, 0, 1024, Program.CURVE_TYPE.SINE);
+//                1, 2, 0, 1024, ByteWave.CURVE_TYPE.SINE);
 //
 //        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 //
 //        printComplexFFT(1024, 0.5, 0, 0,
-//                1, 0, 0, 1024, Program.CURVE_TYPE.LINE);
+//                1, 0, 0, 1024, ByteWave.CURVE_TYPE.LINE);
 //        printComplexFFT(1024, 1, 0, 0,
-//                1, 0, 0, 1024, Program.CURVE_TYPE.LINE);
+//                1, 0, 0, 1024, ByteWave.CURVE_TYPE.LINE);
 //
 ////        printComplexFFT(1024, 1, 1, 0,
-////                1, 511, 0, 1024, Program.CURVE_TYPE.SINE);
+////                1, 511, 0, 1024, ByteWave.CURVE_TYPE.SINE);
 //
 //        ProgramTest.debugPrint("-------------------------------------------------------------------------------------");
 //
-//        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, Program.CURVE_TYPE.SINE);
-//        printComplexFFTRealOnly(1024, 1, 1023, 0, 1024, Program.CURVE_TYPE.SINE);
+//        printComplexFFTRealOnly(1024, 1, 1, 0, 1024, ByteWave.CURVE_TYPE.SINE);
+//        printComplexFFTRealOnly(1024, 1, 1023, 0, 1024, ByteWave.CURVE_TYPE.SINE);
 
         System.exit(47444);
 
@@ -2675,7 +2675,7 @@ public class ProgramTest {
 
     public boolean createSpectrogramTest(String path, int windowSize, int windowShift,
                                          int startIndex, int endIndex, int spectrogramWidthInPixels, int spectrogramHeigthInPixels) {
-        Program prog = new Program();
+        ByteWave prog = new ByteWave();
         double[] songDouble;
         songDouble = new double[44100 * 180];
         for(int i = 0; i < songDouble.length; i++) {
@@ -2885,7 +2885,7 @@ public class ProgramTest {
         sine = curve.createCurve(len, amp, freq, sampleRate, phase);
 
 // Doesn't even help, the results are just wrong because it is the precision error with double values.
-//        double sum = Program.performAggregation(sine, Aggregation.SUM);
+//        double sum = ByteWave.performAggregation(sine, Aggregation.SUM);
 //        for(int i = 0; i < sine.length; i++) {
 //            sine[i] -= sum;
 //        }
@@ -3042,7 +3042,7 @@ public class ProgramTest {
             int exponent = r.nextInt(9) + 4;
             //int exponent = 3;
             double[] audio =  Utilities.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1, 0, 0, 0);
-            //double[] audio =  Program.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
+            //double[] audio =  ByteWave.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
             DoubleFFT_1D fft = new DoubleFFT_1D(audio.length);
             FFT.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);
             for(int j = 0; j < audio.length; j++) {

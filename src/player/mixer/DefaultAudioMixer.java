@@ -223,7 +223,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 //    public int mix(byte[][] vals, byte[] outputArr, int outputArrIndex, double[] multFactors, int sampleSize, int mask,
 //                   boolean isBigEndian, boolean isSigned, int index) {
 //        int result = mix(vals, multFactors, sampleSize, mask, isBigEndian, isSigned, index);
-//        Program.convertIntToByteArr(outputArr, result, sampleSize, outputArrIndex, isBigEndian);
+//        ByteWave.convertIntToByteArr(outputArr, result, sampleSize, outputArrIndex, isBigEndian);
 //        return outputArrIndex + sampleSize;
 //    }
 //
@@ -243,7 +243,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 //        int result = 0;
 //        int sample;
 //        for(int i = 0; i < vals.length; i++) {
-//            sample = Program.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
+//            sample = ByteWave.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
 //            result += mixOneVal(sample, multFactors[i]);
 //        }
 //

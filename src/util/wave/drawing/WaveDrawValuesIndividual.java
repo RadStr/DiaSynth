@@ -307,7 +307,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
 // TODO: Zbytecny, to jsem jakoby delal aby se ten kruh presne dotykal kde konci ten pixel, ale to nechci, ja chci aby mel stred presne tam kde konci cara
 //            int absoluteSampleHeight = sampleHeight - halfHeight;
-//            //int absoluteSampleHeight = Program.getAbsoluteValueGeneral()
+//            //int absoluteSampleHeight = ByteWave.getAbsoluteValueGeneral()
 //            int sign = Integer.signum(absoluteSampleHeight);
 //            int y = sampleHeight + (sign * r);      // Doesn't need if branching
 //            StaticDrawMethodsClass.drawCenteredCircle(g, currentVisiblePixel, y, r);

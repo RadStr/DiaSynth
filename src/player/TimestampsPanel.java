@@ -135,9 +135,9 @@ public class TimestampsPanel extends JPanel {
 //        // TODO: Rozhodne nechci x = 30 takhle defaultne ... i kdyz mozna chci
 //        for (int i = 0, nextX = x + spaceSizeBetweenTimestampsInPixels; i < labelCount; x = nextX, nextX += spaceSizeBetweenTimestampsInPixels, time += timeJump, i++) {
 //            g.drawLine(x, 0, x, y);
-//            timeString = Program.convertSecondsToTime((int) time);
+//            timeString = ByteWave.convertSecondsToTime((int) time);
 //// TODO: DEBUG            System.out.println(time + "\t" + timeString + "\t" + timeJump + "\t" + numOfSecs);
-//            //Program.drawStringWithSpace(g, color, timeString, x / 2, nextX / 2, y, fontMetrics);
+//            //ByteWave.drawStringWithSpace(g, color, timeString, x / 2, nextX / 2, y, fontMetrics);
 //            g.setColor(color);
 //            g.drawString(timeString, x, y);
 //

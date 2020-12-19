@@ -1,6 +1,6 @@
 package deprecatedclasses;
 
-import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ByteWave;
 
 import javax.swing.*;
 
@@ -8,9 +8,9 @@ import javax.swing.*;
 public class AudioWavePanel extends JPanel {
 
     int zoom;
-    Program prog;
+    ByteWave prog;
 
-    public AudioWavePanel(Program prog) {
+    public AudioWavePanel(ByteWave prog) {
         zoom = 1;
         this.prog = prog;
 

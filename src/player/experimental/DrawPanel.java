@@ -745,12 +745,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 //
 //                Color c = Color.black;
 //                if (bin == fftMeasures.length - 1) {
-//                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - 3 * textBinWidth / 4, textBinWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - 3 * textBinWidth / 4, textBinWidth, h);
 //                } else if (bin == 0) {
-//                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 4, textBinWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 4, textBinWidth, h);
 //                } else if (bin % n == 0) {
 //                    // Draw frequency
-//                    Program.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 2, textBinWidth, h);
+//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 2, textBinWidth, h);
 //                }
 //            }
 //        }

@@ -36,7 +36,7 @@ public class BPMSimpleWithFreqBands {
             divFactor = 1 + 0.3 * (log + 1);
 
 // TODO: REMOVE
-//                    double log = Program.logGeneral((44100 / (double) sampleRate) - 1, 1.5);
+//                    double log = ByteWave.logGeneral((44100 / (double) sampleRate) - 1, 1.5);
 //                    divFactor = 2;
 //                    divFactor = 1.5;
 //                    divFactor = 1 + 0.49 * (log + 1);

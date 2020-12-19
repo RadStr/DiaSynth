@@ -16,7 +16,7 @@ public class Convolution extends OperationOnWavesPlugin {
         outputEndIndex = getOutputEndIndex();
         // TODO: Konvoluce je napsana dobre, ale musim udelat ty fft pole stejne dlouhy a doplnit je 0ma aby se mohla
         // TODO: ta konvoluce provest, pokud chci aby to fungovalo jako echo efekt, tak musim povolit zvetseni te vlny a mit parametr na delku echa
-        //Program.convolutionInFreqDomainRealForward();
+        //ByteWave.convolutionInFreqDomainRealForward();
     }
 
 

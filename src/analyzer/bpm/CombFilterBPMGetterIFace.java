@@ -1,6 +1,6 @@
 package analyzer.bpm;
 
-import Rocnikovy_Projekt.Program;
+import Rocnikovy_Projekt.ByteWave;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Rectification;
 import util.audio.AudioConverter;
@@ -129,9 +129,9 @@ public interface CombFilterBPMGetterIFace {
 //
 //                byte[] arr = new byte[sampleSize * fftResult.length];
 //                try {
-//                    Program.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
-//                        Program.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
-//                    Program.saveAudio("1WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
+//                    ByteWave.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
+//                        ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
+//                    ByteWave.saveAudio("1WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
 //                }
 //                catch(IOException e) { System.ebxit(-500); }
                 //TODO: DEBUG
@@ -154,23 +154,23 @@ public interface CombFilterBPMGetterIFace {
 //                    if(maxEnergy < ifftResults[subband][remove]) maxEnergy = ifftResults[subband][remove];
 //                }
 //                System.out.println("MAX:"+maxEnergy);
-//            //    Program.performOperationOnSamples(ifftResults[subband], (double)1/Math.ceil(maxEnergy), ArithmeticOperation.MULTIPLY);
+//            //    ByteWave.performOperationOnSamples(ifftResults[subband], (double)1/Math.ceil(maxEnergy), ArithmeticOperation.MULTIPLY);
 //                maxEnergy = 0;
 //TODO: DEBUG
 
 //                System.exit(0);
 //                try {
-//                    Program.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
-//                        Program.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
+//                    ByteWave.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
+//                        ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
 //
-//                    int[] intArr1 = Program.convertBytesToSamples(arr, sampleSize, isBigEndian, isSigned);
-//                    int[] intArr2 = Program.convertDoubleArrToIntArr(ifftResults[subband], Program.getMaxAbsoluteValueSigned(sampleSizeInBits), isSigned);
+//                    int[] intArr1 = ByteWave.convertBytesToSamples(arr, sampleSize, isBigEndian, isSigned);
+//                    int[] intArr2 = ByteWave.convertDoubleArrToIntArr(ifftResults[subband], ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isSigned);
 //                    for(int TODO = 0; TODO < intArr1.length; TODO++) {
 //                        if(ifftResults[subband][TODO] < 0) System.exit(-666);
 //                        if(intArr2[TODO] < 0) System.exit(-667);
 //                        if(intArr1[TODO] != intArr2[TODO]) System.out.println(TODO + "\t" + intArr1[TODO] + "\t" + intArr2[TODO]);
 //                    }
-//                    Program.saveAudio("2WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
+//                    ByteWave.saveAudio("2WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
 //                }
 //                catch(IOException e) { System.exit(-500); }
 //                System.exit(arr.length);
@@ -200,11 +200,11 @@ public interface CombFilterBPMGetterIFace {
 
 
     // TODO: Copy paste ... Lisi se to od getBPMUsingCombFilterMONOWithoutFiltersWithoutSubbands jen v tom ze se vola jina metoda a je tam subbandCount
-    // TODO: This is not really ideal, using Program ... flawed design
+    // TODO: This is not really ideal, using ByteWave ... flawed design
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  int numberOfBeats, Program prog) {
+                                  int numberOfBeats, ByteWave prog) {
 
         int lenOfOneSecond = prog.sampleSizeInBytes * prog.sampleRate;
         int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);
@@ -235,7 +235,7 @@ public interface CombFilterBPMGetterIFace {
                                   double numberOfSeconds, int windowSize,
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  DoubleFFT_1D fft, int numberOfBeats, Program prog) {
+                                  DoubleFFT_1D fft, int numberOfBeats, ByteWave prog) {
         double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, prog.sampleRate, numberOfSeconds, windowSize, numberOfBeats);
         return computeBPM(bpmArrays, startBPM, jumpBPM, windowSize,
             startIndex, endIndex, subbandCount, splitter, fft, prog);
@@ -245,7 +245,7 @@ public interface CombFilterBPMGetterIFace {
                                   int jumpBPM, int windowSize,
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
-                                  DoubleFFT_1D fft, Program prog) {
+                                  DoubleFFT_1D fft, ByteWave prog) {
         // TODO: Napsat metodu getBPMFromIndex array to je to to impulse period + ten for cycklus
         // TODO: Vlastne uz to mam napsany vsechno akorat zmensit ty pole a delat fft hned jakmile mam to jedno window
         return computeBPM(prog.song, bpmArrays, startBPM, jumpBPM,

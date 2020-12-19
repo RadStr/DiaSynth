@@ -1,6 +1,6 @@
 package util;
 
-import Rocnikovy_Projekt.Program;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 
 public class Rectification {
@@ -57,7 +57,7 @@ public class Rectification {
 
         int sample;
         for(int i = 0; i < samples.length;) {
-            sample = Program.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
+            sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
             if(passPositive) {
                 if(sample < zeroValue) {
                     i = setArrayValues(samples, zeroValueBytes, i);
@@ -110,7 +110,7 @@ public class Rectification {
 
         int sample;
         for(int i = 0; i < samples.length;) {
-            sample = Program.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
+            sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
             getAbsoluteValueGeneral(sample, zeroValue, passPositive, sampleBytes, sampleSize, isBigEndian);
 
             if(passPositive) {
@@ -172,7 +172,7 @@ public class Rectification {
         else {
             int maxValue = AudioUtilities.getMaxAbsoluteValueUnsigned(8 * sampleSize);
             zeroValue = maxValue / 2;
-            Program.convertIntToByteArr(zeroValueBytesResult, zeroValue, isBigEndian);
+            AudioConverter.convertIntToByteArr(zeroValueBytesResult, zeroValue, isBigEndian);
         }
 
         return zeroValue;
@@ -201,7 +201,7 @@ public class Rectification {
             retVal = getAbsoluteValueGeneralNegative(value, zero);
         }
 
-        Program.convertIntToByteArr(resultInBytes, sampleSize, isBigEndian);
+        AudioConverter.convertIntToByteArr(resultInBytes, sampleSize, isBigEndian);
         return retVal;
     }
 

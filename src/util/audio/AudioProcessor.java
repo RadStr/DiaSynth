@@ -1,6 +1,5 @@
 package util.audio;
 
-import Rocnikovy_Projekt.Program;
 import util.Aggregation;
 import util.audio.io.AudioReader;
 
@@ -206,7 +205,7 @@ public class AudioProcessor {
         // Solved by calling more general method
         byte[][] newSamples = getEveryXthTimePeriodWithLength(samples, 1, n, sampleSize, startSample);
 
-        return Program.convertTwoDimArrToOneDim(newSamples);
+        return AudioConverter.convertTwoDimArrToOneDim(newSamples);
     }
 
     /**
@@ -304,7 +303,7 @@ public class AudioProcessor {
             if (count % n == 0) {
                 arrIndex = 0;
                 for (int i = 0; i < numberOfChannels; i++, arrIndex += sampleSize) {
-                    Program.normalizeToDoubles(oneFrame, outputArr[i], sampleSize, sampleSize * 8,
+                    AudioConverter.normalizeToDoubles(oneFrame, outputArr[i], sampleSize, sampleSize * 8,
                                                arrIndex, outputIndex, 1, isBigEndian, isSigned);
                 }
 
@@ -362,8 +361,8 @@ public class AudioProcessor {
             nextTotalIndex += bytesReadSum;
             while(nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
                 for (int i = 0, arrIndex = nextNByteIndex % buffer.length; i < numberOfChannels; i++, arrIndex += sampleSize) {
-                    int sample = Program.convertBytesToInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
-                    outputArr[i][outputIndex] = Program.normalizeToDouble(sample, maxAbsoluteValue, isSigned);
+                    int sample = AudioConverter.convertBytesToInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
+                    outputArr[i][outputIndex] = AudioConverter.normalizeToDouble(sample, maxAbsoluteValue, isSigned);
                 }
 
                 outputIndex++;
@@ -474,7 +473,7 @@ public class AudioProcessor {
                 }
                 int newSample = (int) Aggregation.performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
 
-                byte[] arr = Program.convertIntToByteArr(sampleSize, newSample, isBigEndian);
+                byte[] arr = AudioConverter.convertIntToByteArr(sampleSize, newSample, isBigEndian);
                 for(int k = 0; k < arr.length; k++) {
                     moddedChannel.add(arr[k]);
                 }

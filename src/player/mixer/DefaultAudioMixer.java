@@ -1,10 +1,10 @@
 package player.mixer;
 
-import Rocnikovy_Projekt.Program;
 import player.mixer.ifaces.AudioMixerByteIFace;
 import player.mixer.ifaces.AudioMixerDoubleIFace;
 import player.mixer.ifaces.AudioMixerIFace;
 import player.mixer.ifaces.AudioMixerIntIFace;
+import util.audio.AudioConverter;
 
 /**
  * Default implementation. Just implement AudioMixerIFace if overriding, the int variants and byte variants aren't used anyways.
@@ -24,7 +24,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
                    int mask, boolean isBigEndian, boolean isSigned, int index) {
         for(int ch = 0; ch < multFactors[0].length; ch++, index += sampleSize, outputArrIndex += sampleSize) {
             int result = mix(vals, multFactors, sampleSize, mask, isBigEndian, isSigned, index, ch);
-            Program.convertIntToByteArr(outputArr, result, sampleSize, outputArrIndex, isBigEndian);
+            AudioConverter.convertIntToByteArr(outputArr, result, sampleSize, outputArrIndex, isBigEndian);
         }
         return outputArrIndex;
     }
@@ -42,11 +42,11 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
      */
     protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask, boolean isBigEndian, boolean isSigned,
                    int index, int channel) {
-        int sample = Program.convertBytesToInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
+        int sample = AudioConverter.convertBytesToInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
         sample = mixOneVal(sample, multFactors[0][channel]);
         int result = sample;
         for (int i = 1; i < vals.length; i++) {
-            sample = Program.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
+            sample = AudioConverter.convertBytesToInt(vals[i], sampleSize, mask, index, isBigEndian, isSigned);
             sample = mixOneVal(sample, multFactors[i][channel]);
             result = mix(result, sample);
         }
@@ -158,7 +158,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
                    boolean isBigEndian, boolean isSigned, int maxAbsoluteValue, int index) {
         for(int ch = 0; ch < multFactors[0].length; ch++, outputArrIndex += sampleSize) {
             double sample = mix(vals, multFactors, ch, index);
-            Program.convertDoubleToByteArr(sample, sampleSize, maxAbsoluteValue, isBigEndian, isSigned, outputArrIndex, outputArr);
+            AudioConverter.convertDoubleToByteArr(sample, sampleSize, maxAbsoluteValue, isBigEndian, isSigned, outputArrIndex, outputArr);
         }
 
         return outputArrIndex;

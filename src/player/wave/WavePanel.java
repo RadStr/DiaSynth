@@ -2,9 +2,9 @@ package player.wave;
 
 import player.AudioPlayerPanel;
 import player.popup.WavePanelPopupMenu;
-import Rocnikovy_Projekt.*;
 import test.ProgramTest;
 import util.Utilities;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
@@ -246,7 +246,7 @@ public class WavePanel extends JPanel {
     public void setWaveToNewSampleRate(int newSampleRate) {
         double[] newWave;
         try {
-            newWave = Program.convertSampleRate(doubleWave.getSong(), 1,
+            newWave = AudioConverter.convertSampleRate(doubleWave.getSong(), 1,
                     doubleWave.getSampleRate(), newSampleRate, true);
             setNewDoubleWave(newWave, newSampleRate);
         }

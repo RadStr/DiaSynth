@@ -5,11 +5,11 @@ import synthesizer.synth.CyclicQueueDouble;
 import synthesizer.synth.OutputFormatGetter;
 import synthesizer.synth.Unit;
 import util.Utilities;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatWithSign;
 import player.control.AudioControlPanel;
 import util.logging.MyLogger;
-import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 
 import javax.sound.sampled.*;
@@ -305,7 +305,7 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
         int byteArrIndex = 0;
         for (int s = 0; s < validSampleCount; s++) {
             for (int i = 0; i < channels.length; i++, byteArrIndex += sampleSizeInBytes) {
-                Program.convertDoubleToByteArr(channels[i][s], sampleSizeInBytes,
+                AudioConverter.convertDoubleToByteArr(channels[i][s], sampleSizeInBytes,
                         maxAbsoluteValue, isBigEndian, isSigned, byteArrIndex, outArr);
             }
         }

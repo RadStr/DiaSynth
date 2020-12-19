@@ -1,8 +1,8 @@
 package analyzer.bpm;
 
-import Rocnikovy_Projekt.Program;
 import test.ProgramTest;
 import util.Utilities;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 
 public class BPMSimple {
@@ -139,7 +139,7 @@ public class BPMSimple {
 
        for(int i = 0; i < windowSize; i++) {
            for(int j = 0; j < numberOfChannels; j++, index += sampleSize) {
-               int val = Program.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+               int val = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                if(!isSigned) {     // Convert unsigned sample to signed
                    val -= maxAbsoluteValueSigned;
                }

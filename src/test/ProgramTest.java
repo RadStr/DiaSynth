@@ -144,7 +144,7 @@ public class ProgramTest {
                     sample += maxValue;
                 }
 
-                Program.convertIntToByteArr(sampleBytes, sample, isBigEndian);
+                AudioConverter.convertIntToByteArr(sampleBytes, sample, isBigEndian);
                 for(int j = 0; j < sampleBytes.length; j++, byteIndex++) {
                     samples[byteIndex] = sampleBytes[j];
                 }
@@ -640,7 +640,7 @@ public class ProgramTest {
         byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
-            samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
+            samples3Double[i] = AudioConverter.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
                                                            isBigEndian, isSigned);
         }
 
@@ -676,7 +676,7 @@ public class ProgramTest {
         byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels, sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
         for(int i = 0; i < samples3Double.length; i++) {
-            samples3Double[i] = Program.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
+            samples3Double[i] = AudioConverter.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
                                                            isBigEndian, isSigned);
         }
 
@@ -754,9 +754,9 @@ public class ProgramTest {
      * @throws IOException is thrown if error with input stream occurred.
      */
     public boolean separateChannelsOfSongTestBoth(InputStream stream, byte[] samplesFromStream, int numberOfChannels, int sampleSize) throws IOException {
-        byte[][] channels1 = program.separateChannels(samplesFromStream, numberOfChannels, sampleSize);
+        byte[][] channels1 = AudioConverter.separateChannels(samplesFromStream, numberOfChannels, sampleSize);
         // Passing length of array just for testing measures - else I would have to take the real length from the file
-        byte[][] channels2 = program.separateChannels(stream, numberOfChannels, sampleSize, samplesFromStream.length);
+        byte[][] channels2 = AudioConverter.separateChannels(stream, numberOfChannels, sampleSize, samplesFromStream.length);
 
         return checkEqualityOfArraysTwoDim(channels1, channels2);
     }
@@ -1134,7 +1134,7 @@ public class ProgramTest {
             samples[5] = 3;
             samples[6] = 0;
             samples[7] = 4;
-            int[] result = Program.convertBytesToSamples(samples, 2, isBigEndian, false);
+            int[] result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, false);
             for (int i = 0; i < result.length; i++) {
                 if (result[i] != (i + 1)) {
                     return false;
@@ -1149,7 +1149,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, false);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, false);
             for (int i = 0; i < result.length; i++) {
                 if (result[i] != (i + 1)) {
                     return false;
@@ -1165,7 +1165,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 1, isBigEndian, false);
+            result = AudioConverter.convertBytesToSamples(samples, 1, isBigEndian, false);
             if (result[0] != 255) {
                 return false;
             }
@@ -1175,7 +1175,7 @@ public class ProgramTest {
                 }
             }
 
-            result = Program.convertBytesToSamples(samples, 1, isBigEndian, true);
+            result = AudioConverter.convertBytesToSamples(samples, 1, isBigEndian, true);
             if (result[0] != -1) {
                 return false;
             }
@@ -1216,7 +1216,7 @@ public class ProgramTest {
         byte[] byteArr = fillIntArrAndReturnByteArr(intArr, sampleSize, isBigEndian, isSigned);
 
         try {
-            int[] result = Program.convertBytesToSamples(byteArr, sampleSize, isBigEndian, isSigned);
+            int[] result = AudioConverter.convertBytesToSamples(byteArr, sampleSize, isBigEndian, isSigned);
             if (result.length != intArr.length) {
                 System.out.print("Size of original array: " + intArr.length + "\t\tSize of generated array: " + result.length + "\t\t\t");
                 return false;
@@ -1247,7 +1247,7 @@ public class ProgramTest {
             samples[5] = 3;
             samples[6] = 0;
             samples[7] = 4;
-            int[] result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            int[] result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             for (int i = 0; i < result.length; i++) {
                 if (result[i] != (i + 1)) {
                     return false;
@@ -1263,7 +1263,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 4;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             for (int i = 0; i < result.length; i++) {
                 if (result[i] != (i + 1)) {
                     return false;
@@ -1282,7 +1282,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 1, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 1, isBigEndian, isSigned);
             if (result[0] != 128) {
                 return false;
             }
@@ -1305,7 +1305,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 1, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 1, isBigEndian, isSigned);
             if (result[0] != -128) {
                 return false;
             }
@@ -1328,7 +1328,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             if (result[0] != 128) {            // Should be 128 since the sing bit == 0
                 System.out.println(result[0]);
                 return false;
@@ -1352,7 +1352,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             if (result[0] != 128) {            // Should be 128 since the sing bit == 0
                 System.out.println(result[0]);
                 return false;
@@ -1376,7 +1376,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             if (result[0] != -128) {
                 System.out.println(result[0]);
                 return false;
@@ -1400,7 +1400,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             if (result[0] != -128) {
                 System.out.println(result[0]);
                 return false;
@@ -1423,7 +1423,7 @@ public class ProgramTest {
             samples[5] = 0;
             samples[6] = 0;
             samples[7] = 0;
-            result = Program.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, 2, isBigEndian, isSigned);
             if (result[0] != 0x0000FF80) {
                 System.out.println(result[0]);
                 return false;
@@ -1440,8 +1440,8 @@ public class ProgramTest {
             int sampleSize = 3;
             samples = new byte[sampleSize];
             int number = 45678;
-            Program.convertIntToByteArr(samples, number, isBigEndian);
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            AudioConverter.convertIntToByteArr(samples, number, isBigEndian);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != number) {
                 System.out.println(result[0]);
                 return false;
@@ -1452,8 +1452,8 @@ public class ProgramTest {
             sampleSize = 3;
             samples = new byte[sampleSize];
             number = -500;
-            Program.convertIntToByteArr(samples, number, isBigEndian);
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            AudioConverter.convertIntToByteArr(samples, number, isBigEndian);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != number) {
                 System.out.println(result[0]);
                 return false;
@@ -1465,8 +1465,8 @@ public class ProgramTest {
             sampleSize = 3;
             samples = new byte[sampleSize];
             number = 65559;
-            Program.convertIntToByteArr(samples, number, isBigEndian);
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            AudioConverter.convertIntToByteArr(samples, number, isBigEndian);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != number) {
                 System.out.println(result[0]);
                 return false;
@@ -1477,8 +1477,8 @@ public class ProgramTest {
             sampleSize = 3;
             samples = new byte[sampleSize];
             number = -65559;
-            Program.convertIntToByteArr(samples, number, isBigEndian);
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            AudioConverter.convertIntToByteArr(samples, number, isBigEndian);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != number) {
                 System.out.println(result[0]);
                 return false;
@@ -1489,7 +1489,7 @@ public class ProgramTest {
             isSigned = true;
             sampleSize = 1;
             samples = new byte[] {110};
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != samples[0]) {
                 System.out.println(result[0]);
                 return false;
@@ -1499,7 +1499,7 @@ public class ProgramTest {
             isSigned = true;
             sampleSize = 1;
             samples = new byte[] {-110};
-            result = Program.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
+            result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != samples[0]) {
                 System.out.println(result[0]);
                 return false;
@@ -1525,7 +1525,7 @@ public class ProgramTest {
 
         byte[] result = null;
         try {
-            result = Program.convertToMono(testArr, 2, 2, 1, true, false);
+            result = AudioConverter.convertToMono(testArr, 2, 2, 1, true, false);
         } catch (IOException e) {
             System.out.print("FALSE1");
             return false;
@@ -1552,7 +1552,7 @@ public class ProgramTest {
 
         byte[] result = new byte[0];
         try {
-            result = Program.convertToMono(testArrByte, sampleSize * numberOfChannels, numberOfChannels, sampleSize, isBigEndian, isSigned);
+            result = AudioConverter.convertToMono(testArrByte, sampleSize * numberOfChannels, numberOfChannels, sampleSize, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE1\t");
             return false;
@@ -1572,7 +1572,7 @@ public class ProgramTest {
             return false;
         }
         for (int i = 0, testIndex = 0; i < result.length; i += sampleSize) {
-            int val = Program.convertBytesToInt(result, sampleSize, mask, i, isBigEndian, isSigned);
+            int val = AudioConverter.convertBytesToInt(result, sampleSize, mask, i, isBigEndian, isSigned);
             int average = 0;
             for (int k = 0; k < numberOfChannels; k++, testIndex++) {
                 average += testArrInt[testIndex];
@@ -1655,7 +1655,7 @@ public class ProgramTest {
         int sampleSizeInBits = sampleSize * 8;
         double[] result = new double[0];
         try {
-            result = Program.normalizeToDoubles(byteSamples, sampleSize, sampleSizeInBits, isBigEndian, isSigned);
+            result = AudioConverter.normalizeToDoubles(byteSamples, sampleSize, sampleSizeInBits, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE2\t");
             return false;
@@ -1742,7 +1742,7 @@ public class ProgramTest {
         byte[] sample = new byte[sampleSize];
         byte[] testArrByte = new byte[testArrInt.length * sampleSize];
         for (int i = 0, j = 0; i < testArrInt.length; i++) {
-            Program.convertIntToByteArr(sample, testArrInt[i], isBigEndian);
+            AudioConverter.convertIntToByteArr(sample, testArrInt[i], isBigEndian);
             for (int sampleInd = 0; sampleInd < sampleSize; j++, sampleInd++) {
                 testArrByte[j] = sample[sampleInd];
             }
@@ -1945,7 +1945,7 @@ public class ProgramTest {
         byte[] outputArr = new byte[intArr.length * sampleSize];
         int j = 0;
         for(int i = 0; i < intArr.length; i++) {
-            sample = Program.convertIntToByteArr(sampleSize, intArr[i], convertToBigEndian);
+            sample = AudioConverter.convertIntToByteArr(sampleSize, intArr[i], convertToBigEndian);
             for(int k = 0; k < sample.length; k++, j++) {
                 outputArr[j] = sample[k];
             }
@@ -2007,7 +2007,7 @@ public class ProgramTest {
         }
 
         for (int i = 0, intIndex = 0; intIndex < resultFor1Channel.length; intIndex++) {
-            byte[] sample = Program.convertIntToByteArr(sampleSize, resultFor1Channel[intIndex], convertToBigEndian);
+            byte[] sample = AudioConverter.convertIntToByteArr(sampleSize, resultFor1Channel[intIndex], convertToBigEndian);
             for (int ch = 0; ch < numberOfChannels; ch++) {
                 for (int j = 0; j < sample.length; j++, i++) {
                     result[i] = sample[j];
@@ -2196,7 +2196,7 @@ public class ProgramTest {
         System.out.println(byteArr.length);
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRate(byteArr, sampleSize, frameSize, numberOfChannels, oldSampleRate,
+            calculatedArr = AudioConverter.convertSampleRate(byteArr, sampleSize, frameSize, numberOfChannels, oldSampleRate,
                 newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE3:\t");
@@ -2225,7 +2225,7 @@ public class ProgramTest {
             return false;
         }
         try {
-            arrInt = Program.convertBytesToSamples(byteArr, sampleSize, isBigEndian, isSigned);
+            arrInt = AudioConverter.convertBytesToSamples(byteArr, sampleSize, isBigEndian, isSigned);
         } catch (IOException e) {
             System.out.print("FALSE1");
             return false;
@@ -2245,7 +2245,7 @@ public class ProgramTest {
         int skipCount = (ratio - 1) * numberOfChannels;
         for (int i = 0, intInd = 0; i < calculatedArr.length; intInd += skipCount) {
             for (int j = 0; j < numberOfChannels; j++, intInd++) {
-                int sample = Program.convertBytesToInt(calculatedArr, sampleSize, mask, i, isBigEndian, isSigned);
+                int sample = AudioConverter.convertBytesToInt(calculatedArr, sampleSize, mask, i, isBigEndian, isSigned);
                 i += sampleSize;
                 if (sample != arrInt[intInd]) {
                     System.out.print("FALSE6:\t" + "Index: " + intInd + "\tCorrect value: " +  arrInt[intInd] + "\tCalculated value: " + sample + "\t");
@@ -2278,7 +2278,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2298,7 +2298,7 @@ public class ProgramTest {
 
         isSigned = true;
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, 1,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, 1,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE4");
@@ -2340,7 +2340,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
         } catch (IOException e) {
             System.out.print("FALSE1:\t");
@@ -2359,7 +2359,7 @@ public class ProgramTest {
 
         isSigned = true;
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE4");
@@ -2401,7 +2401,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2471,7 +2471,7 @@ public class ProgramTest {
 
         byte[] calculatedArr = new byte[0];
         try {
-            calculatedArr = Program.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
+            calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
                 oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
         } catch (IOException e) {
             System.out.print("FALSE1");
@@ -2651,7 +2651,7 @@ public class ProgramTest {
         byte[] song = Note.generateFrequencyFreq(freq, sampleRate, neededLenInSecs, sampleSize, isBigEndian, isSigned);
         double[] songDouble;
         try {
-            songDouble = Program.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            songDouble = AudioConverter.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -2709,7 +2709,7 @@ public class ProgramTest {
         byte[] song = Note.generateFrequencyFreq(freq, sampleRate, lengthInSeconds, sampleSize, isBigEndian, isSigned);
         double[] songDouble;
         try {
-            songDouble = Program.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
+            songDouble = AudioConverter.normalizeToDoubles(song, sampleSize, sampleSize * 8, isBigEndian, isSigned);
         } catch (IOException e) {
             e.printStackTrace();
             return false;

@@ -2,6 +2,7 @@ package util.audio.wave;
 
 import Rocnikovy_Projekt.Program;
 import util.Utilities;
+import util.audio.AudioConverter;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -250,9 +251,9 @@ public class DoubleWave {
         this.sampleRate = p.sampleRate;
         this.numberOfChannels = p.numberOfChannels;
         try {
-            song = Program.normalizeToDoubles(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
+            song = AudioConverter.normalizeToDoubles(p.song, p.sampleSizeInBytes, p.sampleSizeInBits, p.isBigEndian, p.isSigned);
             if(newSampleRate >= 0) {
-                song = Program.convertSampleRate(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
+                song = AudioConverter.convertSampleRate(song, p.numberOfChannels, p.sampleRate, newSampleRate, true);
                 this.sampleRate = newSampleRate;
             }
             if(shouldCreateDoubleWaveFile) {

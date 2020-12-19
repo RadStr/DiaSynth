@@ -3,6 +3,7 @@ package analyzer.bpm;
 import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.Rectification;
+import util.audio.AudioConverter;
 import util.audio.FFT;
 import util.audio.FFTWindow;
 import util.audio.filter.NonRecursiveFilter;
@@ -103,7 +104,7 @@ public interface CombFilterBPMGetterIFace {
             double[] fftResult = new double[windowSize];
 // TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
             try {
-                index = Program.normalizeToDoubles(samples, fftResult, sampleSize, sampleSizeInBits,
+                index = AudioConverter.normalizeToDoubles(samples, fftResult, sampleSize, sampleSizeInBits,
                                                    index, isBigEndian, isSigned);
             } catch (IOException e) {
                 return null;

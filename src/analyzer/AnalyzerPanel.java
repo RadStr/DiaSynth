@@ -12,6 +12,7 @@ import analyzer.plugin.ifaces.AnalyzerBytePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerDoublePluginIFace;
 import analyzer.plugin.ifaces.AnalyzerIntPluginIFace;
 import util.Time;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.wave.DoubleWave;
 import util.swing.ErrorFrame;
@@ -259,7 +260,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             if(p.getKey().isSelected()) {
                 if(wave != null) {
                     try {
-                        wave = Program.convertBytesToSamples(prog.song, prog.sampleSizeInBytes, prog.isBigEndian, prog.isSigned);
+                        wave = AudioConverter.convertBytesToSamples(prog.song, prog.sampleSizeInBytes, prog.isBigEndian, prog.isSigned);
                     } catch (IOException e) {
                         return;
                     }

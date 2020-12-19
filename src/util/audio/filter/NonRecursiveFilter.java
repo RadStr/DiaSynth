@@ -1,7 +1,7 @@
 package util.audio.filter;
 
-import Rocnikovy_Projekt.Program;
 import util.Utilities;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 
 import java.io.IOException;
@@ -173,7 +173,7 @@ public class NonRecursiveFilter {
             for (int j = 0; j < coef.length; j++) {
                 if (index >= 0) {
                     for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
-                        sample = Program.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                        sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                         vals[ch] += coef[j] * sample;
                         // TODO:                      System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
 // TODO:                        System.out.println(index);
@@ -188,7 +188,7 @@ public class NonRecursiveFilter {
 
             for (int ch = 0; ch < vals.length; ch++) {
 // TODO:                System.out.println("VAL:\t" + vals[ch]);
-                Program.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
+                AudioConverter.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
                 for(int j = 0; j < sampleBytes.length; j++, resInd++) {
 // TODO:                   System.out.println("VALBYTE:\t" + sampleBytes[j]);
                     retArr[resInd] = sampleBytes[j];
@@ -207,7 +207,7 @@ public class NonRecursiveFilter {
 // TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
             for(int j = 0; j < coef.length; j++) {
                 for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
-                    sample = Program.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                    sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                     vals[ch] += coef[j] * sample;
 //TODO:                    System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
                 }
@@ -215,7 +215,7 @@ public class NonRecursiveFilter {
 
             // TODO: the same for cycle as above (30 lines above)
             for (int ch = 0; ch < vals.length; ch++) {
-                Program.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
+                AudioConverter.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
 //TODO:                System.out.println("VAL:\t" + vals[ch]);
                 for(int j = 0; j < sampleBytes.length; j++, resInd++) {
 //TODO:                    System.out.println("VALBYTE:\t" + sampleBytes[j]);

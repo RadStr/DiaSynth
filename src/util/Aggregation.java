@@ -3,7 +3,7 @@ package util;
 // TODO: ABS_MIN and ABS_MAX aren't in all performAggregation methods
 //  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
 
-import Rocnikovy_Projekt.Program;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.io.AudioReader;
 import util.audio.NormalizedSongPartWithAverageValueOfSamples;
@@ -171,7 +171,7 @@ public enum Aggregation {
             }
 
             int[] intArr;
-            intArr = Program.convertBytesToSamples(songPart, sampleSize, isBigEndian, isSigned);
+            intArr = AudioConverter.convertBytesToSamples(songPart, sampleSize, isBigEndian, isSigned);
 
             double songPartValue = 0;
             switch (mod) {            // TODO: If the compiler doesn't optimize the cases outside the loop, then it is really inefficient
@@ -207,7 +207,7 @@ public enum Aggregation {
                 default:
                     throw new IOException();
             }
-            normalizedSongPart = Program.normalizeToDoubles(intArr, sampleSize * 8, isSigned);
+            normalizedSongPart = AudioConverter.normalizeToDoubles(intArr, sampleSize * 8, isSigned);
 
             if (bytesReadSum != songPart.length) {
                 double[] arr = new double[bytesReadSum / sampleSize];
@@ -386,7 +386,7 @@ public enum Aggregation {
         // TODO: Copy-pasted - probably to make it easier for compiler, but it should probably recognize it, the code is just too old
         if (isBigEndian) {
             for (int j = 0; j < n; j++) {
-                sample = Program.convertBytesToIntBigEndian(samples, sampleSize, mask, index, isSigned);
+                sample = AudioConverter.convertBytesToIntBigEndian(samples, sampleSize, mask, index, isSigned);
                 switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                     case MAX:
                         if (specialValue < sample) {
@@ -410,7 +410,7 @@ public enum Aggregation {
             }
         } else {
             for (int j = 0; j < n; j++) {
-                sample = Program.convertBytesToIntLittleEndian(samples, sampleSize, mask, index, isSigned);
+                sample = AudioConverter.convertBytesToIntLittleEndian(samples, sampleSize, mask, index, isSigned);
                 switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                     case MAX:
                         if (specialValue < sample) {
@@ -480,7 +480,7 @@ public enum Aggregation {
                 bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
-                    sample = Program.convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
+                    sample = AudioConverter.convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
                     // TODO: Copy pasted
                     switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                         case MAX:
@@ -509,7 +509,7 @@ public enum Aggregation {
                 bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
-                    sample = Program.convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
+                    sample = AudioConverter.convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
                     switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
                         case MAX:
                             if (specialValue < sample) {

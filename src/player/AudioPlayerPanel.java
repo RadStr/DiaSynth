@@ -21,6 +21,7 @@ import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
 import util.Time;
 import util.Utilities;
+import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatJPanelWithConvertFlag;
@@ -3142,11 +3143,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 p.frameSize);
         ProgramTest.debugPrint("properties:", p.decodedAudioStream.getFormat().properties(),
                 p.lengthOfAudioInSeconds, p.getOnlyAudioSizeInBytes(), p.wholeFileSize);
-        double[][] waves = Program.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
+        double[][] waves = AudioConverter.separateChannelsDouble(p.decodedAudioStream, p.numberOfChannels, p.sampleSizeInBytes,
                 p.isBigEndian, p.isSigned, audioLen);
 
         for(int i = 0; i < waves.length; i++) {
-            waves[i] = Program.convertSampleRate(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
+            waves[i] = AudioConverter.convertSampleRate(waves[i], p.numberOfChannels, p.sampleRate, getOutputSampleRate(),
                     true);
         }
         addWaves(waves, p.getFileName(), getOutputSampleRate(), shouldAddLater);
@@ -3190,12 +3191,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void addWaves(InputStream audio, int audioLen, AudioFormatWithSign format, boolean shouldConvertSampleRate) {
         double[][] waves;
         try {
-            waves = Program.separateChannelsDouble(audio, format.getChannels(), format.getSampleSizeInBits() / 8,
+            waves = AudioConverter.separateChannelsDouble(audio, format.getChannels(), format.getSampleSizeInBits() / 8,
                     format.isBigEndian(), format.isSigned, audioLen);
             if(shouldConvertSampleRate) {
                 int outputSampleRate = getOutputSampleRate();
                 for(int i = 0; i < waves.length; i++) {
-                    waves[i] = Program.convertSampleRate(waves[i], 1, (int)format.getSampleRate(),
+                    waves[i] = AudioConverter.convertSampleRate(waves[i], 1, (int)format.getSampleRate(),
                             outputSampleRate, true);
                 }
 

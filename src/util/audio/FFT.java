@@ -1,6 +1,5 @@
 package util.audio;
 
-import Rocnikovy_Projekt.Program;
 import org.jtransforms.fft.DoubleFFT_1D;
 
 import java.io.IOException;
@@ -695,7 +694,7 @@ public class FFT {
     public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                double[] result, int maxAbsoluteValue, boolean isSigned) {
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels) {
-            result[i] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i] = AudioConverter.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }
@@ -736,8 +735,8 @@ public class FFT {
                                                double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels * frameSize) {
-            valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
+            valInt = AudioConverter.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            result[i] = AudioConverter.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
         }
 
         fft.realForward(result);
@@ -815,9 +814,9 @@ public class FFT {
     public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                   double[] result, int maxAbsoluteValue, boolean isSigned) {
         for(int i = 0; i < result.length; i++, startIndex += numberOfChannels - 1) {
-            result[i++] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i++] = AudioConverter.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
             startIndex++;
-            result[i] = Program.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
+            result[i] = AudioConverter.normalizeToDouble(samples[startIndex], maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }
@@ -858,11 +857,11 @@ public class FFT {
                                                   double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
         int valInt;
         for(int i = 0; i < result.length; i++, startIndex += (numberOfChannels - 1) * frameSize) {
-            valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i++] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
+            valInt = AudioConverter.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            result[i++] = AudioConverter.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
             startIndex += frameSize;
-            valInt = Program.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
-            result[i] = Program.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
+            valInt = AudioConverter.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
+            result[i] = AudioConverter.normalizeToDouble(valInt, maxAbsoluteValue, isSigned);
         }
         fft.realForward(result);
     }
@@ -899,7 +898,7 @@ public class FFT {
             if(songParts[i].songPart == null) {
                 return null;
             }
-            int[] intSamples = Program.convertBytesToSamples(songParts[i].songPart, sampleSize, isBigEndian, isSigned);
+            int[] intSamples = AudioConverter.convertBytesToSamples(songParts[i].songPart, sampleSize, isBigEndian, isSigned);
 
             /*for(int j = 0; j < songParts[i].songPart.length; j++) {
                 System.out.println(intSamples[j]);
@@ -907,7 +906,7 @@ public class FFT {
                     System.out.println("Chyba");
                 }
             }*/
-            double[] normalizedSongPart = Program.normalizeToDoubles(intSamples, sampleSize * 8, isSigned);
+            double[] normalizedSongPart = AudioConverter.normalizeToDoubles(intSamples, sampleSize * 8, isSigned);
 //            for(int j = 0; j < normalizedSongPart.length; j++) {
 //                System.out.println(normalizedSongPart[j]);
 //            }
@@ -1039,7 +1038,7 @@ public class FFT {
 
         for(int index = 0, i = 0; i < results.length; i++, index += windowSizeInBytes) {
 //            System.out.println(i + ":" + results.length + ":" + samples.length + ":" + windowSizeInBytes + ":" + windowSize);
-            double[] arr = Program.normalizeToDoubles(samples, sampleSize, sampleSizeInBits,
+            double[] arr = AudioConverter.normalizeToDoubles(samples, sampleSize, sampleSizeInBits,
                     index, windowSize, isBigEndian, isSigned);
             fft.realForward(arr);
             FrequencyWithMeasure[] frequenciesWithMeasures = convertImagPartToRealReturnArrWithFrequenciesRealForward(arr,
@@ -1081,7 +1080,7 @@ public class FFT {
         for(int index = startIndex, i = 0; i < results.length; i++) {
             double[] arr = new double[windowSize];
 // TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
-            index = Program.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
+            index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
             for(int l = 0; l < arr.length; l++) {
 // TODO:                System.out.println(l + "\t" + arr[l]);
             }
@@ -1121,7 +1120,7 @@ public class FFT {
         double[] arr = new double[windowSize];
 
         for(int index = startIndex, i = 0; i < results.length; i++) {
-            index = Program.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
+            index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
             fft.realForward(arr);
             results[i] = convertResultsOfFFTToRealRealForward(arr);
         }

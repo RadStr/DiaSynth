@@ -1407,8 +1407,6 @@ public class AudioConverter {
                 numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
         return convertSampleRateImmediateVersion(filtered, sampleSize, numberOfChannels, oldSampleRate, newSampleRate, isBigEndian, isSigned);
     }
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */
     /////////////////// Deprecated methods

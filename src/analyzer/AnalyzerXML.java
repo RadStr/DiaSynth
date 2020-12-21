@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-// This is very old class so the design is kind of weird. We work with this class only in static way,
-// that means we are not working with instance of this class.
+// This is very old class so the design is kind of weird. We work with this class only in static way.
 public class AnalyzerXML {
 	private AnalyzerXML() {
 		// Can't make instance of this class
@@ -34,13 +33,11 @@ public class AnalyzerXML {
 		return xmlDoc;
 	}
 
-	// TODO: Predavat si ten callingFrame neni vubec idealni ... spravne by se mela vyhodit exception a ta se osetri v tom framu
-	// Kde uz ten frame vime
 	public static void setXMLDoc(String xmlFilename, JFrame callingFrame, String tagName) {
 		xmlDoc = loadXMLToDoc(xmlFilename, callingFrame, tagName);
 	}
 
-	// TODO: https://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
+	// a bit of inspiration https://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
 	public static void createXMLFile(String filename, Node node, JFrame callingFrame) {
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -49,7 +46,7 @@ public class AnalyzerXML {
 			transformer = transformerFactory.newTransformer();
 		} catch (TransformerConfigurationException e) {
 			MyLogger.logException(e);
-			new ErrorFrame(callingFrame, "Unknown error in createXMLFile"); // TODO:
+			new ErrorFrame(callingFrame, "Unknown error in createXMLFile");
 		}
 
 
@@ -67,9 +64,10 @@ public class AnalyzerXML {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
 			MyLogger.logException(e);
-			new ErrorFrame(callingFrame, "Unknown error in createXMLFile"); // TODO:
+			new ErrorFrame(callingFrame, "Unknown error in createXMLFile");
 		}
 	}
+
 
 	/**
 	 * Invalid nodes are the nodes which don't have any content - they are just indentation in the XML).
@@ -107,7 +105,7 @@ public class AnalyzerXML {
 		int len = list.getLength();
 		for (int i = 0; i < len; i++) {
 			Node node = list.item(i);
-			if (node.getNodeName().equals(name)) {            // TODO: Nevim jestli to najde to co ma
+			if (node.getNodeName().equals(name)) {
 				return node;
 			}
 		}
@@ -129,11 +127,8 @@ public class AnalyzerXML {
 		return -1;
 	}
 
-	// TODO: Umistit na lepsi misto ten koment.
-	// The attrName is in this cases redundant since all attributes are called "name" in our case, it is there just to make
-	// it more general
-	// TODO: Umistit na lepsi misto ten koment.
-
+	// The attrName is in most of these methods redundant since all attributes are called "name" in our case,
+	// it is there just to make it more general
 	public static List<String> getSongNames() {
 		return getInfoNodeValuesMatchingGivenAttribute("name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE);
 	}
@@ -289,17 +284,17 @@ public class AnalyzerXML {
 			dBuilder = dbFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e1) {
 			MyLogger.logException(e1);
-			new ErrorFrame(callingFrame, "Unknown error in loadXMLToDoc"); // TODO:
+			new ErrorFrame(callingFrame, "Unknown error in loadXMLToDoc");
 		}
 		Document document = null;
 		try {
 			document = dBuilder.parse(file);
 		} catch (SAXException e) {
 			MyLogger.logException(e);
-			new ErrorFrame(callingFrame, "SAX error");        // TODO: Jeste dat minuly frame
+			new ErrorFrame(callingFrame, "SAX error");
 		} catch (IOException e) {
 			MyLogger.logException(e);
-			new ErrorFrame(callingFrame, "IO error in loadXMLToDoc");        // TODO:
+			new ErrorFrame(callingFrame, "IO error in loadXMLToDoc");
 		}
 
 		document.getDocumentElement().normalize();
@@ -310,10 +305,9 @@ public class AnalyzerXML {
 	public static void addAnalyzedFileToXML(Document xmlDoc, List<Pair<String, String>> list, String mainTag, String underMainTag) {
 		ListIterator<Pair<String, String>> iter = list.listIterator();
 		if (iter.hasNext()) {
-			Pair<String, String> val;// TODO: // = iter.next();
+			Pair<String, String> val;
 			Node root = xmlDoc.getElementsByTagName(mainTag).item(0);
 			Element songElem = null;
-			Element elem;
 			if (root.getNodeType() == Node.ELEMENT_NODE) {
 				songElem = xmlDoc.createElement(underMainTag);
 				Element roote = (Element) root;
@@ -326,27 +320,7 @@ public class AnalyzerXML {
 			while (iter.hasNext()) {
 				val = iter.next();
 				addNewNode(songElem, val);
-
-
-
-
-
-				// TODO: DEBUG
-//				System.out.println("AnalyzerXML add:" + "\t" + val.getKey() + "\t" + val.getValue());
-				// TODO: DEBUG
-
-// TODO:				   e.setAttribute(val.getKey(), val.getValue());		   
 			}
-
-			// TODO: Musim to delat takhle kvuli problemum s genericnosti v jave
-	/*	   
-		   Element e = xmlDoc.createElement(list.get(0).getKey());
-		   e.setTextContent(list.get(0).getValue());
-		   
-		   for(int i = 1; i < list.size(); i++) {
-			   e.setAttribute(map[i].getKey(), map[i].getValue());
-		   }
-	*/
 		}
 	}
 
@@ -380,9 +354,6 @@ public class AnalyzerXML {
 		NodeList nList = xmlDoc.getElementsByTagName("song");
 		List<Pair<String, Node>> retList = new ArrayList<>();
 
-		// TODO: Java ...	   Pair<String, Node>[] retArr;// = new Pair<String, Node>[list.getLength()];
-		// TODO: Java	   retArr = new Pair[1];
-
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node n = nList.item(i);
 			NodeList childs = n.getChildNodes();
@@ -390,7 +361,7 @@ public class AnalyzerXML {
 			for (int j = 0; j < len; j++) {
 				Node n1 = childs.item(j);
 				if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
-					Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);        // TODO: nevim jestli getNodeName da to co ma
+					Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);
 					ProgramTest.debugPrint("Pair name:", getInfoNodeValue(n1));
 					retList.add(pair);
 				}

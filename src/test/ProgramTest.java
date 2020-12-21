@@ -175,10 +175,6 @@ public class ProgramTest {
         ProgramTest.debugPrint("65 milliseconds (alignment == 2):", Time.convertMillisecondsToTime(65, 2));
         System.exit(11111);
 
-//        new SubbandSplitter(8000, 200, 200, 6);
-//        System.exit(4242);
-        List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> list = AnalyzerPanel.createAndPrintDifList();
-        System.exit(4141);
 
 // TODO:
 // Just some tests to help me understand FFT better

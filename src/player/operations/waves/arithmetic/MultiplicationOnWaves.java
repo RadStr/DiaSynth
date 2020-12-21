@@ -15,7 +15,7 @@ public class MultiplicationOnWaves extends OperationOnWavesPlugin {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         ArithmeticOperation.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
+                                                      outputStartIndex, outputEndIndex, ArithmeticOperation.MULTIPLY);
     }
 
     @Override
@@ -35,6 +35,7 @@ public class MultiplicationOnWaves extends OperationOnWavesPlugin {
 
     @Override
     public String getPluginTooltip() {
-        return "Multiply input wave (the first wave) with the output wave (the second one) and stores result to the output wave";
+        return "Multiply input wave (the first wave) with the output wave (the second one) and " +
+               "stores result to the output wave";
     }
 }

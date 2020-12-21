@@ -14,7 +14,8 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
         double[] outputWave = output.getSong();
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
-        FillWaveWithOtherWaveOperation.fillArrayWithValues(inputWave, outputWave, inputStartIndex, inputEndIndex, outputStartIndex, outputEndIndex);
+        FillWaveWithOtherWaveOperation.fillArrayWithValues(inputWave, outputWave, inputStartIndex,
+                                                           inputEndIndex, outputStartIndex, outputEndIndex);
     }
 
 

@@ -15,7 +15,7 @@ public class AdditionOnWaves extends OperationOnWavesPlugin {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         ArithmeticOperation.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.PLUS);
+                                                      outputStartIndex, outputEndIndex, ArithmeticOperation.PLUS);
     }
 
     @Override

@@ -33,7 +33,8 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
         // If == then it is already stretched as much as it should be, don't do anything
         if(extreme != newAbsoluteMax && extreme != 0) {
             double ratio = newAbsoluteMax / extreme;
-            ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex, ratio, ArithmeticOperation.MULTIPLY);
+            ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex,
+                                                          ratio, ArithmeticOperation.MULTIPLY);
         }
     }
 
@@ -59,8 +60,8 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
     }
 
     /**
-     * Finds the absolute extreme, calls on minMax[0] and [1] Math.abs and on the result calls Math.max
-     * @param minMax contains min of the [start,end] of wave wave at minMax[0] and max at [1]
+     * Finds the absolute extreme, the bigger of the two values in absolute value.
+     * @param minMax contains min of the [start,end] of wave at [0] and max at [1]
      * @return
      */
     public static double findAbsoluteExtreme(double[] minMax) {

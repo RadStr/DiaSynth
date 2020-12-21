@@ -9,7 +9,8 @@ public class InvertOnWave implements OperationOnWavePluginIFace {
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] wave = audio.getSong();
         int len = endIndex - startIndex;
-        ArithmeticOperation.performOperationOnSamples(wave, wave, startIndex, startIndex, len, (double)-1, ArithmeticOperation.MULTIPLY);
+        ArithmeticOperation.performOperationOnSamples(wave, wave, startIndex, startIndex,
+                                                      len, (double)-1, ArithmeticOperation.MULTIPLY);
     }
 
     @Override

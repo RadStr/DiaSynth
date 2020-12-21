@@ -15,7 +15,7 @@ public class PowerOnWaves extends OperationOnWavesPlugin {
         inputEndIndex = getInputEndIndex();
         outputEndIndex = getOutputEndIndex();
         ArithmeticOperation.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
-            outputStartIndex, outputEndIndex, ArithmeticOperation.POWER);
+                                                      outputStartIndex, outputEndIndex, ArithmeticOperation.POWER);
     }
 
     @Override

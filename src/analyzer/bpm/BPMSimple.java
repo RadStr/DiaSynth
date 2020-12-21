@@ -14,14 +14,7 @@ public class BPMSimple {
                                  int sampleSize, int frameSize,
                                  int sampleRate, int mask, boolean isBigEndian, boolean isSigned,
                                  int windowsBetweenBeats) {
-       // TODO: DEBUG
-       double maxEnergy = Double.MIN_VALUE;
-       double minCoef = Double.MAX_VALUE;
-       double maxCoef = Double.MIN_VALUE;
-       double maxVariance = Double.MIN_VALUE;
-       // TODO: DEBUG
-
-       final int maxAbsValSigned = AudioUtilities.getMaxAbsoluteValueSigned(8 * sampleSize);     // TODO: Signed and unsigned variant
+       final int maxAbsValSigned = AudioUtilities.getMaxAbsoluteValueSigned(8 * sampleSize);
 
        int beatCount = 0;
        int sampleIndex = 0;
@@ -42,7 +35,7 @@ public class BPMSimple {
 
         double maxValueInEnergy = ((double)windowSize) * maxAbsValSigned * maxAbsValSigned;     // max energy
         double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
-        // TODO: It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
+        // It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
         maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
         // Just took 10000 because it worked quite nicely, but not for every sample rate,
         // so we have to multiply it with some value based on that
@@ -61,44 +54,14 @@ public class BPMSimple {
            variance /= maxValueInVariance;
 
            variance *= varianceMultFactor;
-
-           coef = -variance / maxValueInVariance + 1.4;        // TODO: pryc
-           coef = -0.0025714 * variance + 1.5142857;
-//            coef = -0.0025714 * maxValueInVariance * variance + 1.5142857;            // TODO: NE
-//            coef = -2.5714 * variance + 1.5142857;                                      // TODO: NE
-//            coef = -2.5714 * variance * 128 + 1.5142857;                              // TODO: NE - zmeni to - ale smerem nahoru, takze vlastne kdyz nad tim preymslim tak tohle naopak zvetsuje BPM a ne snizuje
-                                                                                       // TODO: Musel bych jeste posunout tu konstantu smerem vys
-//            coef = -2.5714 * variance * 1024 + 1.5142857;             // TODO: Poskoci o 10
-//            coef = -variance + 1.4;               // Gives a bit bigger results then the results should be
-           coef = -0.0025714 * variance + 1.5142857;
            coef = -0.0025714 * variance + 1.8;
 
-//            energyAvg = energyAvg / (windowSize * (1 << (sampleSize * 8)));
-           // TODO: DEBUG
-//            System.out.println("!!!!!!!!!!!!!!!!");
-//            System.out.println(maxValueInEnergy);
-//            System.out.println(":" + coef + ":\t" + maxValueInEnergy + ":\t" + (variance / (maxValueInEnergy * maxValueInEnergy)));
-//            System.out.println(currEnergy + ":\t" + coef * energyAvg + ":\t" + variance);
-//            System.out.println("!!!!!!!!!!!!!!!!");
-           // TODO: DEBUG
-// TODO:
            if(currEnergy > coef * energyAvg) {
                if(windowsFromLastBeat >= windowsBetweenBeats) {
                    beatCount++;
                    windowsFromLastBeat = -1;
                }
-
-               // TODO: DEBUG
-//                ProgramTest.debugPrint("TODO: TEST", currEnergy, coef, energyAvg, coef * energyAvg);
-               // TODO: DEBUG
            }
-
-           // TODO: DEBUG
-           minCoef = Math.min(coef, minCoef);
-           maxCoef = Math.max(coef, maxCoef);
-           maxEnergy = Math.max(energySum, maxEnergy);
-           maxVariance = Math.max(variance, maxVariance);
-// TODO: DEBUG
 
            // Again optimize the case when windows.length is power of 2
            if(windows.length % 2 == 0) {
@@ -112,9 +75,7 @@ public class BPMSimple {
                energySum = energySum - windows[oldestIndexInWindows] + currEnergy;
                windows[oldestIndexInWindows] = currEnergy;
            }
-           // TODO: DEBUG
-//            ProgramTest.debugPrint("Window in simple BPM:", windows[oldestIndexInWindows]);          // TODO: DEBUG
-           // TODO: DEBUG
+
            oldestIndexInWindows++;
            sampleIndex = nextSampleIndex;
            nextSampleIndex += windowSizeInBytes;
@@ -122,11 +83,6 @@ public class BPMSimple {
        }
 
         int bpm = BPMUtils.convertBeatsToBPM(beatCount, samples.length, sampleSize, numberOfChannels, sampleRate);
-
-       // TODO: DEBUG
-//         MyLogger.log("END OF BPM SIMPLE:\t" + minCoef + "\t" + maxCoef + "\t" + maxEnergy + "\t" + maxVariance, 0);
-       ProgramTest.debugPrint("END OF BPM SIMPLE:", minCoef, maxCoef, maxEnergy, maxVariance);
-        // TODO: DEBUG
         return bpm;
     }
 

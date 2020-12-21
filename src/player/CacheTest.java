@@ -3,7 +3,7 @@ package player;
 import test.ProgramTest;
 import player.wave.WavePanel;
 
-public class Test {
+public class CacheTest {
 
     public static boolean testAll() {
         boolean result = true;

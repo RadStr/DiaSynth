@@ -18,15 +18,10 @@ import java.awt.event.ActionListener;
 public class AudioControlPanel extends JPanel {
     public AudioControlPanel(ActionListener playButtonActionListener, VolumeControlGetterIFace volumeControlGetter) {
         this.volumeControlGetter = volumeControlGetter;
-        // TODO: make the path relative
         String resourcesDir = "resources/images/";
 
         this.setLayout(new GridLayout(0, 2));
-        // TODO: PROGAMO
         insideControlPanel = new JPanel(new FlowLayout());
-//        insideControlPanel = new JPanel();
-//        insideControlPanel.setLayout(new BoxLayout(insideControlPanel, BoxLayout.LINE_AXIS));
-        // TODO: PROGAMO
         buttons = new JButton[2];
         if (PluginLoader.isJar(getClass())) {
             playButton = new BooleanButtonWithImages(true,
@@ -38,11 +33,8 @@ public class AudioControlPanel extends JPanel {
                     resourcesDir + "PlayButtonTrans.png",
                     resourcesDir + "PauseButtonTrans.png");
         }
-        // TODO: Don't know which one is better
 
         playButton.addActionListener(playButtonActionListener);
-
-
         buttons[0] = playButton;
         playButton.setToolTipText("Play/Pause button");
 
@@ -88,8 +80,8 @@ public class AudioControlPanel extends JPanel {
         if(masterGainControl != null) {
             // maxGain is 0, because with sound boost, there could be clipping.
             double maxGain = 0;
-            // minGain is / 2 because then the volume is too low and for the sound to be heard there is needed way to big sound amplification from speakers.
-            // TODO: But it doesn't have to be / 2
+            // minGain is / 2 because then the volume is too low and for the sound to be heard
+            // way too big sound amplification from speakers is needed for it to be audible.
             double minGain = masterGainControl.getMinimum() / 2;
             double minGainAbs = Math.abs(minGain);
             double range = maxGain + minGainAbs;

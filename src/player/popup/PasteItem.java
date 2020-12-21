@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class PasteItem extends JMenuItem {
     public PasteItem(int copyCount) {
-        super(Integer.toString(copyCount) + "x");
+        super(copyCount + "x");
         this.copyCount = copyCount;
     }
 

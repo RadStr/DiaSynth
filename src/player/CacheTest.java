@@ -3,7 +3,14 @@ package player;
 import test.ProgramTest;
 import player.wave.WavePanel;
 
+/**
+ * Not used anymore, but may be used in future, when we decide to finish the caching of waves.
+ */
 public class CacheTest {
+    public static void main(String[] args) {
+        ProgramTest.debugPrint("Cache test:", testAll());
+    }
+
 
     public static boolean testAll() {
         boolean result = true;

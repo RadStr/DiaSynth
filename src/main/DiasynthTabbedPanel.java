@@ -87,7 +87,8 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
             case 2:
                 return synthTab;
             default:
-                MyLogger.logWithoutIndentation("Invalid selected index inside method getPanelFromSelectedIndex in DiasynthTabbedPanel class");
+                MyLogger.logWithoutIndentation("Invalid selected index inside method " +
+                                               "getPanelFromSelectedIndex in DiasynthTabbedPanel class");
                 System.exit(15);
                 return null;
         }

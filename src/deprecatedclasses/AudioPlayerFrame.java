@@ -101,15 +101,11 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 //        // TODO: Vymazat, jen takhle ted pro testovani
 //        DoubleWave[] songs = new DoubleWave[3];
 //        String testSongPathTODO;
-//        if(DEBUG_CLASS.NTB_PATH) {
-//            testSongPathTODO = "C:\\Users\\Radek\\Documents\\Anthrax Worship music\\01-Anthrax _ Worship";          // DrawValuesSupplierAggregated song
-//        }
-//        else {
 //            try {
 //                for(int i = 0; i < songs.length; i++) {
 //                    switch(i % 3) {
 //                        case 0:
-//                            testSongPathTODO = "D:\\MP3 HEAVY METAL\\Anthrax\\Anthrax Worship music\\01-Anthrax _ Worship";          // DrawValuesSupplierAggregated song
+//                            testSongPathTODO = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\ruzneklavesy.wav";         // DrawValuesSupplierAggregated song
 //                            p.setVariables(testSongPathTODO, true);
 //                            p.convertToMono();
 //                            doubleWave = new DoubleWave(p, false);
@@ -159,11 +155,7 @@ public class AudioPlayerFrame extends FrameWithFocusControl {
 //                e.printStackTrace();
 //                System.exit(4879);
 //            }
-//        }
-//        //testSongPathTODO = "D:\\MP3 HEAVY METAL\\Anthrax\\Anthrax Worship music\\Anthrax-Worship Music (2011)(wav)(peko)\\04-Anthrax _ Fight 'Em Til You Can't.wav";
-//        //testSongPathTODO  = "C:\\Users\\Radek\\Documents\\Anthem Of The Peaceful Army (Album)\\01 Age Of Man.mp3";
-//        //testSongPathTODO = "D:\\MP3 HEAVY METAL\\Opeth\\Opeth Studio Discography\\1996 - Morningrise\\01 Advent.mp3";   // Long song
-//        //testSongPathTODO = "D:\\MP3 HEAVY METAL\\Napalm death\\Napalm Death\\1987 - Scum\\12 You Suffer.mp3";           // Very short song
+//          testSongPathTODO = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\ruzneklavesy.wav";
 //    }
 //
 //

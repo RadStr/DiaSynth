@@ -1,6 +1,7 @@
 package main;
 
 import plugin.util.PluginLoader;
+import util.swing.ErrorFrame;
 import util.swing.FrameWithFocusControl;
 import util.logging.MyLogger;
 
@@ -40,10 +41,12 @@ public class Main {
      * the event dispatch thread.
      */
     private static void createAndShowGUI() {
+        FrameWithFocusControl frame = null;
+
         try {
             //Create and set up the window.
             MyLogger.log("Creating frame", 1);
-            FrameWithFocusControl frame = new FrameWithFocusControl("DiaSynth") {
+            frame = new FrameWithFocusControl("DiaSynth") {
                 private Dimension minSize = new Dimension(1024, 768);
 
                 @Override
@@ -78,7 +81,13 @@ public class Main {
             MyLogger.logWithoutIndentation("UNEXPECTED EXCEPTION INSIDE PROGRAM ... ENDING PROGRAM");
             MyLogger.logException(e);
             MyLogger.logWithoutIndentation("PROGRAM ENDED");
-            System.exit(-111);
+            if(frame != null) {
+                new ErrorFrame(frame, "UNEXPECTED EXCEPTION - check log file");
+            }
+            else {
+                MyLogger.logWithoutIndentation("Program ended before the frame was created.");
+                System.exit(-111);
+            }
         }
     }
 }

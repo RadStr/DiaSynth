@@ -6,5 +6,4 @@ package debug;
  */
 public class DEBUG_CLASS {
     public static final boolean DEBUG = false;
-    public static final boolean NTB_PATH = false;
 }

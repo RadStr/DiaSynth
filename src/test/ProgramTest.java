@@ -308,7 +308,7 @@ public class ProgramTest {
 //
 //
 //        // Spectrogram test 2
-//        String songPath = "C:\\Users\\Radek\\Documents\\Anthem Of The Peaceful Army (Album)\\01 Age Of Man.mp3";
+//        String songPath = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\ruzneklavesy.wav";
 //        windowSize = 256;
 //        windowShift = windowSize;
 //        windowShift = (int)(windowSize * 0.7);

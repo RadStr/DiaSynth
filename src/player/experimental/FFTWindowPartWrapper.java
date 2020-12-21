@@ -5,29 +5,20 @@ import java.awt.*;
 
 public class FFTWindowPartWrapper extends DrawWrapperBase {
     public FFTWindowPartWrapper(FFTWindowRealAndImagWrapper controlPanel,
-                                double[] audio,
                                 int windowSize,
-                                int startIndex,
                                 int sampleRate,
                                 boolean isEditable,
                                 Color backgroundColor,
                                 boolean shouldDrawLabelsAtTop) {
-        this(new FFTWindowPartPanel(controlPanel, audio, windowSize, startIndex,
-                        sampleRate, isEditable, backgroundColor, shouldDrawLabelsAtTop),
-                -1, 1);
+        this(new FFTWindowPartPanel(controlPanel, windowSize, sampleRate, isEditable,
+                                    backgroundColor, shouldDrawLabelsAtTop), -1, 1);
     }
 
-    public FFTWindowPartWrapper(FFTWindowRealAndImagWrapper controlPanel,
-                                double[] audio,
-                                int windowSize,
-                                int startIndex,
-                                double freqJump,
-                                boolean isEditable,
-                                Color backgroundColor,
+    public FFTWindowPartWrapper(FFTWindowRealAndImagWrapper controlPanel, int windowSize,
+                                double freqJump, boolean isEditable, Color backgroundColor,
                                 boolean shouldDrawLabelsAtTop) {
-        this(new FFTWindowPartPanel(controlPanel, audio, windowSize, startIndex,
-                freqJump, isEditable, backgroundColor, shouldDrawLabelsAtTop),
-                -1, 1);
+        this(new FFTWindowPartPanel(controlPanel, windowSize, freqJump, isEditable, backgroundColor,
+                                    shouldDrawLabelsAtTop), -1, 1);
     }
 
     private FFTWindowPartWrapper(FFTWindowPartPanel fftWindowPartPanel, double minValue, double maxValue) {

@@ -6,19 +6,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
-    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
-                              int startIndex, int sampleRate, boolean isEditable,
+    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, int windowSize,
+                              int sampleRate, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        this(controlPanel, song, windowSize, startIndex,
-                AudioUtilities.computeFreqJump(sampleRate, windowSize),
-                isEditable, backgroundColor, shouldDrawLabelsAtTop);
+        this(controlPanel, windowSize, AudioUtilities.computeFreqJump(sampleRate, windowSize),
+             isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
-    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, double[] song, int windowSize,
-                              int startIndex, double freqJump, boolean isEditable,
+    public FFTWindowPartPanel(FFTWindowRealAndImagWrapper controlPanel, int windowSize,
+                              double freqJump, boolean isEditable,
                               Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(song, windowSize, startIndex, freqJump, isEditable,
-                true, backgroundColor, shouldDrawLabelsAtTop, true);
+        super(windowSize, freqJump, isEditable, true,
+              backgroundColor, shouldDrawLabelsAtTop, true);
         this.controlPanel = controlPanel;
     }
 
@@ -49,8 +48,8 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
         }
 
 
-        return new FFTWindowPartPanel(controlPanel, null, windowSize, -1, freqJump,
-                getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
+        return new FFTWindowPartPanel(controlPanel, windowSize, freqJump, getIsEditable(),
+                                      getBackgroundColor(), getShouldDrawLabelsAtTop());
     }
 
 

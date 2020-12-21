@@ -23,10 +23,10 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                                        Color backgroundColorRealPart, Color backgroundColorImagPart,
                                        boolean shouldDrawLabelsAtTop) {
         // I just take the bins before nyquist for real and imaginary part respectively.
-        realPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
-                isEditable, backgroundColorRealPart, shouldDrawLabelsAtTop);
-        imagPartPanel = new FFTWindowPartWrapper(this, song, windowSize, startIndex, sampleRate,
-                isEditable, backgroundColorImagPart, shouldDrawLabelsAtTop);
+        realPartPanel = new FFTWindowPartWrapper(this, windowSize, sampleRate, isEditable,
+                                                 backgroundColorRealPart, shouldDrawLabelsAtTop);
+        imagPartPanel = new FFTWindowPartWrapper(this, windowSize, sampleRate, isEditable,
+                                                 backgroundColorImagPart, shouldDrawLabelsAtTop);
 
         int binCount = FFT.getBinCountRealForward(windowSize);
         fftResult = new double[2 * windowSize];     // 2* because we will use complex FFT

@@ -8,23 +8,21 @@ import util.audio.FFT;
 import java.awt.*;
 
 public abstract class FFTWindowPanelAbstract extends DrawPanel {
-    public FFTWindowPanelAbstract(double[] song, int windowSize, int startIndex,
-                                  int sampleRate, boolean isEditable, boolean areValuesSigned,
+    public FFTWindowPanelAbstract(int windowSize, int sampleRate,
+                                  boolean isEditable, boolean areValuesSigned,
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {
-        this(song, windowSize, startIndex,
-                AudioUtilities.computeFreqJump(sampleRate, windowSize),
-                isEditable, areValuesSigned, backgroundColor, shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
+        this(windowSize, AudioUtilities.computeFreqJump(sampleRate, windowSize), isEditable,
+             areValuesSigned, backgroundColor, shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
     }
 
-    public FFTWindowPanelAbstract(double[] song, int windowSize,
-                                  int startIndex, double freqJump,
+    public FFTWindowPanelAbstract(int windowSize, double freqJump,
                                   boolean isEditable, boolean areValuesSigned,
                                   Color backgroundColor, boolean shouldDrawLabelsAtTop,
                                   boolean shouldDrawLineInMiddle) {
         super(FFT.getBinCountRealForward(windowSize), "Frequency",
-                isEditable, areValuesSigned, false, backgroundColor, shouldDrawLabelsAtTop,
-                shouldDrawLineInMiddle);
+              isEditable, areValuesSigned, false, backgroundColor,
+              shouldDrawLabelsAtTop, shouldDrawLineInMiddle);
         this.WINDOW_SIZE = windowSize;
         this.FREQ_JUMP = freqJump;
         int binCount = FFT.getBinCountRealForward(windowSize);
@@ -48,7 +46,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
 
 
-    // TODO: NORM
+
     //The normalization is quite problematic, I am still not sure what is the right way to solve it.
     // Either like this where I just divide (multiply before IFFT) by 2 * windowSize or
     // just divide everything except the first bin by windowSize and the 0th bin divide by 2 * windowSize.

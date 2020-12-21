@@ -22,8 +22,8 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
                           boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
-        super(song, windowSize, startIndex, freqJump,
-                isEditable, false, backgroundColor, shouldDrawLabelsAtTop, false);
+        super(windowSize, freqJump, isEditable, false,
+              backgroundColor, shouldDrawLabelsAtTop, false);
 
         if(song != null) {
             FFT.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);

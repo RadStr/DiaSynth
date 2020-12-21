@@ -1,7 +1,5 @@
 package deprecatedclasses;
 
-import player.experimental.TextFieldCallbackIFace;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 

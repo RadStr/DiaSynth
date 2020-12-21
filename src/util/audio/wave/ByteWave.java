@@ -485,7 +485,7 @@ public class ByteWave {
      * @return Returns boolean based on the output of setVariables
      */
     public boolean setVariablesAndWriteValues(File file, boolean setSong) throws IOException {
-        if(setVariables(file, setSong)) {
+        if(loadSong(file, setSong)) {
             writeVariables();
             return true;
         }
@@ -501,7 +501,7 @@ public class ByteWave {
      * @return Returns boolean based on the output of setVariables
      */
     public boolean setVariablesAndWriteValues(String path, boolean setSong) throws IOException {
-        if(setVariables(path, setSong)) {
+        if(loadSong(path, setSong)) {
             writeVariables();
             return true;
         }
@@ -517,7 +517,7 @@ public class ByteWave {
      * @throws IOException is thrown if there was problem with reading the info from the file.
      * @return Returns true if there was no problem with file, false if it couldn't be read (for example it wasn't audio).
      */
-    public boolean setVariables(String path, boolean setSong) throws IOException {
+    public boolean loadSong(String path, boolean setSong) throws IOException {
         setNameVariables(path);
         if(!setFormatAndStream(path)) {
             return false;
@@ -547,7 +547,7 @@ public class ByteWave {
      * @throws IOException is thrown if there was problem with reading the info from the file.
      * @return Returns true if there was no problem with file, false if it couldn't be read (for example it wasn't audio).
      */
-    public boolean setVariables(File file, boolean setSong) throws IOException {
+    public boolean loadSong(File file, boolean setSong) throws IOException {
         setNameVariables(file);
         if(!setFormatAndStream(file)) {
             return false;

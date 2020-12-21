@@ -979,7 +979,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
 
-    private Point selectedPanel;      // Micro-optim don't have to create array on every call
+    private Point selectedPanel;      // Micro-optim don't have to create point on every call
     /**
      * Finds the static panel which contains point at location (x, y) and returns the top left location of that panel.
      * Returns null if (x, y) is not contained in any panel.

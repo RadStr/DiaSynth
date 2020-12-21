@@ -364,7 +364,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         ByteWave byteWave = new ByteWave();
 
         try {
-            if(!byteWave.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.loadSong(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
@@ -398,7 +398,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         list.add(pair);
 
         try {
-            if(!byteWave.setVariables(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.loadSong(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;

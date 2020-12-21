@@ -26,7 +26,8 @@ public class DecibelMeterMain {
         channelSamples = new double[newChannelCount];
     }
 
-    // Play with - old value was 96, but I would need to do some averaging to make it work, it just flashes too quick
+    // Parameter to play with - old value was 96, but I would need to do some averaging to make it work.
+    // It just flashes too quick when it is equal to 96.
     public static final int DECIBEL_METER_TIMER_DELAY = 128;
 
     public void setDecibelMeter(SamplesGetterIFace mainClass) {

@@ -145,10 +145,14 @@ public class DecibelMeter extends JPanel {
 
 
             for (int i = 0; i < decibels.length; i++, currY = nextY, nextY += yJump) {
-                decibels[i] = 20 * Math.log10(Math.abs(samples[i]) / 1);     // Math.abs because log is defined only for >0 numbers
+				// Math.abs because log is defined only for >0 numbers
+				// The reference amplitude is 1 - and since division by 1 is neutral, there is no need to divide by 1
+                decibels[i] = 20 * Math.log10(Math.abs(samples[i]));
                 int rectangleHeight = ((int)nextY - (int)currY);
                 g.setColor(Color.blue);
-                decibelsWidths[i] = (int) (w * (decibels[i] / MIN_DECIBEL));      // if sample == 0 then decibels == -infinity then result of this is infinity
+
+				// if sample == 0 then decibels == -infinity then result of this is infinity
+                decibelsWidths[i] = (int) (w * (decibels[i] / MIN_DECIBEL));
                 decibelsWidths[i] = Math.min(decibelsWidths[i], w);
                 g.fillRect(0, (int) currY, w - decibelsWidths[i], rectangleHeight);
                 g.setColor(Color.black);

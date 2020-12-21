@@ -224,19 +224,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
             }
         }
         else if(newValues.length > outArr.length) {
-            WavePanel.findAveragesInValues(newValues, outArr,
-                    0, 0, newValues.length, outArr.length);
-
-            // TODO: DEBUG
-//            int index = WavePanel.findAveragesInValues(newValues, outArr,
-//                    0, 0, newValues.length, outArr.length);
-//            ProgramTest.debugPrint("Out index:", index, outArr.length);
-//            for(int i = 0; i < outArr.length; i++) {
-//                ProgramTest.debugPrint(i + ":", outArr[i]);
-//            }
-//
-//            System.exit(454);
-            // TODO: DEBUG
+            WavePanel.findAveragesInValues(newValues, outArr, 0,
+                                          0, newValues.length, outArr.length);
         }
         else {
             System.arraycopy(newValues, 0, outArr, 0, outArr.length);
@@ -289,10 +278,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     protected void normalizeAndSetDrawValues() {
         // Normalization and getting string representation
         for (int i = 0; i < DRAW_VALUES.length; i++) {
-            // This 2 lines are from the book Computer music synthesis, composition and performance by Dodge Jerse,
-            // but the factor of 4 seems to be redundant, because when I remove them then the maximum possible value is 1.
-//            fftMeasures[i] *= 2;
-//            fftMeasures[i] /= (fftMeasures.length / 2);
             setDrawValue(i, normalizeValue(DRAW_VALUES[i]));
         }
     }
@@ -307,7 +292,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
             setBinValue(bin, p.y);
         } else {
-            //jumpOverMultipleBinsSimple(bin, p.y);
             jumpOverMultipleBinsAdvanced(bin, p);
         }
 
@@ -339,18 +323,12 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         if(bin < selectedBin) {
             jump = (p.y - oldMouseLoc.y) / (double)(selectedBin - bin);
-            // TODO: DEBUG
-//            System.out.println("Y!!!!!!!\t" + y);
-            // TODO: DEBUG
             for (int i = selectedBin; i >= bin; i--, y += jump) {
                 setBinValue(i, (int)y);
             }
         }
         else {
             jump = (p.y - oldMouseLoc.y) / (double)(bin - selectedBin);
-            // TODO: DEBUG
-//            System.out.println("Y!!!!!!!\t" + y);
-            // TODO: DEBUG
             for (int i = selectedBin; i <= bin; i++, y += jump) {
                 setBinValue(i, (int)y);
             }
@@ -395,15 +373,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         this.setToolTipText(tooltip.toString());
     }
-
-
-    // TODO: Asi vymazat
-//    protected abstract void setBinToolTip(String binString);
-//
-//    protected abstract void setMeasureToolTip(String measure);
-//
-//    // TODO: AAA - setFrequencyToolTip
-//    protected abstract void setBinInfoToolTip(String info);
 
 
     private void setBinToolTip(String binString) {
@@ -470,7 +439,8 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     public final boolean DRAW_LINE_IN_MIDDLE;
 
-    // TODO: Possible optimisation by redrawing only the chosen bin, or adjacent binIndices
+    // Possible optimisation by redrawing only the chosen bin, or adjacent binIndices,
+    // but there is no need to that, it is fast enough.
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -534,57 +504,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         ProgramTest.debugPrint("Insets:", topFrame.getHeight() - frameInsets.top - frameInsets.bottom, contentPane.getHeight());
         // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
         prefSize.height = contentPane.getHeight() - frameInsets.top - frameInsets.bottom;
-
-
-//        Container parent = getParent();
-//        Container grandParent = parent.getParent();
-//        Container grandGrandParent = grandParent.getParent();
-//        if(parent == SwingUtilities.getWindowAncestor(this) || grandParent == SwingUtilities.getWindowAncestor(this) ||
-//                grandGrandParent == SwingUtilities.getWindowAncestor(this)) {
-//            System.exit(4578);
-//        }
-//        if(parent == null) {
-//
-//        }
-//        else {
-//
-//        }
-//
-//        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        JPanel content = (JPanel)topFrame.getContentPane();
-//
-////        ProgramTest.debugPrint("LOCATION:", getLocation());
-////        prefSize.width = topFrame.getWidth() / 2;
-////        prefSize.height = topFrame.getHeight() / 2;
-////        prefSize =
-////
-////        Dimension prefSize = super.getPreferredSize();
-////        if(prefSize.width < minSize.width || prefSize.height < minSize.height) {
-////            return minSize;
-////        }
-////
-//////        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//////        prefSize.width = topFrame.getWidth() / 2;
-//////        prefSize.height = topFrame.getHeight() / 2;
-////////        prefSize.width = Math.max(prefSize.width, 1);
-////////        prefSize.height = Math.max(prefSize.height, 1);
-////////        prefSize.width = Math.max(1, prefSize.width);
-////////        prefSize.height = Math.max(1, prefSize.height);
-//////        ProgramTest.debugPrint("Testing pref size drawing", prefSize);
-//////
-////////        prefSize.width += 100;
-////////        prefSize.height += 100;
-//////
-////////        prefSize.width = 1200;
-////////        prefSize.height = 1200;
-
         return prefSize;
-
-
-        //return new Dimension(1200, 1200);
-        //return new Dimension(getWidth(), getHeight() / 2);
-        //return new Dimension(100, 100);
-        //return new Dimension(0, 0);
     }
 
 
@@ -678,9 +598,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
                 fontSize = SwingUtils.findMaxFontSize(fontSize, g, labels, textBinWidth - textWhitespace, Integer.MAX_VALUE, n);
                 n *= 2;
                 textBinWidth *= 2;
-// TODO: DEBUG
-//            System.out.println("FT:" + "\t" + fontSize);
-// TODO: DEBUG
             }
             n /= 2;
             textBinWidth /= 2;
@@ -706,9 +623,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
         }
 
 
-//        System.out.println("MAX:\t" + maxEnergy);
-//        System.out.println(selectedBin);
-
 
         int binWidthWithSpace = binWidth + binsWhitespace;
         int indexToStartAddingPixels = binCount - freePixels;
@@ -729,31 +643,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
         drawLabels(indexToStartAddingPixels, FIRST_BIN_START_X, binWidthWithSpace, binWidth, enoughSpaceForLabels,
                 textBinWidth, h, g, n, labels, DRAW_VALUES.length, ALLOW_DIFFERENT_WIDTH_BINS, shouldDrawLabelsAtTop);
-//        if(enoughSpaceForLabels) {
-//            if (indexToStartAddingPixels < fftMeasures.length) {
-//                isFirstAdded = true;
-//                binWidth--;
-//                binWidthWithSpace--;
-//            }
-//            for (int bin = 0, currX = 0; bin < fftMeasures.length; bin++, currX += binWidthWithSpace) {
-//                if (bin >= indexToStartAddingPixels && isFirstAdded) {
-//                    isFirstAdded = false;
-//                    binWidth++;
-//                    binWidthWithSpace++;
-//                }
-//
-//
-//                Color c = Color.black;
-//                if (bin == fftMeasures.length - 1) {
-//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - 3 * textBinWidth / 4, textBinWidth, h);
-//                } else if (bin == 0) {
-//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 4, textBinWidth, h);
-//                } else if (bin % n == 0) {
-//                    // Draw frequency
-//                    ByteWave.drawStringWithSpace(g, c, binFreqs[bin], currX - textBinWidth / 2, textBinWidth, h);
-//                }
-//            }
-//        }
     }
 
     private void drawBinMain(Graphics g, int bin, int currX, int binWidth, int h) {

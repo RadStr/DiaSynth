@@ -25,7 +25,8 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
     private void createLabels(int len) {
         labels = new String[len];
         double val = -1;
-        double valJump = 2.0d / (len - 1);           // 2 Because I have range -1 to 1 I need to split it to the labels and -1 because the first doesn't count
+        // 2 Because we have range -1 to 1 I need to split it to the labels and -1 because the first doesn't count
+        double valJump = 2.0d / (len - 1);
         for(int i = 0; i < labels.length; i++, val += valJump) {
             labels[i] = String.format("%.2f", val);
         }

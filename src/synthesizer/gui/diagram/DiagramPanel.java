@@ -983,9 +983,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     /**
      * Finds the static panel which contains point at location (x, y) and returns the top left location of that panel.
      * Returns null if (x, y) is not contained in any panel.
-     * @param x
-     * @param y
-     * @return
+     * @param x is the absolute x coordinate
+     * @param y is the absolute y coordinate
+     * @return Returns absolute coordinates, not relative.
      */
     private Point getStaticPanelLocation(int x, int y) {
         int width = currentPanelSize.getFirst();

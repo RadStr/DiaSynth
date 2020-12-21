@@ -189,18 +189,21 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                 int sampleShift = lastPushedSample[currentChannel] - lastDrawnSample[currentChannel];
                 drawValuesWrappers[currentChannel].shiftBuffer((int) (sampleShift / samplesPerPixel));
 
-                if(currentChannel % 2 == 0) {
-                    g.setColor(Color.LIGHT_GRAY);
-                }
-                else {
-                    g.setColor(Color.gray);
-                }
+
+
+                g.setColor(Color.LIGHT_GRAY);   // It is better to have just one color
+//                if(currentChannel % 2 == 0) {
+//                    g.setColor(Color.LIGHT_GRAY);
+//                }
+//                else {
+//                    g.setColor(Color.gray);
+//                }
 
                 if (currentChannel != drawValuesWrappers.length - 1) {
                     g.fillRect(0, currY, w, h);
                     drawValuesWrappers[currentChannel].drawSamples(g, w, h, currY);
                     currY += h;
-                    g.setColor(Color.PINK);
+                    g.setColor(getBackground());
                     g.fillRect(0, currY, w, VERTICAL_SPACE);
                     currY += VERTICAL_SPACE;
                 } else {

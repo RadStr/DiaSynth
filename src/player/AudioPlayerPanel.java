@@ -3885,19 +3885,19 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void addPlugins(JMenu menu) {
-        addWithWavePlugins(menu);
+        addTwoInputWavesPlugins(menu);
         menu.addSeparator();
-        addWithoutWavePlugins(menu);
+        addSingleInputWavePlugins(menu);
     }
 
-    private void addWithWavePlugins(JMenu menu) {
+    private void addTwoInputWavesPlugins(JMenu menu) {
         List<OperationOnWavesPluginIFace> plugins = OperationOnWavesPluginIFace.loadPlugins();
         for(OperationOnWavesPluginIFace plugin : plugins) {
             addPlugin(plugin, menu);
         }
     }
 
-    private void addWithoutWavePlugins(JMenu menu) {
+    private void addSingleInputWavePlugins(JMenu menu) {
         List<OperationOnWavePluginIFace> plugins = OperationOnWavePluginIFace.loadPlugins();
         for(OperationOnWavePluginIFace plugin : plugins) {
             addPlugin(plugin, menu);
@@ -3924,15 +3924,19 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 Class<?> clazz = plugin.getClass();
                 try {
                     Constructor<?> constructor = clazz.getConstructor();
-                    // This is already checked when creating the first instance (pluginToAdd), only way this would fail would be when the source codes changes during runtime
+                    // This is already checked when creating the first instance (pluginToAdd),
+                    // only way this would fail would be when the source code changes during runtime
                     if (constructor == null) {
-                        System.out.println("Doesn't have constructor without parameters - inside method addPlugin in action listener");
+                        MyLogger.log("Error in action listener inside " +
+                                        "addPlugin(OperationOnWavePluginIFace pluginToAdd, JMenu menu): " +
+                                        pluginToAdd.getPluginName() + "\t(Doesn't have constructor without parameters)",
+                                0);
                         return;
                     }
                     plugin = (OperationOnWavePluginIFace) clazz.newInstance();
                 }
                 catch(Exception exception) {
-                    exception.printStackTrace();
+                    MyLogger.logException(exception);
                     return;
                 }
                 // To reset the plugin
@@ -3982,13 +3986,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     Constructor<?> constructor = clazz.getConstructor();
                     // This is already checked when creating the first instance (pluginToAdd), only way this would fail would be when the source codes changes during runtime
                     if (constructor == null) {
-                        System.out.println("Doesn't have constructor without parameters - inside method addPlugin in action listener");
+                        MyLogger.log("Error in action listener inside " +
+                                "addPlugin(OperationOnWavesPluginIFace pluginToAdd, JMenu menu): " +
+                                pluginToAdd.getPluginName() + "\t(Doesn't have constructor without parameters)",
+                                0);
                         return;
                     }
                     plugin = (OperationOnWavesPluginIFace) clazz.newInstance();
                 }
                 catch(Exception exception) {
-                    exception.printStackTrace();
+                    MyLogger.logException(exception);
                     return;
                 }
                 // To reset the plugin

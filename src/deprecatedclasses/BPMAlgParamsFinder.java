@@ -30,28 +30,7 @@ public class BPMAlgParamsFinder {
 
     public static List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> createAndPrintDifList() {
         List<Pair<String, Pair<String, Integer>>> bpmList = new ArrayList<>();
-        // the total length in files is 16 - 1 + 10 = 25 -> TODO:
-        // trva to minimalne 8x tolik - vzhledem k tomu ze ty ostatni
-        // testovaci stopy jsou delsi nez 1 minuta takze to trva 8 * 4 = 32x dyl + nejaky drobny, takze 35x rekneme
-        //
-        String[] paths = new String[] {
-                "C:\\Users\\Radek\\Documents\\bpmTestFiles",                                                        //0
-                "C:\\Users\\Radek\\Documents\\Anthem Of The Peaceful Army (Album)\\09 Brave New World.mp3",
-                "C:\\Users\\Radek\\Documents\\Anthem Of The Peaceful Army (Album)\\01 Age Of Man.mp3",
-                "C:\\Users\\Radek\\Documents\\Anthem Of The Peaceful Army (Album)\\03 When The Curtain Falls.mp3",
-                "D:\\MP3 HEAVY METAL\\Iron Maiden\\1981 Iron Maiden - Killers\\02 - Wrathchild.mp3",                //4
-                "D:\\MP3 HEAVY METAL\\Iron Maiden\\1981 Iron Maiden - Killers\\05 - Genghis Khnan.mp3",
-                "D:\\MP3 HEAVY METAL\\Iron Maiden\\1981 Iron Maiden - Killers\\10 - Drifter.mp3",
-                "D:\\MP3 HEAVY METAL\\Ghost\\Ghost - Prequelle (Deluxe 2018) [320]\\03. Faith.mp3",
-                "D:\\MP3 HEAVY METAL\\Ghost\\Ghost - Prequelle (Deluxe 2018) [320]\\06. Dance Macabre.mp3",         //8
-                "D:\\MP3 HEAVY METAL\\Ghost\\Ghost - Prequelle (Deluxe 2018) [320]\\11.  It's a Sin.mp3",
-                "D:\\MP3 HEAVY METAL\\Burzum\\1992 - Burzum (Deathlike Silence Productions)\\08 - My Journey To The Stars.mp3",
-                "D:\\MP3 HEAVY METAL\\Ennio Morricone\\Ennio Morricone - Best of the West by r.rickie\\1965 - Pro pár dolarů navíc.mp3",
-                "D:\\MP3 HEAVY METAL\\Abba\\1975 - ABBA\\01 Mamma Mia.mp3",                                         //12
-                "D:\\MP3 HEAVY METAL\\Abba\\1974 - WATERLOO\\01 Waterloo.mp3",
-                "D:\\MP3 HEAVY METAL\\Talking heads\\(01) TALKING HEADS - Talking Heads '77   1977  (2006 Remastered) + (Video Live)\\10 - Psycho Killer.mp3",
-                "D:\\MP3 HEAVY METAL\\AC DC\\acdc-rock\\01. Rock or Bust.mp3"                                       //15
-        };
+        String[] paths = new String[0];         // Not distributing the test files
         for(int i = 0; i < paths.length; i++) {
             File dir = new File(paths[i]);
             if(dir.isDirectory()) {

@@ -41,10 +41,6 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
         }
         this.drawPanel = drawPanel;
         add(drawPanel, constraints);
-        // TODO: VYMAZAT
-        //outputReferenceValues.setPreferredSize(new Dimension(20, 150));
-        //outputReferenceValues.setPreferredSize(new Dimension(getPreferredSize().width, drawnFunctionPanel.getPreferredSize().height));
-        // TODO: VYMAZAT
 
         if(drawPanel instanceof FFTWindowPartPanel) {
             drawPanel.setDrawValuesStrings();

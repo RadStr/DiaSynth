@@ -26,7 +26,7 @@ public interface CombFilterBPMGetterIFace {
     }
 
 
-    // TODO: This is version for mono signal
+    // his is version for mono signal
     // How it works: https://www.clear.rice.edu/elec301/Projects01/beat_sync/beatalgo.html
     // 1) Take FFT of input samples, split it to subbands (just split the result of FFT to sub labelReferenceArrs (at least logically))
     // 1a) Take IFFT of those subarrays
@@ -62,145 +62,49 @@ public interface CombFilterBPMGetterIFace {
 
 
 
-    // TODO: Tam kde je 1 je kvuli numberOfChannels
     public default double[][] computeEnergies(byte[] samples, double[][][] bpmArrays, int sampleSize, int sampleSizeInBits,
                                               int windowSize, int startIndex, int endIndex, boolean isBigEndian, boolean isSigned,
                                               int subbandCount, SubbandSplitterIFace splitter, DoubleFFT_1D fft, int sampleRate) {
         double[][] energies = new double[subbandCount][bpmArrays.length];
-
-//        double[] fftRightSideOfHahnWindow = getFFTHahnWindow(windowSize);
-        // TODO: fft na hahnovo okno bych mel predat v parametru a n to pcoitat pro kazdou pisnicku zvlast
         double hahnWindowSizeInSecs = 0.4;
         // This is *2 the value from the source material, because I calculate the hahn window a bit differently -
         // I checked it against the implementation from the source materials and the results are the same now (+/- double error)
         int hahnWindowSize = (int) (hahnWindowSizeInSecs * sampleRate * 2);
         double[] fftRightSideOfHahnWindow = FFTWindow.getHahnWindowWithLimit(windowSize, hahnWindowSize / 2, hahnWindowSize);
-        // TODO: DEBUG
-//        for (int i = 0; i < fftRightSideOfHahnWindow.length; i++) {
-//            if (fftRightSideOfHahnWindow[i] != 0) {
-////                if(i % 1000 == 0)
-//                System.out.println(i + "\t" + fftRightSideOfHahnWindow[i] + "\t" + hahnWindowSize);
-//            }
-//        }
-////        System.exit(4848);
-        // TODO: DEBUG
         fft.realForward(fftRightSideOfHahnWindow);
 
-        double[] tmpArray = new double[windowSize];         // Will usually contain results of fft, so we don't have to keep allocation labelReferenceArrs
         double[] ifftResult = new double[windowSize];
         double[] coefsForFilter = new double[]{-1, 1};
-/*
-        try {
-            performNonRecursiveFilter(samples, coefsForFilter, 1, sampleSize, sampleSize * 1, isBigEndian, isSigned); // TODO: VYMAZAT !!!!!!!
-        } catch (IOException e) { return -1; }
- */
-        for (int index = startIndex; index < endIndex; ) {      // TODO: MONO
-            // TODO: Stereo veci proste dam do toho for cyklu a to je asi vsechno jak se to lisi od mono verze
-//            for(int j = 0; j < numberOfChannels; j++) {
-//              calculateFFTClassic(...., channel == j);
-//            }
 
-//////////////////////////////////////////////////
+        for (int index = startIndex; index < endIndex; ) {
             double[] fftResult = new double[windowSize];
-// TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
             try {
                 index = AudioConverter.normalizeToDoubles(samples, fftResult, sampleSize, sampleSizeInBits,
-                                                   index, isBigEndian, isSigned);
+                                                          index, isBigEndian, isSigned);
             } catch (IOException e) {
                 return null;
             }
-//            for(int l = 0; l < arr.length; l++) {
-//// TODO:                System.out.println(l + "\t" + arr[l]);
-//            }
             fft.realForward(fftResult);
-//            double[] fftResult = calculateFFTClassic(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy
-//                windowSize, isBigEndian, isSigned, startingByte);     // TODO: tohle vraci measury ... nikoliv imag a real cast ... prizpusobit k tomu tu metodu
-/////////////////////////////////////
 
-
-            double[][] ifftResults = getIFFTBasedOnSubbands(fftResult, subbandCount, fft, splitter);      // TODO: Idealne si chci jen predavat to jedno pole ... ale musim ho nulovat pred pouzitim
+            double[][] ifftResults = getIFFTBasedOnSubbands(fftResult, subbandCount, fft, splitter);
             for (int subband = 0; subband < ifftResults.length; subband++) {
-                //TODO: DEBUG
-//                for(int remove = 0; remove < ifftResults[subband].length; remove++) {
-//                    if(maxEnergy < ifftResults[subband][remove]) maxEnergy = ifftResults[subband][remove];
-//                }
-//                System.out.println("MAX1:"+maxEnergy);
-//                maxEnergy = 0;
-//
-//                byte[] arr = new byte[sampleSize * fftResult.length];
-//                try {
-//                    ByteWave.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
-//                        ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
-//                    ByteWave.saveAudio("1WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
-//                }
-//                catch(IOException e) { System.ebxit(-500); }
-                //TODO: DEBUG
-
-// TODO: Ted nechapu proc to tady pocitam znova kdyz to mam uz v ifftResults getIFFTBasedOnSubband(fftResult, subbandCount, subband, splitter, ifftResult);
                 Rectification.fullWaveRectificationDouble(ifftResults[subband], true);
-// TODO: Jen debug                System.arraycopy(ifftResults[subband], 0, tmpArray, 0, tmpArray.length); // T
-                fft.realForward(ifftResults[subband]); //TODO:   calculateFFTRealForward(ifftResults[subband], 0, 1, fft, tmpArray);
-                // TODO: !!!!!!!!!!!!!!!! performConvolutionInFreqDomain je getCombFilterEnergyRealForward ... akorat to vsechno nakonec nesectu a nevratim jen ten soucet ... ale ukladam ty mezivysledky nasobeni do pole
-                FFT.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]); // TODO: ifftResults[subband] = performConvolutionInFreqDomain(fftRightSideOfHahnWindow, tmpArray);        // TODO: Mozna ten vysledek musim ulozit jinam nez do ifftResults ... zalezi jak funguje to IFFT
-                FFT.calculateIFFTRealForward(ifftResults[subband], fft, true);      // TODO: To skalovani nevim
+                fft.realForward(ifftResults[subband]);
+                FFT.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]);
+                FFT.calculateIFFTRealForward(ifftResults[subband], fft, true);
                 NonRecursiveFilter.performNonRecursiveFilter(ifftResults[subband], 0, coefsForFilter,
-                    1, ifftResult, 0, ifftResult.length); // TODO: performNonRecursiveFilter(ifftResults[subband], coefsForFilter);  // TODO: Napsat tuhle metodu s nereferencni variantou
+                                                            1, ifftResult, 0, ifftResult.length);
                 System.arraycopy(ifftResult, 0, ifftResults[subband], 0, ifftResult.length);
                 Rectification.halfWaveRectificationDouble(ifftResults[subband], true);
-
-//T
-//TODO: DEBUG
-//                for(int remove = 0; remove < ifftResults[subband].length; remove++) {
-//                    if(maxEnergy < ifftResults[subband][remove]) maxEnergy = ifftResults[subband][remove];
-//                }
-//                System.out.println("MAX:"+maxEnergy);
-//            //    ByteWave.performOperationOnSamples(ifftResults[subband], (double)1/Math.ceil(maxEnergy), ArithmeticOperation.MULTIPLY);
-//                maxEnergy = 0;
-//TODO: DEBUG
-
-//                System.exit(0);
-//                try {
-//                    ByteWave.convertDoubleArrToByteArr(ifftResults[subband], arr, 0, 0, ifftResults[subband].length, sampleSize,
-//                        ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isBigEndian, isSigned);
-//
-//                    int[] intArr1 = ByteWave.convertBytesToSamples(arr, sampleSize, isBigEndian, isSigned);
-//                    int[] intArr2 = ByteWave.convertDoubleArrToIntArr(ifftResults[subband], ByteWave.getMaxAbsoluteValueSigned(sampleSizeInBits), isSigned);
-//                    for(int TODO = 0; TODO < intArr1.length; TODO++) {
-//                        if(ifftResults[subband][TODO] < 0) System.exit(-666);
-//                        if(intArr2[TODO] < 0) System.exit(-667);
-//                        if(intArr1[TODO] != intArr2[TODO]) System.out.println(TODO + "\t" + intArr1[TODO] + "\t" + intArr2[TODO]);
-//                    }
-//                    ByteWave.saveAudio("2WAVE", 22050, sampleSizeInBits, 1, isSigned, isBigEndian, arr, AudioFileFormat.Type.WAVE);
-//                }
-//                catch(IOException e) { System.exit(-500); }
-//                System.exit(arr.length);
-                //T
-
-// TODO: Jen debug                for(int i = 0; i < ifftResults[subband].length; i++) if(ifftResults[subband][i] != tmpArray[i]) System.out.println(i + "\t" + ifftResults[subband][i] + "\t" + tmpArray[i]); // T
                 fft.realForward(ifftResults[subband]);
-////                for(int debug = 0; debug < ifftResults[subband].length; debug++) {
-////                    System.out.println(ifftResults[subband].length + "\t" + ifftResults[subband][debug]);
-////                }
-                computeEnergies(ifftResults[subband], bpmArrays, energies[subband]);       // adds to the energies
-//                System.out.println("!!!!!!!!!!!!!!!!" + subband);
-//                for(int debug = 0; debug < energies[subband].length; debug++) {
-//                    System.out.println(getBPMFromIndex(bpmStart, bpmJump, debug) + "\t" + energies[subband][debug]);
-//                }
-//                System.out.println("\n\n\n\n");
+                computeEnergies(ifftResults[subband], bpmArrays, energies[subband]);       // Adds to the energies
             }
         }
-
-        // TODO: A jeste ten nechci volat na cely song ... vypocetne narocny ... melo by se to delat na nejakou 5ti sekundovou cast
-//            // TODO: A funguje na mono
-//            // TODO: !!!!!!!!!!!!!!
-//            getCombFilterEnergyRealForward(fftResult, bpmArrays[i], energies);
 
         return energies;
     }
 
 
-    // TODO: Copy paste ... Lisi se to od getBPMUsingCombFilterMONOWithoutFiltersWithoutSubbands jen v tom ze se vola jina metoda a je tam subbandCount
-    // TODO: This is not really ideal, using ByteWave ... flawed design
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
@@ -221,14 +125,11 @@ public interface CombFilterBPMGetterIFace {
             endIndex -= bytesOver;
         }
 
-        //  startIndex = (int)(1.1 * lenOfOneSecond);       // TODO:
-        //  endIndex = startIndex + lenInBytes;             // TODO:
-
         int windowSize = (endIndex - startIndex) / byteWave.sampleSizeInBytes;  // this is Window size in samples
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
 
-        return computeBPM(startBPM, jumpBPM, upperBoundBPM,
-            numberOfSeconds, windowSize, startIndex, endIndex, subbandCount, splitter, fft, numberOfBeats, byteWave);
+        return computeBPM(startBPM, jumpBPM, upperBoundBPM, numberOfSeconds, windowSize,
+                          startIndex, endIndex, subbandCount, splitter, fft, numberOfBeats, byteWave);
     }
 
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
@@ -239,7 +140,7 @@ public interface CombFilterBPMGetterIFace {
         double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, byteWave.sampleRate,
                                                     numberOfSeconds, windowSize, numberOfBeats);
         return computeBPM(bpmArrays, startBPM, jumpBPM, windowSize,
-            startIndex, endIndex, subbandCount, splitter, fft, byteWave);
+                          startIndex, endIndex, subbandCount, splitter, fft, byteWave);
     }
 
     public default int computeBPM(double[][][] bpmArrays, int startBPM,
@@ -247,8 +148,6 @@ public interface CombFilterBPMGetterIFace {
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   DoubleFFT_1D fft, ByteWave byteWave) {
-        // TODO: Napsat metodu getBPMFromIndex array to je to to impulse period + ten for cycklus
-        // TODO: Vlastne uz to mam napsany vsechno akorat zmensit ty pole a delat fft hned jakmile mam to jedno window
         return computeBPM(byteWave.song, bpmArrays, startBPM, jumpBPM,
                           byteWave.sampleSizeInBytes, byteWave.sampleSizeInBits, windowSize, startIndex, endIndex,
                           byteWave.isBigEndian, byteWave.isSigned, subbandCount, splitter, fft, byteWave.sampleRate);
@@ -279,7 +178,7 @@ public interface CombFilterBPMGetterIFace {
         }
     }
 
-    static double computeEnergyRealForwardFull(double[] fftResult, double[] bpmArray) {      // TODO: "Stereo" verze
+    static double computeEnergyRealForwardFull(double[] fftResult, double[] bpmArray) {
         double real;
         double imag;
         double energy = 0;
@@ -314,14 +213,14 @@ public interface CombFilterBPMGetterIFace {
      * @param bpmArray
      * @return
      */
-    static double computeEnergyRealForward(double[] fftResult, double[] bpmArray) {      // TODO: Monoverze
-        double energy;              // TODO: mozna takhle prepsat i ten prevod na realny ... je to prehlednejsi
-        double real;                // TODO: Ten prevod na realny mozna ani nebude dobre
+    static double computeEnergyRealForward(double[] fftResult, double[] bpmArray) {
+        double energy;
+        double real;
         double imag;
         if(fftResult.length % 2 == 0) {			// It's even
             real = fftResult[0] * bpmArray[0];
             energy = FFT.calculateComplexNumMeasure(real, 0);
-            real = fftResult[1] * bpmArray[1];      // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
+            real = fftResult[1] * bpmArray[1];
             energy += FFT.calculateComplexNumMeasure(real, 0);
             for(int i = 2; i < fftResult.length; i = i + 2) {
                 real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
@@ -378,7 +277,7 @@ public interface CombFilterBPMGetterIFace {
         int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
         int arrayLen = (int)(sampleRate * numberOfSeconds);
         DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
-        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe solve special case when fftWindowsCount == 0
+        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe should solve special case when fftWindowsCount == 0
         double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
         double[] fftArr = new double[fftWindowSize];
 
@@ -403,7 +302,6 @@ public interface CombFilterBPMGetterIFace {
                     }
                 }
 
-// TODO:                System.out.println(currBPM + "\tImpulsePeriod:\t" + impulsePeriod);
                 fft.realForward(fftArr);
                 bpmFFTArrays[i][j] = FFT.convertResultsOfFFTToRealRealForward(fftArr);
             }
@@ -426,7 +324,7 @@ public interface CombFilterBPMGetterIFace {
      * @return
      */
     static double[][][] createBPMArraysFFT(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
-                                           double numberOfSeconds, int fftWindowSize, int numberOfBeats) {      // TODO: Maybe later pass the fft with the length, so it doesn't have to allocated over and over again ... but it's only smal optimazation
+                                           double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
         if(upperBoundBPM < lowerBoundBPM) {
             return null;
         }
@@ -445,47 +343,21 @@ public interface CombFilterBPMGetterIFace {
             int beatCount = 0;
             for(int j = 0; j < fftWindowsCount; j++) {
                 double[] fftArr = new double[fftWindowSize];
-                // TODO: Koment po dlouhy dobe - nechapu proc to nenastavuju na 1 pres modulo
                 for (int k = 0; k < fftArr.length; k++, totalIndexInBpm++) {
                     int mod = totalIndexInBpm % impulsePeriod;
-
                     if(beatCount < numberOfBeats) {
-                        if (mod == 0) { // TODO: !!!!!!!!! Kdyz ted vim ze se nedela FFT z tech kousku ale z celyho tak muzu nastavit proste kazdej sample na nasobku impulsePeriod na 1
+                        if (mod == 0) {
                             fftArr[k] = 1;
                             beatCount++;
-// TODO:                            System.out.println("bpmArrs:\t" + beatCount + "\t" + totalIndexInBpm + "\t" + currBPM);
                         }
                     }
                     else {
-// TODO:                        System.out.println("break");
                         break;
                     }
-
-/*
-
-                    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
-
-                    int sizeOfPeak = 0;      // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!
-                    if (mod <= sizeOfPeak || mod > impulsePeriod - sizeOfPeak) {
-                        fftArr[k] = 1;
-                    }
-*/
                 }
 
-//                System.out.println(currBPM + "\tImpulsePeriod:\t" + impulsePeriod);
                 fft.realForward(fftArr);
-
-//                fftArr = convertResultsOfFFTToRealRealForward(fftArr);  // TODO:
-
                 bpmFFTArrays[i][j] = fftArr;
-// TODO: Vymazat
-/*
-if(currBPM == 60) {
-    for (int l = 0; l < fftArr.length; l++) {
-        System.out.println(fftArr[l]);
-    }
-}
-*/
             }
         }
 
@@ -530,22 +402,14 @@ if(currBPM == 60) {
                                        SubbandSplitterIFace splitter, double[][] result) {
         for(int subband = 0; subband < subbandCount; subband++) {
             splitter.getSubband(fftResult, subbandCount, subband, result[subband]);
-
-//            // TODO:
-//            System.out.println("\n\n\n\n" + subband);
-//            for(int i = 0; i < result[subband].length; i++) {
-//                System.out.println(i + "\t" + result[subband][i]);
-//            }
-
-            FFT.calculateIFFTRealForward(result[subband], fft, true);      // TODO: To skalovani nevim
-            // TODO: Tady bych mel volat tu metodu podtim asi
+            FFT.calculateIFFTRealForward(result[subband], fft, true);
         }
     }
 
     static void getIFFTBasedOnSubband(double[] fftResult, int subbandCount, int subband, DoubleFFT_1D fft,
                                       SubbandSplitterIFace splitter, double[] result) {
         splitter.getSubband(fftResult, subbandCount, subband, result);
-        FFT.calculateIFFTRealForward(result, fft, true);     // TODO: To skalovani ... asi se ma davat true, ale nevim proc ... no vzdycky to muze prevadet jako parametr
+        FFT.calculateIFFTRealForward(result, fft, true);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */

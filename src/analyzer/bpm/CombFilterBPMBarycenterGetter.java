@@ -28,11 +28,9 @@ public class CombFilterBPMBarycenterGetter implements CombFilterBPMGetterIFace {
 
             maxEnergySum += maxEnergy;
             bpm = CombFilterBPMGetterIFace.getBPMFromIndex(startBPM, jumpBPM, maxBpmInd);
-            System.out.println(bpm + "\t" + maxEnergy + "\t" + energies[i][6]);
             sum += maxEnergy * bpm;
         }
 
-        System.out.println(sum + "\t" + maxEnergySum + "\t" + (sum / maxEnergySum));        // TODO:
         return sum / maxEnergySum;
     }
 }

@@ -8,7 +8,7 @@ public class CombFilterBPMAllSubbandsGetter implements CombFilterBPMGetterIFace 
         double[] totalEnergies = new double[bpmCount];
         for (int bpmIndex = 0; bpmIndex < energies[0].length; bpmIndex++) {
             totalEnergies[bpmIndex] = calculateEnergySum(energies, bpmIndex);
-            // Multiply here if I want to emphasize some frequencies
+            // Multiply here if we want to emphasize some frequencies
             if (totalEnergies[bpmIndex] > maxEnergy) {
                 maxEnergy = totalEnergies[bpmIndex];
                 maxBPMIndex = bpmIndex;

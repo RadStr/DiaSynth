@@ -6,11 +6,13 @@ package player.mixer.ifaces;
  */
 public interface AudioMixerIFace extends UpdateIFace {
     /**
-     * Mixes 1 frame. Mixes vals.length values and puts the result in to outputArr at outputArrIndex. and that is done for each channel
+     * Mixes 1 frame. Mixes vals.length values and puts the result in to outputArr at outputArrIndex.
+     * That is done for each channel
      *@param vals is the 2D array with samples. vals.length is number of mixed values for 1 channel.
      * @param outputArr is the array to which is put the resulting mix samples.
      * @param outputArrIndex is the index in outputArr where is put first byte of the resulting sample.
-     * @param multFactors is the 2D array with factors to multiply the samples in vals with. multFactors.length == vals.length, multFactors[].length == number of channels in output audioFormat
+     * @param multFactors is the 2D array with factors to multiply the samples in vals with.
+     *                    multFactors.length == vals.length, multFactors[].length == number of channels in output audioFormat
      *                    multFactors[wave][channel]
      * @param sampleSize is the sample size of the output
      * @param isBigEndian true if the output samples are big endian
@@ -32,11 +34,13 @@ public interface AudioMixerIFace extends UpdateIFace {
 
 
     /**
-     * Mixes 1 frame. Mixes vals.length values and puts the result in to outputArr at outputArrIndex. and that is done for each channel
+     * Mixes 1 frame. Mixes vals.length values and puts the result in to outputArr at outputArrIndex.
+     * That is done for each channel
      * @param vals is the 2D array with samples. vals.length is number of mixed values for 1 channel.
      * @param outputArr is the array to which is put the resulting mix samples.
      * @param outputArrIndex is the index in outputArr where is put first sample of the result.
-     * @param multFactors is the 2D array with factors to multiply the samples in vals with. multFactors.length == vals.length, multFactors[].length == number of channels in output audioFormat
+     * @param multFactors is the 2D array with factors to multiply the samples in vals with.
+     *                    multFactors.length == vals.length, multFactors[].length == number of channels in output audioFormat
      *                    multFactors[wave][channel]
      * @param index is the index in the 2nd dimension of vals array. (The index says which sample it is)
      * @return Returns the first index after the inserted mixed values in outputArr

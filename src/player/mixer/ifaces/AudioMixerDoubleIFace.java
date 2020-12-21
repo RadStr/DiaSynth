@@ -13,7 +13,7 @@ public interface AudioMixerDoubleIFace {
 
     /**
      * Takes samples at index vals[][index] and mixes them to one by using multFactors and then finalMultFactor on the result.
-     * Same as the variant without finalMultFactors, but this one performs one more mixing on the final results. using finalMultFactors.
+     * Same as the variant without finalMultFactors, but this one performs one more mixing on the final results using finalMultFactors.
      * If the finalMultFactors is null then don't perform the final mixing.
      * @param vals are the samples
      * @param multFactors are the factors of mixing. multFactors[wave][channel]
@@ -25,7 +25,9 @@ public interface AudioMixerDoubleIFace {
 
 
     /**
-     * Mixes the input array together, so if the multFactors[].length == 1 then only 1 value is returned, which is the mix of the array. vals.length == multFactors.length, multFactors[].length == number of channels in output audioFormat
+     * Mixes the input array together, so if the multFactors[].length == 1 then only 1 value is returned,
+     * which is the mix of the array. vals.length == multFactors.length,
+     * multFactors[].length == number of channels in output audioFormat
      * @param vals is the input array, 1 index = 1 value to mix
      * @param multFactors is the 2D array with factors to multiply the vals with.
      * @param outputArr is the array to which are put the results. outputArr.length >= multFactors[].length

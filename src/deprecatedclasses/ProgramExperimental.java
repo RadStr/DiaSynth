@@ -1,4 +1,6 @@
-package player.experimental;
+package deprecatedclasses;
+
+import player.experimental.DoubleDrawPanel;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

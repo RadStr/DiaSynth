@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-// TODO: Dat sem to menu ... to je normalne to co je pod listou
-// A tam bude select file - a to proste vybere nejaky soubor a zobrazi o nem informace.
 
 public class SongInfoFrame extends JFrame {
 	private static final long serialVersionUID = 1L;

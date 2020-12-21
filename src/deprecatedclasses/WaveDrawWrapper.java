@@ -1,7 +1,7 @@
-package player.experimental;
+package deprecatedclasses;
 
-import deprecatedclasses.DrawWrapper;
 
+@Deprecated
 public class WaveDrawWrapper extends DrawWrapper {
     @Override
     public double[] getResult(int sampleRate, int copyCount) {

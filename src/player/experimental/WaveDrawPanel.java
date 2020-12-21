@@ -28,7 +28,8 @@ public abstract class WaveDrawPanel extends DrawPanel {
     public static double calculateBinValue(int y, int height) {
         int hh = height / 2;
         y -= hh;
-        double binValue = -y / (double) hh; // -y because it is upside-down, value of 1 is at the top of window which is y = 0
+        // -y because it is upside-down, value of 1 is at the top of window which is y = 0
+        double binValue = -y / (double) hh;
         binValue = Math.min(binValue, 1);
         binValue = Math.max(binValue, -1);
 

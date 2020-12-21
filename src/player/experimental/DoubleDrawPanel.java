@@ -18,8 +18,7 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 			
 			@Override
 			public void componentShown(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
+				// EMPTY
 			}
 			
 			@Override
@@ -31,14 +30,12 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 			
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
+				// EMPTY
 			}
 			
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
+				// EMPTY
 			}
 		});
 		
@@ -68,7 +65,7 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 			}
 		}
 		else {
-			convertWaveToNewSize(oldWave, wave, oldHeight, h);
+			convertWaveToNewSize(oldWave, wave);
 		}
 		
 		oldHeight = h;
@@ -76,8 +73,9 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 	}
 	
 	
-	// Modified code from getOneSecondWave, because in java I can't unfortunately write generic code for primitive type arrays
-	public static void convertWaveToNewSize(double[] oldWave, double[] newWave, int oldH, int newH) {
+	// Modified code from getOneSecondWave, because in java I can't unfortunately write generic code for
+	// primitive type arrays
+	public static void convertWaveToNewSize(double[] oldWave, double[] newWave) {
 		double samplesPerPixel = newWave.length / (double)(oldWave.length - 1);
 		double modulo;
 		if((int)samplesPerPixel == 0) {
@@ -97,12 +95,10 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 			double val = currSample;
 			for(int j = 0; j < (int)currentSamplesPerPixel; j++, outputIndex++, val += jump) {
 				newWave[outputIndex] = val;
-				System.out.println("OUTPUTINDEX:\t" + outputIndex + "\t" + newWave[outputIndex]);
+				System.out.println("OUTPUT_INDEX:\t" + outputIndex + "\t" + newWave[outputIndex]);
 			}
 			
 			if(currentSamplesPerPixel >= ((int)samplesPerPixel + 1)) {
-// TODO: DEBUG				System.out.println("OVER:\t" + i + "\t" + outputIndex + "\t" + currentSamplesPerPixel + "\t" + ((int)samplesPerPixel + 1) + "\t" + modulo);
-// TODO: DEBUG				System.out.println(samplesPerPixel * (wave.length - 1));
 				currentSamplesPerPixel--;
 			}
 		}
@@ -169,8 +165,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 			}
 			
 			if(currentSamplesPerPixel >= ((int)samplesPerPixel + 1)) {
-// TODO: DEBUG				System.out.println("OVER:\t" + i + "\t" + outputIndex + "\t" + currentSamplesPerPixel + "\t" + ((int)samplesPerPixel + 1) + "\t" + modulo);
-// TODO: DEBUG				System.out.println(samplesPerPixel * (wave.length - 1));
 				currentSamplesPerPixel--;
 			}
 		}
@@ -197,9 +191,9 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 		g.setColor(Color.BLUE);
 		for(int x = 0, y; x < wave.length; x++) {
 			y = (int)(wave[x] * h); 
-			//g.drawRect(x, y, 1, 1);
+			//g.drawRect(x, y, 1, 1);		// TODO: NOVY TODO
 			g.drawLine(x, h / 2, x, y);
-			System.out.println(x + ":\t" + wave[x]);
+			System.out.println("double draw panel painting: " + x + ":\t" + wave[x]);
 		}
 		
 		
@@ -214,12 +208,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 		}
 
 		g.drawString(timeInMsString, w - g.getFontMetrics().stringWidth(timeInMsString), h / 2);
-		
-
-		
-		// TODO:
-//		if(wave.length != 0)
-//			getOneSecondWave(8000);
 	}
 
 
@@ -227,7 +215,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
 	public void mouseDragged(MouseEvent e) {
 		isInit = false;
 		Point p = e.getPoint();
-		int h = this.getHeight();
 		setPixelsBetweenCurrentMouseLocAndOld(p);
 		this.repaint();
 		oldMouseLoc = p;
@@ -252,17 +239,15 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
         	jump = (currMouseLoc.y - oldMouseLoc.y) / (double)(oldMouseLoc.x - currMouseLoc.x);
             for (int i = oldMouseLoc.x; i >= currMouseLoc.x; i--, y += jump) {
             	wave[i] = y / h;
-// TODO: DEBUG            	System.out.println(i + "\t" + y);
             }	
         }
         else if(currMouseLoc.x > oldMouseLoc.x) {
         	jump = (currMouseLoc.y - oldMouseLoc.y) / (double)(currMouseLoc.x - oldMouseLoc.x);
             for (int i = oldMouseLoc.x; i <= currMouseLoc.x; i++, y += jump) {
             	wave[i] = y / h;
-// TODO: DEBUG            	System.out.println(i + "\t" + y);
             }        	
         }
-		//wave[currMouseLoc.x] = currMouseLoc.y / (double)h;
+		//wave[currMouseLoc.x] = currMouseLoc.y / (double)h;		// TODO: NOVY TODO
 	}
 
 

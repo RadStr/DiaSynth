@@ -52,7 +52,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 	public DataModelObserverIFace getAllFilesObserver() {
 		return allFilesObserver;
 	}
-	private final String[] headerAllFiles;	// TODO: Asi bych mel zobrazit vsechny ... mel bych je definovat nekde mimo ... a delat to pres pluginy
+	private final String[] headerAllFiles;
 
 	private JFrame thisFrame;
 
@@ -74,7 +74,6 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 		selectedFilesObserver = new DataModelObserver(dataModelSelectedFiles, selectedFilesPairList, thisFrame) {
 			@Override
 			public void reloadDataModelFromXML() {
-				// TODO: Provizorni reseni prozatim jen vymazeme selected files, kdyz nastane analyzovani
 				selectedFilesPairList.clear();
 				dataModelSelectedFiles = new UneditableTableModel(new String[0][0], headerSelectedFiles);
 				selectedFilesTable.setModel(dataModelSelectedFiles);
@@ -188,7 +187,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 				if((selectedRow = selectedFilesTable.getSelectedRow()) != -1) {
 					DataModelObserverIFace[] observers = new DataModelObserverIFace[] 
 							{ allFilesObserver, selectedFilesObserver };
-					Pair<String, Node> p = selectedFilesPairList.get(selectedRow);			// TODO: Budu mit navic list, kde indexy budou odpovidat presne tem indexum v tabulce selected
+					Pair<String, Node> p = selectedFilesPairList.get(selectedRow);
 					Dimension size = thisFrame.getSize();
 					SongInfoFrame siFrame = new SongInfoFrame(thisFrame, size.width, size.height, p.getValue(), observers, addToAudioPlayerIFace);
 					siFrame.setVisible(true); 
@@ -273,7 +272,6 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			}
 			root.removeChild(selectedFilesPairList.get(rows[i]).getValue());
 			selectedFilesPairList.remove(rows[i]);
-// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!			removeDataFromFile(name);
 			int j = 0;
 			try {
 				while(dataModelAllFiles.getValueAt(j, 0) != name) {
@@ -303,14 +301,11 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 			int k;
 			for(k = 0; k < rowCount; k++) {
 				if(name == dataModelSelectedFiles.getValueAt(k, 0)) {
-					// TODO: DEBUG
-					System.out.println("actionAddToSelectedPerformed ... == name");
-					// TODO: DEBUG
 					break;
 				}
 			}
 			
-			if(k >= rowCount) { // TODO: Tohle nemuze fungovat, protoze ty selected a allfiles maji jinak poskladany sloupce
+			if(k >= rowCount) {
 				selectedFilesPairList.add(allFilesPairList.get(rows[i]));
 				Object[] arr = new Object[colCount];
 				for(int j = 0; j < colCount; j++) {
@@ -321,11 +316,6 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 		}
 		allFilesTable.getSelectionModel().clearSelection();
 	}
-	
-	
-	// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// TODO: Muzu to odfocusovat tim ze to delam pres ctrl + kliknuti ale ne pres samotny kliknuti
-	// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 
 	@Deprecated // Issue with the findNodeXML
@@ -356,6 +346,6 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 
 	@Override
 	public void leavingPanel() {
-
+		// EMPTY
 	}
 }

@@ -911,14 +911,10 @@ public class ByteWave {
          DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
 
-         try {
              return BPMSimpleWithFreqBands.computeBPM(this.song, this.sampleSizeInBytes, this.sampleRate,
-                 windowSize, this.isBigEndian, this.isSigned, this.mask, this.maxAbsoluteValue, fft, splitter,
-                     subbandEnergies, coef, windowsBetweenBeats, varianceLimit);
-         }
-         catch (IOException e) {
-             return -1;             // TODO:
-         }
+                                                      windowSize, this.isBigEndian, this.isSigned, this.mask,
+                                                      this.maxAbsoluteValue, fft, splitter, subbandEnergies,
+                                                      coef, windowsBetweenBeats, varianceLimit);
      }
 
 

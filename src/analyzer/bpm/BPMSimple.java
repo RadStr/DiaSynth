@@ -1,6 +1,5 @@
 package analyzer.bpm;
 
-import test.ProgramTest;
 import util.Utilities;
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;

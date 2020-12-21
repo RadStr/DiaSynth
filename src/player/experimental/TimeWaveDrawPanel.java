@@ -7,9 +7,6 @@ import util.Utilities;
 import java.awt.*;
 
 public class TimeWaveDrawPanel extends WaveDrawPanel {
-    /**
-     * @param binCount
-     */
     public TimeWaveDrawPanel(int timeInMs, int binCount, boolean isEditable,
                              Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(binCount, "Time", isEditable, backgroundColor, shouldDrawLabelsAtTop);
@@ -130,16 +127,9 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
         double currentSamplesPerPixel = samplesPerPixel;
         double currSample;
         double nextSample = wave[0];
-// TODO: VYMAZAT
-//        double nextSample = 1 - 2*wave[0];	// 1 in wave == -1, 0 in wave == 1, 0.5 in wave == 0
-//        // 0.75 == -0.5, 0.25 == 0.5 ... so it is 1 - 2*wave
-// TODO: VYMAZAT
         for(int i = 0, outputIndex = 0; i < wave.length - 1; i++, currentSamplesPerPixel += modulo) {
             currSample = nextSample;
             nextSample = wave[i + 1];
-            // TODO: VYMAZAT
-            //nextSample = 1 - 2*wave[i + 1];
-            // TODO: VYMAZAT
 
             double jump = (nextSample - currSample) / currentSamplesPerPixel;
             double val = currSample;
@@ -148,8 +138,6 @@ public class TimeWaveDrawPanel extends WaveDrawPanel {
             }
 
             if(currentSamplesPerPixel >= ((int)samplesPerPixel + 1)) {
-// TODO: DEBUG				System.out.println("OVER:\t" + i + "\t" + outputIndex + "\t" + currentSamplesPerPixel + "\t" + ((int)samplesPerPixel + 1) + "\t" + modulo);
-// TODO: DEBUG				System.out.println(samplesPerPixel * (wave.length - 1));
                 currentSamplesPerPixel--;
             }
         }

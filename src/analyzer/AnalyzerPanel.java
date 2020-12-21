@@ -34,7 +34,6 @@ import java.util.List;
 
 import util.logging.MyLogger;
 
-
 public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     private static final long serialVersionUID = 1L;
     public static final String ANALYZED_AUDIO_XML_FILENAME = "ANALYZED_AUDIO.xml";
@@ -290,11 +289,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             currentDirectory = fileChooser.getCurrentDirectory();
             File[] files = fileChooser.getSelectedFiles();
             addFilesToModel(files);
-            //This is where a real application would open the file.
         }
     }
-
-    // TODO: neni vhodny predavat boolean, idealni je volat tutez metodu co ale na konci nema createXML
 
     private void addFilesToModel(File[] files) {
         for(int i = 0; i < files.length; i++) {
@@ -302,13 +298,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                 addFilesToModel(files[i].listFiles());
             }
             else {
-                // TODO: Mam se divat jestli maji spravnou extension uz ted nebo az potom ... navic ani vlastne
-                // extension mit nemusi ale ono se to pozna podle magic - Nutny nejak vyresit !!!!!!!!!!!!!!!!!
                 try {
                     dataModel.addRow(new String[]{ files[i].getCanonicalPath() });
                 } catch (IOException e) {			// Shouldn't happen
                     MyLogger.logException(e);
-                    new ErrorFrame(frame, "Unknown error");		// TODO: Asi ok reseni
+                    new ErrorFrame(frame, "Unknown error");
                 }
             }
         }
@@ -364,26 +358,22 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         ByteWave byteWave = new ByteWave();
 
         try {
-            if(!byteWave.loadSong(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.loadSong(filename, true)) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {
             MyLogger.logException(e);
-            return;         // TODO: podle me je lepsi proste ten soubor preskocit ... do budoucna by bylo lepsi psat i proc jsem je preskocil ... hlavne u tech setVariables !!!!!!!!!!!!!!!!!!!!!!
-            //new ErrorFrame(frame, "Couldn't set variables for song:\n" + e.getMessage());
+            return;
         }
 
-        // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
             byteWave.convertToMono();
-            //p.convertSampleRate(22050);
         }
         catch(IOException e) {
             return;
         }
-        // TODO: !!!!!!
 
         addSongBPMToList(byteWave, bpmList);
     }
@@ -398,28 +388,24 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         list.add(pair);
 
         try {
-            if(!byteWave.loadSong(filename, true)) {        // TODO: Zasadni ... nastavit ty hodnoty
+            if(!byteWave.loadSong(filename, true)) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         } catch (IOException e) {
             MyLogger.logException(e);
-            return;         // TODO: podle me je lepsi proste ten soubor preskocit ... do budoucna by bylo lepsi psat i proc jsem je preskocil ... hlavne u tech setVariables !!!!!!!!!!!!!!!!!!!!!!
-            //new ErrorFrame(frame, "Couldn't set variables for song:\n" + e.getMessage());
+            return;
         }
 
         int numberOfChannels = byteWave.numberOfChannels;
 
-        // TODO: !!!!!Jen pro ted - chci zpracovavat kazdej kanal zvlast a pro kazdej mit vlastni informace - a ne to delat na mono
         try {
             byteWave.convertToMono();
-            //p.convertSampleRate(22050);
         }
         catch(IOException e) {
             return;
         }
-        // TODO: !!!!!!
 
 
 
@@ -451,11 +437,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         }
 
         double[] mods = null;
-        if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {		// TODO: nemel bych vybirat takhle natvrdo ty indexy
+        if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {
             try {
                 mods = Aggregation.calculateAllAggregations(byteWave.song, byteWave.sampleSizeInBytes,
                                                             byteWave.isBigEndian, byteWave.isSigned);
             } catch (IOException e) {
+                MyLogger.logException(e);
                 new ErrorFrame(frame, "Invalid sample size:\t" + e.getMessage());
             }
         }
@@ -472,83 +459,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         if(checkBoxes[11].isSelected()) {
             list.add(analyzeBPMSimpleFull(byteWave));
             list.add(analyzeBPMAdvancedFullLinear(byteWave));
-//            list.add(analyzeBPMAdvancedFullLinear2(p));
-//            list.add(analyzeBPMAdvancedFullLinear3(p));
-//            list.add(analyzeBPMAdvancedFullLinear4(p));
-//            list.add(analyzeBPMAdvancedFullLinear5(p));
-
-
-            // TODO: BPM - HLEDANI
-//            for(int i = 5; i < 10; i++) {
-//                SubbandSplitterIFace splitter = new SubbandSplitterLinear(16);
-//                list.add(new Pair<String, String>("BPMAdvancedFullLinearWin" + i, ((Integer)p.calculateBPMSimpleWithFreqBands(16, splitter, 2.72, i, 0.16)).toString()));
-//            }
-
-
-//            int sc = 8;
-//            SubbandSplitterIFace splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 1, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.5, 6, 0.16)).toString()));
-//            sc = 8;
-//            splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 2, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.5, 6, 0.32)).toString()));
-//
-//            sc = 16;
-//            splitter = new SubbandSplitterLinear(sc);
-//            list.add(new Pair<String, String>("BPMAdvancedFullLinear" + 3, ((Integer)p.calculateBPMSimpleWithFreqBands(sc, splitter, 2.7, 6, 0.04)).toString()));
-
-
-            // TODO: Tohle je dulezity
-//            list.add(analyzeBPMAdvancedFullLinear(p));
-
-
-
-//            list.add(analyzeBPMAdvancedFullLog(p));
-
-
-//            list.add(analyzeBPMAdvancedFullOldConstant(p));
-//            list.add(analyzeBPMAdvancedFullOld(p));
-//            list.add(analyzeBPMAdvancedFullOld32(p));
-
-
-//            analyzeBPMAdvancedFullLogarithmicTEST(p, list);
-
-
-//            analyzeBPMAdvancedFullLinearTEST(p, list);
-//            list.add(analyzeBPMAdvancedFullLinear6(p));
-//            list.add(analyzeBPMAdvancedFullLinear8(p));
-//            list.add(analyzeBPMAdvancedFullLinear16(p));
-//            list.add(analyzeBPMAdvancedFullLinear32(p));
-//            list.add(analyzeBPMAdvancedFullLinear64(p));
-            // TODO: BPM - HLEDANI
-
-
-
-
             list.add(analyzeBPMAllPart(byteWave));
-            // TODO: BPM - HLEDANI
-//            list.add(analyzeBPMAllPartConstant(p));
-//            list.add(analyzeBPMAllPartLinear(p));
-//            list.add(analyzeBPMAllPart(p));
-            // TODO: BPM - HLEDANI
-//
             list.add(analyzeBPMBarycenterPart(byteWave));
-            // TODO: BPM - HLEDANI
-//            list.add(analyzeBPMBarycenterPartConstant(p));
-//            list.add(analyzeBPMBarycenterPartLinear(p));
-//            list.add(analyzeBPMBarycenterPart(p));
-            // TODO: BPM - HLEDANI
         }
 
         runSelectedPlugins(byteWave, list);
-
-
-//		char[] c = new char[] {'a'};		// TODO:
-//		for(int i = 0; i < 5; i++) {
-//			pair = new Pair<>(new String(c), new String(c));		// TODO: tady by se mela provest ta analyza featur
-//			list.add(pair);
-//			c[0]++;
-//		}
-
 
 
         Node node = AnalyzerXML.getFirstSongNodeMatchingGivenName(file.getName());
@@ -618,7 +533,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeEncoding(ByteWave byteWave) {
-        return new Pair<String, String>("Encoding", byteWave.encoding.toString());// TODO: To chce asi pres swithch spis
+        return new Pair<String, String>("Encoding", byteWave.encoding.toString());
     }
 
     private static Pair<String, String> analyzeSampleSize(ByteWave byteWave) {
@@ -634,382 +549,14 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
 
-
-    // TODO: BPM - HLEDANI
-//    private static Pair<String, String> analyzeBPMAdvancedFullLog(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullOldLog", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullOldConstant(ByteWave byteWave) {
-//        int subbandCount = 6;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterConstant(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullOldConstant", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullOld(ByteWave byteWave) {
-//        int subbandCount = 6;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//
-//        // TODO: DEBUG
-////        ProgramTest.debugPrint("NEW FULL SPLITTER:");
-//        // TODO: DEBUG
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//        // TODO: DEBUG
-//////        Proste napisu metodu co mi hodi Hz tak aby to napasovalo na ten subbandCount - bud to hodi tech 200 nebo maximalne tak aby to vyslo na ten poskytnutej subbandCount
-//////        Tohle pod timhle komentem je to co se pouziva
-////        new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-////        ProgramTest.debugPrint("\nOLD FULL SPLITTER:");
-////        splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
-////        new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-//        // TODO: DEBUG
-////        SubbandSplitterIFace splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
-////        return new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-//
-//        // TODO: DEBUG
-////        System.exit(4548744);
-//        if(subbandCount != splitter.getSubbandCount()) {
-//            int todo = 4;
-//            ProgramTest.debugPrint(subbandCount, splitter.getSubbandCount());
-//            System.exit(487);
-//        }
-//        // TODO: ted jsem odstranil tu vec s 0 .tym binem a presunul to do tamty metody primo kde se to pocita - ale ono to bez toho nefunguje
-//        // TODO: DEBUG
-//        return new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullOld32(ByteWave byteWave) {
-//        int subbandCount = 32;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//
-//        // TODO: DEBUG
-////        ProgramTest.debugPrint("NEW FULL SPLITTER:");
-//        // TODO: DEBUG
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: DEBUG
-//////        Proste napisu metodu co mi hodi Hz tak aby to napasovalo na ten subbandCount - bud to hodi tech 200 nebo maximalne tak aby to vyslo na ten poskytnutej subbandCount
-//////        Tohle pod timhle komentem je to co se pouziva
-////        new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-////        ProgramTest.debugPrint("\nOLD FULL SPLITTER:");
-////        splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
-////        new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-//        // TODO: DEBUG
-////        SubbandSplitterIFace splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
-////        return new Pair<String, String>("BPMAdvancedFullOld", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter.getSubbandCount(), splitter)).toString());
-//
-//        // TODO: DEBUG
-////        System.exit(4548744);
-//        if(subbandCount != splitter.getSubbandCount()) {
-//            int todo = 4;
-//            ProgramTest.debugPrint(subbandCount, splitter.getSubbandCount());
-//            System.exit(487);
-//        }
-//        // TODO: ted jsem odstranil tu vec s 0 .tym binem a presunul to do tamty metody primo kde se to pocita - ale ono to bez toho nefunguje
-//        // TODO: DEBUG
-//        return new Pair<String, String>("BPMAdvancedFullOld32", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceOld(splitter)).toString());
-//    }
-    // TODO: BPM - HLEDANI
-
-
-
     private static Pair<String, String> analyzeBPMAdvancedFullLinear(ByteWave byteWave) {
         int subbandCount = 8;
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFull3", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 0.16)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 4, 0.0)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull5", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.2, 6, 0.0)).toString());
-
 
         return new Pair<String, String>("BPM (Advanced full)", ((Integer)byteWave.computeBPMSimpleWithFreqBands(subbandCount,
                 splitter, 2.5, 6, 0.16)).toString());
-//        return new Pair<String, String>("BPMAdvancedFull", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 1.12)).toString());
-
-
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFull4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.74, 6, 0.0)).toString());
-
-
-//        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLog", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.72, 4, 0.0)).toString());
     }
 
-
-    // TODO: BPM - HLEDANI (bylo to kdyz jsem hledal ty parametry)
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear2(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 1.12)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear3(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance2", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 5.12)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear4(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance3", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 10.12)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear5(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullBigVariance4", ((Integer)prog.calculateBPMSimpleWithFreqBands(subbandCount,
-//                splitter, 2.5, 6, 30.12)).toString());
-//    }
-//
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear2", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear6(ByteWave byteWave) {
-//        int subbandCount = 6;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear6", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear8(ByteWave byteWave) {
-//        int subbandCount = 8;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear8", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear16(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear16", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear32(ByteWave byteWave) {
-//        int subbandCount = 32;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear32", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAdvancedFullLinear64(ByteWave byteWave) {
-//        int subbandCount = 64;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        return new Pair<String, String>("BPMAdvancedFullLinear64", ((Integer)prog.getBPMSimpleWithFreqDomainsWithVarianceNew(subbandCount, splitter)).toString());
-//    }
-//
-//
-//    private static void analyzeBPMAdvancedFullLinearTEST(ByteWave byteWave, List list) {
-//        int subbandCount = 64;
-//        double coef = 3;
-//        while(coef < 3.07) {
-//            for(double varianceLimit = 0; varianceLimit < 1.4; varianceLimit += 0.2) {
-//                for (int windowsBetweenBeats = 0; windowsBetweenBeats < 6; windowsBetweenBeats++) {
-//                    for (int i = 0; i < 5; i++) {
-//                        switch (i) {
-//                            case 0:
-//                                subbandCount = 6;
-//                                break;
-//                            case 1:
-//                                subbandCount = 8;
-//                                break;
-//                            case 2:
-//                                subbandCount = 16;
-//                                break;
-//                            case 3:
-//                                subbandCount = 32;
-//                                break;
-//                            case 4:
-//                                subbandCount = 64;
-//                                break;
-//                        }
-//
-//
-//                        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
-//                        String name = "BPMAdvancedFullLinear" + subbandCount + "Coef" + (int) Math.round(2 * coef) + "Win" + windowsBetweenBeats;
-//                        name += "Var" + (int) Math.round(1 * varianceLimit);
-//                        list.add(new Pair<String, String>(name, ((Integer) bpm).toString()));
-//                    }
-//                }
-//            }
-//
-//            coef += 0.08;
-//        }
-//    }
-//
-//
-////tahle verze je vydelan o 32 - 18 (za koeficienty) + 14 (za varianci)
-//    private static void analyzeBPMAdvancedFullLogarithmicTEST(ByteWave byteWave, List list) {
-//        int subbandCount = 64;
-//        double coef = 2;
-//        while(coef < 3) {
-//            for(double varianceLimit = 0; varianceLimit < 1.4; varianceLimit += 0.16) {
-//                for (int windowsBetweenBeats = 0; windowsBetweenBeats < 5; windowsBetweenBeats++) {
-////                    if(windowsBetweenBeats != 0 && windowsBetweenBeats != 4) continue;
-//                    for (int i = 0; i < 5; i++) {
-//                        switch (i) {
-//                            case 0:
-//                                subbandCount = 6;
-//                                break;
-//                            case 1:
-//                                subbandCount = 8;
-//                                break;
-//                            case 2:
-//                                subbandCount = 16;
-//                                break;
-//                            case 3:
-//                                subbandCount = 32;
-//                                break;
-//                            case 4:
-//                                subbandCount = 64;
-//                                break;
-//                        }
-//
-//
-//                        SubbandSplitterIFace splitter;
-//
-////                        if (subbandCount == 6) {
-////                            if (prog.sampleRate < 30000) {
-////                                splitter = new SubbandSplitter(prog.sampleRate, 100, 100, subbandCount);
-////                            } else {
-////                                splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-////                            }
-////                        } else {
-////                            splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-////                        }
-//
-//                        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
-//                                windowsBetweenBeats, varianceLimit);
-//
-//                        String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
-//                                "Win" + windowsBetweenBeats;
-//                        name += "Var" + (int)Math.round(100 * varianceLimit);
-//ProgramTest.debugPrint("alg:", name);
-//                        list.add(new Pair<String, String>(name, ((Integer) bpm).toString()));
-//                    }
-//                }
-//            }
-//
-//            coef += 0.08;
-//        }
-//    }
-//
-//
-////    private static void analyzeBPMAdvancedFullLogarithmicTEST(ByteWave byteWave, List list) {
-////        int subbandCount = 64;
-////        double coef = 2;
-////        while(coef < 3) {
-////            for(double varianceLimit = 0; varianceLimit < 1.4; varianceLimit += 0.05) {
-////                for (int windowsBetweenBeats = 0; windowsBetweenBeats < 5; windowsBetweenBeats++) {
-//////                    if(windowsBetweenBeats != 0 && windowsBetweenBeats != 4) continue;
-////                    for (int i = 0; i < 5; i++) {
-////                        switch (i) {
-////                            case 0:
-////                                subbandCount = 6;
-////                                break;
-////                            case 1:
-////                                subbandCount = 8;
-////                                break;
-////                            case 2:
-////                                subbandCount = 16;
-////                                break;
-////                            case 3:
-////                                subbandCount = 32;
-////                                break;
-////                            case 4:
-////                                subbandCount = 64;
-////                                break;
-////                        }
-////
-////
-////                        SubbandSplitterIFace splitter;
-////
-//////                        if (subbandCount == 6) {
-//////                            if (prog.sampleRate < 30000) {
-//////                                splitter = new SubbandSplitter(prog.sampleRate, 100, 100, subbandCount);
-//////                            } else {
-//////                                splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//////                            }
-//////                        } else {
-//////                            splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//////                        }
-////
-////                        splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-////                        int bpm = prog.calculateBPMSimpleWithFreqBands(subbandCount, splitter, coef,
-////                                windowsBetweenBeats, varianceLimit);
-////
-////                        String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
-////                                "Win" + windowsBetweenBeats;
-////                        name += "Var" + (int)Math.round(100 * varianceLimit);
-////
-////                        list.add(new Pair<String, String>(name, ((Integer) bpm).toString()));
-////                    }
-////                }
-////            }
-////
-////            coef += 0.05;
-////        }
-////    }
-    // TODO: BPM - HLEDANI
 
 
 
@@ -1044,8 +591,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                         int bpm = byteWave.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef, windowsBetweenBeats, varianceLimit);
                         String name = "BPMAdvancedFullLinear" + subbandCount + "Coef" + (int) Math.round(100 * coef) + "Win" + windowsBetweenBeats;
                         name += "Var" + (int) Math.round(100 * varianceLimit);
-
-//                        ProgramTest.debugPrint("Current alg:", name);
 
                         referenceBPM = addBPMToList(byteWave, name, list, bpm, referenceBPM);
                     }
@@ -1086,17 +631,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
                         SubbandSplitterIFace splitter;
-
-//                        if (subbandCount == 6) {
-//                            if (prog.sampleRate < 30000) {
-//                                splitter = new SubbandSplitter(prog.sampleRate, 100, 100, subbandCount);
-//                            } else {
-//                                splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//                            }
-//                        } else {
-//                            splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//                        }
-
                         splitter = new SubbandSplitter(byteWave.sampleRate, 0, subbandCount);
                         int bpm = byteWave.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef,
                                 windowsBetweenBeats, varianceLimit);
@@ -1104,8 +638,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                         String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
                                 "Win" + windowsBetweenBeats;
                         name += "Var" + (int)Math.round(100 * varianceLimit);
-
-//                        ProgramTest.debugPrint("Current alg:", name);
 
                         referenceBPM = addBPMToList(byteWave, name, list, bpm, referenceBPM);
                     }
@@ -1120,175 +652,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
 
-
-    // TODO: BPM - HLEDANI
-//    private static Pair<String, String> analyzeBPMBarycenterPart(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//            numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMBarycenterPart16Subbands", ((Integer)bpm).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAllPart(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 2.2;
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//            numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMAllPart16Subbands", ((Integer)bpm).toString());
-//    }
-//
-//
-//    private static Pair<String, String> analyzeBPMBarycenterPartLinear(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMBarycenterPart16SubbandsLinear", ((Integer)bpm).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAllPartLinear(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 2.2;
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMAllPart16SubbandsLinear", ((Integer)bpm).toString());
-//    }
-//
-//
-//    private static Pair<String, String> analyzeBPMBarycenterPartConstant(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-////        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitterConstant(subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMBarycenterPart16SubbandsConstant", ((Integer)bpm).toString());
-//    }
-//
-//    private static Pair<String, String> analyzeBPMAllPartConstant(ByteWave byteWave) {
-//        int subbandCount = 16;
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-//        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, 200, subbandCount);
-////        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 0, subbandCount);
-////        SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
-//        SubbandSplitterIFace splitter = new SubbandSplitterConstant(subbandCount);
-//
-//        int startBPM = 60;
-//        int jumpBPM = 10;
-//        int upperBoundBPM = 290;
-//        double numberOfSeconds;
-//        int numberOfBeats;
-//        int bpm;
-//        CombFilterBPMGetterIFace combFilterAlg;
-//
-//
-//        numberOfSeconds = 2.2;
-//        numberOfBeats = (int)Math.ceil(numberOfSeconds);
-//        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
-//        bpm = combFilterAlg.calculateBPM(startBPM, jumpBPM, upperBoundBPM,
-//                numberOfSeconds, subbandCount, splitter, numberOfBeats, prog);
-//
-//        return new Pair<String, String>("BPMAllPart16SubbandsConstant", ((Integer)bpm).toString());
-//    }
-    // TODO: BPM - HLEDANI
-
-
-
     private static Pair<String, String> analyzeBPMBarycenterPart(ByteWave byteWave) {
         int subbandCount = 6;
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
         SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.sampleRate, 200, 200, subbandCount);
         int startBPM = 60;
         int jumpBPM = 10;
@@ -1298,8 +663,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         int bpm;
         CombFilterBPMGetterIFace combFilterAlg;
 
-//        numberOfSeconds = 2.2;
-        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
+        numberOfSeconds = 6.15;
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
         combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM,
@@ -1310,10 +674,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private static Pair<String, String> analyzeBPMAllPart(ByteWave byteWave) {
         int subbandCount = 6;
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitter(prog.sampleRate, 200, subbandCount);
-        // TODO: Vymazat - respektive vyzkouset, az pak vymazat
-//        SubbandSplitterIFace splitter = new SubbandSplitterOld(prog.sampleRate, 200, subbandCount);
         SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.sampleRate, 200, 200, subbandCount);
 
         int startBPM = 60;
@@ -1326,12 +686,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         numberOfSeconds = 2.2;
-//        numberOfSeconds = 6.15;       // Maybe 6.2 but this feels ok
-//        numberOfSeconds = 5.2;
-//        numberOfSeconds = 3.2;
-//        numberOfSeconds = 4.15;
         numberOfBeats = (int)Math.ceil(numberOfSeconds);
-        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All subbands version
+        combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All sub-bands version
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM, numberOfSeconds,
                                        subbandCount, splitter, numberOfBeats, byteWave);
 
@@ -1354,7 +710,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     // and put the results to new list of Pair<String, Integer>, where the first value is the name of the algorithm
     // and the second is the sum of differences.
     // Based on that we choose the result with the smallest difference, which will be the first one in the sorted array.
-
     public static final int BPM_DIF_MULT_FACTOR = 5;
 
 
@@ -1538,7 +893,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                 MyLogger.log(String.format("%.2f", arr[arr.length - j - 1]), 0);
             }
             MyLogger.log("----", 0);
-//            ProgramTest.debugPrint(difList.get(i));
         }
     }
 }

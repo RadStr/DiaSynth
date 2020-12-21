@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 
 
-
 public class TimeWaveDrawWrapper extends DrawWrapperBase {
     public static TimeWaveDrawWrapper createMaxSizeTimeWaveDrawWrapper(int timeInMs, boolean isEditable,
                                                                        Color backgroundColor,

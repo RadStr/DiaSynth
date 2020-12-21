@@ -11,7 +11,6 @@ public class ZoomVariablesAllWaves {
         zoom = 0;
     }
 
-    private final int CACHE_DIFFERENCE = 4;
 
     private int maxAllowedZoom;
     public int getMaxAllowedZoom() {
@@ -22,7 +21,6 @@ public class ZoomVariablesAllWaves {
     }
 
     public int zoom;
-
     public boolean getIsZoomAtZero() {
         return zoom == 0;
     }

@@ -3,13 +3,6 @@ package analyzer.bpm;
 import util.Pair;
 
 
-// TODO: Old BPM - it gave some nice results, but was pretty weird and incorrect, but I may incorporate it as next algorithm since the results were
-// TODO: really pretty good
-
-
-
-
-
 /**
  * the subbandCount is set based on the given sample rate (or given sample rate - check comment at constructor)
  * that means the subbandCount parameter is ignored as parameter in the methods.
@@ -66,10 +59,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         else {
             START_HZ = SUBBAND_RANGE;
         }
-
-        // TODO: Stary
-//        SUBBAND_RANGE = (int)Math.ceil(FREQ_RANGE / Math.pow(2, SUBBAND_COUNT));
-        // TODO: Stary
     }
 
 
@@ -98,9 +87,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
         double geometricSumFraction = (1 - Math.pow(2, subbandCount)) / -1;
         // +1 because we are going from 0
         SUBBAND_RANGE = FREQ_RANGE / (1 + 2 * geometricSumFraction);
-        // TODO: Stary
-//        SUBBAND_RANGE = FREQ_RANGE / (1 << SUBBAND_COUNT);
-        // TODO: Stary
 
         if(startHz != 0) {
             START_HZ = startHz;
@@ -138,14 +124,8 @@ public class SubbandSplitter implements SubbandSplitterIFace {
             resetPreviousStartIndex();
             subbandRangeInHz = START_HZ;
         } else if (subband < SUBBAND_COUNT - 1) {
-//            subbandRangeInHz = SUBBAND_RANGE * (1 << (subband - 1));
             subbandRangeInHz = SUBBAND_RANGE * Math.pow(2, subband - 1);
         } else if (subband == SUBBAND_COUNT - 1) {
-//            return new Pair<>(previousStartIndex, binCount - 2 * previousStartIndex);     // TODO: To tu uz nema co delat asi kdyz uz nenasobim 2ma
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("LAST BIN:", previousStartIndex, binCount - previousStartIndex);
-//            ProgramTest.debugPrint("DELKAA-LAST:", binCount - previousStartIndex);
-            // TODO: DEBUG
             return new Pair<>(previousStartIndex, binCount - previousStartIndex);
         } else {
             return null;
@@ -154,21 +134,10 @@ public class SubbandSplitter implements SubbandSplitterIFace {
 
         len = (int) Math.ceil(((subbandRangeInHz - previousHzOverflow) / jumpHZ));
         if (len <= 0) {
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("LEN <= 0", len, subband,
-//                    subbandRangeInHz - previousHzOverflow, ((subbandRangeInHz - previousHzOverflow) / jumpHZ),
-//                    binCount);
-            // TODO: DEBUG
             len = 1;
             previousHzOverflow = 0;
             artificallyEnlargedBins++;
         } else {
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("DELKA:", len, "SUBBAND:", subband, subbandRangeInHz, artificallyEnlargedBins);
-//            if (len == 880) {
-//                int todo = 44444;
-//            }
-            // TODO: DEBUG
             if (deficitJump < 0) {
                 if (len > 1 && subband != 0) {
                     int remainingSubbands = SUBBAND_COUNT - subband;
@@ -180,26 +149,10 @@ public class SubbandSplitter implements SubbandSplitterIFace {
                         deficitJump = -(artificallyEnlargedBins) / (2 - Math.pow(2, remainingSubbands));
                         deficitJump++;      // because the sum goes from 0;
                     }
-//                if(SUBBAND_COUNT < binCount / 2) {
-//
-//                }
-//                else {
-//
-//                }
-//                int n =
-//                deficit = (SUBBAND_COUNT - subband) / (double)artificallyEnlargedBins;
-
-
-                    // TODO: DEBUG
-//                    ProgramTest.debugPrint("DEFICIT JUMP:", deficitJump);
-                    // TODO: DEBUG
                     len -= (int) deficitJump;
                     deficitJump *= 2;
                 }
             } else {
-                // TODO: DEBUG
-//                ProgramTest.debugPrint("DEFICIT JUMP:", deficitJump);
-                // TODO: DEBUG
                 len -= (int) deficitJump;
                 deficitJump *= 2;
             }
@@ -210,9 +163,6 @@ public class SubbandSplitter implements SubbandSplitterIFace {
             else {
                 previousHzOverflow %= subbandRangeInHz;
             }
-            // TODO: OLD - vymazat
-//            previousHzOverflow %= subbandRangeInHz;
-            // TODO: OLD - vymazat
         }
 
         retPair = new Pair<>(previousStartIndex, len);

@@ -8,8 +8,8 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import java.lang.reflect.Field;
 
-// Uses copy pasted from the LimitDocumentFilterInt - I can't effectively reuse the code since, it calls replace on the parent internally
-// And the doubles will need that too
+// Uses copy pasted code from the LimitDocumentFilterInt. I can't effectively reuse the code,
+// since it calls replace on the parent internally and the doubles will need that too
 public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
     public LimitDocumentFilterIntAndDouble(double lowerBound, double upperBound, boolean isFloatOrDouble,
                                            Field field, FieldSetterIFace fieldSetter) {
@@ -32,7 +32,8 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
 
     // text is the added text, and it is starting at offset in the old string
     @Override
-    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+    public void replace(FilterBypass fb, int offset, int length, String text,
+                        AttributeSet attrs) throws BadLocationException {
         String oldNumString = internalRemove(fb, offset, length);
 
         String prefix = oldNumString.substring(0, offset);
@@ -56,7 +57,8 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
 
         // The new given number is either just minus or int or double there is no other possibility
         String newNumString = prefix + text + suffix;
-        if(LimitDocumentFilterInt.isInteger(text, 10) || isJustMinus) {       // Check if the new text are only digits
+        // Check if the new text are only digits
+        if(LimitDocumentFilterInt.isInteger(text, 10) || isJustMinus) {
             double newNum;
 
             try {
@@ -74,7 +76,8 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
             ifInBoundsReplace(fb, offset, length, text, attrs, newNum, newNumString);
         }
         else if(isFloatOrDouble && text.indexOf('.') != -1 && !hasDecimalPoint &&
-                !(text.indexOf('.') == 0 && prefix.length() == 0) || isJustMinus) { // I don't allow the . to be at start
+                !(text.indexOf('.') == 0 && prefix.length() == 0) ||    // I don't allow the . to be at start
+                isJustMinus) {
             hasDecimalPoint = true;
 
             if(text.indexOf('.') == text.length() - 1 && "".equals(suffix)) {

@@ -34,12 +34,6 @@ public interface SubbandSplitterIFace {
         startIndex = pair.getKey();
         currentSubbandSize = pair.getValue();
 
-// TODO: DEBUG
-/*
-        double jumpHzTODO = (double)SAMPLE_RATE / fftResult.length;
-        System.out.println("Inside:\t" + subband + "\t" + startIndex + "\t" + currentSubbandSize + "\t" + (startIndex/2 * jumpHzTODO) + "\t" + jumpHzTODO);
-/**/
-
         startIndex++;       // Because we want to skip the [1], the [0] is already skipped
         if (subband == subbandCount - 1) {
             currentSubbandSize--;
@@ -57,7 +51,7 @@ public interface SubbandSplitterIFace {
      * @param subband
      * @return
      */
-    default public double[] getSubband(double[] fftMeasures, int subbandCount, int subband) {          // TODO: Subband indexed from 0 ... so the last subband has number subbandCount - 1
+    default public double[] getSubband(double[] fftMeasures, int subbandCount, int subband) {
         double[] result = new double[fftMeasures.length];
         getSubband(fftMeasures, subbandCount, subband, result);
         return result;
@@ -71,8 +65,9 @@ public interface SubbandSplitterIFace {
      * @param subband
      * @return
      */
+    // Code duplication (Take a look at bottom of interface)
     default double getSubbandEnergy(double[] fftMeasures, int subbandCount, int subband) {
-        Pair<Integer, Integer> indices = getSubbandIndices(fftMeasures.length, subbandCount, subband);       // Code duplication (Take a look at bottom of interface)
+        Pair<Integer, Integer> indices = getSubbandIndices(fftMeasures.length, subbandCount, subband);
         double energy = 0;
         int index = indices.getKey();
         int len = indices.getValue();
@@ -81,18 +76,7 @@ public interface SubbandSplitterIFace {
             energy += fftMeasures[index];
         }
 
-//        energy = energy * subbandCount / fftMeasures.length;  // TODO: Ted nevim jestli se to deli to delkou
-        // TODO: NOVY BPM - ASI BUG
-//        energy /= (double) len;       // Average energy per bin
-//        energy = subbandCount * energy / fftMeasures.length;
-
-        // TODO: ENERGIE TED
         energy = len * energy / fftMeasures.length;
-//        energy = energy / fftMeasures.length;     // Novy jak si myslim ze to klidne muze byt
-        // TODO: ENERGIE TED
-        // TODO: NOVY BPM - ASI BUG
-
-// TODO:        System.out.println("getSubbandEnergy: " + subband + "\t" + (index-len) + ":\t" + len + ":\t" + energy);
         return energy;
     }
 
@@ -106,6 +90,6 @@ public interface SubbandSplitterIFace {
     public Pair<Integer, Integer> getSubbandIndices(int arrayLen, int subbandCount, int subband);
 
 
-// TODO: unfortunately there can't be private methods in interface (available from java 9), So I have to duplicate code
+//  Unfortunately there can't be private methods in interface (available from java 9), So I have to duplicate code
 //  private double getEnergyInternalCalculation(double[] fftMeasures, int subbandCount, int subband, Pair<Integer, Integer> indexes)
 }

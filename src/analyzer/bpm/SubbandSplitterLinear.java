@@ -51,7 +51,7 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
             binSizes[binSizes.length - 1] = binCount - sum;
         } else {
             int index = binSizes.length - 1;
-            int binsOver = (int) Math.round(sum) + (int) Math.round(binSizes[index]) - binCount;
+            int binsOver = Math.round(sum) + Math.round(binSizes[index]) - binCount;
             int cycle = 0;
             while (binsOver > 0) {
                 binSizes[index]--;
@@ -89,28 +89,7 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
             setBinCount(binCount - 1);
         }
         Pair<Integer, Integer> retPair;
-
-        // TODO: DEBUG
-//        double sum2 = ByteWave.performAggregation(arr, Aggregation.SUM);
-//        if (sum2 != binCount) {
-//            ProgramTest.debugPrint("FAILED", sum, sum2, binCount);
-//            System.exit(56487);
-//        }
-//
-//        ProgramTest.debugPrint("LINEAR DELKA:", (int)Math.round(sum) + 1,
-//                (int) Math.round(arr[subband]), getSubbandCount());
-        // TODO: DEBUG
-
-        // TODO: 0-th BIN
-        // + 1 for the start index, because the first bin doesn't count
-//        retPair = new Pair((int)Math.round(sum) + 1, (int) Math.round(arr[subband]));
         retPair = new Pair(binStartIndices[subband], binSizes[subband]);
-
-//        retPair = new Pair((int)Math.round(sum), (int) Math.round(arr[subband]));
-        // TODO: 0-th BIN
-//        }
-        // TODO: Doesn't work
-
         return retPair;
     }
 }

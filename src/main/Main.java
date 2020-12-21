@@ -80,14 +80,11 @@ public class Main {
         catch(Exception e) {
             MyLogger.logWithoutIndentation("UNEXPECTED EXCEPTION INSIDE PROGRAM ... ENDING PROGRAM");
             MyLogger.logException(e);
-            MyLogger.logWithoutIndentation("PROGRAM ENDED");
-            if(frame != null) {
-                new ErrorFrame(frame, "UNEXPECTED EXCEPTION - check log file");
-            }
-            else {
+            if(frame == null) {
                 MyLogger.logWithoutIndentation("Program ended before the frame was created.");
-                System.exit(-111);
             }
+            MyLogger.logWithoutIndentation("PROGRAM ENDED");
+            new ErrorFrame(frame, "UNEXPECTED EXCEPTION - check log file");
         }
     }
 }

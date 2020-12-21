@@ -6,16 +6,20 @@ import player.mixer.ifaces.AudioMixerIFace;
 import player.mixer.ifaces.AudioMixerIntIFace;
 import util.audio.AudioConverter;
 
+
 /**
- * Default implementation. Just implement AudioMixerIFace if overriding, the int variants and byte variants aren't used anyways.
- * Performs the simplest mixing, the result may overflow the max/min supported value of sample
+ * Default implementation. When overriding just implement AudioMixerIFace.
+ * The int variants and byte variants aren't used anyways.
+ * Performs the simplest mixing, the result may overflow the max/min supported value of sample.
  *
+ * The best mix methods are mix(double[][] vals, double[][] multFactors, double[] finalMultFactors,
+ *                              int index, double[] outputArr)
+ * and the int variant of that and the variant which doesn't use finalMultFactors.
+ * Other methods are either byte methods, which aren't the fastest since we need to convert them to int first.
+ * The rest are help methods which can be used, but it isn't necessary
  */
-// The best mix methods are mix(double[][] vals, double[][] multFactors, double[] finalMultFactors, int index, double[] outputArr)
-// and the int variant of that, and the variant which doesn't use finalMultFactors.
-// Other methods are either byte methods, which aren't the fastest since we need to convert them to int first.
-// And others are help methods which can be used, but it isn't necessary
-public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace, AudioMixerIntIFace, AudioMixerByteIFace {
+public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace,
+                                          AudioMixerIntIFace, AudioMixerByteIFace {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Methods when the output audioFormat has more than 1 channel
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +206,7 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 
 
 
-
+// TODO: Nevim co s nima, asi je vyhodit radsi
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Mono methods - not used, but I program them and they may be useful - they perform the same operations as the
     // multi-channel variants but with different interface - we need only 1D array for the multFactors arrays
@@ -341,7 +345,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
         return val * multiplyFactor;
     }
 
-    // Also not included in AudioMixerIFace, for same reason as mixOneVal, but this method usually don't make sense be overriden.
+    // Also not included in AudioMixerIFace, for same reason as mixOneVal,
+    // but this method usually don't make sense be overridden.
     /**
      * Mixes 2 value together, each multiplied by multiply factor
      * @param val1
@@ -371,6 +376,6 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 
     @Override
     public void update(double[][] multFactors) {
-
+        // EMPTY
     }
 }

@@ -7,7 +7,8 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
     // Methods when the output audioFormat has more than 1 channel
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-    protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask, boolean isBigEndian, boolean isSigned,
+    protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask,
+                      boolean isBigEndian, boolean isSigned,
                       int index, int channel) {
         int sample = AudioConverter.convertBytesToInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
         sample = mixOneVal(sample, multFactors[0][channel]);

@@ -38,7 +38,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         }
 
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] /= (2 * binCount);         // TODO: NORM
+            fftResult[i] /= (2 * binCount);
         }
         FFT.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
                 imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
@@ -130,7 +130,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
         FFT.connectRealAndImagPart(realPart, imagPart, fftResult);
         for(int i = 0; i < fftResult.length; i++) {
-            fftResult[i] *= 2 * realPart.length;            // TODO: NORM
+            fftResult[i] *= 2 * realPart.length;
         }
         getComplexIFFT(fftResult, fft);
 
@@ -182,7 +182,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             optionsMenuItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(realPartPanel.fftWindowPartPanel);
+                    FFTWindowOptionsDialogPanel classWithValues;
+                    classWithValues = new FFTWindowOptionsDialogPanel(realPartPanel.fftWindowPartPanel);
                     AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues, classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,

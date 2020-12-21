@@ -26,14 +26,17 @@ public class LimitDocumentFilterInt extends DocumentFilter {
         if (length > 0) {
             oldNumString = oldNumString.substring(0, offset) + oldNumString.substring(offset + length);
         }
-        if (!isZeroFirst(text, offset) && isPositiveInteger(text, 10)) {       // Check if the new text are only digits
+
+        // Check if the new text are only digits
+        if (!isZeroFirst(text, offset) && isPositiveInteger(text, 10)) {
             String a = oldNumString.substring(0, offset);
             String b = oldNumString.substring(offset);
             String newNumString = a + text + b;
 
             int newNum;
             try {
-                // If the added string has always length 1, then the exception won't happen (There would be around 2^29 audio tracks)
+                // If the added string has always length 1, then the exception won't happen
+                // (There would have to be around 2^29 audio tracks)
                 newNum = Integer.parseInt(newNumString);
             } catch (NumberFormatException e) {
                 return;

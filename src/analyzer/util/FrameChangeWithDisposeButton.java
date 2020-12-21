@@ -20,7 +20,6 @@ public class FrameChangeWithDisposeButton extends JButton {
 	 */
 	public FrameChangeWithDisposeButton(JFrame oldFrame, JFrame newFrame, String name) {	
 		this.setText(name);
-		// TODO:
 		this.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {

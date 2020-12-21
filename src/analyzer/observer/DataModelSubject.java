@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DataModelSubject implements DataModelSubjectIFace {
 	private List<DataModelObserverIFace> observers;
-	private JFrame frame;		// TODO: tohle chce fakt resit pres exceptiony
+	private JFrame frame;
 	
 	public DataModelSubject(JFrame f) {
 		observers = new ArrayList<>();

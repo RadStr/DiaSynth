@@ -21,7 +21,6 @@ public class AnalyzerMainPanel extends JPanel implements TabChangeIFace {
 
     	thisFrame = frame;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//		songLib = new SongLibraryFrame(frame, frameWidth, frameHeight);
 
 		MyLogger.log("Creating song library panel", 1);
 		songLibraryPanel = new SongLibraryPanel(frame, addToAudioPlayerIFace);
@@ -31,7 +30,6 @@ public class AnalyzerMainPanel extends JPanel implements TabChangeIFace {
 		MyLogger.log("Created song library panel", -1);
 		MyLogger.log("Creating analyzer panel", 1);
 		analyzerPanel = new AnalyzerPanel(frame, observers);
-//		analyzer = new AnalyzerFrame(frame, frameWidth, frameHeight, observers);
 		MyLogger.log("Created analyzer panel", -1);
 		menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");

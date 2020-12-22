@@ -17,7 +17,7 @@ import java.awt.event.*;
 
 public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
                                                      WavePanelPopupMenuActionsIFace {
-    private final String FONT_NAME = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
+    private final String FONT_NAME = "Serif";
 
     private WaveMixPanel mixPanel;
     public void updateChannelSliders(ChannelCount channelCount) {
@@ -39,8 +39,10 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     private AudioPlayerPanel panelWithWaves;
 
-    // Indexed from 1
-    private JTextFieldResizeable waveIndexTextField;          // TODO: !!!!!!!!!!!
+    /**
+     * Wave index: Indexed from 1
+     */
+    private JTextFieldResizeable waveIndexTextField;
 
     public String getWaveIndexTextFieldText() {
         return waveIndexTextField.getText();
@@ -73,7 +75,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-    public void setCurrentFontSize(int currentFontSize) {   // Ten font vezmu z vrchni listy
+    public void setCurrentFontSize(int currentFontSize) {
         Graphics g = this.getGraphics();
         g.setFont(new Font(FONT_NAME, Font.BOLD, currentFontSize));
     }
@@ -83,9 +85,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public WaveMainPanel(DoubleWave doubleWave, AudioPlayerPanel panelWithWaves,
                          int waveIndex, ChannelCount channelCountInOutputAudio) {
-// TODO: DEBUG
-//        ProgramTest.debugPrint("WaveMainPanel constructor start", super.getPreferredSize());
-// TODO: DEBUG
         WaveMainPanel thisPanel = this;
         dragging = false;
 
@@ -144,9 +143,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         constraints.gridy = 0;
         constraints.weightx = 0;
         constraints.weighty = 0;
-//        TODO:)
-        // TODO: resize when there are more digits, also write listener, that doesn't let you write bigger number than there are waves
-//        TODO:)
         waveIndexTextField = new JTextFieldResizeable(Integer.toString(waveIndex));
         waveIndexTextField.setToolTipText("Wave index (change the value to swap position with other wave)");
 
@@ -166,18 +162,16 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
         focusLostByEnterPress = false;
 
-        // Listener when enter was pressed ... swap the waves
+        // Listener for when 'enter' was pressed that means we need to swap the waves
         waveIndexTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Udelat swapovani vlny
-                // TODO: Udelat at jsou vsechny stejne velky - aby ten vysledek odpovidal timestampum, tohle by mohlo pomoc:
-                // https://stackoverflow.com/questions/2897506/how-can-i-control-the-width-of-jtextfields-in-java-swing
-
-                // We know that it is int, because only ints can be written to the JTextFieldResizeable (It is checked in LimitDocumentFilterInt)
+                // We know that it is int, because only ints can be written to the JTextFieldResizeable
+                // (It is checked in LimitDocumentFilterInt)
                 thisPanel.focusLostByEnterPress = true;
                 int newIndex = Integer.parseInt(e.getActionCommand());
-                panelWithWaves.swapSplitterComponents(thisPanel.getWaveIndex(), newIndex, waveIndexTextField.getText());
+                panelWithWaves.swapSplitterComponents(thisPanel.getWaveIndex(), newIndex,
+                                                      waveIndexTextField.getText());
 
                 panelWithWaves.revalidateAndRepaintWaves();
                 panelWithWaves.revalidate();
@@ -204,43 +198,11 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         };
 
         waveIndexTextField.addFocusListener(textFieldFocusListener);
-
-
-//        waveIndexTextField.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-////                swapWaves();
-//            }
-//        });
-//
-//        waveIndexTextField.getDocument().addDocumentListener(new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                int num;
-//                if((num = Integer.parseInt(waveIndexTextField.getText())) >= panelWithWaves.getWaveCount()) {
-//                    waveIndexTextField.setText();
-//                }
-//
-//                thisPanel.revalidate();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//            }
-//        });
-
-
         this.add(waveIndexTextField, constraints);
 
 
         int minSliderVal = 0;
         int maxSliderVal = 100;
-        //int defSliderVal = (minSliderVal + maxSliderVal) / 2;
         int defSliderVal = maxSliderVal;
         mixPanel = new WaveMixPanel(SwingConstants.HORIZONTAL, minSliderVal, maxSliderVal, defSliderVal,
             true, channelCountInOutputAudio, this);
@@ -264,22 +226,19 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         constraints.weighty = 0.1;
         this.add(buttonPanel, constraints);
 
-
-        // TODO: Kdyz zvetsim okno tak odstranim vsechny labely a prekreslim, takze v jeden okamzik tam nejsou zadny labely
-        // TODO: Proto bych to mel odstranovat nejak lip asi
         VerticalReferencesPanel referenceValues = new VerticalReferencesPanel(-1, 1);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;
         currGridX++;
         constraints.gridy = 0;
-        constraints.weightx = 0;        // TODO:
-        //constraints.weightx = 1;        // TODO:
+        constraints.weightx = 0;
         constraints.weighty = 0.1;
         this.add(referenceValues, constraints);
 
         wave = new WavePanel(doubleWave, this);
-        // TODO: It is not needed to create new instance for each component, but it is safer, since if I don't reset certain components it can introduce bugs
+        // It is not needed to create new instance for each component, but it is safer,
+        // since if I don't reset certain components it can introduce bugs
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;
@@ -294,13 +253,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         wave.addMouseMotionListener(mouseListenerForWave);
 
         prefSize = super.getPreferredSize();
-
-// TODO: PROGRAMO - height
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
-// TODO: DEBUG
-//        ProgramTest.debugPrint("WaveMainPanel constructor end", super.getPreferredSize());
-// TODO: DEBUG
     }
 
 
@@ -322,26 +275,8 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
 
     public void visibleWidthChangedCallback() {
-// TODO: DEBUG
-        ProgramTest.debugPrint("WWWEverything:", this.getVisibleRect());
-// TODO: DEBUG
         wave.visibleWidthChangedCallback();
     }
-
-    public void setHorizontalScrollToMax() {
-        //panelWithWaves.setHorizontalScrollToMax();
-    }
-
-
-// TODO:
-//    @Override
-//    public Dimension getPreferredSize() {
-//        int w = this.getWidth();
-//        int h = 300;
-//
-//
-//        return new Dimension(w, h);
-//    }
 
 
     @Override
@@ -352,7 +287,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         } else {
             waveIndexTextField.setBackground(Color.white);
         }
-        //System.exit(66);
     }
 
 
@@ -368,58 +302,43 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
     @Override
     public int getHeight() {
-        // TODO: PROGRAMO
         return prefSize.height;
-        //return super.getPreferredSize().height;
-        // TODO: PROGRAMO
     }
 
     private Dimension prefSize = null;
     @Override
     public Dimension getPreferredSize() {
-        // TODO: PROGRAMO
-        //return new Dimension(prefSize.width, super.getPreferredSize().height);
         return prefSize;
-        // TODO: PROGRAMO
-        // TODO: ZOOM
-        //return new Dimension(10000, prefSize.height);
-        // TODO: ZOOM
     }
 
     @Override
     public void setPreferredSize(Dimension d) {
         Dimension min = this.getMinimumSize();
         if (d.width < prefSize.width) {
-            // TODO: PROGRAMO
             d.width = prefSize.width;
-            // TODO: PROGRAMO
         }
         if (d.height < min.height) {
             d.height = min.height;
         }
-        prefSize = d;
 
-// TODO: PROGRAMO - height
+        prefSize = d;
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
     }
 
     public void setPreferredSize(int w, int h) {
         Dimension d = new Dimension(w, h);
         setPreferredSize(d);
-// TODO: PROGRAMO - height
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
     }
 
     public void setPreferredSize(int h) {
         Dimension min = this.getMinimumSize();
-        if (h < min.height)
+        if (h < min.height) {
             h = min.height;
+        }
+
         prefSize.height = h;
-// TODO: PROGRAMO - height
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
     }
 
     /**
@@ -436,24 +355,17 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         } else {
             dif = 0;
         }
-        prefSize.height = h;
 
-// TODO: PROGRAMO - height
+        prefSize.height = h;
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
         return dif;
     }
 
     public void setPrefSizeToMin() {
         Dimension min = this.getMinimumSize();
-        // TODO: PROGRAMO
         Dimension d = new Dimension(prefSize.width, min.height);
-        // TODO: PROGRAMO
         prefSize = d;
-
-// TODO: PROGRAMO - height
         setWavePreferredHeight();
-// TODO: PROGRAMO - height
     }
 
     /**
@@ -466,10 +378,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         Dimension min = this.getMinimumSize();
         h += prefSize.height;
         int dif = h - min.height;
-        if (dif < 0) {
-            h = min.height;
-        }
-        else {
+        if (dif >= 0) {
             dif = 0;
         }
         return dif;
@@ -478,24 +387,12 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public void updatePreferredSize() {
         prefSize.width = super.getPreferredSize().width;
         ProgramTest.debugPrint("updatePreferredSize", getPreferredSize(), wave.getPreferredSize());
-        // TODO: PROGRAMO
         if(prefSize.height < getMinimumSize().height) {
             prefSize.height = super.getPreferredSize().height;
         }
-        // TODO: PROGRAMO
     }
 
-// TODO: REVALIDATE
-//    public void revalidateAll() {
-//        this.revalidate();
-//        this.repaint();
-//        panelWithWaves.revalidate();
-//        panelWithWaves.repaint();
-//    }
-// TODO: REVALIDATE
-
-
-    // TODO: AudioPlayerPanel - nazev teto tridy zmenim - takze pozor na to aby se zmenili i stringy v komentarich pri rename
+    // TODO: Tohle je dost iffy asi to změním a předám rovnou interface těm třídám, ať si to volají.
     // This panel also serves like interface between the panels on this panel and the on which is this panel
     // That means the child components can call only methods on the AudioPlayerPanel through this panel
     // and AudioPlayerPanel can only get info of child components through this panel
@@ -514,10 +411,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public int getWaveWidth() {
         int w;
-        // TODO: BYLO wave.getWidth()
-        //w = wave.getPreferredSize().width;
         w = wave.getWaveWidth();
-        // TODO: BYLO WAVE.getWidth()
         return w;
     }
 
@@ -669,12 +563,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         wave.setToolTipText(text);
     }
 
-    // TODO: PROGRAMO
-    public void setVariablesWhichNeededSize() {
-        wave.setVariablesWhichNeededSize();
-    }
-    // TODO: PROGRAMO
-
 
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
         wave.updateZoom(newZoom, scrollBeforeZoom, shouldZoomToMid, shouldZoomToEnd);
@@ -714,10 +602,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public int getHorizontalScrollSizeForThisWave() {
         int newScrollWidth = wave.getWaveWidth();
-// TODO: OLD SCROLL SIZE
-//        newScrollWidth += panelWithWaves.getPanelWithWavesVerticalScrollbarWidth();
-// TODO: OLD SCROLL SIZE
-        ProgramTest.debugPrint("getHorizontalScrollSizeForThisWave", newScrollWidth);
         return newScrollWidth;
     }
 
@@ -738,24 +622,16 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     // These 2 methods are only called from wave, to sync with the other waves.
     public int getDefaultWaveWidthFromMainPanel() {
         int waveWidth = panelWithWaves.getDefaultWaveWidth();
-        // TOOD: PROGRAMO - maybe problem
-        // Solves case when there is only 1 wave and also case when adding multiple waves and non of them are set yet
         if(waveWidth == 0) {
             waveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
-        // TOOD: PROGRAMO - maybe problem
-
         return waveWidth;
     }
     public int getWaveWidthFromMainPanel() {
         int defaultWaveWidth = panelWithWaves.getWaveWidth();
-        // TOOD: PROGRAMO - maybe problem
-        // Solves case when there is only 1 wave and also case when adding multiple waves and non of them are set yet
         if(defaultWaveWidth == 0) {
             defaultWaveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
-        // TOOD: PROGRAMO - maybe problem
-
         return defaultWaveWidth;
     }
 
@@ -801,13 +677,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         return panelWithWaves.getClipboardDrawView();
     }
 
-
-    // TODO: Just testing if the reset feature works
-    @Override
-    public void finalize() throws Throwable {
-        super.finalize();
-        System.out.println("Garbage collected");
-    }
 
     @Override
     public void copyWave() {

@@ -74,7 +74,7 @@ public class VerticalReferencesPanel extends JPanel {
                         labelCount = 100;
                     }
                 }
-                // +1 because there will be max value + the other labels
+                // +1 because we need to take into consideration the middle value.
                 pixelJump = halfHeight / (double) (labelCount + 1);
                 thisPanel.repaint();
             }
@@ -110,7 +110,53 @@ public class VerticalReferencesPanel extends JPanel {
         drawSamplesValueRangeInt(g, valMin, valMax, 0);
     }
 
+    // midVal is usually 0
+    private void drawSamplesValueRangeDouble(Graphics g, double minVal, double maxVal, double midVal) {
+        int waveHeight = this.getHeight();
+        int waveStartX = 30;
+        int waveStartY = 0;
 
+        double valRange;
+        double valJump;
+
+        valRange = Math.abs(maxVal - midVal);
+        // +1 because we need to take into consideration the middle value.
+        valJump = valRange / (labelCount + 1);
+
+        Color color = Color.black;
+        g.setColor(color);
+        int x = waveStartX;
+
+        double val = maxVal;
+        double y = waveStartY;
+
+
+        int textHeight = g.getFontMetrics().getHeight();
+        drawFirstValueDouble(x, (int) (y), maxVal, color, g, textHeight);
+        y += pixelJump;
+        val -= valJump;
+        for (int i = 0; i < labelCount; y += pixelJump, val -= valJump, i++) {
+            drawInternalValueDouble(x, (int) y, val, color, g, textHeight);
+        }
+        drawInternalValueDouble(x, (int) y, midVal, color, g, textHeight);
+
+
+        valRange = Math.abs(minVal - midVal);
+        // +1 because we need to take into consideration the middle value.
+        valJump = valRange / (labelCount + 1);
+
+        y += pixelJump;
+        val = midVal - valJump;
+        for (int i = 0; i < labelCount; y += pixelJump, val -= valJump, i++) {
+            drawInternalValueDouble(x, (int) y, val, color, g, textHeight);
+        }
+
+        drawLastValueDouble(x, getHeight() - 1, minVal, color, g, textHeight);
+    }
+
+
+
+    // TODO: NEVIM S TIM INTEM - MOZNA TO VYHODIT
     // midVal is usually 0
     private void drawSamplesValueRangeInt(Graphics g, int minVal, int maxVal, int midVal) {
         int waveStartX = 30;
@@ -120,6 +166,7 @@ public class VerticalReferencesPanel extends JPanel {
         int valJump;
 
         valRange = Math.abs(maxVal - midVal);
+        // +1 because we need to take into consideration the middle value.
         valJump = valRange / (labelCount + 1);
 
         Color color = Color.black;
@@ -142,8 +189,7 @@ public class VerticalReferencesPanel extends JPanel {
 
 
         valRange = Math.abs(minVal - midVal);
-
-        // +1 because maxVal, 0, minVal
+        // +1 because we need to take into consideration the middle value.
         valJump = valRange / (labelCount + 1);
 
         y += pixelJump;
@@ -156,51 +202,6 @@ public class VerticalReferencesPanel extends JPanel {
         drawLastValueInt(x, (int) (y), minVal, color, g, textHeight);
     }
 
-
-
-    // midVal is usually 0
-    private void drawSamplesValueRangeDouble(Graphics g, double minVal, double maxVal, double midVal) {
-        int waveHeight = this.getHeight();
-        int waveStartX = 30;
-        int waveStartY = 0;
-        int waveEndY = waveHeight;
-
-        double valRange;
-        double valJump;
-
-        valRange = Math.abs(maxVal - midVal);
-        valJump = valRange / (labelCount + 1);
-
-        Color color = Color.black;
-        g.setColor(color);
-        int x = waveStartX;
-
-        double val = maxVal;
-        double y = waveStartY;
-
-
-        int textHeight = g.getFontMetrics().getHeight();
-        drawFirstValueDouble(x, (int) (y), maxVal, color, g, textHeight);
-        y += pixelJump;
-        val -= valJump;
-        for (int i = 0; i < labelCount; y += pixelJump, val -= valJump, i++) {
-            drawInternalValueDouble(x, (int) y, val, color, g, textHeight);
-        }
-        drawInternalValueDouble(x, (int) y, midVal, color, g, textHeight);
-
-
-        valRange = Math.abs(minVal - midVal);
-        // +1 because maxVal, 0, minVal ...
-        valJump = valRange / (labelCount + 1);
-
-        y += pixelJump;
-        val = midVal - valJump;
-        for (int i = 0; i < labelCount; y += pixelJump, val -= valJump, i++) {
-            drawInternalValueDouble(x, (int) y, val, color, g, textHeight);
-        }
-
-        drawLastValueDouble(x, getHeight() - 1, minVal, color, g, textHeight);
-    }
 
 
 
@@ -269,7 +270,4 @@ public class VerticalReferencesPanel extends JPanel {
     public Dimension getPreferredSize() {
         return new Dimension(valuesLongestWidth + minLineLen, super.getPreferredSize().height);
     }
-
-
-
 }

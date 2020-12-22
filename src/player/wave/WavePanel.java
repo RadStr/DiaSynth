@@ -26,24 +26,20 @@ import java.nio.file.Files;
 import java.util.Arrays;
 
 public class WavePanel extends JPanel {
-    private final int PLAY_CHUNK_SIZE = 666;            // TODO:
-
     public final static int ZOOM_VALUE = 2;
 
-    private boolean isWidthInvalid = true;
-
-    public final int WINDOW_COUNT_TO_THE_RIGHT = 2;     // TODO: Parameter to play with - should be based on available memory
+    public final int WINDOW_COUNT_TO_THE_RIGHT = 2;
 
 
     public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 1024;
-//public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 350;
+//    public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 350;     // for testing
     private int defaultWaveWidthInPixels = START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
     public int getDefaultWaveWidthInPixels() {
         return defaultWaveWidthInPixels;
     }
 
 
-    private DoubleWave doubleWave;          // TODO: !!! In future it won't have loaded the whole doubleWave only some short part (like 30 seconds) - possibly 2 buffers, so 1 can be filled when the other playing
+    private DoubleWave doubleWave;
     public DoubleWave getDoubleWave() {
         return doubleWave;
     }
@@ -53,9 +49,6 @@ public class WavePanel extends JPanel {
     public double getNthSample(int n) {
         return doubleWave.getSong()[n];
     }
-
-    private int lastFullChunkEndIndex;
-    private String songLenInSecs;
 
     private boolean isCached = false;
     public boolean getIsCached() {
@@ -76,22 +69,10 @@ public class WavePanel extends JPanel {
 
     public WavePanel(DoubleWave doubleWave, WaveMainPanel wholeWavePanel) {
         this.doubleWave = doubleWave;
-
         waveRightClickPopUpMenu = new WavePanelPopupMenu(wholeWavePanel);
         this.setComponentPopupMenu(waveRightClickPopUpMenu);
-
-// TODO: PROGRAMO
-//        int len = ByteWave.convertToMultipleDown(program.song.length, program.frameSize);
-//        int remainder = len % PLAY_CHUNK_SIZE;			// TODO: Problemovy pri prehravani - PLAY_CHUNK_SIZE menim na zaklade toho s jakymi parametry volam playAudio metodu
-//        lastFullChunkEndIndex = len - remainder;
-//        int songSizeInSecs = ByteWave.convertFrameToSecs(lastFullChunkEndIndex, program.getSizeOfOneSecInBytes());
-//        songLenInSecs = ByteWave.convertSecondsToTime(songSizeInSecs);
-// TODO: PROGRAMO
-
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-
         this.wholeWavePanel = wholeWavePanel;
-
 
         drawValuesSupplierIndividual = new DrawValuesSupplierIndividual();
         drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
@@ -106,83 +87,18 @@ public class WavePanel extends JPanel {
             }
         };
         this.addComponentListener(resizeListener);
-        // TODO: PROGRAMO
-//        setVariablesWhichNeededSize();
-//        setCurrentDrawValuesBasedOnZoom();
-        //setCurrentDrawValuesToNewIndividual();
-
-
-        //updateZoom(0, 0, false, false);
-
-        //setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth, int valueCount);
-        //setDrawValuesInZoom(0, wholeWavePanel.getWaveVisibleWidth(), 1024, 200);
-
-//        mainWaveClass = drawValuesSupplierAggregated;
-//        if(drawValuesAggregated != currentDrawValues) {
-//            drawValuesIndividual = null;
-//            drawValuesAggregated = new WaveDrawValuesAggregated(wholeWavePanel.getWaveVisibleWidth(),
-//                    wholeWavePanel.getWaveVisibleWidth(), mainWaveClass.getCurrentStartIndexInAudio(),
-//                    getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-//            currentDrawValues = drawValuesAggregated;
-//        }
-
-//        System.exit(wholeWavePanel.getWaveVisibleWidth());
-//        mainWaveClass = drawValuesSupplierIndividual;
-//        if(drawValuesIndividual != currentDrawValues) {
-//            drawValuesAggregated = null;
-//            drawValuesIndividual = new WaveDrawValuesIndividual(0, wholeWavePanel.getWaveVisibleWidth(),
-//                    waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen(), WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
-//            currentDrawValues = drawValuesIndividual;
-//        }
-        // TODO: PROGRAMO
     }
 
 
     public void setVariablesWhichNeededSize() {
-        oldVisibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();     // TODO: Possible bug
+        oldVisibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         defaultWaveWidthInPixels = wholeWavePanel.getDefaultWaveWidthFromMainPanel();
         waveWidth = wholeWavePanel.getWaveWidthFromMainPanel();
-        ProgramTest.debugPrint("WAVE_WIDTH", waveWidth);
-
-        int preferredWidthFromAllWaves = wholeWavePanel.getWaveVisibleWidth();
-        int preferredHeightFromAllWaves = wholeWavePanel.getWaveVisibleHeight();
         int newPreferredWidth;
-//        newPreferredWidth = wholeWavePanel.getWaveVisibleWidth();
         newPreferredWidth = Math.max(wholeWavePanel.getWaveVisibleWidth(), this.getVisibleRect().width);
-//        if(preferredWidthFromAllWaves == 0) {
-//            newPreferredWidth = this.getVisibleRect().width;
-//        }
-//        else {
-//            newPreferredWidth = preferredWidthFromAllWaves;
-//        }
         int newPreferredHeight;
-        //newPreferredHeight = wholeWavePanel.getWaveVisibleHeight();
-       //newPreferredHeight = Math.max(wholeWavePanel.getWaveVisibleHeight(), this.getVisibleRect().height);
-
-
-
-        //newPreferredHeight = this.getVisibleRect().height; // TODO: PROGRAMO - height
         newPreferredHeight = wholeWavePanel.calculateWavePreferredHeight();
-
-
-        //newPreferredHeight = super.getPreferredSize().height;
-        //newPreferredHeight = wholeWavePanel.getPreferredSize().height;
-
-
-
-//        if(preferredHeightFromAllWaves == 0) {
-//            newPreferredHeight = this.getVisibleRect().height;
-//        }
-//        else {
-//            newPreferredHeight = preferredHeightFromAllWaves;
-//        }
-        ProgramTest.debugPrint("setVariablesWhichNeededSize", wholeWavePanel.getWaveVisibleWidth(),
-            wholeWavePanel.getWaveVisibleHeight(), newPreferredWidth, newPreferredHeight, this.getSize(),
-            this.getVisibleRect(), this.getPreferredSize());
-        ProgramTest.debugPrint("setVariablesWhichNeededSize - whole wave panel", wholeWavePanel.getSize(),
-            wholeWavePanel.getPreferredSize(), wholeWavePanel.getVisibleRect());
         setPreferredSize(new Dimension(newPreferredWidth, newPreferredHeight));
-
 
         int currZoom = wholeWavePanel.getCurrentZoom();
         int maxCacheZoom = calculateMaxCacheZoom();
@@ -190,7 +106,6 @@ public class WavePanel extends JPanel {
 // TODO: TESTING WITHOUT CACHE
 //        isCached = cacheToHDD();
 // TODO: TESTING WITHOUT CACHE
-
         setCurrentDrawValuesBasedOnZoom();
     }
 
@@ -264,54 +179,12 @@ public class WavePanel extends JPanel {
 
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         if(visibleWaveWidth != oldVisibleWaveWidth || doubleWaveLenChanged || (visibleWaveWidth > waveWidth)) {
-            // TODO: DEBUG
-            if(visibleWaveWidth > 1024) {
-                int TODO = 4;
-            }
-            // TODO: DEBUG
             resetLengthChangedMarker();
             ProgramTest.debugPrint("visibleWidthChangedCallback()", visibleWaveWidth, getPreferredSize());
-
-// TODO: PROGRAMO - isFirstWaveDrawing - tohle uz ani nepouzivam vlastne
-//        if(currScroll > mainWaveClass.getMaxScroll()) {
-//            ProgramTest.debugPrint("Curr scroll over", currScroll, currScroll - mainWaveClass.getMaxScroll(),
-//                visibleWaveWidth, oldVisibleWaveWidth, visibleWaveWidth - oldVisibleWaveWidth);
-////            currScroll = mainWaveClass.getMaxScroll();
-////        currScroll = mainWaveClass.getMaxScroll() - (visibleWaveWidth + oldVisibleWaveWidth);
-//
-////            currScroll = mainWaveClass.getMaxScroll();
-////            wholeWavePanel.setHorizontalScrollToMax();
-//
-////            int dif = currScroll - mainWaveClass.getMaxScroll();
-//////            currScroll -= dif;
-////            currScroll = mainWaveClass.getMaxScroll() - dif;
-//            //currScroll = mainWaveClass.getMaxScroll();
-//        }
-// TODO: PROGRAMO
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
-//        ProgramTest.debugPrint("visible width changed callback", wholeWavePanel.getCurrentHorizontalScroll(), currScroll);
-
-
             ProgramTest.debugPrint("WWW:", visibleWaveWidth, waveWidth);
-
-
             int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
             currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
-
-
-//        if(waveWidth <= visibleWaveWidth) {
-//            int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-//            currentDrawValues.waveResize(newVisibleWidth, newVisibleWidth,
-//                mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
-//        }
-//        else {
-//            //this.setPreferredSize(new Dimension(visibleWaveWidth, this.getPreferredSize().height));
-//            int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-//            currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
-//        }
-
-//        NEVIM NO co je hodne divny ze jak se to spatne resizne tak se rozhodi ty not first vlny a ty first jsou v pohode
-//            to by se nemelo stat kdyz se vsema zachazim stejne
 
             ProgramTest.debugPrint("WWW2:", waveWidth, getVisibleRect().width, visibleWaveWidth);
             this.revalidate();
@@ -319,7 +192,6 @@ public class WavePanel extends JPanel {
         }
     }
 
-//    TODO: A TOHLE
     /**
      *
      * @param visibleWaveWidth
@@ -339,19 +211,15 @@ public class WavePanel extends JPanel {
                 visibleWaveWidth < waveWidth && waveWidth == defaultWaveWidthInPixels &&
                 visibleWaveWidth < START_DEFAULT_WAVE_WIDTH_IN_PIXELS) {
             defaultWaveWidthInPixels = START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
-            //defaultWaveWidthInPixels = Math.max(START_DEFAULT_WAVE_WIDTH_IN_PIXELS, visibleWaveWidth);
+            //defaultWaveWidthInPixels = Math.max(START_DEFAULT_WAVE_WIDTH_IN_PIXELS, visibleWaveWidth);    // TODO:
             waveWidth = (int)(defaultWaveWidthInPixels * zoomMultiplication);
             shouldCacheAgain = true;
         }
 
         oldVisibleWaveWidth = visibleWaveWidth;
         setMaxCacheZoom();
-        //TODO: PROGRAMO - height
-        //this.setPreferredSize(new Dimension(visibleWaveWidth, this.getPreferredSize().height));
-        //this.setPreferredSize(new Dimension(visibleWaveWidth, wholeWavePanel.getPreferredSize().height));
         int newPrefHeight = wholeWavePanel.calculateWavePreferredHeight();
         this.setPreferredSize(new Dimension(visibleWaveWidth, newPrefHeight));
-        //TODO: PROGRAMO - height
 // TODO: TESTING WITHOUT CACHE
 //        if(shouldCacheAgain) {
 //            isCached = cacheToHDD();
@@ -373,7 +241,7 @@ public class WavePanel extends JPanel {
 
     private void setCurrentDrawValuesToNewIndividual() {
         int leftPixel;
-        int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();     // TODO: Possible bug
+        int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         int totalWaveWidth = waveWidth;
 
         drawValuesSupplierIndividual = new DrawValuesSupplierIndividual();
@@ -391,154 +259,28 @@ public class WavePanel extends JPanel {
     private void setCurrentDrawValuesToNewAggregated() {
         drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
         mainWaveClass = drawValuesSupplierAggregated;
-//        int visibleWaveWidth = this.getWidth();         // TODO: Possible bug
-//        int totalWaveWidth = wholeWavePanel.getWidth(); // TODO: Possible bug
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         int totalWaveWidth = waveWidth;
-        int startIndex = mainWaveClass.getCurrentStartIndexInAudio(); // TODO: Tohle asi nebude updatovany to je docela problem
+        int startIndex = mainWaveClass.getCurrentStartIndexInAudio();
         int valueCount = getSongLen();
 
-        ProgramTest.debugPrint("VisibleWidths", visibleWaveWidth, this.getVisibleRect());
         drawValuesAggregated = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
             WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierAggregated);
         currentDrawValues = drawValuesAggregated;
     }
 
 
-    // TODO: Prepsat, at to funguje spravne, tohle nejen ze nefunguje spravne ale je to tezce neefektivni
-//    private void drawAudioWave(Graphics graphics) {
-//        double fraction = this.getWidth() / (double)doubleWave.length;
-//        int lastDrawnIndex = -1;
-//        double halfHeight = this.getHeight() / 2.0;
-//        //double halfHeight = this.getHeight() / 2.0;
-////        for(int i = 0; i < doubleWave.length - 1; i++) {
-////            int x1 = (int)(i * fraction);
-////            if(x1 != lastDrawnIndex) {
-////                lastDrawnIndex = x1;
-////                int x2 = (int)((i+1) * fraction);
-////                int y1 = (int)(doubleWave[i] * halfHeight);
-////                int y2 = (int)(doubleWave[i+1] * halfHeight);
-////                graphics.drawLine(x1, y1, x2, y2);
-////            }
-////        }
-//
-//        int x1 = 0;
-//        lastDrawnIndex = x1;
-//        graphics.setColor(Color.blue);
-//        int x2;
-//        int y1 = -(int)(doubleWave[0] * halfHeight);      // - because otherwise it would be inversed (lowest amplitude would be drawn at top and highest at bottom ... because (0,0) in window is top left)
-//        y1 += halfHeight;       // So the lowest amplitude is at 0
-//        int y2;
-//        for(int i = 1; i < doubleWave.length - 1; i++) {
-//            x2 = (int)(i * fraction);
-//            if(x2 > lastDrawnIndex) {
-//                lastDrawnIndex = x2;
-//                y2 = -(int)(doubleWave[i] * halfHeight);
-//                y2 += halfHeight;
-//                graphics.drawLine(x1, y1, x2, y2);
-//                x1 = x2;
-//                y1 = y2;
-//            }
-//        }
-//    }
-
-
-
-    private void drawSamplesValueRangeDouble(Graphics g) {
-        drawSamplesValueRange(g, -1, 1);
-    }
-
-    private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
-        double valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
-        double valMin = -valMax - 1;
-        drawSamplesValueRange(g, valMin, valMax);
-    }
-
-
-    private void drawSamplesValueRange(Graphics g, double valMin, double valMax) {
-        int waveHeight = this.getHeight();
-        int spaceSizeBetweenLabelsInPixels = 50;
-        int halfHeight = waveHeight / 2;
-        int labelCount = halfHeight / spaceSizeBetweenLabelsInPixels;
-        double pixelJump = halfHeight / (double)(labelCount+1);     // +1 because there will be max value + the other labels
-        double valRange = valMax - valMin;
-        double halfValRange = valRange / 2;
-        double halfValJump = halfValRange / (labelCount+1);
-// TODO: DEBUG
-//        System.out.println(labelCount + "\t" + waveHeight + "\t" + pixelJump);
-// TODO: DEBUG
-
-        Color color = Color.black;
-        g.setColor(color);
-        int x = 0;
-        g.drawLine(x, 0, x, waveHeight);        // TODO: Budu muset delat nejak jinak ... vykreslovat to zvlast v nejakym jinym panelu
-
-// TODO: DEBUG
-//        double valRange = valMax - valMin;
-//        double halfValRange = valRange / 2;
-//        double halfValJump = halfValRange / labelCount;
-//        System.out.println(halfValJump + "\t" + halfValRange + "\t" + Math.ceil(labelCount / (double)2));
-////        double valJump = valueRange / labelCount;   // For each space we perform 1 jump, so labelCount currently represents number of spaces
-//        labelCount++;       // To add the minimum value, now it represents real label count
-//        String valString;
-// TODO: DEBUG
-
-        int startXForLine = x;
-
-// TODO: DEBUG        int DEBUG = (int)(waveStartY + (1 + 0.633) * waveHeight / 2.0);        // TODO: !!!
-// TODO: DEBUG        g.drawLine(0, DEBUG, this.getWidth(), DEBUG);
-
-
-        double val = valMax;
-        double y = 0;
-        // +3 because maxVal, 0, minVal
-        for(int i = 0; i < 3 + 2 * labelCount; y += pixelJump, val -= halfValJump, i++) {
-            drawOneValue(startXForLine, x, (int)y, val, color, g);
-        }
-
-//        val = valMin;
-//        y = waveEndY;
-//        for(int i = 0; i < labelCount; y -= pixelJump, val += halfValJump, i++) {
-//            drawOneValue(startXForLine, x, (int)y, val, color, g);
-//        }
-        // Draw 0
-//        drawOneValue(startXForLine, x, (waveStartY + halfHeight), 0, color, g);
-    }
-
-
-    private void drawOneValue(int startXForLine, int x, int y, double valToDraw, Color color, Graphics g) {
-        // TODO: Correct version:
-        g.drawLine(startXForLine, y, x, y);
-        // TODO: Debug version:
-        g.drawLine(0, y, this.getWidth(), y);
-        String valString = String.format("%.2f", valToDraw);
-        int h = g.getFontMetrics().getHeight();
-        SwingUtils.drawStringWithSpace(g, color, valString, 0, startXForLine, y + h / 4);
-    }
-
-
-    // TODO: BUDU DELAT NA ZAKLADE ZOOMU
-//    private void setStartAndEndSample() {
-//        this.startSample = 0;
-//        this.endSample = this.doubleWave.length;
-//    }
-
-
-
-    private double red = Math.random();
-    private double green = Math.random();
-    private double blue = Math.random();
 
     private boolean isFirstWaveDrawing = true;
     private void firstWaveDrawingAction() {
         ProgramTest.debugPrint("wave paintComponent before:", doubleWave.getFilenameWithExtension(),
-            this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
+                               this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
         if(isFirstWaveDrawing) {
             isFirstWaveDrawing = false;
             setVariablesWhichNeededSize();
         }
         ProgramTest.debugPrint("wave paintComponent after:", doubleWave.getFilenameWithExtension(),
-            this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
+                               this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
     }
 
 
@@ -567,13 +309,10 @@ public class WavePanel extends JPanel {
      * then the old wave is enlarged, but the currentDrawValues is still set to individuals and
      * the performance hit is quite big, because we are drawing a lot of individual samples.
      */
-    // This is the best solution I came up with probably not the best, but it works, zoomVariables is always non-null
+    // This is the best solution I came up with probably not the best in general, but it works,
+    // zoomVariables is always non-null
     // so that is fine and the maxCacheZoom is updated to correct values in the setNewDouble method.
     private void fixIndividualSampleBug() {
-        // TODO: DEBUG
-//        ProgramTest.debugPrint("Wave index individual sample bug:", wholeWavePanel.getWaveIndex(),
-//                currentDrawValues == null, currentDrawValues == drawValuesIndividual, currentDrawValues == drawValuesAggregated);
-        // TODO: DEBUG
         if(zoomVariables.currentZoom < zoomVariables.maxCacheZoom && currentDrawValues == drawValuesIndividual) {
             int visibleWidth = wholeWavePanel.getWaveVisibleWidth();
             setDrawValuesInZoom(currScroll, visibleWidth, waveWidth);
@@ -583,9 +322,6 @@ public class WavePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         if (wholeWavePanel.isInProcessOfZooming()) {
-            // TODO: DEBUG
-            ProgramTest.debugPrint("Just is zooming (mark):", wholeWavePanel.isInProcessOfZooming(), getWaveWidth());
-            // TODO: DEBUG
             super.paintComponent(g);
             if (zoomBridgeImg != null) {
                 g.drawImage(zoomBridgeImg, 0, 0, this);
@@ -597,9 +333,6 @@ public class WavePanel extends JPanel {
             return;
         }
         else {
-            // TODO: DEBUG
-            ProgramTest.debugPrint("Else (mark):", getWaveWidth());
-            // TODO: DEBUG
             zoomBridgeImg = null;
         }
 
@@ -610,77 +343,8 @@ public class WavePanel extends JPanel {
         super.paintComponent(g);
         visibleWidthChangedCallback();
 
-        // TODO: PROGRAMO
-//        ty insets vychazi presne na 2 no - ono asi skutecne spravna cesta bude zmenit tu preferred height kdykoliv manualne zmenim preferred height toho everything panelu
-//          Je docela zajimavej problem ze ta height u wavy se proste nastavuje spatne nevim proc - na 12 at delam cokoliv
-//             takze odkomentovat TODO: PROGRAMO - height
-//        Jen pripomenuti na zitra ze problem je v tom kdyz roztahnu posledni vlnu a pridam novou (resp. 2 novy)
-//        jo a jeste abych nezapomnel na to v implementation tu promennou addedWaveLast
-        // TODO: PROGRAMO
-        ProgramTest.debugPrint("draw component wave", wholeWavePanel.getInsets(), this.getInsets(), "\n",
-                super.getPreferredSize());
-
-// TODO: DEBUG
-//        g.setColor(Color.red);
-//        g.drawLine(wholeWavePanel.getWaveVisibleWidth() / 2, 0, wholeWavePanel.getWaveVisibleWidth() / 2, getHeight());     // DEBUG LINE
-//        g.drawLine(wholeWavePanel.getWaveVisibleWidth() / 4, 0, wholeWavePanel.getWaveVisibleWidth() / 4, getHeight());     // DEBUG LINE
-//        g.drawLine(wholeWavePanel.getWaveVisibleWidth() / 8, 0, wholeWavePanel.getWaveVisibleWidth() / 8, getHeight());     // DEBUG LINE
-//
-//        g.drawLine(3 * wholeWavePanel.getWaveVisibleWidth() / 4, 0, 3 * wholeWavePanel.getWaveVisibleWidth() / 4, getHeight());     // DEBUG LINE
-//        g.drawLine(7 * wholeWavePanel.getWaveVisibleWidth() / 8, 0, 7 * wholeWavePanel.getWaveVisibleWidth() / 8, getHeight());     // DEBUG LINE
-// TODO: DEBUG
-
-        //System.exit(69);
-
-//        FontMetrics fm = g.getFontMetrics();
-//
-//        Dimension size = getPreferredSize();
-//        String text1 = "Pref: " + size.visibleWidth + "x" + size.height;
-//        g.drawString(text1, 0, fm.getAscent());
-//        System.out.println(text1);
-//
-//        size = getSize();
-//        String text2 = "Size: " + size.visibleWidth + "x" + size.height;
-//        int y = 0;
-//        for(int i = 0; i < 10; i++) {
-//            y = (i+1) * fm.getHeight() + fm.getAscent();
-//            g.drawString(text2, 0, y);
-//        }
-//        System.out.println(text2);
-//        int newWidth = this.getWidth();
-//        int newHeight = this.getHeight();
-//        boolean resize = false;
-//        if(y > newHeight) {
-//            newHeight = y;
-//            resize = true;
-//        }
-//
-//        int w = fm.stringWidth(text1);
-//        if(w > newWidth) {
-//            newWidth = w;
-//            resize = true;
-//        }
-//
-//        w = fm.stringWidth(text2);
-//        if(w > newWidth) {
-//            newWidth = w;
-//            resize = true;
-//        }
-//
-//        if(resize) {
-//            this.setSize(newWidth, newHeight);
-//        }
-
-
-//        g.setColor(Color.blue);
-//        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-//        resetScreen(g, Color.WHITE);           // TODO:
-//
-//        drawSampleInfo(g);
-//
-
-        if (wholeWavePanel.getShouldIncludeInOperations()) {     // TODO: Not sure when should I show the marking, maybe always
+        // Maybe it would be better to show the marking always
+        if (wholeWavePanel.getShouldIncludeInOperations()) {
             markPart(g, Color.red);
         }
 
@@ -694,9 +358,7 @@ public class WavePanel extends JPanel {
             }
 
             markPartGeneralFull(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
-                    color, this.getHeight());
-//                markPartGeneralOnlyEndings(g, clipboard.getClipboardMarkStartPixel(), clipboard.getClipboardMarkEndPixel(),
-//                        color, this.getHeight());
+                                color, this.getHeight());
 
         }
 
@@ -707,121 +369,26 @@ public class WavePanel extends JPanel {
         }
     }
 
-//        drawCurrentPlayTime(g, Color.black);
-        //drawSongLen(g, Color.black);
-//
-        //drawSamplesValueRangeDouble(g);
-//        drawTimestamps(program.sampleSizeInBytes, program.sampleRate, g);
 
     private void drawAudioWave(Graphics g) {
-        //int visibleWaveWidth = this.getVisibleRect().width;     // TODO: possible bug
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         ProgramTest.debugPrint("drawAudioWave:", visibleWaveWidth, wholeWavePanel.getWaveVisibleWidth(),
-            this.getHeight(), doubleWave.getFilenameWithoutExtension());
-
+                               this.getHeight(), doubleWave.getFilenameWithoutExtension());
         currentDrawValues.drawSamples(g, visibleWaveWidth, this.getHeight(), 0);
     }
 
 
-    private void drawSongLen(Graphics g, Color c) {
-        int y = this.getHeight() - g.getFontMetrics().getHeight();
-        SwingUtils.drawStringWithSpace(g, c, songLenInSecs, 0, this.getHeight(), y);
-    }
-
-
     private void drawTimeLine(Graphics g) {
-        // TODO: Not sure if I should take Math.ceil
         double x = wholeWavePanel.getTimeLineX();
         x -= wholeWavePanel.getCurrentHorizontalScroll();
-        drawTimeLine(g, (int)/*TODO: Math.ceil*/(x), 0, this.getHeight());
+        drawTimeLine(g, (int)(x), 0, this.getHeight());
     }
 
     private static void drawTimeLine(Graphics g, int x, int startY, int endY) {
         g.setColor(Color.GREEN);
-// TODO: DEBUG        System.out.println("X:\t" + x);
         g.drawLine(x, startY, x, endY);
-        ProgramTest.debugPrint("Drawing timeline:", x);
     }
 
-
-
-    // Shows sample info, but also stops showing the old one
-    public void drawSampleInfo(Graphics g) {
-//        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
-//        Point p = pointerInfo.getLocation();
-//        Point windowLoc = this.getLocationOnScreen(); // TODO: Volam na komponente;
-//        int x = p.x - windowLoc.x;
-//        int y = p.y - windowLoc.y;      // TODO: y ani nepotrebuju
-//// TODO: DEBUG        System.out.println("SSI:\t" + p.x + "\t" + windowLoc.x + "\t" + x + "\t" + visibleWidth);
-//        if(x > waveEndX) {
-//            x = waveEndX;
-//        }
-//        else if(x < waveStartX) {
-//            x = waveStartX;     // Set to default value
-//        }
-//        else {
-//// TODO: DEBUG            System.out.println("X is in wave");     // TODO: Remove
-//        }
-//        x -= waveStartX;
-//        this.drawSampleInfo(x, g);        // Shows sample info, but also stops showing the old one
-//    }
-//
-//
-//    private void drawSampleInfo(int x, Graphics g) {
-//        int sampleIndex = convertXToSampleIndex(x);
-//// TODO: DEBUG        System.out.println("---------\t" + sampleIndex + "\t" + x);
-//        drawInfo(sampleIndex, g);
-//    }
-//
-//    private int convertXToSampleIndex(int x) {
-//        double numberOfSamplesPerPixel = sampleRange / (double)waveWidth;
-//        int sampleIndex = (int)(numberOfSamplesPerPixel * x);
-//        return sampleIndex;
-//    }
-//
-////    public void scrollEventListener() {
-////        TODO: Podle toho kam jsem smeroval mysi pri scrollovani a o kolik to priblizim a od urcityho stavu switchnu na ukazovani jednotlivych samplu
-////        markStartX = markStartX;
-////        markEndX = markEndX;
-////    }
-//
-//    private void drawInfo(int sampleIndex, Graphics graphics) {
-//// TODO: DEBUG        System.out.println("DI:\t" + sampleIndex + "\t" + doubleWave.length);
-//        double value = doubleWave[sampleIndex];
-//        String sampleIndexString = Integer.toString(sampleIndex);
-//        String valueString = Double.toString(value);
-//// TODO: Int varianta:
-////        int[] doubleWave = null;
-////        int value = doubleWave[sampleIndex];
-////        String sampleIndexString = Integer.toString(sampleIndex);
-////        String valueString = Integer.toString(value);       // TODO: Ta value asi pres doubly, jako v audacity
-//
-//
-////        int visibleWidth = audioPicture.getWidth();        // TODO: Ted mirne zmatenej jestli to ma byt audioPicture nebo ten cely panel
-////        int height = audioPicture.getHeight();
-//        int visibleWidth = this.getWidth();
-//        int height = this.getHeight();
-//
-//        int maxTextWidth;
-//        int w1 = fontMetrics.stringWidth(valueString);
-//        int w2 = fontMetrics.stringWidth(sampleIndexString);
-//        if(w1 > w2) {
-//            maxTextWidth = w1;
-//        }
-//        else {
-//            maxTextWidth = w2;
-//        }
-//
-//        int sampleInfoX = visibleWidth - maxTextWidth;
-//        int sampleInfoY = height - 2 * fontMetrics.getHeight();
-//
-//        graphics.setColor(Color.BLACK);
-//        graphics.drawLine(sampleInfoX, height, sampleInfoX, sampleInfoY);
-//        graphics.drawLine(sampleInfoX, sampleInfoY, visibleWidth, sampleInfoY);
-//
-//        graphics.drawString(sampleIndexString, visibleWidth - maxTextWidth, height);
-//        graphics.drawString(valueString, visibleWidth - maxTextWidth, height - fontMetrics.getHeight());
-    }
 
     public void markPart(Graphics g, Color color) {
         if(wholeWavePanel.getShouldMarkPart()) {
@@ -855,8 +422,8 @@ public class WavePanel extends JPanel {
             g.fillRect(markEndXShifted - dif, 0, dif, height);
         }
     }
-// TODO: Uz si nepamatuju proc to posouvam, ale bez posouvani to nejde, ale rekl bych ze proste to okno s vlnou je jen ta viditelna cast
-// TODO: Nema to zadnou preshaujici cast, tj. nema to velikost jako je ta velikost scrollbaru
+
+
     private void markPartGeneralFull(Graphics g, int markStartX, int markEndX, Color color, int height) {
         int horizontalScroll = wholeWavePanel.getCurrentHorizontalScroll();
         int markStartXShifted = markStartX - horizontalScroll;
@@ -887,12 +454,7 @@ public class WavePanel extends JPanel {
     private boolean performCaching = false;
 
     private ZoomVariablesOneWave zoomVariables;
-// TODO: Possible bug - ale jen pozustatek z minulosti asi    double[][] waveDrawValues;
-//    private ShiftBufferDouble drawBuffer;
-//    private void fillBufferWithValuesToDraw(int startX, int currZoom) {
-//        String drawValues = getDrawDoubles(prog, currZoom);
-//        drawBuffer.fillBufferWithValuesToDraw(startX, drawValues, WAVE_DRAW_VALS_SEPARATOR);
-//    }
+
 
     // TODO: Vymazat WAVE_DRAW_NAME_SUFFIX
     //final String WAVE_DRAW_NAME_SUFFIX = "_Draw.draww";
@@ -900,47 +462,6 @@ public class WavePanel extends JPanel {
     public static final String WAVE_DRAW_EXTENSION = ".draww";
     public static final String WAVE_DRAW_VALS_SEPARATOR = ";";
     public static final char SUFFIX_END_CHAR = '|';
-
-    /**
-     * Creates file with data used for drawing of wave with different zooms.
-     * @return Returns true if file was created successfully
-     */
-//    public boolean createFileWithWaveForDrawing() {
-//        int w = this.getWaveWidth();
-//        int maxWidth = w * maxZoom;
-//        int samplesPerPixel = doubleWave.length / maxWidth;
-//        double[] values = new double[maxWidth];
-//        int currZoom = maxZoom;
-//
-//        // TODO: Tohle udelat lip - chci to delat pro kazdou vlnu a navic tohle musim prepocitat s kazdou delete operaci
-//        // TODO: Asi bude lepsi to mit v pameti nez si to brat z hdd
-//        String fileName = ByteWave.getNameWithoutExtension(program.getFileName());
-//        fileName += waveValuesNameSuffix;
-//
-//        try {
-//            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-//            writer.write(WAVE_DRAW_VALS_SEPARATOR);
-//
-//            findExtremesInValues(doubleWave, values, 0, doubleWave.length, samplesPerPixel);      // TODO: startIndex
-//            final String suffix = "";
-//            writeDoubles(writer, values, values.length, samplesPerPixel, suffix, WAVE_DRAW_VALS_SEPARATOR, currZoom);
-//            currZoom--;
-//
-//            w = maxWidth;
-//            for (int i = maxZoom - 1; i >= 0; i--, samplesPerPixel /= 2, currZoom--) {
-//                int tmp = findExtremesInValues(values, 0, w, 2);      // TODO: startIndex
-//                writeDoubles(writer, values, w, samplesPerPixel, suffix, WAVE_DRAW_VALS_SEPARATOR, currZoom);
-//
-//                w = tmp;
-//            }
-//
-//            writer.close();
-//        } catch(IOException ex) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
 
 
     // Taken from https://stackoverflow.com/questions/7240519/delete-files-with-same-prefix-string-using-java
@@ -972,8 +493,7 @@ public class WavePanel extends JPanel {
 
             final File[] files = folder.listFiles( new FilenameFilter() {
                 @Override
-                public boolean accept( final File dir,
-                                       final String name ) {
+                public boolean accept(final File dir, final String name) {
                     return name.matches(regex);
                 }
             } );
@@ -1143,8 +663,6 @@ public class WavePanel extends JPanel {
     }
 
 
-    // Micro optim. I can make either by if or by using mod (mod is better if inputValsPerOutputVals == 2^n)
-    // TODO; For further testing check Testing_Branching_Optimization
     /**
      * Finds extremes in given values. on extremes[2*i] = min, extremes[2*i + 1] = max
      * @param values are the values to take extremes from.
@@ -1426,114 +944,6 @@ public class WavePanel extends JPanel {
     }
 
 
-    // TODO: Tuhle metodu muzu dat nekam uplne mimo - muze se hodit i jinde
-    @Deprecated
-    public static void writeDoubles(BufferedWriter writer, double[] values, int len, double samplesPerPixel, String suffix,
-                                    String separator, int currZoom) throws IOException {
-        // Write prefix
-        writer.write(Integer.toString(currZoom));
-        writer.write('\n');
-        writer.write(Double.toString(samplesPerPixel));
-        writer.write('\n');
-        writer.write(Integer.toString(len));
-        writer.write('\n');
-        for(int i = 0; i < len - 1; i++) {
-            writer.write(Double.toString(values[i]) + separator);
-        }
-        writer.write(Double.toString(values[len - 1]));
-
-        // Write suffix
-        writer.write('\n');
-        writer.write(suffix);
-        writer.write('\n');
-        writer.write(SUFFIX_END_CHAR);
-        writer.write('\n');
-    }
-
-
-    /**
-     * Puts the cached doubles from the file with name fileName to the array and returns that array.
-     * @param fileName is the file name from which will be the doubles read.
-     * @param wantedZoom is the zoom we want to read.
-     * @return Returns the buffered filled with read doubles.
-     * @throws IOException is thrown where there is error in reading
-     */
-    @Deprecated
-    public double[] readDoubles(String fileName, int wantedZoom) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        return readDoubles(reader, wantedZoom);
-    }
-
-    /**
-     *  Puts the cached doubles from the file to the array and returns that array.
-     * @param f is the file from which will be the doubles read.
-     * @param wantedZoom is the zoom we want to read.
-     * @return Returns the buffered filled with read doubles.
-     * @throws IOException is thrown where there is error in reading
-     */
-    @Deprecated
-    public double[] readDoubles(File f, int wantedZoom) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(f));
-        return readDoubles(reader, wantedZoom);
-    }
-
-    /**
-     *  Puts the cached doubles from the reader to the array and returns that array.
-     * @param reader is the reader of the file from which will be the doubles read.
-     * @param wantedZoom is the zoom we want to read.
-     * @return Returns the buffered filled with read doubles.
-     * @throws IOException is thrown where there is error in reading
-     */
-    @Deprecated
-    private double[] readDoubles(BufferedReader reader, int wantedZoom) throws IOException {
-        String line;
-
-        int lineInFile = zoomVariables.maxCacheZoom - wantedZoom;
-        String separator = reader.readLine();
-        // TODO: Musim skipnout prefix ... takze musim vedet jak je dlouhy - pripadne cim konci - to bude asi lepsi, podobne suffix
-
-        for(int i = 0; i < lineInFile; i++) {
-            // Skip prefix
-            reader.readLine();
-            reader.readLine();
-            reader.readLine();
-            // Skip doubles
-            reader.readLine();
-            // Skip suffix
-            while(reader.readLine().charAt(0) != SUFFIX_END_CHAR);
-        }
-
-
-        line = reader.readLine();
-        int currZoom = Integer.parseInt(line);
-        line = reader.readLine();
-        int samplesPerPixel = Integer.parseInt(line);
-        line = reader.readLine();
-        int len = Integer.parseInt(line);
-        double[] buf = new double[len];
-
-
-        line = reader.readLine();
-        String[] vals = line.split(separator);
-
-        // TODO: Just debug test
-        if(vals.length != len) {
-            System.exit(-66);
-        }
-        if(currZoom != wantedZoom) {
-            System.exit(-67);
-        }
-        // TODO: Just debug test
-
-        for(int i = 0; i < len; i++) {
-            double val = Double.parseDouble(vals[i]);
-            buf[i] = val;
-        }
-
-        return buf;
-    }
-
-
 
     public static int calculateOutputLen(int inputLen, double inputValsPerOutputVals) {
         int outputLen = (int)(inputLen / inputValsPerOutputVals);
@@ -1543,12 +953,6 @@ public class WavePanel extends JPanel {
     public static double calculateInputValsPerOutputValsPure(int inputLen, int outputLen) {
         double samplesPerPixel = inputLen / (double)outputLen;
         return samplesPerPixel;
-    }
-
-    @Deprecated
-    public static int calculateInputValsPerOutputValsPureRemainder(int audioLen, int width) {
-        int remainder = audioLen % width;
-        return remainder;
     }
 
 
@@ -1578,9 +982,6 @@ public class WavePanel extends JPanel {
         int currZoom = zoomVariables.currentZoom;
         return getCacheFilename(currZoom);
     }
-
-    // TODO: Neni lepsi proste nahodit pro kazdy zoom zvlastni soubor a dat suffix jmenu souboru ZOOM_N kde N je zoom
-    // TODO: usetrim tim seekovani v souboru
 
 
     public void saveZoomBridgeImg() {
@@ -1794,21 +1195,13 @@ public class WavePanel extends JPanel {
         ProgramTest.debugPrint("updateWaveDrawValues",
             getVisibleRect().width, getVisibleRect().height, waveWidth,
             oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
-
-//        if(currentDrawValues == drawValuesIndividual) {
-////            currScroll = convertScrollValueToIndividualIndexInAudio(newLeftPixel);
-//            pixelChange = convertScrollValueToIndividualIndexInAudio(pixelChange);
-//        }
-////        else {
-////            currScroll = newLeftPixel;
-////        }
-
         currentDrawValues.shiftBuffer(pixelChange);
     }
 
 
     private void setMaxCacheZoom() {
-        if(zoomVariables != null) {     // TODO: The if is not needed - but just to be sure don't really want it to crash when presenting the program
+        // The if is not needed I think, but just in case
+        if(zoomVariables != null) {
             zoomVariables.maxCacheZoom = calculateMaxCacheZoom();
         }
     }
@@ -1816,14 +1209,11 @@ public class WavePanel extends JPanel {
         return calculateMaxCacheZoom(getSongLen(), defaultWaveWidthInPixels);
     }
     public static int calculateMaxCacheZoom(int length, int defaultWaveWidth) {
-        int maxCacheZoom = 1;       // TODO: HNED !!!
+        int maxCacheZoom = 1;
         int zoomedWidth = defaultWaveWidth * WavePanel.ZOOM_VALUE;
         while(zoomedWidth < length) {
             maxCacheZoom++;
             zoomedWidth *= WavePanel.ZOOM_VALUE;
-// TODO: DEBUG
-//            ProgramTest.debugPrint(length, zoomedWidth, maxCacheZoom);
-// TODO: DEBUG
         }
 
         maxCacheZoom--;
@@ -1831,23 +1221,15 @@ public class WavePanel extends JPanel {
     }
 
 
-    private Dimension preferredSize = new Dimension(super.getPreferredSize());// = new Dimension(defaultWaveWidthInPixels, super.getPreferredSize().height);
-    //private Dimension preferredSize = super.getPreferredSize();
+    private Dimension preferredSize = new Dimension(super.getPreferredSize());
 
     @Override
     public Dimension getPreferredSize() {
-// TODO: PROGRAMO
-//        if(wholeWavePanel.getPreferredSize() == null) {
-//            preferredSize.height = 48;
-//        }
-//        else {
-//            preferredSize.height = wholeWavePanel.getPreferredSize().height;
-//        }
-//        preferredSize.height = 12;
-// TODO: PROGRAMO
         return preferredSize;
     }
+// TODO: IMPORTANT
 //ten problem je ze kdyz to roztahnu tak ze se zobrazi vertical scrollbar tak wavy dostanou 50 preferred height mmisto 48
+// TODO: IMPORTANT
 
     public void setPreferredHeight(int h) {
         preferredSize.height = h;
@@ -1856,19 +1238,9 @@ public class WavePanel extends JPanel {
     @Override
     public void setPreferredSize(Dimension newSize) {
         setPreferredSizeWithoutUpdatingHorizontalScrollSize(newSize);
-        wholeWavePanel.updateHorizontalScrollSize();        // TODO: !!! TED
-        // TODO: REVALIDATE
-//        this.revalidate();
-//        this.repaint();
-        // TODO: REVALIDATE
+        wholeWavePanel.updateHorizontalScrollSize();
     }
-    // TODO: REVALIDATE
-//    public void revalidateAll() {
-//        this.revalidate();
-//        this.repaint();
-//        wholeWavePanel.revalidateAll();
-//    }
-    // TODO: REVALIDATE
+
 
     private void setPreferredSizeWithoutUpdatingHorizontalScrollSize(Dimension newSize) {
         preferredSize = newSize;
@@ -1901,31 +1273,6 @@ public class WavePanel extends JPanel {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////// Audio player operations on waves - ModOperations
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//    @Override
-//    public void setArrayToValue(double value, int startIndex, int endIndex) {
-//        double[] wave = getDoubleWave().getSong();
-//        Arrays.fill(wave, startIndex, endIndex, value);
-//    }
-//
-//    @Override
-//    public void fillArrayWithValues(double[] values, int startIndex, int endIndex) {
-//        double[] wave = getDoubleWave().getSong();
-//        ModOperations.fillArrayWithValues(wave, values, startIndex, endIndex);
-//    }
-//
-//
-//    @Override
-//    public void operationUsingWave(double[] wave, int startIndexInGivenWave, int startOutputIndex, int len, ArithmeticOperation opType) {
-//        double[] thisWave = getDoubleWave().getSong();
-//        ByteWave.performOperationOnSamples(thisWave, wave, thisWave, startOutputIndex, startIndexInGivenWave, startOutputIndex, len, opType);
-//    }
-//    @Override
-//    public void operationUsingValue(double val, int startOutputIndex, int len, ArithmeticOperation opType) {
-//        double[] wave = getDoubleWave().getSong();
-//        ByteWave.performOperationOnSamples(wave, wave, startOutputIndex, startOutputIndex, len, val, opType);
-//    }
-//
-
     /**
      * Pastes by inserting - doesn't delete any old value.
      * @param arrToCopy
@@ -2060,33 +1407,17 @@ public class WavePanel extends JPanel {
 
 
     public void remove(int startIndex, int endIndex) {
-        // TODO: DEBUG JUST FOR DEBUG PURPOSES
-        if(endIndex < startIndex) {
-            ProgramTest.debugPrint("Invalid indices in delete:", startIndex, endIndex);
-            System.exit(4879);
-        }
-        // TODO: DEBUG
-
         double[] oldSong = getDoubleWave().getSong();
         double[] newSong = new double[doubleWave.getSongLength() - (endIndex - startIndex)];
-
-//        for(int i = 0; i < startIndex; i++, outIndex++) {
-//            newSong[outIndex] = oldSong[i];
-//        }
         System.arraycopy(oldSong, 0, newSong, 0, startIndex);
 
         int outIndex = startIndex;
         int len = oldSong.length - endIndex;
         System.arraycopy(oldSong, endIndex, newSong, outIndex, len);
-//        for(int i = endIndex; i < oldSong.length; i++, outIndex++) {
-//            newSong[outIndex] = oldSong[i];
-//        }
 
         doubleWave = new DoubleWave(newSong, doubleWave, false);
         setNewDoubleWave(newSong);
     }
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////// Audio player operations on waves
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

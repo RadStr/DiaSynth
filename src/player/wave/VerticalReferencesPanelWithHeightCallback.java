@@ -3,13 +3,13 @@ package player.wave;
 import java.awt.*;
 
 public class VerticalReferencesPanelWithHeightCallback extends VerticalReferencesPanel {
-    public VerticalReferencesPanelWithHeightCallback(double minValue, double maxValue, HeightGetter heightGetter) {
+    public VerticalReferencesPanelWithHeightCallback(double minValue, double maxValue, HeightGetterIFace heightGetter) {
         super(minValue, maxValue);
         this.heightGetter = heightGetter;
     }
 
 
-    private HeightGetter heightGetter;
+    private HeightGetterIFace heightGetter;
     private Dimension prefSize = new Dimension();
 
     @Override
@@ -23,7 +23,7 @@ public class VerticalReferencesPanelWithHeightCallback extends VerticalReference
         return super.getPreferredSize().width;
     }
 
-    public static interface HeightGetter {
+    public static interface HeightGetterIFace {
         int getHeight();
     }
 }

@@ -138,7 +138,7 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
         for(SliderWithLabelPanel s : sliders) {
             int dif = maxWidth - s.label.getPreferredSize().width;
             if(dif != 0) {
-                https://stackoverflow.com/questions/27136517/how-to-add-a-space-before-the-text-in-a-jlabel
+//                https://stackoverflow.com/questions/27136517/how-to-add-a-space-before-the-text-in-a-jlabel
                 s.label.setBorder(new EmptyBorder(0, 0, 0, dif));
             }
         }
@@ -147,8 +147,8 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
 
     private void setSlider(int ind, String sliderName, String sliderToolTip,
                            int orientation, int minVal, int maxVal, int defVal) {
-        sliders[ind] = new SliderWithLabelPanel(orientation, minVal, maxVal,
-            defVal, sliderName, this, ind, isLabelOnLeft);
+        sliders[ind] = new SliderWithLabelPanel(orientation, minVal, maxVal, defVal,
+                                                sliderName, this, ind, isLabelOnLeft);
         sliders[ind].slider.setToolTipText(sliderToolTip);
     }
 
@@ -156,8 +156,5 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
     @Override
     public void update(int index, double newValue) {
         updater.update(index, newValue);
-// TODO: DEBUG PRINT
-//        System.out.println(newValue);
-// TODO: DEBUG PRINT
     }
 }

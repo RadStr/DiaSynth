@@ -36,7 +36,7 @@ public class WaveButtonPanel extends JPanel {
         includeInOperations.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                waveMainPanel.repaint();     // Repaint because checkbox changes the wave visualisation
+                waveMainPanel.repaint();     // Repaint because checkbox changes the wave's visualisation
             }
         });
 

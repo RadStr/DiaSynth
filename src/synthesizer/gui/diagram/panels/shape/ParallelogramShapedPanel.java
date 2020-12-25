@@ -88,8 +88,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
     }
 
     protected void createParallelogramInternalMethod(int w, int h) {
-        int leftThickness = w / LEFT_THICKNESS_DIV_FACTOR;          // TODO: PARAMETER TO PLAY WITH
-        int topThickness = h / TOP_THICKNESS_DIV_FACTOR;      // TODO: PARAMETER TO PLAY WITH
+        int leftThickness = w / LEFT_THICKNESS_DIV_FACTOR;          // PARAMETER TO PLAY WITH
+        int topThickness = h / TOP_THICKNESS_DIV_FACTOR;            // PARAMETER TO PLAY WITH
         createParallelogram(topThickness, leftThickness);
     }
 

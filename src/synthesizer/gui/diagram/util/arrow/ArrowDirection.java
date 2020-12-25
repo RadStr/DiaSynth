@@ -58,14 +58,18 @@ public enum ArrowDirection {
 
     /**
      * Transforms arrow which is given as set of points to be facing the location given by the enum
-     * @param arrowPointingRight are the points of the arrow. Starting at top left of the rectangle and going "clockwise" (so the first turn is to right)
-     * @param outputArrow is the array to which will be stored the output arrow, should be at least the length of input array. (7+ for arrow). The order of elements is the same in the input array
+     * @param arrowPointingRight are the points of the arrow. Starting at top left of the rectangle and
+     *                           going "clockwise" (so the first turn is to right)
+     * @param outputArrow is the array to which will be stored the output arrow.
+     *                    It should be at least the length of input array. (7+ for arrow).
+     *                    The order of elements is the same in the input array
      */
     public abstract void transformArrowPointingRight(Point[] arrowPointingRight, Point[] outputArrow);
 
     private static void transform(double angle, Point[] arrowPointingRight, Point[] outputArrow) {
         Point mid = new Point(arrowPointingRight[3]);
         mid.x = (arrowPointingRight[0].x + mid.x) / 2;
-        AffineTransform.getRotateInstance(angle, mid.x, mid.y).transform(arrowPointingRight,0, outputArrow,0, arrowPointingRight.length);
+        AffineTransform.getRotateInstance(angle, mid.x, mid.y).transform(arrowPointingRight,0, outputArrow,
+                                                                        0, arrowPointingRight.length);
     }
 }

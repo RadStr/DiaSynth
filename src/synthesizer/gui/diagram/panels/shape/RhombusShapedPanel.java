@@ -232,13 +232,15 @@ public class RhombusShapedPanel extends ShapedPanel {
                 nextToLastPoint.y = 0;
             }
             else {
-                int h = this.getHeight() / 2;
+
 
                 // in the /* */  is just experiment with having "diagonal lines".
                 // It is possible but I have to take into consideration the elevations,
                 // and also sometimes the line should go from the top and when from left, etc. I won't be doing that
                 // else the result isn't just really that good and also there some problems with labels because of that
                 // (The cables overshadow the labels)
+                // int h = this.getHeight() / 2;
+
                 switch(direction) {
                     case LEFT:
                         nextToLastPoint.x = nextToLastPoint.y/* - (h / connectorCountOnSide)*/;

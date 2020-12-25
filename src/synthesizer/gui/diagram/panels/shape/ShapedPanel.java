@@ -10,8 +10,10 @@ import java.awt.geom.Point2D;
 
 /**
  * This is the base class for panel shapes.
- * NOTE: reshape(new Dimension(diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight())); or reshape with different argument based on the wanted size
- * should be called every time instance of Shaped panel is created, else the panel won't be drawn correctly since the shape won't be calculated correctly
+ * NOTE: reshape(new Dimension(diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight()));
+ * or reshape with different argument based on the wanted size
+ * should be called every time instance of Shaped panel is created,
+ * else the panel won't be drawn correctly since the shape won't be calculated correctly
  */
 public abstract class ShapedPanel extends MovableJPanel {
 	/**

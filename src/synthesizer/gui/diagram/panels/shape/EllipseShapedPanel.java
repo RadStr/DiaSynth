@@ -16,24 +16,24 @@ public class EllipseShapedPanel extends ShapedPanel {
     public EllipseShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitViewForGUIIFace unit) {
         super(diagramPanel, internals, unit);
-        constuctor();
+        constructor();
     }
 
     public EllipseShapedPanel(int relativeX, int relativeY, int w, int h,
                               DiagramPanel diagramPanel, ShapedPanelInternals internals,
                               UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, w, h, diagramPanel, internals, unit);
-        constuctor();
+        constructor();
     }
 
     public EllipseShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                               ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
         super(relativeX, relativeY, diagramPanel, internals, unit);
-        constuctor();
+        constructor();
     }
 
 
-    private void constuctor() {
+    private void constructor() {
         panelShape = new Polygon();
         ring = new Polygon();        // Just dummy init, else there is exception because the reshape method is called after the first drawing
     }

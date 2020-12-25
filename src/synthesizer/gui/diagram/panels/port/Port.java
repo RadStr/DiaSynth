@@ -39,7 +39,8 @@ public abstract class Port implements UnitGeneratedValuesInfo {
     /**
      * Should be overridden in input and output port.
      * @param port is the port to be removed
-     * @param removeTheOtherPort If true removes the cable completely, if false removes only the port from this instance (so on the other side it will still think it is connected to this port)
+     * @param removeTheOtherPort If true removes the cable completely, if false removes only the port from this instance
+     *                           (so on the other side it will still think it is connected to this port)
      * @return
      */
     public abstract int removePort(Port port, boolean removeTheOtherPort);

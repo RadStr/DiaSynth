@@ -7,7 +7,8 @@ public interface ShapedPanelInternals {
     void draw(Graphics g);
 
     /**
-     * Should create exact copy of class and return it (the copy should not have any shared variables)
+     * Should create exact copy of class and return it (the copy should not have any shared variables).
+     * Currently not used, but it will be useful once we allow to change names of panels.
      * @return
      */
     ShapedPanelInternals createCopy();

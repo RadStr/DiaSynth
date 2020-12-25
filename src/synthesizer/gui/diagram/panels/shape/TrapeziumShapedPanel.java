@@ -80,7 +80,7 @@ public class TrapeziumShapedPanel extends ShapedPanel {
         trapezium.reset();
 
         int botY = newSize.height;
-// TODO: PARAMETERS TO PLAY WITH
+        // PARAMETERS TO PLAY WITH
         trapezium.addPoint(newSize.width / 4, 0);
         trapezium.addPoint(3 * newSize.width / 4, 0);
         trapezium.addPoint(newSize.width, botY);

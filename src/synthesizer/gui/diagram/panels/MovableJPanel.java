@@ -67,7 +67,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
     private ColorMover noCollisionColorMover;
 
     /**
-     * It says how many static rectangles it is from the reference panel. For example (-1,0) if it is next to the reference on left.
+     * It says how many static rectangles it is from the reference panel.
+     * For example (-1,0) if it is next to the reference on left.
      */
     private Point relativePosReferencePanel;
 
@@ -90,7 +91,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      */
     public MovableJPanel(DiagramPanel diagramPanel, UnitViewForGUIIFace unit) {
         // I just put it somewhere far away, so it isn't seen when user starts dragging new unit from the menu
-        this(-10000, -10000, diagramPanel.getReferencePanelWidth(), diagramPanel.getReferencePanelHeight(), diagramPanel, unit);
+        this(-10000, -10000, diagramPanel.getReferencePanelWidth(),
+              diagramPanel.getReferencePanelHeight(), diagramPanel, unit);
     }
 
     public MovableJPanel(int relativeX, int relativeY, int w, int h, DiagramPanel diagramPanel,
@@ -132,13 +134,20 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
         resetColor();
         // I set the WHITE_H as ALMOST_RED_H because hue doesn't change whiteness
-        collisionColorMover = new ColorMover(hsb, ALMOST_RED_H, ALMOST_WHITE_S, ALMOST_WHITE_B, ALMOST_RED_H, ALMOST_RED_S, ALMOST_RED_B, MovableJPanelMouseAdapter.STEP_COUNT);
+        collisionColorMover = new ColorMover(hsb, ALMOST_RED_H, ALMOST_WHITE_S, ALMOST_WHITE_B,
+                                             ALMOST_RED_H, ALMOST_RED_S, ALMOST_RED_B,
+                                             MovableJPanelMouseAdapter.STEP_COUNT);
         // I set the WHITE_H as GREEN_H because hue doesn't change whiteness
-        noCollisionColorMover = new ColorMover(hsb, GREEN_H, ALMOST_WHITE_S, ALMOST_WHITE_B, GREEN_H, GREEN_S, GREEN_B, MovableJPanelMouseAdapter.STEP_COUNT);
+        noCollisionColorMover = new ColorMover(hsb, GREEN_H, ALMOST_WHITE_S, ALMOST_WHITE_B,
+                                               GREEN_H, GREEN_S, GREEN_B, MovableJPanelMouseAdapter.STEP_COUNT);
 
-        inputPanelColorMoverCollision = new ColorMover(hsb, GREEN_H, ALMOST_WHITE_S, ALMOST_WHITE_B, GREEN_H, GREEN_S, GREEN_B, MovableJPanelMouseAdapter.STEP_COUNT);
-        inputPanelColorMoverNoCollision = new ColorMover(hsb, ALMOST_RED_H, ALMOST_WHITE_S, ALMOST_WHITE_B, ALMOST_RED_H, ALMOST_RED_S, ALMOST_RED_B, MovableJPanelMouseAdapter.STEP_COUNT);
-        outputPanelColorMover = new ColorMover(hsb, BLUE_H, ALMOST_WHITE_S, ALMOST_WHITE_B, BLUE_H, BLUE_S, BLUE_B, MovableJPanelMouseAdapter.STEP_COUNT);
+        inputPanelColorMoverCollision = new ColorMover(hsb, GREEN_H, ALMOST_WHITE_S, ALMOST_WHITE_B,
+                                                       GREEN_H, GREEN_S, GREEN_B, MovableJPanelMouseAdapter.STEP_COUNT);
+        inputPanelColorMoverNoCollision = new ColorMover(hsb, ALMOST_RED_H, ALMOST_WHITE_S, ALMOST_WHITE_B,
+                                                         ALMOST_RED_H, ALMOST_RED_S, ALMOST_RED_B,
+                                                         MovableJPanelMouseAdapter.STEP_COUNT);
+        outputPanelColorMover = new ColorMover(hsb, BLUE_H, ALMOST_WHITE_S, ALMOST_WHITE_B,
+                                               BLUE_H, BLUE_S, BLUE_B, MovableJPanelMouseAdapter.STEP_COUNT);
 
         this.setLayout(null);
     }
@@ -167,7 +176,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
     @Override
     public void connectToPort(int targetPanelIndexInPanelList, int targetConnectorIndex) {
-        diagramPanel.connectOutputPortToInputPort(targetPanelIndexInPanelList, targetConnectorIndex, this.getOutputPort());
+        diagramPanel.connectOutputPortToInputPort(targetPanelIndexInPanelList, targetConnectorIndex,
+                                                  this.getOutputPort());
     }
 
     public Point getLocOnScreen() {
@@ -243,7 +253,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
                     () -> {
                         InputPort portChooserResult = PortChooser.choosePort(this,
                                 (ip) -> {
-                                    MovablePanelSpecificGetMethodsIFace panelContainingOutputPort = diagramPanel.getCurrentlyConnectingPanel();
+                                    MovablePanelSpecificGetMethodsIFace panelContainingOutputPort;
+                                    panelContainingOutputPort = diagramPanel.getCurrentlyConnectingPanel();
                                     OutputPort outputPort = panelContainingOutputPort.getOutputPort();
                                     List<Port> connectedPorts = outputPort.getConnectedPorts();
                                     return !connectedPorts.contains(ip);
@@ -303,12 +314,12 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
 
 
     @Override
-    public void recalculateCablesAbsolutePaths(Point referencePanelLoc, Dimension panelSize, int borderWidth, int borderHeight,
-                                               int panelSizeWithBorderWidth, int panelSizeWithBorderHeight, int pixelsPerElevation) {
+    public void recalculateCablesAbsolutePaths(Point referencePanelLoc, Dimension panelSize, int borderWidth,
+                                               int borderHeight, int panelSizeWithBorderWidth,
+                                               int panelSizeWithBorderHeight, int pixelsPerElevation) {
         unit.getOutputPort().setAbsolutePaths(referencePanelLoc, panelSize, borderWidth, borderHeight,
                 panelSizeWithBorderWidth, panelSizeWithBorderHeight, pixelsPerElevation);
     }
-    // TODO: HNED
 
 
     private HSB hsb;
@@ -827,7 +838,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         Direction lastLineDirection = getDirectionForInputPortLabel(ip);
         switch (lastLineDirection) {
             case LEFT:
-                label.setLocation(p.x - lw - cableThickness, p.y - lh - cableThickness);      // Put it above the cable
+                label.setLocation(p.x - lw - cableThickness, p.y - lh - cableThickness); // Put it above the cable
                 break;
             case UP:
                 label.setLocation(p.x - lw - 2 * cableThickness, p.y - lh - cableThickness);

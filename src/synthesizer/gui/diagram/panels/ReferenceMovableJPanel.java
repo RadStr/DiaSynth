@@ -49,19 +49,21 @@ public class ReferenceMovableJPanel extends MovableJPanelBase {
         super.setLocation(location.getFirst(), location.getSecond());
     }
 
-    public void updateLocation(Dimension oldVisibleSize, IntPairWithInternalDoublesWithMinAndMax newVisibleSize, Point screenMidPoint) {
+    public void updateLocation(Dimension oldVisibleSize, IntPairWithInternalDoublesWithMinAndMax newVisibleSize,
+                               Point screenMidPoint) {
         int newWidth = newVisibleSize.getFirst();
         updateLocationBasedOnMidPoint(location, screenMidPoint, oldVisibleSize.width, newWidth);
         super.setLocation(location.getFirst(), location.getSecond());
     }
 
-    private void updateLocationBasedOnMidPoint(IntPairWithInternalDoubles locationToUpdate, Point screenMidPoint, int oldWidth, int newWidth) {
+    private void updateLocationBasedOnMidPoint(IntPairWithInternalDoubles locationToUpdate, Point screenMidPoint,
+                                               int oldWidth, int newWidth) {
         double distanceFromMidPointX = locationToUpdate.getFirstDouble() - screenMidPoint.x;
         double distanceFromMidPointY = locationToUpdate.getSecondDouble() - screenMidPoint.y;
         if(newWidth > oldWidth) {       // zooming
             locationToUpdate.add(distanceFromMidPointX, distanceFromMidPointY);
         }
-        else {      // unzooming
+        else {                          // unzooming
             locationToUpdate.subtract(distanceFromMidPointX / 2.0, distanceFromMidPointY / 2.0);
         }
     }

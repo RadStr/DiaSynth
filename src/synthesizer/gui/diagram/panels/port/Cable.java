@@ -558,7 +558,7 @@ public class Cable {
                 elevation = currMaxElevation - 1;
                 elevation = -elevation;
                 if (elevation > MAX_ELEVATION.getMaxElevation()) {
-                    elevation = 0;              // TODO: If too many cables, then just give up
+                    elevation = 0;              // If too many cables, then just give up
                 }
             }
 

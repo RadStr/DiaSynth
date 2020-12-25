@@ -7,9 +7,11 @@ import util.math.MathClass;
  */
 public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternalDoubles {
     public IntPairWithInternalDoublesWithMinAndMax() {
-        this(0, 0, 1, 1, 65536, 65536);
+        this(0, 0, 1,
+             1, 65536, 65536);
     }
-    public IntPairWithInternalDoublesWithMinAndMax(double first, double second, int firstMin, int secondMin, int firstMax, int secondMax) {
+    public IntPairWithInternalDoublesWithMinAndMax(double first, double second, int firstMin,
+                                                   int secondMin, int firstMax, int secondMax) {
         this.firstMin = firstMin;
         this.secondMin = secondMin;
         this.firstMax = firstMax;
@@ -73,7 +75,8 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
 
     @Override
     public String toString() {
-        String s = "{Doubles: [" + first + ", " + second + "]\tIntegers: [" + firstInt + ", " + secondInt + "]\tMinimums: [" + firstMin + ", " + secondMin + "]}";
+        String s = "{Doubles: [" + first + ", " + second + "]\tIntegers: [" + firstInt + ", " +
+                   secondInt + "]\tMinimums: [" + firstMin + ", " + secondMin + "]}";
         return s;
     }
 }

@@ -16,7 +16,8 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
      * @param distanceFromCircleDivFactor
      * @param rectangleThicknessDivFactor
      * @param circleDiameterDecreaseDivFactor Divides the diameter of the circle
-     *                                        I am putting the internal to and by that value it moves it up (down if given number is < 0).
+     *                                        I am putting the internal to and by that value it moves it up
+     *                                        (down if given number is < 0).
      *                                        If the value is Integer.MAX_VALUE then it doesn't move it.
      */
     public CenteredRectanglesInternals(int startAngle, int rectangleCount, int distanceFromCircleDivFactor,
@@ -35,7 +36,8 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
      * @param distanceFromCircleDivFactor
      * @param rectangleThicknessDivFactor
      * @param circleDiameterDecreaseDivFactor Divides the diameter of the circle
-     *                                        I am putting the internal to and by that value it moves it up (down if given number is < 0).
+     *                                        I am putting the internal to and by that value it moves it up
+     *                                        (down if given number is < 0).
      *                                        If the value is Integer.MAX_VALUE then it doesn't move it.
      */
     public CenteredRectanglesInternals(int rectangleCount, int distanceFromCircleDivFactor,

@@ -31,7 +31,8 @@ public class HSB {
     }
 
     /**
-     * Calculates size of one step between the given instance and the targe parameter for number of steps specified in stepCount. The result is stored in jumps.
+     * Calculates size of one step between the given instance and the target parameter for number of steps specified in
+     * stepCount. The result is stored in jumps.
      *
      * @param target    is the target location to which we want to move in stepCount steps.
      * @param stepCount is number of steps.

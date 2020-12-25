@@ -9,11 +9,13 @@ package synthesizer.gui.diagram.panels.util.color;// TODO: Prepsat - zmenil jsem
  * currPos variable is being changed while moving.
  */
 public class ColorMover {
-    public ColorMover(HSB currPos, double startH, double startS, double startB, double endH, double endS, double endB, int stepCount) {
+    public ColorMover(HSB currPos, double startH, double startS, double startB,
+                      double endH, double endS, double endB, int stepCount) {
         this(currPos.h, currPos.s, currPos.b, startH, startS, startB, endH, endS, endB, stepCount);
     }
 
-    public ColorMover(double currH, double currS, double currB, double startH, double startS, double startB, double endH, double endS, double endB, int stepCount) {
+    public ColorMover(double currH, double currS, double currB, double startH, double startS, double startB,
+                      double endH, double endS, double endB, int stepCount) {
         defaultPos = new HSB(currH, currS, currB);
         startPos = new HSB(startH, startS, startB);
         endPos = new HSB(endH, endS, endB);

@@ -74,20 +74,7 @@ public class MovablePanelPopUpMenu extends JPopupMenu {
             });
             this.add(removeInputsItem);
         }
-
-// TODO: RML
-// I choose not to do this due to time constraints - I wanted when removing output just click on the panels from which I want
-        // to remove the connection, but that is redundant since that can be solved by calling Remove input on such panels
-//        removeOutputItem = new JMenuItem("Remove output");
-//        removeOutputItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                movablePanel.removeOutput();
-//
-//            }
-//        });
-//        this.add(removeOutputItem);
-// TODO: RML
+        
 
         if (!movablePanel.getIsOutputPanel()) {
             removeOutputsItem = new JMenuItem("Remove outputs");

@@ -155,8 +155,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         });
 
 
-        currentPanelSize = new IntPairWithInternalDoublesWithMinAndMax(STATIC_PANEL_START_WIDTH, STATIC_PANEL_START_HEIGHT,
-                STATIC_PANEL_MIN_WIDTH, STATIC_PANEL_MIN_HEIGHT, STATIC_PANEL_MAX_WIDTH, STATIC_PANEL_MAX_HEIGHT);
+        currentPanelSize = new IntPairWithInternalDoublesWithMinAndMax(STATIC_PANEL_START_WIDTH,
+                                                                       STATIC_PANEL_START_HEIGHT,
+                                                                       STATIC_PANEL_MIN_WIDTH, STATIC_PANEL_MIN_HEIGHT,
+                                                                       STATIC_PANEL_MAX_WIDTH, STATIC_PANEL_MAX_HEIGHT);
         int first = currentPanelSize.getFirst();
         int second = currentPanelSize.getSecond();
 
@@ -274,7 +276,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         if(realTimeRecordingCurrIndex > 0) {
             if (isRecordingToPlayer) {
                 synthesizerMainPanel.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
-                        audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
+                                                             audioThread.getOutputFormat(),
+                                                             shouldConvertToPlayerOutputFormat);
             }
             if (isRecordingToFile) {
                 saveRecordedAudio(realTimeRecord, 0, realTimeRecordingCurrIndex);
@@ -437,7 +440,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         return panels;
     }
     private IntPairWithInternalDoublesWithMinAndMax currentPanelSize;
-    private ReferenceMovableJPanel referencePanel;       // Give us the info where is currently the top left STATIC panel
+    private ReferenceMovableJPanel referencePanel;   // Give us the info where is currently the top left STATIC panel
     public int getReferencePanelWidth() {
         return referencePanel.getWidth();
     }
@@ -663,7 +666,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private void updateReferencePanel(Dimension panelSize) {
-        referencePanel.updateSize(panelSize);     // TODO: Maybe I should create new instance of dimension - but it makes performance a bit worse, and the sizes shouldn't be changed inside the panels
+        referencePanel.updateSize(panelSize);
         referencePanel.updateLocation(oldPanelSize, currentPanelSize, screenMidPoint);
         sizeChangeCallback();
     }
@@ -794,10 +797,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         }
     }
 
-// TODO: REMOVE
-    private boolean TODOswap = true;
-    private static final boolean isOnNTB = false;
-// TODO: REMOVE
 
     public void observeMouseLoc(Point screenMouseLoc) {
         SwingUtilities.convertPointFromScreen(screenMouseLoc, this);
@@ -978,7 +977,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
+Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 metody ... jedna vezme referenci a ta druha zustane jako
+            tahle.
     private Point selectedPanel;      // Micro-optim don't have to create point on every call
     /**
      * Finds the static panel which contains point at location (x, y) and returns the top left location of that panel.
@@ -998,7 +998,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         int distanceY = y - firstPanel.y;
         int distanceFromClosestPanelY = distanceY % panelSizeWithBorderHeight;
         if (isOutsideTest(distanceFromClosestPanelX, width, panelSizeWithBorderWidth - width) ||
-                isOutsideTest(distanceFromClosestPanelY, height, panelSizeWithBorderHeight - height)) {
+            isOutsideTest(distanceFromClosestPanelY, height, panelSizeWithBorderHeight - height)) {
             return null;
         }
         else {
@@ -2719,10 +2719,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public Unit createUnit(Class<?> unitClass) {
         Unit u = null;
         try {
-// Using reflection - so it is a bit slower but much simpler and requires less work - else I would have to have
-// enum or something and based on that create instance in switch and that would be quite complicated to use with plugin operators
-// I would have to create the enum dynamically at launch of application - would read some string from the plugins and create enum based on that
-// And also this is called only when adding, so the performance hit is pretty small
+            // Using reflection - so it is a bit slower but much simpler and requires less work,
+            // else I would have to have enum or something and based on that create instance in switch and
+            // that would be quite complicated to use with plugin operators
+            // I would have to create the enum dynamically at launch of application - would read some string from the
+            // plugins and create enum based on that
+            // And also this is called only when adding, so the performance hit is pretty small
             Constructor<?> ctor = unitClass.getConstructor(DiagramPanel.class);
             u = (Unit) ctor.newInstance(new Object[] { this });
             ShapedPanel sp = u.getShapedPanel();
@@ -2748,10 +2750,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         Class<?> templateUnitClass = templateUnit.getClass();
         Unit createdUnit = null;
         try {
-// Using reflection - so it is a bit slower but much simpler and requires less work - else I would have to have
-// enum or something and based on that create instance in switch and that would be quite complicated to use with plugin operators
-// I would have to create the enum dynamically at launch of application - would read some string from the plugins and create enum based on that
-// And also this is called only when adding, so the performance hit is pretty small
+            // Using reflection - so it is a bit slower but much simpler and requires less work,
+            // else I would have to have enum or something and based on that create instance in switch and
+            // that would be quite complicated to use with plugin operators
+            // I would have to create the enum dynamically at launch of application - would read some string from the
+            // plugins and create enum based on that
+            // And also this is called only when adding, so the performance hit is pretty small
             Constructor<?> ctor = templateUnitClass.getConstructor(Unit.class);
             createdUnit = (Unit) ctor.newInstance(new Object[] { templateUnit });
             ShapedPanel sp = createdUnit.getShapedPanel();

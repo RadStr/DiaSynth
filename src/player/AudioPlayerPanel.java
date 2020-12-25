@@ -851,7 +851,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             nextSplitter.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, listener);
         }
 
-        // Java bug
+        // Java bug - 1 pixel splitter
         if(splitters.size() >= 2) {
             JSplitPane lastSplitter = splitters.get(splitters.size() - 1);
             listener = new CompoundLastSplitterChangeListener(lastSplitter);
@@ -889,13 +889,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         System.out.println("NEW SMALLER\t" + oldValue + "\t" + newValue);
                     }
                     if (oldValue >= 0) {
-                        // TODO: PROGRAMO - ala
                         if(newValue < splitter.getMinimumDividerLocation()) {
-                            ProgramTest.debugPrint("First - Smaller than min divider:", newValue, splitter.getMinimumDividerLocation());
-                            //return;
-                            System.exit(24);
+                            MyLogger.log("CRITICAL SIZE ERROR INSIDE FirstSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                                         "Smaller than min divider:\t" + newValue + "\t" +
+                                         splitter.getMinimumDividerLocation(), 0);
                         }
-                        // TODO: PROGRAMO - ala
 
                         int dif = newValue - oldValue;
                         WaveMainPanel top;
@@ -950,27 +948,21 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         WaveMainPanel top;
                         WaveMainPanel bot;
                         if (newValue < topSplitter.getMinimumDividerLocation()) {
-                            ProgramTest.debugPrint("Compound - Smaller than min divider top:", newValue, topSplitter.getMinimumDividerLocation());
-                            // TODO: PROGRAMO - ala
-                            //return;
-                            // TODO: PROGRAMO - ala
-                            System.exit(123);
+                            MyLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                                         "Smaller than min divider top:\t" + newValue + "\t" +
+                                         topSplitter.getMinimumDividerLocation(), 0);
                         }
                         if (newValue < botSplitter.getMinimumDividerLocation()) {
-                            ProgramTest.debugPrint("Compound - Smaller than min divider bot:", newValue, botSplitter.getMinimumDividerLocation());
-                            // TODO: PROGRAMO - ala
-                            //return;
-                            // TODO: PROGRAMO - ala
-                            System.exit(1234);
+                            MyLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                                         "Smaller than min divider bot:\t" + newValue + "\t" +
+                                         botSplitter.getMinimumDividerLocation(), 0);
                         }
                         top = (WaveMainPanel) topSplitter.getBottomComponent();
                         bot = (WaveMainPanel) botSplitter.getBottomComponent();
-//                    top.setPreferredSizeByAdding(dif);
-//                    bot.setPreferredSizeByAdding(-dif);
 
 
-                        ProgramTest.debugPrint("In compound property change",
-                                top.getWaveIndex() - 1, top.getPreferredSize(), bot.getWaveIndex() - 1, bot.getPreferredSize());
+                        ProgramTest.debugPrint("In compound property change", top.getWaveIndex() - 1,
+                                               top.getPreferredSize(), bot.getWaveIndex() - 1, bot.getPreferredSize());
                         setPrefSizes(bot, top, dif);
                     }
                 }
@@ -979,7 +971,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    // TODO: PROGRAMO - java bug
+    // Java bug - 1 pixel splitter
     private int oldLocationFromPropertyChangeListener = getOldLocationFromPropertyChangeListenerDefaultVal();
     private static int getOldLocationFromPropertyChangeListenerDefaultVal() {
         return -1;
@@ -1002,13 +994,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         public void propertyChange(PropertyChangeEvent evt) {
             int oldValue = (int) evt.getOldValue();
             int newValue = (int) evt.getNewValue();
-            // TODO: PROGRAMO - ala
-//            if(oldValue < lastSplitter.getMinimumDividerLocation() || newValue < lastSplitter.getMinimumDividerLocation()) {
-//                ProgramTest.debugPrint("Compound last - Smaller than min divider:", newValue, lastSplitter.getMinimumDividerLocation());
-//                return;
-//            }
-//            ProgramTest.debugPrint("last splitter", lastSplitter.getMinimumDividerLocation(), oldValue, newValue);
-            // TODO: PROGRAMO - ala
 
 
             // || because java doesn't ensure the order of calling listeners
@@ -1024,22 +1009,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 MouseEvent mouseEvent = new MouseEvent(lastSplitter, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1,false);
                 lastSplitterMouseAdapter.mouseReleased(mouseEvent);
                 lastSplitterMoved = false;
-
-//                int oldValue = (int) evt.getOldValue();
-//                int newValue = (int) evt.getNewValue();
-//                if (oldValue >= 0) {
-//                    int dif = newValue - oldValue;
-//                    WaveMainPanel top;
-//                    WaveMainPanel bot;
-//                    if (newValue < lastSplitter.getMinimumDividerLocation()) {
-//                        ProgramTest.debugPrint("New value:", newValue, lastSplitter.getMinimumDividerLocation());
-//                        System.exit(lastSplitter.getMinimumDividerLocation());
-//                    }
-//
-//                    top = (WaveMainPanel) lastSplitter.getTopComponent(); spatne nevim proc
-//                    bot = new WaveMainPanel(null, null, -1, -1);    // Doesn't matter
-//                    setPrefSizes(bot, top, dif);
-//                }
             }
             else {
                 resetOldLocationFromPropertyChangeListenerToDefaultVal();
@@ -1047,47 +1016,25 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         }
     }
-    // TODO: PROGRAMO - java bug
+    // Java bug - 1 pixel splitter
+
 
 
     private void setPrefSizes(WaveMainPanel bot, WaveMainPanel top, int dif) {
         if(dif < 0) {       // If moving up
             if (movingDivsRecursively) {
-//                    int div1;
-//                    if (dif > 0) {
-//                        div1 = bot.setPreferredSizeByAdding(dif);
-//                    } else {
-//                        div1 = top.setPreferredSizeByAdding(dif);
-//                    }
-//                        dividerRemainder -= div1;
-
-                int todoDif = top.getDif(dif);
-                //dividerRemainder -= todoDif;
-                if(todoDif == 0) {
+                int topDif = top.getDif(dif);
+                if(topDif == 0) {
                     // When going up I make the upper smaller and the bot set to min
                     movingDivsRecursively = false;
                     ProgramTest.debugPrint("Before compound splitter", top.getWaveIndex() - 1, top.getPreferredSize());
                     top.setPreferredSizeByAdding(dif);
                     ProgramTest.debugPrint("After compound splitter", top.getWaveIndex() - 1, top.getPreferredSize());
-                    //        bot.setPreferredSizeByAdding(-todoDif);
-                    //    bot.setPreferredSizeByAdding(dif);  // not -dif because we want to make it smaller
                     bot.setPrefSizeToMin();
                 }
                 else {
                     bot.setPrefSizeToMin();
                 }
-
-//                    dividerRemainder -= dif;
-//                    if(dividerRemainder == 0) {
-//                        movingDivsRecursively = false;
-//                        top.setPreferredSizeByAdding(dif);
-//                //        bot.setPreferredSizeByAdding(-todoDif);
-//                        //bot.setPreferredSizeByAdding(-dif);
-//                    }
-//                    else {
-//                        bot.setPrefSizeToMin();
-//                    }
-                //TODO: Not need to set the bottom one, already set from the divider down bot.setPreferredSizeByAdding(-dif);
             } else {
                 int div1 = top.setPreferredSizeByAdding(dif);
                 if (div1 < 0) {
@@ -1095,11 +1042,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     dividerRemainder = div1;
                 }
 
-                // TODO: PROGRAMO - If it isn't last, else it is already set by the listener of the last splitter
                 // If it isn't last, else it is already set by the listener of the last splitter
-//                 TODO: PROGRAMO volam to kdyz zmensim ten posledni a tim zvetsim ten nad nim to nechci ale na druhou stranu to chci volat kdyz zvetsuju ten predposledni
-//                 TODO: PROGRAMO movingLastSplitter nefunguje protoze to nevynuluju a ani moc nemam kde - proste kdykoliv pohnu s tim last splitter tak to ovlivni ten cokoliv co udelam nasledujiciho - bude to nastaveny na true
-//                TODO: PROGRAMO - az to budu zkouset tak to delat i s ruznym DIVIDER_SIZE
                 if(bot.getWaveIndex() != waves.size() || !movingLastSplitter) {
                     ProgramTest.debugPrint("Compound:", movingLastSplitter);
                     bot.setPreferredSizeByAdding(-dif);
@@ -1107,78 +1050,23 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 else {
                     movingLastSplitter = false;
                 }
-                // TODO: PROGRAMO
             }
-
-//                if (dividerRemainder == 0) {
-//                    movingDivsRecursively = false;
-//                }
         }
         else {          // If moving down - there is no recursive movement involved
             top.setPreferredSizeByAdding(dif);
             bot.setPreferredSizeByAdding(-dif);
         }
         debugPrintSplitters();
-        ProgramTest.debugPrint(top.getWaveIndex() - 1, top.getMinimumSize(), top.getPreferredSize());
-        ProgramTest.debugPrint(bot.getWaveIndex() - 1, bot.getMinimumSize(), bot.getPreferredSize());
+        ProgramTest.debugPrint("TOP", top.getWaveIndex() - 1, top.getMinimumSize(), top.getPreferredSize());
+        ProgramTest.debugPrint("BOT", bot.getWaveIndex() - 1, bot.getMinimumSize(), bot.getPreferredSize());
     }
 
 
 
-
-
-
-
-    @Deprecated     // I was testing something.
-    public void TODOMETHOD() {
-        int w = panelWithWaves.getWidth();
-        int startX = panelWithWaves.getX();
-        int endX = startX + w;
-        Point pStartX = new Point(startX + 1, 0);
-        SwingUtilities.convertPointToScreen(pStartX, panelWithWaves);
-        Point pEndX = new Point(endX - 1, 0);
-        SwingUtilities.convertPointToScreen(pEndX, panelWithWaves);
-        int halfW = w / 2;
-        JSplitPane lastSplitter = getLastJSplitPane();
-        Point p1 = new Point(halfW, lastSplitter.getDividerLocation() + 1);  // +1 because mouse reacts to the divider on next pixel
-        SwingUtilities.convertPointToScreen(p1, panelWithWaves);
-
-        //https://stackoverflow.com/questions/48837741/java-robot-mousemovex-y-not-producing-correct-results
-//                        int maxTimes = 10;
-//                        double x;
-//                        bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-//                        Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
-//                        for(int count = 0; ((x = MouseInfo.getPointerInfo().getLocation().getX()) < pStartX.x || x > pEndX.x ||
-//                            MouseInfo.getPointerInfo().getLocation().getY() != p.y) &&
-//                            count < maxTimes; count++) {
-//                            bot.mouseMove(p.x, p.y);
-//                        }
-
-        RobotUserEventsGenerator userEventsGenerator = new RobotUserEventsGenerator();
-        TODOSLEEP(3000);
-        userEventsGenerator.moveTo(p1, pStartX, pEndX);
-        TODOSLEEP(3000);
-        userEventsGenerator.click(InputEvent.BUTTON1_DOWN_MASK);
-        userEventsGenerator.click(InputEvent.BUTTON1_DOWN_MASK);
-        Point p2 = new Point(p1.x, p1.y + 20);
-        TODOSLEEP(3000);
-        userEventsGenerator.moveTo(p2, pStartX, pEndX);
-        TODOSLEEP(3000);
-        userEventsGenerator.release(InputEvent.BUTTON1_DOWN_MASK);
-    }
-
-    private void TODOSLEEP(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     private int convertToPixelMovement(int increaseSpeed) {
-//        int movement = increaseSpeed / 5; // Every 5 moved pixels the speed of scrolling/making the wave larger speeds up by 1 pixel per drag
-//        return movement;
+//        increaseSpeed /= 5; // Every 5 moved pixels the speed of scrolling/making the wave larger speeds up by 1 pixel per drag
         return increaseSpeed;
     }
 
@@ -1191,7 +1079,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             int viewH = view.getViewSize().height;
             if (bottomY == viewH) {     // Increase the size of JSplitPane
                 WaveMainPanel wave = waves.get(waves.size() - 1);
-                Dimension prefSize = wave.getPreferredSize();
                 wave.setPreferredSizeByAdding(increasedSize);
                 wave.revalidate();
                 wave.repaint();
@@ -1208,56 +1095,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-
-// TODO: Vymazat - vyhodil jsem to do toho WaveArrayListu
-//    /**
-//     * Calls updateWaveIndexTextFields if digt count changed.
-//     */
-//    private void upgradeTextFieldIfDigitCountChanges() {
-//        int oldDigitCount = getDigitCount(waves.size());
-//        int NEW_SIZE = 0;                               // TODO:
-//        int newDigitCount = getDigitCount(NEW_SIZE);
-//        System.exit(666);                       // TODO:
-//        // If digit count changed
-//        if(oldDigitCount != newDigitCount) {
-//            updateWaveIndexTextFields(newDigitCount);
-//        }
-//    }
-//
-//    /**
-//     * Needs to be called to every time wave count is changed. Respectively every time it gets/loses new digit.
-//     * Upgrades the size of the text labels.
-//     */
-//    private void updateWaveIndexTextFields() {
-//        int digitCount = getDigitCount(waves.size());
-//        updateWaveIndexTextFields(digitCount);
-//    }
-//
-//    private void updateWaveIndexTextFields(int digitCount) {
-//        int len = waves.size();
-//        if(len > 0) {
-//            WaveMainPanel wave;
-//            wave = waves.get(0);
-//            Dimension newSize = wave.upgradeWaveIndexTextFieldPreferredSize(digitCount);
-//            for(int i = 1; i < len; i++) {
-//                wave = waves.get(i);
-//                wave.upgradeWaveIndexTextFieldPreferredSize(newSize);
-//            }
-//        }
-//    }
-//
-//
-//
-//    private int getDigitCount(int number) {
-//        int digitCount = 1;
-//        while(number >= 10) {
-//            digitCount++;
-//            number /= 10;
-//        }
-//        return digitCount;
-//    }
-
-
     int TODOIND = 0;
     /**
      * Swaps 2 waves. Indexes in parameters are indexed from 1
@@ -1270,461 +1107,42 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
         System.out.println(",,," + (TODOIND++));
         debugPrintSplitters();
-// TODO: Jen Zkouseni s tim proc nefunguje reset - jestli to nahodou neni tim ze tam je malo mista
-//        debugPrintSplitters();
-//        JViewport view = panelWithWaves.getViewport();
-//        Dimension oldViewSize = view.getViewSize();
-//        Dimension newViewSize = new Dimension(oldViewSize.visibleWidth, oldViewSize.height + 200);
-//        view.setViewSize(newViewSize);
-
 
         int oldIndexZero = oldIndex - 1;
         int newIndexZero = newIndex - 1;
         WaveMainPanel waveMainPanel1 = waves.get(oldIndexZero);
         WaveMainPanel waveMainPanel2 = waves.get(newIndexZero);
-        System.out.println(splitters.get(0).getTopComponent());
-        System.out.println(splitters.get(0).getBottomComponent());
+        System.out.println("swapSplitterComponents:\t" + splitters.get(0).getTopComponent());
+        System.out.println("swapSplitterComponents:\t" + splitters.get(0).getBottomComponent());
 
         if(panelWithWaves.getViewport().getViewPosition().y < 0) {
-            System.out.println(panelWithWaves.getViewport().getViewSize().height);
-            System.exit(-1000);    // TODO:
+            // TODO: I think that it can be removed later, but for now keep it just to be sure
+            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
+                         panelWithWaves.getViewport().getViewSize().height, 0);
         }
 
         swap2WavesIndexes(oldIndex, oldIndexString, oldIndexZero,
                 newIndex, newIndexString, newIndexZero, waveMainPanel1, waveMainPanel2);
 
-        // Now the indexes are swapped, so waveMainPanel2 has lowerBound oldIndexZero. and waveMainPanel1 lowerBound newIndexZero.
+        // Now the indexes are swapped, so waveMainPanel2 has oldIndexZero. and waveMainPanel1 newIndexZero.
         int waveMainPanel1Index = newIndexZero;
         int waveMainPanel2Index = oldIndexZero;
-        //        One component can't be part of 2 splitpanes, so we have to take them out and then swap them
+        //  One component can't be part of 2 splitpanes, so we have to take them out and then swap them
         swapComponentsInSplitters(waveMainPanel1Index, waveMainPanel2Index);
-//        if(DEBUG_CLASS.DEBUG) {
-//            System.out.println(splitters.get(0).getTopComponent());
-//            System.out.println(splitters.get(0).getBottomComponent());
-//            ProgramTest.debugPrintWithSep(waveMainPanel1Index, waveMainPanel2Index);
-//            ProgramTest.debugPrintWithSep(waveMainPanel1, waveMainPanel2);
-//            System.out.println();
-//        }
-//
-//        // Now solve the problem that after swaping the sizes of waves changes
-//        // Basically we just go through all the splitpanes between the waves
-//        // and change the divider of location of the by the difference of the sizes of the swapped components
-//        int lowerBound;
-//        int upperBound;
-//        int topComponentHeight;
-//        int botComponentHeight;
-//        int divLocDif;
-//        boolean containsFirst = false;
-//        if(waveMainPanel2Index > waveMainPanel1Index) {
-//            lowerBound = waveMainPanel1Index;
-//            upperBound = waveMainPanel2Index;
-//            if(waveMainPanel1Index == 0) {
-//                containsFirst = true;
-//            }
-//            topComponentHeight = waveMainPanel1.getPreferredSize().height;
-//            topComponentHeight = waveMainPanel1.getHeight();
-//            botComponentHeight = waveMainPanel2.getPreferredSize().height;
-//            botComponentHeight = waveMainPanel2.getHeight();
-//        }
-//        else {
-//            lowerBound = waveMainPanel2Index;
-//            upperBound = waveMainPanel1Index;
-//            if(waveMainPanel2Index == 0) {
-//                containsFirst = true;
-//            }
-//            topComponentHeight = waveMainPanel2.getPreferredSize().height;
-//            topComponentHeight = waveMainPanel2.getHeight();
-//            botComponentHeight = waveMainPanel1.getPreferredSize().height;
-//            botComponentHeight = waveMainPanel1.getHeight();
-//        }
-//        divLocDif = topComponentHeight - botComponentHeight;
-//        ProgramTest.printCharKTimesOnNLines('*');
-//        ProgramTest.debugPrintWithSep(topComponentHeight, botComponentHeight, divLocDif);
-//
-//
-//        // Set the top swapped panel. It is the divLocation of the old one + div
-////        ProgramTest.debugPrintWithSep(topPane.getDividerLocation());
-////        topPane.setDividerLocation(botPaneDivLoc + divLocDif);
-////        ProgramTest.debugPrintWithSep(topPane.getDividerLocation());
-////        lowerBound++;
-//
-//        // Update the divider locations
-//        // Set the middle. Just add the difference to every component. There is no middle part if there are no waves in between.
-//
-//        for(int TODODEBUG = 0; TODODEBUG < splitters.size(); TODODEBUG++) {
-//            JSplitPane tmp = splitters.get(TODODEBUG);
-//            ProgramTest.debugPrintWithSep(tmp.getDividerLocation(), '+');
-//        }
-//        JSplitPane pane;
-//        int index = upperBound - 1;
-//        for(; index >= lowerBound; index--) {
-//            pane = getJSplitPaneContainingWaveFromWaveIndex(index + 1);
-//            int divLoc = pane.getDividerLocation();
-//            pane.setDividerLocation(divLoc + divLocDif);
-//        }
-//        for(int TODODEBUG = 0; TODODEBUG < splitters.size(); TODODEBUG++) {
-//            JSplitPane tmp = splitters.get(TODODEBUG);
-//            ProgramTest.debugPrintWithSep(tmp.getDividerLocation(), '-');
-//        }
-//
-////        for(; lowerBound < upperBound; lowerBound++) {
-////            pane = getJSplitPaneContainingWaveFromWaveIndex(lowerBound + 1);
-//////            if(lowerBound == 0) {
-////////                pane.setDividerLocation(topComponentHeight);
-////////            }
-////            int divLoc = pane.getDividerLocation();
-////            pane.setDividerLocation(divLoc + divLocDif);
-////        }
-//        // Set the bottom swapped panel. It is the dividerLoc - the difference
-//// TODO: Vymazat        ProgramTest.debugPrintWithSep(botPane.getDividerLocation());
-//        //botPane.setDividerLocation(topPaneDivLoc - divLocDif);
-//        //botPane.setDividerLocation(botPane.getDividerLocation() - divLocDif);
-//// TODO: Vymazat        ProgramTest.debugPrintWithSep(botPane.getDividerLocation());
-//// TODO: Vymazat        ProgramTest.debugPrintWithSep(topPane.getDividerLocation(), botPane.getDividerLocation());
-//
-//
-//
 
-// TODO: Varianta pres minimum - ale pak to nejde zmensovat dragovanim protoze to nejde zmensit pod tu min size - a navic obcas se stane ze to tu minSize ignoruje
-//        Dimension[] TODOoldMins = new Dimension[waves.size()];
-//        for(int i = 0; i < waves.size(); i++) {
-//            JPanel w = waves.get(i);
-//            TODOoldMins[i] = w.getMinimumSize();
-//            w.setMinimumSize(w.getPreferredSize());
-//        }
-//        panelWithWaves.revalidate();
-//        panelWithWaves.repaint();
-
-//        for(int i = 0; i < waves.size(); i++) {
-//            JPanel w = waves.get(i);
-//            w.setMinimumSize(TODOoldMins[i]);
-//        }
-
-
-
-///////////////////////////////////////////////////////////////////// TODO:
-//        JViewport view = panelWithWaves.getViewport();
-//        //if(view.getViewSize().height != 653) System.exit(view.getViewSize().height);    // TODO:
-//        if(view.getViewPosition().y < 0) {
-//            System.out.println(view.getViewSize().height);
-//            System.exit(-100);    // TODO:
-//        }
-//        Point oldViewPos = view.getViewPosition();
-//        if(oldViewPos.y != 0) {
-//            System.out.println(oldViewPos);
-//        }
-//        for(int i = splitters.size() - 1; i >= 0; i--) {
-//            JSplitPane debugtmp = splitters.get(i);
-//            debugtmp.setTopComponent(null);
-//            debugtmp.setBottomComponent(null);
-//            panelWithWaves.remove(debugtmp);
-////            debugtmp.resetToPreferredSizes();
-//        }
-//
-//        JSplitPane debugtmp;
-//        for(int i = 0; i < waves.size(); i++) {
-//            if(i == 0) {
-//                debugtmp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, waves.get(0), waves.get(1));
-//                splitters.set(0, debugtmp);
-//                i++;
-//            }
-//            else {
-//                debugtmp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitters.get(i - 2), waves.get(i));
-//                splitters.set(i-1, debugtmp);
-//            }
-//            debugtmp.setDividerSize(DIVIDER_SIZE);
-//            flattenJSplitPane(debugtmp);
-//        //    debugtmp.resetToPreferredSizes();
-//        }
-//        int tmpInd = splitters.size() - 1;
-//        debugtmp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitters.get(tmpInd - 1), new EmptyPanelWithoutSetMethod());
-//        splitters.set(tmpInd, debugtmp);
-//        debugtmp.setDividerSize(DIVIDER_SIZE);
-//        flattenJSplitPane(debugtmp);
-////        this.remove(panelWithWaves);
-////
-////        panelWithWaves.setViewportView(debugtmp);
-////        GridBagConstraints constraints = new GridBagConstraints();
-////        constraints.fill = GridBagConstraints.BOTH;
-////        constraints.gridx = 0;
-////        constraints.gridy = 2;
-////        constraints.weightx = 1;
-////        constraints.weighty = 1;
-////        this.add(panelWithWaves, constraints);
-//
-//        panelWithWaves.setViewportView(debugtmp);
-//        view = panelWithWaves.getViewport();
-//        view.setViewPosition(oldViewPos);
-//
-//        panelWithWaves.revalidate();
-//        panelWithWaves.repaint();
-//        debugPrintWaves();
-//
-//        // TODO: Debug tests
-//        if(view.getViewPosition().y < 0) {
-//            System.out.println(view.getViewSize().height);
-//            System.exit(view.getViewPosition().y);    // TODO:
-//        }
-//        if(debugtmp.getDividerLocation() == -1) {
-//            System.out.println("TODO - -1");
-//        }
-/////////////////////////////////////////////////////////////////// TODO:
-//for(int i = 0; i < splitters.size(); i++) {
-//    JSplitPane split = splitters.get(i);
-//    split.resetToPreferredSizes();
-//}
 
         debugInitTodoPanes();
-        //      debugPrintSplitters();
         panelWithWaves.validate();
         panelWithWaves.revalidate();
-        //      debugPrintSplitters();
         panelWithWaves.repaint();
-        //setDivLocsBasedOnPrefSize();
-//
-//        for(int i = splitters.size() - 1; i >= 0; i--) {
-//            JSplitPane split = splitters.get(i);
-//            split.resetToPreferredSizes();
-//        }
-//        // TODO: Testing
-//        JPanel wave = waves.get(waves.size() - 2);
-//        for(int i = 0; i < splitters.size(); i++) {
-//            JSplitPane split = splitters.get(i);
-//            if(split.getBottomComponent() == wave) {
-//                if(i != splitters.size() - 3) {
-//                    System.exit(i);
-//                }
-//            }
-//        }
-//        JViewport view = panelWithWaves.getViewport();
-
-
-//        view.setViewSize(new Dimension(view.getSize().visibleWidth, 10000));
-        // TODO: Testing
-        //     debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
+        // I don't know why I am revalidating again, probably just mistake, but I will keep it just in case.
         panelWithWaves.revalidate();
-        //    debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
         panelWithWaves.repaint();
-        //    debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
-        //      debugPrintSplitters();
-        //    debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
-        //    debugPrintWaves();
-        //    debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
-
-        // TODO: Problem byl v tom ze ono se to v tyhle chvili ejste neupdatovalo a to co s cim jsem pracoval jsou ty stary velikosti jeste pred swapem
-        // TODO: Proto nefungoval ani ten resetToPreferredSizes - protoze to jeste nebylo zmeneny - ty preferred sizes byly porad ty stary - takze se to zmenilo ale ne do niceho novyho
-        //setDivLocsBasedOnPrefSize();
-        //debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize();
-//        for(int i = splitters.size() - 1; i >= 0; i--) {
-//            JSplitPane split = splitters.get(i);
-//            split.resetToPreferredSizes();
-//        }
-        //    setDivLocsBasedOnPrefSize();
-//        for(int j = 0; j < 400; j++) {
-//            for (int i = splitters.size() - 1; i >= 0; i--) {
-//                JSplitPane split = splitters.get(i);
-//                split.resetToPreferredSizes();
-//            }
-//        }
-        //      debugPrintSplitters();
-        //      System.out.println("§§§§§");
-        //setDivLocsBasedOnPrefSize();
         for(int i = 0; i < waves.size(); i++) {
             isSwapping = false;
         }
-        //debugPrintSplitters();
-        debugPrintSplitters();
-
-// TODO: Tohle nemusim revalidate, staci jen ten hlavni panel
-//        this.revalidate();
-//        this.repaint();
-
-
-
-
-
-        if(DEBUG_CLASS.DEBUG) {
-            for (int i = 0; i < waves.size(); i++) {
-                System.out.println("VAL:\t" + i + "\t" + waves.get(i).getWaveIndex());
-            }
-
-            ProgramTest.printNTimes("===============================================", 2);
-
-            JSplitPane splitter = splitters.get(0);
-            WaveMainPanel waveMainPanelDEBUG;
-            waveMainPanelDEBUG = (WaveMainPanel) splitter.getTopComponent();
-            int indexDEBUG;
-            indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
-            System.out.println("VAL:\t" + 0 + "\t" + indexDEBUG);
-            waveMainPanelDEBUG = (WaveMainPanel) splitter.getBottomComponent();
-            indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
-            System.out.println("VAL:\t" + 1 + "\t" + indexDEBUG);
-
-            if (waves.get(0) != splitters.get(0).getTopComponent()) {
-                System.exit(0);
-            }
-            if (waves.get(1) != splitters.get(0).getBottomComponent()) {
-                System.exit(1);
-            }
-
-            for (int i = 1; i < splitters.size() - 1; i++) {
-                splitter = splitters.get(i);
-                waveMainPanelDEBUG = (WaveMainPanel) splitter.getBottomComponent();
-                indexDEBUG = waveMainPanelDEBUG.getWaveIndex();
-                System.out.println("VAL:\t" + (i + 1) + "\t" + indexDEBUG);
-                if (waves.get(i + 1) != splitter.getBottomComponent()) {
-                    System.exit(i + 1);
-                }
-            }
-            System.out.println(waves.size() == splitters.size());
-            int TODO = 0;
-        }
     }
 
-
-    private void setDivLocsBasedOnPrefSize() {
-        System.out.println("§§§§§");
-        debugPrintSplitters();
-
-        int[] newDivLocs = new int[splitters.size()];
-        Dimension[] prefSizes = new Dimension[splitters.size()];
-        for(int i = 0; i < prefSizes.length; i++) {
-            JSplitPane split = splitters.get(i);
-            int divLoc;
-            Dimension prefSize = null;
-            if(i == 0) {
-                prefSize = split.getPreferredSize();
-                Dimension wavePrefSize = waves.get(0).getPreferredSize();
-                divLoc = wavePrefSize.height;
-            }
-            else {
-                JSplitPane prevSplit = splitters.get(i - 1);
-                prefSize = split.getPreferredSize();
-                Dimension prevPrefSize = prevSplit.getPreferredSize();
-                divLoc = prevPrefSize.height;
-            }
-            prefSize = new Dimension(prefSize.width, prefSize.height);
-            prefSizes[i] = prefSize;
-            newDivLocs[i] = divLoc;
-        }
-
-
-        for(int i = 0; i < splitters.size(); i++) {
-            JSplitPane split = splitters.get(i);
-            Dimension oldPrefSize = split.getPreferredSize();
-
-            split.setSize(prefSizes[i]);
-            split.setDividerLocation(newDivLocs[i]);
-            Dimension prefSize = new Dimension(prefSizes[i].width, prefSizes[i].height);
-            split.setPreferredSize(prefSize);
-
-            Dimension todoRealSize = split.getSize();
-            Dimension todoPrefSize = split.getPreferredSize();
-            ProgramTest.debugPrint(i, split.getDividerLocation(), todoPrefSize, todoRealSize);
-
-            if(!oldPrefSize.equals(split.getPreferredSize())) {
-                System.out.println(oldPrefSize);
-                System.out.println(split.getPreferredSize());
-                System.exit(-10);
-            }
-        }
-
-        for(int i = 0; i < waves.size(); i++) {
-            WaveMainPanel w = waves.get(i);
-            Dimension pf = w.getPreferredSize();
-            Dimension d = new Dimension(pf.width, pf.height);
-            w.setSize(d);
-        }
-
-//
-////        for(int i = 0; i < splitters.size(); i++) {
-//        for(int i = splitters.size() - 1; i >= 0; i--) {
-//            JSplitPane split = splitters.get(i);
-//            Dimension realDivLoc = null;
-//            if(i == 0) {
-//                Dimension prefSize = split.getPreferredSize();
-//                split.setSize(prefSize);
-//                Dimension wavePrefSize = waves.get(0).getPreferredSize();
-//                realDivLoc = wavePrefSize;
-//                split.setDividerLocation(wavePrefSize.height);
-//                //setDivLoc(split, wavePrefSize.height);
-//                if(split.getDividerLocation() != wavePrefSize.height) System.exit(-1);
-//
-//                if(!prefSize.equals(split.getSize())) {
-//                    System.out.println(prefSize);
-//                    System.out.println(split.getSize());
-//                    System.exit(-2);
-//                }
-//            }
-//            else {
-//                JSplitPane prevSplit = splitters.get(i - 1);
-//                Dimension prefSize = split.getPreferredSize();
-//                split.setSize(prefSize);
-//                Dimension prevPrefSize = prevSplit.getPreferredSize();
-//                realDivLoc = prevPrefSize;
-//                split.setDividerLocation(prevPrefSize.height);
-//                //setDivLoc(split, prevPrefSize.height);
-//                if(split.getDividerLocation() != prevPrefSize.height) System.exit(-3);
-//
-//                if(!prefSize.equals(split.getSize())) {
-//                    System.out.println(prefSize);
-//                    System.out.println(split.getSize());
-//                    System.exit(-4);
-//                }
-//            }
-//
-//            Dimension todoRealSize = split.getSize();
-//            Dimension todoPrefSize = split.getPreferredSize();
-//            ProgramTest.debugPrintWithSep(i, split.getDividerLocation(), realDivLoc, todoPrefSize, todoRealSize);
-//        }
-
-        System.out.println("§§§§§");
-        debugPrintSplitters();
-        System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
-    }
-
-
-
-    private void setDivLoc(JSplitPane splitter, int newDivLoc) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                splitter.setDividerLocation(newDivLoc);
-            }
-        });
-    }
-
-
-    private void debugCheckCorrectnessOfSetDivLocsBasedOnPrefSize() {
-        System.out.println("--------------------------");
-        for(int i = 0; i < splitters.size(); i++) {
-            JSplitPane split = splitters.get(i);
-            ProgramTest.debugPrint(i, split.getDividerLocation());
-            if(i == 0) {
-                Dimension wavePrefSize = waves.get(0).getPreferredSize();
-//                if(split.getDividerLocation() != 10000) {
-//                    System.out.println(i);
-//                    System.exit(-2);
-//                }
-                if(split.getDividerLocation() != wavePrefSize.height) {
-                    System.out.println(i);
-                    System.exit(-2);
-                }
-            }
-            else {
-                JSplitPane prevSplit = splitters.get(i - 1);
-                Dimension prevPrefSize = prevSplit.getPreferredSize();
-//                if(split.getDividerLocation() != 10000) {
-//                    System.out.println(i);
-//                    System.exit(-3);
-//                }
-                if(split.getDividerLocation() != prevPrefSize.height) {
-                    System.out.println(i);
-                    System.exit(-3);
-                }
-            }
-        }
-    }
 
     private void removeAdapterFomLastJSplitPaneDivider() {
         if(lastSplitterMouseAdapter != null) {
@@ -1815,9 +1233,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 
-    // TODO: PROGRAMO - java bug
+    // Java bug - 1 pixel splitter
     private boolean lastSplitterMoved = false;
-    // TODO: PROGRAMO - java bug
+
 
     private boolean movingLastSplitter = false;
     private SplitPaneUI lastSplitterUI;
@@ -1832,229 +1250,32 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             lastSplitterMouseAdapter = new MouseAdapter() {
                 private int previousY = -1;
-                private int TODOclick = 0;
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-// TODO: VYMAZAT !!!!
-//                    // TODO:
-//                    debugPrintWaves();
-//                    TODOclick++;
-//                    final int NEW_VAL = TODOclick * 50;
-//
-//
-//                    //for(int i = 0; i < waves.size(); i++) {
-//                    for (int i = waves.size() - 1; i >= 0; i--) {
-//                        JPanel tmpWave = waves.get(i);
-//                        Dimension oldPrefSize = tmpWave.getPreferredSize();
-//                        int dif = NEW_VAL - oldPrefSize.height;
-//                        Dimension d = new Dimension(oldPrefSize.width, NEW_VAL);
-//                        tmpWave.setPreferredSize(d);
-//                        tmpWave.setMinimumSize(d);
-//                        //    TODO: Zmena te preferred size u te vlny ovlivni ten splitter - takze tohle podtim vubec neni potreba pro update PrefSize u splitteru
-//                        int currDif = (i + 1) * dif;      // i+1 * dif because we make larger all of them, so it sums up
-//                        JSplitPane currSplit = splitters.get(i);
-//                        d = currSplit.getPreferredSize();
-//                        Dimension newDim;
-//                        if (i == 0) {
-//                            newDim = new Dimension(d.width, d.height + 2 * currDif);
-//                        } else if (i < waves.size() - 1) {
-//                            JSplitPane prevSplit = splitters.get(i - 1);
-//                            Dimension prevDim = prevSplit.getPreferredSize();
-//                            newDim = new Dimension(d.width, prevDim.height + tmpWave.getPreferredSize().height + 5);
-//                        } else {          // The last component, where is the empty panel - so it same as the else if above but we the pref size height is 0
-//                            JSplitPane prevSplit = splitters.get(i - 1);
-//                            Dimension prevDim = prevSplit.getPreferredSize();
-//                            newDim = new Dimension(d.width, prevDim.height + 5);
-//                        }
-////                        currSplit.setPreferredSize(newDim);
-//
-//                        //    currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-//                        //    currSplit.setSize(currSplit.getPreferredSize());
-//                        //   tmpWave.revalidate();
-//                        //   tmpWave.repaint();
-//                    }
-//
-//
-//                    //            if(TODOclick == 1) {
-////                    for (int i = splitters.size() - 1; i >= 0; i--) {
-////                        JSplitPane currSplit = splitters.get(i);
-////                        //currSplit.setLayout(new BorderLayout());
-////                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.Y_AXIS));
-////                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.X_AXIS));
-////                        //currSplit.setLayout(new GridLayout(0, 1));
-////                        //currSplit.setLayout(new GridBagLayout());
-////
-////
-////                        int dif = NEW_VAL - 50;         // -50 is the old preferredSize height of wave
-////                        int currDif = (i + 1) * dif;      // i+1 * dif because we make larger all of them, so it sums up)
-//////                            currSplit.setSize(currSplit.getPreferredSize());
-////
-////                        JPanel tmpWave = waves.get(i);
-////                        tmpWave.setSize(tmpWave.getPreferredSize());
-////
-//////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////                    }
-////
-////                    for (int i = 0; i < splitters.size() - 1; i++) {
-////                        JSplitPane split = splitters.get(i);
-////                        if (i == 0) {
-////                            split.setTopComponent(null);
-////                        }
-////                        split.setBottomComponent(null);
-////                    }
-////                    for (int i = 0; i < splitters.size() - 1; i++) {
-////                        JSplitPane split = splitters.get(i);
-////                        if (i == 0) {
-////                            split.setTopComponent(waves.get(0));
-////                        }
-////                        split.setBottomComponent(waves.get(i + 1));
-////                    }
-//
-//
-//                    final int CONST_INT = 0;
-//                    for (int i = splitters.size() - 1; i >= 0; i--) {
-//                        JSplitPane currSplit = splitters.get(i);
-//                        //currSplit.setLayout(new BorderLayout());
-//                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.Y_AXIS));
-//                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.X_AXIS));
-//                        //currSplit.setLayout(new GridLayout(0, 1));
-//                        //currSplit.setLayout(new GridBagLayout());
-//
-//
-//                        int dif = NEW_VAL - 50;         // -50 is the old preferredSize height of wave
-//                        int currDif = (i + 1) * dif;      // i+1 * dif because we make larger all of them, so it sums up)
-//
-//                        Dimension pf;
-//                        pf = currSplit.getPreferredSize();
-//                        Dimension d = new Dimension(pf.width, pf.height);
-//                        int jump = CONST_INT * (i + 1);
-//                        d.height += jump + CONST_INT;
-//                        Dimension d2 = new Dimension(d.width, d.height);
-//                        if(i != splitters.size() - 1) {
-//                            //currSplit.setSize(currSplit.getPreferredSize());
-//                   //         currSplit.setPreferredSize(d2); // Problem is that the preferred size of wave and currSplit is the same
-////                            currSplit.setSize(d);
-//            //               currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + jump);
-//                        }
-//                        else {
-//                    //        currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-//
-//                        //    d.height += CONST_INT;
-//                            d.height -= CONST_INT;
-////                            currSplit.setSize(d);
-//            //                currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + jump);
-//
-////                            Dimension d2 = new Dimension(d.visibleWidth, d.height + CONST_INT);
-////                            //specVal.height += 20000;
-////                            currSplit.setPreferredSize(d);
-////                            currSplit.setSize(d2);
-////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + CONST_INT);
-//                        }
-//                    }
-//                    for(int i = 0; i < waves.size(); i++) {
-//                        JPanel w = waves.get(i);
-//                        Dimension d = new Dimension(w.getPreferredSize().width, w.getPreferredSize().height + CONST_INT);
-//                        w.setPreferredSize(d);
-//                        Dimension d2 = new Dimension(d.width, d.height);
-//                        w.setSize(d);
-//                    }
-//
-//
-//
-//
-//
-//
-////                    final int CONST_INT = 200;
-////                    for (int i = splitters.size() - 1; i >= 0; i--) {
-////                        JSplitPane currSplit = splitters.get(i);
-////                        //currSplit.setLayout(new BorderLayout());
-////                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.Y_AXIS));
-////                        //currSplit.setLayout(new BoxLayout(currSplit, BoxLayout.X_AXIS));
-////                        //currSplit.setLayout(new GridLayout(0, 1));
-////                        //currSplit.setLayout(new GridBagLayout());
-////
-////
-////                        int dif = NEW_VAL - 50;         // -50 is the old preferredSize height of wave
-////                        int currDif = (i + 1) * dif;      // i+1 * dif because we make larger all of them, so it sums up)
-////
-////                        Dimension pf;
-////                        pf = currSplit.getPreferredSize();
-////                        Dimension d = new Dimension(pf.visibleWidth, pf.height);
-////                        int jump = CONST_INT * (i + 1);
-////                        d.height += jump + CONST_INT;
-////                        Dimension d2 = new Dimension(d.visibleWidth, d.height);
-////                        if(i != splitters.size() - 1) {
-////                            //currSplit.setSize(currSplit.getPreferredSize());
-////                            //         currSplit.setPreferredSize(d2); // Problem is that the preferred size of wave and currSplit is the same
-////                            currSplit.setSize(d);
-////                            //               currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + jump);
-////                        }
-////                        else {
-////                            //        currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////
-////                            //    d.height += CONST_INT;
-////                            d.height -= CONST_INT;
-////                            currSplit.setSize(d);
-////                            //                currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif);
-////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + jump);
-////
-//////                            Dimension d2 = new Dimension(d.visibleWidth, d.height + CONST_INT);
-//////                            //specVal.height += 20000;
-//////                            currSplit.setPreferredSize(d);
-//////                            currSplit.setSize(d2);
-//////                            currSplit.setDividerLocation(currSplit.getDividerLocation() + currDif + CONST_INT);
-////                        }
-////                    }
-////                    for(int i = 0; i < waves.size(); i++) {
-////                        JPanel w = waves.get(i);
-////                        Dimension d = new Dimension(w.getPreferredSize().visibleWidth, w.getPreferredSize().height + CONST_INT);
-////                        w.setPreferredSize(d);
-////                        Dimension d2 = new Dimension(d.visibleWidth, d.height);
-////                        w.setSize(d);
-////                    }
-//                    panelWithWaves.revalidate();
-//                    panelWithWaves.repaint();
-//                    debugPrintWaves();
-// TODO: VYMAZAT !!!!
+                    // EMPTY
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    // TODO: PROGRAMO
-                    debugPrintSplitters();
-                    // TODO: PROGRAMO
                     super.mousePressed(e);
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-//                     TODO: PROGRAMO - JE TO o 5 mimo kdyz to vytahnu dolu tak ze zvetsim scrollpane a pak to dam min nez je to scrollpane ted
-////                        KDYZ PRIDAM NOVOU VLNU TAK MA SPATNOU VYSKU A I DELKU
                     if (lastSplitterDrag) {
-                        // TODO: PROGRAMO - java bug
-//                        if(e.getSource() != lastSplitter) {
-//                            ProgramTest.debugPrint(e.getSource().toString());
-//                            System.exit(111);
-//                        }
+                        // Java bug - 1 pixel splitter
                         lastSplitterMoved = true;
-                        // TODO: PROGRAMO - java bug
 
                         movingLastSplitter = false;
                         lastSplitterDrag = false;
                         JViewport view = panelWithWaves.getViewport();
                         Point p = e.getPoint();
-                        Point oldPos = view.getViewPosition();  // TODO:
-                        if (DEBUG_CLASS.DEBUG) {
-                            ProgramTest.printCharKTimesOnNLines('[', 20, 1);
-                        }
+                        Point oldPos = view.getViewPosition();
 
+
+                        // Java bug - 1 pixel splitter
                         int oldLoc;
-
-                        // TODO: PROGRAMO - java bug
                         // If all is normal
                         if (isOldLocationFromPropertyChangeListenerAtDefaultVal()) {
                             oldLoc = lastSplitter.getLastDividerLocation();
@@ -2062,7 +1283,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                             oldLoc = oldLocationFromPropertyChangeListener;
                             resetOldLocationFromPropertyChangeListenerToDefaultVal();     // reset to the default value
                         }
-                        // TODO: PROGRAMO - java bug
+                        // Java bug - 1 pixel splitter
+
 
                         int divLoc = oldLoc + p.y;
                         int divSize = lastSplitter.getDividerSize();
@@ -2070,31 +1292,28 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         int viewHeight = view.getViewSize().height;
                         int visibleRectH = view.getVisibleRect().height;
                         WaveMainPanel wave = waves.get(waves.size() - 1);
-                        int minH = wave.getMinimumSize().height;
                         Dimension oldPrefSize = wave.getPreferredSize();
                         int newPrefHeight = -1;
-                        if (divLoc < minDivLoc) {       // If it is moved so much up that it makes the panel above shorter
-// TODO: PROGRAMO
-//                            //if(splitters.size() != 1 && divLoc < getJSplitPaneContainingWaveFromWaveIndex(waves.size() - 1).getDividerLocation())
-//                            ProgramTest.debugPrint("minDivLoc", divLoc, minDivLoc);
-//                            movingLastSplitter = true;
-// TODO: PROGRAMO
+                        if (divLoc < minDivLoc) {   // If it is moved so much up that it makes the panel above shorter
                             divLoc = minDivLoc;
 
-                            // TODO: PROGRAMO - java bug
-                            lastSplitterMoved = false;      // When this happens, for some reason the event in change property listener in the last splitter doesn't happen
-                            // TODO: PROGRAMO - java bug
+                            // Java bug - 1 pixel splitter
+                            // When this happens, for some reason the event in change property listener
+                            // in the last splitter doesn't happen
+                            lastSplitterMoved = false;
+                            // Java bug - 1 pixel splitter
                         }
-// We take - divSize because if we choose the if(visibleRectH == viewHeight)
-// then we need to have the whole result in the visible rectangle, we don't want to enlarge the scrollpane
-// because making the divider location larger than the scrollpane doesn't work
                         else if (divLoc > viewHeight - divSize) {
+                            // We take - divSize because if we choose the if(visibleRectH == viewHeight)
+                            // then we need to have the whole result in the visible rectangle,
+                            // we don't want to enlarge the scrollpane
+                            // because making the divider location larger than the scrollpane doesn't work
                             divLoc = viewHeight;
                             divLoc -= divSize;
                         }
 
 
-                        if (visibleRectH == viewHeight) {       // If scrollpane can't scroll (all waves are visible without scrolling)
+                        if (visibleRectH == viewHeight) {   // If scrollpane can't scroll (all waves are visible without scrolling)
                             int y = wave.getY();
                             newPrefHeight = divLoc - y;
                         } else {
@@ -2110,15 +1329,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                                 wave.getWaveIndex() - 1, divLoc, divSize);
 
                         int oldPrefHeight = oldPrefSize.height;
-
-                        // TODO: PROGRAMO
                         int dif = newPrefHeight - wave.getMinimumSize().height;
                         if (dif < 0 && existsPanelBiggerThanMinHeight(wave)) {
                             movingLastSplitter = true;
                         }
-                        // TODO: PROGRAMO
 
-                        //debugPrintSplitters();
                         wave.setPreferredSize(newPrefHeight);
                         lastSplitter.setDividerLocation(divLoc);
 
@@ -2170,26 +1385,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         previousY = cursorPoint.y;
                     }
 
-                    int panelStartY = getPanelWithWavesStartOnScreenY();
                     int panelEndY = getPanelWithWavesEndOnScreenY();
-                    int startDif;
                     int endDif;
-                    // TODO: PROGRAMO
-                    // If we are below the panel with waves, and we moved up (in mouse movement sense)
-                    if ((startDif = panelStartY - cursorPoint.y) > 0 && cursorPoint.y < previousY) {
-//                        JViewport view = panelWithWaves.getViewport();
-//                        Point oldPos = view.getViewPosition();
-//                        int movementUp = convertToPixelMovement(startDif);
-//                        Point newPos = new Point(oldPos.x, oldPos.y - movementUp);
-//                        if(newPos.y < 0) {
-//                            newPos.y = 0;
-//                        }
-//                        view.setViewPosition(newPos);
-                    }
-                    // TODO: PROGRAMO
                     // If we are above the panel with waves, and we moved down (in mouse movement sense)
-                    else if ((endDif = cursorPoint.y - panelEndY) > 0 && cursorPoint.y > previousY) {
-                        int increaseSize = increaseJScrollPane(endDif);
+                    if ((endDif = cursorPoint.y - panelEndY) > 0 && cursorPoint.y > previousY) {
+                        increaseJScrollPane(endDif);
                     }
 
                     previousY = cursorPoint.y;
@@ -2229,11 +1429,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             return null;
         }
         return splitters.get(splitters.size() - 1);
-
-//        if(waves == null) {
-//            return null;
-//        }
-//        return getJSplitPaneContainingWaveFromWaveIndex(waves.size());
     }
 
 
@@ -2249,7 +1444,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             splitter = splitters.get(index);
         }
         else {
-            splitter = splitters.get(index - 1); // -1 because the first JSplitPane contains 2 waves, for explanation check panelWithWaves documentation
+            // -1 because the first JSplitPane contains 2 waves, for explanation check panelWithWaves documentation
+            splitter = splitters.get(index - 1);
         }
 
         return splitter;
@@ -2315,44 +1511,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         JSplitPane splitter;
         if(index == 0) {
             splitter = splitters.get(index);
-//            JPanel jp = new JPanel();
-//            jp.setMinimumSize(component.getMinimumSize());
-//            jp.setMaximumSize(component.getMaximumSize());
-//            jp.setPreferredSize(component.getPreferredSize());
-//            component = jp;
-
-//            Component c1, c2;
-//            c1 = splitter.getTopComponent();
-//            splitter.setTopComponent(null);
-//            c2 = splitter.getBottomComponent();
-//            splitter.setBottomComponent(null);
-//            JSplitPane newSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, component, c2);
-//            splitters.set(index - 1, newSplitter);
-//            splitters.get(index).setTopComponent(newSplitter);
-//            if(newSplitter.getTopComponent() == null) System.exit(-1);
-//            if(newSplitter.getBottomComponent() == null) System.exit(-1);
-            splitter.setTopComponent(component);   ///////////////// TODO: BYLO PUVODNE
+            splitter.setTopComponent(component);
         }
         else {
-            splitter = splitters.get(index - 1); // -1 because the first JSplitPane contains 2 waves, for explanation check panelWithWaves documentation
-//            JPanel jp = new JPanel();
-//            jp.setMinimumSize(component.getMinimumSize());
-//            jp.setMaximumSize(component.getMaximumSize());
-//            jp.setPreferredSize(component.getPreferredSize());
-//            jp.setSize(component.getSize());
-//            component = jp;
-
-//            Component c1, c2;
-//            c1 = splitter.getTopComponent();
-//            splitter.setTopComponent(null);
-//            c2 = splitter.getBottomComponent();
-//            splitter.setBottomComponent(null);
-//            JSplitPane newSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, c1, component);
-//            splitters.set(index - 1, newSplitter);
-//            splitters.get(index).setTopComponent(newSplitter);
-//            if(newSplitter.getTopComponent() == null) System.exit(-1);
-//            if(newSplitter.getBottomComponent() == null) System.exit(-1);
-            splitter.setBottomComponent(component);   ///////////////// TODO: BYLO PUVODNE
+            // -1 because the first JSplitPane contains 2 waves, for explanation check panelWithWaves documentation
+            splitter = splitters.get(index - 1);
+            splitter.setBottomComponent(component);
         }
 
         return splitter;
@@ -2375,14 +1539,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param to is the index of the wave where we want the wave move. First wave has index = 0.
      */
     public void moveSwapSplitter(int from, int to) {
-//        debugPrintWaves();
         WaveMainPanel waveMainPanel1;
         WaveMainPanel waveMainPanel2;
-
         if(panelWithWaves.getViewport().getViewPosition().y < 0) {
-            System.out.println(panelWithWaves.getViewport().getViewSize().height);
-            System.exit(-10000);    // TODO:
+            // TODO: I think that it can be removed later, but for now keep it just to be sure
+            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
+                         panelWithWaves.getViewport().getViewSize().height, 0);
         }
+
 
         if(from < to) {     // Swapping from up to down
             waveMainPanel1 = waves.get(from);
@@ -2392,7 +1556,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 from++;
                 // Keep swapping the component which is being dragged with the components between the index from and to.
                 swapSplitterComponents(waveMainPanel1.getWaveIndex(), waveMainPanel1.getWaveIndexTextFieldText(),
-                        waveMainPanel2.getWaveIndex(), waveMainPanel2.getWaveIndexTextFieldText());
+                                       waveMainPanel2.getWaveIndex(), waveMainPanel2.getWaveIndexTextFieldText());
             } while(from <= to);
         }
         else if(from > to) {    // Swapping from down to up
@@ -2406,35 +1570,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         waveMainPanel2.getWaveIndex(), waveMainPanel2.getWaveIndexTextFieldText());
             } while(from >= to);
         }
-
-
-
-//        JSplitPane splitter1;
-//        JSplitPane splitter2;
-//        if(from0 < to0) {     // Swaping from up to down
-//            splitter1 = splitters.get(from0);
-//            from0++;
-//            splitter2 = splitters.get(from0);
-//            from0++;
-//            for(; (from0-1) < to0; from0++) {
-//                splitter1.setTopComponent(splitter2.getTopComponent());
-//                splitter1 = splitter2;
-//                splitter2 = splitters.get(from0);
-//            }
-//            splitter1.setTopComponent(splitter2.getTopComponent());
-//        }
-//        else if(from0 > to0) {    // Swaping from down to up
-//            splitter1 = splitters.get(from0);
-//            from0--;
-//            splitter2 = splitters.get(from0);
-//            from0--;
-//            for(; (from0+1) > to0; from0--) {
-//                splitter1.setTopComponent(splitter2.getTopComponent());
-//                splitter1 = splitter2;
-//                splitter2 = splitters.get(from0);
-//            }
-//            splitter1.setTopComponent(splitter2.getTopComponent());
-//        }
     }
 
     /**
@@ -2466,9 +1601,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public void tryMoveSwap(WaveMainPanel waveMainPanel, MouseEvent e) {
         if(panelWithWaves.getViewport().getViewPosition().y < 0) {
-            System.out.println(panelWithWaves.getViewport().getViewSize().height);
-            System.exit(-100000);    // TODO:
+            // TODO: I think that it can be removed later, but for now keep it just to be sure
+            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
+                         panelWithWaves.getViewport().getViewSize().height, 0);
         }
+
         WaveMainPanel wave;
         int y = waveMainPanel.getY();
         int mouseY = e.getY();
@@ -2501,46 +1638,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             moveSwapSplitter(from, to);
         }
-
-// TODO: Old version - it is the same - but if we were swaping smaller wave with bigger it started flickering (furious swaping)
-// TODO: Delete later
-//        if(from < waves.size() - 1 && mouseY >= waves.get(from + 1).getY()) {   // If it is wave below
-//            int to;
-//            for(to = from + 1; to < waves.size(); to++) {       // Check how much below it is
-//                wave = waves.get(to);
-//                if(mouseY < wave.getY()) {  // The wave before is the wave with which we should swap
-//                    break;
-//                }
-//            }
-//            to--;
-//            if(to > from + 1) {
-//                to = from + 1;          // TODO: neni nutny tam pocitat ten pocet vln, kdyz to budu delat jen po jedny
-//                System.out.println("OVER");
-//            }
-//
-//            moveSwapSplitter(from, to);
-//        }
-//        // If it isn't the first wave and if it is at least as high or higher than the start of the wave above
-//        else if(from > 0 && mouseY <= waves.get(from - 1).getY() + waves.get(from - 1).getHeight()) {
-//            int to;
-//            for(to = from - 1; to >= 0; to--) {     // Check how much above it is
-//                wave = waves.get(to);
-//                if(mouseY > wave.getY() + wave.getHeight()) {  // The wave after is the wave with which we should swap
-//                    break;
-//                }
-//            }
-//            to++;
-//
-//            if(to < from - 1) {
-//                to = from - 1;          // TODO: neni nutny tam pocitat ten pocet vln, kdyz to budu delat jen po jedny
-//                System.out.println("OVER");
-//            }
-//            moveSwapSplitter(from, to);
-//        }
     }
 
 
-    // TODO: We have to solve the following problem:
+    // We have to solve the following problem:
     // by nesting JSplitPane the borders are getting bigger with each nesting
     // So I set the borders of jSplitPane to empty left borders, and also set divider border to null to remove small border above waves
     // source: https://stackoverflow.com/questions/12799640/why-does-jsplitpane-add-a-border-to-my-components-and-how-do-i-stop-it
@@ -2552,6 +1653,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
         splitter.setBorder(BorderFactory.createEmptyBorder());
     }
+// Different solution from same page - but the comment said, that this may not work good on different platforms
 //    /**
 //     * Makes a split pane invisible. Only contained components are shown.
 //     *
@@ -2610,9 +1712,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-// TODO: Nevim jestli chci podporvat multiple files selection
-//                fileChooser.setMultiSelectionEnabled(true);
-//                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 int returnVal = fileChooser.showOpenDialog(thisFrame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File f = fileChooser.getSelectedFile();
@@ -2630,7 +1729,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void addAddFileToWaves(JMenu menu) {
-        // TODO: PROGRAMO MOD
         JMenuItem menuItem = new JMenuItem("Add waves");
         menuItem.setToolTipText("Converts the wave in file to mono and adds it to the waves in audio player.");
 
@@ -2638,9 +1736,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-// TODO: Nevim jestli chci podporvat multiple files selection
-//                fileChooser.setMultiSelectionEnabled(true);
-//                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 int returnVal = fileChooser.showOpenDialog(thisFrame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File f = fileChooser.getSelectedFile();
@@ -2659,7 +1754,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         });
 
         menu.add(menuItem);
-        // TODO: PROGRAMO MOD
     }
 
 

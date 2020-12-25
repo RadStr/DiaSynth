@@ -2147,9 +2147,6 @@ public class WavePanel extends JPanel {
 
 
 
-
-
-// TODO: VYMAZAT = NO CACHING
     abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
         public DrawValuesSupplier() {
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
@@ -2163,34 +2160,13 @@ public class WavePanel extends JPanel {
 
         @Override
         public int getMaxScroll() {
-// TODO: DEBUG
-//            ProgramTest.debugPrint("getMaxScroll", wholeWavePanel.getMaxHorizontalScroll(), getPreferredSize().width - wholeWavePanel.getWaveVisibleWidth());
-//            if(wholeWavePanel.getMaxHorizontalScroll() != getPreferredSize().width - wholeWavePanel.getWaveVisibleWidth() && wholeWavePanel.getMaxHorizontalScroll() > 10000) {
-//                System.exit(456789);
-//            }
-// TODO: DEBUG
             return waveWidth - wholeWavePanel.getWaveVisibleWidth();
-            //return getPreferredSize().width;
         }
 
         @Override
         public int getCurrentScroll() {
-// TODO: DEBUG
-//            if(wholeWavePanel.getCurrentHorizontalScroll() > wholeWavePanel.getMaxHorizontalScroll()) {
-//                System.exit(4567890);
-//            }
-//            if(currScroll > getMaxScroll()) {
-//                ProgramTest.debugPrint(currScroll, wholeWavePanel.getCurrentHorizontalScroll(),
-//                    wholeWavePanel.getMaxHorizontalScroll(), getMaxScroll());
-//                System.exit(45678900);
-//            }
-// TODO: DEBUG
-// TODO: POSUVNY BUFFER
             ProgramTest.debugPrint("curr scroll", currScroll, wholeWavePanel.getCurrentHorizontalScroll());
             return currScroll;
-            //return wholeWavePanel.getCurrentHorizontalScroll();
-//            return zoomValuesInfo.currentZoomValueIndex;
-// TODO: POSUVNY BUFFER
         }
 
         public int getCurrentStartIndexInAudio() {
@@ -2214,29 +2190,18 @@ public class WavePanel extends JPanel {
     class DrawValuesSupplierIndividual extends DrawValuesSupplier {
         @Override
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
-
-            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
-// TODO: WEIRD CACHE
-//            if((doubleWave.getIsFullSongLoaded() && currentDrawValues != null) && currentDrawValues.IS_FIRST) {
-            double[] song = doubleWave.getSong();               // TODO: Full Song loaded (use variable from doubleWave)
+            double[] song = doubleWave.getSong();
             for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
 // TODO: DEBUG
                 ProgramTest.debugPrint("Individual fill", i, fillInd, getSongLen(), bufferStartIndex, bufferEndIndex);
 // TODO: DEBUG
                 buffer[i] = song[fillInd];
             }
-//            }
-//            else {
-//                ProgramTest.debugPrint("Cache");
-//                int len = bufferEndIndex - bufferStartIndex;
-//                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, len, len);
-//            }
-// TODO: WEIRD CACHE
         }
 
         @Override
         public int getAudioLen() {
-            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+            return WavePanel.this.getSongLen();
         }
 
         @Override
@@ -2264,7 +2229,8 @@ public class WavePanel extends JPanel {
                 for(int i = 0; i < buffer.length; i++) {
                     buffer[i] = 0;
                 }
-                System.exit(-555);          // TODO: For now just end it, but it makes sense, since that means that I don't have the audio track so I can't work with this
+                MyLogger.logException(e);
+                System.exit(-555);
 
             }
 
@@ -2290,37 +2256,26 @@ public class WavePanel extends JPanel {
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
             int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max
             double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
-            int inputLen = (int)(samplesPerPixel * outputLen);
+            int inputLen = (int) (samplesPerPixel * outputLen);
 
-            // TODO: IS_FIRST - s tim souvisi i ten currentDrawValues to tam vubec nemusi byt
-// TODO: WEIRD CACHE
-//            if((getIsCached() && currentDrawValues != null) && !currentDrawValues.IS_FIRST) {
-//                ProgramTest.debugPrint("Cache");
-//                startFillIndex = convertToOutputIndex(samplesPerPixel * startFillIndex);
-//                fillBufferWithCachedValues(buffer, bufferStartIndex, bufferEndIndex, startFillIndex, inputLen, outputLen);
-//            }
-//            else {
-            double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
-            startFillIndex = (int)(samplesPerPixel * startFillIndex);
+            double[] song = doubleWave.getSong();
+            startFillIndex = (int) (samplesPerPixel * startFillIndex);
+
+
+            // TODO: DEBUG
             int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
-            if (outIndex != bufferEndIndex) {
-                ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
-                //System.exit(1548);
-//                }
-// TODO: WEIRD CACHE
-            }
-
-            // TODO: POSUVNY BUFFER
-//            startFillIndex *= 2;
-            ProgramTest.debugPrint("Filling buffer", getCurrentScroll(), startFillIndex, startFillIndex - getCurrentScroll());
-// TODO: POSUVNY BUFFER
-
-            ProgramTest.debugPrint("FillBuffer", bufferStartIndex, bufferEndIndex, startFillIndex, inputLen,
-                startFillIndex + inputLen, getSongLen(), samplesPerPixel, outputLen, samplesPerPixel * outputLen,
-                buffer.length);
-            ProgramTest.debugPrint("FillBuffer2", startFillIndex, inputLen, waveWidth);
-            ProgramTest.debugPrint("FillBuffer3", getPreferredSize().width, waveWidth, wholeWavePanel.getCurrentHorizontalScroll(),
-                currScroll, currScroll == wholeWavePanel.getCurrentHorizontalScroll());
+//            if (outIndex != bufferEndIndex) {
+//                ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
+//            }
+//
+//            ProgramTest.debugPrint("Filling buffer", getCurrentScroll(), startFillIndex, startFillIndex - getCurrentScroll());
+//            ProgramTest.debugPrint("FillBuffer", bufferStartIndex, bufferEndIndex, startFillIndex, inputLen,
+//                startFillIndex + inputLen, getSongLen(), samplesPerPixel, outputLen, samplesPerPixel * outputLen,
+//                buffer.length);
+//            ProgramTest.debugPrint("FillBuffer2", startFillIndex, inputLen, waveWidth);
+//            ProgramTest.debugPrint("FillBuffer3", getPreferredSize().width, waveWidth, wholeWavePanel.getCurrentHorizontalScroll(),
+//                currScroll, currScroll == wholeWavePanel.getCurrentHorizontalScroll());
+            // TODO: DEBUG
         }
 
 
@@ -2330,18 +2285,15 @@ public class WavePanel extends JPanel {
 
             String cacheFilename = getCacheFilename();
             try {
-//                InputStream cacheFile = new FileInputStream(cacheFilename);
-//                DataInput cache = new DataInputStream(cacheFile);
                 RandomAccessFile cacheFile = new RandomAccessFile(cacheFilename, "r");
                 FileChannel cache = cacheFile.getChannel();
                 fillBufferWithCachedValues(cache, buffer, bufferStartIndex, bufferEndIndex, startFillIndex);
-            }
-            catch (Exception e) {
-                double[] song = doubleWave.getSong();           // TODO: Full Song loaded (use variable from doubleWave)
+            } catch (Exception e) {
+                double[] song = doubleWave.getSong();
                 outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+                MyLogger.logException(e);
                 if (outIndex != bufferEndIndex) {
                     ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
-                    //System.exit(1548);
                 }
 
                 isCached = false;       // Because when 1 file is missing probably all other are missing as well.
@@ -2359,22 +2311,20 @@ public class WavePanel extends JPanel {
 
         @Override
         public int getAudioLen() {
-            return WavePanel.this.getSongLen();     // TODO: HNED - 3. radek v cache souboru, pripadne si to muzu vzit odjinud tu informaci
+            return WavePanel.this.getSongLen();
         }
 
 
         @Override
         public int convertFromPixelToIndexInAudio(double pixel) {
-            return (int)pixel;
+            return (int) pixel;
         }
 
         @Deprecated
         public int convertToOutputIndex(double inputIndex) {
             double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
-            int outputIndex = (int)(2*inputIndex / samplesPerPixel);
+            int outputIndex = (int) (2 * inputIndex / samplesPerPixel);
             return outputIndex;
         }
     }
-// TODO: VYMAZAT
-
 }

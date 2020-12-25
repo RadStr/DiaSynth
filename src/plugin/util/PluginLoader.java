@@ -321,30 +321,19 @@ public class PluginLoader {
                             srcFilePath = "src/" +
                                           relPathString.substring(0, relPathString.length() - "class".length()) +
                                           "java";
-                            // TODO: DEBUG
-                            ProgramTest.debugPrint("NO DOLLAR:", srcFilePath);
-                            // TODO: DEBUG
                         }
                         else {
                             srcFilePath = "src/" +
                                           relPathString.substring(0, dollarSignIndex) +
                                           ".java";
-                            // TODO: DEBUG
-                            ProgramTest.debugPrint("HAS DOLLAR SIGN:", srcFilePath);
-                            // TODO: DEBUG
                         }
                         File sourceCodeFile = new File(srcFilePath);
                         if (!sourceCodeFile.exists()) {
-                            // TODO: DEBUG
-                            ProgramTest.debugPrint("Removing loaded plugins:", sourceCodeFile, file);
-                            // TODO: DEBUG
+                            // TODO: For now we just remove every plugin on launch and add them again - the reason is to
+                            // propagate possible change in plugin, otherwise it would propagate only if the user deletes
+                            // all the class files in the directory with class files.
                             file.toFile().delete();
                         }
-                        // TODO: DEBUG
-//                        else {
-//                            ProgramTest.debugPrint("Normal file:", sourceCodeFile, file);
-//                        }
-                        // TODO: DEBUG
                     }
 
                     return FileVisitResult.CONTINUE;
@@ -354,9 +343,6 @@ public class PluginLoader {
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
                     File dirFile = dir.toFile();
                     if(dirFile.listFiles().length == 0) {
-                        // TODO: DEBUG
-                        ProgramTest.debugPrint("EMPTY DIR:", dir);
-                        // TODO: DEBUG
                         dirFile.delete();
                     }
                     return FileVisitResult.CONTINUE;

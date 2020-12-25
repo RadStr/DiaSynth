@@ -606,7 +606,7 @@ public class WavePanel extends JPanel {
 
 
     // Micro optim. I can make either by if or by using mod (mod is better if inputValsPerOutputVals == 2^n)
-    // TODO; For further testing check Testing_Branching_Optimization
+    // (I did some testing in Testing_Branching_Optimization project - I am not adding that to this project though)
     /**
      * Finds extremes in given extremes, where on index [2*i] = min, [2*i + 1] = max for input and output array.
      * The reason why this has separate implementation is because in the findExtremesInValues method we take
@@ -819,27 +819,16 @@ public class WavePanel extends JPanel {
         ProgramTest.debugPrint("Updating zoom after", waveWidth, getPreferredSize().width, getVisibleRect().width,
             wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
 
-        // TODO: RIKA INDEX DOVNITR TOHO BUFFERU, KDE SE MA ZACIT - TO BY ASI MEL BYT TEN MIDDLE INDEX
         int startIndexInValues = getLeftPixelAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid,
             shouldZoomToEnd);
         ProgramTest.debugPrint("currScroll before", currScroll);
         currScroll = startIndexInValues;
+
         ProgramTest.debugPrint("currScroll after", currScroll);
-        // TODO: INDIV
-        // TODO: NEW INDIV
-        // TODO: NEW INDIV
-//        if(currentDrawValues == drawValuesIndividual) {
-//            startIndexInValues = (int)((currentDrawValues.getStartIndex() + newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
-//        }
-//        else if(currentDrawValues == drawValuesAggregated) {
-//            startIndexInValues = (int)((currentDrawValues.getStartIndex() + 2 * newVisibleWidth) * Math.pow(ZOOM_VALUE, zoomDif));
-//        }
-        // TODO: INDIV
         ProgramTest.debugPrint("ZOOMING BEFORE", currentDrawValues.getStartIndex(), startIndexInValues,
             oldWidth, newWidth, newVisibleWidth);
         ProgramTest.debugPrint(oldZoom, newZoom);
 
-//        currentDrawValues = null;          // TODO: !!! TED
 
         setDrawValuesInZoom(startIndexInValues, newVisibleWidth, newWidth);
         ProgramTest.debugPrint("ZOOMING AFTER", startIndexInValues, startIndexInValues + 2 * newVisibleWidth);
@@ -849,7 +838,6 @@ public class WavePanel extends JPanel {
     private void setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth) {
         int valueCount = getSongLen();
         if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
-            //currScroll = convertScrollValueToIndividualIndexInAudio(currScroll);
             mainWaveClass = drawValuesSupplierIndividual;
             if(drawValuesIndividual != currentDrawValues) {
                 drawValuesAggregated = null;
@@ -899,17 +887,6 @@ public class WavePanel extends JPanel {
 //        }
 // TODO: DEBUG
 
-//        return (int)(result + 1);      // +1 because I want the index after the scroll not before it
-
-//        return (int)Math.round(result + 1);
-
-//        if(scrollValue == mainWaveClass.getMaxScroll()) {
-//            return (int)result;
-//        }
-//        else {
-//            return (int)(result + 1);
-//        }
-
 
         double tolerance = 0.00001;
         if(result > ((int)result + 1) - tolerance) {    // Basically take into account precision error for doubles, I think this tolerance should be more than ok.
@@ -954,9 +931,6 @@ public class WavePanel extends JPanel {
             else {
                 scrollAfterZoom = getLeftCornerAfterZoom(oldWidth, newWidth, newVisibleWidth, oldMid);
                 scrollAfterZoom -= newVisibleWidth / 2;                      // Push it to left so it is pointing to mid
-//                if(scrollAfterZoom < 0) {
-//                    scrollAfterZoom = 0;
-//                }
             }
         }
         else if(shouldZoomToEnd) {
@@ -1020,9 +994,6 @@ public class WavePanel extends JPanel {
     public Dimension getPreferredSize() {
         return preferredSize;
     }
-// TODO: IMPORTANT
-//ten problem je ze kdyz to roztahnu tak ze se zobrazi vertical scrollbar tak wavy dostanou 50 preferred height mmisto 48
-// TODO: IMPORTANT
 
     public void setPreferredHeight(int h) {
         preferredSize.height = h;

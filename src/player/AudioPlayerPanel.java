@@ -118,9 +118,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         if(shouldConvertAudio) {
             for(WaveMainPanel waveMainPanel : waves) {
-                // TODO: SYNTH - AUDIO PLAYER AUDIO THREAD
                 waveMainPanel.setWaveToNewSampleRate((int)newFormat.getSampleRate());
-                // TODO: SYNTH - AUDIO PLAYER AUDIO THREAD
             }
         }
         audioThread.outputFormatChanged();
@@ -172,11 +170,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * The first JScrollPane (the most internal one) has at the top wave but also wave at the bottom, it is the only panel which has 2 valid waves inside without any recursion
      */
     private JScrollPane panelWithWaves;
-    // TODO: PROGRAMO
-    public int getPanelWithWavesHorizontalScrollBarSize() {
-        return panelWithWaves.getHorizontalScrollBar().getSize().height;
-    }
-    // TODO: PROGRAMO
+
     public int getPanelWithWavesVerticalScrollbarWidth() {
         return panelWithWaves.getVerticalScrollBar().getWidth();
     }
@@ -189,7 +183,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * When working with waves, I have to not only change the JSplitPanes but also propagate it to this array.
      * For example when wave swapping.
      */
-    private List<WaveMainPanel> waves;       // TODO: waves - private
+    private List<WaveMainPanel> waves;
     public int getWaveCount() {
         return waves.size();
     }
@@ -213,21 +207,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    // TODO: PROGRAMO - NEJSEM SI UPLNE JISTEJ JESTLI TO SKUTECNE VSECHNO VYCISTI - MUZE MI TAM ZUSTAT REFERENCE TAKZE SE
-    // TODO: PROGRAMO - TO NEUKLIDI PRI GC BA CO HUR CO KDYZ TO BUDE POUZIVAT NEJAKA KOMPONENTA - PAK TO ANI NEBUDE FUNGOVAT SPRAVNE
+
     private void removeAllWaves() {
         shouldMarkPart = false;
         setEnabledAllMenus(false);
         clipboard.removeWaveFromClipboard();
         waveScrollerPollTimer.stop();
-        //removeWave(waves.size() - 1);
-//        removeWave(5);
-//        for(int i = waves.size() - 1; i >= 0; i++) {
-//            removeWave(i);
-//        }
 
         removeOldListeners();
-        //panelWithWaves.removeAll();
         panelWithWaves.setViewportView(null);
         for(JSplitPane s : splitters) {
             s.setTopComponent(null);
@@ -242,11 +229,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         waveScrollerWrapperPanel.repaint();
         this.revalidate();
         this.repaint();
-////        for(WaveMainPanel wave : waves) {
-////            panelWithWaves.remove(wave);
-////        }
-////
-////        waves.clear();
     }
 
     /**
@@ -272,29 +254,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void removeWaveMoreThanOneRemaining(int index) {
-        // TODO: DEBUG
-        // WaveMainPanel todoLast = waves.get(waves.size() - 1);
-        // TODO: DEBUG
-
         swapWithLastAndRemove(index);
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         getLastJSplitPane().setBottomComponent(zeroSizePanel);
-        //setNewListeners();
-        //setNewLastJSplitPane();
         setSplittersMouseListener();
-        // TODO: DEBUG
-//        Component jc = getLastJSplitPane().getBottomComponent();
-//        if(getLastJSplitPane().getBottomComponent() == todoLast) {
-//            System.exit(888);
-//        }
-        // TODO: DEBUG
     }
 
 
-
-//    ono ja nemusim vsechny ty listenery mazat me staci akorat vymazat ten posledni a zmenit ten posledni na novej a to staci
-//        a totez nemusim s tim swapovanim proste si zapamatuju posledni vymazu ji
-//        nahodim znova listenery a az pak to poswapuju - tohle je vic java proof podle me
 
     private void swapWithLastAndRemove(int index) {
         WaveMainPanel deletedWave = waves.get(index);
@@ -305,7 +271,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             moveSwapSplitter(index, lastWaveIndex);
         }
         removeOldListeners();
-        //removeAdapterFomLastJSplitPaneDivider();
 
         splitters.remove(splitters.size() - 1);
         waves.remove(waves.size() - 1);
@@ -313,11 +278,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         lastSplitter.setTopComponent(null);
         lastSplitter.setBottomComponent(null);
-
-//        this.remove(lastSplitter); - Tohle je spatne to v this vubec neni - v cem ja mam ale problem je ze to vypada ze maji vsechny dividery na sobe ten last listener
-//            poznamka jak udelam ty with input wave operations - proste si oznacim cast vlny - a pak dam copy
-//            to oznaceni mi zmizi a ted mam vlnu - a kdyz mam vlnu tak povolim dalsi operace jako paste a vsechny ty ostatni
-//            co maji input wave
     }
 
     private void removeOldListeners() {
@@ -377,65 +337,33 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     public JSplitPane addWave(DoubleWave wave) {
         alignToLongestWave(wave);
-
-        // TODO: PROGRAMO - asi dobre ale je mozny ze se to pozdeji rozbije - proste musim s kazdnou zmenou i resetovat listenery pro splittery
         removeOldListeners();
-        // TODO: PROGRAMO
 
         JSplitPane lastSplitPane;
         if(waves.size() == 0) {
             lastSplitPane = addFirstWave(wave);
         }
         else {
-            //removeAdapterFomLastJSplitPaneDivider();
             lastSplitPane = addNonFirstWave(wave);
         }
 
-        //setNewLastJSplitPane();
-
-        // TODO: PROGRAMO
         setNewListeners();
-        // TODO: PROGRAMO
-
-        // TODO: PROGRAMO 2
         setVariablesWhichNeededSize();
-        // TODO: PROGRAMO 2
 
 
         // Take a look at the comment inside addNonFirstWave, this is here for the same reason.
         JScrollBar verticalScrollBar = panelWithWaves.getVerticalScrollBar();
         int maxVerticalScroll = getMaxVerticalScroll();
         SwingUtilities.invokeLater(() -> verticalScrollBar.setValue(maxVerticalScroll));
-
-//        for(WaveMainPanel waveMainPanel : waves) {
-//            waveMainPanel.getWave().revalidate();
-//            waveMainPanel.getWave().repaint();
-//            waveMainPanel.revalidate();
-//            waveMainPanel.repaint();
-//        }
-
-//        panelWithWaves.revalidate();
-//        panelWithWaves.repaint();
-//        this.revalidate();
-//        this.repaint();
-//        thisFrame.revalidate();
-//        thisFrame.repaint();
-//        thisFrame.validate();
-//        thisFrame.repaint();
-
         updateWavesForMixing();
-//        Added because when I create wave using fft window.
-//        Unless I call revalidate the horizontal scroll isn't shown and repaint repaints the waves.
+        // Added because when I create wave using fft window.
+        // Unless I call revalidate the horizontal scroll isn't shown and repaint repaints the waves.
         revalidate();
         repaint();
         return lastSplitPane;
     }
 
     private JSplitPane addFirstWave(DoubleWave wave) {
-//        WaveMainPanel newWavePanel = new WaveMainPanel(wave, this, waves.size() + 1, outputAudioFormat.getChannels());
-//        waves.add(newWavePanel);        // TODO: PROGRAMO
-//        panelWithWaves.add(newWavePanel);
-
         ChannelCount channelCount = getChannelCount();
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         int waveIndex = waves.size() + 1;
@@ -448,11 +376,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         resetZoom();
         waveScrollerPollTimer.start();
-// TODO: PROGRAMO - furt stejny
-//        newWavePanel.revalidate();
-//        newWavePanel.repaint();
-//        newWavePanel.setVariablesWhichNeededSize();
-// TODO: PROGRAMO
         setEnabledAllMenus(true);
         audioThread.wavesLengthChanged();
         // This is here because when the first wave is so small that it is already smaller then the available pixels
@@ -498,25 +421,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         lastSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, lastSplitter, zeroSizePanel);
         lastSplitter.setDividerSize(DIVIDER_SIZE);
 
-// TODO: PROGRAMO - height
-//        if(lastSplitterDivLoc != -1) {
-//            lastSplitterDivLoc = lastSplitterDivLoc + newWavePanel.getPreferredSize().height + DIVIDER_SIZE;
-//            lastSplitter.setDividerLocation(lastSplitterDivLoc);
-//        }
-// TODO: PROGRAMO - height
-
         waves.add(newWavePanel);
         splitters.add(lastSplitter);
         flattenJSplitPane(lastSplitter);        // Delete borders
-
-// TODO: PROGRAMO - furt stejny
-//        newWavePanel.getWave().revalidate();
-//        newWavePanel.getWave().repaint();
-//        newWavePanel.revalidate();
-//        newWavePanel.repaint();
-//        newWavePanel.setVariablesWhichNeededSize();
-        //newWavePanel.setPrefSizeToMin();
-// TODO: PROGRAMO
         return lastSplitter;
     }
 
@@ -530,9 +437,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private FrameWithFocusControl thisFrame;
 
     public void setVariablesWhichNeededSize() {
-        // TODO: PROGRAMO 2 - musim ten scroll updatovat kdyz pridam novou pisnicku co je delsi nez vsecnho ostatni
         setWaveScrollPanelsSizes();
-        // TODO: PROGRAMO 2
         if(!waveScrollerPollTimer.isRunning()) {
             waveScrollerPollTimer.start();
         }
@@ -577,16 +482,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         setCurrentZoom(0);
     }
 
-
-
-
-    /**
-     * Used for internal caching of wave draw values
-     */
-    private final int windowCountToTheRight = 0;        // TODO: Prozatim final, kdyztak dat moznost at si to uzivatel nastavi
-    public int getWindowCountToTheRight() {
-        return windowCountToTheRight;
-    }
 
 
     /**
@@ -721,55 +616,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public AudioPlayerPanel(FrameWithFocusControl frame) {
         this();
 
-        //    program = p;
-        zoomVariables = new ZoomVariablesAllWaves();          // TODO: Ted takhle natvrdo
+        zoomVariables = new ZoomVariablesAllWaves();
         AudioPlayerPanelMouseWheelListener mouseWheelListener = new AudioPlayerPanelMouseWheelListener(this);
         this.addMouseWheelListener(mouseWheelListener);
 
-
         splitters = new ArrayList<>();
-//        panelWithWaves.setLayout(null);
-
-        //panelWithWaves.setBounds(0, 100, 600, 600);
-        //    panelWithWaves.setPreferredSize(new Dimension(100, 100));
-
-//        panelWithWaves.add(waveMainPanel);
-//        this.add(panelWithWaves);
-
-
-
-
-        // TODO: The preffered size of the panelWithWaves has to be smaller than the size of to AudioWavePanel, else the scroll doesn't appear
-
-
-
-
-//        waves = new ArrayList<AudioWavePanel>();
-//        Container cont = new Container();
-//        int yJump = 400;
-//        //waveMainPanel.setBounds(0, 0, 200, 200);
-//        //waveMainPanel.setBounds(200, 200, 2000, 2000);
-//       // waveMainPanel.setBounds(0, 0, 2000, 2000);
-//
-//        int TODOTestCount = 2;
-//        for(int i = 0, y = 0; i < TODOTestCount; i++, y += yJump) {
-//            int TODOVymazatMe = 64;
-//            AudioWavePanel waveMainPanel = new AudioWavePanel(program, waveWidth, waveStartX, waveEndX,
-//                0, yJump, TODOVymazatMe);  // TODO: jen pro testovani ted
-//            waveMainPanel.setPreferredSize(new Dimension(150, 150));
-//            waves.add(waveMainPanel);
-//            panelWithWaves.add(waveMainPanel);
-//            cont.add(waveMainPanel);
-////            waveMainPanel.setBounds(0, y, this.getWidth(), yJump);
-//        }
-//
-//        panelWithWaves.getViewport().setView(cont);
-//        //cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
-//        cont.setLayout(new GridLayout(TODOTestCount, 1));
-//        this.add(panelWithWaves);
-//    //    panelWithWaves = new JScrollPane(waveMainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//    //    panelWithWaves.setBounds(0, 20, 600, 600);
-
 
         setSizes(frame.getWidth(), frame.getHeight());
         thisFrame = frame;
@@ -807,7 +658,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         addTotallyRemoveAudioPart(audioModJMenu);
 
-        addConvertToMonoToMenu(audioModJMenu);      // TODO: PROGRAMO
+        addConvertToMonoToMenu(audioModJMenu);
 
         addAudioOperationsWithoutWave(audioModJMenu);
         audioModJMenu.addSeparator();
@@ -848,14 +699,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         MyLogger.log("Added JMenuBar internals", -1);
 
 
-
-
-// TODO: ONLY WAVE
         waveScrollerWrapperPanel = new WaveScrollerWrapperPanel(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
                                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS, this);
 
 
-        waveScrollerPollTimer = new Timer(64, new ActionListener() {        // TODO: Parameter to play with
+        waveScrollerPollTimer = new Timer(64, new ActionListener() {        // Parameter to play with
             @Override
             public void actionPerformed(ActionEvent e) {
                 pollMovement();
@@ -864,19 +712,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         panelWithWaves = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        //panelWithWaves = new PanelWithWavesJScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         panelWithWaves.getVerticalScrollBar().setUnitIncrement(VERTICAL_SCROLL_UNIT_INCREMENT);
         panelWithWaves.setWheelScrollingEnabled(false);
-
-
-        JViewport view = panelWithWaves.getViewport();
-        //view.addChangeListener(new ViewportChangeListener());
-
-
-        // TODO: DYNAMIC LABEL
-        // I had to change this, because java was doing weird resizing when digit count changes
-        // (It just for 2 seconds broke layout and I couldn't find fix, so instead of that I will have 2(3) digits constantly)
-        //waves = new WaveArrayList<WaveMainPanel>();
         waves = new ArrayList<WaveMainPanel>();
 
 
@@ -885,8 +722,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;       // BOTH because else there is space with nothing at the bottom of page
         timestampPanel = new TimestampsPanel(this);
-//        timestampPanel.setPreferredSize(new Dimension(800, 100));
-//        timestampPanel.setSize(new Dimension(800, 100));
         constraints.gridx = 0;
         constraints.gridy = currGridY;
         currGridY++;
@@ -895,105 +730,26 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // Pad is used just for this, because otherwise the timestamps are shown incorrectly in some cases
         // (when added first wave, and making the panel smaller than it is)
         constraints.ipady = 10;
-        // TODO: LALA
         this.add(timestampPanel, constraints);
-        // TODO: LALA
         constraints.ipady = 0;
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;       // BOTH because else there is space with nothing at the bottom of page
-        //this.add(waveMainPanel, BorderLayout.CENTER);
 
 
-////        // Now just keep adding to the old splitter new splitter which has in top component the sound waves and in bottom component empty panel
-//        for(int i = 0; i < 3; i++, currGridY++) {
-//            // Change the empty bottom panel to the wave
-//            waveMainPanel = new WaveMainPanel(doubleWave, this, waveIndex, outputAudioFormat.getChannels());
-//            waveIndex++;
-//            splitter.setBottomComponent(waveMainPanel);
-////            splitter2.setBottomComponent(waveMainPanel.getWave());   // TODO: ONLY WAVE
-//
-//            // Add empty panel at the bottom so the bottom wave can be pulled down
-//            splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitter, ep);
-////            splitter2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitter2, ep);           // TODO: ONLY WAVE
-//            // TODO: Tuhle cast s constraints vymazat - protoze je stejne neprirazuju
-//            constraints.gridx = 0;
-//            constraints.gridy = currGridY;
-//            constraints.weightx = 0.1;
-//            constraints.weighty = 0.1;
-//            splitter.setDividerSize(DIVIDER_SIZE);
-////            splitter2.setDividerSize(DIVIDER_SIZE);                      // TODO: ONLY WAVE
-////            this.add(splitter, constraints);
-//            waves.add(waveMainPanel);
-//            splitters.add(splitter);
-//            flattenJSplitPane(splitter);        // Delete borders
-////            flattenJSplitPane(splitter2);                               // TODO: ONLY WAVE
-//        }
-        // TODO: PROGRAMO
-
-
-
-// TODO: ASI VYMAZAT
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        // https://stackoverflow.com/questions/14426472/detecting-when-jsplitpane-divider-is-being-dragged-not-component-being-resized
-//        // The old value is the old position of divider new is the new one, it is in the direction of the splitting
-//        splitter.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY,
-//            new PropertyChangeListener() {
-//                @Override
-//                public void propertyChange(PropertyChangeEvent evt) {
-//                    ProgramTest.printNTimes("´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´", 2);
-//                    System.out.println(evt.getOldValue() + "\t" + evt.getNewValue());
-//                    debugPrintWithSep("\t", evt.getOldValue(), evt.getNewValue());
-////                    }
-//                }
-//            });
-
-        // inside method for initialization of frame components,
-// after splitPane is created and added to the frame content pane
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.weightx = 1;
         constraints.weighty = 1;
-        // TODO: LALA
-//        constraints.gridy = 0;
-        // TODO: LALA
         this.add(panelWithWaves, constraints);
         panelWithWaves.addMouseWheelListener(mouseWheelListener);
 
-// TODO: ONLY WAVE
-//        constraints.gridy = 3;
-//        waveScrollerWrapperPanel.setViewportView(splitter2);
-//        this.add(waveScrollerWrapperPanel, constraints);
-
-
         constraints.weighty = 0;
         constraints.gridy = 3;
-        // TODO: LALA
         this.add(waveScrollerWrapperPanel, constraints);
-        // TODO: LALA
 
-
-        AdjustmentListener[] listeners = panelWithWaves.getHorizontalScrollBar().getAdjustmentListeners();
-        for(AdjustmentListener l : listeners) {
-            System.out.println(l);
-        }
-        System.out.println("LEN:\t" + listeners.length);
-        System.out.println(panelWithWaves.getListeners(java.util.EventListener.class).length);
-        System.out.println(panelWithWaves.getViewport().getChangeListeners().length);
-
-        //panelWithWaves.getViewport().removeChangeListener(panelWithWaves.getViewport().getChangeListeners()[0]);
-        System.out.println(panelWithWaves.getViewport().getChangeListeners().length);
-//        panelWithWaves.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-
-        System.out.println(panelWithWaves.getHorizontalScrollBar().getAdjustmentListeners().length);
-        System.out.println(panelWithWaves.getVerticalScrollBar().getAdjustmentListeners().length);
-
-// TODO: nemeni nic
-//        panelWithWaves.getHorizontalScrollBar().setUnitIncrement(0);
-//        panelWithWaves.getHorizontalScrollBar().setBlockIncrement(0);
 
         ComponentListener resizeListener = new ComponentAdapter(){
             @Override
@@ -1014,27 +770,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 setSizes(w, h);
                 callOnResize();
 
-//                timestampPanel.revalidate();
-//                timestampPanel.repaint();
-//                c.revalidate();
-//                c.repaint();
-//                panelWithWaves.revalidate();
-//                panelWithWaves.repaint();
-
                 if(oldVisibleWidth != w && waves.size() != 0) {
                     oldVisibleWidth = w;
                     visibleWidthChangedCallback();
                     setWaveScrollPanelsSizes();
                 }
 
-//                timestampPanel.revalidate();
-//                timestampPanel.repaint();
-
-//                waveScrollerWrapperPanel.revalidateEmptyPanel();
-//                c.revalidate();
-//                c.repaint();
-//                panelWithWaves.revalidate();
-//                panelWithWaves.repaint();
 // TODO: DEBUG
                 ProgramTest.debugPrint("WWWImplementation:", w, getVisibleRect().width);
 // TODO: DEBUG
@@ -1059,9 +800,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         currPlayTimeInMillis = 0;
         audioThread = new PlayerAudioThread(true, 100, 20);
         audioThread.start();
-// TODO: PROGRAMO - potrebuje k nastaveni splittery - horsi je ze ani nevim jestli to potrebuju nebo ne
-//        setSplittersMouseListener();
-// TODO: PROGRAMO
     }
 
 
@@ -1113,64 +851,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             nextSplitter.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, listener);
         }
 
-        // TODO: PROGRAMO - java bug
+        // Java bug
         if(splitters.size() >= 2) {
             JSplitPane lastSplitter = splitters.get(splitters.size() - 1);
             listener = new CompoundLastSplitterChangeListener(lastSplitter);
             splittersPropertyChangeListeners.add(listener);
             lastSplitter.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, listener);
         }
-        // TODO: PROGRAMO - java bug
     }
-
-// TODO: Jen vymazat - jen kopie abych se mel k cemu vracet
-//    private class FirstSplitterChangeListener implements PropertyChangeListener {
-//        JSplitPane splitter;
-//        public FirstSplitterChangeListener(JSplitPane splitter) {
-//            this.splitter = splitter;
-//        }
-//        @Override
-//        public void propertyChange(PropertyChangeEvent evt) {
-//            WaveMainPanel top;
-//            WaveMainPanel bot;
-//            top = (WaveMainPanel) splitter.getTopComponent();
-//            bot = (WaveMainPanel) splitter.getBottomComponent();
-//            int h;
-//            h = top.getHeight();
-//            top.setPreferredSize(h);
-//            h = bot.getHeight();
-//            bot.setPreferredSize(h);
-//        }
-//    }
-//
-//    // Every splitter except the first one and the last one
-//    private class CompoundSplitterChangeListener implements PropertyChangeListener {
-//        JSplitPane topSplitter;
-//        JSplitPane botSplitter;
-//
-//        /**
-//         * The arguments are the splitters in which are the waves which are divided by this divider.
-//         * The waves sizes changes with the move of divider, so we change their preferred sizes.
-//         * @param topSplitter
-//         * @param botSplitter
-//         */
-//        public CompoundSplitterChangeListener(JSplitPane topSplitter, JSplitPane botSplitter) {
-//            this.topSplitter = topSplitter;
-//            this.botSplitter = botSplitter;
-//        }
-//        @Override
-//        public void propertyChange(PropertyChangeEvent evt) {
-//            WaveMainPanel top;
-//            WaveMainPanel bot;
-//            top = (WaveMainPanel) topSplitter.getBottomComponent();
-//            bot = (WaveMainPanel) botSplitter.getBottomComponent();
-//            int h;
-//            h = top.getHeight();
-//            top.setPreferredSize(h);
-//            h = bot.getHeight();
-//            bot.setPreferredSize(h);
-//        }
-//    }
 
 
     /**

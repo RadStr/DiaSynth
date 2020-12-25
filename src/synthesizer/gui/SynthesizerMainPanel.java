@@ -53,9 +53,9 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                     }
                 });
 
-                JOptionPane.showOptionDialog(null, panelList,
-                        "Zoom to panel", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                        null, new Object[]{}, null);
+                JOptionPane.showOptionDialog(null, panelList, "Zoom to panel",
+                                              JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                             null, new Object[]{}, null);
             }
         });
 
@@ -90,12 +90,15 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
 
         playerButtons.add(waveVisualizer);
-        GridBagConstraintsSetter.setConstraint(constraints, 0, 0, 1, 1, 0, 0, 0, 0, GridBagConstraints.NONE);
+        GridBagConstraintsSetter.setConstraint(constraints, 0, 0, 1, 1,
+                                              0, 0, 0, 0, GridBagConstraints.NONE);
         this.add(playerButtons, constraints);
 
-        GridBagConstraintsSetter.setConstraint(constraints, 0, 1, 1, 1, 0, 0, 0, 0, GridBagConstraints.NONE);
+        GridBagConstraintsSetter.setConstraint(constraints, 0, 1, 1, 1,
+                                              0, 0, 0, 0, GridBagConstraints.NONE);
         this.add(buttonPanel, constraints);
-        GridBagConstraintsSetter.setConstraint(constraints, 0, 2, 1, 1, 0, 0, 1, 1, GridBagConstraints.BOTH);
+        GridBagConstraintsSetter.setConstraint(constraints, 0, 2, 1, 1,
+                                              0, 0, 1, 1, GridBagConstraints.BOTH);
         this.add(botPanel, constraints);
 
         menuBar = new JMenuBar();
@@ -143,7 +146,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
         menu = new JMenu("View");
         JCheckBox shouldViewWaveCheckbox = new JCheckBox("Draw wave", true);
-        shouldViewWaveCheckbox.setToolTipText("If the checkbox is checked, then the generated samples are drawn, otherwise not.");
+        shouldViewWaveCheckbox.setToolTipText("If the checkbox is checked, " +
+                                              "then the generated samples are drawn, otherwise not.");
         shouldViewWaveCheckbox.addItemListener(
                 (e) -> waveVisualizer.setShouldViewWave(e.getStateChange() == ItemEvent.SELECTED));
         menu.add(shouldViewWaveCheckbox);
@@ -284,9 +288,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             @Override
             public void actionPerformed(ActionEvent e) {
                 AudioFormatJPanel p = new AudioFormatJPanel(botPanel.getDiagramPanel().getOutputAudioFormat());
-                int result = JOptionPane.showConfirmDialog(null, p,
-                        "Audio audioFormat chooser", JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                int result = JOptionPane.showConfirmDialog(null, p, "Audio audioFormat chooser",
+                                                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {
                     botPanel.getDiagramPanel().setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true));
                 }
@@ -297,7 +300,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
     private void addSetRecordInfoToMenu(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("SET RECORD INFO");
-        menuItem.setToolTipText("Records audio without playing it (so it takes only fraction of the total play time of recorded audio)");
+        menuItem.setToolTipText("Records audio without playing it " +
+                                "(so it takes only fraction of the total play time of recorded audio)");
         recordInfoGetter = new RecordInfoGetterPanel();
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -347,7 +351,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
             JLabel shouldConvertLabel = new JLabel("Convert to audio player output audio format:");
             shouldConvertLabel.setToolTipText("Converted only when adding to the player, " +
-                    "when adding to file the output audioFormat from synth part is used");
+                                              "when adding to file the output audioFormat from synth part is used");
 
             this.add(shouldConvertLabel);
             JCheckBox shouldConvertCheckBox = new JCheckBox();
@@ -359,7 +363,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                 }
             });
             shouldConvertCheckBox.setToolTipText("Converted only when adding to the player, " +
-                    "when adding to file the output audioFormat from synth part is used");
+                                                 "when adding to file the output audioFormat from synth part is used");
             shouldConvertCheckBox.setSelected(true);
 
 

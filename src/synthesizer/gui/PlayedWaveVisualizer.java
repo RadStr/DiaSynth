@@ -107,6 +107,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
         t.start();
     }
     public void start() {
+// TODO: RML - Zapomnel jse mto opravit - za 13 hodin behu to proste pretece - kdyz se o tom nikde nezminim tak ok
 // TODO: I have to do this else, it will overflow later, but this part of code somehow lags everything
 //        if(lastPushedSample != null && lastDrawnSample != null) {
 //            for(int i = 0; i < lastPushedSample.length; i++) {
@@ -114,6 +115,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 //                lastDrawnSample[i] = 0;
 //            }
 //        }
+// TODO: RML
         isPaused = false;
         timer.start();
     }
@@ -190,14 +192,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                 drawValuesWrappers[currentChannel].shiftBuffer((int) (sampleShift / samplesPerPixel));
 
 
-
                 g.setColor(Color.LIGHT_GRAY);   // It is better to have just one color
-//                if(currentChannel % 2 == 0) {
-//                    g.setColor(Color.LIGHT_GRAY);
-//                }
-//                else {
-//                    g.setColor(Color.gray);
-//                }
 
                 if (currentChannel != drawValuesWrappers.length - 1) {
                     g.fillRect(0, currY, w, h);
@@ -219,7 +214,8 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
         double[] arrToCopyQueueToConc = arrToCopyQueueTo;
         if(arrToCopyQueueToLen > 0) {
             int numberOfSamplesToDraw;
-            numberOfSamplesToDraw = (int) ((bufferEndIndex - bufferStartIndex) / 2 * samplesPerPixel);      // / 2 since it is min and max
+            // / 2 since it is min and max
+            numberOfSamplesToDraw = (int) ((bufferEndIndex - bufferStartIndex) / 2 * samplesPerPixel);
             if (isPaused) {
                 Utilities.setOneDimArr(buffer, 0, buffer.length, 0);
             }
@@ -229,7 +225,6 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                 // If there are much more newer samples, so the whole buffer will be thrown out and replaced by new values
                 if (currentQueueLen >= bufferLenInSamples) {
                     bufferStartIndex = 0;
-                    bufferEndIndex = buffer.length;
                     numberOfSamplesToDraw = bufferLenInSamples;
                     int popLen = currentQueueLen - bufferLenInSamples;
                     sampleQueues[currentChannel].pop(popLen);
@@ -247,7 +242,8 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                             return;
                         }
 
-                        int popCount = sampleQueues[currentChannel].pop(arrToCopyQueueToConc, startIndex,startIndex + remainingLen);
+                        int popCount = sampleQueues[currentChannel].pop(arrToCopyQueueToConc, startIndex,
+                                                                       startIndex + remainingLen);
                         startIndex += popCount;
                         remainingLen -= popCount;
                         lastDrawnSample[currentChannel] += popCount;

@@ -108,7 +108,7 @@ public class DiagramUnitsJTree extends JTree {
             final File classFilesDir = PluginLoader.getClassFilesDirectory();
             String path = classFilesDir + "/" + pluginPackage.replace('.', '/');
             final File folder = new File(path);
-            // \\ is there because * is special character in regex
+            // \\ is there because . is special character in regex
             return setMainTreeCellNonJarVersion(".*\\.class", folder, pluginPackage, diagramPanel);
         }
     }
@@ -167,15 +167,16 @@ public class DiagramUnitsJTree extends JTree {
                     MyLogger.log("Added Unit: " + className, 0);
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException | InvocationTargetException e) {
             MyLogger.logException(e);
         }
     }
 
 
     // Modified code from https://mkyong.com/java/java-how-to-list-all-files-in-a-directory/
-    public static JTreeCellTextForUnits setMainTreeCellNonJarVersion(final String pattern, final File folder, String pluginPackage,
-                                                                     DiagramPanel diagramPanel) {
+    public static JTreeCellTextForUnits setMainTreeCellNonJarVersion(final String pattern, final File folder,
+                                                                     String pluginPackage, DiagramPanel diagramPanel) {
         JTreeCellTextForUnits treeCell = new JTreeCellTextForUnits(folder.getName());
         setTreeCellRecursive(pattern, folder, pluginPackage, diagramPanel, treeCell);
         return treeCell;
@@ -207,22 +208,8 @@ public class DiagramUnitsJTree extends JTree {
         MyLogger.log("packageContainingPlugins: " + path, 0);
         MyLogger.log("PATH TO JAR: " + pathToJar, 0);
 
-        // TODO: RML
-        //path = "C:/Users/Radek/eclipse-workspace/BakalarskaPrace/out/production/BakalarskaPrace/" + path;
-        // TODO: RML
-
-// TODO: DEBUG
-//        MyLogger.log("Plugin interface canonical name: " + pluginIface.getCanonicalName(), 0);
-//        MyLogger.log("Plugins package: " + packageContainingPlugins, 0);
-//        MyLogger.log("Plugins name: " + pluginFolder.getName(), 0);
-//        MyLogger.log("Plugins path: " + pluginFolder.getAbsolutePath(), 0);
-// TODO: DEBUG
 
         File file = new File(pathToJar);
-// TODO: DEBUG
-//        MyLogger.log("JAR NAME: " + jarName, 0);
-//        MyLogger.log("JAR ABSOLUTE PATH: " + file.getAbsolutePath(), 0);
-// TODO: DEBUG
         try {
             JarFile jarFile = new JarFile(file);
 
@@ -242,16 +229,8 @@ public class DiagramUnitsJTree extends JTree {
 
             entries = jarFile.entries();
             while(entries.hasMoreElements()) {
-                // TODO: DEBUG
-//                MyLogger.log("NEXT ENTRY MAIN", 0);
-                // TODO: DEBUG
                 JarEntry jarEntry = entries.nextElement();
                 String jarEntryName = jarEntry.getName();
-                // TODO: DEBUG
-//                if(jarEntry.isDirectory()) {
-//                    MyLogger.log("MAIN DIR:\t" + jarEntryName, 0);
-//                }
-                // TODO: DEBUG
 
                 if(!jarEntryName.startsWith(path) || jarEntryName.length() == path.length()) {
                     continue;
@@ -272,7 +251,8 @@ public class DiagramUnitsJTree extends JTree {
         if(!name.startsWith(dir)) {
             return false;
         }
-        String relative = name.substring(dir.length()); // dir ends with '/' - so if the next one is the next dir it will have only one /.
+        // dir ends with '/' - so if the next one is the next dir it will have only one '/'
+        String relative = name.substring(dir.length());
         return relative.indexOf('/') == relative.lastIndexOf('/');
     }
 
@@ -287,25 +267,11 @@ public class DiagramUnitsJTree extends JTree {
             JarEntry currEntry = entries.nextElement();
             String currJarEntryName = currEntry.getName();
             index++;
-            // TODO: DEBUG
-//            MyLogger.log("Current synth entry name:\t" + currJarEntryName, 0);
-            // TODO: DEBUG
             if( !currJarEntryName.startsWith(path) || currJarEntryName.length() == path.length() ||
                 !isMaxOneDirectoryAbove(currJarEntryName, jarEntry.getName())) {
-                //!currJarEntryName.startsWith(jarEntry.getName() ) ) {
-                // TODO: DEBUG
-//                MyLogger.log("synth skipping:\t" + path, 0);
-////                MyLogger.log("synth skippin2:\t" + jarEntry.getName(), 0);
-//                MyLogger.log(Boolean.toString(!currJarEntryName.startsWith(path)) + "\t" +
-//                        Boolean.toString(currJarEntryName.length() == path.length()) + "\t" +
-//                        Boolean.toString(!currJarEntryName.startsWith(jarEntry.getName())), 0);
-                // TODO: DEBUG
                 continue;
             }
 
-            // TODO: DEBUG
-//            MyLogger.log("ENTRY: " + index, 0);
-            // TODO: DEBUG
             if(processedEntries[index]) {
                 continue;
             }
@@ -315,16 +281,10 @@ public class DiagramUnitsJTree extends JTree {
                 currJarEntryName = getStringAfterLastChar(currJarEntryName, '/');
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
                 treeCell.addChildren(newTreeCell);
-                // TODO: DEBUG
-//                MyLogger.log("Current synth dir:\t" + currEntry.getName(), 0);
-                // TODO: DEBUG
                 setTreeCellRecursiveJar(currEntry, jarFile, path, diagramPanel,
                                         newTreeCell, pluginLoader, processedEntries);
             }
             else {
-                // TODO: DEBUG
-//                MyLogger.log("Current synth file:\t" + currEntry.getName(), 0);
-                // TODO: DEBUG
                 if(entriesOnThisLevel == null) {
                     entriesOnThisLevel = new ArrayList<>();
                 }
@@ -337,9 +297,6 @@ public class DiagramUnitsJTree extends JTree {
                 addChildrenToTreeCellJarVersion(entryName, pluginLoader, diagramPanel, treeCell);
             }
         }
-        // TODO: DEBUG
-//        MyLogger.log("ENDED ONE RECURSION:\t" + jarEntry.getName(), 0);
-        // TODO: DEBUG
     }
 
 

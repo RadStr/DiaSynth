@@ -9,7 +9,8 @@ import java.awt.*;
 public class DiagramItemsMenu extends JScrollPane {
 
     public DiagramItemsMenu(DiagramPanel diagramPanel) {
-        super(new DiagramUnitsJTree(diagramPanel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        super(new DiagramUnitsJTree(diagramPanel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+              JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     }
 
     private final Dimension minSize = new Dimension(0,0);

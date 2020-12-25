@@ -937,6 +937,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
     @Override
     public void resizeCallback(int newDivLoc) {
+        // TODO:
         // Uncomment this code if I want to restrict the maximum size in the splitpane
 //        System.out.println("resizeCallback:\t" + minSize + "\t" + newDivLoc);
 //        minSize = new Dimension(newDivLoc, super.getMinimumSize().height);
@@ -1058,7 +1059,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
                 g.setColor(Color.GRAY);
                 g.fillRect(x, y, panelW, panelH);
                 g.setColor(Color.LIGHT_GRAY);
-                g.fillRect(x + frameWidth, y + frameHeight, panelW - 2 * frameWidth, panelH - 2 * frameHeight);
+                g.fillRect(x + frameWidth, y + frameHeight, panelW - 2 * frameWidth,
+                           panelH - 2 * frameHeight);
                 y += panelSizeWithBorderHeight;
             }
 
@@ -1096,7 +1098,6 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
             }
         }
 
-//        paintConnectionsAsStraightLines(g);
 
         g.setColor(Color.BLACK);
         Graphics2D g2 = (Graphics2D) g;
@@ -1127,8 +1128,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
                     if(targetPanel == movingPanel) {
                         Point end = cable.getTargetPort().getLastPoint();
                         g.drawLine(p.getLeftX() + currentPanelSize.getFirstHalved(),
-                                p.getTopY() + currentPanelSize.getSecond(),
-                                end.x, end.y);
+                                   p.getTopY() + currentPanelSize.getSecond(),
+                                    end.x, end.y);
                     }
                     else {
                         int elevation = cable.getElevation();
@@ -1137,8 +1138,9 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
                         }
                         g2.draw(cable.getAbsolutePath());
                         Point pointBeforeConnection = cable.getLastPointBeforePort();
-                        g.fillArc(pointBeforeConnection.x - endCircleWidth / 2, pointBeforeConnection.y - endCircleHeight / 2,
-                                endCircleWidth, endCircleHeight, 0, 360);
+                        g.fillArc(pointBeforeConnection.x - endCircleWidth / 2,
+                                  pointBeforeConnection.y - endCircleHeight / 2,
+                                   endCircleWidth, endCircleHeight, 0, 360);
                     }
                 }
             }
@@ -1292,7 +1294,7 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
     public void findElevationsForPort(MovablePanelIFace panel) {
         OutputPort op = panel.getOutputPort();
         for (Cable c : op.getCables()) {
-            findElevation(panel, c);
+            findElevation(c);
         }
     }
 
@@ -1300,13 +1302,13 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
     // It is better than the boolean version if there is too many cables, then it warrants that the overlap will be uniform.
     private final int[] ELEVATION_ARR = new int[2 * getMaxElevation() + 1];
     private final int ZERO_ELEVATION_INDEX = getMaxElevation();
-    // TODO: Micro-Optimization - Currently using nicer but slower version. Maybe later just generate the random numbers instead
+    // Currently using nicer but slower version. Maybe later just generate the random numbers instead
     //private Random randomGenerator = new Random();
-    public void findElevation(Object panelWhichOutputsTheCable, Cable cable) {
+    public void findElevation(Cable cable) {
         // The new version uses boolean array, which solves the problem of partial elevation - for example when there is
         // collision with some line which was already on maximum, then it would be set to default value, for all lines
         // colliding with that
-        if (!cable.getIsElevationSet()) {        // TODO: Just check for me, I don't think that it is needed, if everything is correct
+        if (!cable.getIsElevationSet()) {   // Just check for me, I don't think that it is needed, if everything is correct
             // TODO: Micro-Optimization Later I can rewrite it using the System.arrayCopy
             for (int i = 0; i < ELEVATION_ARR.length; i++) {
                 ELEVATION_ARR[i] = 0;
@@ -1432,7 +1434,9 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
         double halfY = relativeLocStart.y + distance;
         boolean isStraightUnder = relativeLocEnd.x == relativeLocStart.x;
         if (isStraightUnder) {
-            boolean straightLineCol = hasVerticalLineCollisionWithOtherPanel(outputPanel, connectedPanel, relativeLocStart.x, relativeLocStart.y, relativeLocEnd.y);
+            boolean straightLineCol = hasVerticalLineCollisionWithOtherPanel(outputPanel, connectedPanel,
+                                                                             relativeLocStart.x, relativeLocStart.y,
+                                                                             relativeLocEnd.y);
             if(straightLineCol) {
                 setRelativeCableConnection(outputPanel, connectedPort, cable, onlyVertical);
             }
@@ -1456,7 +1460,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
             boolean isCollision;
             boolean hasVerticalCollision = true;
             while (distance >= 0.5) {
-                isCollision = hasVerticalLineCollisionWithOtherPanel(outputPanel, null, relativeLocStart.x, relativeLocStart.y, halfY);
+                isCollision = hasVerticalLineCollisionWithOtherPanel(outputPanel, null, relativeLocStart.x,
+                                                                     relativeLocStart.y, halfY);
                 if (isCollision) {
                     distance /= 2;
                     halfY -= distance;
@@ -1475,10 +1480,14 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
                     hasCollisionMovingHorizontally = false;
                 }
                 else {
-                    hasCollisionMovingHorizontally = hasHorizontalLineCollisionWithOtherPanel(relativeLocStart.x, relativeLocEnd.x, halfY);
+                    hasCollisionMovingHorizontally = hasHorizontalLineCollisionWithOtherPanel(relativeLocStart.x,
+                                                                                              relativeLocEnd.x, halfY);
                 }
 
-                boolean hasCollisionGoingStraightToEnd = hasVerticalLineCollisionWithOtherPanel(null, connectedPanel, relativeLocEnd.x, halfY, relativeLocEnd.y);
+                boolean hasCollisionGoingStraightToEnd = hasVerticalLineCollisionWithOtherPanel(null,
+                                                                                                 connectedPanel,
+                                                                                                 relativeLocEnd.x,
+                                                                                                 halfY, relativeLocEnd.y);
 
                 // There is collision going down to end, just make it the old way - take first aisle
                 if (hasCollisionGoingStraightToEnd || hasCollisionMovingHorizontally) {
@@ -1554,7 +1563,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
 
 
     // For case when it is coming from some panel and going to some panel, so we don't want to include those in collision
-    private boolean hasVerticalLineCollisionWithOtherPanel(Object outputPanel, Object inputPanel, int startX, double startY, double endY) {
+    private boolean hasVerticalLineCollisionWithOtherPanel(Object outputPanel, Object inputPanel,
+                                                           int startX, double startY, double endY) {
         for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
             if (outputPanel != p && inputPanel != p) {
@@ -1593,44 +1603,6 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
      * @return
      */
     private boolean shouldElevate(Cable c1, Cable c2) {
-// TODO: RML
-// A bit slower variant I think - micro-optimization (but since can run many times it can add to noticeable difference)
-// Because of the spatial locality (here we go through the iterators of c1 twice instead of once)
-//        PathIteratorGetterIFace iteratorGetter = new RelativePathIteratorGetter(c1);
-//        PathIteratorGetterIFace iterator2Getter = new RelativePathIteratorGetter(c2);
-//        if(shouldElevate(iteratorGetter, iterator2Getter)) {
-//            return true;
-//        }
-//        else {
-//            iteratorGetter = new PathAroundIteratorGetter(c1);
-//            return shouldElevate(iteratorGetter, iterator2Getter);
-//        }
-
-//        PathIteratorGetterIFace iteratorGetter = new RelativePathIteratorGetter(c1);
-//        PathIteratorGetterIFace iterator2Getter = new RelativePathIteratorGetter(c2);
-//        if(shouldElevate(iteratorGetter, iterator2Getter)) {
-//            return true;
-//        }
-//        else {
-//            iterator2Getter = new PathAroundIteratorGetter(c2);
-//            if(shouldElevate(iteratorGetter, iterator2Getter)) {
-//                return true;
-//            }
-//            else {
-//                iteratorGetter = new PathAroundIteratorGetter(c1);
-//                if(shouldElevate(iteratorGetter, iterator2Getter)) {
-//                    return true;
-//                }
-//                else {
-//                    iterator2Getter = new RelativePathIteratorGetter(c2);
-//                    return shouldElevate(iteratorGetter, iterator2Getter);
-//                }
-//            }
-//        }
-// TODO: RML
-
-
-// A bit faster variant
         PathIteratorGetterIFace iteratorGetter = new RelativePathIteratorGetter(c1);
         RelativePathIteratorGetter iterator2Getter = new RelativePathIteratorGetter(c2);
         PathAroundIteratorGetter iterator2PathAroundGetter = new PathAroundIteratorGetter(c2);
@@ -1955,10 +1927,12 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
         }
         else {
             if (relativePosOutput.y + 1 == endPos.y) {     // If it is in line below
-                connectPanelsInAdjacentRows(cable, endPosInts.x, relativePosOutput.x, startX, startY, endPos, outputPanel, onlyVertical);
+                connectPanelsInAdjacentRows(cable, endPosInts.x, relativePosOutput.x,
+                                            startX, startY, endPos, outputPanel, onlyVertical);
             }
             else {
-                connectPanelsInNotAdjacentRows(cable, startX, startY, endPos, outputPanel, onlyVertical, isConnectionOnSide);
+                connectPanelsInNotAdjacentRows(cable, startX, startY, endPos,
+                                               outputPanel, onlyVertical, isConnectionOnSide);
             }
         }
     }
@@ -1971,7 +1945,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
 
 
     private void connectPanelsInAdjacentRows(Cable cable, int relativePosInputX, int relativePosOutputX,
-                                             double startX, double startY, Point2D.Double endPos, Object outputPanel, boolean onlyVertical) {
+                                             double startX, double startY, Point2D.Double endPos,
+                                             Object outputPanel, boolean onlyVertical) {
 
         if(relativePosInputX == relativePosOutputX) {     // If it is also in the same column
             cable.relativePathLineTo(endPos.x, endPos.y);
@@ -2283,8 +2258,10 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
         double outputAisleX = relativeLocOutput.x;
         Point relativeLocInput = outputPanelOfThePossibleCollisionCable.getRelativePosToReferencePanel();
         // If it is line which ends below the current y and starts above current y
-        // Second line is to disable collisions when the horizontal line goes through line which just changed from horizontal to vertical and it is at least 2 rows
-        // Third line is when the second line changes from vertical to horizontal and it is also at least 2 rows - TODO: SAME CONDITION FOR NUBMER OF ROWS - BUT IT IS MICRO-OPTIM don't do it
+        // Second line is to disable collisions when the horizontal line goes through line which just changed from
+        // horizontal to vertical and it is at least 2 rows
+        // Third line is when the second line changes from vertical to horizontal and it is also at least 2 rows -
+        // TODO: Vymazat to v tom ifu uvnitr /* */
         if (relativeLocInput.y > y && relativeLocOutput.y < y
                 && !(relativeLocOutput.y + 1 - 0.5 == y && relativeLocInput.y - relativeLocOutput.y >= 2)
                 && !(relativeLocInput.y - 0.5 == y/* && relativeLocInput.y - relativeLocOutput.y >= 2*/)) {
@@ -2416,8 +2393,10 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
      * @param g is the graphics to draw to
      * @param w is the width of the edge.
      * @param h is the height of the edge.
-     * @param widthProportionTriangle lies in interval [0,1]. 0 means that the triangle takes 0 pixel, 1 the triangle takes the whole width (the w parameter)
-     * @param heightProportionRect lies in interval [0,1]. 0 means that the rectangle takes 0 pixel, 1 the rectangle takes the whole height (the h parameter)
+     * @param widthProportionTriangle lies in interval [0,1]. 0 means that the triangle takes 0 pixel,
+     *                                1 the triangle takes the whole width (the w parameter)
+     * @param heightProportionRect lies in interval [0,1]. 0 means that the rectangle takes 0 pixel,
+     *                             1 the rectangle takes the whole height (the h parameter)
      * @param c is the color of the arrow
      * @param direction is the direction of the arrow.
      */
@@ -2430,11 +2409,12 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
         int rectangleTriangleDistanceY = (ARROW_SIZE_Y - rectH) / 2;
 
 
-        // The directions are quite simple, if it is classic (NORTH, ...) then put it in the middle and make equal space on both sides.
+        // The directions are quite simple, if it is classic (NORTH, ...)
+        // then put it in the middle and make equal space on both sides.
         // If it is combined (NORTH-EAST, ...) then the x coordinate is the same as for east and the y same as for north.
         switch (direction) {
             case NORTH:
-                x = w / 2 - ARROW_SIZE_Y / 2;                      // In the middle.
+                x = w / 2 - ARROW_SIZE_Y / 2;       // In the middle.
 
                 y = rectangleTriangleDistanceY;     // So the arrow touches the top.
                 y += BORDER_ARROW_HALF_SPACE_Y;     // So the space is equal and both sides.
@@ -2495,7 +2475,6 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
                 y = rectangleTriangleDistanceY;
                 y += BORDER_ARROW_HALF_SPACE_Y;
                 break;
-// TODO: Zalogovat asi nebo nevim
             default:
                 MyLogger.logWithoutIndentation("Unknown enum of type ArrowDirection in switch in method drawEdgeArrow");
                 System.exit(0);
@@ -2517,7 +2496,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
      * @param c is the color of the arrow.
      * @param direction is the direction of the arrow.
      */
-    private void drawArrow(Graphics g, int x, int y, int rectW, int rectH, int triangleW, int rectangleTriangleDistanceY, Color c, ArrowDirection direction) {
+    private void drawArrow(Graphics g, int x, int y, int rectW, int rectH, int triangleW,
+                           int rectangleTriangleDistanceY, Color c, ArrowDirection direction) {
         calculateArrowPolygon(x, y, rectW, rectH, triangleW, rectangleTriangleDistanceY);
 
         direction.transformArrowPointingRight(arrowPointingRight, arrow.arrowPoints);
@@ -2556,14 +2536,18 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
 
     public void moveToPosBasedOnRelativeToRefPanel(MovablePanelSpecificMethodsIFace p) {
         Point relativePos = p.getRelativePosToReferencePanel();
-        int x = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.x, referencePanel.getLeftX(), panelSizeWithBorderWidth);
-        int y = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.y, referencePanel.getTopY(), panelSizeWithBorderHeight);
+        int x = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.x, referencePanel.getLeftX(),
+                                                                  panelSizeWithBorderWidth);
+        int y = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.y, referencePanel.getTopY(),
+                                                                  panelSizeWithBorderHeight);
         p.setLocation(x, y);        // Setting without creating new Point is faster
     }
 
     private Point getRealLocationBasedOnRelativePosToReferencePanel(Point relativePos) {
-        int x = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.x, referencePanel.getLeftX(), panelSizeWithBorderWidth);
-        int y = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.y, referencePanel.getTopY(), panelSizeWithBorderHeight);
+        int x = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.x, referencePanel.getLeftX(),
+                                                                  panelSizeWithBorderWidth);
+        int y = getRealLocationBasedOnRelativePosToReferencePanel(relativePos.y, referencePanel.getTopY(),
+                                                                  panelSizeWithBorderHeight);
 
         return new Point(x, y);
     }
@@ -2581,7 +2565,8 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
 
     private Point getLocationOfRelativePos(MovablePanelSpecificMethodsIFace panel, Point panelSizeWithBorders) {
         Point relative = panel.getRelativePosToReferencePanel();
-        return getRealLocationBasedOnRelativePosToReferencePanel(relative, referencePanel.getLocation(), panelSizeWithBorders);
+        return getRealLocationBasedOnRelativePosToReferencePanel(relative, referencePanel.getLocation(),
+                                                                 panelSizeWithBorders);
     }
 
 

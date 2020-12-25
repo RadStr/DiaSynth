@@ -9,9 +9,6 @@ import java.nio.channels.FileChannel;
 
 
 public class DoubleWave {
-    // TODO: THIS IS JUST HOME_DIRECTORY FOR ME, TO TEST IT ON HDD INSTEAD OF SSD
-    //public static final String HOME_DIRECTORY = "D:\\Bakalarka_Cache_Slozka";
-    // TODO: THIS IS JUST HOME_DIRECTORY FOR ME, TO TEST IT ON HDD INSTEAD OF SSD
     public static final String HOME_DIRECTORY = new File("").getAbsolutePath();
     public static final String DOUBLE_WAVE_DIRECTORY = HOME_DIRECTORY + File.separator + "WaveCacheDirectory" + File.separator;
     public static final String DOUBLE_WAVE_EXTENSION = ".dwav";

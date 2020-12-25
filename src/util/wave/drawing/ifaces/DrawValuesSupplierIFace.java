@@ -1,42 +1,8 @@
 package util.wave.drawing.ifaces;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-
 public interface DrawValuesSupplierIFace {
 
     void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex);
-
-
-    int getPrefixLenInBytes();
-    int fillBufferWithCachedValues(double[] buffer, int bufferStartIndex, int bufferEndIndex,
-                                   int startFillIndex, int inputLen, int outputLen);
-
-    default int fillBufferWithCachedValues(FileChannel cache, double[] buffer,
-                                           int bufferStartIndex, int bufferEndIndex,
-                                           int startFillIndex) {
-        int outIndex;
-        try {
-            //cache.position(startFillIndex * Double.BYTES + getPrefixLenInBytes());
-            int startPosInFile = startFillIndex * Double.BYTES + getPrefixLenInBytes();
-            int len = bufferEndIndex - bufferStartIndex;
-            ByteBuffer byteBuffer = cache.map(FileChannel.MapMode.READ_ONLY, startPosInFile, Double.BYTES * len);
-            for (int i = bufferStartIndex; i < bufferEndIndex; i++) {
-                buffer[i] = byteBuffer.getDouble();
-            }
-            outIndex = startFillIndex + (bufferEndIndex - bufferStartIndex);
-        } catch (EOFException e) {
-            outIndex = -1;
-        } catch (IOException e) {
-            outIndex = -2;
-        }
-
-        return outIndex;
-    }
-
-    boolean getIsCached();
 
     int getCurrentStartIndexInAudio();
 

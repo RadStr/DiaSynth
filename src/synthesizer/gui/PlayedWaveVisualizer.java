@@ -260,21 +260,6 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
         }
     }
 
-    @Override
-    public int getPrefixLenInBytes() {
-        return 0;
-    }
-
-    @Override
-    public int fillBufferWithCachedValues(double[] buffer, int bufferStartIndex, int bufferEndIndex,
-                                          int startFillIndex, int inputLen, int outputLen) {
-        return 0;
-    }
-
-    @Override
-    public boolean getIsCached() {
-        return false;
-    }
 
     @Override
     public int getCurrentStartIndexInAudio() {

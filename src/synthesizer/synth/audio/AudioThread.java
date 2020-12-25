@@ -19,27 +19,28 @@ import javax.sound.sampled.*;
  */
 public class AudioThread extends Thread implements OutputFormatGetter, AudioControlPanel.VolumeControlGetterIFace {
     /**
-     *
-     * @param maxPlayTimeInMs - there is upper bound which will be known at run time (usually 500ms) after adding more than that, the
-     *                        audio playing line blocks and there will occur sound clicking
-     *                        (so to remove that it is set to that maximum value if it is bigger than that).
-     *                        So set it to smaller numbers,
-     *                        rather than higher, since it may be capped to the maximum value
-     * @param cyclicQueueSizeInMs this won't be accurate since of optimisation purposes the size of queue has to be power of 2.
-     *                            So it will be in the end between [cyclicQueueSizeInMs / 2, cyclicQueueSizeInMs]. Minimum is 512 samples.
+     * @param maxPlayTimeInMs     There is upper bound which will be known at run time (usually 500ms)
+     *                            after adding more than that, the audio playing line blocks and there will
+     *                            occur clicking in sound
+     *                            (so to remove that it is set to that maximum value if it is bigger than that).
+     *                            So set it to smaller numbers,
+     *                            rather than higher, since it may be capped to the maximum value
+     * @param cyclicQueueSizeInMs this won't be accurate since of optimisation purposes the size of queue has to be
+     *                            power of 2.
+     *                            So it will be in the end between [cyclicQueueSizeInMs / 2, cyclicQueueSizeInMs].
+     *                            Minimum is 512 samples.
      * @param shouldPause
      */
     public AudioThread(int maxPlayTimeInMs, int cyclicQueueSizeInMs, boolean shouldPause) {
         setShouldPause(shouldPause);
         maxPlayTimeDivFactor = convertTimeInMsToDivFactor(maxPlayTimeInMs);
         cyclicQueueSizeDivFactor = convertTimeInMsToDivFactor(cyclicQueueSizeInMs);
-        // TODO: RML
+        // TODO: RML - ted popravde neivm jestli to muzu odstranit z toho konstruktoru
         setOutputAudioFormat(new AudioFormatWithSign(44100, 16, 1,
                 true, false));
         // TODO: RML
 
         lastPlayedSampleInChannel = 0;
-        currentPlayTime = 0;
     }
 
     private PlayedWaveVisualizer waveVisualizer;
@@ -194,10 +195,6 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
     }
     protected Object audioLock = new Object();
     private int lastPlayedSampleInChannel;
-    public int getLastPlayedSampleInChannel() {
-        return lastPlayedSampleInChannel;
-    }
-    private int currentPlayTime;
     private double[][] samplesToBePlayedDouble;
     protected byte[] samplesToBePlayed;
 
@@ -209,12 +206,6 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
     public void playAudioLoop() {
         synchronized (audioLock) {
             while (true) {
-// TODO: RML
-                // TODO: SYNTH - DEBUG
-//                ProgramTest.debugPrint("Writing audio", audioLine.available(),
-//                        samplesToBePlayedDouble[0].length, samplesToBePlayed.length);
-                // TODO: SYNTH - DEBUG
-// TODO: RML
                 int byteArrIndex = getAudioSamples();
                 if(byteArrIndex > 0) {
                     audioLine.write(samplesToBePlayed, 0, byteArrIndex);
@@ -226,7 +217,8 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
 
     /**
      * Is used internally in audio play loop, shouldn't be ever called from different place, then the audio loop.
-     * @return Returns -1 if the audio samples weren't set (for example not all queues are filled enough). Otherwise returns number of valid samples in byte[] samplesToBePlayed
+     * @return Returns -1 if the audio samples weren't set (for example not all queues are filled enough).
+     * Otherwise returns number of valid samples in byte[] samplesToBePlayed
      */
     protected final int getAudioSamples() {
         // First I check if pause button was clicked and after that I play the current part
@@ -285,8 +277,9 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
         }
         lastPlayedSampleInChannel += validSampleCount;
 
-        int byteArrIndex = fillByteArrWithChannels(samplesToBePlayedDouble, validSampleCount, sampleSizeInBytes, samplesToBePlayed,
-                maxAbsoluteValue, outputAudioFormat.isBigEndian(), outputAudioFormat.isSigned);
+        int byteArrIndex = fillByteArrWithChannels(samplesToBePlayedDouble, validSampleCount, sampleSizeInBytes,
+                                                   samplesToBePlayed, maxAbsoluteValue,
+                                                   outputAudioFormat.isBigEndian(), outputAudioFormat.isSigned);
 
         if(waveVisualizer != null) {
             for (int ch = 0; ch < samplesToBePlayedDouble.length; ch++) {
@@ -329,7 +322,6 @@ public class AudioThread extends Thread implements OutputFormatGetter, AudioCont
         while (!isPaused()) {       // Active waiting
             pause();
         }
-        currentPlayTime = 0;
         lastPlayedSampleInChannel = 0;
         for (int i = 0; i < queuesDouble.length; i++) {
             queuesDouble[i].reset();

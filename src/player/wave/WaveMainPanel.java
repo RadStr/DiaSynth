@@ -519,7 +519,9 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public void processUserClickedWaveEvent(double timeLineX, int userSelectedSample, int currPlayTimeInMillis) {
         panelWithWaves.setCurrSampleUserSelected(userSelectedSample);
         panelWithWaves.setTimeLineXUserSelected(timeLineX);
-        panelWithWaves.setCurrPlayTimeInMillis(currPlayTimeInMillis);
+        // TODO: Show play time
+//        panelWithWaves.setCurrPlayTimeInMillis(currPlayTimeInMillis);
+        // TODO: Show play time
         panelWithWaves.setUserClickedWave(true);
         panelWithWaves.switchToUserSelectedSampleIfPaused();
     }

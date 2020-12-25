@@ -40,7 +40,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         setPropertiesPanel();
         Point relativePos = sp.getRelativePosToReferencePanel();
         this.shapedPanel = createShapedPanel(relativePos.x, relativePos.y, panelWithUnits.getReferencePanelWidth(),
-                panelWithUnits.getReferencePanelHeight(), panelWithUnits);
+                                             panelWithUnits.getReferencePanelHeight(), panelWithUnits);
         inputPorts = createInputPorts(panelWithUnits, getNeutralValues());
         outputPort = new OutputPort(this, shapedPanel);
         shapedPanel.setToolTipText(getTooltip());
@@ -280,6 +280,19 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
 
             line = input.readLine();
             setPanelName(line);
+
+            // Just hot-fix, because I noticed that when loading saved diagram, it doesn't contain the name with number.
+            if(!(this instanceof OutputUnit)) {
+                Point relativePos = shapedPanel.getRelativePosToReferencePanel();
+                int rw = panelWithUnits.getReferencePanelWidth();
+                int rh = panelWithUnits.getReferencePanelHeight();
+                panelWithUnits.removeInputPortLabels(shapedPanel);
+                shapedPanel = createShapedPanel(relativePos.x, relativePos.y, rw, rh, panelWithUnits);
+                inputPorts = createInputPorts(panelWithUnits, getNeutralValues());
+                outputPort = new OutputPort(this, shapedPanel);
+                shapedPanel.setToolTipText(getTooltip());
+                shapedPanel.updateSize(new Dimension(rw, rh));
+            }
 
             // Read relative position
             line = input.readLine();

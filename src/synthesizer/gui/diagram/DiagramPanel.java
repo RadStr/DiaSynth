@@ -2862,7 +2862,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         removeInputPortLabel(ip.getPortLabel());
     }
 
-    private void removeInputPortLabels(PortsGetterIFace panel) {
+    // Just hot-fix, because I noticed that when loading saved diagram, it doesn't contain the name with number.
+    // And I noticed that I add the labels before the panel which is odd decision, but I will fix that later. It may
+    // introduce new issues now.
+    public void removeInputPortLabels(PortsGetterIFace panel) {
         for(InputPort ip : panel.getInputPorts()) {
             removeInputPortLabel(ip);
         }

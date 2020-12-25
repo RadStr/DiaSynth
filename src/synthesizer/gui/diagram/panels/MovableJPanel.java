@@ -414,7 +414,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         setSize(newSize);
         if(getInputPorts().length > 0) {
             InputPort biggestPort = findBiggestPort();
-            setInputPortFontSizeApproximation(biggestPort, newSize);
+            getInputPortFontSizeApproximation(biggestPort, newSize);
             setInputPortsFontSizes(biggestPort);
             setInputPortsLocs();
         }
@@ -849,7 +849,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
      * @param ip
      * @param newSize
      */
-    private void setInputPortFontSizeApproximation(InputPort ip, Dimension newSize) {
+    private void getInputPortFontSizeApproximation(InputPort ip, Dimension newSize) {
         JLabel label = ip.getPortLabel();
         SwingUtils.setFontSize(label, diagramPanel.getReferencePanelOldWidth(), newSize.width);
     }

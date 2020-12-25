@@ -1,6 +1,5 @@
 package plugin.util;
 
-import player.plugin.ifaces.AudioPlayerJMenuPluginIFace;
 import plugin.EnumWrapperForAnnotationPanelIFace;
 import plugin.PluginParameterAnnotation;
 import util.Pair;
@@ -45,7 +44,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
 
     private void addFieldsToPanel(Object objectWithAnnotations, Class<?> classWithAnnotations, Field[] fields) {
         for (Field f : fields) {
-            // Sets the accessibility only for this object, when I create another Field object for the same variable it doesn't affect that one
+            // Sets the accessibility only for this object,
+            // when I create another Field object for the same variable it doesn't affect that one
             f.setAccessible(true);
             Class<?> fieldType = f.getType();
             PluginParameterAnnotation annotation = f.getAnnotation(PluginParameterAnnotation.class);
@@ -58,7 +58,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
 
             String lowerBound = annotation.lowerBound();
             String upperBound = annotation.upperBound();
-            /////////////////////////////////////// Now a lot of ifs - try to parse the lower bound if it fails set it to minimum value of given type
+            /// Now a lot of ifs - try to parse the lower bound if it fails set it to minimum value of given type
             String tooltipParameterType = "Parameter type: " + fieldType.getName();
             String tooltipParameterValue = "Parameter bounds: [";
             boolean isFloatOrDouble = false;
@@ -197,7 +197,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             tooltipParameterValue += ", ";
 
 
-            //////////////////////////// Same as lower bound but with upper bound
+            /// Same as lower bound but with upper bound
             double upperBoundDouble;
 
             if (fieldType == Byte.TYPE) {
@@ -351,9 +351,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             }
         }
         catch (Exception e) {
-            // TODO: JUST for now
+            MyLogger.log("Some error while creating annotation panel", 0);
             MyLogger.logException(e);
-            System.exit(4595457);
         }
     }
 

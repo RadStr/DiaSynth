@@ -19,21 +19,12 @@ import java.util.jar.JarFile;
 public class PluginLoader {
     private PluginLoader() {}       // Disable instantiation - make only static access possible
 
-    // I have to differ between running in jar and not running in jar, because working with internals of .jar file can't
+    // we have to differ between running in jar and not running in jar, because working with internals of .jar file can't
     // be done the same way as working with normal filesystem.
-    // When I work with the jar the same way as with classic file system, I work with files around jar
+    // When we work with the jar the same way as with classic file system, we work with files around jar
     // not inside jar.
     public static <T> List<T> loadPlugins(Class<T> pluginIface, String pluginPackage) {
-        // https://stackoverflow.com/questions/482560/can-you-tell-on-runtime-if-youre-running-java-from-within-a-jar
         Class<?> c = PluginBaseIFace.class;
-        // TODO: DEBUG
-//        System.out.println("loadPlugins:\t" + c.getName() + "\t" + c.getCanonicalName() + "\t" + c.getResource("").toString());
-//        System.out.println("loadPlugins:\t" + c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class" + "\t" +
-//                c.getResource(c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class").toString());
-//
-        //if(c.getResource(c.getName() + ".class").toString().startsWith("jar:")) {
-        //if(c.getResource("").toString().startsWith("jar:")) {
-        // TODO: DEBUG
         if(isJar(c)) {
             String pathToJar = getPathToJar(c);
             MyLogger.log("Runs in jar with path: " + pathToJar, 0);
@@ -49,6 +40,7 @@ public class PluginLoader {
     // The path to file in jar starts with "jar:" and after the path to the jar file, there is the path inside the
     // jar, [note: the path to the jar file ends with !/ (or rather just !, the / marks the start of new path)]
     // The path inside the jar is the same as in classic filesystem, so path/to/file/file.class
+    // Inspired a bit by https://stackoverflow.com/questions/482560/can-you-tell-on-runtime-if-youre-running-java-from-within-a-jar
     /**
      *
      * @param c is the class inside the jar
@@ -110,11 +102,6 @@ public class PluginLoader {
             return list;
         }
 
-        // TODO: PROGRAMO
-//        ClassLoader loader = pluginIface.getClassLoader();
-//        URL urlToPlugin = loader.getResource(pluginIface.getName());
-//        final File folder = new File(urlToPlugin.getPath());
-        // TODO: PROGRAMO
         List<String> pluginNames = new ArrayList<>();
         PluginLoader.search(".*\\.class", folder, pluginNames);
 
@@ -187,28 +174,12 @@ public class PluginLoader {
     public static <T> List<T> loadPluginsInJar(Class<T> pluginIface, String packageContainingPlugins, String pathToJar) {
         String path = packageContainingPlugins.replace('.', '/');
 
-        // TODO: RML
-        //path = "C:/Users/Radek/eclipse-workspace/BakalarskaPrace/out/production/BakalarskaPrace/" + path;
-        // TODO: RML
-
         // Find all the candidates for plugins
-        final File pluginFolder = new File(path);
         List<T> loadedPlugins = new ArrayList<>();
-
-// TODO: DEBUG
-//        MyLogger.log("Plugin interface canonical name: " + pluginIface.getCanonicalName(), 0);
-//        MyLogger.log("Plugins package: " + packageContainingPlugins, 0);
-//        MyLogger.log("Plugins name: " + pluginFolder.getName(), 0);
-//        MyLogger.log("Plugins path: " + pluginFolder.getAbsolutePath(), 0);
-// TODO: DEBUG
-
         ArrayList<URL> urls = new ArrayList<>();
         ArrayList<String> classes = new ArrayList<>();
         File file = new File(pathToJar);
-// TODO: DEBUG
-//        MyLogger.log("JAR NAME: " + jarName, 0);
-//        MyLogger.log("JAR ABSOLUTE PATH: " + file.getAbsolutePath(), 0);
-// TODO: DEBUG
+
         try {
             JarFile jarFile = new JarFile(file);
 
@@ -217,10 +188,6 @@ public class PluginLoader {
             jarFile.stream().forEach(jarEntry -> {
                 // It is the path in jar so x/y/z
                 String jarEntryName = jarEntry.getName();
-// TODO: DEBUG
-//                MyLogger.log("Plugin folder (relative): " + path, 0);
-//                MyLogger.log("JAR ENTRY NAME: " + jarEntryName, 0);
-// TODO: DEBUG
                 if (jarEntryName.startsWith(path) && jarEntryName.endsWith(".class")) {
                     MyLogger.log("JAR ENTRY (.class): " + jarEntry.getName(), 0);
                     classes.add(jarEntry.getName());
@@ -276,6 +243,7 @@ public class PluginLoader {
     }
 
 
+    // I tried to use URL and Class loaders, but couldn't make it work, so we just cheat a bit.
     /**
      * In case of classic compilation when we have the source files (and run it using IDE for example),
      * the plugins will be put to the output directory, where are the .class files located.
@@ -351,16 +319,16 @@ public class PluginLoader {
                         // by trying different combinations, but it is really overkill for such niche problem.
                         if(dollarSignIndex == -1) {
                             srcFilePath = "src/" +
-                                    relPathString.substring(0, relPathString.length() - "class".length()) +
-                                    "java";
+                                          relPathString.substring(0, relPathString.length() - "class".length()) +
+                                          "java";
                             // TODO: DEBUG
                             ProgramTest.debugPrint("NO DOLLAR:", srcFilePath);
                             // TODO: DEBUG
                         }
                         else {
                             srcFilePath = "src/" +
-                                    relPathString.substring(0, dollarSignIndex) +
-                                    ".java";
+                                          relPathString.substring(0, dollarSignIndex) +
+                                          ".java";
                             // TODO: DEBUG
                             ProgramTest.debugPrint("HAS DOLLAR SIGN:", srcFilePath);
                             // TODO: DEBUG
@@ -398,5 +366,4 @@ public class PluginLoader {
             MyLogger.logException(e);
         }
     }
-
 }

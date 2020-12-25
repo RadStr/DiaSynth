@@ -658,8 +658,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         addTotallyRemoveAudioPart(audioModJMenu);
 
-        addConvertToMonoToMenu(audioModJMenu);
-
         addAudioOperationsWithoutWave(audioModJMenu);
         audioModJMenu.addSeparator();
 
@@ -1798,14 +1796,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         for(int i = 0; i < numberOfWavesFromDialog; i++) {
             DoubleWave doubleWave = new DoubleWave(new double[emptyWaveLen], (int)outputAudioFormat.getSampleRate(),
-                    1,"Empty wave", false);
+                                                  1,"Empty wave",
+                                                  false);
             addWave(doubleWave);
         }
     }
 
     private void addOpenMonoFileToMenu(JMenu menu) {
-        // TODO: PROGRAMO Jeste musim zmenit to jmeno pro DoubleWave protoze muzu tu samou vlnu nacist vickrat
-        // TODO: PROGRAMO a ono by se pak spolu bylo to cachovani protoze by to bylo pod stejny jmenem
         JMenuItem menuItem = new JMenuItem("Open file mono");
         menuItem.setToolTipText("Removes all current waves, converts to file to mono and puts that wave as only wave in player.");
 
@@ -1813,9 +1810,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-// TODO: Nevim jestli chci podporvat multiple files selection
-//                fileChooser.setMultiSelectionEnabled(true);
-//                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 int returnVal = fileChooser.showOpenDialog(thisFrame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File f = fileChooser.getSelectedFile();
@@ -1865,7 +1859,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if(!audioLoaded) {
                 if(shouldLog) {
                     MyLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
-                            AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                                                    AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 }
                 return null;
             }
@@ -1887,9 +1881,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-// TODO: Nevim jestli chci podporvat multiple files selection
-//                fileChooser.setMultiSelectionEnabled(true);
-//                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 int returnVal = fileChooser.showOpenDialog(thisFrame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File f = fileChooser.getSelectedFile();
@@ -1916,7 +1907,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         boolean audioLoaded = byteWave.loadSong(f, false);
         if(!audioLoaded) {
             MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
-                    AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                                            AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
             return;
         }
 
@@ -1949,7 +1940,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         filename = Utilities.getNameWithoutExtension(filename);
         for(int i = 0; i < doubleWaves.length; i++) {
             String channelFilename = filename + "_" + i;
-            doubleWaves[i] = new DoubleWave(waves[i], sampleRate, 1, channelFilename, false);
+            doubleWaves[i] = new DoubleWave(waves[i], sampleRate, 1,
+                                            channelFilename, false);
         }
 
         if(shouldAddLater) {
@@ -1976,12 +1968,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         double[][] waves;
         try {
             waves = AudioConverter.separateChannelsDouble(audio, format.getChannels(), format.getSampleSizeInBits() / 8,
-                    format.isBigEndian(), format.isSigned, audioLen);
+                                                          format.isBigEndian(), format.isSigned, audioLen);
             if(shouldConvertSampleRate) {
                 int outputSampleRate = getOutputSampleRate();
                 for(int i = 0; i < waves.length; i++) {
                     waves[i] = AudioConverter.convertSampleRate(waves[i], 1, (int)format.getSampleRate(),
-                            outputSampleRate, true);
+                                                                outputSampleRate, true);
                 }
 
                 addWaves(waves, "", outputSampleRate, true);
@@ -2014,8 +2006,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void addSetWaveLengths(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Set wave lengths");
         menuItem.setToolTipText("<html>" +
-                "Sets the length of all waves to given length." +
-                "</html>");
+                                "Sets the length of all waves to given length." +
+                                "</html>");
 
 
         menuItem.addActionListener(new ActionListener() {
@@ -2143,10 +2135,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 int returnVal = fileChooser.showSaveDialog(thisFrame);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File f = fileChooser.getSelectedFile();
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("Saving file:", f);
-//                    System.exit(454);
-// TODO: DEBUG
                     FileFilterAudioFormats filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
 
                     byte[] outputWave = getOutputWaveBytes();
@@ -2158,23 +2146,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menu.add(menuItem);
     }
 
-    // TODO: PROGRAMO
-//    private void addAddOutputToWaves(JMenu menu) {
-//        TODO:
-//    }
-//
-//    private void addReplaceWavesWithOutput(JMenu menu) {
-//        TODO:
-//    }
-    // TODO: PROGRAMO
-
-
-//    private void addAudioTrack(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        upgradeTextFieldIfDigitCountChanges();
-//        menu.add(menuItem);
-//    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addTotallyRemoveAudioPart(JMenu menu) {
@@ -2209,14 +2180,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void scrollToStart() {
         // What we do is first move the scroll to start so there won't be any issue with invalid scroll location and
         // then fake the zoom to fix size inconsistencies.
-
         // Otherwise there will be issue with the drawing of wave,
         // it will be drawn twice, but even after this, it will still be drawn incorrectly (the wave will be moved to right)
-        waveScrollerWrapperPanel.scrollToStart();
 
+
+        waveScrollerWrapperPanel.scrollToStart();
         // To fix the wave being moved to right
         fakeZoomUpdate();
-
         revalidate();
         repaint();
     }
@@ -2478,7 +2448,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 ProgramTest.debugPrint("Resize content:",
                         f.getContentPane().getSize(), drawPanel.getSize(), f.getSize(),
                         drawPanel.getPreferredSize(), f.getPreferredSize());
-                ProgramTest.debugPrint(
+                ProgramTest.debugPrint("Resize content another params:",
                         f.getContentPane().getMinimumSize(), drawPanel.getMinimumSize(), f.getMinimumSize());
 
                 if(f.getSize().width < f.getMinimumSize().width) {
@@ -2489,17 +2459,17 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             @Override
             public void componentMoved(ComponentEvent e) {
-
+                // EMPTY
             }
 
             @Override
             public void componentShown(ComponentEvent e) {
-
+                // EMPTY
             }
 
             @Override
             public void componentHidden(ComponentEvent e) {
-
+                // EMPTY
             }
         });
 
@@ -2518,39 +2488,37 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addAudioOperationsWithoutWave(JMenu menu) {
         OperationOnWavePluginIFace op;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new MultiplicationOnWave();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new AdditionOnWave();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new LogarithmOnWave();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new PowerOnWave();
         addAudioOperation(op, menu);
 
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         op = new InvertOnWave();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new WaveStretcherOnWave();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new WaveStretcherMaximumOnWave();
         addAudioOperation(op, menu);
 
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         op = new SetSamplesOnWaveOperation();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new SetSamplesToZeroOnWaveOperation();
         addAudioOperation(op, menu);
     }
@@ -2604,11 +2572,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         for(int i = 2; i < bar.getMenuCount() - 1; i++) {
             JMenu menu = bar.getMenu(i);
             menu.setEnabled(enable);
-            // Disabling only menus is better - it is enough and I don't have to deal with the problem when calling setEnabledWithWaveMenuItems
-//            for(int j = 0; j < menu.getItemCount(); j++) {
-//                JMenuItem menuItem = menu.getItem(j);
-//                menuItem.setEnabled(enable);
-//            }
         }
     }
 
@@ -2616,22 +2579,20 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void addAudioOperationsWithWave(JMenu menu) {
         OperationOnWavesPluginIFace op;
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new FillWaveWithOtherWaveOperation();
         addAudioOperation(op, menu);
 
 
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         op = new MultiplicationOnWaves();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new AdditionOnWaves();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new LogarithmOnWaves();
         addAudioOperation(op, menu);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         op = new PowerOnWaves();
         addAudioOperation(op, menu);
     }
@@ -2687,7 +2648,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    // These addPlugin methods are basically copy pasted. I have to do that because they work with different methods, and to get the correct Class I have to call getClass on the final class.
+    // These addPlugin methods are basically copy pasted.
+    // I have to do that because they work with different methods
+    // and to get the correct Class I have to call getClass on the final class.
     private void addPlugin(OperationOnWavePluginIFace pluginToAdd, JMenu menu) {
         JMenuItem menuItem = new JMenuItem(pluginToAdd.getPluginName());
         menuItem.setToolTipText(pluginToAdd.getPluginTooltip());
@@ -2697,11 +2660,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: ASI PREKOMBINOVANY - Podle me staci jen to spodni co je zakomentovany, ted me nenapada duvod
-                // Proc jsem vytvarel i novou instanci - Napadlo me to prootze ten kod je prakticky totoznej s tou metodu
-                // addAudioOperation(OperationOnWavePluginIFace operation, JMenu menu)
-                // Totez plati pro tu druhou addPlugin metodu s OperationOnWavesPluginIFace
-
                 // To reset the plugin
                 Class<?> clazz = plugin.getClass();
                 try {
@@ -2733,20 +2691,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     }, true, false);
                 }
             }
-
-
-//                boolean canContinueOperation = loadPluginParameters(pluginToAdd, true);
-//                if(canContinueOperation) {
-//                    stopAndModifyAudio(false, new ModifyAudioIFace() {
-//                        @Override
-//                        public void modifyAudio() {
-//                            performOperationInternal(pluginToAdd);
-//                        }
-//                    }, true, false);
-//                }
-//            }
-            // TODO: ASI PREKOMBINOVANY
-
         });
 
         menu.add(menuItem);
@@ -2825,72 +2769,19 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
             }
             else if(plugin instanceof JFrame) {
-                ((JFrame) plugin).setVisible(true);
-                // When using frame plugin, then have look at how does the code work, since you will usually have to call
+                // Now the user has to do everything in the frame by himself. Frames aren't currently easily pluginable.
+                // WE are not making dialog from the frame.
+                //
+                // When using frame plugin, then the programmer have look at how does the code work, since you will usually have to call
                 // special method to perform operation etc. For example stopAndModifyAudio when adding plugin to player or
                 // updateAfterPropertiesCall when using the plugin in properties inside synth part. Or in the second case just
                 // take care of the update inside the frame methods.
-
+                //
                 // I don't see any simple way how to make dialog from JFrame, especially when I am using the size
                 // of frame inside the panel. I will repair it later maybe, but currently I don't have that much time
                 // and I just don't see how to do it
 
-
-                // TODO: Vymazat
-//////                JDialog d = new JDialog((JFrame)plugin, "asdawsdaftwsgggswg", true);
-//////                d.setModal(true);
-//////                d.pack();
-//////                d.setVisible(true);
-////
-//                ((JFrame) plugin).setVisible(true);
-//                int result = JOptionPane.showConfirmDialog((JFrame) plugin, plugin,
-//                        //(JFrame)plugin, ((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest)plugin).panel,
-//                        //((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest)plugin).panel, null,
-//                        //(JFrame)plugin, null,
-//                        "Dialog: " + plugin.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-//                        JOptionPane.PLAIN_MESSAGE);
-//                if (result == JOptionPane.OK_OPTION) {
-//                    canContinueOperation = true;
-//                } else {
-//                    canContinueOperation = false;
-//                }
-////
-////
-////                ((DiagramSynthPackage.Synth.Operators.UnaryOperations.WaveShaper.JFrameTest) plugin).setVisible(true);
-////
-////                JPanel shutDownPanel = new JPanel();
-////                Timer t = new Timer(1000, new ActionListener() {
-////                    @Override
-////                    public void actionPerformed(ActionEvent e) {
-////                        Window w = SwingUtilities.getWindowAncestor(shutDownPanel);
-////                        w.setVisible(!w.isVisible());
-////                    }
-////                });
-////                t.start();
-////                int result = JOptionPane.showConfirmDialog(null, shutDownPanel,
-////                        "Dialog: " + plugin.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-////                        JOptionPane.PLAIN_MESSAGE);
-//////                System.exit(465484);
-////
-//////                JDialog d = new JDialog((JFrame)plugin, "asdawsdaftwsgggswg", true);
-//////                d.setModal(true);
-//////                d.pack();
-//////                d.setVisible(true);
-////
-//////                try {
-//////                while(true)Thread.sleep(500);
-//////                } catch (InterruptedException e) {
-//////                    e.printStackTrace();
-//////                }
-////
-////
-//////                try {
-//////                    Thread.sleep(10000);
-//////                } catch (InterruptedException e) {
-//////                    e.printStackTrace();
-//////                }
-////
-////                canContinueOperation = false;
+                ((JFrame) plugin).setVisible(true);
                 canContinueOperation = false;
             }
             else {
@@ -2929,13 +2820,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
                 if(shouldMarkPart) {
                     operation.performOperation(clipboard.getWave(), doubleWave,
-                            clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
-                            getMarkStartXSample(), getMarkEndXSample());
+                                               clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
+                                               getMarkStartXSample(), getMarkEndXSample());
                 }
                 else {
                     operation.performOperation(clipboard.getWave(), doubleWave,
-                            clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
-                            0, doubleWave.getSongLength());
+                                               clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
+                                              0, doubleWave.getSongLength());
                 }
 
                 waveMainPanel.reloadDrawValues();
@@ -2959,160 +2850,15 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         }
     }
 
-    //
-//    private void addSetAudioFormatToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//    private void addSampleRateConvertorToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-    private void addConvertToMonoToMenu(JMenu menu) {
-// TODO: PROGRAMO MOD
-//        JMenuItem menuItem = new JMenuItem("Convert to mono");
-//
-//
-//        ModifyAudioIFace modAudioIFace = new ModifyAudioIFace() {
-//            @Override
-//            public boolean modifyAudio() {
-//                try {
-//                    if (program.numberOfChannels != 1) {         // TODO:
-//                        program.convertToMono();
-//                        return true;
-//                    }
-//                    return false;
-//                } catch (IOException e) {
-//                    System.exit(0);         // TODO:
-//                }
-//
-//                return true;            // TODO: Unreachable code, but java doesn't see it
-//            }
-//        };
-//
-//        menuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                stopAndModifyAudio(modAudioIFace);
-//            }
-//        });
-//        menu.add(menuItem);
-// TODO: PROGRAMO MOD
-    }
 
 
-
-    // TODO: PROGRAMO - tohle je obecny filtrovani
-    private void addPerfomFilterToMenu(JMenu menu, List<JMenuItem> menuItemsWorkingWithSongPartsList) {
-// TODO: PROGRAMO MOD
-//        JMenuItem menuItem = new JMenuItem("Filter");
-//
-//
-//        ModifyAudioIFace modAudioIFace = new ModifyAudioIFace() {
-//            @Override
-//            public boolean modifyAudio() {
-//                try {
-//                    double[] coefs = new double[32];
-//                    for(int i = 0; i < coefs.length; i++) {
-//                        coefs[i] = 1/(double)coefs.length;
-//                    }
-//                    boolean isRecursiveFilter = false;
-//                    boolean filterChangesAudio = true;
-//                    int i = 0;
-//                    for(; i < coefs.length; i++) {
-//                        if(coefs[i] != 1) {
-//                            break;
-//                        }
-//                    }
-//                    if(i == coefs.length) {
-//                        return false;
-//                    }
-//
-//                    if(isRecursiveFilter) {
-//                        double[] coefsOutput = new double[] { 1/3.0, 1/3.0, 1/3.0 };
-//                        ByteWave.performRecursiveFilter(program.song, coefs, coefsOutput);       // TODO: !!!!! Spatne - vubec neberu k uvahu sample size
-//                    }
-//                    else {
-//                        // TODO: nejak nefunguje
-//                        //program.song = ByteWave.runLowPassFilter(program.song, 200, 32, program.sampleRate,
-//                        //    program.numberOfChannels, program.sampleSizeInBytes, program.frameSize, program.isBigEndian, program.isSigned);
-//                        program.song = ByteWave.performNonRecursiveFilter(program.song, coefs, program.numberOfChannels,
-//                            program.sampleSizeInBytes, program.frameSize, program.isBigEndian, program.isSigned);
-//                    }
-//                } catch (IOException e) {
-//                    System.exit(0);         // TODO:
-//                }
-//
-//                return true;            // TODO: Unreachable code, but java doesn't see it
-//            }
-//        };
-//
-//        menuItem.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                stopAndModifyAudio(modAudioIFace);
-//            }
-//        });
-//        menu.add(menuItem);
-//        menuItemsWorkingWithSongPartsList.add(menuItem);
-// TODO: PROGRAMO MOD
-    }
-
-
-//
-//    private void addConvertToSilenceToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
+// TODO: Could do in future, will be quite easy
 //    private void addReverseToMenu(JMenu menu) {
 //        JMenuItem menuItem;
 //
 //        menu.add(menuItem);
 //    }
-//
-//    private void addPerformOperationOnSamplesToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//    // TODO: Tohle je tam vic veci s tim
 //    private void addSetSamplesToRandomNumbersToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    private void addAnalyzeBPMToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//    private void addAnalyzeFFTToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//    private void addCreateSpectrogramToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    private void addShowAlsoTheSpectrogramWithTheWaveToMenu(JMenu menu) {
 //        JMenuItem menuItem;
 //
 //        menu.add(menuItem);

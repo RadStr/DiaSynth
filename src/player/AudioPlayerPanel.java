@@ -2892,13 +2892,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public int getMarkStartXPixel() {
         return markStartXPixel;
     }
-    // TODO: K nicemu pravdepodobne
-    public int getMarkStartXWithoutScroll() {
-        return markStartXPixel - getCurrentHorizontalScroll();
-    }
-    public void setMarkStartXPixel(int val) {
-        markStartXPixel = val;
-    }
     private int markStartXSample;
     /**
      * Returns the smaller sample number of the mark start and mark end
@@ -2907,10 +2900,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public int getMarkStartXSample() {
         return Math.min(markStartXSample, markEndXSample);
     }
-    public void setMarkStartXSample(int val) {
-        markStartXSample = val;
-    }
-    // TODO: Musim brat k uvahu i to jakej je nejlevejsi pixel, co prave zobrazuju
+
+    // Have to take into consideration the most left index I currently show
     public void setMarkStartXVariablesBasedOnPixel(int pixel) {
         int sample = calculateSampleFromWavePixel(pixel);
         setMarkStartXVariablesBasedOnSample(sample);
@@ -2928,13 +2919,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public int getMarkEndXPixel() {
         return markEndXPixel;
     }
-    // TODO: K nicemu pravdepodobne
-    public int getMarkEndXWithoutScroll() {
-        return markEndXPixel - getCurrentHorizontalScroll();
-    }
-    public void setMarkEndXPixel(int val) {
-        markEndXPixel = val;
-    }
     private int markEndXSample;
 
     /**
@@ -2944,11 +2928,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public int getMarkEndXSample() {
         return Math.max(markStartXSample, markEndXSample);
     }
-    public void setMarkEndXSample(int val) {
-        markEndXSample = val;
-    }
-    // TODO: Musim brat k uvahu i to jakej je nejlevejsi pixel, co prave zobrazuju
 
+    // Have to take into consideration the most left index I currently show
     public void updateMarkEndXVariablesBasedOnPixel(int update, int oldHorizontalScroll) {
         // oldHorizontalScroll moves it to the start, and update updates it.
         // So now the pixel represents relative pixel distance to the visible start of wave.
@@ -2997,165 +2978,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private double calculatePixel(int sample) {
         int widthOfAudioInSamples = getDoubleWaveLength();
-        double pixel = sample / (double)widthOfAudioInSamples;     // TODO: SAMPLE
+        double pixel = sample / (double)widthOfAudioInSamples;
         pixel *= getWaveWidth();
         return pixel;
     }
 
 
-    private int samplesPerPixel;
-
-    private BufferedImage audioPicture;
-
-
-    private final String fontName = "Serif";        // TODO: Idealne moznost nastavit font, ale nevim jak to bude s casem
-
-    private int currentFontSize;    // TODO: Povolit jen pres setter jinak vubec
-    private FontMetrics fontMetrics;
-
-    public int getCurrentFontSize() {
-        return currentFontSize;
-    }
-    public void setCurrentFontSize(int currentFontSize) {   // Ten font vezmu z vrchni listy
-        this.currentFontSize = currentFontSize;
-        Graphics g = this.getGraphics();
-        // TODO: Problem s tim resizovanim g.setFont(new Font(fontName, Font.BOLD, this.currentFontSize));
-        this.setFont(new Font(fontName, Font.BOLD, this.currentFontSize));
-        fontMetrics = this.getFontMetrics(this.getFont());
-        // TODO: Problem s tim resizovanim fontMetrics = g.getFontMetrics();
-// TODO:
-//        for(AudioWavePanel awp : waves) {
-//            awp.setCurrentFontSize(currentFontSize);
-//        }
-    }
-
-
-// TODO: VYMAZAT NEPOUZITO
-//    // Shows sample info, but also stops showing the old one
-////    @Override
-////    public void drawSampleInfo(Graphics g) {
-////        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
-////        Point p = pointerInfo.getLocation();
-////        Point windowLoc = this.getLocationOnScreen(); // TODO: Volam na komponente;
-////        int x = p.x - windowLoc.x;
-////        int y = p.y - windowLoc.y;      // TODO: y ani nepotrebuju
-////        if(DEBUG_CLASS.DEBUG) {
-////            System.out.println("SSI:\t" + p.x + "\t" + windowLoc.x + "\t" + x);
-////        }
-////        if(x > waveEndX) {
-////            x = waveEndX;
-////        }
-////        else if(x < waveStartX) {
-////            x = waveStartX;     // Set to default value
-////        }
-////        else {
-////            if(DEBUG_CLASS.DEBUG) {
-////                System.out.println("X is in wave");     // TODO: Remove
-////            }
-////        }
-////        x -= waveStartX;
-////        this.drawSampleInfo(x, g);        // Shows sample info, but also stops showing the old one
-////    }
-////
-////
-////    private void drawSampleInfo(int x, Graphics g) {
-////        int sampleIndex = convertXToSampleIndex(x);
-////        if(DEBUG_CLASS.DEBUG) {
-////            System.out.println("---------\t" + sampleIndex + "\t" + x);
-////        }
-////        drawInfo(sampleIndex, g);
-////    }
-////
-////    private int convertXToSampleIndex(int x) {
-////        double numberOfSamplesPerPixel = sampleRange / (double)waveWidth;
-////        int sampleIndex = (int)(numberOfSamplesPerPixel * x);
-////        return sampleIndex;
-////    }
-////
-////
-////    private void drawInfo(int sampleIndex, Graphics graphics) {
-////        double[] song = doubleWave.getSong();
-////        if(DEBUG_CLASS.DEBUG) {
-////            System.out.println("DI:\t" + sampleIndex + "\t" + song.length);
-////        }
-////        double value = song[sampleIndex];
-////        String sampleIndexString = Integer.toString(sampleIndex);
-////        String valueString = Double.toString(value);
-////// TODO: Int varianta:
-//////        int[] song = null;
-//////        int value = song[sampleIndex];
-//////        String sampleIndexString = Integer.toString(sampleIndex);
-//////        String valueString = Integer.toString(value);       // TODO: Ta value asi pres doubly, jako v audacity
-////
-////
-//////        int visibleWidth = audioPicture.getWidth();        // TODO: Ted mirne zmatenej jestli to ma byt audioPicture nebo ten cely panel
-//////        int height = audioPicture.getHeight();
-////        int width = this.getWidth();
-////        int height = this.getHeight();
-////
-////        int maxTextWidth;
-////        int w1 = fontMetrics.stringWidth(valueString);
-////        int w2 = fontMetrics.stringWidth(sampleIndexString);
-////        if(w1 > w2) {
-////            maxTextWidth = w1;
-////        }
-////        else {
-////            maxTextWidth = w2;
-////        }
-////
-////        int sampleInfoX = width - maxTextWidth;
-////        int sampleInfoY = height - 2 * fontMetrics.getHeight();
-////
-////        graphics.setColor(Color.BLACK);
-////        graphics.drawLine(sampleInfoX, height, sampleInfoX, sampleInfoY);
-////        graphics.drawLine(sampleInfoX, sampleInfoY, width, sampleInfoY);
-////
-////        graphics.drawString(sampleIndexString, width - maxTextWidth, height);
-////        graphics.drawString(valueString, width - maxTextWidth, height - fontMetrics.getHeight());
-////    }
-////
-////
-////    @Override
-////    public void markPart(Graphics g) {
-////        if(shouldMarkPart) {
-////            g.setColor(Color.red);
-////            if(markStartXPixel > markEndXPixel) {
-////                g.fillRect(markEndXPixel, 0,  markStartXPixel - markEndXPixel, this.getHeight());
-////            }
-////            else {
-////                g.fillRect(markStartXPixel, 0,  markEndXPixel - markStartXPixel, this.getHeight());
-////            }
-////            if(DEBUG_CLASS.DEBUG) {
-////                System.out.println("MARK PART:\t" + markStartXPixel + "\t" + (markEndXPixel - markStartXPixel));
-////            }
-////        }
-////
-////        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
-////        Point p = pointerInfo.getLocation();
-////        Point windowLoc = this.getLocationOnScreen(); // TODO: Volam na komponente;
-////    }
-//
-//
-//
-//    private void resetScreen(Graphics graphics, Color c) {
-//        // Reset
-//        graphics.setColor(c);
-//        graphics.fillRect(0, 0,  this.getWidth(), this.getHeight()); // TODO: Ted mirne zmatenej jestli to ma byt audioPicture nebo ten cely panel
-//    }
-// TODO: VYMAZAT NEPOUZITO
-
-
     @Override
     public void paintComponent(Graphics g) {
-        // TODO: DEBUG
-        // TODO: todoMark - DEBUG
-//        try {
-//            Thread.sleep(500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        // TODO: todoMark - DEBUG
-        // TODO: DEBUG
         super.paintComponent(g);
         if(canZoom) {
             canPoll = true;
@@ -3200,7 +3030,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     ((Timer)e.getSource()).stop();
 
 
-                    //int currScroll = panelWithWaves.getVerticalScrollBar().getValue();
                     // I have to scroll to the end because else the size will be bigger than the preferred size - I don't want that
                     int maxScroll = getMaxVerticalScroll();
 
@@ -3212,8 +3041,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             ((Timer)e.getSource()).stop();
-                            // It is better to take the control once to the maximum scroll, then to max and the to currScroll - the blink is very unpleasant
-//                            panelWithWaves.getVerticalScrollBar().setValue(currScroll);
+                            // It is better to take the control once to the maximum scroll,
+                            // than to max and then to currScroll - the blink is very unpleasant
+                            // panelWithWaves.getVerticalScrollBar().setValue(currScroll);
                             thisFrame.setEnabled(true);
                             enableZooming();
                         }
@@ -3226,39 +3056,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             panelWithWaves.revalidate();
             panelWithWaves.repaint();
         }
-
-
     }
-// TODO: NOT USED ANYMORE
-//    @Override
-//    public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//
-////        System.out.println(panelWithWaves.getX() + "\t" + panelWithWaves.getY());
-////        System.out.println(panelWithWaves.getWidth() + "\t" + panelWithWaves.getHeight());
-////        System.out.println("-----------------------");
-////        for(AudioWavePanel awp : waves) {
-////            System.out.println(awp.getX() + "\t" + awp.getY());
-////            System.out.println(awp.getWidth() + "\t" + awp.getHeight());
-////            System.out.println("\n\n");
-////        }
-//////        if(panelWithWaves.getWidth() != 0 || panelWithWaves.getHeight() != 0) {
-//////            System.exit(0);
-//////        }
-//
-////       resetScreen(g, Color.WHITE);           // TODO:
-////
-////        markPart(g);
-////        drawAudioWave(g);
-////        drawSampleInfo(g);
-////
-////        drawTimeLine(g);
-////        drawCurrentPlayTime(g, Color.black);
-////        drawSongLen(g, Color.black);
-////
-////        drawSamplesValueRangeDouble(g);
-////        drawTimestamps(program.sampleSizeInBytes, program.sampleRate, g);
-//    }
 
 
     private static void setDivLocToMinDivLoc(JSplitPane splitPane) {
@@ -3273,15 +3071,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
 
-    private MouseEvent pressedEvent;
-
     private int waveStartX;
-    private int waveEndX;
-
-    private int waveMouseRegisterStartY;
-    private int waveMouseRegisterEndY;
-
-    private int waveStartY;         // TODO:
+    private int waveStartY;
     private int waveEndY;
     private int waveHeight;
 
@@ -3307,7 +3098,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     @Override
     public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed.
         shouldMarkPart = false;
-        pressedEvent = e;
         markStartXPixel = e.getX();
         this.repaint();
     }
@@ -3418,10 +3208,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         };
         audioControlPanel = new AudioControlPanelWithZoomAndDecibel(this, playButtonListener,
-                this, zoomListener, unzoomListener, outputAudioFormat.getChannels());
+                                                                    this, zoomListener, unzoomListener,
+                                                                     outputAudioFormat.getChannels());
 
 
-        // TODO: LALA
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -3429,7 +3219,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         c.weightx = 0;
         c.weighty = 0;
         this.add(audioControlPanel, c);
-        // TODO: LALA
     }
 
     @Override
@@ -3491,7 +3280,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                 muteControl = (BooleanControl) line.getControl(BooleanControl.Type.MUTE);
                 muteControl.setValue(audioControlPanel.getMuteButton().getBoolVar());
-                masterGainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);      // TODO: Type.VOLUME isn't available control
+                //  Type.VOLUME isn't available control, so we use master gain
+                masterGainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
 
                 audioControlPanel.setMasterGainToCurrentSlideValue();
                 line.start();
@@ -3508,8 +3298,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             if (mixer == null) {
                 setMixer(new MixerWithPostProcessingSumDivision(multFactors));
                 //mixer = new AverageMixerWithPossibleClipping(multFactors);
-
-
                 //mixer = new AverageMixerWithoutClipping(songs.length);
                 //mixer = new SimpleAverageMixer();
             }
@@ -3608,9 +3396,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             audioArrLen = Math.max(frameSize, Math.min(audioArrLen, maxByteCountInAudioLine / 2));
             Utilities.convertToMultipleUp(audioArrLen, frameSize);
             audioArr = new byte[audioArrLen];
-            //audioArr = new byte[ByteWave.convertToMultipleUp(maxByteCountInAudioLine / 2, frameSize)];
 
-            callOnResize();       // TODO: Volat na resize vzdycky
+            callOnResize();
             wavesLengthChanged();
         }
 
@@ -3627,34 +3414,27 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             while (true) {
                 updateWavesForMixing();
 
-                int nextSample;       // TODO: Maybe not that effective
+                int nextSample;
                 synchronized (audioLock) {
                     tryPause();
                     for (nextSample = currSample + indexJumpInDoubleArr; nextSample < outputEndIndex; nextSample = currSample + indexJumpInDoubleArr) {
                         tryPause();
 
-//                while (playButton.getBoolVar()) {
-//
-//                }
-
-//            System.out.println("Current sample 1:\t" + currSample);
-
                         // TODO: CONCURRENCY
                         // Just to be sure that there is no concurrency issue - like setting the songs to null midway though the for cycle
                         boolean filledWithWaveSamples = performMixing(songs, multFactors, audioArr.length);
 
-//                for (int j = 0; j < arr.length; j++, currSample++) {
-//                    arr[j] = program.song[currSample];
-//                }
-
-
-                        // This is here for the app to be more responsive, because we usually fill the buffer to be played much faster, than we actually play it.
+                        // This is here for the app to be more responsive,
+                        // because we usually fill the buffer to be played much faster, than we actually play it.
                         while (line.available() - minAllowedAvailableSize < 0) {
                             // Active waiting
                         }
                         line.write(audioArr, 0, audioArr.length);
 
-                        //System.out.println(len + "\t" + i + "\t" + playChunkSize + "\t" + line.available() + "\t" + line.getBufferSize() + "\t" + line.isActive() + "\t" + line.isRunning());
+                        // TODO: DEBUG
+                        //System.out.println(len + "\t" + i + "\t" + playChunkSize + "\t" + line.available() +  "\t" +
+                        //                   line.getBufferSize() + "\t" + line.isActive() + "\t" + line.isRunning());
+                        // TODO: DEBUG
 
                         if(filledWithWaveSamples) {
                             if (userClickedWave) {
@@ -3662,9 +3442,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                             } else {
                                 timeLineX += timeLinePixelsPerPlayPart;
                                 //currPlayTimeInMillis += playTimeJumpInMillis;
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("Audio loop", timeLineX, timeLinePixelsPerPlayPart);
-// TODO: DEBUG
                             }
                         }
                         repaint();
@@ -3672,7 +3449,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                     // Write the last few bytes
                     int remainingLen = (outputEndIndex - currSample) *
-                                       outputAudioFormat.getSampleSizeInBits() / 8 * outputAudioFormat.getChannels();
+                                       (outputAudioFormat.getSampleSizeInBits() / 8) * outputAudioFormat.getChannels();
                     if (remainingLen > 0) {
                         performMixing(songs, multFactors, remainingLen);
                         line.write(audioArr, 0, remainingLen);

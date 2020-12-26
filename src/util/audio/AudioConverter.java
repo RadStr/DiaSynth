@@ -8,6 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+
+
+// Sometimes we can see code duplication where only the parameter referencing to endianness and sign of samples is changing.
+// That is pretty old code and the reason for that was to minimize branching since I didn't know if compiler will
+// look inside the methods and optimize the branching. So we are using convertBytesToIntLittleEndian and
+// convertBytesToIntBigEndian and we branch based on endianness instead of just calling convertBytesToInt.
+// It should be a bit faster, but it involves code duplication. Since the code is working and won't be changed, I will
+// keep it as it is written.
+
+
 public class AudioConverter {
     private AudioConverter() {}         // Allow only static access
 

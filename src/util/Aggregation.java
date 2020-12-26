@@ -173,7 +173,7 @@ public enum Aggregation {
             intArr = AudioConverter.convertBytesToSamples(songPart, sampleSize, isBigEndian, isSigned);
 
             double songPartValue = 0;
-            switch (mod) {            // TODO: If the compiler doesn't optimize the cases outside the loop, then it is really inefficient
+            switch (mod) {
                 case RMS:
                     for (int i = 0; i < intArr.length; i++) {
                         songPartValue = songPartValue + (double) (intArr[i] * intArr[i]) / intArr.length;

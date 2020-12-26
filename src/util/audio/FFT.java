@@ -5,10 +5,31 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class FFT {
-    private FFT() {}        // To disable instantiation - make only static access possible
 
-// This is used in a lot of the methods in this file.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* -------------------------------------------- [START] -------------------------------------------- */
+/////////////////// FFT NOTES
+/* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Full FFT on n complex values produces FFT result with n complex values
+
+// FFT EXAMPLE: Let's say we have window size of 4 real numbers. When we perform FFT on 4 complex numbers,
+// with imaginary part being 0 and the real part being the real numbers of the window. And with sample rate == 100Hz
+// Then we get 4 bins [0] == 0Hz, [1] == 25Hz, [2] == 50Hz, [3] == 75Hz, where [0,1,2] are unique values and [3] is [1] mirrored,
+// which means the real_part[1] == real_part[3] and imag_part[1] == -imag_part[3].
+// So that is WINDOW_SIZE / 2 + 1 are unique values
+
+// If we have only 3 real numbers then it is [0] == 0Hz, [1] == 33.33Hz, [2] == 66.66Hz
+// Here values [0,1] are unique, and [2] is [1] mirrored.
+// So now we have again WINDOW_SIZE / 2 + 1 unique values.
+
+// If input is even, then there is the middle value which isn't mirrored.
+// If input is odd,  then there isn't the middle value.
+
+// The length of the window is in number of complex numbers not total length of array
+
+
+// Result of real forward FFT by library method:
 // From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -20,6 +41,15 @@ public class FFT {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* --------------------------------------------- [END] --------------------------------------------- */
+/////////////////// FFT NOTES
+/* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+public class FFT {
+    private FFT() {}        // To disable instantiation - make only static access possible
 
 
 

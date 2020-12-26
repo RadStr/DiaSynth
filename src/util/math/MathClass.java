@@ -15,7 +15,8 @@ public class MathClass {
     public static boolean isAddOverflow(int x, int y) {
         int r = x + y;
         // HD 2-12 Overflow iff both arguments have the opposite sign of the result
-        // Comment from diasynth creator: I guess that it makes sense, overflow (underflow) can occur only if we add 2 operands of the same sign.
+        // Comment from diasynth creator: I guess that it makes sense, overflow (underflow) can occur only,
+        // if we add 2 operands of the same sign.
         return ((x ^ r) & (y ^ r)) < 0;
     }
 

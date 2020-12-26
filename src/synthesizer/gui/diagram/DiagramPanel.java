@@ -82,8 +82,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static final int ZOOM_PER_SCROLL = 2;
 
 
-    public static final int TIME_BETWEEN_MOUSE_POS_CHECKS = 50;        // Parameter to play with
-    public static final int PIXELS_MOVED_PER_TICK = 20;                // Parameter to play with
+    public static final int TIME_BETWEEN_MOUSE_POS_CHECKS = 20;        // Parameter to play with
+    public static final int PIXELS_MOVED_PER_TICK = 10;                // Parameter to play with
 
     public static final int SCROLL_BORDER_SIZE_X = 50;
     public static final int SCROLL_BORDER_SIZE_Y = 50;
@@ -95,8 +95,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static final int BORDER_ARROW_HALF_SPACE_Y = (SCROLL_BORDER_SIZE_Y - ARROW_SIZE_Y) / 2;
 
 
-    public static final Color BORDER_COLOR = new Color(Color.BLUE.getRed(),
-            Color.BLUE.getGreen(), Color.BLUE.getBlue(), 32);        // Parameter to play with
+    public static final Color BORDER_COLOR = new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(),
+                                                       Color.BLUE.getBlue(), 32);        // Parameter to play with
     public static final Color ARROW_COLOR = Color.BLUE;                 // Parameter to play with
 
     public static final int WHEEL_TIME_INTERVAL_BETWEEN_RESET_MILLIS = 250;
@@ -978,9 +978,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 metody ... jedna vezme referenci a ta druha zustane jako
-            tahle.
-    private Point selectedPanel;      // Micro-optim don't have to create point on every call
     /**
      * Finds the static panel which contains point at location (x, y) and returns the top left location of that panel.
      * Returns null if (x, y) is not contained in any panel.
@@ -1029,7 +1026,7 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
             }
 
 
-            selectedPanel = new Point(returnPanelX, returnPanelY);
+            Point selectedPanel = new Point(returnPanelX, returnPanelY);
             return selectedPanel;
         }
     }
@@ -1940,7 +1937,7 @@ Tohle neni dobry ... musim to aspon napsat do ty metody ... idealne udelat 2 met
 
     private boolean checkIfMovingAndIsNotInStaticPanel(MovablePanelSpecificGetMethodsIFace panel) {
         return panel.getIsBeingMoved() &&
-                getStaticPanelLocation(panel.getLocation().x, panel.getLocation().y) == null;
+               getStaticPanelLocation(panel.getLocation().x, panel.getLocation().y) == null;
     }
 
 

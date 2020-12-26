@@ -1,8 +1,5 @@
 package util;
 
-// TODO: ABS_MIN and ABS_MAX aren't in all performAggregation methods
-//  (for obvious reasons - unsigned numbers, etc. - I have to fix that later, currently it is only in the double variant)
-
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.io.AudioReader;
@@ -15,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Enumeration representing the possible aggregation of n values.
+ * Enumeration representing the possible aggregation of n values. ABS_MIN and ABS_MAX currently work only for doubles.
+ * The not supported aggregations return Double.MIN_VALUE.
  */
 public enum Aggregation {
     MIN {
@@ -83,6 +81,7 @@ public enum Aggregation {
      *                                    same as the original input stream
      * @param agg                         represents the aggregation - what double will be added to each song part.
      * @return Returns the array of type SongPartWithAverageValueOfSamples which contains the song parts with the int based on the agg argument.
+     * Returns Double.MIN_VALUE if the aggregation isn't supported.
      * @throws IOException is thrown when error in reading the input stream occurred, or when the method is called with invalid agg.
      */
     @Deprecated
@@ -145,7 +144,7 @@ public enum Aggregation {
      *                                    same as the original input stream
      * @param mod                         represents the aggregation - what int will be added to each song part.
      * @return Returns the array of type NormalizedSongPartWithAverageValueOfSamples which contains the song parts in form of normalized samples, which are stored in 1D double array.
-     * Together with the int based on the mod argument.
+     * Together with the int based on the mod argument. Returns Double.MIN_VALUE if the aggregation isn't supported.
      * @throws IOException is thrown when error in reading the input stream occurred, or if the value in argument mod is invalid
      */
     @Deprecated
@@ -160,7 +159,7 @@ public enum Aggregation {
         ArrayList<NormalizedSongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
         int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
         byte[] songPart = new byte[size];
-        double[] normalizedSongPart = new double[size / sampleSize];
+        double[] normalizedSongPart;
         int bytesRead = 0;
 
         int bytesReadSum = 0;
@@ -205,7 +204,8 @@ public enum Aggregation {
                     songPartValue = max;
                     break;
                 default:
-                    throw new IOException();
+                    songPartValue = Double.MIN_VALUE;
+                    break;
             }
             normalizedSongPart = AudioConverter.normalizeToDoubles(intArr, sampleSize * 8, isSigned);
 
@@ -246,7 +246,7 @@ public enum Aggregation {
             case SUM:
                 return val1 + val2;
             default:
-                return 0;
+                return Double.MIN_VALUE;
         }
     }
 
@@ -257,10 +257,12 @@ public enum Aggregation {
     /**
      * Compresses the audio:
      * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if agg = AVG then by taking the average value of samples
-     * (4) if agg = RMS then by taking the RMS of samples
-     * (5) if agg = SUM then by taking the sum of samples
+     * (2) if agg = ABS_MIN then by taking the minimum in absolute value
+     * (3) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (4) if agg = ABS_MAX then by taking the maximum in absolute value
+     * (5) if agg = AVG then by taking the average value of samples
+     * (6) if agg = RMS then by taking the RMS of samples
+     * (7) if agg = SUM then by taking the sum of samples
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      *
@@ -269,13 +271,14 @@ public enum Aggregation {
      * @param len
      * @param agg         represents the aggregation which will be performed on the len samples
      * @return Returns double which is result of the performed operation on len samples.
+     * Returns Double.MIN_VALUE if the aggregation isn't supported
      */
     public static double performAggregation(double[] samples, int startIndex, int len, Aggregation agg) {
         double specialValue = agg.defaultValueForMod();
 
         int endIndex = startIndex + len;
         for (int i = startIndex; i < endIndex; i++) {
-            switch(agg) {               // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+            switch(agg) {
                 case ABS_MAX: {
                     double abs = Math.abs(samples[i]);
                     if (specialValue < abs) {
@@ -308,6 +311,8 @@ public enum Aggregation {
                 case SUM:
                     specialValue += samples[i];
                     break;
+                default:
+                    return Double.MIN_VALUE;
             }
         }
 
@@ -358,10 +363,12 @@ public enum Aggregation {
     /**
      * Compresses the audio:
      * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if agg = AVG then by taking the average value of samples
-     * (4) if agg = RMS then by taking the RMS of samples
-     * (5) if agg = SUM then by taking the sum of samples
+     * (2) if agg = ABS_MIN then by taking the minimum in absolute value
+     * (3) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (4) if agg = ABS_MAX then by taking the maximum in absolute value
+     * (5) if agg = AVG then by taking the average value of samples
+     * (6) if agg = RMS then by taking the RMS of samples
+     * (7) if agg = SUM then by taking the sum of samples
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      *
@@ -371,10 +378,11 @@ public enum Aggregation {
      * @param isSigned    is boolean variable, which is true if samples are signed, false if unsigned
      * @param agg         represents the aggregation which will be performed on the n samples
      * @return Returns double which is result of the performed operation on n samples.
+     * Returns Double.MIN_VALUE if the aggregation isn't supported.
      * @throws IOException is thrown when the method calculateMask fails - invalid sample size
      */
     public static double performAggregation(byte[] samples, int sampleSize, boolean isBigEndian,
-                                            boolean isSigned, Aggregation agg) throws IOException {
+                                            boolean isSigned, Aggregation agg) {
         int n = samples.length / sampleSize;
 
         int mask = AudioUtilities.calculateMask(sampleSize);
@@ -383,11 +391,12 @@ public enum Aggregation {
         int sample;
         int index = 0;
 
-        // TODO: Copy-pasted - probably to make it easier for compiler, but it should probably recognize it, the code is just too old
+        // Copy-pasted - probably to make it easier for compiler,
+        // but it should probably recognize it, the code is just too old
         if (isBigEndian) {
             for (int j = 0; j < n; j++) {
                 sample = AudioConverter.convertBytesToIntBigEndian(samples, sampleSize, mask, index, isSigned);
-                switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                switch(agg) {
                     case MAX:
                         if (specialValue < sample) {
                             specialValue = sample;
@@ -405,13 +414,15 @@ public enum Aggregation {
                     case AVG:
                         specialValue += sample;
                         break;
+                    default:
+                        return Double.MIN_VALUE;
                 }
                 index = index + sampleSize;
             }
         } else {
             for (int j = 0; j < n; j++) {
                 sample = AudioConverter.convertBytesToIntLittleEndian(samples, sampleSize, mask, index, isSigned);
-                switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                switch(agg) {
                     case MAX:
                         if (specialValue < sample) {
                             specialValue = sample;
@@ -429,6 +440,8 @@ public enum Aggregation {
                     case AVG:
                         specialValue += sample;
                         break;
+                    default:
+                        return Double.MIN_VALUE;
                 }
                 index = index + sampleSize;
             }
@@ -450,10 +463,12 @@ public enum Aggregation {
     /**
      * Compresses the audio:
      * (1) if agg = MIN then by taking the sample with the lowest amplitude of n given samples.
-     * (2) if agg = MAX then by taking the sample with the highest amplitude of n given samples
-     * (3) if agg = AVG then by taking the average value of samples
-     * (4) if agg = RMS then by taking the RMS of samples
-     * (5) if agg = SUM then by taking the sum of samples
+     * (2) if agg = ABS_MIN then by taking the minimum in absolute value
+     * (3) if agg = MAX then by taking the sample with the highest amplitude of n given samples
+     * (4) if agg = ABS_MAX then by taking the maximum in absolute value
+     * (5) if agg = AVG then by taking the average value of samples
+     * (6) if agg = RMS then by taking the RMS of samples
+     * (7) if agg = SUM then by taking the sum of samples
      * @param stream           is the input stream containing samples.
      * @param numberOfChannels represents number of channels.
      * @param sampleSize       is the size of one sample in bytes.
@@ -461,6 +476,7 @@ public enum Aggregation {
      * @param isSigned         true if the samples are signed numbers, false otherwise.
      * @param byteLength       is the total length of the input stream. (The value is the same as onlyAudioSizeInBytes property in the class)
      * @return Returns double value which represents the result of the aggregation performed on samples given in input stream.
+     * Returns Double.MIN_VALUE if the aggregation isn't supported.
      * @throws IOException is thrown where error with input stream occurred, or the argument sampleSize is invalid.
      */
     public static double performAggregation(InputStream stream, int numberOfChannels, int sampleSize,
@@ -475,14 +491,15 @@ public enum Aggregation {
 
         byte[] arr = new byte[sampleSize * numberOfChannels * 16];
 
-        if (isBigEndian) {                // TODO: Again 2 same codes ... maybe can be done better ... currently for optimalization
+        // Copy-pasted - probably to make it easier for compiler,
+        // but it should probably recognize it, the code is just too old
+        if (isBigEndian) {
             while (bytesRead != -1) {
                 bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = AudioConverter.convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    // TODO: Copy pasted
-                    switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                    switch(agg) {
                         case MAX:
                             if (specialValue < sample) {
                                 specialValue = sample;
@@ -500,6 +517,8 @@ public enum Aggregation {
                         case SUM:
                             specialValue += (double) sample;
                             break;
+                        default:
+                            return Double.MIN_VALUE;
                     }
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -510,7 +529,7 @@ public enum Aggregation {
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = AudioConverter.convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    switch(agg) {           // TODO: If the compiler doesn't optimize the if outside the loop, then it is really inefficient
+                    switch(agg) {
                         case MAX:
                             if (specialValue < sample) {
                                 specialValue = sample;
@@ -522,12 +541,14 @@ public enum Aggregation {
                             }
                             break;
                         case RMS:
-                            specialValue += sample * (double)sample;
+                            specialValue += sample * (double) sample;
                             break;
                         case AVG:
                         case SUM:
                             specialValue += (double) sample;
                             break;
+                        default:
+                            return Double.MIN_VALUE;
                     }
                     arrIndex = arrIndex + sampleSize;
                 }
@@ -556,9 +577,11 @@ public enum Aggregation {
      * @param isBigEndian true if the given samples are in big endian, false if in little endian.
      * @param isSigned true if the samples are signed numbers, false otherwise.
      * @return Returns array with mods in Aggregation order (given by calling Aggregation.values()).
+     * Some values may be equal to Double.MIN_VALUE that means they are not supported
      * @throws IOException is thrown when the sample size is <= 0 or > 4
      */
-    public static double[] calculateAllAggregations(byte[] samples, int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
+    public static double[] calculateAllAggregations(byte[] samples, int sampleSize,
+                                                    boolean isBigEndian, boolean isSigned) {
         double[] arr = new double[values().length];
         int index = 0;
         for (Aggregation agg : values()) {

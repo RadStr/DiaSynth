@@ -43,11 +43,12 @@ public abstract class Operator extends Unit {
 
     @Override
     public double getModulationFrequency() {
-        double modulationIndex = Double.MAX_VALUE;          Tady to dat final
+        double modulationIndex = Double.MAX_VALUE;
         for(int i = 0; i < inputPorts.length; i++) {
             double modIndexFromIP = inputPorts[i].getModulationFrequency();
             if(modulationIndex != modIndexFromIP) {     // It is not Double.MAX_VALUE
-                return modIndexFromIP;
+                modulationIndex = modIndexFromIP;
+                break;
             }
         }
 

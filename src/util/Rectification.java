@@ -102,7 +102,6 @@ public class Rectification {
         }
     }
 
-    // TODO:
     public static void fullWaveRectificationByte(byte[] samples, boolean passPositive, int mask, int sampleSize,
                                                  boolean isBigEndian, boolean isSigned) {
         byte[] sampleBytes = new byte[sampleSize];
@@ -114,13 +113,8 @@ public class Rectification {
             getAbsoluteValueGeneral(sample, zeroValue, passPositive, sampleBytes, sampleSize, isBigEndian);
 
             if(passPositive) {
-                if(sample < zeroValue) { // TODO: Tohle je spatne ... 2x delam tutez kontrolu ifu
-                    // TODO: ... a kdyz to budu delat bez ifu tak ty hodnoty nastavim i kdyz nemusim protoze jsou stejny
-                    // TODO: ... Takze bud se podivat jestli dela prekladac omptimalizaci, nebo to prepsat nejak osklive
+                if(sample < zeroValue) {
                     i = setArrayValues(samples, sampleBytes, i);
-//                    for(int j = 0; j < zeroValueBytes.length; j++, i++) {
-//                        samples[i] = zeroValueBytes[j];
-//                    }
                 }
                 else {
                     i += sampleSize;
@@ -129,9 +123,6 @@ public class Rectification {
             else {
                 if(sample > zeroValue) {
                     i = setArrayValues(samples, sampleBytes, i);
-//                        for(int j = 0; j < zeroValueBytes.length; j++, i++) {
-//                            samples[i] = zeroValueBytes[j];
-//                        }
                 }
                 else {
                     i += sampleSize;
@@ -179,10 +170,6 @@ public class Rectification {
     }
 
 
-
-    // TODO: Zamyslet se jestli dava smysl tohle pouzivat - v C++ by davalo protoze bych index predal pointerem a neresil bych to
-    // TODO: Tady ale pak ten index musim zvysit i mimo metodu ... hodne maly zpomaleni - ale kdyz se provede milionkrat
-    // TODO: Tak se to nascita, ... TODO: Podivat se jestli to pouzivam i jinde
     public static int setArrayValues(byte[] array, byte[] arrayWithSetValues, int index) {
         for(int j = 0; j < arrayWithSetValues.length; j++, index++) {
             array[index] = arrayWithSetValues[j];
@@ -218,32 +205,16 @@ public class Rectification {
         // Version without branching
         int dif = value - zero;
         int sign = Integer.signum(dif);
-        int returnVal = zero + (sign * dif);      // Doesn't need if branching
+        int returnVal = zero + (sign * dif);
         return returnVal;
-// TODO: Testuju v ProgramTest
-//        // Version with branching
-//        if(value > zero) {
-//            return value;
-//        }
-//        else {
-//            return zero + (zero - value); // zero - value tells how much it is under zero, so we just add that number to zero, to get the positive one
-//        }
     }
 
     public static int getAbsoluteValueGeneralNegative(int value, int zero) {
         // Version without branching
         int dif = value - zero;
         int sign = -Integer.signum(dif);
-        int returnVal = zero + (sign * dif);      // Doesn't need if branching
+        int returnVal = zero + (sign * dif);
         return returnVal;
-// TODO: Testuju v ProgramTest
-//        // Version with branching
-//        if(value > zero) {
-//            return zero - (value - zero); // value - zero tells how much it is above zero, so we subtract that number from zero
-//        }
-//        else {
-//            return value;
-//        }
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */

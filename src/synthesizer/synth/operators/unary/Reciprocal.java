@@ -6,12 +6,12 @@ import synthesizer.gui.diagram.panels.shape.internals.ConstantTextInternals;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
-public class Reciprocical extends UnaryOperator {
-    public Reciprocical(Unit u) {
+public class Reciprocal extends UnaryOperator {
+    public Reciprocal(Unit u) {
         super(u);
     }
 
-    public Reciprocical(DiagramPanel panelWithUnits) {
+    public Reciprocal(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
 

@@ -4,7 +4,7 @@ import synthesizer.gui.diagram.DiagramPanel;
 import synthesizer.gui.diagram.panels.shape.CircleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.internals.DivisionInternals;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
-import synthesizer.synth.operators.unary.Reciprocical;
+import synthesizer.synth.operators.unary.Reciprocal;
 import synthesizer.synth.Unit;
 
 public class BinaryDivision extends BinaryOperator {
@@ -48,10 +48,10 @@ public class BinaryDivision extends BinaryOperator {
         return "BinaryDivision";
     }
 
-    private double minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_ONE;
+    private double minAllowedVal = Reciprocal.MIN_ALLOWED_VAL_FOR_ONE;
     @Override
     public void calculateSamples() {
-        minAllowedVal = Reciprocical.MIN_ALLOWED_VAL_FOR_ONE * inputPorts[1].getMaxAbsValue();
+        minAllowedVal = Reciprocal.MIN_ALLOWED_VAL_FOR_ONE * inputPorts[1].getMaxAbsValue();
         super.calculateSamples();
     }
 

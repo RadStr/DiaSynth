@@ -15,8 +15,9 @@ public class MyLogger {
         try {
             // https://stackoverflow.com/questions/25540751/how-do-i-add-data-to-text-file-and-not-overwrite-what-i-have-in-java/25540826
             logStream = new PrintWriter(new BufferedWriter(new FileWriter(logFile, true)));
-//            logStream = new PrintWriter(System.out);        // TODO: Just for now, So I don't keep making the log file larger
-//            logStream = new PrintWriter(System.err);            // TODO: Just for now, So I don't keep making the log file larger
+//            logStream = new PrintWriter(System.out);  // Just for testing
+//            logStream = new PrintWriter(System.err);  // Just for testing
+
             // taken from https://www.javatpoint.com/java-get-current-date
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
@@ -27,9 +28,6 @@ public class MyLogger {
             logStream = null;
         }
     }
-//    public static void log(String logMessage) {
-//        System.err.println(logMessage);
-//    }
 
     public static void log(String logMessage, int indentationAddition) {
         if(logStream != null) {
@@ -37,7 +35,7 @@ public class MyLogger {
                 if(indentationAddition > 0) {
                     indentation += indentationAddition;
                 }
-                https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string-in-java
+                // https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string-in-java
                 indentationString = new String(new char[indentation]).replace('\0', '\t');
             }
             logStream.println(indentationString + logMessage);
@@ -65,7 +63,7 @@ public class MyLogger {
     public static void logException(Exception e) {
         String stackTrace = MyLogger.getStackTraceString(e);
         MyLogger.logWithoutIndentation("Message:\t" + e.getMessage() + "\n" +
-                     "Stack trace:\t" + stackTrace);
+                "Stack trace:\t" + stackTrace);
     }
 
     // Taken from: https://stackoverflow.com/questions/4812570/how-to-store-printstacktrace-into-a-string

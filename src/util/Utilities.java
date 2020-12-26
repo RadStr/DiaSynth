@@ -25,7 +25,7 @@ public class Utilities {
     }
 
     // Modified code from https://stackoverflow.com/questions/9128737/fastest-way-to-set-all-values-of-an-array
-    /*
+    /**
      * initialize a smaller piece of the array and use the System.arraycopy
      * call to fill in the rest of the array in an expanding binary fashion
      */
@@ -75,7 +75,6 @@ public class Utilities {
 
         /**
          * Fills array with values based on given parameters. Based on curve some parameters may be ignored.
-         *
          * @param len
          * @param amp
          * @param freq
@@ -111,8 +110,8 @@ public class Utilities {
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
-     * Creates new array of length originalArrLen * copyCount which contains first originalArrLen indices of array arr and they are contained in the result copyCount times.
-     *
+     * Creates new array of length originalArrLen * copyCount, which contains first originalArrLen indices of array arr
+     * and they are contained in the result copyCount times.
      * @param arr
      * @param originalArrLen
      * @param copyCount
@@ -127,7 +126,6 @@ public class Utilities {
 
     /**
      * Copies the first originalArrLen indices copyCount times to resultArr.
-     *
      * @param arr
      * @param originalArrLen
      * @param resultArr
@@ -142,7 +140,6 @@ public class Utilities {
     /**
      * The method takes first len indices of array arr and copies them until end of array is reached.
      * arr.length % len == 0, otherwise the method throws exception.
-     *
      * @param arr
      * @param len
      */
@@ -247,7 +244,6 @@ public class Utilities {
 
     /**
      * Tests if number num is power of n.
-     *
      * @param num is the number to test.
      * @param n   is the power.
      * @return Returns -1 if it num is not i-th power of n, returns i otherwise.
@@ -270,10 +266,9 @@ public class Utilities {
 
     /**
      * Tests if number num is power of n.
-     *
      * @param num is the number to test.
      * @param n   is the power.
-     * @return Returns -1 if it num is not i-th power of n, returns i otherwise. Returns -2 if the number is not integer/
+     * @return Returns -1 if it num is not i-th power of n, returns i otherwise. Returns -2 if the number is not integer
      */
     public static int testIfNumberIsPowerOfN(double num, int n) {
         if (num == Math.floor(num)) {
@@ -309,7 +304,6 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Separates input to extension and name (part without extension). The name as return value of method.
-     *
      * @param input is the input name from which will be taken the name.
      * @return Returns the name without extension. If there was no extension returns the original name.
      */

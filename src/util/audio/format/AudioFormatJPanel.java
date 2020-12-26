@@ -29,7 +29,7 @@ public class AudioFormatJPanel extends JPanel {
     }
 
     private static void addUniqueFormat(AudioFormat format) {
-        // TODO: Currently not supported - not supporting more channels than stereo, because I can't test it on my PC.
+        // Currently not supporting more channels than stereo, because I can't test it on my PC.
         if(format.getChannels() > 2) {
             return;
         }
@@ -39,7 +39,8 @@ public class AudioFormatJPanel extends JPanel {
         boolean shouldAdd = false;
         Pair formatPairToAdd = null;
         boolean supportsAllSampleRates = format.getSampleRate() == AudioSystem.NOT_SPECIFIED;
-        // If added audioFormat supports more sample rates, then remove all formats which matches the audioFormat, but support only 1 sample rate
+        // If added audioFormat supports more sample rates,
+        // then remove all formats which matches the audioFormat, but support only 1 sample rate
         boolean shouldRemoveLessSpecificFormats = false;
         for(int i = availableFormats.size() - 1; i >= 0; i--) {
             Pair<String, AudioFormat> p = availableFormats.get(i);
@@ -64,7 +65,8 @@ public class AudioFormatJPanel extends JPanel {
         if(shouldAdd) {
             AudioFormat.Encoding e = format.getEncoding();
             // Can be changed in future to support more formats.
-            if(e == AudioFormat.Encoding.PCM_SIGNED || e == AudioFormat.Encoding.PCM_UNSIGNED && format.getChannels() <= 2) {
+            if((e == AudioFormat.Encoding.PCM_SIGNED || e == AudioFormat.Encoding.PCM_UNSIGNED) &&
+                    format.getChannels() <= 2) {
                 String formatString = createString(format);
                 formatPairToAdd = new Pair(formatString, format);
                 availableFormats.add(formatPairToAdd);
@@ -145,7 +147,9 @@ public class AudioFormatJPanel extends JPanel {
             if(!AudioSystem.isLineSupported(outputAudioFormatLine.getLineInfo())) {
                 supportedFormat = AudioFormatJPanel.getFirstAvailableFormat();
             }
-            else if(af.getFrameRate() == 0) {       // I was doing wrong something else, but I can keep this code here, since such format is not valid anyways
+            else if(af.getFrameRate() == 0) {
+                // I was doing something wrong before, but I can keep this code here,
+                // since such format is not valid anyways
                 supportedFormat = AudioFormatJPanel.getFirstAvailableFormat();
             }
             else {
@@ -165,7 +169,8 @@ public class AudioFormatJPanel extends JPanel {
     public static AudioFormatWithSign getFirstAvailableFormat() {
         AudioFormat af = availableFormats.get(0).getValue();
         if(af.getSampleRate() == AudioSystem.NOT_SPECIFIED) {
-            // This can end up in cycle and produce stack overflow, but when that happens there is something wrong with the system
+            // This can end up in cycle and produce stack overflow,
+            // but when that happens there is something wrong with the system
             // since the format should be supported.
             return new AudioFormatClass(af, 44100).createJavaAudioFormat(false);
         }
@@ -208,11 +213,11 @@ public class AudioFormatJPanel extends JPanel {
 
         if(sampleRate == AudioSystem.NOT_SPECIFIED) {
             supportedSampleRatesComboBox.setEnabled(true);
-            supportedSampleRatesComboBox.setModel(new DefaultComboBoxModel(allFormatsString));
+            supportedSampleRatesComboBox.setModel(new DefaultComboBoxModel<>(allFormatsString));
         }
         else {
             supportedSampleRatesComboBox.setEnabled(false);
-            supportedSampleRatesComboBox.setModel(new DefaultComboBoxModel(
+            supportedSampleRatesComboBox.setModel(new DefaultComboBoxModel<>(
                     new String[] {
                             String.format("%.3f", sampleRate / (double) 1000)
                     }));

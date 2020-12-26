@@ -167,7 +167,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     /**
      * How does adding to the panel works: the bottom panel is always panel of size 0 (So the bottom component can be moved)
      * The inside of the panel are again JScrollPane where at the bottom is wave and at the top is JScrollPane, etc.
-     * The first JScrollPane (the most internal one) has at the top wave but also wave at the bottom, it is the only panel which has 2 valid waves inside without any recursion
+     * The first JScrollPane (the most internal one) has at the top wave but also wave at the bottom,
+     * it is the only panel which has 2 valid waves inside without any recursion
      */
     private JScrollPane panelWithWaves;
 

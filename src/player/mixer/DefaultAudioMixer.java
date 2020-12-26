@@ -35,7 +35,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 
     /**
      * Mixes vals.length values to 1 sample.
-     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from vals[][index] to vals[][index + sampleSize] and mix them
+     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from
+     *             vals[][index] to vals[][index + sampleSize] and mix them
      * @param multFactors is the 2D array with factors to multiply the samples in vals with.
      * @param sampleSize is the sample size
      * @param mask is the mask used for calculation
@@ -44,8 +45,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
      * @param index is the index in the 2nd dimension of vals array. (The index says which sample it is)
      * @param channel is the channel from which should be taken multFactors (multFactors[][channel])
      */
-    protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask, boolean isBigEndian, boolean isSigned,
-                   int index, int channel) {
+    protected int mix(byte[][] vals, double[][] multFactors, int sampleSize, int mask,
+                      boolean isBigEndian, boolean isSigned, int index, int channel) {
         int sample = AudioConverter.convertBytesToInt(vals[0], sampleSize, mask, index, isBigEndian, isSigned);
         sample = mixOneVal(sample, multFactors[0][channel]);
         int result = sample;
@@ -162,7 +163,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
                    boolean isBigEndian, boolean isSigned, int maxAbsoluteValue, int index) {
         for(int ch = 0; ch < multFactors[0].length; ch++, outputArrIndex += sampleSize) {
             double sample = mix(vals, multFactors, ch, index);
-            AudioConverter.convertDoubleToByteArr(sample, sampleSize, maxAbsoluteValue, isBigEndian, isSigned, outputArrIndex, outputArr);
+            AudioConverter.convertDoubleToByteArr(sample, sampleSize, maxAbsoluteValue, isBigEndian,
+                    isSigned, outputArrIndex, outputArr);
         }
 
         return outputArrIndex;
@@ -213,7 +215,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //    /**
 //     * Mixes 1 sample. Mixes vals.length values and puts the result in to outputArr at outputArrIndex.
-//     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from vals[][index] to vals[][index + sampleSize] and mix them
+//     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from
+//     vals[][index] to vals[][index + sampleSize] and mix them
 //     * @param outputArr is the array to which is put the resulting mix sample.
 //     * @param outputArrIndex is the index in outputArr where is put first byte of the resulting sample.
 //     * @param multFactors is the array with factors to multiply the vals with.
@@ -233,7 +236,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 //
 //    /**
 //     * Mixes vals.length values to 1 sample.
-//     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from vals[][index] to vals[][index + sampleSize] and mix them
+//     * @param vals is the 2D array with samples. vals.length is number of mixed values. And we take values from
+//     vals[][index] to vals[][index + sampleSize] and mix them
 //     * @param multFactors is the array with factors to multiply the vals with.
 //     * @param sampleSize is the sample size
 //     * @param mask is the mask used for calculation
@@ -303,7 +307,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
 
 
     /**
-     * Mix 2 values together. This method is used for internal calculations, so it may not always represent the expected mixing output.
+     * Mix 2 values together. This method is used for internal calculations,
+     * so it may not always represent the expected mixing output.
      * That is the reason why it is protected method. Default implementation is just add to the 2 values together.
      * @param val1
      * @param val2
@@ -313,7 +318,8 @@ public class DefaultAudioMixer implements AudioMixerIFace, AudioMixerDoubleIFace
         return val1 + val2;
     }
     /**
-     * Mix 2 values together. This method is used for internal calculations, so it may not always represent the expected mixing output.
+     * Mix 2 values together. This method is used for internal calculations,
+     * so it may not always represent the expected mixing output.
      * That is the reason why it is protected method. Default implementation is just add to the 2 values together.
      * @param val1
      * @param val2

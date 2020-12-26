@@ -94,7 +94,8 @@ public class NonRecursiveFilter {
             for(; sampleInd < samples.length - numberOfChannels; firstIndexInWindow++) {
                 for(int ch = 0; ch < numberOfChannels; ch++, sampleInd++) {
                     samples[sampleInd] = windowSum[ch] / windowSize;
-                    windowSum[ch] = windowSum[ch] - oldSampleValues[ch][firstIndexInWindow % windowSize] + samples[sampleInd + numberOfChannels];
+                    windowSum[ch] = windowSum[ch] - oldSampleValues[ch][firstIndexInWindow % windowSize] +
+                                    samples[sampleInd + numberOfChannels];
                     oldSampleValues[ch][firstIndexInWindow % windowSize] = samples[sampleInd + numberOfChannels];
                 }
             }
@@ -106,7 +107,8 @@ public class NonRecursiveFilter {
                     if (firstIndexInWindow == windowSize) {
                         firstIndexInWindow = 0;
                     }
-                    windowSum[ch] = windowSum[ch] - oldSampleValues[ch][firstIndexInWindow] + samples[sampleInd + numberOfChannels];
+                    windowSum[ch] = windowSum[ch] - oldSampleValues[ch][firstIndexInWindow] +
+                            samples[sampleInd + numberOfChannels];
                     oldSampleValues[ch][firstIndexInWindow] = samples[sampleInd + numberOfChannels];
                 }
             }
@@ -129,11 +131,13 @@ public class NonRecursiveFilter {
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
-     * Performs non-recursive filter, result is returned in new array. Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
+     * Performs non-recursive filter, result is returned in new array. Non-recursive filter is this
+     * (y[n] is n-th output sample and x[n] is n-th input sample):
      * <br>
      * y[n] = coef[0] * x[n - coef.length + 1] + ... + coef[coef.length] x[n]
      * @param samples is the input array. It isn't changed.
-     * @param coef are the coefficients for the input samples. The last index contains index for the currently computed output. The first index is the (coef.length+1)-th before the current sample.
+     * @param coef are the coefficients for the input samples. The last index contains index for the currently
+     *             computed output. The first index is the (coef.length+1)-th before the current sample.
      * @param numberOfChannels represents the number of channels
      * @param sampleSize is the size of 1 sample
      * @param frameSize is the size of 1 frame
@@ -144,7 +148,8 @@ public class NonRecursiveFilter {
      */
     @Deprecated
     public static byte[] performNonRecursiveFilter(byte[] samples, double[] coef, int numberOfChannels,
-                                                   int sampleSize, int frameSize, boolean isBigEndian, boolean isSigned) throws IOException {
+                                                   int sampleSize, int frameSize,
+                                                   boolean isBigEndian, boolean isSigned) throws IOException {
         byte[] retArr = new byte[samples.length];
         int[] vals = new int[numberOfChannels];
         int index;
@@ -153,9 +158,11 @@ public class NonRecursiveFilter {
         byte[] sampleBytes = new byte[sampleSize];
         int mask = AudioUtilities.calculateMask(sampleSize);
 
-        // Filter for the first indexes is a bit different, since they dont have all the preceding samples for the filtering.
+        // Filter for the first indexes is a bit different,
+        // since they dont have all the preceding samples for the filtering.
         // It's for optimization because we need to check if there are the preceding samples.
-        startingCoefInd = -coef.length * frameSize + frameSize;		// +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
+        // +frameSize because the current sample can be used (Simple check of correctness is if we had just 1 coef)
+        startingCoefInd = -coef.length * frameSize + frameSize;
         int resInd;
         int coefInd;
         for(resInd = 0, coefInd = 0; coefInd < coef.length - 1; startingCoefInd += frameSize, coefInd++) {
@@ -169,113 +176,68 @@ public class NonRecursiveFilter {
                 vals[ch] = 0;
             }
             index = startingCoefInd;
-// TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
             for (int j = 0; j < coef.length; j++) {
                 if (index >= 0) {
                     for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
-                        sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
+                        sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index,
+                                isBigEndian, isSigned);
                         vals[ch] += coef[j] * sample;
-                        // TODO:                      System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
-// TODO:                        System.out.println(index);
                     }
                 }
                 else {
-// TODO:                    System.out.println(":::::::::::" + index);
                     index += frameSize;
                 }
             }
-// TODO:            System.out.println("IND:\t" + index);
 
             for (int ch = 0; ch < vals.length; ch++) {
-// TODO:                System.out.println("VAL:\t" + vals[ch]);
                 AudioConverter.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
                 for(int j = 0; j < sampleBytes.length; j++, resInd++) {
-// TODO:                   System.out.println("VALBYTE:\t" + sampleBytes[j]);
                     retArr[resInd] = sampleBytes[j];
                 }
             }
         }
 
         // Now we just perform do filtering for the rest, we don't need to check for the preceding elements anymore.
-        // TODO:        System.out.println("------------------------------------------");
-
         for(; resInd < retArr.length; startingCoefInd += frameSize) {
             for(int ch = 0; ch < vals.length; ch++) {
                 vals[ch] = 0;
             }
             index = startingCoefInd;
-// TODO:            System.out.println(resInd + ":" + index + "\t:\t" + retArr.length + ":" + samples.length + ":\t" + numberOfChannels + ":\t" + sampleSize);
             for(int j = 0; j < coef.length; j++) {
                 for (int ch = 0; ch < vals.length; ch++, index += sampleSize) {
                     sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
                     vals[ch] += coef[j] * sample;
-//TODO:                    System.out.println("SAMPLE:\t" + sample + "\t:\tMULTSAMPLE:\t" + vals[ch]);
                 }
             }
 
-            // TODO: the same for cycle as above (30 lines above)
             for (int ch = 0; ch < vals.length; ch++) {
                 AudioConverter.convertIntToByteArr(sampleBytes, vals[ch], isBigEndian);
-//TODO:                System.out.println("VAL:\t" + vals[ch]);
                 for(int j = 0; j < sampleBytes.length; j++, resInd++) {
-//TODO:                    System.out.println("VALBYTE:\t" + sampleBytes[j]);
                     retArr[resInd] = sampleBytes[j];
                 }
             }
         }
 
         return retArr;
-
-//        byte[] retArr = new byte[samples.length];
-//        byte val;
-//        int index;
-//        int startingCoefInd;
-//
-//        // Filter for the first indexes is a bit different, since they dont have all the preceding samples for the filtering.
-//        // It's for optimization because we need to check if there are the preceding samples.
-//        startingCoefInd = -coef.length + 1;		// +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
-//        int i;
-//        for(i = 0; i < coef.length; i++, startingCoefInd++) {
-//            val = 0;
-//            index = startingCoefInd;
-//            for(int j = 0; j < coef.length; j++, index++) {
-//                if(index >= 0) {
-//                    val += coef[j] * samples[index];
-//                }
-//            }
-//
-//            retArr[i] = val;
-//        }
-//
-//        // Now we just perform do filtering for the rest, we don't need to check for the preceding elements anymore.
-//        startingCoefInd = 0;
-//        for(; i < samples.length; i++, startingCoefInd++) {
-//            val = 0;
-//            index = startingCoefInd;
-//            for(int j = 0; j < coef.length; j++, index++) {
-//                val += coef[j] * samples[index];
-//            }
-//
-//            retArr[i] = val;
-//        }
-//
-//        return retArr;
     }
 
 
     /**
-     * Performs non-recursive filter on input array, result is returned in output array (Input and output array can be the same).
+     * Performs non-recursive filter on input array, result is returned in output array
+     * (Input and output array can be the same).
      * Non-recursive filter is this (y[n] is n-th output sample and x[n] is n-th input sample):
      * <br>
      * y[n] = coef[0] * x[n - coef.length + 1] + ... + coef[coef.length] x[n]
      * @param samples is the input array. It isn't changed.
-     * @param coef are the coefficients for the input samples. The last index contains index for the currently computed output. The first index is the (coef.length+1)-th before the current sample.
+     * @param coef are the coefficients for the input samples. The last index contains index for the currently
+     *             computed output. The first index is the (coef.length+1)-th before the current sample.
      * @param numberOfChannels represents the number of channels
      * @param retArr is he array which will contain the result of filter.
      * @param retArrStartIndex is the start index in the output array (retArr) - inclusive
      * @param retArrEndIndex is the end index in the output array (retArr) - exclusive
      * @return Returns -1 if the output array was shorter than length of coefs array else returns 1.
-     * Returns -2 if the input array isn't long enough. If 1 is returned the result of filter is in retArr. Else the retArr isn't changed in any way.
+     * Returns -2 if the input array isn't long enough. If 1 is returned the result of filter is in retArr.
+     * Else the retArr isn't changed in any way.
      */
     // Implementation note: since retArrEndIndex is exclusive,
     // we need to use retArrEndIndex - 1 when we are referring to valid indices
@@ -294,7 +256,7 @@ public class NonRecursiveFilter {
 
         // Filter for the first indexes is a bit different, since they dont have all the preceding samples for the filtering.
         // It's for optimization because we need to check if there are the preceding samples.
-        startingCoefInd = samplesStartIndex + -indexCountToWaitWithForNextIteration * numberOfChannels;        // +1 because the current sample can be used (Simple check of correctness is if we had just 1 coef)
+        startingCoefInd = samplesStartIndex + -indexCountToWaitWithForNextIteration * numberOfChannels;
         int resInd = retArrStartIndex;
 
         if (retArrStartIndex + numberOfChannels * coef.length >= retArrEndIndex) {
@@ -344,7 +306,8 @@ public class NonRecursiveFilter {
 
             resInd = setRetArrInLowPassFilter(resInd, firstInvalidIndexInChannel, vals, indexToStopCopyFrom, retArr);
             for (int ch = 0; ch < vals.length; ch++) {
-                System.arraycopy(vals[ch], indexToStopCopyFrom, vals[ch], 0, indexCountToWaitWithForNextIteration);
+                System.arraycopy(vals[ch], indexToStopCopyFrom, vals[ch], 0,
+                                 indexCountToWaitWithForNextIteration);
             }
             Utilities.resetTwoDimArr(vals, indexCountToWaitWithForNextIteration, vals[0].length);
         }
@@ -377,7 +340,6 @@ public class NonRecursiveFilter {
         }
         for (int ch = 0; ch < vals.length; ch++, startResInd++, resInd = startResInd) {
             for (int i = 0; i < len; i++, resInd += vals.length) {
-// TODO:                System.out.println("VAL:\t" + vals[ch]);
                 retArr[resInd] = vals[ch][i];
             }
         }
@@ -390,7 +352,9 @@ public class NonRecursiveFilter {
      * Performs low pass filtering with cutoffFreq on given samples, which are supposed to be sampled at sampleRate.
      * @param samples are the samples to perform the low pass filter on.
      * @param cutoffFreq is the cut-off frequency of the filter.
-     * @param coefCount is the number of the coefficients used for filtering (How many last samples should be used for calculating the current one in the filter). Usually the more the better filter.
+     * @param coefCount is the number of the coefficients used for filtering
+     *                  (How many last samples should be used for calculating the current one in the filter).
+     *                  Usually the more the better filter.
      * @param sampleRate is the sampling rate of the given samples
      * @param numberOfChannels represents the number of channels
      * @param sampleSize is the size of 1 sample

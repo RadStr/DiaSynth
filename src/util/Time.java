@@ -48,7 +48,6 @@ public class Time {
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
      *                                instead of just 001 for alignmentRecursionDepth == 0.
-     *
      */
     public static String convertSecondsToTime(int seconds, StringBuilder timeSB, int alignmentRecursionDepth) {
         String res = convertTimeUniversal(seconds, convertSecondsTimeDivArray,
@@ -117,7 +116,7 @@ public class Time {
      *                                then modLimitsToAddZero.length - 1 is used.
      *                                Example when alignmentRecursionDepth == 2 then the value is 00:00:001
      *                                instead of just 0:001 when calling it with alignmentRecursionDepth == -1 or
-     *      *                         001 when calling it with alignmentRecursionDepth == 0.
+     *                                001 when calling it with alignmentRecursionDepth == 0.
      */
     public static String convertMillisecondsToTime(int millis, int alignmentRecursionDepth) {
         return convertMillisecondsToTime(millis, timeStringBuilder, alignmentRecursionDepth);

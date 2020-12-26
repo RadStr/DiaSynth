@@ -1,5 +1,5 @@
 package synthesizer.synth;
 
-public interface GetStringCallback {
+public interface StringGetterIFace {
     String getText();
 }

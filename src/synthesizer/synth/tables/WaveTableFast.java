@@ -2,7 +2,8 @@ package synthesizer.synth.tables;
 
 public class WaveTableFast extends WaveTable {
     /**
-     * @param wave            is the wave used in wave table synthesis. The length has to be power of 2, that is the reason
+     * @param wave            is the wave used in wave table synthesis.
+     *                        The length has to be power of 2, that is the reason
      *                        why this wave table is faster. To be honest I am not sure how much faster it is.
      * @param wavePath is the path to the wave or null if it wasn't from file
      */

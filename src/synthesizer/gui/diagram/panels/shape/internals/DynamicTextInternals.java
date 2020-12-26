@@ -1,11 +1,11 @@
 package synthesizer.gui.diagram.panels.shape.internals;
 
-import synthesizer.synth.GetStringCallback;
+import synthesizer.synth.StringGetterIFace;
 
 import javax.swing.*;
 
 public class DynamicTextInternals extends ConstantTextInternals {
-    public DynamicTextInternals(GetStringCallback callback, int rectangleWidthDecreaseDivFactor,
+    public DynamicTextInternals(StringGetterIFace callback, int rectangleWidthDecreaseDivFactor,
                                 int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
                                 int rectangleStartYDecreaseDivFactor) {
         super(createLabelWithCallback(callback), rectangleWidthDecreaseDivFactor, rectangleHeightDecreaseDivFactor,
@@ -13,7 +13,7 @@ public class DynamicTextInternals extends ConstantTextInternals {
     }
 
 
-    public DynamicTextInternals(GetStringCallback callback) {
+    public DynamicTextInternals(StringGetterIFace callback) {
         this(callback,
              DEFAULT_RECTANGLE_WIDTH_DECREASE_DIV_FACTOR,
              DEFAULT_RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR,
@@ -21,7 +21,7 @@ public class DynamicTextInternals extends ConstantTextInternals {
              DEFAULT_RECTANGLE_START_Y_DECREASE_DIV_FACTOR);
     }
 
-    private static JLabel createLabelWithCallback(GetStringCallback callback) {
+    private static JLabel createLabelWithCallback(StringGetterIFace callback) {
         JLabel label = new JLabel() {
             @Override
             public String getText() {

@@ -1,13 +1,16 @@
 package synthesizer.synth;
 
 /**
- * NOTE: !!! This class doesn't work if there was pushed more than Integer.MAX_VALUE values (overflow occurred). (For the use I use it it is 13 hours of playing audio at 44.1 kHz)
- * Class works if 1 thread is consumer and other producer. (also of course work if using on only 1 thread).
- * Just simple implementation, to be maximally efficient, use the push/pop variants with arrays (if asking for more than 1 value of course).
+ * NOTE: !!! This class doesn't work if there was pushed more than Integer.MAX_VALUE values (overflow occurred).
+ * (For the use we use it, it is 13 hours of playing audio at 44.1 kHz)
+ * Class works if 1 thread is consumer and other producer.
+ * (Both consumer and producer can run on only 1 thread, but it isn't recommended).
+ * To be maximally efficient use the push/pop variants with arrays (if asking for more than 1 value of course).
  *
- * NOTE 2: I could implement it to just modulo all the values when certain push limit is reached (and for example checking that using timer).
- * But it may introduce many problems and may be quite difficult for debugging.
  */
+// NOTE 2: We could implement it to just modulo all the values when certain push limit is reached
+// (we could check that using timer, for example).
+// But it may introduce many problems which might be quite difficult for debugging.
 public class CyclicQueueDouble {
     /**
      *
@@ -131,7 +134,8 @@ public class CyclicQueueDouble {
     }
 
     /**
-     * Removes n last indices from queue, have to take into consideration the chunks which are popped and what thread is pushing, etc.
+     * Removes n last indices from queue, have to take into consideration the chunks, which are popped and
+     * what thread is pushing, etc.
      * Since easily you can call push and while pushing call remove. That breaks everything. Another break case is
      * when popping the remove is called. So in result some values may be popped even when they are already "removed".
      * So this method should be called only when audio thread is stopped, otherwise it may be quite difficult.

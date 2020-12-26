@@ -3,7 +3,7 @@ package synthesizer.synth.tables;
 public class WaveTable {
     /**
      *
-     * @param wave is the wave used in wave table synthesis. For optimisation purposes the wave length should be 2^n.
+     * @param wave is the wave used in wave table synthesis.
      * @param wavePath is the path to the wave or null if it wasn't from file
      */
     public WaveTable(double[] wave, String wavePath) {

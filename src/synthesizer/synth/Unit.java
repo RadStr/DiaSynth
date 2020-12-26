@@ -16,11 +16,12 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * This is just template class, when overriding the user should override the Operator or Generator classes, and also implement
- * both constructors calling the super() variants with corresponding arguments. (I Can't force user to implement interfaces).
+ * This is just template class, when overriding the user should override the Operator or Generator or Envelope classes
+ * and also implement both constructors calling the super() variants with corresponding arguments.
+ * I can't force user to implement constructors, the user has to have this in mind.
  *
- * Note: When implementing this class directly, you shouldn't change the samples that the unit gets on inputs, since it may
- * also change the other calculations, which doesn't have anything to do with the Unit you have written.
+ * Note: When overriding this class directly, you shouldn't change the samples that the unit gets on inputs,
+ * since it may also change the other calculations, which don't have anything to do with the Unit you have written.
  */
 public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIFace,
                                       UnitViewForGUIIFace, UnitGeneratedValuesInfo {
@@ -200,7 +201,8 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     protected abstract ShapedPanel createShapedPanel(DiagramPanel panelWithUnits);
 
     /**
-     * Creates new shaped panel called with corresponding constructor of same signature as this method (+ the internals of course)
+     * Creates new shaped panel called with corresponding constructor of same signature as this method
+     * (+ the internals of course)
      * @param panelWithUnits
      * @return
      */
@@ -266,13 +268,13 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         output.println(relativePos.x + " " + relativePos.y);
     }
 
-    @Override
     /**
      * It is important to note that it doesn't load input port, since in my case when calling it, the other panels
      * to which the output ports connects doesn't have to exit yet. Also note:
      * I just need to load the output port because the connections are symmetric - that means that by connecting
      * the output port to input port the input port will be set to the output port
      */
+    @Override
     public void load(BufferedReader input) {
         try {
             String line;
@@ -374,11 +376,12 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
 
 
 
-    // Thought: Maybe I could call copyInternalState at the end of the copyPanel method, but it could a bit problematic with some additional
-    // generators - for example when you copy filter - you copy the values which are currently there - and the values may be
-    // in non-consistent state, because all the values are changing since we may be currently in process of generating samples.
+    // Thought: Maybe I could call copyInternalState at the end of the copyPanel method,
+    // but it could a bit problematic with some additional units - for example when you copy filter -
+    // you copy the values which are currently there - and the values may be
+    // in inconsistent state, because we may be currently in process of generating samples.
     // Because of that it is better to just have
-    // all the values set to default for the target of copy (this instance) - like no sample was played before.
+    // all the values set to default for the target of copy - like no sample was played before.
 
     // Added for future proofing, because of the possible computation inconsistencies for units with internal state when
     // panel connection or panel deletion happens

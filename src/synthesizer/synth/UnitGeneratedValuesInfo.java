@@ -11,7 +11,8 @@ public interface UnitGeneratedValuesInfo {
     double[] getValues();
 
     /**
-     * Returns Double.MAX_VALUE if it doesn't have modulation frequency (if it is envelope or operation or noise generator).
+     * Returns Double.MAX_VALUE if it doesn't have modulation frequency
+     * (if it is envelope or operation or noise generator).
      * Or returns its modulation frequency if it is generator.
      * @return
      */

@@ -10,8 +10,8 @@ import javax.sound.sampled.AudioFormat;
 import java.util.ConcurrentModificationException;
 
 public class SynthDiagram extends Thread {
-    public SynthDiagram(ListSortedByY units, OutputUnitGetter outputUnitGetter, OutputFormatGetterIFace outputFormatGetter,
-                        boolean shouldPause) {
+    public SynthDiagram(ListSortedByY units, OutputUnitGetter outputUnitGetter,
+                        OutputFormatGetterIFace outputFormatGetter, boolean shouldPause) {
         setShouldPause(shouldPause);
         this.units = units;
         timeInSamples = 0;
@@ -83,7 +83,8 @@ public class SynthDiagram extends Thread {
         while(true) {
             try {
                 for (Unit unit : units) {
-                    if(!unit.performedCalculation) {        // If it wasn't written yet (Since it is possible that it was written and some new unit was added)
+                    // If it wasn't written yet (Since it is possible that it was written and some new unit was added)
+                    if(!unit.performedCalculation) {
                         unit.calculateSamplesInstantRecord(channelRecords, index, remainingLen);
                         unit.markAsCalculated();
                     }
@@ -133,9 +134,6 @@ public class SynthDiagram extends Thread {
         synchronized (lock) {
             while (true) {
                 if (shouldPause) {
-// TODO: RML
-//                    ProgramTest.debugPrint("SYNTH - WAITING");
-// TODO: RML
                     waiting = true;
                     try {
                         lock.wait();        // Passive waiting
@@ -145,9 +143,6 @@ public class SynthDiagram extends Thread {
                     }
                     waiting = false;
                     setShouldPause(false);
-// TODO: RML
-//                    ProgramTest.debugPrint("SYNTH - STOPPED WAITING");
-// TODO: RML
                 }
                 performOneStep();
             }
@@ -196,8 +191,9 @@ public class SynthDiagram extends Thread {
         sampleSizeInBytes /= 8;
         int frameSize = recordedChannels.length * sampleSizeInBytes;
         byte[] recordedAudio = new byte[frameSize * recordedChannels[0].length];
-        AudioThread.fillByteArrWithChannels(recordedChannels, recordedChannels[0].length, sampleSizeInBytes, recordedAudio,
-                maxAbsoluteValue, outFormat.isBigEndian(), outFormat.isSigned);
+        AudioThread.fillByteArrWithChannels(recordedChannels, recordedChannels[0].length, sampleSizeInBytes,
+                                            recordedAudio, maxAbsoluteValue,
+                                            outFormat.isBigEndian(), outFormat.isSigned);
         return recordedAudio;
     }
 

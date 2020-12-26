@@ -200,7 +200,8 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new RectangleShapedPanel(panelWithUnits, new DynamicTextInternals(() -> getPanelName()), this);
+        ShapedPanel sp = new RectangleShapedPanel(panelWithUnits,
+                                                  new DynamicTextInternals(() -> getPanelName()), this);
         return sp;
     }
 
@@ -216,14 +217,17 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
             parameterTooltip = "Maximum absolute value allowed to output")
     private double maxAbsoluteValue = 1;
     @PluginParameterAnnotation(name = "Always scale:",
-            parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from first parameter.<br>" +
-            "If set to false, then the wave will be scaled to the max absolute value only if its max absolute value is larger than the first parameter</html>")
+            parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from " +
+                               "first parameter.<br>" +
+                               "If set to false, then the wave will be scaled to the max absolute value only if " +
+                               "its max absolute value is larger than the first parameter</html>")
     private boolean shouldAlwaysSetToMaxAbs = false;
 
 
     @Override
     public void calculateSamplesInstantRecord(double[][] channelRecords, int index, int remainingLen) {
-        // Copy pasted code from calculate samples, but with removed waiting and putting items to queue. It will be put to buffer instead
+        // Copy pasted code from calculate samples,
+        // but with removed waiting and putting items to queue. It will be put to buffer instead.
         final double maxAbsVal = Math.abs(getMaxAbsValue());
         double[] ops = inputPorts[0].getValues();
         boolean didNomalize = tryNormalize(ops, maxAbsVal);
@@ -371,7 +375,8 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
     @Override
     /**
-     * Prints "OUTPUT-UNIT" and on next line channel of output and then calls super method. The channel has to be read in the main class and call load
+     * Prints "OUTPUT-UNIT" and on next line channel of output and then calls super method.
+     * The channel has to be read in the main class and call load
      * on corresponding panel.
      */
     public void save(PrintWriter output) {

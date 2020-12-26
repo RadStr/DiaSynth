@@ -20,7 +20,9 @@ import util.audio.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.audio.format.AudioType;
 
-// TODO: Vsude mit gettery a settery
+
+
+Vsude udelat gettery a settery
 
 public class ByteWave {
     public byte[] song;

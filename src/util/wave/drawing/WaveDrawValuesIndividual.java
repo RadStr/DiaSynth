@@ -110,7 +110,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         int previousHeight = -1;
         while(currentVisiblePixel < width && index < maxRightIndex) {
             // minus because it the lowest value has to have to be at the highest pixel
-            int sampleHeight = -(int)(shiftBufferDouble.getIndex(index) * halfHeight);
+            int sampleHeight = -(int)(shiftBufferDouble.getValueAtIndex(index) * halfHeight);
             // Shift it so it starts in the middle
             sampleHeight += halfHeight + shiftY;
             int currentPixelInt = (int)currentVisiblePixel;

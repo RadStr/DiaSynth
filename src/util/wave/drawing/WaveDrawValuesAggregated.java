@@ -65,9 +65,9 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         int previousYMax = -1;
         int halfHeight = height / 2;
         for (int i = windowRange.start, x = 0; i < windowRange.end; i++, x++) {
-            double minY = shiftBufferDouble.getIndex(i);
+            double minY = shiftBufferDouble.getValueAtIndex(i);
             i++;
-            double maxY = shiftBufferDouble.getIndex(i);
+            double maxY = shiftBufferDouble.getValueAtIndex(i);
 
             // minus because it the lowest value has to have to be at the highest pixel
             int sampleMinHeightSample = -(int) (minY * halfHeight);

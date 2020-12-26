@@ -92,7 +92,7 @@ public class ShiftBufferDouble {
     public double[] getBuffer() {
         return buffer;
     }
-    public double getIndex(int index) {
+    public double getValueAtIndex(int index) {
         return buffer[index];
     }
 

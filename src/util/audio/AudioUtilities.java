@@ -42,15 +42,7 @@ public class AudioUtilities {
      * @return returns the mask which is used for converting the byte array to int
      * @throws IOException is thrown when the sample size > 4, because then the samples can't fit to int, or when it is <= 0
      */
-    public static int calculateMask(int sampleSize) throws IOException {
-        // TODO: Tyhle kontroly asi můžu dát pryč
-        if (sampleSize <= 0) {
-            throw new IOException("Sample size is <= 0 bytes");
-        }
-        else  if (sampleSize > 4) {
-            throw new IOException("SampleSize is > 4 bytes");
-        }
-
+    public static int calculateMask(int sampleSize) {
         if (sampleSize == 4) {
             return 0x00000000;
         }
@@ -72,10 +64,7 @@ public class AudioUtilities {
      * @return returns the mask which is used for converting the byte array to int
      * @throws IOException is thrown when the sample size > 4, because then the samples can't fit to int, or when it is <= 0
      */
-    public static int calculateInverseMask(int sampleSize) throws IOException {
-        if (sampleSize > 4 || sampleSize <= 0) {
-            throw new IOException();
-        }
+    public static int calculateInverseMask(int sampleSize) {
         if (sampleSize == 4) {
             return 0xFFFFFFFF;
         }
@@ -169,6 +158,10 @@ public class AudioUtilities {
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
     public static void playSongParts(SongPartWithAverageValueOfSamples[] songParts, AudioFormat audioFormat, boolean ascending, boolean playBackwards) throws LineUnavailableException {
+        // Number of frames needs to be an integer,
+        // so we don't play that part (if the number of frames in that part is not an integer)
+        // because the reverse method couldn't produce correct output, so the output is probably noise
+
         int bytesWritten;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
         SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
@@ -181,18 +174,14 @@ public class AudioUtilities {
             }
             if(ascending) {
                 for(int i = 0; i < songParts.length; i++) {
-                    // Number of frames needs to be an integer,
-                    // so we don't play that part (if the number of frames in that part is not an integer)
-                    // because the reverse method couldn't produce correct output, so the output is probably noise
+                    // Because number of frames needs to be integer
                     if(songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
                         bytesWritten = line.write(songParts[i].songPart, 0, songParts[i].songPart.length);
                     }
                 }
             } else {
                 for(int i = songParts.length - 1; i >= 0; i--) {
-                    // Number of frames needs to be an integer,
-                    // so we don't play that part (if the number of frames in that part is not an integer)
-                    // because the reverse method couldn't produce correct output, so the output is probably noise
+                    // Because number of frames needs to be integer
                     if(songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
                         bytesWritten = line.write(songParts[i].songPart, 0, songParts[i].songPart.length);
                     }

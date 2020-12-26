@@ -51,7 +51,8 @@ public class AudioProcessor {
             // it's x-th part
             if (currentTime % x == 0) {
                 // It has exactly length size
-                if (bytesReadSum == songPart.length) {        // > 0 if we want to also get the last part, even if it isn't full
+                // Should be > 0 if we want to also get the last part, even if it isn't full
+                if (bytesReadSum == songPart.length) {
                     byte[] arr = new byte[songPart.length];
                     for (int k = 0; k < arr.length; k++) {
                         arr[k] = songPart[k];
@@ -158,8 +159,8 @@ public class AudioProcessor {
         byte[] arr = new byte[sampleSize * n];
 
         if (arr.length % sampleSize != 0 || startSample % sampleSize != 0) {        // limitation of java library
-            throw new IOException("Not supported yet");                        // it's not possible to read smaller
-        }                                                                    // chunks than size of frame
+            throw new IOException("Not supported yet");                             // it's not possible to read smaller
+        }                                                                           // chunks than size of frame
         ArrayList<Byte> sampleList = new ArrayList<>();
         byte[] newSamples;
         int bytesReadSum = 0;
@@ -361,7 +362,8 @@ public class AudioProcessor {
             nextTotalIndex += bytesReadSum;
             while(nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
                 for (int i = 0, arrIndex = nextNByteIndex % buffer.length; i < numberOfChannels; i++, arrIndex += sampleSize) {
-                    int sample = AudioConverter.convertBytesToInt(buffer, sampleSize, mask, arrIndex, isBigEndian, isSigned);
+                    int sample = AudioConverter.convertBytesToInt(buffer, sampleSize, mask,
+                            arrIndex, isBigEndian, isSigned);
                     outputArr[i][outputIndex] = AudioConverter.normalizeToDouble(sample, maxAbsoluteValue, isSigned);
                 }
 
@@ -537,10 +539,7 @@ public class AudioProcessor {
         int totalByteSize = totalAudioLength - (startSample * sampleSize);
         int frameSize = numberOfChannels * sampleSize;
         int samplesPerChannel = totalByteSize / frameSize;
-        // Again the thing I wrote to TODO - solving the problem that I want to count the channel if samplesPerChannel == 1 as 1
-        // It is in todo under the tag: PROBLEM_KTEREJ_JSEM_UZ_RESIL_V_NEKOLIKA_PROGRAMECH
         channelLen = (skip - 1 + samplesPerChannel) / skip;
-
 
         return channelLen;
     }

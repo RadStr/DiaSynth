@@ -25,7 +25,7 @@ public class FFTWindow {
         int windowSizePlus1 = windowSize + 1;
 
         int i = 0;
-        for(; startIndexForWindowCalculation <= windowSize; i++, startIndexForWindowCalculation++) { // TODO: podle me tu ma byt <=
+        for(; startIndexForWindowCalculation <= windowSize; i++, startIndexForWindowCalculation++) {
             result[i] = calculateWindowValue(a0, a1, startIndexForWindowCalculation, windowSizePlus1);
         }
         for(; i < result.length; i++) {
@@ -63,10 +63,9 @@ public class FFTWindow {
 
 
     public static double calculateWindowValue(double a0, double a1, int index, int lengthPlus1) {
-// TODO: DEBUG        System.out.println((a0 - a1 * Math.cos(2 * Math.PI * index / lengthPlus1)) + "\t" + lengthPlus1);
         return a0 - a1 * Math.cos(2 * Math.PI * index / lengthPlus1);
     }
 
     // Alternatively can be implemented like this https://en.wikipedia.org/wiki/Window_function#Hann_and_Hamming_windows
-    //  ... cosine-sum windows - but not that fast, I would had to have arrays or variable amount of parameters or something.
+    // cosine-sum windows - but not that fast, I would had to have arrays or variable amount of parameters or something.
 }

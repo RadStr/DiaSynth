@@ -18,8 +18,8 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
     public void waveResize(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount) {
         if(visibleWidth != newVisibleWidth || shiftBufferDouble == null) {
             visibleWidth = newVisibleWidth;
-            int w = 2 * newVisibleWidth;        // 2 * because it contains min and max
-            shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, w, this);
+            int windowSize = 2 * newVisibleWidth;        // 2 * because it contains min and max
+            shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, windowSize, this);
             ProgramTest.debugPrint("visible width * 2", 2 * newVisibleWidth);
             fillWholeBuffer(startIndexInValues);
         }

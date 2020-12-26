@@ -34,10 +34,10 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
     public void waveResize(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount) {
         visibleWidth = newVisibleWidth;
         pixelDifferenceBetweenSamples = mainWaveClass.calculatePixelDifferenceBetweenSamples(totalWaveWidthInPixels);
-        int w = (int) (visibleWidth / pixelDifferenceBetweenSamples);
+        int windowSize = (int) (visibleWidth / pixelDifferenceBetweenSamples);
         // + 1 because I have to add the 1 on the left for example 5 /5 == 1 but it contains 2 one on end and one start
-        w++;
-        shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, w, this);
+        windowSize++;
+        shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, windowSize, this);
 
         leftPixel = mainWaveClass.getCurrentScroll();
         setFirstSamplePixel();

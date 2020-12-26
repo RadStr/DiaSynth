@@ -10,7 +10,7 @@ import javax.sound.sampled.AudioFormat;
 import java.util.ConcurrentModificationException;
 
 public class SynthDiagram extends Thread {
-    public SynthDiagram(ListSortedByY units, OutputUnitGetter outputUnitGetter, OutputFormatGetter outputFormatGetter,
+    public SynthDiagram(ListSortedByY units, OutputUnitGetter outputUnitGetter, OutputFormatGetterIFace outputFormatGetter,
                         boolean shouldPause) {
         setShouldPause(shouldPause);
         this.units = units;
@@ -20,7 +20,7 @@ public class SynthDiagram extends Thread {
     }
 
     private OutputUnitGetter outputUnitGetter;
-    private OutputFormatGetter outputFormatGetter;
+    private OutputFormatGetterIFace outputFormatGetter;
     private ListSortedByY units;
     private int timeInSamples;
     public int getTimeInSamples() {

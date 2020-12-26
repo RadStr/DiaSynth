@@ -2,7 +2,7 @@ package synthesizer.synth.audio;
 
 import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.synth.CyclicQueueDouble;
-import synthesizer.synth.OutputFormatGetter;
+import synthesizer.synth.OutputFormatGetterIFace;
 import synthesizer.synth.Unit;
 import util.Utilities;
 import util.audio.AudioConverter;
@@ -17,7 +17,7 @@ import javax.sound.sampled.*;
 /**
  * Just takes requests to put samples to queue and later replays the queue (Unless it is stopped).
  */
-public class AudioThread extends Thread implements OutputFormatGetter, AudioControlPanel.VolumeControlGetterIFace {
+public class AudioThread extends Thread implements OutputFormatGetterIFace, AudioControlPanel.VolumeControlGetterIFace {
     /**
      * @param maxPlayTimeInMs     There is upper bound which will be known at run time (usually 500ms)
      *                            after adding more than that, the audio playing line blocks and there will

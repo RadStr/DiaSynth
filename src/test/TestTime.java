@@ -4,6 +4,10 @@ import util.Time;
 
 public class TestTime {
     public static void main(String[] args) {
+        // TODO:
+        // Copy-pasted, I just quickly wanted to check something - should have used some general method, but it is just
+        // testing so it doesn't really matter.
+
         ProgramTest.debugPrint("65 seconds:", Time.convertSecondsToTime(65, -1));
         ProgramTest.debugPrint("65 seconds (alignment == 0):", Time.convertSecondsToTime(65, 0));
         ProgramTest.debugPrint("65 seconds (alignment == 1):", Time.convertSecondsToTime(65, 1));

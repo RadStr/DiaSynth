@@ -8,9 +8,8 @@ import java.util.Arrays;
 public class FFT {
     private FFT() {}        // To disable instantiation - make only static access possible
 
-
-
-    // From documentation:
+// This is used in a lot of the methods in this file.
+// From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -22,41 +21,7 @@ public class FFT {
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
 
-    // TODO !!!!!!!!!!!!!!!!!!!!!!
-    // TODO: !!!!!!!!!!!!!!!!!!!!! DOST ZASADNI CHYBA ASI ... PRO TU LICHOU FFT ma predposledni cislo tu a[1] jako imag
-    // TODO: ale za nim je asi jeste jedno cislo ktery ma jen realnou slozku ...
-    // TODO: Ja si myslel ze to co ma imaginarni slozku na pozici [1] uz je posledni
-    // TODO: Tohle byla ta stara verze kdyz jsem mel jen tuhle metodu, ted to resim ze to volam pres tu resim ze to volam pres tu referencni variantu
-//    /**
-//     * Transforms the real and imaginary part to real by taking the distance of the complex number from zero,
-//     * which is calculated as realPart * realPart + imagPart * imagPart.
-//     * @param fftResult is 1D double array gotten from fft. On even indexes contains real parts, on odd imaginary ones.
-//     * @return Returns 1D double array of half length of the original array. The new array contains the distances of complex numbers from zero.
-//     */
-//    public static double[] convertResultsOfFFTToRealRealForward(double[] fftResult) {
-//        double[] result;
-//        if(fftResult.length % 2 == 0) {			// It's even
-//            result = new double[fftResult.length / 2 + 1];
-//            result[0] = fftResult[0] * fftResult[0];
-//            int index = 1;
-//            for(int i = 2; i < fftResult.length; i = i + 2) {
-//                result[index] = fftResult[i] * fftResult[i] + fftResult[i + 1] * fftResult[i + 1];
-//                index++;
-//            }
-//            result[result.length - 1] = fftResult[1] * fftResult[1];
-//        } else {
-//            result = new double[(fftResult.length + 1) / 2];
-//            result[0] = fftResult[0] * fftResult[0];
-//            int index = 1;
-//            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
-//                result[index] = fftResult[i] * fftResult[i] + fftResult[i + 1] * fftResult[i + 1];
-//                index++;
-//            }
-//            result[result.length - 1] = fftResult[fftResult.length - 1] * fftResult[fftResult.length - 1] + fftResult[1] * fftResult[1];
-//        }
-//
-//        return result;
-//    }
+
 
     /**
      * Transforms the real and imaginary part to real by taking the distance of the complex number from zero,
@@ -74,7 +39,7 @@ public class FFT {
 
     // TODO: Napsat dokumentaci
     public static void convertResultsOfFFTToRealRealForward(double[] fftResult, double[] result) {
-        if(fftResult.length % 2 == 0) {			// It's even;
+        if(fftResult.length % 2 == 0) {			// It's even
             result[0] = calculateComplexNumMeasure(fftResult[0], 0);
             int index = 1;
             for(int i = 2; i < fftResult.length; i = i + 2) {
@@ -95,7 +60,7 @@ public class FFT {
     }
 
 
-    // From documentation (this are the values we want convert to):
+// From documentation (this are the values we want convert to):
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -137,30 +102,11 @@ public class FFT {
         }
 
         return result;
-
-
-//        if(result.length % 2 == 0) {			// It's even
-//            result[0] = fftMeasures[0];
-//            result[1] = fftMeasures[fftMeasures.length - 1];
-//            for(int i = 2, j = 2; i < fftMeasures.length; i++, j++) {
-//                result[j] = fftMeasures[i];
-//                j++;
-//                result[j] = 0;
-//            }
-//        } else {
-//            for(int i = 0, j = 0; i < fftMeasures.length; i++, j++) {
-//                result[j] = fftMeasures[i];
-//                j++;
-//                result[j] = 0;
-//            }
-//        }
-//
-//        return result;
     }
 
 
 
-    // From documentation (this are the values we want convert to):
+// From documentation (this are the values we want convert to):
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -240,7 +186,6 @@ public class FFT {
      */
     public static double calculateComplexNumMeasure(double realPart, double imagPart) {
         double result = Math.sqrt(realPart * realPart + imagPart * imagPart);
-
         return result;
     }
 
@@ -396,9 +341,6 @@ public class FFT {
             result[i] = real[partIndex];
             i++;
             result[i] = imag[partIndex];
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("Index connect", i, partIndex, real.length, imag.length);
-            // TODO: DEBUG
         }
         partIndex--;
 
@@ -411,14 +353,11 @@ public class FFT {
             result[i] = real[partIndex];
             i++;
             result[i] = -imag[partIndex]; // - because mirrored
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("Index connect mirror", i, partIndex, real.length, imag.length);
-            // TODO: DEBUG
         }
     }
 
 
-    // From documentation (this are the values we want convert to):
+// From documentation (this are the values we want convert to):
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -429,7 +368,6 @@ public class FFT {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
-    // TODO: Nebo aspon myslim ze by to melo byt (realForwardFFTArr.length + 1) / 2
     /**
      * Takes realForward fft array and divides it to real and imaginary part. The real and imaginary part should be the
      * same length and the length should be (realForwardFFTArr.length + 1) / 2
@@ -525,7 +463,7 @@ public class FFT {
      * Is sorted if returnSortedByMeasure = true
      */
     public static FrequencyWithMeasure[] convertImagPartToRealReturnArrWithFrequenciesRealForward(double[] fftResult, int sampleRate, boolean returnSortedByMeasure) {
-        double[] realResult = convertResultsOfFFTToRealRealForward(fftResult);			// TODO: not really effective, because new double array needs to be created, it can be calculated in place without creating the array
+        double[] realResult = convertResultsOfFFTToRealRealForward(fftResult);
         return returnArrWithFrequenciesRealForward(realResult, sampleRate, returnSortedByMeasure);
     }
 //
@@ -541,20 +479,14 @@ public class FFT {
      * @return Returns the FrequencyWithMeasure[] which contains the frequencies with corresponding measures.
      * Is sorted if returnSortedByMeasure = true
      */
+    @Deprecated
     public static FrequencyWithMeasure[] returnArrWithFrequenciesRealForward(double[] fftResult, int sampleRate, boolean returnSortedByMeasure) {
         FrequencyWithMeasure[] arr = new FrequencyWithMeasure[fftResult.length];
-//        System.out.println("arr:\t" + arr.length);                                        // TODO: remove - is just for debugging
-//        System.out.println("Sample rate:\t" + sampleRate);
-//        System.out.println("The division:\t" + (sampleRate / arr.length));
-        int number = arr.length - 1;                          //TODO: ta -1
-        int spaceSize = sampleRate / (number * 2);                // TODO: * 2 jsem pridal ja
-        /*if(sampleRate % arr.length != 0) {
-            spaceSize++;
-        }*/
+        int number = arr.length - 1;
+        int spaceSize = sampleRate / (number * 2);
         for(int i = 0; i < arr.length; i++) {
             int frequency = i * spaceSize;
 
-            // System.out.println("Freq:" + frequency + "----------------------------------------------");
             arr[i] = new FrequencyWithMeasure(frequency, fftResult[i]);
         }
 
@@ -572,9 +504,9 @@ public class FFT {
         calculateIFFTRealForward(samples, fft, scale);
     }
 
-    // TODO: na tohle ani nepotrebuju metodu
+    // This method is a bit overkill, but whatever
     public static void calculateIFFTRealForward(double[] samples, DoubleFFT_1D fft, boolean scale) {
-        fft.realInverse(samples, scale);            // TODO: Nevim co scale dela, ale rekl bych ze by to melo byt false
+        fft.realInverse(samples, scale);
     }
 
     public static double[] calculateIFFTRealForwardCopyVariant(double[] samples, DoubleFFT_1D fft, boolean scale) {
@@ -596,9 +528,9 @@ public class FFT {
         calculateIFFTComplexForward(samples, fft, scale);
     }
 
-    // TODO: na tohle ani nepotrebuju metodu
+    // This method is a bit overkill, but whatever
     public static void calculateIFFTComplexForward(double[] samples, DoubleFFT_1D fft, boolean scale) {
-        fft.complexInverse(samples, scale);            // TODO: Nevim co scale dela, ale rekl bych ze by to melo byt false
+        fft.complexInverse(samples, scale);
     }
 
     public static double[] calculateIFFTComplexForwardCopyVariant(double[] samples, DoubleFFT_1D fft, boolean scale) {
@@ -617,7 +549,7 @@ public class FFT {
     // TODO: Hloupost ... tohle dava smysl u FFT ... ale tak je mozny ze to nekdy vyuziju, takze muzu nechat
     public static double[] calculateIFFTComplexForwardProlongArray(double[] samples, boolean scale) {
         double[] result = Arrays.copyOf(samples, samples.length * 2);
-        DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);        // TODO: asi by to melo mit tuhle velikost tj. samples.length (... dalsi moznost je samples.length * 2 ale to nedava moc smysl)
+        DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
         calculateIFFTComplexForward(result, fft, scale);
         return result;
     }
@@ -650,7 +582,7 @@ public class FFT {
     ////////////////////
     public static void calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
                                                double[] result, int fftSize) {
-        if(result.length < fftSize) {       // TODO: Mel bych tu provadet check nebo ne???
+        if(result.length < fftSize) {
             return;
         }
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
@@ -668,27 +600,29 @@ public class FFT {
     //////////////////////
     // MaxAbsoluteValue is result of getMaxAbsoluteValueSigned
 
-    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, int maxAbsoluteValue,
-                                                   boolean isSigned, int resultArrayLen, int fftSize) {
+    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
+                                                   int maxAbsoluteValue, boolean isSigned,
+                                                   int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
         calculateFFTRealForward(samples, startIndex, numberOfChannels, result, maxAbsoluteValue, isSigned, fftSize);
         return result;
     }
-    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, int maxAbsoluteValue,
-                                                   boolean isSigned, int fftSize) {
+    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
+                                                   int maxAbsoluteValue, boolean isSigned, int fftSize) {
         return calculateFFTRealForward(samples, startIndex, numberOfChannels, maxAbsoluteValue, isSigned, fftSize, fftSize);
     }
 
-    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
-                                                   int maxAbsoluteValue, boolean isSigned, int resultArrayLen) {
+    public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
+                                                   DoubleFFT_1D fft, int maxAbsoluteValue,
+                                                   boolean isSigned, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
         calculateFFTRealForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
         return result;
     }
 
-    public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, double[] result, int maxAbsoluteValue, boolean isSigned,
-                                               int fftSize) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);           // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+    public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, double[] result,
+                                               int maxAbsoluteValue, boolean isSigned, int fftSize) {
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTRealForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
     }
     public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
@@ -704,20 +638,21 @@ public class FFT {
     public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
                                                    int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, result, maxAbsoluteValue,
-                isBigEndian, isSigned, fftSize);
+        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask,
+                result, maxAbsoluteValue, isBigEndian, isSigned, fftSize);
         return result;
     }
-    public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                                   int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
+    public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
+                                                   int frameSize, int mask, int maxAbsoluteValue, boolean isBigEndian,
+                                                   boolean isSigned, int fftSize) {
         return calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, maxAbsoluteValue,
                 isBigEndian, isSigned, fftSize, fftSize);
     }
 
     public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
                                                    int frameSize, int mask,
-                                                   DoubleFFT_1D fft,
-                                                   int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int resultArrayLen) {
+                                                   DoubleFFT_1D fft, int maxAbsoluteValue, boolean isBigEndian,
+                                                   boolean isSigned, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
         calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
                 isBigEndian, isSigned);
@@ -725,7 +660,7 @@ public class FFT {
     }
     public static void calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
                                                double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);           // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
                 isBigEndian, isSigned);
     }
@@ -744,7 +679,7 @@ public class FFT {
 
 
     public static void calculateFFTRealForward(double[] samples, int startIndex, double[] result, int fftLen) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);         // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);
         calculateFFTRealForward(samples, startIndex, fft, result);
     }
     public static void calculateFFTRealForward(double[] samples, int startIndex, DoubleFFT_1D fft, double[] result) {
@@ -752,11 +687,6 @@ public class FFT {
         fft.realForward(result);
     }
 
-    // TODO: !!!!!!!!!!!!!!! Ta complexni varianta je jen copy pasta s tim ze budu zpracovavat 2 kanaly najednou,
-    // TODO: a ted si nejsem moc jistej jestli to je spravne ... rozhodne ty vysledky nejsou stejny, ale mozna to pro ty energii tak moc nevadi ... a hlavni jen bude ze obe jsou rostouci
-    // TODO: I kdyz nejsou rostouci uplne stejne
-    // TODO: Ted ale nema cenu to implementovat kdyz nevim, jestli to bude potreba a navic jak rikam tak to je jen copy pasta
-    // TODO: !!!!!!!!!!!!!!! Dava to smysl, protoze kdyz pak udelam IFFT tak dostanu ten puvodni vysledek, takze muze provest operace jakoby na 2 kanalech najendou
     public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, result, fftSize);
@@ -773,7 +703,7 @@ public class FFT {
     }
     ////////////////////
     public static void calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, double[] result, int fftSize) {
-        if(result.length < fftSize) {       // TODO: Mel bych tu provadet check nebo ne???
+        if(result.length < fftSize) {
             return;
         }
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
@@ -808,7 +738,7 @@ public class FFT {
     }
     public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, double[] result, int maxAbsoluteValue, boolean isSigned,
                                                   int fftSize) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);           // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
     }
     public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
@@ -847,7 +777,7 @@ public class FFT {
     }
     public static void calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
                                                   double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);           // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
                 isBigEndian, isSigned);
     }
@@ -868,7 +798,7 @@ public class FFT {
 
 
     public static void calculateFFTComplexForward(double[] samples, int startIndex, double[] result, int fftLen) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);         // TODO: Mel bych tu provadet check nebo ne??? jako u calculateFFTRealForward
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);
         calculateFFTComplexForward(samples, startIndex, fft, result);
     }
     public static void calculateFFTComplexForward(double[] samples, int startIndex, DoubleFFT_1D fft, double[] result) {
@@ -899,48 +829,8 @@ public class FFT {
                 return null;
             }
             int[] intSamples = AudioConverter.convertBytesToSamples(songParts[i].songPart, sampleSize, isBigEndian, isSigned);
-
-            /*for(int j = 0; j < songParts[i].songPart.length; j++) {
-                System.out.println(intSamples[j]);
-                if(songParts[i].songPart[j] != (byte)intSamples[j]) {
-                    System.out.println("Chyba");
-                }
-            }*/
             double[] normalizedSongPart = AudioConverter.normalizeToDoubles(intSamples, sampleSize * 8, isSigned);
-//            for(int j = 0; j < normalizedSongPart.length; j++) {
-//                System.out.println(normalizedSongPart[j]);
-//            }
-
-            //DoubleFFT_1D fft = new DoubleFFT_1D(normalizedSongPart.length);
             fft.realForward(normalizedSongPart);
-            // TODO: odsud dolu remove
-//            double[] copiedArr = new double[normalizedSongPart.length];
-////            for(int k = 0; k < intSamples.length; k++) {
-////                normalizedSongPart[k] = intSamples[k];
-////            }
-//            for(int k = 0; k < copiedArr.length; k++) {
-//                copiedArr[k] = normalizedSongPart[k];
-//            }
-//            fft.realForward(normalizedSongPart);
-//            fft.realInverse(normalizedSongPart, true);
-//            System.out.println("Original arr length:\t" + normalizedSongPart.length);
-//            for(int k = 0; k < normalizedSongPart.length; k++) {     // TODO: Testing jestli vraci stejny vysledky
-//                System.out.println("Original:\t" + copiedArr[k] + "\tNew:\t" + normalizedSongPart[k]);
-//            }
-            // TODO: tedy az sem
-
-
-/*            fft.realForward(normalizedSongPart);
-            double[] fullArr = convertGivenRealForwardFFTToClassic(normalizedSongPart);
-            fft.realInverse(normalizedSongPart, false);
-            System.out.println("Original arr length:\t" + normalizedSongPart.length + "\tNew arr length:\t" + fullArr.length);
-            fft.complexInverse(fullArr, true);
-            int index = 0;
-            for(int k = 0; k < fullArr.length; k = k + 2) {     // TODO: Testing jestli vraci stejny vysledky
-                System.out.println("Original:\t" + normalizedSongPart[index] + "\tNew:\t" + fullArr[k]);
-                index++;
-            }
-*/
             FrequencyWithMeasure[] frequenciesWithMeasures = convertImagPartToRealReturnArrWithFrequenciesRealForward(normalizedSongPart, sampleRate, false);
             results[i] = frequenciesWithMeasures;
         }
@@ -1014,7 +904,6 @@ public class FFT {
     }
 
 
-    // TODO: Pro tuhle metodu kdyztak napsat IFFT variantu, jestli to bude potreba ale rekl bych ze ne
     /**
      * Input samples are expected in mono (1 channel).
      * Memory efficient variant, we convert byte samples right in to the FFT output.
@@ -1034,10 +923,9 @@ public class FFT {
                                                                    boolean isBigEndian, boolean isSigned) throws IOException {
         int windowSizeInBytes = windowSize * sampleSize;
         FrequencyWithMeasure[][] results = new FrequencyWithMeasure[samples.length / windowSizeInBytes][];
-        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);            // TODO: jestli beru spravnou velikost
+        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
 
         for(int index = 0, i = 0; i < results.length; i++, index += windowSizeInBytes) {
-//            System.out.println(i + ":" + results.length + ":" + samples.length + ":" + windowSizeInBytes + ":" + windowSize);
             double[] arr = AudioConverter.normalizeToDoubles(samples, sampleSize, sampleSizeInBits,
                     index, windowSize, isBigEndian, isSigned);
             fft.realForward(arr);
@@ -1051,8 +939,6 @@ public class FFT {
 
 
 
-    // TODO: dava smysl mit pro tuhle metodu a tu pod ni (tu s measurama co ale asi neni potreba) aby tam byl i shiftSize ... kdyz budu delat okna co se prekryvaji
-    // TODO: A taky dava smysl aby to dostavalo v parametru koeficienty okna ktery si na to aplikuje (treba hanning atd)
     /**
      * Input samples are expected in mono (1 channel).
      * Memory efficient variant, we convert byte samples right in to the FFT output.
@@ -1075,17 +961,11 @@ public class FFT {
         int windowSizeInBytes = windowSize * sampleSize;
         int len = endIndex - startIndex;
         double[][] results = new double[len / windowSizeInBytes][];
-// TODO:        System.out.println("len / windowSizeInBytes\t" + len / (double)windowSizeInBytes);
 
         for(int index = startIndex, i = 0; i < results.length; i++) {
             double[] arr = new double[windowSize];
-// TODO:            System.out.println("calculateFFTRealForward:" + index + "\t" + windowSize + "\t" + sampleSize);
             index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
-            for(int l = 0; l < arr.length; l++) {
-// TODO:                System.out.println(l + "\t" + arr[l]);
-            }
             fft.realForward(arr);
-//            arr = ByteWave.convertResultsOfFFTToRealRealForward(arr);    // TODO:
             results[i] = arr;
         }
 
@@ -1093,7 +973,6 @@ public class FFT {
     }
 
 
-    // TODO: tahle metoda asi nebude potreba ... staci mi spocitat ty fft nepotebuju measury
     /**
      * Input samples are expected in mono (1 channel).
      * Memory efficient variant, we convert byte samples right in to the FFT output.
@@ -1116,7 +995,7 @@ public class FFT {
         int windowSizeInBytes = windowSize * sampleSize;
         int len = endIndex - startIndex;
         double[][] results = new double[len / windowSizeInBytes][];
-        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);            // TODO: jestli beru spravnou velikost
+        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
         double[] arr = new double[windowSize];
 
         for(int index = startIndex, i = 0; i < results.length; i++) {
@@ -1126,21 +1005,6 @@ public class FFT {
         }
 
         return results;
-    }
-
-    // This method is used only in testing, because it is kind of useless, since we don't have information about frequencies.
-    public static double[] getNHighestMeasures(double[] arr, int n) {
-        if(n > arr.length) {
-            return null;
-        }
-        double[] result = new double[n];
-        Arrays.sort(arr);
-        int index = arr.length - 1;
-        for(int i = 0; i < result.length; i++, index--) {
-            result[i] = arr[index];
-        }
-
-        return result;
     }
 
 
@@ -1250,14 +1114,13 @@ public class FFT {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convolution is like polynomial multiplication
 
-    public static double[] convolutionInFreqDomainRealForwardFull(double[] fftResult, double[] bpmArray) {  // TODO: "Stereo" verze
+    public static double[] convolutionInFreqDomainRealForwardFull(double[] fftResult, double[] bpmArray) {
         double[] result = new double[fftResult.length];
         convolutionInFreqDomainRealForward(fftResult, bpmArray, result);
         return result;
     }
 
-    // TODO: Ted nevim jestli to ma byt stejne jako u getCombFilterEnergyRealForward ... kde pocitam measury misto toho co delam tady (tj nejdriv to vynasobim a pak z vysledku vezmu measury)
-    public static void convolutionInFreqDomainRealForwardFull(double[] fftResult, double[] bpmArray, double[] result) {      // TODO: "Stereo" verze
+    public static void convolutionInFreqDomainRealForwardFull(double[] fftResult, double[] bpmArray, double[] result) {
         double real;
         double imag;
         for(int i = 0; i < fftResult.length;) {
@@ -1272,7 +1135,7 @@ public class FFT {
 
 
 
-    // From documentation:
+// From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -1283,15 +1146,20 @@ public class FFT {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
-    // TODO: Ted nevim jestli to ma byt stejne jako u getCombFilterEnergyRealForward ... kde pocitam measury misto toho co delam tady (tj nejdriv to vynasobim a pak z vysledku vezmu measury)
-    public static void convolutionInFreqDomainRealForward(double[] arr1, double[] arr2, double[] result) {      // TODO: Monoverze
+    /**
+     * "Mono" version
+     * @param arr1
+     * @param arr2
+     * @param result
+     */
+    public static void convolutionInFreqDomainRealForward(double[] arr1, double[] arr2, double[] result) {
         double real;
         double imag;
         if(arr1.length % 2 == 0) {			// It's even
             real = arr1[0] * arr2[0];
             result[0] = real;
             real = arr1[1] * arr2[1];
-            result[1] = real;           // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
+            result[1] = real;
             for(int i = 2; i < arr1.length;) {
                 real = arr1[i] * arr2[i] - arr1[i+1] * arr2[i+1];
                 imag = arr1[i] * arr2[i+1] + arr1[i+1] * arr2[i];
@@ -1316,59 +1184,7 @@ public class FFT {
     }
 
 
-
-    // TODO: Stara verze konvoluce - nasobilo se real a imag cast zvlast, tj. nechovalo se to jako nasobeni
-    // TODO: KOMPLEXNICH CISEL
-//    // From documentation:
-////	if n is even then
-////	 a[2*k] = Re[k], 0<=k<n/2
-////	 a[2*k+1] = Im[k], 0<k<n/2
-////	 a[1] = Re[n/2]
-////
-////
-////	if n is odd then
-////	 a[2*k] = Re[k], 0<=k<(n+1)/2
-////	 a[2*k+1] = Im[k], 0<k<(n-1)/2
-////	 a[1] = Im[(n-1)/2]
-//    // TODO: Ted nevim jestli to ma byt stejne jako u getCombFilterEnergyRealForward ... kde pocitam measury misto toho co delam tady (tj nejdriv to vynasobim a pak z vysledku vezmu measury)
-//    public static void convolutionInFreqDomainRealForward(double[] arr1, double[] arr2, double[] result) {      // TODO: Monoverze
-//        double real;
-//        double imag;
-//        if(arr1.length % 2 == 0) {			// It's even
-//            real = arr1[0] * arr2[0];
-//            result[0] = real;
-//            real = arr1[1] * arr2[1];
-//            result[1] = real;           // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
-//            for(int i = 2; i < arr1.length;) {
-//                real = arr1[i] * arr2[i];
-//                imag = arr1[i+1] * arr2[i+1];
-//                result[i++] = real;
-//                result[i++] = imag;
-//            }
-//        }
-//        else {
-//            real = arr1[0] * arr2[0];
-//            result[0] = real;
-//            for(int i = 2; i < arr1.length - 1;) {
-//                real = arr1[i] * arr2[i];
-//                imag = arr1[i+1] * arr2[i+1];
-//                result[i++] = real;
-//                result[i++] = imag;
-//            }
-//            real = arr1[arr1.length - 1] * arr2[arr1.length - 1];
-//            imag = arr1[1] * arr2[1];
-//            result[result.length - 1] = real;
-//            result[1] = imag;
-//        }
-//    }
-    // TODO: Stara verze konvoluce - nasobilo se real a imag cast zvlast, tj. nechovalo se to jako nasobeni
-    // TODO: KOMPLEXNICH CISEL
-
-
-
-
-    // TODO: Tahle obecna verze je jen prepsana ta jednoducha s tim rozdilem ze se berou odpovidajici indexy
-    // From documentation:
+// From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
 //	 a[2*k+1] = Im[k], 0<k<n/2
@@ -1379,17 +1195,26 @@ public class FFT {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
-    // TODO: Ted nevim jestli to ma byt stejne jako u getCombFilterEnergyRealForward ... kde pocitam measury misto toho co delam tady (tj nejdriv to vynasobim a pak z vysledku vezmu measury)
+    /**
+     * "Mono" version. Rewritten the specific version to be more general.
+     * @param arr1
+     * @param arr1StartIndex
+     * @param arr2
+     * @param arr2StartIndex
+     * @param result
+     * @param resultStartIndex
+     * @param convolutionLen
+     */
     public static void convolutionInFreqDomainRealForward(double[] arr1, int arr1StartIndex,
                                                           double[] arr2, int arr2StartIndex,
-                                                          double[] result, int resultStartIndex, int convolutionLen) {      // TODO: Monoverze
+                                                          double[] result, int resultStartIndex, int convolutionLen) {
         double real;
         double imag;
         if(arr1.length % 2 == 0) {			// It's even
             real = arr1[arr1StartIndex++] * arr2[arr2StartIndex++];
             result[resultStartIndex++] = real;
             real = arr1[arr1StartIndex++] * arr2[arr2StartIndex++];
-            result[resultStartIndex++] = real;           // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
+            result[resultStartIndex++] = real;
             for(int i = 2; i < convolutionLen; i += 2, arr1StartIndex += 2, arr2StartIndex += 2) {
                 real = arr1[arr1StartIndex] * arr2[arr2StartIndex] - arr1[arr1StartIndex+1] * arr2[arr2StartIndex+1];
                 imag = arr1[arr1StartIndex] * arr2[arr2StartIndex+1] + arr1[arr1StartIndex+1] * arr2[arr2StartIndex];
@@ -1417,7 +1242,13 @@ public class FFT {
     }
 
 
-    public static double[] convolutionInFreqDomainRealForward(double[] fftResult, double[] bpmArray) {      // TODO: Monoverze
+    /**
+     * "Mono" version
+     * @param fftResult
+     * @param bpmArray
+     * @return
+     */
+    public static double[] convolutionInFreqDomainRealForward(double[] fftResult, double[] bpmArray) {
         double[] result = new double[fftResult.length];
         convolutionInFreqDomainRealForward(fftResult, bpmArray, result);
         return result;

@@ -450,7 +450,7 @@ public class ProgramTest {
                 FrequencyWithMeasure[] highestFrequencies2 = new FrequencyWithMeasure[0];
                 double[] highestMeasures = new double[0];
                 try {
-                    highestMeasures = FFT.getNHighestMeasures(onlyMeasures[i], topNMeasures);
+                    highestMeasures = getNHighestMeasures(onlyMeasures[i], topNMeasures);
                     highestFrequencies = FFT.takeNFreqsWithHighestMeasure(freqs[i], topNMeasures, false);
                     highestFrequencies2 = FFT.takeNFreqsWithHighestMeasure(freqsCalculatedStraigthFromBytes[i],
                         topNMeasures, false);
@@ -504,6 +504,21 @@ public class ProgramTest {
         }
 
         return true;
+    }
+
+
+    private static double[] getNHighestMeasures(double[] arr, int n) {
+        if(n > arr.length) {
+            return null;
+        }
+        double[] result = new double[n];
+        Arrays.sort(arr);
+        int index = arr.length - 1;
+        for(int i = 0; i < result.length; i++, index--) {
+            result[i] = arr[index];
+        }
+
+        return result;
     }
 
 

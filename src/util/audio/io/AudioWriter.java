@@ -53,7 +53,7 @@ public class AudioWriter {
     public static boolean saveAudio(String path, AudioInputStream audioInputStream, AudioFileFormat.Type type) {
         File f = new File(path + "." + type.getExtension());
         try {
-            AudioSystem.write(audioInputStream, type, f);    // TODO: Tohle nefunguje kdyz se to nevejde do pameti ... tak proste ten inputstream dam ze souboru kdyz se to nevejde
+            AudioSystem.write(audioInputStream, type, f);
             return true;
         }
         catch(Exception e) {

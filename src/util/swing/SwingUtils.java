@@ -33,14 +33,6 @@ public class SwingUtils {
         g.drawString(s, stringStartX, y);
 
         return stringStartX;
-
-// TODO: Vymazat, jen DEBUG testovani neceho
-//        int x = stringStartX + textLen / 2;
-//        g.drawLine(x, 0, x, 400);
-//
-//        g.setColor(Color.red);
-//        x = currX + binWidth / 2;
-//        g.drawLine(x, 0, x, 400);
     }
 
 
@@ -53,7 +45,7 @@ public class SwingUtils {
     }
 
     public static void drawLabelWithDefinedMidLoc(Graphics g, JLabel label, int mid, int y) {
-        int textLen = label.getWidth() - 1;       // -1 because it pushes more to the middle
+        int textLen = label.getWidth() - 1;                 // -1 because it pushes more to the middle
         int labetStartX = mid - textLen / 2;
         label.setLocation(labetStartX, y);
     }
@@ -111,9 +103,6 @@ public class SwingUtils {
         int textWidth = fm.stringWidth(label.getText());
         if(textWidth < maxWidth && textWidth >= 0) {
             while(currFontSize < DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE) {
-                // TODO: DEBUG
-                //ProgramTest.debugPrint("Font:", newFont, "w and h", maxWidth, maxHeight);
-                // TODO: DEBUG
                 currFontSize++;
                 newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
                 fm = label.getFontMetrics(newFont);
@@ -140,9 +129,6 @@ public class SwingUtils {
         }
         else if (textWidth > maxWidth) {
             while(currFontSize > 1) {
-                // TODO: DEBUG
-                //ProgramTest.debugPrint("Font:", newFont, "w and h", maxWidth, maxHeight);
-                // TODO: DEBUG
                 currFontSize--;
                 newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
                 fm = label.getFontMetrics(newFont);
@@ -183,9 +169,6 @@ public class SwingUtils {
             currFontSize++;
             newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
             fm = label.getFontMetrics(newFont);
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("Font:", newFont, "stringWidth", fm.stringWidth(label.getText()));
-            // TODO: DEBUG
             if(fm.stringWidth(label.getText()) < 0) {
                 return currFontSize - 1;
             }
@@ -229,15 +212,9 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void setFontSize(JLabel label, int oldWidth, int newWidth) {
         float ratio = newWidth / (float)oldWidth;
-        // TODO: DEBUG
-        //ProgramTest.debugPrint("Old font:", label.getFont());
-        // TODO: DEBUG
         Font oldFont = label.getFont();
         Font newFont = oldFont.deriveFont(ratio * oldFont.getSize2D());
         label.setFont(newFont);
-        // TODO: DEBUG
-        //ProgramTest.debugPrint("New font:", label.getFont());
-        // TODO: DEBUG
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */

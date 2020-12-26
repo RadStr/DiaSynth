@@ -25,7 +25,7 @@ public class BooleanButtonWithImages extends BooleanButton {
     }
 
 
-    // TODO: https://stackoverflow.com/questions/21720013/cant-get-imageicon-to-display-swing
+    // Used this for help https://stackoverflow.com/questions/21720013/cant-get-imageicon-to-display-swing
     private void setImageIcons(String pathToIfTrueImage, String pathToIfFalseImage) {
         Image img;
         try {

@@ -29,7 +29,8 @@ public class BinaryPlus extends BinaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                          DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new PlusInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
+                                               new PlusInternals(), this);
         return sp;
     }
 

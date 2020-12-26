@@ -22,25 +22,22 @@ public class SawtoothGenerator extends Generator {
     public double generateSampleConst(double timeInSeconds, int diagramFrequency, double amp,
                                       double freq, double phase) {
         double genVal;
-        // IMPORTANT NOTE: It isn't explained the best and also maybe it isn't correct, but I think it is correct,
+        // IMPORTANT NOTE: It isn't explained the best and also maybe incorrect, but I think it is correct,
         // since it makes sense and also works as seen on calculations:
-        // / (2 * Math.PI) because when working with sine the one cycle is reached at 2 * Math.PI
-        // but here it is shrinked and when phase = 1 then it is 1 cycle so I need to scale it accordingly,
-        // Basically the scaling of phase is always C / (2*Math.PI) where C is the constant which multiplies the
-        // frequency in equation to calculate sample, because when having frequency == 1 then we want to reach 1 cycle at 2 * Math.PI
+        // phase is divided by (2 * Math.PI) because when working with sine the one cycle is reached at 2 * Math.PI.
+        // But for saw it shrank and phase = 1 means 1 cycle, if we used 2 * Math.PI in calculation,
+        // so we need to scale it accordingly.
+        // We do this phaseScaleFactor = C / (2*Math.PI) where C is the constant which multiplies the
+        // frequency in equation to calculate sample. You will probably understand the comment after taking a look at
+        // the second variant for calculation of saw wave.
+        // (Just reminder that frequency == 1 means we reach 1 cycle at 2 * Math.PI).
         double currRad = timeInSeconds * freq + phase / (2 * Math.PI);
         double floor = Math.floor(currRad + 1 / 2.0);
         genVal = amp * (2 * (currRad - floor));
 
         // Second variant
-        // The phase needs to be / 2 because also I am multiplying by Math.PI instead of 2 * Math.PI
+        // The phase needs to be / 2 because we are multiplying the frequency by Math.PI instead of 2 * Math.PI
         //genVal = - 2 * amp / Math.PI * Math.atan(calculateCotangent(phase / 2 + Math.PI * timeInSeconds * freq));
-
-        //        ProgramTest.debugPrint("cot:", - 2 * amp / Math.PI * Math.atan(calculateCotangent(0)),
-//                - 2 * amp / Math.PI * Math.atan(calculateCotangent(Math.PI / 2)),
-//                - 2 * amp / Math.PI * Math.atan(calculateCotangent(Math.PI)),
-//                - 2 * amp / Math.PI * Math.atan(calculateCotangent(2 * Math.PI)),
-//                genVal);
         return genVal;
     }
 

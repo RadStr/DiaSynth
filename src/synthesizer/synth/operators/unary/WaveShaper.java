@@ -45,8 +45,9 @@ public class WaveShaper extends UnaryOperator {
     }
 
 
-    // I have separate variable, which uses its own copy of the function array. Because otherwise when the function
-    // is being changed and the samples are generated at the same time, then there could be invalid values (half-written doubles)
+    // I have separate variable, which uses its own copy of the function array. Otherwise when the function
+    // is being changed and the samples are generated at the same time,
+    // then there could be invalid values (half-written doubles).
     private volatile FunctionWithMaxAbsVal functionWrapper;
     private void setFunctionWrapper(double[] function) {
         functionWrapper = new FunctionWithMaxAbsVal(function);
@@ -65,7 +66,7 @@ public class WaveShaper extends UnaryOperator {
     protected void setPropertiesPanel() {
         // Doesn't have properties
         propertiesPanel = AudioPlayerPanel.createDrawFrame(AudioPlayerPanel.DRAW_PANEL_TYPES.WAVESHAPER, -1,
-                                                           null, null, -1, -1);
+                                                          null, null, -1, -1);
         setFunction();
         ((JFrame)propertiesPanel).addWindowListener(new WindowAdapter() {
            @Override
@@ -74,10 +75,6 @@ public class WaveShaper extends UnaryOperator {
                setFunction();
            }
        });
-        // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
-//        waveShaperPanel = RocnikovyProjektIFace.Drawing.WaveShaperPanel.createMaxSizeWaveShaper(Color.LIGHT_GRAY,
-//                -1, 1, true);
-        // TODO: Pres panel to moc nejde protoze to pak dam do dialogu
     }
 
 
@@ -119,7 +116,7 @@ public class WaveShaper extends UnaryOperator {
     public void calculateSamples() {
         double[] ops = inputPorts[0].getValues();
 
-        // Have to normalize, because the waveshaper expects the input to be on [-1, 1] interval
+        //  Normalize, because the waveshaper expects the input to be on [-1, 1] interval
         double amplitude = inputPorts[0].getMaxAbsValue();
         if(amplitude != 0) {
             for(int i = 0; i < results.length; i++) {

@@ -149,11 +149,10 @@ abstract public class GeneratorNoPhase extends Unit {
     }
 
     // Same as the code inside the Generator but we omit phase here, couldn't think of simple way how to not have
-    // it copy-pasted
+    // it copy-pasted.
     // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
-    // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.
-    // But I guess I should implement it, so it behaves correctly, even if it produces weird results
-    // Rewritten it
+    // find any information on that. I really think it doesn't make sense.
+    // But implemented it anyways, so it behaves correctly, even if it may produce weird results
     @Override
     public void calculateSamples() {
         SynthDiagram diagram = panelWithUnits.getSynthDiagram();
@@ -166,9 +165,9 @@ abstract public class GeneratorNoPhase extends Unit {
         double timeInSeconds = timeInSamples / (double)diagramFrequency;
         double timeJump = 1 / (double)diagramFrequency;
 
-        // I don't want to perform fm when the noise gen is connected to input port since, it doesn't really make sense
-        // It basically says now for n samples create wave at frequency x and after that phase to random value, and that in loop
-        // it just does clipping nothing else
+        // I don't want to perform fm when the noise gen is connected to input port since, it doesn't really make sense.
+        // It basically says now for n samples create wave at frequency x and after that move phase to random value and
+        // do that in loop. It just does clipping nothing else
         if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
             for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                 results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i]);

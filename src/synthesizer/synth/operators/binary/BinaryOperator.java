@@ -30,8 +30,7 @@ public abstract class BinaryOperator extends Operator {
 
     public abstract double binaryOperation(double a, double b);
 
-    // Doesn't work for division. But I am not solving that, user just should be careful and divide in such a way
-    // that the maximum after division is either always <= 1 or there is always larger number divided by smaller number
+    // Doesn't work for division. And probably doesn't work for many other binary operations.
     @Override
     public double getMaxAbsValue() {
         double maxA = inputPorts[0].getMaxAbsValue();

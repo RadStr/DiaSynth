@@ -65,15 +65,15 @@ public abstract class Generator extends GeneratorNoPhase {
 
 
     // https://ccrma.stanford.edu/~jos/sasp/Frequency_Modulation_FM_Synthesis.html
-
-
     // When looking at the article the d * sin(Beta * t) is the value which we get from the input so all we have to do
-    // is to divide it with the modulating frequency (frequency of the modulating oscillator),
-    // peak deviation (d) is equal to the maximum absolute value from the input oscillator - which is the amplitude of the modulating signal.
-    // So all we have to do is to divide the values on the output of modulating oscillator by the modulating frequency (which is frequency of that oscillator)
-    // To get the output of modulating oscillator we have to subtract carrierFreq from the given input freq we get, which is currentInputFreq
-    // To save some instructions, we will get the value straight from the output of the modulating oscillator and it is the
-    // modulatingWaveOutValue parameter
+    // is to divide it with the modulating frequency (frequency of the modulating oscillator).
+    // Peak deviation (d) is equal to the maximum absolute value from the input oscillator,
+    // which is the amplitude of the modulating signal.
+    // All we have to do is to divide the values on the output of modulating oscillator by the modulating frequency
+    // (which is frequency of that same oscillator).
+    // To get the output of modulating oscillator we would have to subtract carrierFreq from the input freq we get,
+    // which is currentInputFreq. To save some instructions, we will get the value straight from the output of
+    // the modulating oscillator and it is the modulatingWaveOutValue parameter.
     // The alpha and beta are the f_c and f_m but converted to rad/s (so it is just freqToRad())
     // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
 
@@ -85,17 +85,6 @@ public abstract class Generator extends GeneratorNoPhase {
                                    double carrierFreq, double modulatingWaveFreq,
                                    double modulatingWaveOutValue,
                                    double currentInputFreq, double phase) {
-        // TODO: DEBUG
-        // TODO: Just testing correctness - if it is either bigger than the value + epsilon or smaller than value - epsilon
-        // then it is incorrect, because the difference is too big then
-//        double epsilon = 0.00001;
-//        if(currentInputFreq - carrierFreq > modulatingWaveOutValue + epsilon || currentInputFreq - carrierFreq < modulatingWaveOutValue - epsilon) {
-//            ProgramTest.debugPrint("NOT EQUAL:", modulatingWaveOutValue, currentInputFreq, carrierFreq, currentInputFreq - carrierFreq);
-//            System.exit(489746);
-//        }
-        // TODO: DEBUG
-
-
         if(modulatingWaveFreq != 0) {
 //            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;       // Also works
             phase += modulatingWaveOutValue / modulatingWaveFreq;
@@ -105,12 +94,10 @@ public abstract class Generator extends GeneratorNoPhase {
 
 
     // Frequency modulation where the carrier frequency also varies doesn't probably makes sense, since I can't
-    // find any information on that, I guess I could rewrite but, I really think it doesn't make sense.
-    // But I guess I should implement it, so it behaves correctly, even if it produces weird results
-    // Rewritten it
+    // find any information on that. I really think it doesn't make sense.
+    // But implemented it anyways, so it behaves correctly, even if it may produce weird results
     @Override
     public void calculateSamples() {
-        // TODO: SYNTH - HNED TED
         if(inputPorts.length <= 2) {     // It doesn't contain phase
             super.calculateSamples();
             return;
@@ -152,8 +139,8 @@ public abstract class Generator extends GeneratorNoPhase {
         phase = Math.toRadians(phase);
 
         // I don't want to perform fm when the noise gen is connected to input port since, it doesn't really make sense.
-        // It basically says now for n samples create wave at frequency x and after that phase to random value, and that in loop
-        // it just does clipping nothing else
+        // It basically says now for n samples create wave at frequency x and after that move phase to random value and
+        // do that in loop. It just does clipping nothing else
         if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
             for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                 results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i], phase);
@@ -183,7 +170,6 @@ public abstract class Generator extends GeneratorNoPhase {
                 }
             }
             else {
-                // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
                             0, modWaveFreqs[i], freqs[i], freqs[i], phase);
@@ -214,7 +200,8 @@ public abstract class Generator extends GeneratorNoPhase {
                     }
                 }
                 else {
-                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1); // 1 because the 0 are modWaveFreqs
+                    // 1 because the 0 are modWaveFreqs
+                    double[] carrierWaveFreqs = inputPorts[1].getWaveFreqs(1);
                     double[] modWaveOutValues = inputPorts[1].getNonConstant(0);
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
@@ -224,7 +211,6 @@ public abstract class Generator extends GeneratorNoPhase {
                 }
             }
             else {
-                // This makes much more sense, also gives ok results
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
                             0, modWaveFreqs[i], freqs[i], freqs[i], phases[i]);

@@ -30,7 +30,8 @@ public class BinaryDivision extends BinaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new DivisionInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
+                                               new DivisionInternals(), this);
         return sp;
     }
 

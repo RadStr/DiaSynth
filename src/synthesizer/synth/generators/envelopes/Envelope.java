@@ -34,18 +34,12 @@ public abstract class Envelope extends Unit {
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[6];
         if(neutralValues != null && neutralValues.length >= inputPorts.length) {
-            inputPorts[0] = new AttackTimeInputPort(this, shapedPanel,
-                    0, panelWithUnits, neutralValues[0]);
-            inputPorts[1] = new AttackAmplitudeInputPort(this, shapedPanel,
-                    1, panelWithUnits, neutralValues[1]);
-            inputPorts[2] = new DecayTimeInputPort(this, shapedPanel,
-                    2, panelWithUnits, neutralValues[2]);
-            inputPorts[3] = new SustainTimeInputPort(this, shapedPanel,
-                    3, panelWithUnits, neutralValues[3]);
-            inputPorts[4] = new SustainAmplitudeInputPort(this, shapedPanel,
-                    4, panelWithUnits, neutralValues[4]);
-            inputPorts[5] = new ReleaseTimeInputPort(this, shapedPanel,
-                    5, panelWithUnits, neutralValues[5]);
+            inputPorts[0] = new AttackTimeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
+            inputPorts[1] = new AttackAmplitudeInputPort(this, shapedPanel, 1, panelWithUnits, neutralValues[1]);
+            inputPorts[2] = new DecayTimeInputPort(this, shapedPanel, 2, panelWithUnits, neutralValues[2]);
+            inputPorts[3] = new SustainTimeInputPort(this, shapedPanel, 3, panelWithUnits, neutralValues[3]);
+            inputPorts[4] = new SustainAmplitudeInputPort(this, shapedPanel, 4, panelWithUnits, neutralValues[4]);
+            inputPorts[5] = new ReleaseTimeInputPort(this, shapedPanel, 5, panelWithUnits, neutralValues[5]);
         }
         else {
             inputPorts[0] = new AttackTimeInputPort(this, shapedPanel, 0, panelWithUnits);
@@ -82,7 +76,8 @@ public abstract class Envelope extends Unit {
         // EMPTY
     }
 
-    // NOTE: All values can be generators, only amplitude values are treated as such, from all others only first value is taken.
+    // NOTE: All values can be generators, but only amplitude values are treated as such.
+    // From all others only first value is taken.
     @Override
     public void calculateSamples() {
         SynthDiagram synthDiagram = panelWithUnits.getSynthDiagram();

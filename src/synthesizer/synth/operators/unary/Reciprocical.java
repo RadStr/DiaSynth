@@ -23,7 +23,7 @@ public class Reciprocical extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
-                new ConstantTextInternals(getDefaultPanelName()), this);
+                                               new ConstantTextInternals(getDefaultPanelName()), this);
         return sp;
     }
 
@@ -31,7 +31,7 @@ public class Reciprocical extends UnaryOperator {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
-                new ConstantTextInternals(getDefaultPanelName()), this);
+                                               new ConstantTextInternals(getDefaultPanelName()), this);
         return sp;
     }
 
@@ -82,18 +82,11 @@ public class Reciprocical extends UnaryOperator {
 //            }
 //        }
 
-        // TODO: DEBUG
-//        ProgramTest.debugPrint("Generated value:", val, 1 / val);
-        // TODO: DEBUG
         return 1 / val;
     }
 
     @Override
     public double getMaxAbsValue() {
-        // TODO: DEBUG
-//        ProgramTest.debugPrint("Max:", inputPorts[0].getMaxAbsValue(),
-//                minAllowedVal, inputPorts[0].getMaxAbsValue() / minAllowedVal, 1 / minAllowedVal);
-        // TODO: DEBUG
         return 1 / minAllowedVal;
     }
 

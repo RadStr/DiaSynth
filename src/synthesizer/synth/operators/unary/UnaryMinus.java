@@ -22,7 +22,8 @@ public class UnaryMinus extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new SubtractionInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
+                                               new SubtractionInternals(), this);
         return sp;
     }
 

@@ -99,9 +99,10 @@ public class WaveTableGenerator extends Generator {
         if(waveTable != null) {
             if(isFirstCall) {
                 // I have to move it to state in which it would be if it ran from the start, else
-                // the results would be inconsistent, because when I add new wave table when the diagram is already running,
-                // while the other wave table is somewhere else. (so for example when adding sine and sine in 180° phase the result
-                // wouldn't be 0)
+                // the results would be inconsistent,
+                // because when I add new wave table when the diagram is already running,
+                // while the other wave table is somewhere else.
+                // For example when adding sine and sine in 180° phase the result wouldn't be 0.
                 isFirstCall = false;
                 double freq = inputPorts[1].getValue(0);
                 SynthDiagram diagram = panelWithUnits.getSynthDiagram();

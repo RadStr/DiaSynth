@@ -46,9 +46,7 @@ public abstract class UnaryOperator extends Operator {
     // Be careful, that this implementation doesn't work for some operations
     // (For example operations which producing huge numbers for small inputs.
     // For example 1 / n gets bigger with smaller n, so it behaves the opposite).
-    // And getting the min absolute value is quite hard to predict, it isn't impossible but takes a lot of time
-    // I don't have and I am not even sure if it is possible to get exact numbers, since we are mostly working
-    // with doubles
+    // Take a look at the reciprocal to understand how to get around this issue.
     @Override
     public double getMaxAbsValue() {
         return unaryOperation(inputPorts[0].getMaxAbsValue());

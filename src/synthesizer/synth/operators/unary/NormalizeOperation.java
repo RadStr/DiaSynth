@@ -18,7 +18,7 @@ public class NormalizeOperation extends UnaryOperator {
     private double maxAbsVal;
     @Override
     public void calculateSamples() {
-        maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());
+        maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());       Redundantni????
         super.calculateSamples();
     }
 
@@ -35,7 +35,7 @@ public class NormalizeOperation extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ParallelogramShapedPanel(panelWithUnits, 75,
-                new ConstantTextInternals(getPanelName()), this);
+                                                      new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -43,7 +43,7 @@ public class NormalizeOperation extends UnaryOperator {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new ParallelogramShapedPanel(relativeX, relativeY, w, h, panelWithUnits, 75,
-                new ConstantTextInternals(getPanelName()), this);
+                                                      new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 

@@ -59,9 +59,11 @@ public class ConstantGenerator extends Unit implements PluginBaseIFace {
     }
 
 
-    // Volatile because otherwise setting the variable isn't atomic.
-    // Also take into consideration that it will be set using reflection, but taken from the page
-    // https://docs.oracle.com/javase/tutorial/reflect/member/fieldValues.html it says at the bottom that
+    // Volatile because otherwise setting the variable isn't atomic (We only set or read, so volatile modifier is
+    // enough to make it atomic).
+    // Also take into consideration that it will be set using reflection,
+    // but based on this page it shouldn't be a problem.
+    // https://docs.oracle.com/javase/tutorial/reflect/member/fieldValues.html It says at the bottom that
     // From the runtime's point of view, the effects are the same, and the operation is
     // as atomic as if the value was changed in the class code directly.
     @PluginParameterAnnotation(name = "Generated constant:",

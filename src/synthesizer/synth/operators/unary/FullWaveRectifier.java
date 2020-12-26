@@ -27,8 +27,7 @@ public class FullWaveRectifier extends UnaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+        ShapedPanel sp = new CircleShapedPanel(panelWithUnits, new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -36,7 +35,7 @@ public class FullWaveRectifier extends UnaryOperator {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                               new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 

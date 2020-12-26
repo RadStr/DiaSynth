@@ -48,7 +48,8 @@ public abstract class NoiseGenerator extends NoiseGeneratorNoFreq {
     /**
      *
      * @param amp
-     * @param useCount is the diagram frequency / frequency - so it is the number which says how many times should be generated the same rand number.
+     * @param useCount is the diagram_frequency / frequency.
+     *                 The number says how many times we should generate the same rand number.
      * @return
      */
     public double generateNoise(double amp, double useCount) {

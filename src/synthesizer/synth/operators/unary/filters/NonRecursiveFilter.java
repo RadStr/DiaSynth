@@ -1,5 +1,6 @@
 package synthesizer.synth.operators.unary.filters;
 
+@Deprecated
 public class NonRecursiveFilter /*extends UnaryOperator*/ {
 //    public NonRecursiveFilter(Unit u) {
 //        super(u);

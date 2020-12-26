@@ -1,5 +1,6 @@
 package synthesizer.synth.operators.unary;
 
+@Deprecated
 public class Delay /*extends UnaryOperator*/ {
 //    public Delay(Unit u) {
 //        super(u);

@@ -28,7 +28,8 @@ public class BinaryMinus extends BinaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
-        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits, new SubtractionInternals(), this);
+        ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
+                                               new SubtractionInternals(), this);
         return sp;
     }
 
@@ -43,7 +44,7 @@ public class BinaryMinus extends BinaryOperator {
         // EMPTY
     }
 
-
+Tohle je spatne ... getMaxAbsVal muze vratit a vrati spatny cislo - ma to byt max z a - minimum z b
     public double binaryOperation(double a, double b) {
         return a - b;
     }

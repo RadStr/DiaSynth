@@ -1529,13 +1529,7 @@ public class ProgramTest {
             return false;
         }
 
-        int mask = 0;
-        try {
-            mask = AudioUtilities.calculateMask(sampleSize);
-        } catch (IOException e) {
-            System.out.print("FALSE3\t");
-            return false;
-        }
+        int mask = AudioUtilities.calculateMask(sampleSize);
         for (int i = 0, testIndex = 0; i < result.length; i += sampleSize) {
             int val = AudioConverter.convertBytesToInt(result, sampleSize, mask, i, isBigEndian, isSigned);
             int average = 0;
@@ -2220,13 +2214,7 @@ public class ProgramTest {
             return false;
         }
 
-        int mask = 0;
-        try {
-            mask = AudioUtilities.calculateMask(sampleSize);
-        } catch (IOException e) {
-            System.out.print("FALSE5:\t");
-            return false;
-        }
+        int mask = AudioUtilities.calculateMask(sampleSize);
         int skipCount = (ratio - 1) * numberOfChannels;
         for (int i = 0, intInd = 0; i < calculatedArr.length; intInd += skipCount) {
             for (int j = 0; j < numberOfChannels; j++, intInd++) {

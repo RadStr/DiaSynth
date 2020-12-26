@@ -125,29 +125,16 @@ import util.audio.format.AudioType;
 
 // TODO: Vsude mit gettery a settery
 
-// TODO: running average filter se chova jinak nez nerekurzivni filtr pro prvnich n samplu, kde n je velikost okenka.
-
-
-// TODO: not enough time - must remove some configs and try them later - such as weight inits etc. - best solution try it for some small parts and choose the best performing on these small samples
-// TODO: Nekde se skore nemeni kdyz je tohle (TODO: nemeni) nekde tak to vymazat to je urceni na to u kterych se to nemeni
-
-// TODO: przc - vymazat je to ted jen na zkouseni - jestli to hledani vhodne konfigurace funguje bez chyby
-
-// TODO: Dropout will try different values later - for that uncomment everything where is TODO: Dropout
-
-// TODO: Napsat metodu co zkontroluje jestli ma pole spravnou delku
-//  (Tj. ze tam jsou vsechny framy cely, tedy jestli je tam ten posledni frame cely (Tj. delka pole % frameSize == 0))
 public class ByteWave {
-    public byte[] song;         // TODO: Bylo static
+    public byte[] song;
 
-    private int mask;                   // TODO: At to zbytecne nepocitam pro kazdou metodu zvlast (i kdyz to je lehkej vypocet)
+    private int mask;
     public int getMask() {
         return mask;
     }
 
     private File soundFile;
     public AudioInputStream decodedAudioStream;
-    private SourceDataLine sourceLine;
 
     public int numberOfChannels;
     public int sampleRate;
@@ -218,71 +205,9 @@ public class ByteWave {
     }
 
 
-    // TODO: PROGRAMO
-//    /**
-//     * This method basically splits the array to channels and from each channel takes the n-th sample.
-//     * Internally it is performed a bit different, but the result is the same.
-//     *
-//     * @param samples          is the input stream containing samples
-//     * @param numberOfChannels represents number of channels
-//     * @param sampleSize       is the size of 1 sample in a channel
-//     * @param n                - Every n-th sample is taken from all channels separately
-//     * @param startSample      - The first sample to be taken from each channel
-//     * @return Returns 2D byte array, where each array represents the channels where only every n-th sample is taken
-//     * @throws IOException is thrown when the error in input stream occurred
-//     */
-//    @Deprecated // Slow variant - Was creating too large objects on heap which were immediately deleted
-//    public static byte[][] takeEveryNthSampleMoreChannels(InputStream samples, int numberOfChannels, int sampleSize, int n, int startSample) throws IOException {
-//        byte[][] arr = new byte[numberOfChannels][];
-//        int frameSize = sampleSize * numberOfChannels;
-//        byte[] oneFrame = new byte[frameSize];
-//
-//        ArrayList<ArrayList<Byte>> listList = new ArrayList<>();
-//        for (int i = 0; i < numberOfChannels; i++) {
-//            listList.add(new ArrayList<>());
-//        }
-//
-//        int bytesRead = 0;
-//        int arrIndex;
-//        int count = 0;
-//        int bytesReadSum = 0;
-//
-//        bytesRead = readNotNeededSamples(samples, sampleSize * numberOfChannels, startSample);
-//        while (bytesRead != -1) {
-//            arrIndex = 0;
-//            bytesReadSum = readNSamples(samples, oneFrame);
-//            if (bytesReadSum < oneFrame.length) {
-//                break;
-//            }
-//            if (count % n == 0) {
-//                arrIndex = 0;
-//                for (int i = 0; i < numberOfChannels; i++) {
-//                    for (int j = 0; j < sampleSize; j++) {
-//                        listList.get(i).add(oneFrame[arrIndex]);
-//                        arrIndex++;
-//                    }
-//                }
-//            }
-//            count++;
-//        }
-//
-//        for (int i = 0; i < numberOfChannels; i++) {
-//            arr[i] = new byte[listList.get(i).size()];
-//            for (int j = 0; j < arr[i].length; j++) {
-//                arr[i][j] = listList.get(i).get(j);
-//            }
-//        }
-//
-//        return arr;
-//    }
-
-
-    // TODO: PROGRAMO
-
-
     public void convertToMono() throws IOException {
-        this.song = AudioConverter.convertToMono(this.song, this.frameSize, this.numberOfChannels, this.sampleSizeInBytes,
-            this.isBigEndian, this.isSigned);
+        this.song = AudioConverter.convertToMono(this.song, this.frameSize, this.numberOfChannels,
+                this.sampleSizeInBytes, this.isBigEndian, this.isSigned);
         this.numberOfChannels = 1;
         this.frameSize = sampleSizeInBytes;
         this.decodedAudioFormat = new AudioFormat(decodedAudioFormat.getEncoding(),
@@ -293,141 +218,6 @@ public class ByteWave {
         setSizeOfOneSec();
     }
 
-
-    // TODO: Nahrazeno volanim pres referenci
-//    /**
-//     * Converts the audio from samples to mono signal by averaging the samples in 1 frame.
-//     *
-//     * @param samples          is the input array with samples
-//     * @param frameSize        is the size of 1 frame
-//     * @param numberOfChannels represents the number of channels
-//     * @param sampleSize       is the size of one sample
-//     * @param isBigEndian      true if the samples are in big endian, false otherwise.
-//     * @param isSigned         true if the samples are signed numbers, false otherwise.
-//     * @return Returns 1D byte array which is represents the mono audio gotten from the input array by averaging
-//     * the samples in frame
-//     * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
-//     */
-//    public static byte[] convertToMono(byte[] samples, int frameSize, int numberOfChannels,
-//                                                   int sampleSize, boolean isBigEndian, boolean isSigned) throws IOException {
-//        int sample = 0;
-//        int monoSample = 0;
-//
-//        int mask = calculateMask(sampleSize);
-//
-//        byte[] monoSong = new byte[samples.length / numberOfChannels];
-//        byte[] monoSampleInBytes = new byte[sampleSize];
-//
-//        for (int index = 0, monoSongIndex = 0; index < samples.length;) {
-//            // We take the bytes from end, but it doesn't matter, since we take just the average value
-//            monoSample = 0;
-//            for (int i = 0; i < numberOfChannels; i++) {
-//// TODO: Tenhle for tu podle me nema byt                       for(int j = 0 ; j < sampleSize; j++) {
-//                sample = convertBytesToInt(samples, sampleSize, mask, index, isBigEndian, isSigned);
-//// TODO:                        }
-//                monoSample = monoSample + sample;
-//                index = index + sampleSize;
-//            }
-//
-//            monoSample = monoSample / numberOfChannels;
-//            convertIntToByteArr(monoSampleInBytes, monoSample, isBigEndian);
-//            for (int i = 0; i < monoSampleInBytes.length; i++, monoSongIndex++) {
-//                monoSong[monoSongIndex] = monoSampleInBytes[i];
-//            }
-//        }
-//
-//
-//        return monoSong;
-//    }
-
-    //    /**
-//     * Converts the audio from audioStream to mono signal by averaging the samples in 1 frame.
-//     * @param audioStream is the InputStream with samples
-//     * @param frameSize is the size of 1 frame
-//     * @param frameRate is the frame rate, which is the same as sample rate
-//     * @param numberOfChannels represents the number of channels
-//     * @param sampleSize is the size of one sample
-//     * @return Returns 1D byte array which is represents the mono audio gotten from the input stream by averaging
-//     * the samples in frame
-//     * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
-//     */
-//    public static byte[] convertToMono(InputStream audioStream,
-//                                                   int frameSize, int frameRate, int numberOfChannels, int sampleSize, boolean isBigEndian) throws IOException {
-//
-//        int sample = 0;
-//        int monoSample = 0;
-//
-//        int mask = calculateMask(sampleSize);
-//        int inverseMask = calculateInverseMaskFromMask(mask);
-//
-//        ArrayList<Byte> monoSong = new ArrayList<>();
-//        int bytesRead = 0;
-//        byte[] frame = new byte[frameSize];
-//        byte[] monoSampleInBytes = new byte[sampleSize];
-//        if(isBigEndian) {				// TODO: Here i have 2 same codes, maybe it can be done better, but right now it is for optimalization
-//            while (bytesRead != -1) {
-//                try {
-//                    bytesRead = readNSamples(audioStream, frame);
-//                    int index = 0;
-//                    // We take the bytes from end, but it doesn't matter, since we take just the average value
-//                    for(int i = 0; i < numberOfChannels; i++) {
-//                        sample = 0;
-//                        monoSample = 0;
-//                        for(int j = 0 ; j < sampleSize; j++) {
-//                            sample = convertBytesToIntBigEndian(frame, sampleSize, mask, inverseMask, index);
-//                        }
-//                        monoSample = monoSample + sample;
-//                        index = index + sampleSize;
-//                    }
-//                    monoSample = monoSample / numberOfChannels;
-//                    for(int j = 0; j < sampleSize; j++) {
-//                        monoSampleInBytes[j] = (byte) (monoSample >> (j * 8));
-//                    }
-//
-//
-//                    for(int i = 0; i < monoSampleInBytes.length; i++) {
-//                		monoSong.add(monoSampleInBytes[i]);
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } else {
-//            while (bytesRead != -1) {
-//                try {
-//                    bytesRead = readNSamples(audioStream, frame);
-//                    int index = 0;
-//                    // We take the bytes from end, but it doesn't matter, since we take just the average value
-//                    for(int i = 0; i < numberOfChannels; i++) {
-//                        sample = 0;
-//                        monoSample = 0;
-//                        for(int j = 0 ; j < sampleSize; j++) {
-//                            sample = convertBytesToIntLittleEndian(frame, sampleSize, mask, inverseMask, index);
-//                        }
-//                        monoSample = monoSample + sample;
-//                        index = index + sampleSize;
-//                    }
-//                    monoSample = monoSample / numberOfChannels;
-//                    for(int j = 0; j < sampleSize; j++) {
-//                        monoSampleInBytes[j] = (byte) (monoSample >> (j * 8));
-//                    }
-//
-//                    for(int i = 0; i < monoSampleInBytes.length; i++) {
-//                        monoSong.add(monoSampleInBytes[i]);
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        byte[] arr = new byte[monoSong.size()];
-//        for(int i = 0; i < arr.length; i++) {
-//            arr[i] = monoSong.get(i);
-//        }
-//
-//        return arr;
-//    }
 
 
     /**
@@ -569,11 +359,9 @@ public class ByteWave {
     }
 
     private boolean setTotalAudioLength() throws IOException {
-        // TODO: PROGRAMO
         onlyAudioSizeInBytes = AudioReader.getLengthOfInputStream(decodedAudioStream);
         headerSize = wholeFileSize - onlyAudioSizeInBytes;
         decodedAudioStream.close();
-        // TODO: PROGRAMO
         return true;
     }
 
@@ -619,7 +407,7 @@ public class ByteWave {
 
         // That is the number of frames that means total number of samples is numberOfChannels * numberOfFrames
         if(this.audioType == AudioType.MP3) {
-            // TODO: This MP3 framecount - since here we call frames some different thing
+            //  This MP3 frame count - in mp3 frame is ~0.026 seconds
             int frameCount = Integer.parseInt(originalAudioFileFormat.properties().get("mp3.length.frames").toString());
             lengthOfAudioInSeconds = (int)(frameCount * 0.026);        // 0.026s is size of 1 frame
         }
@@ -677,7 +465,6 @@ public class ByteWave {
                     originalAudioFormat.getChannels() * 2,
                     originalAudioFormat.getSampleRate(),
                     false);
-                // TODO: I should probably later close the original inputStream
                 decodedAudioStream = AudioSystem.getAudioInputStream(decodedAudioFormat, originalAudioStream);
             }
             else {
@@ -711,7 +498,6 @@ public class ByteWave {
      * Writes the contents of the properties together with some additional info.
      */
     private void writeVariables() {
-        // TODO: at mp3 files writes some good properties
         for (int i = 0; i < 5; i++) {
             System.out.println();
         }
@@ -723,7 +509,7 @@ public class ByteWave {
         }
         System.out.println();
 
-        // TODO: mostly doesn't write anything
+        // Mostly doesn't write anything
         System.out.println("AudioFormat properties:");
         System.out.println("Number of properties:\t" + decodedAudioFormat.properties().size());
         for(Map.Entry<String, Object> property : decodedAudioFormat.properties().entrySet()) {
@@ -737,9 +523,9 @@ public class ByteWave {
         System.out.println("Number of channels:\t" + numberOfChannels);
         System.out.println("Type of encoding to waves (mostly PCM):\t" + encoding);
         System.out.println("Frame rate:\t" + frameRate);
+        // For mp3 - it is mp3 frame - that means number of samples for time ~0.026 seconds
         System.out.println("Size of frame:\t" + frameSize); // Size of 1 frame
         // frameSize = numberOfChannels * sampleSize
-        // TODO: Zase nefunguje u mp3 - tam je frame ten mp3 frame to jsou samply co majĂ­ 0.23 sekund
         System.out.println("Sample(Sampling) rate (in Hz):\t" + sampleRate);
         System.out.println("Size of sample (in bits):\t" + sampleSizeInBits); // Size of 1 sample
         System.out.println("Is big endian: " + isBigEndian);
@@ -747,7 +533,8 @@ public class ByteWave {
 
         System.out.println("Size of header:\t" + headerSize);
 
-        System.out.printf("kbit/s:\t%d\n", ((numberOfChannels * sampleRate * sampleSizeInBits) / 1000));	// /1000 because it's kbit/s
+        // /1000 because it's kbit/s
+        System.out.printf("kbit/s:\t%d\n", ((numberOfChannels * sampleRate * sampleSizeInBits) / 1000));
         if(song != null) {
             System.out.println("song length in bytes:\t" + song.length);	// size of song in bytes
         }
@@ -792,68 +579,12 @@ public class ByteWave {
     }
 
 
-    //    // TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Neresim Signed, Unsigned
-//    /**
-//     * Converts byte array to int samples of size sampleSize.
-//     * @param byteSamples are the samples in 1D byte array.
-//     * @param sampleSize is the size of one sample in bytes.
-//     * @param isBigEndian is true if the samples are in big endian, false otherwise.
-//     * @return Returns the samples as 1D array of ints.
-//     * @throws IOException is thrown when the sample size is invalid.
-//     */
-//    public static int[] convertBytesToSamples(byte[] byteSamples, int sampleSize, boolean isBigEndian) throws IOException {
-//        int[] result = new int[byteSamples.length / sampleSize];
-//
-//        int arrIndex;
-//        int mask = calculateMask(sampleSize);
-//        int inverseMask = calculateInverseMaskFromMask(mask);
-//        if(isBigEndian) {
-//            arrIndex = 0;
-//            for(int i = 0; i < result.length; i++) {
-//                result[i] = convertBytesToIntBigEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
-//                arrIndex = arrIndex + sampleSize;
-//            }
-//        } else {
-//            arrIndex = 0;
-//            for(int i = 0; i < result.length; i++) {
-//                result[i] = convertBytesToIntLittleEndian(byteSamples, sampleSize, mask, inverseMask, arrIndex);
-//                arrIndex = arrIndex + sampleSize;
-//            }
-//        }
-//
-//        return result;
-//    }
-
-
     public void convertSampleRate(int newSampleRate) throws IOException {
         this.song = AudioConverter.convertSampleRate(this.song, this.sampleSizeInBytes, this.frameSize,
                 this.numberOfChannels, this.sampleRate, newSampleRate,
                 this.isBigEndian, this.isSigned, false);
         this.sampleRate = newSampleRate;
     }
-
-
-    //    @Deprecated
-//    public static double[] performOperationOnSamples(double[] samples, double[] changeValues,
-//                                              int startSamplesIndex, int startChangeValuesIndex, int outputStartIndex,
-//                                              int len, ArithmeticOperation op) {
-//        double[] retArr = new double[samples.length];
-//        performOperationOnSamples(samples, changeValues, retArr, startSamplesIndex, startChangeValuesIndex, outputStartIndex, len, op);
-//        return retArr;
-//    }
-
-
-//    @Deprecated
-//    public static void performOperationOnSamples(double[] samples, double[] changeValues, double[] outputArr,
-//                                          int startSamplesIndex, int startChangeValuesIndex, int outputStartIndex,
-//                                          int len, ArithmeticOperation op) {
-//        int changeValuesEndIndex = startChangeValuesIndex + len;
-//        for(int indexInChangeValues = startChangeValuesIndex, samplesIndex = startSamplesIndex, outputIndex = outputStartIndex;
-//                indexInChangeValues < changeValuesEndIndex;
-//                indexInChangeValues++, samplesIndex++, outputIndex++) {
-//            outputArr[outputIndex] = ByteWave.performOperation(samples[samplesIndex], changeValues[indexInChangeValues], op);
-//        }
-//    }
 
 
 
@@ -875,9 +606,9 @@ public class ByteWave {
         int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
         int windowSize = sampleRate / windowsLen;
         windowSize = Utilities.convertToMultipleDown(windowSize, this.frameSize);
-        double[] windows = new double[windowsLen];                       // TODO: Taky bych mel mit jen jednou asi ... i kdyz tohle je vlastne sampleRate specific
-        return BPMSimple.computeBPM(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes, this.frameSize,
-                                  this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
+        double[] windows = new double[windowsLen];
+        return BPMSimple.computeBPM(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes,
+                this.frameSize, this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
     }
 
 
@@ -886,27 +617,23 @@ public class ByteWave {
     ////////////////////////////////////////////////////
     public int computeBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
                                              double coef, int windowsBetweenBeats,
-                                             double varianceLimit) {  // TODO: Bud predavat ty referenci nebo ne ... ono to nedava uplne smysl to predavat referenci
-        // TODO: Dava smysl ze to vytvorim tady ... protoze to vyrabim v zavislosti na sample rate a tak
-
-
+                                             double varianceLimit) {
          int historySubbandsCount = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
          int windowSize = this.sampleRate / historySubbandsCount;
          int powerOf2After = Utilities.getFirstPowerOfNAfterNumber(windowSize, 2);
          int powerOf2Before = powerOf2After / 2;
          int remainderBefore = windowSize - powerOf2Before;
          int remainderAfter = powerOf2After - windowSize;
-         if(remainderAfter > remainderBefore) {       // Trying to get power of 2 closest to the number ... for fft efficiency
+        // Trying to get power of 2 closest to the number ... for fft efficiency
+         if(remainderAfter > remainderBefore) {
              windowSize = powerOf2Before;
          }
          else {
              windowSize = powerOf2After;
          }
 
-         int mod = windowSize % this.frameSize;     // But not always is the power of 2 divisible by the frameSize
-         // TODO: DEBUG
-//         ProgramTest.debugPrint("window size (2nd bpm alg):", windowSize);        // TODO: remove
-         // TODO: DEBUG
+        // But not always is the power of 2 divisible by the frameSize, so we move it
+         int mod = windowSize % this.frameSize;
          windowSize += mod;
          DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
          double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
@@ -916,237 +643,4 @@ public class ByteWave {
                                                       this.maxAbsoluteValue, fft, splitter, subbandEnergies,
                                                       coef, windowsBetweenBeats, varianceLimit);
      }
-
-
-
-
-
-    // TODO: Dont create new array in FFT only measures
-    // TODO: Verze s tim ze se to bude delat po 2jicich ta FFT - s realnou i komplexni casti
-    // TODO: THIS IS VERSION FOR MONO SIGNAL
-    // TODO: double[][][] subbandEnergies in multiple channel case
-//    public static int getBPMSimpleWithFreqDomains(byte[] samples, int sampleSize, int sampleSizeInBits,
-//                                                  int windowSize, boolean isBigEndian, boolean isSigned,
-//                                                  int mask, int maxAbsoluteValue, DoubleFFT_1D fft, SubbandSplitterIFace splitter,
-//                                                  double[][] subbandEnergies // TODO: 1D are the past values, 2D are the subbands
-//                                                  ) throws IOException { // TODO: Predpokladam ,ze subbandEnergies uz je alokovany pole o spravny velikosti
-//
-///*
-//        int bpm = 0;
-//        double fft;
-//        int windowSizeInBytes = sampleSize * windowSize;        // TODO: * frameSize
-//        for(i = 0; i < windows.length; i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
-//            if(nextSampleIndex < samples.length) {
-//                windows[i] = getEnergy(samples, windowSize, numberOfChannels, sampleSize, sampleIndex, mask,
-//                    isBigEndian, isSigned);
-//                avg += windows[i];
-//            }
-//        }
-//
-//        for (int index = 0; index < samples.length; index += jumpInBytes) {
-//
-//            // TODO: Tahle metoda vypocita jen cast FFT o dane velikosti (tedy vraci pole doublu)
-//            // TODO: V obecnem pripade tahle metoda bude bud taky vracet double[] s tim ze proste vezme hodnoty
-//            // TODO: kanalu (pres preskakovani tj numberOfChannels * sampleSize je dalsi index ktery mam vzit)
-//            // TODO: nebo proste tu metodu udelat tak aby vratila double[][] kde to bude double[numberOfChannels][windowSize]
-//            // TODO: takze tam musim dat index
-////            double[] fft = calculateFFTOnlyMeasuresGetOnlyOnePart(samples, sampleSize, sampleSizeInBits, windowSize, isBigEndian, isSigned);
-//            // TODO: !!!!!!!!! Tak jeste jinak ... rovnou spocitam energie tech subbandu ... zase jen v ty jedny casti
-//            // TODO: !!!!!!!!! Pro vic kanalu zase musim pres double[][]
-//            double[] subbandEnergies = getSubbandEnergiesUsingFFT(...); // TODO: !!!! Zase to delat spis jen pres referenci
-//
-//        }
-//        return bpm;
-// */
-//
-//
-//// TODO:
-//        int numberOfChannels = 1;
-//        int frameSize = sampleSize;
-//// TODO:
-//
-//        int subbandCount = subbandEnergies[0].length;
-//        int historySubbandsCount = subbandEnergies.length;
-//
-//        double[] fftArr = new double[windowSize];
-//
-//        // TODO: Zbytecny staci aby to pole melo polovicni velikost (viz kod pod tim)
-////double[] measuresArr = new double[windowSize];        // TODO: Muzu pouzit fftArr jako measuresArr, ale takhle to je prehlednesji a navic pak chci ty vysledky fft ulozit do souboru abych to uz nemusel pocitat
-//        double[] measuresArr;
-//        if(windowSize % 2 == 0) {			// It's even
-//            measuresArr = new double[windowSize / 2 + 1];
-//        } else {
-//            measuresArr = new double[(windowSize + 1) / 2];
-//        }
-//
-//
-//        int bpm = 0;
-//        int sampleIndex = 0;
-//        int i;
-//        int windowSizeInBytes = windowSize * sampleSize;     // TODO: frameSize v vice multichannel variante
-//        int nextSampleIndex = windowSizeInBytes;
-//        //TODO: Asi zase predat jako argument ... tady je to pole protoze kazdy subband ma vlastni average
-//        double[] avgs = new double[subbandCount];  // TODO: Pro vice kanalove to bude double[][]
-//        double[] currEnergies = new double[subbandCount];
-//        for(i = 0; i < subbandEnergies.length; // TODO: U multi-channel varianty to bude subbandEnergies[0].length
-//            i++, sampleIndex = nextSampleIndex, nextSampleIndex += windowSizeInBytes) {
-//            if(nextSampleIndex < samples.length) {
-//                getSubbandEnergiesUsingFFT(samples, subbandEnergies[i], sampleIndex,//int startIndex,
-//                    numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
-//                    maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
-//// TODO:                subbandEnergies[i] = currEnergies;
-//                for(int j = 0; j < subbandEnergies[i].length; j++) {
-//                    avgs[j] += subbandEnergies[i][j];
-//                }
-//            }
-//        }
-//
-//        double coef = 20;
-//        double avgAfterDiv;
-//
-//        int oldestIndexInSubbands = 0;
-//        while(nextSampleIndex < samples.length) {
-//            getSubbandEnergiesUsingFFT(samples, currEnergies, sampleIndex,//int startIndex,
-//                numberOfChannels, sampleSize, frameSize, mask, fft, fftArr, measuresArr,
-//                maxAbsoluteValue, isBigEndian, isSigned, splitter);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
-//            //            currEnergies = getSubbandEnergiesUsingFFT(...);       // TODO: Chci predat subbandEnergies[i] referenci - urcite nechci vytvaret novy
-//
-//            int j = 0;
-//            for(; j < currEnergies.length; j++) {
-//                avgAfterDiv = avgs[j] / historySubbandsCount; // TODO:
-//                System.out.println(currEnergies[j] + ":\t" + avgAfterDiv + ":\t" + (coef * avgAfterDiv));
-//                if (currEnergies[j] > coef * avgAfterDiv) {        // TODO: Tady beru ze kdyz je beat na libovolnym mistem - pak typicky budu chtit brat beaty jen z urcitych frekvencnich pasem
-//                    bpm++;
-//                    break;
-//                }
-//                updateEnergySumsAndSubbands(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
-//            }
-//
-//            // TODO: I do this because of the break, I found beat but I still have to update the values
-//            // TODO: Ideally I want to do this in the previous for cycle,
-//            for(; j < currEnergies.length; j++) {
-//                updateEnergySumsAndSubbands(j, oldestIndexInSubbands, avgs, currEnergies[j], subbandEnergies);
-//            }
-//
-//            oldestIndexInSubbands++;
-//            sampleIndex = nextSampleIndex;
-//            nextSampleIndex += windowSizeInBytes;
-//
-//
-//            // Again optimize the case when windows.length is power of 2
-//            if (historySubbandsCount % 2 == 0) {       // TODO: U multi-channel verze chci subbandEnegies[i].length
-//                oldestIndexInSubbands %= historySubbandsCount; // TODO: U multi-channel verze chci subbandEnegies[i].length
-//            } else {
-//                if (oldestIndexInSubbands >= historySubbandsCount) { // TODO: U multi-channel verze chci subbandEnegies[i].length
-//                    oldestIndexInSubbands = 0;
-//                }
-//            }
-//        }
-//
-//        return bpm;
-//    }
-
-
-    //    // From documentation:
-////	if n is even then
-////	 a[2*k] = Re[k], 0<=k<n/2
-////	 a[2*k+1] = Im[k], 0<k<n/2
-////	 a[1] = Re[n/2]
-////
-////
-////	if n is odd then
-////	 a[2*k] = Re[k], 0<=k<(n+1)/2
-////	 a[2*k+1] = Im[k], 0<k<(n-1)/2
-////	 a[1] = Im[(n-1)/2]
-//    // TODO: Tohle je skoro konvoluce, akorat vysledky neukladame do pole ktere bude obsahovat vysledek konvoluce ale pocitame rovnou energii
-//    // TODO: A energii pocitame tak ze bereme vysledky konvoluce na druhou (realnou a imaginarni slozku zvlast) (protoze pocitame absolutni hodnotu)
-//    public static double getCombFilterEnergyRealForward(double[] fftResult, double[] bpmArray) {      // TODO: Monoverze
-//        double energy;              // TODO: mozna takhle prepsat i ten prevod na realny ... je to prehlednejsi
-//        double real;                // TODO: Ten prevod na realny mozna ani nebude dobre
-//        double imag;
-//        if(fftResult.length % 2 == 0) {			// It's even
-//            real = fftResult[0] * bpmArray[0];
-//            energy = calculateComplexNumMeasure(real, 0);
-//            real = fftResult[1] * bpmArray[1];      // TODO: Prehozeny poradi bylo to zatim for cyklem ... v te convertImagToReal to delat nemusim protoze tam to prevadim do pole polovicni velikosti
-//            energy += calculateComplexNumMeasure(real, 0);
-//            for(int i = 2; i < fftResult.length; i = i + 2) {
-//                real = fftResult[i] * bpmArray[i];
-//                imag = fftResult[i+1] * bpmArray[i+1];
-//                energy += calculateComplexNumMeasure(real, imag);
-//            }
-//        } else {
-//            real = fftResult[0] * bpmArray[0];
-//            energy = calculateComplexNumMeasure(real, 0);
-//            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
-//                real = fftResult[i] * bpmArray[i];
-//                imag = fftResult[i+1] * bpmArray[i+1];
-//                energy += calculateComplexNumMeasure(real, imag);
-//            }
-//
-//            real =  fftResult[fftResult.length - 1] * bpmArray[fftResult.length - 1];
-//            imag = fftResult[1] * bpmArray[1];
-//            energy += calculateComplexNumMeasure(real, imag);
-//        }
-//
-//        return energy;
-//    }
-
-
-    // TODO: To je p[odle me jen napsana ta jednoducha verze ... muzu to pak vymazat
-//        int bpm = 0;
-//        int[] maxBPMIndexes = 0;
-//        double[] maxEnergies = 0;
-//        double[] energies = new double[subbandCount];
-//        for(int i = 0; i < bpmArrays.length; i++) {
-//            double[][] fftResults = calculateFFTRealForwardOnlyMeasures(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy
-//                windowSize, isBigEndian, isSigned);     // TODO: tohle vraci measury ... nikoliv imag a real cast ... prizpusobit k tomu tu metodu
-//            // TODO: A jeste ten nechci volat na cely song ... vypocetne narocny ... melo by se to delat na nejakou 5ti sekundovou cast
-//            // TODO: A funguje na mono
-//            // TODO: !!!!!!!!!!!!!!
-//            getCombFilterEnergyRealForward(fftResults, bpmArrays[i], energies);
-//            for(int j = 0; j < energies.length; j++) {
-//                if (energies[j] > maxEnergies[j]) {
-//                    maxEnergies[j] = energies[j];
-//                    maxBPMIndexes[j] = i;
-//                }
-//            }
-//        }
-//
-//        return maxEnergy;
-//    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////// Audio visualization
-    ////////////////////////////////////////////////////////////////////////////////////
-    // Very important information - The maximum energy of FFT bin is equal to window size and it is in case, when
-    // there are only ones in window. !!! But this only applies to case where the input double values are normalized between -1 and 1.
-
-
-// TODO: Sice pekny, ale nemam cas si to implementovat, jen pouziju uz to naprogramovany convertovani
-//    public static void convertFormat(byte[] audio, int oldSampleRate, boolean oldIsBigEndian, boolean oldIsSigned,
-//                                     int oldSampleSize, int oldNumberOfChannels,
-//                                     int newSampleRate, boolean newIsBigEndian, boolean newIsSigned,
-//                                     int newSampleSize, int newNumberOfChannels) {
-//        int oldFrameSize = oldSampleSize * oldNumberOfChannels;
-//        int newFrameSize = newSampleSize * newNumberOfChannels;
-//        if(oldSampleRate != newSampleRate) {
-//            audio = convertSampleRate(audio, oldSampleSize, oldFrameSize, oldNumberOfChannels,
-//                oldSampleRate, newSampleRate, oldIsBigEndian, oldIsSigned);
-//        }
-//        if(oldIsBigEndian != newIsBigEndian) {
-//            convertEndianity(oldIsBigEndian, newIsBigEndian);
-//        }
-//        if(oldIsSigned != newIsSigned) {
-//            convertSign(oldIsSigned, newIsSigned);
-//        }
-//        if(oldNumberOfChannels != newNumberOfChannels) {
-//            convertNumberOfChannels(oldNumberOfChannels, newNumberOfChannels);
-//        }
-//    }
-
-
 }
-
-
-//Math.ceil(1) = 1

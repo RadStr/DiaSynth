@@ -14,7 +14,8 @@ public class AudioFormatJPanelWithConvertFlag extends AudioFormatJPanel {
 
     private void addShouldConvertFlag() {
         shouldConvertCheckbox = new JCheckBox("Should convert audio", true);
-        shouldConvertCheckbox.setToolTipText("<html>If set to true, then the currently loaded audio will be converted to the new sample rate.<br>" +
+        shouldConvertCheckbox.setToolTipText("<html>If set to true, " +
+                "then the currently loaded audio will be converted to the new sample rate.<br>" +
                 "Otherwise the audio will be kept the same, which will make it play slower/faster</html>");
         this.add(shouldConvertCheckbox);
         this.add(new JPanel());

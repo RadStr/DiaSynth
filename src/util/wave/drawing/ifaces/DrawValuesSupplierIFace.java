@@ -20,5 +20,7 @@ public interface DrawValuesSupplierIFace {
 
     int getAudioLen();
 
-    default double calculatePixelDifferenceBetweenSamples(int totalWaveWidthInPixels) { return totalWaveWidthInPixels / (double) getAudioLen(); }
+    default double calculatePixelDifferenceBetweenSamples(int totalWaveWidthInPixels) {
+        return totalWaveWidthInPixels / (double) getAudioLen();
+    }
 }

@@ -102,23 +102,12 @@ public class ConstantTextInternals implements ShapedPanelInternals {
 
         SwingUtils.findBiggestFontToFitSize(textLabel, width, height);
         SwingUtils.setLabelLocWithSpace(textLabel, startX, startY, width, height);
-// TODO: RML
-        // TODO: DEBUG
-//        ProgramTest.debugPrint("Text:", textLabel.getText(), textLabel.getX(), textLabel.getY(),
-//                textLabel.getWidth(), textLabel.getHeight(), textLabel.getFont(), textLabel.getPreferredSize(), newSize);
-        // TODO: DEBUG
-// TODO: RML
     }
 
     @Override
     public void draw(Graphics g) {
         g.setFont(textLabel.getFont());
         FontMetrics fm = g.getFontMetrics();
-// TODO: RML
-// TODO: DEBUG
-//        ProgramTest.debugPrint("Draw:", fm.getHeight(), fm.getAscent(), fm.getDescent());
-// TODO: DEBUG
-// TODO: RML
         g.drawString(textLabel.getText(), textLabel.getX(), textLabel.getY() + fm.getAscent());
     }
 

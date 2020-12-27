@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// TODO: RML
 @Deprecated
 public class DebugMenuItem extends JPanel {
     private static int labelNumber = 0;
@@ -59,12 +58,8 @@ public class DebugMenuItem extends JPanel {
 //        System.out.println("Component number " + panelNumber + ":\t" + "\t" + this.getPreferredSize() + this.getSize());
     }
 
-
-    // TODO: Maybe it makes sense to just return 1 size for all since, it will be just menu where all components will have same size.
-    // TODO: so i will return 1 dimension for maxSize, minSize, prefSize
     @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();
     }
 }
-// TODO: RML

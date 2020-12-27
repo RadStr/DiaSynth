@@ -22,7 +22,6 @@ public class FrameChangeButton extends JButton {
      */
     public FrameChangeButton(JFrame oldFrame, JFrame newFrame, String name) {
         this.setText(name);
-        // TODO:
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

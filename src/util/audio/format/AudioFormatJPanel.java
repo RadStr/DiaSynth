@@ -113,8 +113,6 @@ public class AudioFormatJPanel extends JPanel {
     }
 
 
-    // TODO: Can make it better by returning the closest one, for example in sample rate and number of channels.
-
     /**
      * @return Returns the audio format if it is supported or returns the first found.
      */

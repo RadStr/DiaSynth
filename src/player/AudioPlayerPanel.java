@@ -152,9 +152,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void setWaveScrollPanelsSizes(int leftPanelWidth, int rightPanelWidth, int h) {
-// TODO: DEBUG
-//        ProgramTest.debugPrint("EMPTY PANEL SETTING SIZE:", leftPanelWidth, waves.get(0).getWaveStartX(), rightPanelWidth, waves.get(0).getWaveWidth());
-// TODO: DEBUG
         waveScrollerWrapperPanel.setEmptyPanelsSizes(leftPanelWidth, rightPanelWidth, h);
     }
 
@@ -773,18 +770,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     visibleWidthChangedCallback();
                     setWaveScrollPanelsSizes();
                 }
-
-// TODO: DEBUG
-                ProgramTest.debugPrint("WWWImplementation:", w, getVisibleRect().width);
-// TODO: DEBUG
-
-
-// TODO: DEBUG
-//                for(WaveMainPanel waveMainPanel : waves) {
-//                    ProgramTest.debugPrint(waveMainPanel.getSize());
-//                }
-//                ProgramTest.debugPrint("EMPTY PANEL HORIZONTAL SIZE:", getEmptyPanelForHorizontalScrollSizeDebug());
-// TODO: DEBUG
             }
         };
 
@@ -795,9 +780,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         currSample = 0;
         currSampleUserSelected = 0;
         timeLineX = 0;
-        // TODO: Show play time
-//        currPlayTimeInMillis = 0;
-        // TODO: Show play time
         audioThread = new PlayerAudioThread(true, 100, 20);
         audioThread.start();
     }
@@ -1612,12 +1594,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     public void tryMoveSwap(WaveMainPanel waveMainPanel, MouseEvent e) {
-        if (panelWithWaves.getViewport().getViewPosition().y < 0) {
-            // TODO: I think that it can be removed later, but for now keep it just to be sure
-            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
-                         panelWithWaves.getViewport().getViewSize().height, 0);
-        }
-
         WaveMainPanel wave;
         int y = waveMainPanel.getY();
         int mouseY = e.getY();
@@ -1657,8 +1633,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     // We have to solve the following problem:
     // by nesting JSplitPane the borders are getting bigger with each nesting
-    // So I set the borders of jSplitPane to empty left borders, and also set divider border to null to remove small border above waves
-    // source: https://stackoverflow.com/questions/12799640/why-does-jsplitpane-add-a-border-to-my-components-and-how-do-i-stop-it
+    // So I set the borders of jSplitPane to empty left borders,
+    // and also set divider border to null to remove small border above waves
+    // source:
+    // https://stackoverflow.com/questions/12799640/why-does-jsplitpane-add-a-border-to-my-components-and-how-do-i-stop-it
     private void flattenJSplitPane(JSplitPane splitter) {
         SplitPaneUI ui;
         ui = splitter.getUI();
@@ -3161,9 +3139,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         currSample = 0;
         currSampleUserSelected = 0;
         timeLineX = 0;
-        // TODO: Show play time
-//        currPlayTimeInMillis = 0;
-        // TODO: Show play time
     }
 
     private boolean userClickedWave;
@@ -3430,10 +3405,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         private void wavesLengthChanged() {
             outputEndIndex = getDoubleWaveLength();
-            // TODO: Show play time
-//            int songSizeInSecs = DoubleWave.convertSampleToSecs(outputEndIndex, (int) outputAudioFormat.getSampleRate());
-//            songLenInSecs = Time.convertSecondsToTime(songSizeInSecs, -1);
-            // TODO: Show play time
             indexJumpInDoubleArr = audioArr.length / AudioUtilities.calculateFrameSize(outputAudioFormat);
             setTimeLinePixelsPerPlayPart();
         }
@@ -3460,20 +3431,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         }
                         line.write(audioArr, 0, audioArr.length);
 
-                        // TODO: DEBUG
-                        //System.out.println(len + "\t" + i + "\t" + playChunkSize + "\t" + line.available() +  "\t" +
-                        //                   line.getBufferSize() + "\t" + line.isActive() + "\t" + line.isRunning());
-                        // TODO: DEBUG
-
                         if (filledWithWaveSamples) {
                             if (userClickedWave) {
                                 switchToUserSelectedSample();
                             }
                             else {
                                 timeLineX += timeLinePixelsPerPlayPart;
-                                // TODO: Show play time
-                                //currPlayTimeInMillis += playTimeJumpInMillis;
-                                // TODO: Show play time
                             }
                         }
                         repaint();
@@ -3607,29 +3570,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         line.stop();
         line.close();
     }
-
-// TODO: Show play time
-// To show play time - might do that in future.
-//    private int currPlayTimeInMillis;
-//    public void setCurrPlayTimeInMillis(int val) {
-//        currPlayTimeInMillis = val;
-//    }
-//    private int waveStartX = 30;
-// private String songLenInSecs;
-//    private void drawSongLen(Graphics g, Color c) {
-//        int y = this.getHeight() - g.getFontMetrics().getHeight();
-//        SwingUtils.drawStringWithSpace(g, c, songLenInSecs, waveStartX, audioControlPanel.getPlayButton().getX(), y);
-//    }
-//
-//    private void drawCurrentPlayTime(Graphics g, Color c) {
-//        String time = getCurrentPlayTime();
-//        int y = this.getHeight();
-//        SwingUtils.drawStringWithSpace(g, c, time, waveStartX, audioControlPanel.getPlayButton().getX(), y);
-//    }
-//    public String getCurrentPlayTime() {
-//        return Time.convertMillisecondsToTime(currPlayTimeInMillis, -1);
-//    }
-// TODO: Show play time
 
 
     private void updateTimeLineX(int waveWidth) {
@@ -3815,14 +3755,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 Point newPos = new Point(oldPos.x, oldPos.y + movedSize);
                 view.setViewPosition(newPos);
             }
-        }
-
-
-        // TODO: Tohle vymazat - je to na vic mistech - - ve swap metodach
-        if (panelWithWaves.getViewport().getViewPosition().y < 0) {
-            // TODO: I think that it can be removed later, but for now keep it just to be sure
-            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
-                         panelWithWaves.getViewport().getViewSize().height, 0);
         }
 
         return movedSize;
@@ -4459,30 +4391,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     // TODO: DEBUG METHODS
     private void debugPrintWaves() {
-        // TODO: Jen neco zkousim - Vymazat - je to vedlejsi efekt
-//        final int divSpace = splitters.get(0).getDividerSize();
-//        int space = divSpace;
-//
-//        JSplitPane s = null;
-//        JSplitPane previousS = null;
-//        for(int i = 0; i < splitters.size(); i++) {
-//            previousS = s;
-//            s = splitters.get(i);
-//    //        s.resetToPreferredSizes();
-//            if(i == 0) {
-//                s.setDividerLocation(s.getPreferredSize().height - waves.get(0).getPreferredSize().height - divSpace);
-//            }
-//            else {
-//                s.setDividerLocation(previousS.getPreferredSize().height);
-//            }
-////            s.setDividerLocation(s.getPreferredSize().height);
-////            space += divSpace;
-//        }
-//        panelWithWaves.revalidate();
-//        panelWithWaves.repaint();
-//        this.revalidate();
-//        this.repaint();
-
         ProgramTest.printCharKTimesOnNLines('/');
         ProgramTest.printCharKTimesOnNLines('+');
         for (int i = 0; i < waves.size(); i++) {
@@ -4490,8 +4398,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             int divLoc = getJSplitPaneContainingWaveFromWaveIndex(i + 1).getDividerLocation();
             ProgramTest.debugPrint(w.getMinimumSize(), w.getPreferredSize(),
                                    w.getHeight(), divLoc, splitters.get(i).getPreferredSize(), splitters.get(i).getHeight());
-
-            // TODO: V tomhle je ten problem Ten divider je -1 on se nenastavi z nejakyho duvodu
             if (divLoc < 0) {
                 System.out.println(i + "\t" + divLoc);
             }
@@ -4511,12 +4417,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         for (int i = 0; i < splitters.size(); i++) {
 
             JSplitPane splitter = splitters.get(i);
-//            if(todoPanes[i] != splitter || !todoPanes[i].equals(splitter)) {
-//                System.out.println(i);
-//                ProgramTest.debugPrintWithSep(splitter);
-//                ProgramTest.debugPrintWithSep(todoPanes[i]);
-//                System.exit(123546);
-//            }
             Component comp;
             int waveIndex;
             if (i == 0 || i == splitters.size() - 1) {
@@ -4529,7 +4429,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             comp = splitter.getBottomComponent();
             if (comp == null) {
                 System.out.println(i);
-                System.exit(-1);        // TODO:
+                System.exit(-1);
             }
             waveIndex = getWaveIndex(comp);
             ProgramTest.debugPrint(i, " bot:", splitter.getDividerLocation(), splitter.getPreferredSize(), splitter.getSize(),

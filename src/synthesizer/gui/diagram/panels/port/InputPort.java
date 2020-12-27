@@ -248,37 +248,12 @@ public class InputPort extends Port {
             this.FULL_NAME = fullName;
             TOOL_TIP_PREFIX = "<html>" + FULL_NAME + " (" + name + ")<br>" + additionalToolTip;
             setToolTipText(TOOL_TIP_PREFIX + "</html>");
-// TODO: RML
-            // TODO: MORE ADVANCED TOOLTIP
-//            this.inputPort = inputPort;
-//            // Based on https://stackoverflow.com/questions/1660967/why-gettooltiptext-is-never-called
-//            ToolTipManager.sharedInstance().registerComponent(this);
-            // TODO: MORE ADVANCED TOOLTIP
-// TODO: RML
         }
+
 
         public final String FULL_NAME;
         public final String TOOL_TIP_PREFIX;
 
-// TODO: RML
-// TODO: MORE ADVANCED TOOLTIP
-//private final InputPort inputPort;
-//        @Override
-//        public String getToolTipText() {
-//            String tooltip = null;
-//            if(inputPort.connectedPort != null) {
-//                tooltip = TOOL_TIP_PREFIX + "<br>" +
-//                        "<br>" +
-//                        inputPort.connectedPort.getPanelWhichContainsPort().getPanelName() + " - " +
-//                        inputPort.getValue(0) + "</html>";
-//            }
-//            else {
-//                tooltip = TOOL_TIP_PREFIX + "</html>";
-//            }
-//            return tooltip;
-//        }
-// TODO: MORE ADVANCED TOOLTIP
-// TODO: RML
 
         /**
          * Doesn't work if the name contains ")< br >" ... without the spaces.

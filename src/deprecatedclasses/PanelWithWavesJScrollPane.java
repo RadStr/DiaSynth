@@ -3,7 +3,7 @@ package deprecatedclasses;
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: VYMAZAT
+
 @Deprecated
 public class PanelWithWavesJScrollPane extends JScrollPane implements Scrollable {
     public PanelWithWavesJScrollPane(int vsbPolicy, int hsbPolicy) {

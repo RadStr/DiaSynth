@@ -336,7 +336,7 @@ public class PluginLoader {
                         }
                         File sourceCodeFile = new File(srcFilePath);
                         if (!sourceCodeFile.exists()) {
-                            // TODO: For now we just remove every plugin on launch and add them again - the reason is to
+                            // For now we just remove every plugin on launch and add them again - the reason is to
                             // propagate possible change in plugin, otherwise it would propagate only if the user deletes
                             // all the class files in the directory with class files.
                             file.toFile().delete();

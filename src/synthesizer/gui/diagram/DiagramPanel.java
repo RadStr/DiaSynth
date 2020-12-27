@@ -984,11 +984,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     @Override
     public void resizeCallback(int newDivLoc) {
-        // TODO:
-        // Uncomment this code if I want to restrict the maximum size in the splitpane
-//        System.out.println("resizeCallback:\t" + minSize + "\t" + newDivLoc);
+//         Uncomment this code if I want to restrict the maximum size in the splitpane
 //        minSize = new Dimension(newDivLoc, super.getMinimumSize().height);
-//        System.out.println("resizeCallback:\t" + minSize + "\t" + newDivLoc);
     }
 
     /**
@@ -1358,7 +1355,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         // collision with some line which was already on maximum, then it would be set to default value, for all lines
         // colliding with that
         if (!cable.getIsElevationSet()) {   // Just check for me, shouldn't be needed, if everything is correct
-            // TODO: Micro-Optimization Later I can rewrite it using the System.arrayCopy
             for (int i = 0; i < ELEVATION_ARR.length; i++) {
                 ELEVATION_ARR[i] = 0;
             }
@@ -1409,21 +1405,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
                 i = ZERO_ELEVATION_INDEX + addVal;
             }
-// TODO: RML
-// Fast version but not quite visually ok - we first set all the elevations under then the above
-//            for(int i = ZERO_ELEVATION_INDEX; i < ELEVATION_ARR.length; i++) {
-//                if(!ELEVATION_ARR[i]) {
-//                    cable.setElevationToGivenValue(i - ZERO_ELEVATION_INDEX);
-//                    return;
-//                }
-//            }
-//            for(int i = 0; i < ZERO_ELEVATION_INDEX; i++) {
-//                if(!ELEVATION_ARR[i]) {
-//                    cable.setElevationToGivenValue(i - ZERO_ELEVATION_INDEX);
-//                    return;
-//                }
-//            }
-// TODO: RML
 
             int indexWithMinElevation = ZERO_ELEVATION_INDEX;
             int currMin = Integer.MAX_VALUE;
@@ -1435,11 +1416,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             }
 
             cable.setElevationToGivenValue(indexWithMinElevation - ZERO_ELEVATION_INDEX);
-// TODO: RML
-// Faster version using random numbers
-//            cable.setElevationToGivenValue(randomGenerator.
-//                    nextInt(ELEVATION_ARR.length - 1) - ZERO_ELEVATION_INDEX);
-// TODO: RML
         }
     }
 
@@ -1467,7 +1443,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 h1x = h2x;
                 h2x = tmp;
             }
-            // TODO: FEEDBACK - If I want to allow feedback then I should also sort the v1y and v2y
             return h1x < vx && h2x > vx && hy > v1y && hy < v2y;
         }
     }
@@ -2108,7 +2083,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             MovablePanelIFace p = u.getShapedPanel();
             List<Cable> cables = p.getOutputPort().getCables();
             for (Cable c : cables) {
-                if (c != cable) {            // TODO: Probably not even needed
+                if (c != cable) {
                     setCollisionsOnHorizontalLine(c, x1, x2, y, arcLocations);
                 }
             }
@@ -2322,10 +2297,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         // Second line is to disable collisions when the horizontal line goes through line which just changed from
         // horizontal to vertical and it is at least 2 rows
         // Third line is when the second line changes from vertical to horizontal and it is also at least 2 rows -
-        // TODO: Vymazat to v tom ifu uvnitr /* */
         if (relativeLocInput.y > y && relativeLocOutput.y < y
             && !(relativeLocOutput.y + 1 - 0.5 == y && relativeLocInput.y - relativeLocOutput.y >= 2)
-            && !(relativeLocInput.y - 0.5 == y/* && relativeLocInput.y - relativeLocOutput.y >= 2*/)) {
+            && !(relativeLocInput.y - 0.5 == y)) {
 
             if (checkIfTheTargetOfOutputPanelIsOnLeft(relativeLocOutput.x, relativeLocInput.x)) {
                 outputAisleX -= 0.5;

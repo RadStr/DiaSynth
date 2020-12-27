@@ -469,11 +469,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         op.moveCablesY(updateVal);
     }
 
-    // TODO: RML
-    // I have to also update the cables
-    // TODO: Possible optimization, when I call this method on zoom, I don't have to calculate the cable locations
-    // since I have to recalculate them from scratch anyways
-// TODO: RML
+
     @Override
     public void setLocation(int x, int y) {
         updateLocation(x - this.getX(), y - this.getY());
@@ -606,9 +602,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         }
     }
 
-    // TODO: RML
-    // TODO: Optimalizace, jakmile mam kolizi tak se mi jen staci divat jestli jsem furt v ni, kdyz ne tak zavolama tuhle metodu, kdyz jo tak nic
-    // TODO: RML
+
     private boolean checkForCollisions(int x, int y) {
         isInsideStaticPanel = diagramPanel.lockMovablePanel(this, x, y);
         isInCollision = diagramPanel.checkForCollisions(this, relativePosReferencePanel.x, relativePosReferencePanel.y);
@@ -732,27 +726,6 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         getLastPoint(nextToLastPoint, connectorIndex, connectorCount);
         nextToLastPoint.y = 0;
     }
-// TODO: RML
-// It isn't wrong, but the variant above just produces better result for rectangle panels (used as generators)
-//    @Override
-//    public void getNextToLastPoint(Point nextToLastPoint, int connectorIndex, int connectorCount) {
-//        getLastPoint(nextToLastPoint, connectorIndex, connectorCount);
-//        Direction direction = getDirectionForInputPortLabel(connectorIndex, connectorCount);
-//        switch (direction) {
-//            case LEFT:
-//                nextToLastPoint.x = nextToLastPoint.y;
-//                nextToLastPoint.y = -1;
-//                break;
-//            case UP:
-//                nextToLastPoint.y = 0;
-//                break;
-//            case RIGHT:
-//                nextToLastPoint.x = nextToLastPoint.y;
-//                nextToLastPoint.y = 1;
-//                break;
-//        }
-//    }
-// TODO: RML
 
 
     @Override

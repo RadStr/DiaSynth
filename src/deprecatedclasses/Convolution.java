@@ -3,7 +3,6 @@ package deprecatedclasses;
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import util.audio.wave.DoubleWave;
 
-// TODO: RML
 @Deprecated
 public class Convolution extends OperationOnWavesPlugin {
     @Override
@@ -43,4 +42,3 @@ public class Convolution extends OperationOnWavesPlugin {
                "</html>";
     }
 }
-// TODO: RML

@@ -169,10 +169,6 @@ public class AnalyzerXML {
             for (int j = 0; j < nnList.getLength(); j++) {
                 Node nn = nnList.item(j);
 
-                // TODO: DEBUG
-//				ProgramTest.debugPrint("First node matching:", nn.getAttributes().
-//				getNamedItem(SongLibraryPanel.HEADER_NAME_COLUMN_TITLE), nn.getAttributes().item(0));
-                // TODO: DEBUG
                 if (isMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
                     if (getInfoNodeValue(nn).equals(songName)) {
                         return n;

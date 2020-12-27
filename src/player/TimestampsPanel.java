@@ -62,7 +62,7 @@ public class TimestampsPanel extends JPanel {
 
         int labelCount;
         try {
-            labelCount = waveWidth / visibleWaveWidth;        // TODO: Maybe tune this parameter - the multiply factor (Was constant 20, then 60)
+            labelCount = waveWidth / visibleWaveWidth;
             labelCount *= 4;
         }
         catch (ArithmeticException e) {
@@ -94,9 +94,6 @@ public class TimestampsPanel extends JPanel {
         }
 
 
-        // TODO: DEBUG - markCount NOT NEEDED - JUST FOR DEBUGGING
-//        int markCount = labelCount * MARKS_PER_TIMESTAMP;
-        // TODO: DEBUG
         double pixelJump = 0;
         int minimumPixelJump = 20;
         // Starts from index = 1
@@ -107,47 +104,14 @@ public class TimestampsPanel extends JPanel {
             timeJumpInt = index * oldTimeJumpInt;
             pixelJump = timeJumpInt / numOfSecs;        // If the song is short enough, then numOfSecs = numOfMillisecs
             pixelJump *= waveWidth;
-            // TODO: DEBUG
-//            markCount = (int) (waveWidth / pixelJump);
-//            markCount *= MARKS_PER_TIMESTAMP;
-            // TODO: DEBUG
             pixelJump /= MARKS_PER_TIMESTAMP;
             if (pixelJump >= minimumPixelJump) {
                 break;
             }
-
-            // TODO: DEBUG
-//            ProgramTest.debugPrint("Timestamp finding pixel jump", index, markCount, pixelJump, timeJumpInt, numOfSecs);
-            ProgramTest.debugPrint("Timestamp finding pixel jump", index, pixelJump, timeJumpInt, numOfSecs);
-            // TODO: DEBUG
         }
-
-        // TODO: DEBUG
-//        markCount++;
-        // TODO: DEBUG
-
 
         drawTimestamps(g, waveStartX, scrollX, pixelJump, isTimeInSecs, color,
                        MARKS_PER_TIMESTAMP, timeJumpInt, visibleWaveWidth);
-
-
-//        labelCount += 2;
-//        String timeString;
-//        // TODO: Rozhodne nechci x = 30 takhle defaultne ... i kdyz mozna chci
-//        for (int i = 0, nextX = x + spaceSizeBetweenTimestampsInPixels; i < labelCount; x = nextX, nextX += spaceSizeBetweenTimestampsInPixels, time += timeJump, i++) {
-//            g.drawLine(x, 0, x, y);
-//            timeString = ByteWave.convertSecondsToTime((int) time);
-//// TODO: DEBUG            System.out.println(time + "\t" + timeString + "\t" + timeJump + "\t" + numOfSecs);
-//            //ByteWave.drawStringWithSpace(g, color, timeString, x / 2, nextX / 2, y, fontMetrics);
-//            g.setColor(color);
-//            g.drawString(timeString, x, y);
-//
-////
-////            g.setColor(Color.black);
-////            int textLen = fontMetrics.stringWidth(binFreqs[bin]);
-////            int textStart = (currBinWidth - textLen) / 2;
-////            g.drawString(binFreqs[bin], currX + textStart, windowHeight);
-//        }
     }
 
 
@@ -199,27 +163,8 @@ public class TimestampsPanel extends JPanel {
                 g.drawLine(xInt, lineStartY, xInt, this.getHeight());
             }
 
-// TODO: Debug print
-//            System.out.println("------------------------------------------------");
-//            System.out.println(x + "\t" + pixelJump + "\t" + waveWidth);
-// TODO: Debug print
             x += pixelJump;
             i++;
         }
-
-
-// TODO: Debug - just testing if the timestamps are correct, that means if I add to the last timestamp the remaining time I will end up at end of wave panel
-//        x -= pixelJump;
-//        if ((labelCount - 1) % timestampCountBetweenTwoMainTimeStamps == 0) {
-//            timeInt -= timeJumpInt;
-//        }
-//        double remainingTime = numOfSecs - timeInt;
-//        double ratioOfRemainingTimeToJump = remainingTime / timeJumpInt;
-//        ratioOfRemainingTimeToJump *= timestampCountBetweenTwoMainTimeStamps;       // because one pixelJump is == timeJumpInt / timestampCountBetweenTwoMainTimeStamps
-//        double lastX = ratioOfRemainingTimeToJump * pixelJump + x;
-// TODO: DEBUG
-//        System.out.println(x + "\t" + waveWidth + "\t" + pixelJump + "\t" + timeInt + "\t" + remainingTime + "\t" + timeJumpInt + "\t" +
-//            ratioOfRemainingTimeToJump + "\t" + lastX + "\t" + audioPlayerPanel.getWaveEndX());
-// TODO: DEBUG
     }
 }

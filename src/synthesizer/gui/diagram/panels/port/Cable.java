@@ -203,13 +203,9 @@ public class Cable {
 
     private final static double[] tmpArr = new double[4];
 
-    // TODO: RML
-    // Awful code, I have to check if it is integer or not and based on that transform relative coordinates to absolute
+    // I have to check if it is integer or not and based on that transform relative coordinates to absolute
     // At first the code was quite clear, but I probably made some implementation mistake and the code got much for worse
-    // from there, but since it is working I won't be rewriting it ... it is even messier now but it is kind of fine
-    // TODO: isDone case to and index == 1 to fix the special cases (start and end going to the middle) - I will want to change that
-    // later when I add more ports per panel
-    // TODO: RML
+    // from there, but since it is working I won't be rewriting it
     public void setAbsolutePathBasedOnRelativePath(Point referencePanelLoc, Dimension panelSize, int borderWidth, int borderHeight,
                                                    int panelSizeWithBorderWidth, int panelSizeWithBorderHeight,
                                                    int pixelsPerElevation) {
@@ -219,18 +215,6 @@ public class Cable {
         boolean isConnectorOnSides = tmpPoint.y == -1 || tmpPoint.y == 1;
         double[] line = new double[4];
         int totalElevation = pixelsPerElevation * elevation;
-
-// TODO: RML
-        // TODO: NTL - DEBUG
-//        PathIterator it = relativePath.getPathIterator(null);
-//        System.out.println("****BEFORE****");
-//        for(int i = 0; !it.isDone(); i++, it.next()) {
-//            int type = it.currentSegment(line);
-//            ProgramTest.debugPrint("Index:", cableType, i, line);
-//        }
-//        System.out.println("****AFTER****");
-        // TODO: NTL - DEBUG
-// TODO: RML
 
 
         int midBotReferencePanelX = referencePanelLoc.x + panelSize.width / 2;
@@ -254,10 +238,6 @@ public class Cable {
             y = referencePanelEndY;
 
             int type = iterator.currentSegment(line);
-            // TODO: DEBUG
-            //ProgramTest.debugPrint("Index:", cableType, index, line);
-            // TODO: DEBUG
-
             iterator.next();
             if (index == 0) {
                 oldX = line[0];
@@ -427,11 +407,6 @@ public class Cable {
                     }
                 }
             }
-
-// TODO: DEBUG
-//            System.out.println("x : y\t" + x + "\t" + y);
-//            System.out.println("Inside cable:\t" + todo_debug++ + "\t" + x + "\t" + y + "\t" + (midBotReferencePanelX + panelSizeWithBorderWidth * 19) + "\t" + (referencePanelEndY + panelSizeWithBorderHeight * 19));
-//            System.out.println(panelSizeWithBorderWidth + "\t" + line[0] + "\t" + line[1] + "\t" +  line[2] + "\t" + line[3]);
         }
     }
 
@@ -582,8 +557,6 @@ public class Cable {
 
             isElevationSet = true;
         }
-
-// TODO: DEBUG        System.out.println("Elevation set in max:\t" + elevation);
     }
 
     /**

@@ -165,10 +165,6 @@ public class ShiftBufferDouble {
         boolean result = false;
         result = result || updateIfOutOfBoundsStartIndex();
         result = result || updateIfOutOfBoundsEndIndex();
-
-        // TODO: DEBUG
-        ProgramTest.debugPrint("updateIfOutOfBounds min and max", minLeftIndex, maxRightIndex);
-        // TODO: DEBUG
         return result;
     }
 
@@ -292,10 +288,6 @@ public class ShiftBufferDouble {
 
 
     private void shiftBufferToRight(int startCopyToIndex) {
-        // TODO: DEBUG
-        ProgramTest.debugPrint("shiftBufferToRight", startCopyToIndex, buffer.length,
-                               buffer.length - startCopyToIndex, maxRightIndex, maxRightIndex - startCopyToIndex);
-        // TODO: DEBUG
         // Have to go from end because otherwise I will rewrite the values before I copy them
         for (int copyToIndex = maxRightIndex - 1, copyFromIndex = (maxRightIndex - 1) - startCopyToIndex;
              copyToIndex >= startCopyToIndex;

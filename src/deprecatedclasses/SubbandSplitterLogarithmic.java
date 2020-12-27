@@ -30,8 +30,9 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
+    // Basically copied from SubbandSplitterLinear
     @Override
-    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {     // TODO: Basically copied from SubbandSplitterLinear
+    public void getSubband(double[] fftMeasures, int subbandCount, int subband, double[] result) {
         int numberCount;
         int currentSubbandSize;
         int startIndex;

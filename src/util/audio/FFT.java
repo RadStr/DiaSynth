@@ -590,7 +590,6 @@ public class FFT {
     }
 
 
-    // TODO: Hloupost ... tohle dava smysl u FFT ... ale tak je mozny ze to nekdy vyuziju, takze muzu nechat
     public static double[] calculateIFFTComplexForwardProlongArray(double[] samples, boolean scale) {
         double[] result = Arrays.copyOf(samples, samples.length * 2);
         DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
@@ -598,7 +597,6 @@ public class FFT {
         return result;
     }
 
-    // TODO: Hloupost ... tohle dava smysl u FFT ... ale tak je mozny ze to nekdy vyuziju, takze muzu nechat
     public static double[] calculateIFFTComplexForwardProlongArray(double[] samples, DoubleFFT_1D fft, boolean scale) {
         double[] result = Arrays.copyOf(samples, samples.length * 2);
         calculateIFFTComplexForward(result, fft, scale);

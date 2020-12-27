@@ -114,15 +114,6 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     }
 
     public void start() {
-// TODO: RML - Zapomnel jse mto opravit - za 13 hodin behu to proste pretece - kdyz se o tom nikde nezminim tak ok
-// TODO: I have to do this else, it will overflow later, but this part of code somehow lags everything
-//        if(lastPushedSample != null && lastDrawnSample != null) {
-//            for(int i = 0; i < lastPushedSample.length; i++) {
-//                lastPushedSample[i] = 0;
-//                lastDrawnSample[i] = 0;
-//            }
-//        }
-// TODO: RML
         isPaused = false;
         timer.start();
     }

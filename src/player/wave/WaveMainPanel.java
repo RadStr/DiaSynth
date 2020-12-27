@@ -398,10 +398,12 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         }
     }
 
-    // TODO: Tohle je dost iffy asi to změním a předám rovnou interface těm třídám, ať si to volají.
+
     // This panel also serves like interface between the panels on this panel and the on which is this panel
     // That means the child components can call only methods on the AudioPlayerPanel through this panel
-    // and AudioPlayerPanel can only get info of child components through this panel
+    // and AudioPlayerPanel can only get info of child components through this panel.
+    // It wasn't the best decision, it would be better to just pass the interface, but whatever, don't have time
+    // to fix that
 
     public int getWaveStartX() {
         int x;
@@ -528,9 +530,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public void processUserClickedWaveEvent(double timeLineX, int userSelectedSample, int currPlayTimeInMillis) {
         panelWithWaves.setCurrSampleUserSelected(userSelectedSample);
         panelWithWaves.setTimeLineXUserSelected(timeLineX);
-        // TODO: Show play time
-//        panelWithWaves.setCurrPlayTimeInMillis(currPlayTimeInMillis);
-        // TODO: Show play time
         panelWithWaves.setUserClickedWave(true);
         panelWithWaves.switchToUserSelectedSampleIfPaused();
     }

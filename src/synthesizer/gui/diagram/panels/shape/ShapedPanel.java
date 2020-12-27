@@ -112,32 +112,6 @@ public abstract class ShapedPanel extends MovableJPanel {
         if (internals != null) {
             internals.draw(g);
         }
-
-// TODO: RML
-        // TODO: LAST POINT - DEBUG
-//		g.setColor(Color.RED);
-//		g2.setStroke(new BasicStroke(10));
-//		InputPort[] inputPorts = getInputPorts();
-//		for(int i = 0; i < inputPorts.length; i++) {
-//			Point p = getLastPoint(i, inputPorts.length);
-//			g.drawLine(p.x, p.y, p.x, p.y);
-//		}
-        // TODO: LAST POINT - DEBUG
-
-
-// TODO: DEBUG
-//		g.setColor(Color.RED);
-//		g2.setStroke(new BasicStroke(10));
-//		for(int x = -this.getSize().width / 2; x < this.getSize().width / 2; x++) {
-//			int y = getDistanceFromRectangleBorders(x);
-//			g2.draw(new Line2D.Float(
-//					x + this.getSize().width / 2,
-//					this.getSize().height + y,
-//					x + this.getSize().width / 2,
-//					this.getSize().height + y));
-//		}
-// TODO: DEBUG
-// TODO: RML
     }
 
 

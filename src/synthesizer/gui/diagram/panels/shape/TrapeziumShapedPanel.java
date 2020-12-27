@@ -150,19 +150,5 @@ public class TrapeziumShapedPanel extends ShapedPanel {
         else {                                            // right half
             return Direction.RIGHT;
         }
-// TODO: RML
-//        int leftLineConnectorsCount = connectorCount / 3;
-//        int midLineConnectorsCount = leftLineConnectorsCount + connectorCount % 3;
-//        int rightLineStartIndex = leftLineConnectorsCount + midLineConnectorsCount;
-//        if(connectorIndex < leftLineConnectorsCount) {    // left line
-//            return Direction.LEFT;
-//        }
-//        else if(connectorIndex < rightLineStartIndex) {   // mid line
-//            return Direction.UP;
-//        }
-//        else {                                            // right line
-//            return Direction.RIGHT;
-//        }
-// TODO: RML
     }
 }

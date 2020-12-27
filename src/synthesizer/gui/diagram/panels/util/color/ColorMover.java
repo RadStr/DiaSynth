@@ -1,5 +1,4 @@
-package synthesizer.gui.diagram.panels.util.color;// TODO: Prepsat - zmenil jsem zpusob
-// TODO: Mozna jen staci to mit static - protoze to bude asi pro vsechny stejnym takze mi staci kdyz budu mit instanci toho ColorMoveru mit static
+package synthesizer.gui.diagram.panels.util.color;
 
 /**
  * This class lets you set 2 points - start and end. and allows you to change currPos.

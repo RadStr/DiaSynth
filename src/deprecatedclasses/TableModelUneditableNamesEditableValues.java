@@ -2,7 +2,7 @@ package deprecatedclasses;
 
 import javax.swing.table.DefaultTableModel;
 
-// TODO: RML
+
 @Deprecated
 public class TableModelUneditableNamesEditableValues extends DefaultTableModel {
     private static final long serialVersionUID = 1L;
@@ -33,4 +33,3 @@ public class TableModelUneditableNamesEditableValues extends DefaultTableModel {
         }
     }
 }
-// TODO: RML

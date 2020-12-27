@@ -300,7 +300,7 @@ public interface CombFilterBPMGetterIFace {
         int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
         int arrayLen = (int) (sampleRate * numberOfSeconds);
         DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
-        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe should solve special case when fftWindowsCount == 0
+        int fftWindowsCount = arrayLen / fftWindowSize;
         double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
         double[] fftArr = new double[fftWindowSize];
 
@@ -357,7 +357,7 @@ public interface CombFilterBPMGetterIFace {
         int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
         int arrayLen = (int) (sampleRate * numberOfSeconds);
         DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
-        int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe solve special case when fftWindowsCount == 0
+        int fftWindowsCount = arrayLen / fftWindowSize;
         double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
 
         int impulsePeriod;

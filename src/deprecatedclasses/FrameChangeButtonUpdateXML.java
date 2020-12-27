@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// TODO: Probably useless, I solved this problem by observer pattern
-
 /**
  * Button which makes current panel invisible and some other visible. And also update the xmlDoc property in XML.
  */
@@ -26,7 +24,6 @@ public class FrameChangeButtonUpdateXML extends JButton {
      */
     public FrameChangeButtonUpdateXML(JFrame oldFrame, JFrame newFrame, String name) {
         this.setText(name);
-        // TODO:
         this.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

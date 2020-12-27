@@ -86,12 +86,6 @@ public class DiagramJSplitPane extends JSplitPane {
                     }
                     setDividerLocation(newDivLoc);
                 }
-
-                // TODO: DEBUG
-                System.out.println("Debug component listener bottom Panel:\t" + sp.getDividerLocation() + "\t" +
-                                   sp.getDividerLocation() + "\t" + sp.getLeftComponent().getWidth() + "\t" +
-                                   sp.getRightComponent().getWidth());
-                // TODO: DEBUG
             }
         };
         this.addComponentListener(resizeListener);

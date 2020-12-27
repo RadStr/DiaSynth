@@ -211,7 +211,6 @@ public class WavePanel extends JPanel {
                  visibleWaveWidth < waveWidth && waveWidth == defaultWaveWidthInPixels &&
                  visibleWaveWidth < START_DEFAULT_WAVE_WIDTH_IN_PIXELS) {
             defaultWaveWidthInPixels = START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
-            //defaultWaveWidthInPixels = Math.max(START_DEFAULT_WAVE_WIDTH_IN_PIXELS, visibleWaveWidth);    // TODO:
             waveWidth = (int) (defaultWaveWidthInPixels * zoomMultiplication);
         }
 
@@ -387,10 +386,6 @@ public class WavePanel extends JPanel {
             int markStartX = wholeWavePanel.getMarkStartXPixel();
             int markEndX = wholeWavePanel.getMarkEndXPixel();
             markPartGeneralFull(g, markStartX, markEndX, color, this.getHeight());
-// TODO: DEBUG
-//            ProgramTest.debugPrint(markStartX, markEndX, markStartXShifted, markEndXShifted, this.getVisibleRect());
-//            ProgramTest.debugPrint("MARK_PART:", markStartX, markEndX, this.getVisibleRect());
-// TODO: DEBUG
         }
     }
 
@@ -428,12 +423,6 @@ public class WavePanel extends JPanel {
         else {
             g.fillRect(markStartXShifted, 0, markEndX - markStartX, height);
         }
-
-
-// TODO: DEBUG
-        ProgramTest.debugPrint("MARK_PART_GENERAL:", horizontalScroll, markStartX, markEndX,
-                               markStartXShifted, markEndXShifted, this.getVisibleRect());
-// TODO: DEBUG
     }
 
 
@@ -511,22 +500,11 @@ public class WavePanel extends JPanel {
             modulo = inputValsPerOutputVals % inputValsPerOutputValsInt;
         }
 
-        boolean isFirstDebug = true;
-
         double min = Double.MAX_VALUE;
         double max = Double.NEGATIVE_INFINITY;
         int outInd = outputStartIndex;
         final int endIndex = startIndex + inputLen;
         for (int i = startIndex, imod = 0; i < endIndex; i++) {
-            if (values[i] != 0 && isFirstDebug && modulo != 0) {
-                int moduloCountNeededFor1 = 0;
-                for (double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo) ;
-                ProgramTest.debugPrint("First non-zero in extreme method", i, values[i], i / inputValsPerOutputVals,
-                                       moduloCountNeededFor1, inputValsPerOutputVals);
-
-                isFirstDebug = false;
-            }
-
             // The number is final, so compiler should optimize the branching out
             if (power == -1 || power == -2) {
                 if (imod >= (int) currentInputValsPerOutputVals) {
@@ -544,11 +522,6 @@ public class WavePanel extends JPanel {
                         currentInputValsPerOutputVals--;
                     }
                     currentInputValsPerOutputVals += modulo;
-
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("setting min, max", outInd - 1, outInd - 2, extremes[outInd - 1], extremes[outInd - 2]);
-//                    ProgramTest.debugPrint("EXTREMES1:", i, currentInputValsPerOutputVals, modulo, outInd, extremes.length, outputLen, inputLen);
-// TODO: DEBUG
                 }
 
                 imod++;
@@ -562,10 +535,6 @@ public class WavePanel extends JPanel {
                     extremes[outInd] = max;
                     max = Double.NEGATIVE_INFINITY;
                     outInd++;
-
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("EXTREMES2:", i, currentInputValsPerOutputVals, modulo, outInd, extremes.length, outputLen, inputLen);
-// TODO: DEBUG
                 }
             }
 
@@ -579,23 +548,7 @@ public class WavePanel extends JPanel {
             outInd++;
         }
 
-// TODO: DEBUG
-//        if(outInd - outputStartIndex != (int)(2*inputLen / inputValsPerOutputVals)) {
-//            System.exit(696969);
-//            int a = 5;
-//        }
-//        System.out.println(inputValsPerOutputVals * (extremes.length / 2) + "\t" + values.length + "\t" +
-//            extremes.length + "\t" + calculateInputValsPerOutputValsPure(values.length, 1 + (extremes.length / 2)) + "\t" +
-//            inputValsPerOutputVals);
-//        System.out.println((inputValsPerOutputVals * 19636) / 2);
-//        System.out.println((inputValsPerOutputVals * 19636) / 2 < values.length);
-// TODO: DEBUG
-// TODO: DEBUG
-//        if(outInd != extremes.length) {
-//            ProgramTest.debugPrint(outInd, extremes.length);
-//            System.exit(123487);
-//        }
-// TODO: DEBUG
+
         return outInd;
     }
 
@@ -643,10 +596,6 @@ public class WavePanel extends JPanel {
                 outputExtremes[outInd] = max;
                 max = Double.NEGATIVE_INFINITY;
                 outInd++;
-
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("EXTREMES2:", i, currentInputValsPerOutputVals, modulo, outInd, extremes.length, outputLen, inputLen);
-// TODO: DEBUG
             }
 
             min = Double.min(min, inputExtremes[i]);
@@ -663,11 +612,6 @@ public class WavePanel extends JPanel {
         }
 
 
-// TODO: DEBUG - HNED
-        if (outInd != outputStartIndex + outputLen) {
-            System.exit(12456);
-        }
-// TODO: DEBUG - HNED
         return outInd;
     }
 
@@ -706,25 +650,11 @@ public class WavePanel extends JPanel {
             modulo = inputValsPerOutputVals % inputValsPerOutputValsInt;
         }
 
-        // TODO: DEBUG
-        boolean isFirstDebug = true;
-        // TODO: DEBUG
 
         double avg = 0;
         int outInd = outputStartIndex;
         final int endIndex = startIndex + inputLen;
         for (int i = startIndex, imod = 0; i < endIndex; i++) {
-            // TODO: DEBUG
-            if (values[i] != 0 && isFirstDebug) {
-                int moduloCountNeededFor1 = 0;
-                for (double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo) ;
-                ProgramTest.debugPrint("First non-zero in extreme method", i, values[i], i / inputValsPerOutputVals,
-                                       moduloCountNeededFor1, inputValsPerOutputVals);
-
-                isFirstDebug = false;
-            }
-            // TODO: DEBUG
-
             // The number is final, so compiler should optimize the branching out
             if (power == -1 || power == -2) {
                 if (imod >= (int) currentInputValsPerOutputVals) {
@@ -738,9 +668,6 @@ public class WavePanel extends JPanel {
                         currentInputValsPerOutputVals--;
                     }
                     currentInputValsPerOutputVals += modulo;
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("EXTREMES1:", i, currentInputValsPerOutputVals, modulo, outInd, extremes.length, outputLen, inputLen);
-// TODO: DEBUG
                 }
 
                 imod++;
@@ -750,9 +677,6 @@ public class WavePanel extends JPanel {
                     averages[outInd] = calculateAvg(avg, (int) currentInputValsPerOutputVals);
                     outInd++;
                     avg = 0;
-// TODO: DEBUG
-//                    ProgramTest.debugPrint("EXTREMES2:", i, currentInputValsPerOutputVals, modulo, outInd, extremes.length, outputLen, inputLen);
-// TODO: DEBUG
                 }
             }
 
@@ -885,13 +809,6 @@ public class WavePanel extends JPanel {
                 return 1;
             }
         }
-// TODO: DEBUG
-//        if((int)(result + 1) < getSongLen()) {
-//            double[] song = doubleWave.getSong();
-//            ProgramTest.debugPrint("convertScrollValueToIndividualIndexInAudio", result, result + 1,
-//                song[(int) result - 1], song[(int) result], song[(int) result + 1], song[(int) Math.round(result)]);
-//        }
-// TODO: DEBUG
 
 
         // Basically take into account precision error for doubles,
@@ -1242,9 +1159,6 @@ public class WavePanel extends JPanel {
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
             double[] song = doubleWave.getSong();
             for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
-// TODO: DEBUG
-                ProgramTest.debugPrint("Individual fill", i, fillInd, getSongLen(), bufferStartIndex, bufferEndIndex);
-// TODO: DEBUG
                 buffer[i] = song[fillInd];
             }
         }
@@ -1281,22 +1195,7 @@ public class WavePanel extends JPanel {
 
             double[] song = doubleWave.getSong();
             startFillIndex = (int) (samplesPerPixel * startFillIndex);
-
-
-            // TODO: DEBUG
             int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
-//            if (outIndex != bufferEndIndex) {
-//                ProgramTest.debugPrint("output index is not right", outIndex, bufferEndIndex);
-//            }
-//
-//            ProgramTest.debugPrint("Filling buffer", getCurrentScroll(), startFillIndex, startFillIndex - getCurrentScroll());
-//            ProgramTest.debugPrint("FillBuffer", bufferStartIndex, bufferEndIndex, startFillIndex, inputLen,
-//                startFillIndex + inputLen, getSongLen(), samplesPerPixel, outputLen, samplesPerPixel * outputLen,
-//                buffer.length);
-//            ProgramTest.debugPrint("FillBuffer2", startFillIndex, inputLen, waveWidth);
-//            ProgramTest.debugPrint("FillBuffer3", getPreferredSize().width, waveWidth, wholeWavePanel.getCurrentHorizontalScroll(),
-//                currScroll, currScroll == wholeWavePanel.getCurrentHorizontalScroll());
-            // TODO: DEBUG
         }
 
 

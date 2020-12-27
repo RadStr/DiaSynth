@@ -53,12 +53,6 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         g.setColor(Color.blue);
 
         shiftBufferDouble.setRange(windowRange);
-// TODO: DEBUG
-        ProgramTest.debugPrint("START_INDEX:", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
-                               windowRange.start, windowRange.end, shiftBufferDouble.getMaxRightIndex(), shiftBufferDouble.getBufferLength(),
-                               shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex(),
-                               (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()) / 2);
-// TODO: DEBUG
         int previousX = -1;
         int previousYMin = -1;
         int previousYMax = -1;

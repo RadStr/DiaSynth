@@ -179,21 +179,6 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 viewPanel.add(comboBox);
                 continue;
             }
-            // TODO: DEFAULT VALUES FOR INPUT PORTS
-// Later if I will have time I can use this class to set values of the input ports instead of having default values
-//            else if(fieldType.isArray()) {
-//                int len = Array.getLength(objectWithAnnotations);
-//                if(len > 0) {
-//                    Object o = Array.get(objectWithAnnotations, 0);
-//                    if(o instanceof InputPort) {
-//
-//                    }
-//                }
-//                else {
-//                    continue;
-//                }
-//            }
-            // TODO: DEFAULT VALUES FOR INPUT PORTS
             else {
                 continue;
             }

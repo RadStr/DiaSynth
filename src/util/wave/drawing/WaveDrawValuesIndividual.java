@@ -117,26 +117,9 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
             if (pixelDifferenceBetweenSamples < 4) {
                 if (hasDrawnPixelBefore) {
-                    // TODO: Asi vymazat ty ostatni verze
-                    // Version with rectangles
-//                    if(previousHeight < halfHeight) {
-//                        g.fillRect(previousVisiblePixelInt, previousHeight, currentPixelInt - previousVisiblePixelInt, halfHeight - previousHeight);
-//                    }
-//                    else {
-//                        g.fillRect(previousVisiblePixelInt, halfHeight, currentPixelInt - previousVisiblePixelInt, previousHeight - halfHeight);
-//                    }
-
                     // Version with connecting - Probably the best one - to doesn't show the individual samples but
                     // it is the best to look at
                     g.drawLine(previousVisiblePixelInt, previousHeight, currentPixelInt, sampleHeight);
-                    // The next line is to show the sample locations, but it doesn't make sense since that is the old way of drawing
-                    // and that was wrong because there isn't uniform space between the samples - so from time to time it is
-                    // the pixels are a bit closer to itself and since there isn't much space between them, it is very noticeable
-//                    g.drawLine(currentPixelInt, halfHeight, currentPixelInt, sampleHeight);
-
-                    // Just dots
-//                    g.drawLine(currentPixelInt, sampleHeight, currentPixelInt, sampleHeight); // Small dots
-//                    StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, 1); // Bigger dots
                 }
 
                 if (!hasDrawnPixelBefore) {

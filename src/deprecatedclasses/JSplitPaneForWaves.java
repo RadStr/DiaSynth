@@ -3,7 +3,6 @@ package deprecatedclasses;
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: Vymazat - nepouzivany
 @Deprecated
 public class JSplitPaneForWaves extends JSplitPane {
     private boolean isSwap = false;

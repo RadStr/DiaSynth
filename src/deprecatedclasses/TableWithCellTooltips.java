@@ -7,7 +7,7 @@ import javax.swing.table.TableColumnModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// TODO: RML
+
 @Deprecated
 public class TableWithCellTooltips extends JTable {
     public TableWithCellTooltips(DefaultTableModel tableModel, String... columnToolTips) {
@@ -102,4 +102,3 @@ public class TableWithCellTooltips extends JTable {
         lastToolTip.setLength(HTML_START_TAG.length());
     }
 }
-// TODO: RML

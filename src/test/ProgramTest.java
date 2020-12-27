@@ -272,92 +272,6 @@ public class ProgramTest {
         for (int k = 0; k < 10; k++) {
             System.out.println();
         }
-
-// TODO: RML
-        // Test FFT window visualisation 1
-        sampleRate = 22050;
-        int windowSize = 512;
-        double freq = sampleRate / (double) windowSize;
-        // Chooses the harmonics of fft if whole number, if not then the fft gets confused
-        freq *= windowSize / 2 - 1.5;
-        int sampleSize = 2;
-        numberOfChannels = 1;
-        isBigEndian = false;
-        isSigned = true;
-        int startIndex = 0;
-        int windowWidth = 1600;
-        int windowHeight = 900;
-        boolean result;
-        result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
-                                     startIndex, windowSize, windowWidth, windowHeight);
-        System.out.println("createFFTWindowTest:\t" + result);
-        for (int k = 0; k < 10; k++) {
-            System.out.println();
-        }
-        // Test FFT window visualisation 2
-        freq = sampleRate / (double) windowSize;
-
-        // Chooses the harmonics of fft if whole number, if not then the fft gets confused
-        freq *= windowSize / 2 - 1;
-
-        result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
-                                     startIndex, windowSize, windowWidth, windowHeight);
-        System.out.println("createFFTWindowTest:\t" + result);
-        for (int k = 0; k < 10; k++) {
-            System.out.println();
-        }
-// TODO: RML
-
-// TODO: RML
-//        // Spectrogram test 1
-//        int lenInSecs = 50;
-//        windowSize = 1024;windowSize = 200;                 // TODO:
-//        int windowShift = windowSize;windowShift = 160;     // TODO:
-//        freq = sampleRate / (double)windowSize;
-//        freq *= windowSize / 4 - 1.5;       // TODO: pekne barevny
-//        freq *= windowSize / 4;
-//        startIndex = 0;
-//        int endIndex = startIndex + windowSize * 100;// TODO: tohle musim jeste vyladit, kdyz neni ten endIndex startIndex + nasobek windowSize tak outoufbounds + sampleRate * lenInSecs;
-//        int spectrogramWidth = 1400;
-//        int spectrogramHeight = 900;
-//      result =  createSpectrogramTest(lenInSecs, freq, sampleRate, numberOfChannels, sampleSize,
-//        isBigEndian, isSigned, windowSize, windowShift,
-//        startIndex, endIndex, spectrogramWidth, spectrogramHeight);
-//        System.out.println("createSpectrogramTest:\t" + result);
-//        for (int k = 0; k < 10; k++) {
-//            System.out.println();
-//        }
-//
-//
-//        // Spectrogram test 2
-//        String songPath = "C:\\Users\\Radek\\source\\SDL\\CppKlavesyZapProgram\\ruzneklavesy.wav";
-//        windowSize = 256;
-//        windowShift = windowSize;
-//        windowShift = (int)(windowSize * 0.7);
-//
-//        windowSize = 200;         // TODO:
-//        windowShift = 160;
-//
-//// TODO:        System.exit(windowShift);
-//        startIndex = 44100 * 60;
-//        endIndex = startIndex + windowSize * 700; // TODO: Nefunguje protoze to nedelim, staci to jen vydelit jednou na konci a mam hotovo a je to i efektivnejsi a presnejsi
-//        spectrogramWidth = 1400;
-////        spectrogramWidth = 3200;
-//        spectrogramHeight = 900;
-//        result = createSpectrogramTest(songPath, windowSize, windowShift, startIndex, endIndex, spectrogramWidth, spectrogramHeight);
-//        System.out.println("createSpectrogramTest:\t" + result);
-//        for (int k = 0; k < 10; k++) {
-//            System.out.println();
-//            System.out.println(spectrogramWidth + "\t" + spectrogramHeight);
-//        }
-//
-//        // Long test
-//        arrLen = 1 << 12;
-//        System.out.println("windowsAverageVsNonRecursiveDoubleFilter:\t" + windowsAverageVsNonRecursiveDoubleFilter(arrLen));
-//
-//
-//        testGetAbsoluteValueGeneral();
-// TODO: RML
     }
 
 
@@ -2866,16 +2780,7 @@ public class ProgramTest {
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
         double[] sine;
         sine = curve.createCurve(len, amp, freq, sampleRate, phase);
-// TODO: Nevim ted
-// Doesn't even help, the results are just wrong because it is the precision error with double values.
-//        double sum = ByteWave.performAggregation(sine, Aggregation.SUM);
-//        for(int i = 0; i < sine.length; i++) {
-//            sine[i] -= sum;
-//        }
-
         fft.realForward(sine);
-
-        //ProgramTest.debugPrint(sine);
         printFFTValuesOverThreshold(len, sine, amp);
     }
 

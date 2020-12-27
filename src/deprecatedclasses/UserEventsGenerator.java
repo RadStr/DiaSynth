@@ -17,7 +17,7 @@ public class UserEventsGenerator {
                 bot = new Robot();
             }
             catch (AWTException e) {
-                e.printStackTrace(); // TODO:
+                e.printStackTrace();
             }
         }
     }

@@ -8,7 +8,7 @@ public class BPMSimpleWithFreqBands {
     private BPMSimpleWithFreqBands() {}     // Allow only static access
 
     /**
-     *
+     * The wave has to be mono.
      * @param samples
      * @param sampleSize
      * @param sampleRate

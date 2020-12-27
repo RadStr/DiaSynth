@@ -105,11 +105,30 @@ public interface CombFilterBPMGetterIFace {
     }
 
 
+    /**
+     * The ByteWave has to be in mono otherwise Integer.MIN_VALUE is returned.
+     * And has to have the byte buffer loaded, otherwise -2 is returned.
+     * @param startBPM
+     * @param jumpBPM
+     * @param upperBoundBPM
+     * @param numberOfSeconds
+     * @param subbandCount
+     * @param splitter
+     * @param numberOfBeats
+     * @param byteWave
+     * @return
+     */
     public default int computeBPM(int startBPM, int jumpBPM, int upperBoundBPM,
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   int numberOfBeats, ByteWave byteWave) {
+        if(byteWave.getNumberOfChannels() != 1) {
+            return Integer.MIN_VALUE;
+        }
         int songLen = byteWave.getSongLen();
+        if(songLen <= 0) {
+            return -2;
+        }
         int sampleSizeInBytes = byteWave.getSampleSizeInBytes();
         int lenOfOneSecond = byteWave.calculateSizeOfOneSec();
         int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);

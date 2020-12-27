@@ -45,9 +45,6 @@ public class ByteWave {
 
     private File soundFile;
     private AudioInputStream decodedAudioStream;
-    public AudioInputStream getDecodedAudioStream() {
-        return decodedAudioStream;
-    }
 
     private int numberOfChannels;
     public int getNumberOfChannels() {
@@ -77,15 +74,11 @@ public class ByteWave {
     }
 
 
-
     /**
-     * This variable is set only after the loadSong method is called. It references the length of audio in bytes. It is
-     * used
+     * This variable is set only after the loadSong method is called. It references the length of audio in bytes.
+     * The variable is used only internally.
      */
     private int audioStreamSizeInBytes;
-    public int getAudioStreamSizeInBytes() {
-        return audioStreamSizeInBytes;
-    }
 
     private float frameRate;
     private int frameSize;

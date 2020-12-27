@@ -388,7 +388,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         Node node = AnalyzerXML.getFirstSongNodeMatchingGivenName(file.getName());
-        if (node == null) {        // The song wasn't analyzed before
+        if (node == null) {                           // The song wasn't analyzed before
             AnalyzerXML.addAnalyzedFileToXML(AnalyzerXML.getXMLDoc(), list, "songs", "song");
         }
         else {

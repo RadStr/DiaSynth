@@ -332,7 +332,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     }
 
     public void reset() {
-        while (!isPaused()) {       // Active waiting
+        while (!isPaused()) {           // Active waiting
             pause();
         }
         lastPlayedSampleInChannel = 0;

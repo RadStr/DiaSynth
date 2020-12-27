@@ -34,7 +34,7 @@ public class SliderWithLabelPanel extends JPanel {
         if (orientation == SwingConstants.VERTICAL) {
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
-        else {      // It must be horizontal, else there would be exception on creation of JSlider
+        else {          // It must be horizontal, else there would be exception on creation of JSlider
             this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         }
         slider.addChangeListener(new ChangeListener() {

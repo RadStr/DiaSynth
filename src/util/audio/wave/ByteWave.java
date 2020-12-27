@@ -25,7 +25,7 @@ import util.audio.format.AudioType;
  * This class represents audio as series of bytes. Instance of this class can only be created through loadSong methods.
  */
 public class ByteWave {
-    private ByteWave() { }      // Instance can be created only through loadSong methods
+    private ByteWave() { }          // Instance can be created only through loadSong methods
 
     private byte[] song = null;
 
@@ -295,8 +295,9 @@ public class ByteWave {
         }
 
 
-        if (!byteWave.setFormatAndStream(path)) {        // If there was some problem, then something unexpected happened
-            return false;                               // Because the previous call succeeded
+        // If there was some problem, then something unexpected happened (Because the previous call succeeded)
+        if (!byteWave.setFormatAndStream(path)) {
+            return false;
         }
         return true;
     }
@@ -336,8 +337,9 @@ public class ByteWave {
         }
 
 
-        if (!byteWave.setFormatAndStream(file)) {        // If there was some problem, then something unexpected happened
-            return false;                               // Because the previous call succeeded
+        // If there was some problem, then something unexpected happened (Because the previous call succeeded)
+        if (!byteWave.setFormatAndStream(file)) {
+            return false;
         }
         return true;
     }
@@ -547,7 +549,7 @@ public class ByteWave {
         else {
             // Putting channels together to make original song
             len = channels[0].length / sampleSizeInBytes;
-            for (int i = 0; i < len; i++) {        // All have same size
+            for (int i = 0; i < len; i++) {          // All have same size
                 for (int j = 0; j < channels.length; j++) {
                     for (int k = 0; k < sampleSizeInBytes; k++) {
                         sample = channels[j][i * sampleSizeInBytes + k];

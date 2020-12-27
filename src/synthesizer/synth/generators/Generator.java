@@ -97,7 +97,7 @@ public abstract class Generator extends GeneratorNoPhase {
     // But implemented it anyways, so it behaves correctly, even if it may produce weird results
     @Override
     public void calculateSamples() {
-        if (inputPorts.length <= 2) {     // It doesn't contain phase
+        if (inputPorts.length <= 2) {       // It doesn't contain phase
             super.calculateSamples();
             return;
         }

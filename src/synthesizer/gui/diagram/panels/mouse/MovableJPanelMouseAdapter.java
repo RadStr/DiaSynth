@@ -105,7 +105,8 @@ public class MovableJPanelMouseAdapter extends MovableJPanelMouseAdapterBase {
             }
             else {
                 if (movablePanel.getIsAnyPanelCurrentlyConnecting()) {
-                    if (movablePanel.getIsCurrentlyConnecting()) {       // Clicked on the panel which was the output one
+                    // Clicked on the panel which was the output one
+                    if (movablePanel.getIsCurrentlyConnecting()) {
                         movablePanel.noConnectionCallback();
                     }
                     else {

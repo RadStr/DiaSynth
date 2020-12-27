@@ -1319,7 +1319,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         }
 
 
-                        if (visibleRectH == viewHeight) {   // If scrollpane can't scroll (all waves are visible without scrolling)
+                        // If scrollpane can't scroll (all waves are visible without scrolling)
+                        if (visibleRectH == viewHeight) {
                             int y = wave.getY();
                             newPrefHeight = divLoc - y;
                         }
@@ -3015,10 +3016,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 WaveMainPanel bot;
                 top = (WaveMainPanel) currSplitter.getTopComponent();
                 top.setPrefSizeToMin();
-                if (waves.size() >= 2) {         // Else there is only 1 wave so the bot panel is empty panel
+                if (waves.size() >= 2) {
                     bot = (WaveMainPanel) currSplitter.getBottomComponent();
                     bot.setPrefSizeToMin();
                 }
+                // Else there is only 1 wave so the bot panel is empty panel
 
                 setDivLocToMinDivLoc(currSplitter);
                 ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
@@ -3099,13 +3101,16 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     ////////// MouseListener
+
+    // mouseClicked is when the mouse button has been pressed and released.
     @Override
-    public void mouseClicked(MouseEvent e) {    // mouseClicked is when the mouse button has been pressed and released.
+    public void mouseClicked(MouseEvent e) {
         // EMPTY
     }
 
+    // mousePressed is when the mouse button has been pressed.
     @Override
-    public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed.
+    public void mousePressed(MouseEvent e) {
         shouldMarkPart = false;
         markStartXPixel = e.getX();
         this.repaint();

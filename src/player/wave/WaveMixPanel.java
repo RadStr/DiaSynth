@@ -38,7 +38,7 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
         if (orientationMixSlider == SwingConstants.VERTICAL) {
             this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         }
-        else {      // It must be horizontal, else there would be exception on creation of JSlider
+        else {          // It must be horizontal, else there would be exception on creation of JSlider
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
 

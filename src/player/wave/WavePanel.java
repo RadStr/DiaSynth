@@ -526,7 +526,9 @@ public class WavePanel extends JPanel {
 
                 isFirstDebug = false;
             }
-            if (power == -1 || power == -2) {       // the number is final, so compiler should optimize the branching out
+
+            // The number is final, so compiler should optimize the branching out
+            if (power == -1 || power == -2) {
                 if (imod >= (int) currentInputValsPerOutputVals) {
                     imod = 0;
                     extremes[outInd] = min;
@@ -723,7 +725,8 @@ public class WavePanel extends JPanel {
             }
             // TODO: DEBUG
 
-            if (power == -1 || power == -2) {       // the number is final, so compiler should optimize the branching out
+            // The number is final, so compiler should optimize the branching out
+            if (power == -1 || power == -2) {
                 if (imod >= (int) currentInputValsPerOutputVals) {
                     imod = 0;
                     averages[outInd] = calculateAvg(avg, (int) currentInputValsPerOutputVals);
@@ -891,8 +894,10 @@ public class WavePanel extends JPanel {
 // TODO: DEBUG
 
 
+        // Basically take into account precision error for doubles,
+        // I think this tolerance should be more than ok.
         double tolerance = 0.00001;
-        if (result > ((int) result + 1) - tolerance) {    // Basically take into account precision error for doubles, I think this tolerance should be more than ok.
+        if (result > ((int) result + 1) - tolerance) {
             return (int) result + 2;
         }
         return (int) result + 1;

@@ -858,7 +858,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                     shouldRepaint = true;
                 }
 
-                if (mouseLocRelativeToThisPanel.y < SCROLL_BORDER_SIZE_Y) {      // If to allow diagonal movement
+                // It is if because we want to allow diagonal movement
+                if (mouseLocRelativeToThisPanel.y < SCROLL_BORDER_SIZE_Y) {
                     moveUp(PIXELS_MOVED_PER_TICK);
                     shouldRepaint = true;
                 }
@@ -1050,7 +1051,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             int refDistanceX = x - referencePanel.getLeftX();
             int returnPanelX = x;
             if (refDistanceX < 0) {
-                if (refDistanceX % panelSizeWithBorderWidth != 0) {      // Else we are at the start of the panel
+                if (refDistanceX % panelSizeWithBorderWidth != 0) {         // Else we are at the start of the panel
                     returnPanelX -= panelSizeWithBorderWidth + (refDistanceX % panelSizeWithBorderWidth);
                 }
             }
@@ -1062,9 +1063,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             int refDistanceY = y - referencePanel.getTopY();
             int returnPanelY = y;
             if (refDistanceY < 0) {
-                if (refDistanceY % panelSizeWithBorderHeight != 0) {      // Else we are at the start of the panel
+                if (refDistanceY % panelSizeWithBorderHeight != 0) {
                     returnPanelY -= panelSizeWithBorderHeight + (refDistanceY % panelSizeWithBorderHeight);
                 }
+                // Else we are at the start of the panel
             }
             else {
                 returnPanelY -= refDistanceY % panelSizeWithBorderHeight;
@@ -1352,7 +1354,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         // The new version uses boolean array, which solves the problem of partial elevation - for example when there is
         // collision with some line which was already on maximum, then it would be set to default value, for all lines
         // colliding with that
-        if (!cable.getIsElevationSet()) {   // Just check for me, I don't think that it is needed, if everything is correct
+        if (!cable.getIsElevationSet()) {   // Just check for me, shouldn't be needed, if everything is correct
             // TODO: Micro-Optimization Later I can rewrite it using the System.arrayCopy
             for (int i = 0; i < ELEVATION_ARR.length; i++) {
                 ELEVATION_ARR[i] = 0;
@@ -1837,12 +1839,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             arrForPoints[2] = arrForPoints[0];
             arrForPoints[3] = arrForPoints[1];
         }
-        else if (type != PathIterator.SEG_QUADTO) {      // If == then don't do anything it is already set as it should be
+        else if (type != PathIterator.SEG_QUADTO) {
             arrForPoints[2] = arrForPoints[0];
             arrForPoints[3] = arrForPoints[1];
             arrForPoints[0] = val1;
             arrForPoints[1] = val2;
         }
+        // If == SEG_QUADTO then don't do anything it is already set as it should be
 
         return type;
     }
@@ -2047,7 +2050,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
-        else {  // There are possibilities for collisions, check them and draw arcs if some is found
+        else {          // There are possibilities for collisions, check them and draw arcs if some is found
             List<Double> arcLocations = new ArrayList<>();
             setCollisionsOnHorizontalLine(cable, x1, y, x2, true, arcLocations);
             double x = x1;
@@ -2074,7 +2077,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
-        else {  // There are possibilities for collisions, check them and draw arcs if some is found
+        else {          // There are possibilities for collisions, check them and draw arcs if some is found
             List<Double> arcLocations = new ArrayList<>();
             setCollisionsOnHorizontalLine(cable, x1, y, x2, false, arcLocations);
             double x = x1;
@@ -2169,7 +2172,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 highestYForCurrentX = oldY;
             }
             else if (type == PathIterator.SEG_LINETO) {
-                // If it is "diagonal" line - it happens when we are checking collision against cable which doesn't have set vertical lines yet
+                // If it is "diagonal" line - it happens when we are checking collision against cable,
+                // which doesn't have set vertical lines yet
                 if (oldX != tmpLineArr[0] && oldY != tmpLineArr[1]) {
                     highestYForCurrentX = oldY;
                 }
@@ -2223,7 +2227,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
-        else {  // There are possibilities for collisions, check them and draw arcs if some is found
+        else {          // There are possibilities for collisions, check them and draw arcs if some is found
             drawHorizontalLinePart(cable, x1, y, arcEndX, arcW, arcH, colX, outputPanel, true);
             double nextArcEndX = arcEndX - 1;
             while (nextArcEndX >= x2) {
@@ -2246,7 +2250,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
-        else {   // There are possibilities for collisions, check them and draw arcs if some is found
+        else {          // There are possibilities for collisions, check them and draw arcs if some is found
             drawHorizontalLinePart(cable, x1, y, arcEndX, arcW, arcH, colX, outputPanel, false);
             double nextArcEndX = arcEndX + 1;
             while (nextArcEndX <= x2) {
@@ -2647,8 +2651,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         if (getIsAnyPanelCurrentlyConnecting()) {
             currentlyConnectingPanel.noConnectionCallback();
         }
-        else if (getIsAnyPanelCurrentlyMoving()) { // Solves special case when clicking on the edge of the static panel
-            // while moving panel, the clicked is registered here and not on the moving panel
+        else if (getIsAnyPanelCurrentlyMoving()) {  // Solves special case when clicking on the edge of the static panel
+            // when the panels is being moved, the click is registered here and not on the moving panel
             currentlyMovingPanel.endedDraggingFromOutsideMovablePanel();
         }
     }

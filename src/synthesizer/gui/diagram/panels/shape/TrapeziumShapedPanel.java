@@ -103,7 +103,7 @@ public class TrapeziumShapedPanel extends ShapedPanel {
         int leftLineConnectorsCount = connectorCount / 3;
         int midLineConnectorsCount = leftLineConnectorsCount + connectorCount % 3;
         int rightLineStartIndex = leftLineConnectorsCount + midLineConnectorsCount;
-        if (connectorIndex < leftLineConnectorsCount) {                                      // left line
+        if (connectorIndex < leftLineConnectorsCount) {                                     // left line
             p.x = MovableJPanel.calculateXForHorizontalLineWithEdges(xpoints[3], xpoints[0], connectorIndex, leftLineConnectorsCount);
             p.y = ParallelogramShapedPanel.getPointOnLine(p.x, xpoints[3], ypoints[3], xpoints[0], ypoints[0]);
         }

@@ -27,25 +27,25 @@ public class ExponentialEnvelope extends Envelope {
                                          double attTime, double attAmp, double decTime,
                                          double sustainTime, double sustainAmp, double releaseTime) {
         double genVal;
-        if (timeInSecs > releaseTime) {      // After release phase
+        if (timeInSecs > releaseTime) {         // After release phase
             genVal = 0;
         }
-        else if (timeInSecs > sustainTime) { // Release phase
+        else if (timeInSecs > sustainTime) {    // Release phase
             timeInSecs -= sustainTime;
             releaseTime -= sustainTime;
             double pow = 1 - (timeInSecs / releaseTime);
             genVal = sustainAmp * Math.pow(POW_BASE, pow) / POW_BASE;
         }
-        else if (timeInSecs > decTime) {     // Sustain phase
+        else if (timeInSecs > decTime) {        // Sustain phase
             genVal = sustainAmp;
         }
-        else if (timeInSecs > attTime) {     // decay phase
+        else if (timeInSecs > attTime) {        // decay phase
             timeInSecs -= attTime;
             decTime -= attTime;
             double pow = 1 - (timeInSecs / decTime);
             genVal = sustainAmp + (attAmp - sustainAmp) * (Math.pow(POW_BASE, pow) / POW_BASE);
         }
-        else {                              // Attack phase
+        else {                                  // Attack phase
             genVal = attAmp * Math.pow(POW_BASE, (timeInSecs / attTime)) / POW_BASE;
         }
         return genVal;

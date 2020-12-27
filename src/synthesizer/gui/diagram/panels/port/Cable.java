@@ -561,7 +561,7 @@ public class Cable {
     }
 
 
-    public void setElevationBasedOnMaxElevation(int currMaxElevation) {     // Goes like 0->1->-1->2->-2 ... etc.
+    public void setElevationBasedOnMaxElevation(int currMaxElevation) {         // Goes like 0->1->-1->2->-2 ... etc.
         if (isBiggerThanCurrentlySetWithNext(currMaxElevation) || !isElevationSet) {
             if (currMaxElevation == 0) {
                 if (MAX_ELEVATION.getMaxElevation() != 0)

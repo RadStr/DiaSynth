@@ -102,7 +102,8 @@ public class TimestampsPanel extends JPanel {
         // Starts from index = 1
         int index = 1;
         int oldTimeJumpInt = timeJumpInt;
-        for (; index <= labelCount; index++) {       // Now check if it fits the window, if it doesn't that take only every index-th label
+        // Now check if it fits the window, if it doesn't that take only every index-th label
+        for (; index <= labelCount; index++) {
             timeJumpInt = index * oldTimeJumpInt;
             pixelJump = timeJumpInt / numOfSecs;        // If the song is short enough, then numOfSecs = numOfMillisecs
             pixelJump *= waveWidth;
@@ -181,7 +182,9 @@ public class TimestampsPanel extends JPanel {
                 else {
                     timeString = Time.convertMillisecondsToTime(timeInt, -1);
                 }
-                if (xInt >= waveStartX) {        // So I don't draw timelines for the static things such as mix part, etc. I draw it just for the wave
+
+                // So I don't draw timelines for the static things such as mix part, etc. I draw it just for the wave
+                if (xInt >= waveStartX) {
                     SwingUtils.drawStringWithDefinedMidLoc(g, color, timeString, xInt, lineStartY);
                 }
                 timeInt += timeJumpInt;
@@ -190,7 +193,8 @@ public class TimestampsPanel extends JPanel {
                 lineStartY = yForStampWithoutLabel;
             }
 
-            if (xInt >= waveStartX) {            // So I don't draw timelines for the static things such as mix part, etc. I draw it just for the wave
+            // So I don't draw time lines for the static things such as mix part, etc. I draw it just for the wave
+            if (xInt >= waveStartX) {
                 g.drawLine(xInt, lineStartY, xInt, this.getHeight());
             }
 

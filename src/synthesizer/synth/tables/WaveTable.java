@@ -62,7 +62,7 @@ public class WaveTable {
     public static double interpolate(double[] wave, double index) {
         int leftValIndex = (int) index;
         int rightValIndex = leftValIndex + 1;
-        if (rightValIndex > wave.length - 1) {       // When the index == wave.length - 1
+        if (rightValIndex > wave.length - 1) {          // When the index == wave.length - 1
             rightValIndex = wave.length - 1;
         }
         double factor = index - leftValIndex;

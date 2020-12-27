@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MyLogger {
-    private MyLogger() { }   // To make only static access possible
+    private MyLogger() { }          // To make only static access possible
 
     private static File logFile = new File("LOG.log");
     private static PrintWriter logStream;

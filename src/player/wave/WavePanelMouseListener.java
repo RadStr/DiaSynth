@@ -39,9 +39,11 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
 // TODO: PROGRAMO
     }
 
+
     //////////////// MouseListener
+    // mouseClicked is when the mouse button has been pressed and released.
     @Override
-    public void mouseClicked(MouseEvent e) {    // mouseClicked is when the mouse button has been pressed and released.
+    public void mouseClicked(MouseEvent e) {
         if (!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             int waveWidth = waveMainPanel.getWaveWidth();
             int songLenInFrames = waveMainPanel.getDoubleWaveLength();
@@ -78,8 +80,9 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
         }
     }
 
+    // mousePressed is when the mouse button has been pressed (doesn't need release).
     @Override
-    public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed (doesn't need release).
+    public void mousePressed(MouseEvent e) {
         if (!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             waveMainPanel.setShouldMarkPart(false);
             waveMainPanel.setMarkStartXVariablesBasedOnPixel(e.getX());

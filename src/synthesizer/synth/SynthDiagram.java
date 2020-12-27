@@ -230,7 +230,7 @@ public class SynthDiagram extends Thread {
     }
 
     public void reset() {
-        while (!waiting) {       // Active waiting
+        while (!waiting) {          // Active waiting
             pause();
         }
 

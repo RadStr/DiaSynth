@@ -125,7 +125,7 @@ public class AudioFormatJPanel extends JPanel {
             if (!AudioSystem.isLineSupported(outputAudioFormatLine.getLineInfo())) {
                 supportedFormat = AudioFormatJPanel.getFirstAvailableFormat();
             }
-            else if (af.getFrameRate() == 0) {       // For example on my system it is 0 when having sample rate == 8000
+            else if (af.getFrameRate() == 0) {
                 supportedFormat = AudioFormatJPanel.getFirstAvailableFormat();
             }
             else {

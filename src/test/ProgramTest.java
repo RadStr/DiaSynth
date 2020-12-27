@@ -3149,7 +3149,7 @@ public class ProgramTest {
      */
     public static String debugPrintObject(Object o) {
         Class<? extends Object> c = o.getClass();
-        if (c.isArray()) {                                   // Check if it is array
+        if (c.isArray()) {
             StringBuilder ret = new StringBuilder();
             int arrLen;
             ret.append("NOW PRINTING ARRAY:\n");

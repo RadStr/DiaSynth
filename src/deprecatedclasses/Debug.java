@@ -72,9 +72,10 @@ public class Debug {
      */
     public static String debugPrintObject(Object o) {
         Class<? extends Object> c = o.getClass();
-        if (c.isArray()) {                                   // Check if it is array
+        if (c.isArray()) {
             StringBuilder ret = new StringBuilder();
-            if (c.getComponentType().isPrimitive()) {       // Check if it is array of primitives, because it needs to be iterated differently
+            // Check if it is array of primitives, because it needs to be iterated differently
+            if (c.getComponentType().isPrimitive()) {
                 int length = Array.getLength(o);
                 for (int i = 0; i < length; i++) {
                     Object obj = Array.get(o, i);

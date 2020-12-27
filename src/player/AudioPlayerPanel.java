@@ -1845,9 +1845,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public static DoubleWave loadMonoDoubleWave(File f, int newSampleRate, boolean shouldLog) {
         DoubleWave wave = null;
         try {
-            ByteWave byteWave = new ByteWave();
-            boolean audioLoaded = byteWave.loadSong(f, true);
-            if(!audioLoaded) {
+            ByteWave byteWave = ByteWave.loadSong(f, true);
+            if(byteWave == null) {
                 if(shouldLog) {
                     MyLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
                                                     AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
@@ -1894,9 +1893,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private void addWaves(File f, boolean shouldAddLater) throws IOException {
-        ByteWave byteWave = new ByteWave();
-        boolean audioLoaded = byteWave.loadSong(f, false);
-        if(!audioLoaded) {
+        ByteWave byteWave = ByteWave.loadSong(f, false);
+        if(byteWave == null) {
             MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
                                             AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
             return;

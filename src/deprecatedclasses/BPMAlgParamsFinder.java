@@ -52,10 +52,11 @@ public class BPMAlgParamsFinder {
 
     public static void findCoefs(String filename, List<Pair<String, Pair<String, Integer>>> bpmList) {
         ProgramTest.debugPrint("Currently working with:", filename);
-        ByteWave byteWave = new ByteWave();
+        ByteWave byteWave;
 
         try {
-            if(!byteWave.loadSong(filename, true)) {
+            byteWave = ByteWave.loadSong(filename, true);
+            if(byteWave == null) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;

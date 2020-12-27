@@ -58,8 +58,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private DataModelSubjectIFace subject;
 
-    private ByteWave byteWave;
-
 
     @Override
     public void leavingPanel() {
@@ -71,8 +69,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     public AnalyzerPanel(JFrame thisWindow, DataModelObserverIFace[] observers) {
-        byteWave = new ByteWave();
-
         frame = thisWindow;
         this.setLayout(new BorderLayout());
         MyLogger.log("Creating Data model subject", 1);
@@ -316,8 +312,10 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         pair = new Pair<>("Path", file.getAbsolutePath());
         list.add(pair);
 
+        ByteWave byteWave;
         try {
-            if(!byteWave.loadSong(filename, true)) {
+            byteWave = ByteWave.loadSong(filename, true);
+            if(byteWave == null) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                         filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;

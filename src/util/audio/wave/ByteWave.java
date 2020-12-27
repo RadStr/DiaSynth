@@ -21,7 +21,12 @@ import util.audio.format.AudioFormatWithSign;
 import org.jtransforms.fft.DoubleFFT_1D;
 import util.audio.format.AudioType;
 
+/**
+ * This class represents audio as series of bytes. Instance of this class can only be created through loadSong methods.
+ */
 public class ByteWave {
+    private ByteWave() {}
+
     private byte[] song = null;
     public byte[] getSong() {
         return song;
@@ -205,14 +210,15 @@ public class ByteWave {
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      * if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @throws IOException is thrown if there was problem with reading the info from the file.
-     * @return Returns boolean based on the output of setVariables
+     * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
      */
-    public boolean loadSongAndPrintVariablesDEBUG(File file, boolean setSong) throws IOException {
-        if(loadSong(file, setSong)) {
-            writeVariables();
-            return true;
+    public static ByteWave loadSongAndPrintVariablesDEBUG(File file, boolean setSong) throws IOException {
+        ByteWave byteWave;
+        if((byteWave = loadSong(file, setSong)) != null) {
+            byteWave.writeVariables();
+            return byteWave;
         }
-        return false;
+        return null;
     }
 
     /**
@@ -221,16 +227,16 @@ public class ByteWave {
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      * if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @throws IOException is thrown if there was problem with reading the info from the file.
-     * @return Returns boolean based on the output of setVariables
+     * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
      */
-    public boolean loadSongAndPrintVariablesDEBUG(String path, boolean setSong) throws IOException {
-        if(loadSong(path, setSong)) {
-            writeVariables();
-            return true;
+    public static ByteWave loadSongAndPrintVariablesDEBUG(String path, boolean setSong) throws IOException {
+        ByteWave byteWave;
+        if((byteWave = loadSong(path, setSong)) != null) {
+            byteWave.writeVariables();
+            return byteWave;
         }
-        return false;
+        return null;
     }
-
 
     /**
      * Sets the properties of this class.
@@ -238,28 +244,62 @@ public class ByteWave {
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      * if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @throws IOException is thrown if there was problem with reading the info from the file.
+     * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     */
+    public static ByteWave loadSong(String path, boolean setSong) throws IOException {
+        ByteWave bw = new ByteWave();
+        if(loadSong(bw, path, setSong)) {
+            return bw;
+        }
+        return null;
+    }
+
+    /**
+     * Sets the properties of given ByteWave based on the audio in the given file.
+     * @param path is the path to the song
+     * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
+     * if it is false, then doesn't set the variable, which may save a lot of memory and time.
+     * @throws IOException is thrown if there was problem with reading the info from the file.
      * @return Returns true if there was no problem with file, false if it couldn't be read (for example it wasn't audio).
      */
-    public boolean loadSong(String path, boolean setSong) throws IOException {
-        setNameVariables(path);
-        if(!setFormatAndStream(path)) {
+    public static boolean loadSong(ByteWave byteWave, String path, boolean setSong) throws IOException {
+        byteWave.setNameVariables(path);
+        if(!byteWave.setFormatAndStream(path)) {
             return false;
         }
-        setVariables();
+        byteWave.setVariables();
 
 
         if(setSong) {
-            setSong();
+            byteWave.setSong();
         }
         else {
-            setTotalAudioLength();
+            byteWave.setTotalAudioLength();
         }
 
 
-        if(!setFormatAndStream(path)) {     // If there was some problem, then something unexpected happened
-            return false;                   // Because the previous call succeeded
+        if(!byteWave.setFormatAndStream(path)) {        // If there was some problem, then something unexpected happened
+            return false;                               // Because the previous call succeeded
         }
         return true;
+    }
+
+
+
+    /**
+     * Sets the properties of this class.
+     * @param file is the file with the song
+     * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
+     * if it is false, then doesn't set the variable, which may save a lot of memory and time.
+     * @throws IOException is thrown if there was problem with reading the info from the file.
+     * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     */
+    public static ByteWave loadSong(File file, boolean setSong) throws IOException {
+        ByteWave byteWave = new ByteWave();
+        if(loadSong(byteWave, file, setSong)) {
+            return byteWave;
+        }
+        return null;
     }
 
     /**
@@ -268,25 +308,25 @@ public class ByteWave {
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      * if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @throws IOException is thrown if there was problem with reading the info from the file.
-     * @return Returns true if there was no problem with file, false if it couldn't be read (for example it wasn't audio).
+     * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
      */
-    public boolean loadSong(File file, boolean setSong) throws IOException {
-        setNameVariables(file);
-        if(!setFormatAndStream(file)) {
+    public static boolean loadSong(ByteWave byteWave, File file, boolean setSong) throws IOException {
+        byteWave.setNameVariables(file);
+        if(!byteWave.setFormatAndStream(file)) {
             return false;
         }
-        setVariables();
+        byteWave.setVariables();
 
         if(setSong) {
-            setSong();
+            byteWave.setSong();
         }
         else {
-            setTotalAudioLength();
+            byteWave.setTotalAudioLength();
         }
 
 
-        if(!setFormatAndStream(file)) {     // If there was some problem, then something unexpected happened
-            return false;                   // Because the previous call succeeded
+        if(!byteWave.setFormatAndStream(file)) {        // If there was some problem, then something unexpected happened
+            return false;                               // Because the previous call succeeded
         }
         return true;
     }

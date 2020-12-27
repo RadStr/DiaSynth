@@ -116,9 +116,8 @@ public class DoubleWave {
         try {
             f.getParentFile().mkdirs();
             if (!f.createNewFile()) {        // If the file exist, then delete it
-                //f.delete();
-                try (PrintWriter pw = new PrintWriter(f)) {
-                    // TODO: Nevim proc to tady je popravde - jestli to delam schvalne a vymazu to tim PrintWriterem nebo ne
+                try (PrintWriter pw = new PrintWriter(f)) {     // new PrinterWrite(f) clears the file.
+                    // EMPTY
                 }
             }
             raf = new RandomAccessFile(filename, "rw");

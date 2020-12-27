@@ -300,9 +300,6 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
 
     private void tryChangeBin(Point p, boolean isDragEvent) {
         int bin = getBinAtPos(p);
-        // TODO: DEBUG
-//        System.out.println("BIN:\t" + bin + ":" + selectedBin);
-        // TODO: DEBUG
         if (!isDragEvent || (bin <= selectedBin + 1 && bin >= selectedBin - 1)) {       // If moved at max to next bin
             setBinValue(bin, p.y);
         }

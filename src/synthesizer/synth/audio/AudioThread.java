@@ -36,6 +36,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         setShouldPause(shouldPause);
         maxPlayTimeDivFactor = convertTimeInMsToDivFactor(maxPlayTimeInMs);
         cyclicQueueSizeDivFactor = convertTimeInMsToDivFactor(cyclicQueueSizeInMs);
+        // Set it to default audio format, instead of null
         AudioFormatWithSign af = new AudioFormatWithSign(44100, 16, 1,
                                                          true, false);
         setOutputAudioFormat(AudioFormatJPanel.getSupportedAudioFormat(af));

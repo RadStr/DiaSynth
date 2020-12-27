@@ -4361,7 +4361,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     }
 
-
     public boolean getIsWaveInClipboard() {
         return clipboard.isWaveInClipboard();
     }

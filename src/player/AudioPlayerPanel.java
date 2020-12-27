@@ -2,7 +2,6 @@ package player;
 
 
 import util.audio.wave.ByteWave;
-import deprecatedclasses.RobotUserEventsGenerator;
 import player.mixer.*;
 import player.control.AudioControlPanel;
 import player.control.AudioControlPanelWithZoomAndDecibel;

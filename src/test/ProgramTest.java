@@ -1,19 +1,14 @@
 package test;
 
-import util.audio.wave.ByteWave;
-import deprecatedclasses.Spectrogram;
+
 import util.Aggregation;
 import util.Utilities;
 import util.audio.*;
-import analyzer.AnalyzerPanel;
 import player.experimental.FFTWindowPanel;
-import util.Pair;
 import analyzer.bpm.SubbandSplitter;
 import analyzer.bpm.SubbandSplitterIFace;
 import analyzer.bpm.SubbandSplitterLinear;
-import deprecatedclasses.SubbandSplitterLogarithmic;
 import org.jtransforms.fft.DoubleFFT_1D;
-import util.Time;
 import util.audio.filter.NonRecursiveFilter;
 
 import javax.sound.sampled.AudioFormat;
@@ -28,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -257,10 +251,6 @@ public class ProgramTest {
         int arrLen = 256;
         int subbandCount = 32;
         testSubbandSplitterLinear(subbandCount, arrLen);
-        for (int k = 0; k < 10; k++) {
-            System.out.println();
-        }
-        testSubbandSplitterLogarithimic(subbandCount, arrLen);
         for (int k = 0; k < 10; k++) {
             System.out.println();
         }
@@ -2532,11 +2522,6 @@ public class ProgramTest {
     // Tests for subband splitters are very difficult to be made, so i just check it by debug print
     public static boolean testSubbandSplitterLinear(int subbandCount, int arrLen) {
         SubbandSplitterIFace s = new SubbandSplitterLinear(32);
-        return testGetSubbandRealForward(s, subbandCount, arrLen);
-    }
-
-    public static boolean testSubbandSplitterLogarithimic(int subbandCount, int arrLen) {
-        SubbandSplitterIFace s = new SubbandSplitterLogarithmic();
         return testGetSubbandRealForward(s, subbandCount, arrLen);
     }
 

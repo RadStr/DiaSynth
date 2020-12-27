@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioFormat.Encoding;
 
 import analyzer.bpm.BPMSimple;
 import analyzer.bpm.BPMSimpleWithFreqBands;
+import util.Aggregation;
 import util.Utilities;
 import util.audio.*;
 import util.audio.io.AudioReader;
@@ -21,7 +22,21 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import util.audio.format.AudioType;
 
 public class ByteWave {
-    public byte[] song;
+    private byte[] song = null;
+    public byte[] getSong() {
+        return song;
+    }
+
+    /**
+     * Returns the length of the underlying array or -1 if the array is set to null;
+     * @return
+     */
+    public int getSongLen() {
+        if(song == null) {
+            return -1;
+        }
+        return song.length;
+    }
 
     private int mask;
     public int getMask() {
@@ -29,25 +44,69 @@ public class ByteWave {
     }
 
     private File soundFile;
-    public AudioInputStream decodedAudioStream;
-
-    public int numberOfChannels;
-    public int sampleRate;
-    public int sampleSizeInBits;
-    public int sampleSizeInBytes;
-
-    public int wholeFileSize;
-    private int onlyAudioSizeInBytes;
-    public int getOnlyAudioSizeInBytes() {
-        return onlyAudioSizeInBytes;
+    private AudioInputStream decodedAudioStream;
+    public AudioInputStream getDecodedAudioStream() {
+        return decodedAudioStream;
     }
-    private float frameRate;
-    public int frameSize;
-    public boolean isBigEndian;
-    private int kbits;
 
-    public Encoding encoding;
-    public boolean isSigned;
+    private int numberOfChannels;
+    public int getNumberOfChannels() {
+        return numberOfChannels;
+    }
+
+    private int sampleRate;
+    public int getSampleRate() {
+        return sampleRate;
+    }
+
+    private int sampleSizeInBits;
+    public int getSampleSizeInBits() {
+        return sampleSizeInBits;
+    }
+
+    private int sampleSizeInBytes;
+    public int getSampleSizeInBytes() {
+        return sampleSizeInBytes;
+    }
+
+
+
+    private int wholeFileSize;
+    public int getWholeFileSize() {
+        return wholeFileSize;
+    }
+
+
+
+    /**
+     * This variable is set only after the loadSong method is called. It references the length of audio in bytes. It is
+     * used
+     */
+    private int audioStreamSizeInBytes;
+    public int getAudioStreamSizeInBytes() {
+        return audioStreamSizeInBytes;
+    }
+
+    private float frameRate;
+    private int frameSize;
+    public int getFrameSize() {
+        return frameSize;
+    }
+
+    private boolean isBigEndian;
+    public boolean getIsBigEndian() {
+        return isBigEndian;
+    }
+
+    private Encoding encoding;
+    public Encoding getEncoding() {
+        return encoding;
+    }
+
+    private boolean isSigned;
+    public boolean getIsSigned() {
+        return isSigned;
+    }
 
     private int headerSize;
 
@@ -74,29 +133,16 @@ public class ByteWave {
 
     private int maxAbsoluteValue;
 
-    private int sizeOfOneSecInFrames;
-    public int getSizeOfOneSecInFrames() {
-        return sizeOfOneSecInFrames;
-    }
-
-    private int sizeOfOneSecBytes;
-    public int getSizeOfOneSecInBytes() {
-        return sizeOfOneSecBytes;
-    }
-    private void setSizeOfOneSec() {
-        sizeOfOneSecBytes = calculateSizeOfOneSec();
-        sizeOfOneSecInFrames = sampleRate;
-    }
     public int calculateSizeOfOneSec() { return AudioUtilities.calculateSizeOfOneSec(this.sampleRate, this.frameSize); }
 
 
     /**
      * setVariables needs to be called before calling this method because
-     * onlyAudioSizeInBytes variable needs to be set to correct byte length of audio and
+     * audioStreamSizeInBytes variable needs to be set to correct byte length of audio and
      * decodedAudioStream needs to be set to correct audio.
      */
     public byte[] convertStreamToByteArray() throws IOException {
-        return AudioConverter.convertStreamToByteArray(decodedAudioStream, onlyAudioSizeInBytes);
+        return AudioConverter.convertStreamToByteArray(decodedAudioStream, audioStreamSizeInBytes);
     }
 
 
@@ -110,7 +156,6 @@ public class ByteWave {
                                                   decodedAudioFormat.getSampleSizeInBits(), 1,
                                                   this.frameSize, decodedAudioFormat.getFrameRate(),
                                                   decodedAudioFormat.isBigEndian());
-        setSizeOfOneSec();
     }
 
 
@@ -254,8 +299,8 @@ public class ByteWave {
     }
 
     private boolean setTotalAudioLength() throws IOException {
-        onlyAudioSizeInBytes = AudioReader.getLengthOfInputStream(decodedAudioStream);
-        headerSize = wholeFileSize - onlyAudioSizeInBytes;
+        audioStreamSizeInBytes = AudioReader.getLengthOfInputStream(decodedAudioStream);
+        headerSize = wholeFileSize - audioStreamSizeInBytes;
         decodedAudioStream.close();
         return true;
     }
@@ -264,8 +309,8 @@ public class ByteWave {
         setTotalAudioLength();
         setFormatAndStream(this.path);
         song = convertStreamToByteArray();
-        onlyAudioSizeInBytes = song.length;
-        headerSize = wholeFileSize - onlyAudioSizeInBytes;
+        audioStreamSizeInBytes = song.length;
+        headerSize = wholeFileSize - audioStreamSizeInBytes;
         decodedAudioStream.close();
     }
 
@@ -293,12 +338,11 @@ public class ByteWave {
         sampleSizeInBytes = sampleSizeInBits / 8;
         frameSize = sampleSizeInBytes * numberOfChannels;
         sampleRate = (int)decodedAudioFormat.getSampleRate();
-        setSizeOfOneSec();
         mask = AudioUtilities.calculateMask(sampleSizeInBytes);
         maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
 
         wholeFileSize = originalAudioFileFormat.getByteLength();
-        kbits = ((numberOfChannels * sampleRate * sampleSizeInBits) / 1000);
+
 
         // That is the number of frames that means total number of samples is numberOfChannels * numberOfFrames
         if(this.audioType == AudioType.MP3) {
@@ -485,6 +529,36 @@ public class ByteWave {
 
     public boolean saveAudio(String path, Type type) {
         return AudioWriter.saveAudio(path, this.decodedAudioFormat, this.song, type);
+    }
+
+
+    /**
+     * Calls AudioConverter.separateChannelsDouble with corresponding parameters on the internal decoded audio stream.
+     *
+     * @return
+     * @throws IOException
+     */
+    public double[][] separateChannelsDouble() throws IOException {
+        return AudioConverter.separateChannelsDouble(decodedAudioStream, numberOfChannels, sampleSizeInBytes,
+                isBigEndian, isSigned, audioStreamSizeInBytes);
+    }
+
+    /**
+     * Creates new double[] array with normalized values in [-1, 1]. It uses the internal song array, not the stream.
+     * @return
+     * @throws IOException
+     */
+    public double[] normalizeToDoubles() throws IOException {
+        return AudioConverter.normalizeToDoubles(song, sampleSizeInBytes, sampleSizeInBits, isBigEndian, isSigned);
+    }
+
+
+    public double[] calculateAllAggregations() {
+        return Aggregation.calculateAllAggregations(song, sampleSizeInBytes, isBigEndian, isSigned);
+    }
+
+    public int[] convertBytesToSamples() throws IOException {
+        return AudioConverter.convertBytesToSamples(song, sampleSizeInBytes, isBigEndian, isSigned);
     }
 
 

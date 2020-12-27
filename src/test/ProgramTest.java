@@ -2669,57 +2669,6 @@ public class ProgramTest {
     }
 
 
-    public boolean createSpectrogramTest(String path, int windowSize, int windowShift,
-                                         int startIndex, int endIndex,
-                                         int spectrogramWidthInPixels, int spectrogramHeigthInPixels) {
-        ByteWave byteWave = new ByteWave();
-        double[] songDouble;
-        songDouble = new double[44100 * 180];
-        for(int i = 0; i < songDouble.length; i++) {
-            songDouble[i] = 1;
-        }
-        byteWave.sampleRate = 22050;
-
-
-        double freqJump = AudioUtilities.computeFreqJump(byteWave.sampleRate, windowSize);
-        BufferedImage img = Spectrogram.createSpectrogram(songDouble, byteWave.numberOfChannels, windowSize,
-                windowShift, startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
-
-        createTestWindow(img);
-        return true;
-    }
-
-    public boolean createSpectrogramTest(int lengthInSeconds, double freq, int sampleRate,
-                                         int numberOfChannels, int sampleSize,
-                                         boolean isBigEndian, boolean isSigned,
-                                         int windowSize, int windowShift,
-                                         int startIndex, int endIndex,
-                                         int spectrogramWidthInPixels, int spectrogramHeigthInPixels) {
-
-        byte[] song = Note.generateFrequencyFreq(freq, sampleRate, lengthInSeconds, sampleSize, isBigEndian, isSigned);
-        double[] songDouble;
-        try {
-            songDouble = AudioConverter.normalizeToDoubles(song, sampleSize, sampleSize * 8,
-                    isBigEndian, isSigned);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        double freqJump = AudioUtilities.computeFreqJump(sampleRate, windowSize);
-        BufferedImage img = Spectrogram.createSpectrogram(songDouble, numberOfChannels, windowSize, windowShift,
-            startIndex, endIndex, freqJump, spectrogramWidthInPixels, spectrogramHeigthInPixels);
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createTestWindow(img);
-            }
-        });
-        return true;
-    }
-
-
     private static void createTestWindow(BufferedImage img) {
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(new FlowLayout());

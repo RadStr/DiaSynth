@@ -249,15 +249,13 @@ public class DoubleWave {
         doubleWaveFileExists = shouldCreateDoubleWaveFile;
         this.filenameWithoutExtension = filenameWithoutExtension;
 
-        this.sampleRate = byteWave.sampleRate;
-        this.numberOfChannels = byteWave.numberOfChannels;
+        this.sampleRate = byteWave.getSampleRate();
+        this.numberOfChannels = byteWave.getNumberOfChannels();
         try {
-            song = AudioConverter.normalizeToDoubles(byteWave.song, byteWave.sampleSizeInBytes,
-                                                     byteWave.sampleSizeInBits, byteWave.isBigEndian,
-                                                     byteWave.isSigned);
+            song = byteWave.normalizeToDoubles();
             if(newSampleRate >= 0) {
-                song = AudioConverter.convertSampleRate(song, byteWave.numberOfChannels, byteWave.sampleRate,
-                                                        newSampleRate, true);
+                song = AudioConverter.convertSampleRate(song, byteWave.getNumberOfChannels(),
+                        byteWave.getSampleRate(), newSampleRate, true);
                 this.sampleRate = newSampleRate;
             }
             if(shouldCreateDoubleWaveFile) {

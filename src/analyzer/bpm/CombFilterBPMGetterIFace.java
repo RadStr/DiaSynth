@@ -109,14 +109,15 @@ public interface CombFilterBPMGetterIFace {
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   int numberOfBeats, ByteWave byteWave) {
-
-        int lenOfOneSecond = byteWave.sampleSizeInBytes * byteWave.sampleRate;
+        int songLen = byteWave.getSongLen();
+        int sampleSizeInBytes = byteWave.getSampleSizeInBytes();
+        int lenOfOneSecond = byteWave.calculateSizeOfOneSec();
         int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);
-        int startIndex = byteWave.song.length / 2;
-        int mod = startIndex % byteWave.sampleSizeInBytes;
-        startIndex += (byteWave.sampleSizeInBytes - mod);
+        int startIndex = songLen / 2;
+        int mod = startIndex % sampleSizeInBytes;
+        startIndex += (sampleSizeInBytes - mod);
         int endIndex = startIndex + lenInBytes;
-        int bytesOver = endIndex - byteWave.song.length;
+        int bytesOver = endIndex - songLen;
         if(bytesOver > 0) {     // Move to left if the endIndex is after the length of buffer
             startIndex -= bytesOver;
             if(startIndex < 0) {
@@ -125,7 +126,7 @@ public interface CombFilterBPMGetterIFace {
             endIndex -= bytesOver;
         }
 
-        int windowSize = (endIndex - startIndex) / byteWave.sampleSizeInBytes;  // this is Window size in samples
+        int windowSize = (endIndex - startIndex) / sampleSizeInBytes;  // this is Window size in samples
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
 
         return computeBPM(startBPM, jumpBPM, upperBoundBPM, numberOfSeconds, windowSize,
@@ -137,7 +138,7 @@ public interface CombFilterBPMGetterIFace {
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   DoubleFFT_1D fft, int numberOfBeats, ByteWave byteWave) {
-        double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, byteWave.sampleRate,
+        double[][][] bpmArrays = createBPMArraysFFT(startBPM, upperBoundBPM, jumpBPM, byteWave.getSampleRate(),
                                                     numberOfSeconds, windowSize, numberOfBeats);
         return computeBPM(bpmArrays, startBPM, jumpBPM, windowSize,
                           startIndex, endIndex, subbandCount, splitter, fft, byteWave);
@@ -148,9 +149,10 @@ public interface CombFilterBPMGetterIFace {
                                   int startIndex, int endIndex,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   DoubleFFT_1D fft, ByteWave byteWave) {
-        return computeBPM(byteWave.song, bpmArrays, startBPM, jumpBPM,
-                          byteWave.sampleSizeInBytes, byteWave.sampleSizeInBits, windowSize, startIndex, endIndex,
-                          byteWave.isBigEndian, byteWave.isSigned, subbandCount, splitter, fft, byteWave.sampleRate);
+        return computeBPM(byteWave.getSong(), bpmArrays, startBPM, jumpBPM,
+                byteWave.getSampleSizeInBytes(), byteWave.getSampleSizeInBits(), windowSize,
+                startIndex, endIndex, byteWave.getIsBigEndian(), byteWave.getIsSigned(),
+                subbandCount, splitter, fft, byteWave.getSampleRate());
     }
 
 

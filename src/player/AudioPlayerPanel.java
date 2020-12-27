@@ -1902,19 +1902,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             return;
         }
 
-        int audioLen = byteWave.getOnlyAudioSizeInBytes();
-        ProgramTest.debugPrint("Adding waves", audioLen, byteWave.decodedAudioStream.getFrameLength(),
-                               byteWave.frameSize);
-        ProgramTest.debugPrint("properties:", byteWave.decodedAudioStream.getFormat().properties(),
-                               byteWave.getLengthOfAudioInSeconds(),
-                               byteWave.getOnlyAudioSizeInBytes(), byteWave.wholeFileSize);
-        double[][] waves = AudioConverter.separateChannelsDouble(byteWave.decodedAudioStream, byteWave.numberOfChannels,
-                                                                 byteWave.sampleSizeInBytes, byteWave.isBigEndian,
-                                                                 byteWave.isSigned, audioLen);
-
+        double[][] waves = byteWave.separateChannelsDouble();
         for(int i = 0; i < waves.length; i++) {
-            waves[i] = AudioConverter.convertSampleRate(waves[i], byteWave.numberOfChannels, byteWave.sampleRate,
-                                                        getOutputSampleRate(),true);
+            waves[i] = AudioConverter.convertSampleRate(waves[i], byteWave.getNumberOfChannels(),
+                    byteWave.getSampleRate(), getOutputSampleRate(),true);
         }
         addWaves(waves, byteWave.getFileName(), getOutputSampleRate(), shouldAddLater);
     }

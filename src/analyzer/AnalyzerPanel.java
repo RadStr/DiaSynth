@@ -249,23 +249,22 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private Pair<String, String> analyzeBytePlugin(ByteWave byteWave, AnalyzerBytePluginIFace plugin) {
-        return plugin.analyze(byteWave.song, byteWave.numberOfChannels, byteWave.sampleSizeInBytes,
-                              byteWave.sampleRate, byteWave.isBigEndian, byteWave.isSigned);
+        return plugin.analyze(byteWave.getSong(), byteWave.getNumberOfChannels(), byteWave.getSampleSizeInBytes(),
+                              byteWave.getSampleRate(), byteWave.getIsBigEndian(), byteWave.getIsSigned());
     }
 
     private void runSelectedPluginsInt(ByteWave byteWave, List<Pair<String, String>> list) {
         int[] wave = null;
         for(Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
             if(p.getKey().isSelected()) {
-                if(wave != null) {
+                if(wave == null) {
                     try {
-                        wave = AudioConverter.convertBytesToSamples(byteWave.song, byteWave.sampleSizeInBytes,
-                                                                    byteWave.isBigEndian, byteWave.isSigned);
+                        wave = byteWave.convertBytesToSamples();
                     } catch (IOException e) {
                         return;
                     }
                 }
-                list.add(p.getValue().analyze(wave, byteWave.numberOfChannels, byteWave.sampleRate));
+                list.add(p.getValue().analyze(wave, byteWave.getNumberOfChannels(), byteWave.getSampleRate()));
             }
         }
     }
@@ -274,7 +273,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         DoubleWave wave = null;
         for(Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
             if(p.getKey().isSelected()) {
-                if(wave != null) {
+                if(wave == null) {
                     wave = new DoubleWave(byteWave, false);
                 }
                 list.add(p.getValue().analyze(wave));
@@ -328,7 +327,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             return;
         }
 
-        int numberOfChannels = byteWave.numberOfChannels;
+        int numberOfChannels = byteWave.getNumberOfChannels();
 
         try {
             byteWave.convertToMono();
@@ -368,8 +367,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         double[] mods = null;
         if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {
-                mods = Aggregation.calculateAllAggregations(byteWave.song, byteWave.sampleSizeInBytes,
-                                                            byteWave.isBigEndian, byteWave.isSigned);
+                mods = byteWave.calculateAllAggregations();
         }
         if(checkBoxes[8].isSelected()) {
             list.add(analyzeSampleMax(mods));
@@ -415,7 +413,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSampleRate(ByteWave byteWave) {
-        return new Pair<String, String>("Sample rate", ((Integer)byteWave.sampleRate).toString());
+        return new Pair<String, String>("Sample rate", ((Integer)byteWave.getSampleRate()).toString());
     }
 
     private static Pair<String, String> analyzeSongLength(ByteWave byteWave) {
@@ -424,7 +422,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSizeInBytes(ByteWave byteWave) {
-        Integer len = byteWave.wholeFileSize;
+        Integer len = byteWave.getWholeFileSize();
         return new Pair<String, String>("File size (in bytes)", len.toString());
     }
 
@@ -449,7 +447,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeEndianness(ByteWave byteWave) {
-        if(byteWave.isBigEndian) {
+        if(byteWave.getIsSigned()) {
             return new Pair<String, String>("Endianness", "Big endian");
         }
         else {
@@ -458,11 +456,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeEncoding(ByteWave byteWave) {
-        return new Pair<String, String>("Encoding", byteWave.encoding.toString());
+        return new Pair<String, String>("Encoding", byteWave.getEncoding().toString());
     }
 
     private static Pair<String, String> analyzeSampleSize(ByteWave byteWave) {
-        return new Pair<String, String>("Sample Size (In bytes)", ((Integer)(byteWave.sampleSizeInBits / 8)).toString());
+        return new Pair<String, String>("Sample Size (In bytes)",
+                ((Integer)(byteWave.getSampleSizeInBytes())).toString());
     }
 
     private static Pair<String, String> analyzeNumberOfChannels(int numberOfChannels) {
@@ -485,7 +484,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     public static Pair<String, String> analyzeBPMBarycenterPart(ByteWave byteWave) {
         int subbandCount = 6;
-        SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.sampleRate, 200, 200, subbandCount);
+        SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.getSampleRate(), 200, 200, subbandCount);
         int startBPM = 60;
         int jumpBPM = 10;
         int upperBoundBPM = 290;
@@ -505,7 +504,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     public static Pair<String, String> analyzeBPMAllPart(ByteWave byteWave) {
         int subbandCount = 6;
-        SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.sampleRate, 200, 200, subbandCount);
+        SubbandSplitterIFace splitter = new SubbandSplitter(byteWave.getSampleRate(), 200, 200, subbandCount);
 
         int startBPM = 60;
         int jumpBPM = 10;

@@ -145,7 +145,7 @@ public class BPMAlgParamsFinder {
 
 
                         SubbandSplitterIFace splitter;
-                        splitter = new SubbandSplitter(byteWave.sampleRate, 0, subbandCount);
+                        splitter = new SubbandSplitter(byteWave.getSampleRate(), 0, subbandCount);
                         int bpm = byteWave.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef,
                                 windowsBetweenBeats, varianceLimit);
 

@@ -185,6 +185,7 @@ public class VerticalReferencesPanel extends JPanel {
     /* --------------------------------------------- [END] --------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(valuesLongestWidth + minLineLen, super.getPreferredSize().height);

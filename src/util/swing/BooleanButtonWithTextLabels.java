@@ -18,7 +18,7 @@ public class BooleanButtonWithTextLabels extends BooleanButton {
 
     @Override
     protected void setButtonVisuals() {
-        if(boolVar) {
+        if (boolVar) {
             this.setText(textIfTrue);
         }
         else {

@@ -2,8 +2,7 @@ package synthesizer.synth.tables;
 
 public class WaveTable {
     /**
-     *
-     * @param wave is the wave used in wave table synthesis.
+     * @param wave     is the wave used in wave table synthesis.
      * @param wavePath is the path to the wave or null if it wasn't from file
      */
     public WaveTable(double[] wave, String wavePath) {
@@ -14,12 +13,15 @@ public class WaveTable {
 
     public final String WAVE_PATH;
     protected final double[] wave;
+
     public double[] getWave() {
         return wave;
     }
+
     public double peek() {
         return wave[getWaveIndex()];
     }
+
     public double peek(double phase) {
         return wave[(int) getWaveIndexDouble(phase)];
     }
@@ -36,11 +38,12 @@ public class WaveTable {
 
     /**
      * The index is the wave index shifted by phase
+     *
      * @param index
      * @return
      */
     public double peekInterpolated(double index) {
-        int leftValIndex = (int)index;
+        int leftValIndex = (int) index;
         int rightValIndex = getNextWaveIndex(index);
         double factor = getWaveIndexRemainder();
         double rightVal = factor * wave[rightValIndex];
@@ -51,14 +54,15 @@ public class WaveTable {
 
     /**
      * index has to be [0, wave.length - 1]
+     *
      * @param wave
      * @param index
      * @return
      */
     public static double interpolate(double[] wave, double index) {
-        int leftValIndex = (int)index;
+        int leftValIndex = (int) index;
         int rightValIndex = leftValIndex + 1;
-        if(rightValIndex > wave.length - 1) {       // When the index == wave.length - 1
+        if (rightValIndex > wave.length - 1) {       // When the index == wave.length - 1
             rightValIndex = wave.length - 1;
         }
         double factor = index - leftValIndex;
@@ -95,49 +99,55 @@ public class WaveTable {
 
 
     protected double waveIndex;
+
     public double getWaveIndexDouble() {
         return waveIndex;
     }
+
     private int getWaveIndex() {
-        return (int)waveIndex;
+        return (int) waveIndex;
     }
+
     private double getWaveIndexDouble(double phase) {
         double phasedWaveIndex = waveIndex + getPhaseShift(phase);
         phasedWaveIndex = convertWaveIndexToRange(phasedWaveIndex);
         return phasedWaveIndex;
     }
+
     private double getWaveIndex(double phase) {
-        return (int)getWaveIndexDouble(phase);
+        return (int) getWaveIndexDouble(phase);
     }
 
     public void setWaveIndex(double newWaveIndex) {
         this.waveIndex = newWaveIndex;
     }
+
     public void goToNextWaveIndex(double generatedWaveFreq, int playFreq) {
         goToNthWaveIndex(generatedWaveFreq, playFreq, 1);
     }
 
     public void goToNthWaveIndex(double generatedWaveFreq, int playFreq, int n) {
         double indexJump = n * (generatedWaveFreq * wave.length) / playFreq;
-        if(indexJump < 0) {
+        if (indexJump < 0) {
             indexJump = -indexJump;
         }
         waveIndex += indexJump;
-        if(waveIndex >= wave.length) {
+        if (waveIndex >= wave.length) {
             waveIndex %= wave.length;
         }
     }
 
     /**
      * Converts the given range back to array range (waveIndex can be < 0 and >= wave.length)
+     *
      * @param waveIndex
      * @return
      */
     protected double convertWaveIndexToRange(double waveIndex) {
-        if(waveIndex >= wave.length) {
+        if (waveIndex >= wave.length) {
             waveIndex %= wave.length;
         }
-        else if(waveIndex < 0) {
+        else if (waveIndex < 0) {
             waveIndex %= wave.length;
             waveIndex = wave.length + waveIndex;
         }
@@ -151,9 +161,11 @@ public class WaveTable {
     }
 
     private double savedWaveIndex;
+
     public void saveWaveIndex() {
         savedWaveIndex = waveIndex;
     }
+
     public void resetToSavedWaveIndex() {
         waveIndex = savedWaveIndex;
     }
@@ -163,7 +175,7 @@ public class WaveTable {
     }
 
     private int getNextWaveIndex(double index) {
-        return getIndexMod(((int)index) + 1);
+        return getIndexMod(((int) index) + 1);
     }
 
 
@@ -177,6 +189,6 @@ public class WaveTable {
     }
 
     public static double getDoubleRemainder(double value) {
-        return value - (int)value;
+        return value - (int) value;
     }
 }

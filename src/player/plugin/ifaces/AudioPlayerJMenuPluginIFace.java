@@ -2,13 +2,12 @@ package player.plugin.ifaces;
 
 import plugin.PluginBaseIFace;
 import plugin.util.PluginLoader;
-import java.util.List;
 
+import java.util.List;
 
 
 public interface AudioPlayerJMenuPluginIFace extends PluginBaseIFace {
     /**
-     *
      * @return Returns tooltip which will be shown when hovering over the button which will perform the operation.
      */
     String getPluginTooltip();

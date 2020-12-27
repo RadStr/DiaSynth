@@ -9,7 +9,7 @@ public class MixerWithPostProcessingSumDivision extends MixerWithPostProcessing 
 
     @Override
     public int postProcessing(int sample, int channel) {
-        return (int)(sample / divFactors[channel]);
+        return (int) (sample / divFactors[channel]);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class MixerWithPostProcessingSumDivision extends MixerWithPostProcessing 
 
     @Override
     public void update(double[][] multFactors) {
-        if(multFactors == null || multFactors.length == 0) {
+        if (multFactors == null || multFactors.length == 0) {
             divFactors = null;
         }
         else {

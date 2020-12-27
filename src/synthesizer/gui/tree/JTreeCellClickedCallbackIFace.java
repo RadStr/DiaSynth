@@ -7,6 +7,7 @@ public interface JTreeCellClickedCallbackIFace {
 
     /**
      * Returns null on unit and children otherwise (when called on some subbranch of JTree)
+     *
      * @return
      */
     List<JTreeCellClickedCallbackIFace> getChildren();

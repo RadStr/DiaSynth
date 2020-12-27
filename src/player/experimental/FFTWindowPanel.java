@@ -17,7 +17,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, int sampleRate,
                           boolean isEditable, Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(song, windowSize, startIndex, AudioUtilities.computeFreqJump(sampleRate, windowSize),
-                isEditable, backgroundColor, shouldDrawLabelsAtTop);
+             isEditable, backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public FFTWindowPanel(double[] song, int windowSize, int startIndex, double freqJump,
@@ -25,7 +25,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         super(windowSize, freqJump, isEditable, false,
               backgroundColor, shouldDrawLabelsAtTop, false);
 
-        if(song != null) {
+        if (song != null) {
             FFT.calculateFFTRealForward(song, startIndex, fftResult.length, 1, fft, fftResult);
         }
         else {
@@ -39,13 +39,13 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
     @Override
     public FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
-                                            int sampleRate, boolean shouldChangeSampleRate) {
-        if(!shouldChangeWindowSize) {
+                                                    int sampleRate, boolean shouldChangeSampleRate) {
+        if (!shouldChangeWindowSize) {
             windowSize = this.WINDOW_SIZE;
         }
 
         double freqJump;
-        if(!shouldChangeSampleRate) {
+        if (!shouldChangeSampleRate) {
             freqJump = this.FREQ_JUMP;
         }
         else {
@@ -53,7 +53,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         }
 
         return new FFTWindowPanel(null, windowSize, -1, freqJump,
-                getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
+                                  getIsEditable(), getBackgroundColor(), getShouldDrawLabelsAtTop());
     }
 
 
@@ -73,11 +73,11 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     @Override
     protected void setBinValue(int bin, int y) {
         int h = this.getHeight();
-        double binValue = 1 - (y / (double)h);
-        if(binValue < 0) {
+        double binValue = 1 - (y / (double) h);
+        if (binValue < 0) {
             binValue = 0;
         }
-        else if(binValue > 1) {
+        else if (binValue > 1) {
             binValue = 1;
         }
 
@@ -93,22 +93,20 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     }
 
 
-
-
     public static void getRealIFFT(double[] fftArr, DoubleFFT_1D fft) {
         fft.realInverse(fftArr, true);
     }
 
 
     public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
-        if(setImagPartToZero) {
+        if (setImagPartToZero) {
             FFT.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
         }
         else {
             FFT.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
         }
 
-        for(int i = 0; i < fftResult.length; i++) {
+        for (int i = 0; i < fftResult.length; i++) {
             // *2 because of the 0-th bin, otherwise *1 would be sufficient
             fftResult[i] *= 2 * DRAW_VALUES.length;
         }
@@ -123,7 +121,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
     public static void normalize(double[] arr) {
         double max = Aggregation.performAggregation(arr, Aggregation.ABS_MAX);
 
-        if(max > 1) {
+        if (max > 1) {
             for (int i = 0; i < arr.length; i++) {
                 arr[i] /= max;
             }

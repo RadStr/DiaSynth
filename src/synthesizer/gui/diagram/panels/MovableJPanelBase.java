@@ -40,6 +40,7 @@ public abstract class MovableJPanelBase extends JPanel implements UpdateIFace, G
 
 
     protected DiagramPanel diagramPanel;
+
     public DiagramPanel getDiagramPanel() {
         return diagramPanel;
     }
@@ -53,35 +54,42 @@ public abstract class MovableJPanelBase extends JPanel implements UpdateIFace, G
 
     @Override
     public abstract void updateX(int updateVal);
+
     @Override
     public abstract void updateY(int updateVal);
 
 
     private Dimension minSize;
+
     @Override
     public Dimension getMinimumSize() {
         return minSize;
     }
+
     @Override
     public void setMinimumSize(Dimension val) {
         minSize = val;
     }
 
     private Dimension prefSize;
+
     @Override
     public Dimension getPreferredSize() {
         return prefSize;
     }
+
     @Override
     public void setPreferredSize(Dimension val) {
         prefSize = val;
     }
 
     private Dimension maxSize;
+
     @Override
     public Dimension getMaximumSize() {
         return maxSize;
     }
+
     @Override
     public void setMaximumSize(Dimension val) {
         maxSize = val;

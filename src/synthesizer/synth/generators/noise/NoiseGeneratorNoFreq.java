@@ -28,7 +28,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new RectangleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                                  new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -36,7 +36,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AmplitudeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
         }
         else {
@@ -56,6 +56,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     public boolean getIsConst() {
         return false;
     }
+
     @Override
     public boolean getIsNoiseGen() {
         return true;
@@ -66,6 +67,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     protected void setPropertiesPanel() {
         propertiesPanel = null;
     }
+
     @Override
     public void updateAfterPropertiesCall() {
         // EMPTY
@@ -73,6 +75,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
 
     /**
      * Generates noise between 0 and 1.
+     *
      * @return
      */
     public abstract double generateNoise();
@@ -96,7 +99,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     @Override
     public void calculateSamples() {
         double[] amps = inputPorts[0].getValues();
-        for(int i = 0; i < results.length; i++) {
+        for (int i = 0; i < results.length; i++) {
             results[i] = generateNoise(amps[i]);
         }
     }

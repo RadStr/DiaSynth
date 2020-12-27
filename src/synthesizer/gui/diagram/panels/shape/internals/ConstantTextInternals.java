@@ -14,8 +14,8 @@ public class ConstantTextInternals implements ShapedPanelInternals {
 
     // Used by Dynamic text internals
     private void setRectangleParameters(int rectangleWidthDecreaseDivFactor,
-                                    int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
-                                    int rectangleStartYDecreaseDivFactor) {
+                                        int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
+                                        int rectangleStartYDecreaseDivFactor) {
         RECTANGLE_WIDTH_DECREASE_DIV_FACTOR = rectangleWidthDecreaseDivFactor;
         RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR = rectangleHeightDecreaseDivFactor;
         RECTANGLE_START_X_DECREASE_DIV_FACTOR = rectangleStartXDecreaseDivFactor;
@@ -26,7 +26,7 @@ public class ConstantTextInternals implements ShapedPanelInternals {
                                  int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
                                  int rectangleStartYDecreaseDivFactor) {
         setRectangleParameters(rectangleWidthDecreaseDivFactor, rectangleHeightDecreaseDivFactor,
-                rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
+                               rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
         textLabel = label;
     }
 
@@ -34,7 +34,7 @@ public class ConstantTextInternals implements ShapedPanelInternals {
                                  int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
                                  int rectangleStartYDecreaseDivFactor) {
         setRectangleParameters(rectangleWidthDecreaseDivFactor, rectangleHeightDecreaseDivFactor,
-                rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
+                               rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
         textLabel = new JLabel(text);
     }
 
@@ -55,6 +55,7 @@ public class ConstantTextInternals implements ShapedPanelInternals {
     // The label isn't used, but it is here to have fontmetrics which will be used for drawing
     // It isn't used because then the blinking wouldn't be drawn correctly
     protected final JLabel textLabel;
+
     public JLabel getLabel() {
         return textLabel;
     }
@@ -70,27 +71,27 @@ public class ConstantTextInternals implements ShapedPanelInternals {
 
         int width = newSize.width;
         int height = newSize.height;
-        if(RECTANGLE_WIDTH_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
+        if (RECTANGLE_WIDTH_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
             startX = newSize.width / RECTANGLE_WIDTH_DECREASE_DIV_FACTOR;
             width -= startX;
             startX /= 2;
         }
-        if(RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
+        if (RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
             startY = newSize.height / RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR;
             height -= startY;
             startY /= 2;
         }
 
-        if(RECTANGLE_START_X_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
+        if (RECTANGLE_START_X_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
             startX -= newSize.width / RECTANGLE_START_X_DECREASE_DIV_FACTOR;
         }
-        if(RECTANGLE_START_Y_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
+        if (RECTANGLE_START_Y_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
             startY -= newSize.height / RECTANGLE_START_Y_DECREASE_DIV_FACTOR;
         }
 
 
         // Approximation
-        if(oldWidth == -1) {
+        if (oldWidth == -1) {
             oldWidth = width;
         }
         else {
@@ -124,7 +125,7 @@ public class ConstantTextInternals implements ShapedPanelInternals {
     @Override
     public ShapedPanelInternals createCopy() {
         return new ConstantTextInternals(textLabel.getText(),
-                RECTANGLE_WIDTH_DECREASE_DIV_FACTOR, RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR,
-                RECTANGLE_START_X_DECREASE_DIV_FACTOR, RECTANGLE_START_Y_DECREASE_DIV_FACTOR);
+                                         RECTANGLE_WIDTH_DECREASE_DIV_FACTOR, RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR,
+                                         RECTANGLE_START_X_DECREASE_DIV_FACTOR, RECTANGLE_START_Y_DECREASE_DIV_FACTOR);
     }
 }

@@ -119,7 +119,7 @@ public class MovableJPanelMouseAdapter extends MovableJPanelMouseAdapterBase {
                     movablePanel.endedDraggingFromOutsideMovablePanel();
                 }
                 else if (movablePanel.getIsPointInsideShape(e.getPoint())) {
-                    if(!movablePanel.getUnit().getIsOutputUnit()) {
+                    if (!movablePanel.getUnit().getIsOutputUnit()) {
                         isAlreadyOneClick = true;
                     }
                     startDragging();
@@ -135,7 +135,7 @@ public class MovableJPanelMouseAdapter extends MovableJPanelMouseAdapterBase {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(isDraggingOutsideShape) {
+        if (isDraggingOutsideShape) {
             isDraggingOutsideShape = false;
             MouseEvent convertMouseEvent = SwingUtilities.convertMouseEvent(e.getComponent(), e, movablePanel.getParent());
             movablePanel.getParent().dispatchEvent(convertMouseEvent);
@@ -144,7 +144,7 @@ public class MovableJPanelMouseAdapter extends MovableJPanelMouseAdapterBase {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(isDraggingOutsideShape) {
+        if (isDraggingOutsideShape) {
             MouseEvent convertMouseEvent = SwingUtilities.convertMouseEvent(e.getComponent(), e, movablePanel.getParent());
             movablePanel.getParent().dispatchEvent(convertMouseEvent);
         }

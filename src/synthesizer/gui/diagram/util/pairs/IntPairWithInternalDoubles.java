@@ -8,6 +8,7 @@ public class IntPairWithInternalDoubles {
     public IntPairWithInternalDoubles() {
         this(0, 0);
     }
+
     public IntPairWithInternalDoubles(double first, double second) {
         setFirst(first);
         setSecond(second);
@@ -15,24 +16,28 @@ public class IntPairWithInternalDoubles {
 
 
     protected double first;
+
     public double getFirstDouble() {
         return first;
     }
+
     protected void setFirst(double val) {
-        if(!MathClass.isIntOverflow(val)) {
+        if (!MathClass.isIntOverflow(val)) {
             first = val;
             setFirstInt();
         }
     }
 
     protected double second;
+
     public double getSecondDouble() {
         return second;
     }
+
     protected void setSecond(double val) {
-        if(!MathClass.isIntOverflow(val)) {
+        if (!MathClass.isIntOverflow(val)) {
             second = val;
-            secondInt = (int)Math.floor(second);
+            secondInt = (int) Math.floor(second);
         }
     }
 
@@ -42,23 +47,28 @@ public class IntPairWithInternalDoubles {
     }
 
     protected int firstInt;
+
     public int getFirst() {
         return firstInt;
     }
+
     protected void setFirstInt() {
-        firstInt = (int)Math.floor(first);
+        firstInt = (int) Math.floor(first);
         setFirstIntHalved();
     }
 
     private int firstIntHalved;
+
     public int getFirstHalved() {
         return firstIntHalved;
     }
+
     protected void setFirstIntHalved() {
         firstIntHalved = firstInt / 2;
     }
 
     protected int secondInt;
+
     public int getSecond() {
         return secondInt;
     }
@@ -67,6 +77,7 @@ public class IntPairWithInternalDoubles {
         double sum = this.first + first;
         setFirst(sum);
     }
+
     public void substractFirst(double first) {
         addFirst(-first);
     }
@@ -75,6 +86,7 @@ public class IntPairWithInternalDoubles {
         double sum = this.second + second;
         setSecond(sum);
     }
+
     public void subtractSecond(double second) {
         addSecond(-second);
     }
@@ -115,7 +127,7 @@ public class IntPairWithInternalDoubles {
 
     @Override
     public boolean equals(Object o) {
-        IntPairWithInternalDoubles pair = (IntPairWithInternalDoubles)o;
+        IntPairWithInternalDoubles pair = (IntPairWithInternalDoubles) o;
         return this.first == pair.first && this.second == pair.second;
     }
 

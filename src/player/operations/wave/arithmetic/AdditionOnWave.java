@@ -7,7 +7,7 @@ import util.math.ArithmeticOperation;
 
 public class AdditionOnWave implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
-        parameterTooltip = "is the constant to be added to the samples")
+                               parameterTooltip = "is the constant to be added to the samples")
     private double value;
 
     @Override

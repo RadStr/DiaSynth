@@ -14,10 +14,9 @@ public class InputPort extends Port {
     public static final double[] ZERO_ARR = new double[Unit.BUFFER_LEN];
 
     /**
-     *
      * @param panelWhichContainsPort
-     * @param name is saved to the portLabel label as the label name. (Shouldn't contain ")< br >" ... without the spaces).
-     * @param fullName is saved to the portLabel under public field FULL_NAME
+     * @param name                   is saved to the portLabel label as the label name. (Shouldn't contain ")< br >" ... without the spaces).
+     * @param fullName               is saved to the portLabel under public field FULL_NAME
      * @param connectorIndex
      * @param inputPortToGUIAdder
      */
@@ -26,7 +25,7 @@ public class InputPort extends Port {
                      InputPortToGUIAdderIFace inputPortToGUIAdder, String labelTooltip,
                      double neutralValue) {
         super(u, panelWhichContainsPort, connectorIndex);
-        if(neutralValue == 0) {
+        if (neutralValue == 0) {
             ARR_WITH_DEFAULT_VALUES = ZERO_ARR;
         }
         else {
@@ -40,14 +39,15 @@ public class InputPort extends Port {
 
     @Override
     public boolean getIsConst() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getIsConst();
         }
         return true;
     }
+
     @Override
     public boolean getIsNoiseGen() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getIsNoiseGen();
         }
         return false;
@@ -55,21 +55,23 @@ public class InputPort extends Port {
 
     @Override
     public double getMaxAbsValue() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getMaxAbsValue();
         }
         return ARR_WITH_DEFAULT_VALUES[0];
     }
+
     @Override
     public double getValue(int index) {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getValue(index);
         }
         return ARR_WITH_DEFAULT_VALUES[0];
     }
+
     @Override
     public double[] getValues() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getValues();
         }
         return ARR_WITH_DEFAULT_VALUES;
@@ -83,7 +85,7 @@ public class InputPort extends Port {
      */
     @Override
     public double getModulationFrequency() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getModulationFrequency();
         }
         return Double.MAX_VALUE;
@@ -94,7 +96,7 @@ public class InputPort extends Port {
      * Returns if the predecessor is binary plus.
      */
     public boolean isBinaryPlus() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.isBinaryPlus();
         }
         return false;
@@ -107,7 +109,7 @@ public class InputPort extends Port {
      */
     @Override
     public double getConstant() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getConstant();
         }
         return Double.MAX_VALUE;
@@ -121,7 +123,7 @@ public class InputPort extends Port {
      */
     @Override
     public double[] getNonConstant(int n) {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getNonConstant(n);
         }
         return null;
@@ -130,7 +132,7 @@ public class InputPort extends Port {
 
     @Override
     public double[] getWaveAmps(int waveIndex) {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getWaveAmps(waveIndex);
         }
         return null;
@@ -138,7 +140,7 @@ public class InputPort extends Port {
 
     @Override
     public double[] getWaveFreqs(int waveIndex) {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             return connectedPort.getWaveFreqs(waveIndex);
         }
         return null;
@@ -146,11 +148,13 @@ public class InputPort extends Port {
 
 
     private Port connectedPort = null;
+
     public Port getConnectedPort() {
         return connectedPort;
     }
 
     private InputPortLabel portLabel;
+
     public InputPortLabel getPortLabel() {
         return portLabel;
     }
@@ -158,15 +162,15 @@ public class InputPort extends Port {
 
     @Override
     public void connectToPort(Port port, boolean connectAlsoOnTheOtherPort) {
-        if(connectedPort != port) {
+        if (connectedPort != port) {
             Point p = port.getPanelWhichContainsPort().getRelativePosToReferencePanel();
             int y = panelWhichContainsPort.getRelativePosToReferencePanel().y;
             if (y > p.y) {
-                if(connectedPort != null) {
+                if (connectedPort != null) {
                     removePort(connectedPort);
                 }
                 connectedPort = port;
-                if(connectAlsoOnTheOtherPort) {
+                if (connectAlsoOnTheOtherPort) {
                     port.connectToPort(this, false);
                 }
             }
@@ -176,9 +180,9 @@ public class InputPort extends Port {
 
     @Override
     public int removePort(Port port, boolean removeTheOtherPort) {
-        if(connectedPort == port) {
+        if (connectedPort == port) {
             connectedPort = null;
-            if(removeTheOtherPort) {
+            if (removeTheOtherPort) {
                 port.removePort(this, false);
             }
             return 0;
@@ -191,15 +195,15 @@ public class InputPort extends Port {
 
     @Override
     public void removeAllPorts() {
-        if(connectedPort != null) {
+        if (connectedPort != null) {
             removePort(connectedPort);
         }
     }
 
 
-
     /**
      * Copies the fields from the given parameter to the instance on which was the method called.
+     *
      * @param copySourcePort is the port from which we will copy.
      */
     public void copyFields(InputPort copySourcePort) {
@@ -236,8 +240,6 @@ public class InputPort extends Port {
     public void getNextToLastPoint(Point nextToLastPoint) {
         panelWhichContainsPort.getNextToLastPoint(nextToLastPoint, CONNECTOR_INDEX);
     }
-
-
 
 
     public static class InputPortLabel extends JLabel {
@@ -280,12 +282,13 @@ public class InputPort extends Port {
 
         /**
          * Doesn't work if the name contains ")< br >" ... without the spaces.
+         *
          * @return
          */
         public String getAdditionalTooltip() {
             String tooltip = TOOL_TIP_PREFIX.substring(FULL_NAME.length());
             int endLineIndex = tooltip.indexOf(")<br>");
-            tooltip = tooltip.substring(endLineIndex +   ")<br>".length());
+            tooltip = tooltip.substring(endLineIndex + ")<br>".length());
             return tooltip;
         }
     }

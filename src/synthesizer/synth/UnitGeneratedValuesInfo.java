@@ -5,29 +5,36 @@ package synthesizer.synth;
  */
 public interface UnitGeneratedValuesInfo {
     boolean getIsConst();
+
     boolean getIsNoiseGen();
+
     double getMaxAbsValue();
+
     double getValue(int index);
+
     double[] getValues();
 
     /**
      * Returns Double.MAX_VALUE if it doesn't have modulation frequency
      * (if it is envelope or operation or noise generator).
      * Or returns its modulation frequency if it is generator.
+     *
      * @return
      */
     default double getModulationFrequency() {
         double[] modWaveFreqs = getModulatingWaveFreqs();
-        if(modWaveFreqs != null) {
+        if (modWaveFreqs != null) {
             return modWaveFreqs[0];
         }
 
         return Double.MAX_VALUE;
     }
+
     boolean isBinaryPlus();
 
     /**
      * Returns the first constant in input ports or Double.MAX_VALUE if there are no constants on input ports
+     *
      * @return
      */
     double getConstant();
@@ -35,6 +42,7 @@ public interface UnitGeneratedValuesInfo {
     /**
      * Returns the n-th non-constant in input ports or null if there are no non-constants on input ports.
      * Doesn't work recursively.
+     *
      * @return
      */
     double[] getNonConstant(int n);
@@ -43,6 +51,7 @@ public interface UnitGeneratedValuesInfo {
     /**
      * Returns the amplitudes of the modulating wave.
      * NOTE: This method isn't used anymore, but It may be useful in future, so it is kept in here
+     *
      * @return
      */
     default double[] getModulatingWaveAmps() {
@@ -51,6 +60,7 @@ public interface UnitGeneratedValuesInfo {
 
     /**
      * Returns the frequencies of the modulating wave.
+     *
      * @return
      */
     default double[] getModulatingWaveFreqs() {
@@ -60,6 +70,7 @@ public interface UnitGeneratedValuesInfo {
 
     /**
      * Returns the amplitudes of waveIndex-th found generator. Currently not in use but may be useful later.
+     *
      * @return
      */
     double[] getWaveAmps(int waveIndex);
@@ -68,6 +79,7 @@ public interface UnitGeneratedValuesInfo {
      * Returns the frequencies of waveIndex-th found generator. This is only used in case if we have FM synthesis
      * and the carrier signal isn't constant. So it doesn't work recursively, basically it just goes through all
      * the input ports of operator takes and returns the frequency of the waveIndex-th non-constant input.
+     *
      * @return
      */
     double[] getWaveFreqs(int waveIndex);

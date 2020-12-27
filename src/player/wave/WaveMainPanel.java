@@ -20,6 +20,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     private final String FONT_NAME = "Serif";
 
     private WaveMixPanel mixPanel;
+
     public void updateChannelSliders(ChannelCount channelCount) {
         mixPanel.updateChannelCount(channelCount);
     }
@@ -190,7 +191,8 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
             public void focusLost(FocusEvent focusEvent) {
                 if (thisPanel.focusLostByEnterPress) {
                     thisPanel.focusLostByEnterPress = false;
-                } else {
+                }
+                else {
                     String oldIndex = Integer.toString(thisPanel.getWaveIndex());
                     setWaveIndexTextField(oldIndex);
                 }
@@ -205,7 +207,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         int maxSliderVal = 100;
         int defSliderVal = maxSliderVal;
         mixPanel = new WaveMixPanel(SwingConstants.HORIZONTAL, minSliderVal, maxSliderVal, defSliderVal,
-            true, channelCountInOutputAudio, this);
+                                    true, channelCountInOutputAudio, this);
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = currGridX;
@@ -273,7 +275,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-
     public void visibleWidthChangedCallback() {
         wave.visibleWidthChangedCallback();
     }
@@ -284,7 +285,8 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         super.paintComponent(g);
         if (dragging) {
             waveIndexTextField.setBackground(Color.red);
-        } else {
+        }
+        else {
             waveIndexTextField.setBackground(Color.white);
         }
     }
@@ -300,12 +302,14 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public int getWidth() {
         return prefSize.width;
     }
+
     @Override
     public int getHeight() {
         return prefSize.height;
     }
 
     private Dimension prefSize = null;
+
     @Override
     public Dimension getPreferredSize() {
         return prefSize;
@@ -352,7 +356,8 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
         int dif = h - min.height;
         if (dif < 0) {
             h = min.height;
-        } else {
+        }
+        else {
             dif = 0;
         }
 
@@ -371,6 +376,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     /**
      * Adds the parameter to the preferred size and if the result is smaller than min height than returns the difference of
      * the new height and min height else returns 0.
+     *
      * @param h
      * @return
      */
@@ -387,7 +393,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public void updatePreferredSize() {
         prefSize.width = super.getPreferredSize().width;
         ProgramTest.debugPrint("updatePreferredSize", getPreferredSize(), wave.getPreferredSize());
-        if(prefSize.height < getMinimumSize().height) {
+        if (prefSize.height < getMinimumSize().height) {
             prefSize.height = super.getPreferredSize().height;
         }
     }
@@ -424,11 +430,13 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
      * Returns the real visible width of wave
      * (When the wave isn't visible, then the getVisibleRect().width on wave returns 0, that is not real what I want.
      * I want the visible width as if it was visible, which this method returns).
+     *
      * @return
      */
     public int getWaveVisibleWidth() {
         return panelWithWaves.getWavesVisibleWidth();
     }
+
     public int getWaveVisibleHeight() {
         return panelWithWaves.getWavesVisibleHeight();
     }
@@ -455,7 +463,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
     public int getMarkStartXPixel() {
-        if(getShouldMarkPart()) {
+        if (getShouldMarkPart()) {
             return panelWithWaves.getMarkStartXPixel();
         }
         else {
@@ -464,7 +472,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
     public int getMarkStartXSample() {
-        if(getShouldMarkPart()) {
+        if (getShouldMarkPart()) {
             return panelWithWaves.getMarkStartXSample();
         }
         else {
@@ -474,7 +482,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
 
     public int getMarkEndXPixel() {
-        if(getShouldMarkPart()) {
+        if (getShouldMarkPart()) {
             return panelWithWaves.getMarkEndXPixel();
         }
         else {
@@ -485,16 +493,17 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public int getMarkEndXSample() {
         if (getShouldMarkPart()) {
             return panelWithWaves.getMarkEndXSample();
-        } else {
+        }
+        else {
             return 0;
         }
     }
 
 
-
     public int getCurrentHorizontalScroll() {
         return panelWithWaves.getCurrentHorizontalScroll();
     }
+
     public int getMaxHorizontalScroll() {
         return panelWithWaves.getMaxHorizontalScroll();
     }
@@ -548,7 +557,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-
     public void repaintPanelWithMultipleWaves() {
         panelWithWaves.repaint();
     }
@@ -556,6 +564,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public double getNthSample(int n) {
         return wave.getNthSample(n);
     }
+
     public int getSongLen() {
         return wave.getSongLen();
     }
@@ -595,8 +604,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-
-
     public void updateHorizontalScrollSize() {
         int newScrollWidth = getHorizontalScrollSizeForThisWave();
         panelWithWaves.setWaveScrollPanelsSizes(wave.getX(), newScrollWidth);
@@ -620,18 +627,18 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-
     // These 2 methods are only called from wave, to sync with the other waves.
     public int getDefaultWaveWidthFromMainPanel() {
         int waveWidth = panelWithWaves.getDefaultWaveWidth();
-        if(waveWidth == 0) {
+        if (waveWidth == 0) {
             waveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
         return waveWidth;
     }
+
     public int getWaveWidthFromMainPanel() {
         int defaultWaveWidth = panelWithWaves.getWaveWidth();
-        if(defaultWaveWidth == 0) {
+        if (defaultWaveWidth == 0) {
             defaultWaveWidth = WavePanel.START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
         }
         return defaultWaveWidth;
@@ -672,7 +679,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public int getBotDividerLoc() {
         return panelWithWaves.getJSplitPaneDividerLoc(this);
     }
-
 
 
     public AudioPlayerPanel.ClipboardDrawView getClipboardDrawView() {
@@ -716,6 +722,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
     private MouseEvent lastRightButtonPressMouseEvent = null;
+
     public void setLastRightPressMouseEvent(MouseEvent e) {
         wave.setEnabledWithWavePopUpItems(panelWithWaves.getIsWaveInClipboard());
         lastRightButtonPressMouseEvent = e;
@@ -727,19 +734,15 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     }
 
 
-
     public int convertSampleToMillis(int sampleIndex) {
         return DoubleWave.convertSampleToMillis(sampleIndex, wave.getDoubleWave().getSampleRate());
     }
 
 
-
-
-
-
     public boolean getScrollReceivedResizeEvent() {
         return panelWithWaves.getScrollReceivedResizeEvent();
     }
+
     public void processScrollReceivedResizeEvent() {
         panelWithWaves.processScrollReceivedResizeEvent();
     }
@@ -751,6 +754,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
     public boolean isLastWave() {
         return waveIndex == panelWithWaves.getWaveCount();
     }
+
     public void saveZoomBridgeImg() {
         wave.saveZoomBridgeImg();
     }

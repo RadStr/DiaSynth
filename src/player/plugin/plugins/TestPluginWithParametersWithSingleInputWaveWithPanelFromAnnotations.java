@@ -21,14 +21,13 @@ public class TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations
     private double testParam6;
 
 
-
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         ProgramTest.debugPrint("TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations",
-            testParam1, testParam2, testParam3, testParam4, testParam5);
+                               testParam1, testParam2, testParam3, testParam4, testParam5);
         double[] song = audio.getSong();
-        for(int i = startIndex; i < endIndex; i++) {
-            switch(i % 6) {
+        for (int i = startIndex; i < endIndex; i++) {
+            switch (i % 6) {
                 case 0:
                     song[i] = testParam1;
                     break;
@@ -45,7 +44,7 @@ public class TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations
                 case 4:
                     song[i] = testParam5;
                     break;
-                case 5 :
+                case 5:
                     song[i] = testParam6;
                     break;
                 default:

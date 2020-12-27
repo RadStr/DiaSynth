@@ -8,7 +8,7 @@ import util.math.ArithmeticOperation;
 public class LogarithmOnWave implements OperationOnWavePluginIFace {
     // "" + Double.MIN_NORMAL is workaround (it has to be constant, so I can't use toString)
     @PluginParameterAnnotation(name = "Base of logarithm:", lowerBound = "" + Double.MIN_NORMAL, defaultValue = "0",
-        parameterTooltip = "is the base of the logarithm")
+                               parameterTooltip = "is the base of the logarithm")
     private double value;
 
     @Override

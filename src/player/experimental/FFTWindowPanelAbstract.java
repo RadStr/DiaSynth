@@ -39,12 +39,11 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
 
 
     private final Color BIN_COLOR_RED = new Color(230, 0, 0);
+
     @Override
     protected Color getBinColor(int bin) {
         return BIN_COLOR_RED;
     }
-
-
 
 
     //The normalization is quite problematic, I am still not sure what is the right way to solve it.
@@ -66,15 +65,13 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
                                                              int sampleRate, boolean shouldChangeSampleRate);
 
 
-
     private double maxAbsolute;
 
     /**
-     *
      * @return Returns the maximum absolute value in the FFT bins.
      */
     public double makeRelativeValues() {
-        if(getIsEditable()) {
+        if (getIsEditable()) {
             return -1;
         }
         else {
@@ -90,7 +87,7 @@ public abstract class FFTWindowPanelAbstract extends DrawPanel {
     }
 
     public void makeAbsoluteValues() {
-        if(!getIsEditable()) {
+        if (!getIsEditable()) {
             setIsEditable(true);
             for (int i = 0; i < DRAW_VALUES.length; i++) {
                 setDrawValue(i, DRAW_VALUES[i] * maxAbsolute);

@@ -24,7 +24,6 @@ public class TimestampsPanel extends JPanel {
     }
 
 
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -45,9 +44,9 @@ public class TimestampsPanel extends JPanel {
         int sampleRate = audioPlayerPanel.getOutputSampleRate();
 
         int sampleLen = audioPlayerPanel.getDoubleWaveLength();        // Range in doubles
-        if(sampleLen == -1) {
+        if (sampleLen == -1) {
             numOfSecs = 180;
-            sampleLen = (int)(numOfSecs * sampleRate);
+            sampleLen = (int) (numOfSecs * sampleRate);
             scrollX = 0;
             waveStartX = 415;
             visibleWaveWidth = audioPlayerPanel.getWidth() - waveStartX;
@@ -65,7 +64,8 @@ public class TimestampsPanel extends JPanel {
         try {
             labelCount = waveWidth / visibleWaveWidth;        // TODO: Maybe tune this parameter - the multiply factor (Was constant 20, then 60)
             labelCount *= 4;
-        } catch (ArithmeticException e) {
+        }
+        catch (ArithmeticException e) {
             return;
         }
 
@@ -85,7 +85,7 @@ public class TimestampsPanel extends JPanel {
                 isTimeInSecs = false;
                 timeJumpInt = (int) (1000 * timeJump);
                 numOfSecs *= 1000;      // Convert seconds to milliseconds
-                while(timeJumpInt == 0) {           // If it is too small then keep lowering the labelCount
+                while (timeJumpInt == 0) {           // If it is too small then keep lowering the labelCount
                     labelCount /= 2;
                     timeJump = numOfSecs / labelCount;      // numOfSecs are already milliseconds
                     timeJumpInt = (int) timeJump;
@@ -127,7 +127,7 @@ public class TimestampsPanel extends JPanel {
 
 
         drawTimestamps(g, waveStartX, scrollX, pixelJump, isTimeInSecs, color,
-                MARKS_PER_TIMESTAMP, timeJumpInt, visibleWaveWidth);
+                       MARKS_PER_TIMESTAMP, timeJumpInt, visibleWaveWidth);
 
 
 //        labelCount += 2;
@@ -161,7 +161,7 @@ public class TimestampsPanel extends JPanel {
 
         g.setColor(color);
 
-        int startIndex = (int)(scrollX / pixelJump);
+        int startIndex = (int) (scrollX / pixelJump);
         int i = startIndex;
         // + timestampCountBetweenTwoMainTimeStamps - 1 because Every time I go over the label I have to add to the timeInt
         // Basically when when startIndex is 1 I am after the first label so the next label I draw will be the one after that
@@ -177,14 +177,16 @@ public class TimestampsPanel extends JPanel {
 
                 if (isTimeInSecs) {
                     timeString = Time.convertSecondsToTime(timeInt, -1);
-                } else {
+                }
+                else {
                     timeString = Time.convertMillisecondsToTime(timeInt, -1);
                 }
                 if (xInt >= waveStartX) {        // So I don't draw timelines for the static things such as mix part, etc. I draw it just for the wave
                     SwingUtils.drawStringWithDefinedMidLoc(g, color, timeString, xInt, lineStartY);
                 }
                 timeInt += timeJumpInt;
-            } else {
+            }
+            else {
                 lineStartY = yForStampWithoutLabel;
             }
 

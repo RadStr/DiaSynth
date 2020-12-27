@@ -9,9 +9,11 @@ import java.awt.event.MouseWheelEvent;
 @Deprecated
 public class JSplitPaneDividerMouseAdapter extends MouseAdapter {
     private boolean mousePressed = false;
+
     public boolean getMousePressed() {
         return mousePressed;
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);

@@ -4,7 +4,8 @@ import analyzer.bpm.SubbandSplitterIFace;
 import util.Pair;
 
 // TODO: Just remove it - doesn't make sense to keep after I looked at the horrible code
-@Deprecated     // deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)
+@Deprecated
+// deprecated I guess, or not deprecated but I don't know why am I not using it. The SubbandSplitter is sufficient for what I am doing (logarithm frequency splitting)
 public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
     private double previousSubbandSize = 0;
     private double previousStartIndex = 0;
@@ -41,7 +42,8 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 
         if (fftMeasures.length % 2 == 0) {            // It's even
             numberCount = fftMeasures.length / 2 + 1;
-        } else {
+        }
+        else {
             numberCount = (fftMeasures.length + 1) / 2;
         }
         Pair<Integer, Integer> pair = getResult(numberCount, subbandCount, subband);
@@ -53,7 +55,8 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
             result[0] = fftMeasures[0];
             startIndex = 2;
             currentSubbandSize -= 2;
-        } else {
+        }
+        else {
             startIndex = 2 * startIndex;        // TODO: Not sure about this
             if (subband == subbandCount - 1) {
                 currentSubbandSize += fftMeasures.length - (startIndex + currentSubbandSize);  // TODO: Asi ok      // We add the remaining elements
@@ -97,17 +100,17 @@ public class SubbandSplitterLogarithmic implements SubbandSplitterIFace {
 
 
     private Pair<Integer, Integer> getResult(int arrayLen, int subbandCount, int subband) {
-        if(subband == 0) {  // Expected to be called in succesive order
+        if (subband == 0) {  // Expected to be called in succesive order
             previousStartIndex = 0;
             previousSubbandSize = 0;
-            q = 2 * (arrayLen-subbandCount) / (double)(subbandCount * (subbandCount+1));       // From the formula for arithmetic sum
+            q = 2 * (arrayLen - subbandCount) / (double) (subbandCount * (subbandCount + 1));       // From the formula for arithmetic sum
             // arrayLen-subbandCount because by taking the Math.ceil we get for every subband +1
         }
         int currentSubbandSize;
         int startIndex;
 
-        startIndex = (int)Math.ceil(previousStartIndex + previousSubbandSize);
-        currentSubbandSize = (int)Math.ceil(q + previousSubbandSize);
+        startIndex = (int) Math.ceil(previousStartIndex + previousSubbandSize);
+        currentSubbandSize = (int) Math.ceil(q + previousSubbandSize);
 // TODO:        System.out.println(subband + "\t" + q + "\t" + previousSubbandSize + "\t" + currentSubbandSize + "\t" + startIndex);
         if (subband == subbandCount - 1) {
             currentSubbandSize += arrayLen - (startIndex + currentSubbandSize);  // We add the remaining elements

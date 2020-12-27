@@ -10,41 +10,41 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DataModelSubject implements DataModelSubjectIFace {
-	private List<DataModelObserverIFace> observers;
-	private JFrame frame;
-	
-	public DataModelSubject(JFrame f) {
-		observers = new ArrayList<>();
-		frame = f;
-	}
-	
-	public DataModelSubject(DataModelObserverIFace[] obs, JFrame f) {
-		observers = new ArrayList<>(Arrays.asList(obs));
-		frame = f;
-	}
-	
-	public DataModelSubject(List<DataModelObserverIFace> obs, JFrame f) {
-		observers = obs;
-		frame = f;
-	}
+    private List<DataModelObserverIFace> observers;
+    private JFrame frame;
 
-	@Override
-	public void addObserver(DataModelObserverIFace obs) {
-		observers.add(obs);
-	}
-	
-	@Override
-	public void notifyObservers(Node node) {
-		for(DataModelObserverIFace o : observers) {
-			o.update(node);
-		}
-	}
+    public DataModelSubject(JFrame f) {
+        observers = new ArrayList<>();
+        frame = f;
+    }
 
-	@Override
-	public void notifyObservers() {
-		AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
-		for(DataModelObserverIFace o : observers) {
-			o.reloadDataModelFromXML();
-		}
-	}
+    public DataModelSubject(DataModelObserverIFace[] obs, JFrame f) {
+        observers = new ArrayList<>(Arrays.asList(obs));
+        frame = f;
+    }
+
+    public DataModelSubject(List<DataModelObserverIFace> obs, JFrame f) {
+        observers = obs;
+        frame = f;
+    }
+
+    @Override
+    public void addObserver(DataModelObserverIFace obs) {
+        observers.add(obs);
+    }
+
+    @Override
+    public void notifyObservers(Node node) {
+        for (DataModelObserverIFace o : observers) {
+            o.update(node);
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
+        for (DataModelObserverIFace o : observers) {
+            o.reloadDataModelFromXML();
+        }
+    }
 }

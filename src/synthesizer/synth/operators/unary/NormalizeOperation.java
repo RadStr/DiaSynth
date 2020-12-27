@@ -16,6 +16,7 @@ public class NormalizeOperation extends UnaryOperator {
     }
 
     private double maxAbsVal;
+
     @Override
     public void calculateSamples() {
         maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());

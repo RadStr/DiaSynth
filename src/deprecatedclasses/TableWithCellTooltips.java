@@ -35,6 +35,7 @@ public class TableWithCellTooltips extends JTable {
     private final String HTML_END_TAG = "<html>";
 
     private String[] columnToolTips;
+
     public void setColumnToolTips(String[] newTooltips) {
         columnToolTips = newTooltips;
     }
@@ -56,18 +57,18 @@ public class TableWithCellTooltips extends JTable {
 //        return tip;
 
 // Shows whole line
-        if(rowIndex == -1) {
+        if (rowIndex == -1) {
             lastRowIndex = -1;
             return "";
         }
-        else if(rowIndex != lastRowIndex) {
+        else if (rowIndex != lastRowIndex) {
             lastRowIndex = rowIndex;
             // Reuse the old object for performance (it may cause memory leak - having larger buffer than it is necessary)
             // But since the text will be short, it doesn't matter
             resetLastToolTip();
             int colCount = getColumnCount();
             String previousSeparator = "";
-            for(int i = 0; i < colCount; i++, previousSeparator = HTML_NEW_LINE_TAG) {
+            for (int i = 0; i < colCount; i++, previousSeparator = HTML_NEW_LINE_TAG) {
                 lastToolTip.append(previousSeparator);     // new line
                 lastToolTip.append(getValueAt(rowIndex, i));
             }

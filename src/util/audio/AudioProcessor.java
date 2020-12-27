@@ -8,13 +8,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AudioProcessor {
-    private AudioProcessor() {}          // Allow only static access
+    private AudioProcessor() { }          // Allow only static access
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Methods for getting certain part(s) of audio
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * This method takes every x-th read part of length length from input stream
      * Starts at startFame
@@ -102,9 +103,11 @@ public class AudioProcessor {
         // Calculate how
         if (x == Integer.MAX_VALUE && remainingFrames >= length) {
             arrLen = 1;
-        } else if (x == Integer.MAX_VALUE && remainingFrames < length) {
+        }
+        else if (x == Integer.MAX_VALUE && remainingFrames < length) {
             arrLen = 0;
-        } else {
+        }
+        else {
             while (remainingFrames >= length) {
                 arrLen++;
                 remainingFrames = remainingFrames - length;
@@ -139,6 +142,7 @@ public class AudioProcessor {
 
 
     // TODO: Called only from test
+
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
      * If the result of this method wants to be played in some audio player, then it is important to notice, that to
@@ -174,7 +178,8 @@ public class AudioProcessor {
                 for (int i = 0; i < sampleSize; i++) {
                     sampleList.add(arr[i]);
                 }
-            } else {
+            }
+            else {
                 break;
             }
             if (bytesReadSum != arr.length) {
@@ -191,6 +196,7 @@ public class AudioProcessor {
 
 
     // TODO: Called only from test
+
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
      * If the result of this method wants to be played in some audio player, then it is important to notice, that to
@@ -226,7 +232,7 @@ public class AudioProcessor {
     public static byte[][] getEveryNthSampleMoreChannels(InputStream samples, int numberOfChannels, int sampleSize,
                                                          int n, int startSample, int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
-            numberOfChannels, sampleSize);
+                                                                         numberOfChannels, sampleSize);
         channelLen *= sampleSize;
         byte[][] arr = new byte[numberOfChannels][channelLen];
         int frameSize = sampleSize * numberOfChannels;
@@ -282,7 +288,7 @@ public class AudioProcessor {
                                                                            boolean isBigEndian, boolean isSigned,
                                                                            int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
-            numberOfChannels, sampleSize);
+                                                                         numberOfChannels, sampleSize);
         double[][] outputArr = new double[numberOfChannels][channelLen];
 
         int frameSize = sampleSize * numberOfChannels;
@@ -305,7 +311,7 @@ public class AudioProcessor {
                 arrIndex = 0;
                 for (int i = 0; i < numberOfChannels; i++, arrIndex += sampleSize) {
                     AudioConverter.normalizeToDoubles(oneFrame, outputArr[i], sampleSize, sampleSize * 8,
-                                               arrIndex, outputIndex, 1, isBigEndian, isSigned);
+                                                      arrIndex, outputIndex, 1, isBigEndian, isSigned);
                 }
 
                 outputIndex++;
@@ -335,7 +341,7 @@ public class AudioProcessor {
                                                                  boolean isBigEndian, boolean isSigned,
                                                                  int totalAudioLength) throws IOException {
         int channelLen = getLengthOfOneChannelInSamplesForSampleSkipping(totalAudioLength, startSample, n,
-            numberOfChannels, sampleSize);
+                                                                         numberOfChannels, sampleSize);
         double[][] outputArr = new double[numberOfChannels][channelLen];
 
         int frameSize = sampleSize * numberOfChannels;
@@ -360,10 +366,10 @@ public class AudioProcessor {
             }
 
             nextTotalIndex += bytesReadSum;
-            while(nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
+            while (nextNByteIndex < nextTotalIndex && outputIndex < outputArr[0].length) {
                 for (int i = 0, arrIndex = nextNByteIndex % buffer.length; i < numberOfChannels; i++, arrIndex += sampleSize) {
                     int sample = AudioConverter.convertBytesToInt(buffer, sampleSize, mask,
-                            arrIndex, isBigEndian, isSigned);
+                                                                  arrIndex, isBigEndian, isSigned);
                     outputArr[i][outputIndex] = AudioConverter.normalizeToDouble(sample, maxAbsoluteValue, isSigned);
                 }
 
@@ -403,25 +409,25 @@ public class AudioProcessor {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Audio modification methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Reverses the samples. First sample is last, last is first etc.
-     * @param arr samples to be reversed.
+     *
+     * @param arr        samples to be reversed.
      * @param sampleSize is the size of 1 sample.
      */
     public static void reverseArr(byte[] arr, int sampleSize) {
         int sampleCount = arr.length / sampleSize;
         int index = 0;
         int index2 = 0;
-        for(int i = 0; i < sampleCount / 2; i++)
-        {
+        for (int i = 0; i < sampleCount / 2; i++) {
             index2 = index2 + sampleSize;
-            for(int j = 0; j < sampleSize; j++) {
+            for (int j = 0; j < sampleSize; j++) {
                 byte temp = arr[index];
                 arr[index] = arr[arr.length - index2 + j];
                 arr[arr.length - index2 + j] = temp;
@@ -432,13 +438,14 @@ public class AudioProcessor {
 
     /**
      * Reverses the samples. First sample is last, last is first etc. Isn't tested
-     * @param arr samples to be reversed.
+     *
+     * @param arr              samples to be reversed.
      * @param numberOfChannels is the number of channels.
      */
     public static void reverseArr(double[] arr, int numberOfChannels) {
-        for(int index = 0, index2 = arr.length - 1; index < arr.length / 2; index2 -= numberOfChannels) {
+        for (int index = 0, index2 = arr.length - 1; index < arr.length / 2; index2 -= numberOfChannels) {
             int upperBound = index + numberOfChannels;
-            for(; index < upperBound; index++, index2++) {
+            for (; index < upperBound; index++, index2++) {
                 double tmp = arr[index];
                 arr[index] = arr[index2];
                 arr[index2] = tmp;
@@ -450,12 +457,13 @@ public class AudioProcessor {
     /**
      * Performs aggregation (compression) agg to all channels. For all channels do respectively, take n samples
      * perform the agg action on them, add the given number to the result, continue until the end of the channel is reached.
-     * @param channels is 2D byte array, where 1 array corresponds to 1 channel.
-     * @param n is the number of samples to perform 1 aggregation to.
-     * @param sampleSize is the size of 1 sample in bytes.
+     *
+     * @param channels    is 2D byte array, where 1 array corresponds to 1 channel.
+     * @param n           is the number of samples to perform 1 aggregation to.
+     * @param sampleSize  is the size of 1 sample in bytes.
      * @param isBigEndian is true if the samples are in big endian, false otherwise.
-     * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @param agg is the type of aggregation to be performed.
+     * @param isSigned    true if the samples are signed numbers, false otherwise.
+     * @param agg         is the type of aggregation to be performed.
      * @return Returns 2D array which corresponds to the modified channels.
      * @throws IOException is thrown when the given agg is not supported.
      */
@@ -466,22 +474,22 @@ public class AudioProcessor {
         byte[][] modChannels = new byte[channels.length][];
         ArrayList<Byte> moddedChannel = new ArrayList<>();
         byte[] samples = new byte[n * sampleSize];
-        for(int i = 0; i < channels.length; i++) {
+        for (int i = 0; i < channels.length; i++) {
             int index = 0;
-            while(index + samples.length <= channels[i].length) {
-                for(int j = 0; j < samples.length; j++) {
-                    samples[j] =  channels[i][index];
+            while (index + samples.length <= channels[i].length) {
+                for (int j = 0; j < samples.length; j++) {
+                    samples[j] = channels[i][index];
                     index++;
                 }
                 int newSample = (int) Aggregation.performAggregation(samples, sampleSize, isBigEndian, isSigned, agg);
 
                 byte[] arr = AudioConverter.convertIntToByteArr(sampleSize, newSample, isBigEndian);
-                for(int k = 0; k < arr.length; k++) {
+                for (int k = 0; k < arr.length; k++) {
                     moddedChannel.add(arr[k]);
                 }
             }
             byte[] arr = new byte[moddedChannel.size()];
-            for(int k = 0; k < arr.length; k++) {
+            for (int k = 0; k < arr.length; k++) {
                 arr[k] = moddedChannel.get(k);
             }
             modChannels[i] = arr;
@@ -493,12 +501,13 @@ public class AudioProcessor {
     /**
      * Performs aggregation (compression) agg to channel. Take n samples
      * perform the agg action on them, add the given number to the result, continue until the end of the channel is reached.
-     * @param mono is 1D byte array with samples of the mono audio.
-     * @param n is the number of samples to perform 1 aggregation to.
-     * @param sampleSize is the size of 1 sample in bytes.
+     *
+     * @param mono        is 1D byte array with samples of the mono audio.
+     * @param n           is the number of samples to perform 1 aggregation to.
+     * @param sampleSize  is the size of 1 sample in bytes.
      * @param isBigEndian is true if the samples are in big endian, false otherwise.
-     * @param isSigned true if the samples are signed numbers, false otherwise.
-     * @param agg is the type of aggregation to be performed.
+     * @param isSigned    true if the samples are signed numbers, false otherwise.
+     * @param agg         is the type of aggregation to be performed.
      * @return Returns the modified 1D byte array.
      * @throws IOException
      */
@@ -518,14 +527,15 @@ public class AudioProcessor {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Other
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns int which is the length of channel 0 (if the startSample wasn't multiple of frameSize then some next channels may have length of the 0th channel - 1)
+     *
      * @param totalAudioLength
      * @param startSample
      * @param skip

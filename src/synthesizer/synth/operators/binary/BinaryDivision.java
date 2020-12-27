@@ -49,6 +49,7 @@ public class BinaryDivision extends BinaryOperator {
     }
 
     private double minAllowedVal = Reciprocal.MIN_ALLOWED_VAL_FOR_ONE;
+
     @Override
     public void calculateSamples() {
         minAllowedVal = Reciprocal.MIN_ALLOWED_VAL_FOR_ONE * inputPorts[1].getMaxAbsValue();
@@ -58,8 +59,8 @@ public class BinaryDivision extends BinaryOperator {
 
     @Override
     public double binaryOperation(double a, double b) {
-        if(b > -minAllowedVal && b < minAllowedVal) {
-            if(b < 0) {
+        if (b > -minAllowedVal && b < minAllowedVal) {
+            if (b < 0) {
                 b = -minAllowedVal;
             }
             else {

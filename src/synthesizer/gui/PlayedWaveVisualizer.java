@@ -21,7 +21,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
             public void componentResized(ComponentEvent e) {
                 int w = e.getComponent().getWidth();
                 arrToCopyQueueToLen = 0;
-                for(WaveDrawValues wrapper : drawValuesWrappers) {
+                for (WaveDrawValues wrapper : drawValuesWrappers) {
                     wrapper.waveResize(w, w, 0, w);
                 }
                 setArrToCopyQueueTo(w);
@@ -57,7 +57,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
     private void zoom(int zoom) {
         double newSamplesPerPixel = samplesPerPixel - 2 * zoom;
-        if(newSamplesPerPixel != samplesPerPixel) {
+        if (newSamplesPerPixel != samplesPerPixel) {
             arrToCopyQueueToLen = 0;
             int w = getWidth();
             if (newSamplesPerPixel < 1) {
@@ -81,6 +81,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
 
     private Dimension prefSize = new Dimension(0, 80);
+
     @Override
     public Dimension getPreferredSize() {
         Dimension superPrefSize = super.getPreferredSize();
@@ -91,6 +92,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
 
     private boolean shouldViewWave = true;
+
     public void setShouldViewWave(boolean shouldViewWave) {
         this.shouldViewWave = shouldViewWave;
         this.repaint();
@@ -100,12 +102,17 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     // volatile because audio thread checks it
     private volatile boolean isPaused = true;
     private Timer timer;
+
     public void pause() {
         isPaused = true;
         timer.stop();
-        Timer t = new Timer(20, (e) -> { this.repaint(); ((Timer)e.getSource()).stop(); } );
+        Timer t = new Timer(20, (e) -> {
+            this.repaint();
+            ((Timer) e.getSource()).stop();
+        });
         t.start();
     }
+
     public void start() {
 // TODO: RML - Zapomnel jse mto opravit - za 13 hodin behu to proste pretece - kdyz se o tom nikde nezminim tak ok
 // TODO: I have to do this else, it will overflow later, but this part of code somehow lags everything
@@ -128,7 +135,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
 
     public void pushSamplesToQueue(double[] samples, int startIndex, int endIndex, int channel) {
-        if(!isPaused) {
+        if (!isPaused) {
             int pushLen = sampleQueues[channel].push(samples, startIndex, endIndex);
             lastPushedSample[channel] += pushLen;
         }
@@ -136,8 +143,10 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
 
     private int sampleRate = 44100;
+
     /**
      * Used so we know how many seconds does the window show
+     *
      * @param sampleRate
      */
     public void setSampleRate(int sampleRate) {
@@ -147,6 +156,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
 
     private CyclicQueueDouble[] sampleQueues;
+
     public void setNumberOfChannels(int newChannelCount) {
         int w = getWidth();
         lastPushedSample = new int[newChannelCount];
@@ -155,7 +165,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
         drawValuesWrappers = new WaveDrawValues[newChannelCount];
 
         sampleQueues = new CyclicQueueDouble[newChannelCount];
-        for(int i = 0; i < sampleQueues.length; i++) {
+        for (int i = 0; i < sampleQueues.length; i++) {
             sampleQueues[i] = new CyclicQueueDouble(16);
             drawValuesWrappers[i] = new WaveDrawValuesAggregated(w, w, 0, w, 0, this);
         }
@@ -164,15 +174,17 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     private WaveDrawValues[] drawValuesWrappers;
     private double[] arrToCopyQueueTo = new double[2048 * 4];
     private int arrToCopyQueueToLen;
+
     private void setArrToCopyQueueTo(int w) {
-        int newLen = (int)(2 * w * samplesPerPixel);
-        if(newLen > arrToCopyQueueTo.length) {
+        int newLen = (int) (2 * w * samplesPerPixel);
+        if (newLen > arrToCopyQueueTo.length) {
             int newArrLen = Utilities.getFirstPowerOfNAfterNumber(newLen, 2);
             arrToCopyQueueTo = new double[newArrLen];
         }
 
         arrToCopyQueueToLen = newLen;
     }
+
     private int currentChannel;
 
     public static final int VERTICAL_SPACE = 5;
@@ -180,7 +192,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(shouldViewWave) {
+        if (shouldViewWave) {
             int w = this.getWidth();
             int h = this.getHeight();
             g.drawRect(0, 0, w - 1, h - 1);
@@ -201,7 +213,8 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                     g.setColor(getBackground());
                     g.fillRect(0, currY, w, VERTICAL_SPACE);
                     currY += VERTICAL_SPACE;
-                } else {
+                }
+                else {
                     g.fillRect(0, currY, w, h + VERTICAL_SPACE);
                     drawValuesWrappers[currentChannel].drawSamples(g, w, h + VERTICAL_SPACE, currY);
                 }
@@ -212,7 +225,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     @Override
     public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
         double[] arrToCopyQueueToConc = arrToCopyQueueTo;
-        if(arrToCopyQueueToLen > 0) {
+        if (arrToCopyQueueToLen > 0) {
             int numberOfSamplesToDraw;
             // / 2 since it is min and max
             numberOfSamplesToDraw = (int) ((bufferEndIndex - bufferStartIndex) / 2 * samplesPerPixel);
@@ -243,7 +256,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                         }
 
                         int popCount = sampleQueues[currentChannel].pop(arrToCopyQueueToConc, startIndex,
-                                                                       startIndex + remainingLen);
+                                                                        startIndex + remainingLen);
                         startIndex += popCount;
                         remainingLen -= popCount;
                         lastDrawnSample[currentChannel] += popCount;
@@ -251,7 +264,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
                 }
 
                 WavePanel.findExtremesInValues(arrToCopyQueueToConc, buffer,
-                        0, bufferStartIndex, numberOfSamplesToDraw, samplesPerPixel);
+                                               0, bufferStartIndex, numberOfSamplesToDraw, samplesPerPixel);
             }
         }
     }
@@ -269,7 +282,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
     @Override
     public int convertFromPixelToIndexInAudio(double pixel) {
-        return (int)pixel;
+        return (int) pixel;
     }
 
     @Override
@@ -279,7 +292,7 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
 
     @Override
     public int getMaxScroll() {
-            return 0;
+        return 0;
     }
 
     @Override

@@ -10,6 +10,7 @@ import util.Pair;
  */
 public class SubbandSplitterLinear implements SubbandSplitterIFace {
     public final int SUBBAND_COUNT;
+
     @Override
     public int getSubbandCount() {
         return SUBBAND_COUNT;
@@ -25,6 +26,7 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
     private int binCount = Integer.MIN_VALUE;
     private int[] binStartIndices;
     private int[] binSizes;
+
     public void setBinCount(int binCount) {
         this.binCount = binCount;
 
@@ -37,19 +39,20 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
 
         if (binCount > sum) {
             int freeSpaceMultiplier = 2;
-            while(sum * freeSpaceMultiplier < binCount) {
+            while (sum * freeSpaceMultiplier < binCount) {
                 freeSpaceMultiplier++;
             }
             freeSpaceMultiplier--;
-            if(freeSpaceMultiplier >= 2) {
-                for(int i = 0; i < binSizes.length - 1; i++) {
+            if (freeSpaceMultiplier >= 2) {
+                for (int i = 0; i < binSizes.length - 1; i++) {
                     binSizes[i] *= freeSpaceMultiplier;
                 }
                 sum -= binSizes[binSizes.length - 1];         // Set the last bin to 0, we will set it to the real value after that
                 sum *= freeSpaceMultiplier;
             }
             binSizes[binSizes.length - 1] = binCount - sum;
-        } else {
+        }
+        else {
             int index = binSizes.length - 1;
             int binsOver = Math.round(sum) + Math.round(binSizes[index]) - binCount;
             int cycle = 0;
@@ -66,7 +69,7 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
 
         binStartIndices = new int[binSizes.length];
         sum = 1;        // because we ignore the first bin
-        for(int i = 0; i < binSizes.length; i++) {
+        for (int i = 0; i < binSizes.length; i++) {
             binStartIndices[i] = sum;
             sum += binSizes[i];
         }
@@ -79,13 +82,12 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
     }
 
     /**
-     *
      * @param binCount is the number of bins. which is windowSize / 2 + 1.
      * @param subband
      * @return
      */
     private Pair<Integer, Integer> getStartIndAndLen(int binCount, int subband) {
-        if(binCount - 1 != this.binCount) {
+        if (binCount - 1 != this.binCount) {
             setBinCount(binCount - 1);
         }
         Pair<Integer, Integer> retPair;

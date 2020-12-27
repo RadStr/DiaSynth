@@ -7,7 +7,6 @@ package plugin;
  */
 public interface PluginBaseIFace {
     /**
-     *
      * @return Returns true if the operation needs parameters - so user needs to put them to the JPanel.
      * If it returns false, then it doesn't need parameters from user and the operation can start immediately
      */
@@ -15,6 +14,7 @@ public interface PluginBaseIFace {
 
     /**
      * This parameter matters only when shouldWaitForParametersFromUser returns true
+     *
      * @return
      */
     boolean isUsingPanelCreatedFromAnnotations();

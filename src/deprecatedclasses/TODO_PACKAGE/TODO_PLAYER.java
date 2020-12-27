@@ -144,7 +144,8 @@ public class TODO_PLAYER extends deprecatedclasses.TODO_PACKAGE.TODO_CLASS {
 
 
         // TODO: CACHOVANI TED DELAT NEBUDU
-        ViewportChangeListener_V_AudioPlayerPanelImplementation:  // TODO: HNED
+        ViewportChangeListener_V_AudioPlayerPanelImplementation:
+        // TODO: HNED
 
 
         Zooming_And_Sliding_In_Audio_Player:

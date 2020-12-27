@@ -25,17 +25,19 @@ public class LengthDialog extends JPanel implements FieldSetterIFace {
 
     /**
      * Returns length in seconds
+     *
      * @return
      */
     public int getLength() {
         return lenInSeconds;
     }
+
     private JLabel lenInSecondsLabel;
     private JTextFieldWithBounds lenInSecondsTextField;
     private JLabel unitLabel;
 
     private void createPanel() {
-        this.setLayout(new GridLayout(0,3));
+        this.setLayout(new GridLayout(0, 3));
         lenInSecondsLabel = new JLabel("Write length of wave");
 
 
@@ -43,8 +45,8 @@ public class LengthDialog extends JPanel implements FieldSetterIFace {
             Class<?> thisClass = LengthDialog.class;
             Field[] fields = thisClass.getDeclaredFields();
             Field field = null;
-            for(Field f : fields) {
-                if("lenInSeconds".equals(f.getName())) {
+            for (Field f : fields) {
+                if ("lenInSeconds".equals(f.getName())) {
                     field = f;
                     break;
                 }
@@ -52,7 +54,7 @@ public class LengthDialog extends JPanel implements FieldSetterIFace {
             field.setAccessible(true);
 
             lenInSecondsTextField = new JTextFieldWithBounds(false, 0, MAX_LEN,
-                "WAVE LENGTH", field, this, this);
+                                                             "WAVE LENGTH", field, this, this);
         }
         catch (IllegalAccessException e) {
             MyLogger.logException(e);
@@ -69,7 +71,7 @@ public class LengthDialog extends JPanel implements FieldSetterIFace {
     @Override
     public void setField(Field field, String value) {
         int val;
-        if("".equals(value)) {
+        if ("".equals(value)) {
             val = 0;
         }
         else {

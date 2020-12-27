@@ -7,7 +7,10 @@ import synthesizer.synth.operators.Operator;
 import synthesizer.synth.Unit;
 
 public abstract class UnaryOperator extends Operator {
-    public UnaryOperator(Unit u) { super(u); }
+    public UnaryOperator(Unit u) {
+        super(u);
+    }
+
     public UnaryOperator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -16,7 +19,7 @@ public abstract class UnaryOperator extends Operator {
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new SingleInputPort(this, shapedPanel, panelWithUnits, neutralValues[0]);
         }
         else {
@@ -37,7 +40,7 @@ public abstract class UnaryOperator extends Operator {
     @Override
     public void calculateSamples() {
         double[] ops = inputPorts[0].getValues();
-        for(int i = 0; i < results.length; i++) {
+        for (int i = 0; i < results.length; i++) {
             results[i] = unaryOperation(ops[i]);
         }
     }

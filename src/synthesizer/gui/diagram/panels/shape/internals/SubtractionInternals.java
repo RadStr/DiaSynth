@@ -9,6 +9,6 @@ public class SubtractionInternals extends CenteredRectanglesInternals {
 
     public SubtractionInternals() {
         super(90, RECTANGLE_COUNT, DISTANCE_FROM_CIRCLE_DIV_FACTOR,
-                RECTANGLE_THICKNESS_DIV_FACTOR, CIRCLE_DIAMETER_DECREASE);
+              RECTANGLE_THICKNESS_DIV_FACTOR, CIRCLE_DIAMETER_DECREASE);
     }
 }

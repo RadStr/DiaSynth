@@ -16,6 +16,7 @@ public class WhiteNoiseGenerator extends NoiseGenerator {
     }
 
     private Random r = new Random();
+
     @Override
     public double generateNoise() {
         return r.nextDouble();

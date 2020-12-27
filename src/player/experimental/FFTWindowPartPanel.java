@@ -35,12 +35,12 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
     @Override
     public FFTWindowPanelAbstract createNewFFTPanel(int windowSize, boolean shouldChangeWindowSize,
                                                     int sampleRate, boolean shouldChangeSampleRate) {
-        if(!shouldChangeWindowSize) {
+        if (!shouldChangeWindowSize) {
             windowSize = this.WINDOW_SIZE;
         }
 
         double freqJump;
-        if(!shouldChangeSampleRate) {
+        if (!shouldChangeSampleRate) {
             freqJump = this.FREQ_JUMP;
         }
         else {
@@ -80,6 +80,7 @@ public class FFTWindowPartPanel extends FFTWindowPanelAbstract {
 
     // Because there will be 2 in one panel I need to half the height
     private Dimension prefSize = new Dimension();
+
     @Override
     public Dimension getPreferredSize() {
         Dimension superPrefSize = super.getPreferredSize();

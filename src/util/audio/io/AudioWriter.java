@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.InputStream;
 
 public class AudioWriter {
-    private AudioWriter() {}        // Allow only static access
+    private AudioWriter() { }        // Allow only static access
 
 
     // Note: If I want to write stream (in which we don't know the length), I would have to do some workaround -
@@ -23,6 +23,7 @@ public class AudioWriter {
         AudioFormat af = new AudioFormat(sampleRate, sampleSizeInBits, numberOfChannels, isSigned, isBigEndian);
         return saveAudio(path, af, input, type);
     }
+
     public static boolean saveAudio(String path, AudioFormat format, byte[] input, AudioFileFormat.Type type) {
         InputStream is = new ByteArrayInputStream(input);
         long frameLen = input.length / format.getFrameSize();
@@ -43,6 +44,7 @@ public class AudioWriter {
         AudioFormat af = new AudioFormat(sampleRate, sampleSizeInBits, numberOfChannels, isSigned, isBigEndian);
         return saveAudio(path, af, input, len, type);
     }
+
     public static boolean saveAudio(String path, AudioFormat format, InputStream input,
                                     long len, AudioFileFormat.Type type) {
         AudioInputStream ais = new AudioInputStream(input, format, len);
@@ -56,7 +58,7 @@ public class AudioWriter {
             AudioSystem.write(audioInputStream, type, f);
             return true;
         }
-        catch(Exception e) {
+        catch (Exception e) {
             MyLogger.logException(e);
             return false;
         }

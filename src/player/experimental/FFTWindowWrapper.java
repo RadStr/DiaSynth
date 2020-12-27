@@ -18,8 +18,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                             double minValue, double maxValue,
                             boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, freqJump,
-                        isEditable, backgroundColor, shouldDrawLabelsAtTop),
-                minValue, maxValue);
+                                isEditable, backgroundColor, shouldDrawLabelsAtTop),
+             minValue, maxValue);
     }
 
     public FFTWindowWrapper(double[] audio,
@@ -29,8 +29,8 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                             double minValue, double maxValue,
                             boolean shouldDrawLabelsAtTop) {
         this(new FFTWindowPanel(audio, windowSize, startIndex, sampleRate,
-                        isEditable, backgroundColor, shouldDrawLabelsAtTop),
-                minValue, maxValue);
+                                isEditable, backgroundColor, shouldDrawLabelsAtTop),
+             minValue, maxValue);
     }
 
 
@@ -42,10 +42,11 @@ public class FFTWindowWrapper extends DrawWrapperBase {
     // Note this is one of the few reasons why should I just use casting on the member of derived class, now that I have
     // this view variable also have to manipulate it, so it really isn't worth it, also it can get very confusing because of that
     private FFTWindowPanel fftPanel;
+
     @Override
     public void setDrawPanel(DrawPanel drawPanel) {
         super.setDrawPanel(drawPanel);
-        fftPanel = (FFTWindowPanel)drawPanel;
+        fftPanel = (FFTWindowPanel) drawPanel;
     }
 
     public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
@@ -55,7 +56,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
     @Override
     public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
-        if(!fftPanel.getIsEditable()) {
+        if (!fftPanel.getIsEditable()) {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);
             JCheckBoxMenuItem showRelativeCheckbox = new JCheckBoxMenuItem("Show relative");
@@ -64,7 +65,7 @@ public class FFTWindowWrapper extends DrawWrapperBase {
             showRelativeCheckbox.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-                    if(e.getStateChange() == ItemEvent.SELECTED) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
                         fftPanel.makeRelativeValues();
                     }
                     else {
@@ -83,11 +84,11 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                 public void actionPerformed(ActionEvent e) {
                     FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(fftPanel);
                     AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                            classWithValues.getClass());
+                                                                      classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                               JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         FFTWindowPanel newFFTPanel = (FFTWindowPanel) fftPanel.createNewFFTPanel(
@@ -107,15 +108,15 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                 public void actionPerformed(ActionEvent e) {
                     IFFTDialogPanel classWithValues = new IFFTDialogPanel();
                     AnnotationPanel performIFFTDialog = new AnnotationPanel(classWithValues,
-                            classWithValues.getClass());
+                                                                            classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
-                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                               JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero(),
-                                classWithValues.getPeriodCount());
+                                                               classWithValues.getPeriodCount());
                         waveAdder.addWave(wave);
                     }
                 }
@@ -129,37 +130,41 @@ public class FFTWindowWrapper extends DrawWrapperBase {
     private static class FFTWindowOptionsDialogPanel implements PluginBaseIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
-            this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
+            this.sampleRate = (int) Math.round(windowSize * fftPanel.FREQ_JUMP);
         }
 
 
         @PluginParameterAnnotation(name = "Window size:",
-                lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
-                upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
-                parameterTooltip = "Controls number of size of the FFT window.")
+                                   lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
+                                   upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
+                                   parameterTooltip = "Controls number of size of the FFT window.")
         private int windowSize;
+
         public int getWindowSize() {
             return windowSize;
         }
 
         @PluginParameterAnnotation(name = "Change window size:", defaultValue = "TRUE",
-                parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, " +
-                        "otherwise it won't be changed")
+                                   parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, " +
+                                                      "otherwise it won't be changed")
         private boolean shouldChangeWindowSize;
+
         public boolean getShouldChangeWindowSize() {
             return shouldChangeWindowSize;
         }
 
         @PluginParameterAnnotation(name = "Sample rate:", lowerBound = "1",
-                parameterTooltip = "Controls the sample rate of the input samples.")
+                                   parameterTooltip = "Controls the sample rate of the input samples.")
         private int sampleRate;
+
         public int getSampleRate() {
             return sampleRate;
         }
 
         @PluginParameterAnnotation(name = "Change sample rate:", defaultValue = "TRUE",
-                parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
+                                   parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeSampleRate;
+
         public boolean getShouldChangeSampleRate() {
             return shouldChangeSampleRate;
         }
@@ -192,17 +197,19 @@ public class FFTWindowWrapper extends DrawWrapperBase {
 
     private static class IFFTDialogPanel implements PluginBaseIFace {
         @PluginParameterAnnotation(name = "Set imaginary part to zero:", defaultValue = "FALSE",
-                parameterTooltip = "If set to true, the imaginary part of FFT result will be set to 0. Otherwise it will be set to random number in" +
-                        "such way that the measures are correct.")
+                                   parameterTooltip = "If set to true, the imaginary part of FFT result will be set to 0. Otherwise it will be set to random number in" +
+                                                      "such way that the measures are correct.")
         private boolean shouldSetImagPartToZero;
+
         public boolean getShouldSetImagPartToZero() {
             return shouldSetImagPartToZero;
         }
 
 
         @PluginParameterAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
-                parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
+                                   parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
         private int periodCount;
+
         public int getPeriodCount() {
             return periodCount;
         }

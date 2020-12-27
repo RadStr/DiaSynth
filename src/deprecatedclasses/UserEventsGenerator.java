@@ -6,15 +6,17 @@ import java.awt.event.InputEvent;
 @Deprecated     // Not used anymore, I think that it didn't work so I made RobotUserEventsGenerator
 public class UserEventsGenerator {
     private Robot bot;
+
     public UserEventsGenerator() {
         setBot();
     }
 
     private void setBot() {
-        if(bot == null) {
+        if (bot == null) {
             try {
                 bot = new Robot();
-            } catch (AWTException e) {
+            }
+            catch (AWTException e) {
                 e.printStackTrace(); // TODO:
             }
         }
@@ -77,10 +79,7 @@ public class UserEventsGenerator {
 //    }
 
 
-
-
-
-// Taken from https://stackoverflow.com/questions/19185162/how-to-simulate-a-real-mouse-click-using-java
+    // Taken from https://stackoverflow.com/questions/19185162/how-to-simulate-a-real-mouse-click-using-java
     public static Robot moveTo(int x, int y) throws AWTException {
         Robot bot = new Robot();
         bot.mouseMove(x, y);

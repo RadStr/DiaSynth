@@ -12,7 +12,6 @@ public class JLabelWithLineInMid extends JLabel {
     }
 
 
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

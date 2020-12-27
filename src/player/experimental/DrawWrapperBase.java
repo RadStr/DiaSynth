@@ -22,7 +22,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
         // I have to override the preferred size here because the height == 0 and for that reason it isn't drawn.
         // Which is kind of interesting, since for the audio player it works correctly, even when the height is 0.
         outputReferenceValues = new VerticalReferencesPanelWithHeightCallback(minValue, maxValue,
-                () -> this.drawPanel.getPreferredSize().height);
+                                                                              () -> this.drawPanel.getPreferredSize().height);
 
         add(outputReferenceValues, constraints);
 
@@ -35,14 +35,15 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
     private final GridBagConstraints constraints;
     protected final VerticalReferencesPanelWithHeightCallback outputReferenceValues;
     protected DrawPanel drawPanel;
+
     public void setDrawPanel(DrawPanel drawPanel) {
-        if(this.drawPanel != null) {
+        if (this.drawPanel != null) {
             remove(this.drawPanel);
         }
         this.drawPanel = drawPanel;
         add(drawPanel, constraints);
 
-        if(drawPanel instanceof FFTWindowPartPanel) {
+        if (drawPanel instanceof FFTWindowPartPanel) {
             drawPanel.setDrawValuesStrings();
             drawPanel.setLastPartOfTooltip();
         }
@@ -53,7 +54,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
         revalidate();
         repaint();
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        if(topFrame != null) {
+        if (topFrame != null) {
             topFrame.setMinimumSize(null);
             topFrame.pack();
             topFrame.revalidate();
@@ -63,6 +64,7 @@ public abstract class DrawWrapperBase extends JPanel implements DrawWrapperIFace
 
 
     private Dimension minSize = new Dimension();
+
     @Override
     public Dimension getMinimumSize() {
         return minSize;

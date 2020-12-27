@@ -19,6 +19,7 @@ public class AudioControlPanelWithZoomAndDecibel extends AudioControlPanelWithZo
     }
 
     private DecibelMeterMain decibelMeterMain;
+
     public DecibelMeterMain getDecibelMeterMain() {
         return decibelMeterMain;
     }

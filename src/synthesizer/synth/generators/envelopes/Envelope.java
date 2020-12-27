@@ -24,6 +24,7 @@ public abstract class Envelope extends Unit {
     protected void setPropertiesPanel() {
         propertiesPanel = null;
     }
+
     @Override
     public void updateAfterPropertiesCall() {
         // EMPTY
@@ -33,7 +34,7 @@ public abstract class Envelope extends Unit {
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[6];
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AttackTimeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
             inputPorts[1] = new AttackAmplitudeInputPort(this, shapedPanel, 1, panelWithUnits, neutralValues[1]);
             inputPorts[2] = new DecayTimeInputPort(this, shapedPanel, 2, panelWithUnits, neutralValues[2]);
@@ -67,7 +68,7 @@ public abstract class Envelope extends Unit {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new TrapeziumShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                                  new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -98,11 +99,11 @@ public abstract class Envelope extends Unit {
         double releaseTime = inputPorts[5].getValue(0);
         releaseTime += sustainTime;
 
-        double timeInSecs = timeInSamples / (double)diagramFreq;
-        double timeJump = 1 / (double)diagramFreq;
-        for(int i = 0; i < results.length; i++, timeInSamples++, timeInSecs += timeJump) {
+        double timeInSecs = timeInSamples / (double) diagramFreq;
+        double timeJump = 1 / (double) diagramFreq;
+        for (int i = 0; i < results.length; i++, timeInSamples++, timeInSecs += timeJump) {
             results[i] = generateEnvelopeSample(timeInSecs, attTime, attAmp[i], decTime,
-                    sustainTime, sustainAmp[i], releaseTime);
+                                                sustainTime, sustainAmp[i], releaseTime);
         }
     }
 
@@ -113,7 +114,7 @@ public abstract class Envelope extends Unit {
     public double generateEnvelopeSample(int timeInSamples, int diagramFrequency,
                                          double attTime, double attAmp, double decTime,
                                          double sustainTime, double sustainAmp, double releaseTime) {
-        double timeInSecs = timeInSamples / (double)diagramFrequency;
+        double timeInSecs = timeInSamples / (double) diagramFrequency;
         return generateEnvelopeSample(timeInSecs, attTime, attAmp, decTime, sustainTime, sustainAmp, releaseTime);
     }
 
@@ -125,15 +126,16 @@ public abstract class Envelope extends Unit {
     public abstract double generateEnvelopeSample(double timeInSecs,
                                                   double attTime, double attAmp, double decTime,
                                                   double sustainTime, double sustainAmp, double releaseTime);
+
     @Override
     public boolean getIsConst() {
         return false;
     }
+
     @Override
     public boolean getIsNoiseGen() {
         return false;
     }
-
 
 
     @Override

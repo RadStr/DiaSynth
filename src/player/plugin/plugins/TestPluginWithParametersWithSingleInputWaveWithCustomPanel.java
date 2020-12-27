@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends JPanel
-                                                                  implements OperationOnWavePluginIFace {
+        implements OperationOnWavePluginIFace {
 
     public TestPluginWithParametersWithSingleInputWaveWithCustomPanel() {
         this.setLayout(new GridLayout(0, 2));
@@ -27,7 +27,7 @@ public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends 
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         val = Double.parseDouble(textField.getText());
         double[] song = audio.getSong();
-        for(int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             song[i] = val;
         }
     }

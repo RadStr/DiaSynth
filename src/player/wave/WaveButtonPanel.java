@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 
 public class WaveButtonPanel extends JPanel {
     private JCheckBox includeInMixing;
+
     public boolean shouldIncludeInMixing() {
         return includeInMixing.isSelected();
     }
 
     private JCheckBox includeInOperations;
+
     public boolean shouldIncludeInOperations() {
         return includeInOperations.isSelected();
     }
@@ -29,8 +31,6 @@ public class WaveButtonPanel extends JPanel {
         });
 
 
-
-
         includeInOperations = new JCheckBox("Include in operations");
         includeInOperations.setSelected(true);
         includeInOperations.addActionListener(new ActionListener() {
@@ -39,7 +39,6 @@ public class WaveButtonPanel extends JPanel {
                 waveMainPanel.repaint();     // Repaint because checkbox changes the wave's visualisation
             }
         });
-
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

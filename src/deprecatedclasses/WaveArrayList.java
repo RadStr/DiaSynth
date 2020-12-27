@@ -12,8 +12,8 @@ import java.util.function.Predicate;
  * Only supported class is WaveMainPanel.
  */
 @Deprecated // I wanted to have dynamic resizing of the label with the index of wave (on the left side), but
-            // Java was resizing the whole wave when the number of digits in label changed, so I just dropped that feature.
-            // Now we have 2(3) digits constantly.
+// Java was resizing the whole wave when the number of digits in label changed, so I just dropped that feature.
+// Now we have 2(3) digits constantly.
 public class WaveArrayList<T> extends ArrayList<T> {
     @Override
     public boolean add(T o) {
@@ -48,6 +48,7 @@ public class WaveArrayList<T> extends ArrayList<T> {
         updateWaveIndexTextFields();
         return retVal;
     }
+
     @Override
     public T remove(int index) {
         T removedObject = super.remove(index);
@@ -61,12 +62,14 @@ public class WaveArrayList<T> extends ArrayList<T> {
         updateWaveIndexTextFields();
         return retVal;
     }
+
     @Override
     public boolean removeIf(Predicate filter) {
         boolean retVal = super.removeIf(filter);
         updateWaveIndexTextFields();
         return retVal;
     }
+
     @Override
     public void removeRange(int fromIndex, int toIndex) {
         super.removeRange(fromIndex, toIndex);
@@ -80,7 +83,6 @@ public class WaveArrayList<T> extends ArrayList<T> {
     }
 
 
-
     /**
      * Needs to be called to every time wave count is changed. Respectively every time it gets/loses new digit.
      * Upgrades the size of the text labels.
@@ -92,11 +94,11 @@ public class WaveArrayList<T> extends ArrayList<T> {
 
     private void updateWaveIndexTextFields(int digitCount) {
         int len = this.size();
-        if(len > 0) {
+        if (len > 0) {
             WaveMainPanel wave;
             wave = (WaveMainPanel) this.get(0);
             Dimension newSize = wave.upgradeWaveIndexTextFieldPreferredSize(digitCount);
-            for(int i = 1; i < len; i++) {
+            for (int i = 1; i < len; i++) {
                 wave = (WaveMainPanel) this.get(i);
                 wave.upgradeWaveIndexTextFieldPreferredSize(newSize);
             }
@@ -115,10 +117,9 @@ public class WaveArrayList<T> extends ArrayList<T> {
 //    }
 
 
-
     public static int getDigitCount(int number) {
         int digitCount = 1;
-        while(number >= 10) {
+        while (number >= 10) {
             digitCount++;
             number /= 10;
         }

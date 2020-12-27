@@ -42,7 +42,7 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
             @Override
             public void stateChanged(ChangeEvent e) {
                 TabChangeIFace p = getPanelFromSelectedIndex(getSelectedIndex());
-                if(oldTab != null) {
+                if (oldTab != null) {
                     oldTab.changedTabAction(false);
                 }
                 p.changedTabAction(true);
@@ -57,12 +57,15 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
 
     public static final int MAXIMIZED_FRAME_WIDTH;
     public static final int MAXIMIZED_FRAME_HEIGHT;
+
     static {
         Dimension size = SwingUtils.calculateMaximizedFrameSize();
         MAXIMIZED_FRAME_WIDTH = size.width;
         MAXIMIZED_FRAME_HEIGHT = size.height;
     }
+
     public static final int MAX_LABEL_FONT_SIZE;
+
     static {
         JLabel testLabel = new JLabel("T");
         MAX_LABEL_FONT_SIZE = SwingUtils.findMaxFontSize(testLabel);
@@ -71,11 +74,13 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
     private TabChangeIFace oldTab;
     private AnalyzerMainPanel analyzerTab;
     private AudioPlayerPanel audioPlayerTab;
+
     @Override
     public void addToAudioPlayer(byte[] audio, int len, AudioFormatWithSign format,
                                  boolean shouldConvertToPlayerOutputFormat) {
         audioPlayerTab.addWaves(new ByteArrayInputStream(audio), len, format, shouldConvertToPlayerOutputFormat);
     }
+
     private SynthesizerMainPanel synthTab;
 
     private TabChangeIFace getPanelFromSelectedIndex(int selectedIndex) {

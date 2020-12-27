@@ -4,10 +4,11 @@ package util.math;
  * Contains math operations, has only static access. We chose the name MathClass to not collide with java's STL Math.
  */
 public class MathClass {
-    private MathClass() {}  // To make this class accessible only in static way
+    private MathClass() { }  // To make this class accessible only in static way
 
     /**
      * Taken from the java source codes, java.lang.Math.addExact. Return true if the sum of the arguments overflows.
+     *
      * @param x is the first operand of sum.
      * @param y is the second operand of sum.
      * @return

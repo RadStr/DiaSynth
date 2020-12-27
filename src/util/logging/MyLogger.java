@@ -5,12 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MyLogger {
-    private MyLogger() {}   // To make only static access possible
+    private MyLogger() { }   // To make only static access possible
 
     private static File logFile = new File("LOG.log");
     private static PrintWriter logStream;
     private static int indentation = 0;
     private static String indentationString = "";
+
     static {
         try {
             // https://stackoverflow.com/questions/25540751/how-do-i-add-data-to-text-file-and-not-overwrite-what-i-have-in-java/25540826
@@ -24,15 +25,16 @@ public class MyLogger {
             logStream.println("-----------------------------------------------");
             logStream.println(formatter.format(date));
             logStream.flush();
-        } catch(Exception e) {
+        }
+        catch (Exception e) {
             logStream = null;
         }
     }
 
     public static void log(String logMessage, int indentationAddition) {
-        if(logStream != null) {
-            if(indentationAddition != 0) {
-                if(indentationAddition > 0) {
+        if (logStream != null) {
+            if (indentationAddition != 0) {
+                if (indentationAddition > 0) {
                     indentation += indentationAddition;
                 }
                 // https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string-in-java
@@ -40,14 +42,14 @@ public class MyLogger {
             }
             logStream.println(indentationString + logMessage);
             logStream.flush();
-            if(indentationAddition < 0) {
+            if (indentationAddition < 0) {
                 indentation += indentationAddition;
             }
         }
     }
 
     public static void logWithoutIndentation(String logMessage) {
-        if(logStream != null) {
+        if (logStream != null) {
             logStream.println(logMessage);
             logStream.flush();
         }
@@ -63,7 +65,7 @@ public class MyLogger {
     public static void logException(Exception e) {
         String stackTrace = MyLogger.getStackTraceString(e);
         MyLogger.logWithoutIndentation("Message:\t" + e.getMessage() + "\n" +
-                "Stack trace:\t" + stackTrace);
+                                       "Stack trace:\t" + stackTrace);
     }
 
     // Taken from: https://stackoverflow.com/questions/4812570/how-to-store-printstacktrace-into-a-string

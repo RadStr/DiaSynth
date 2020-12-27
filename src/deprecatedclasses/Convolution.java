@@ -2,6 +2,7 @@ package deprecatedclasses;
 
 import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import util.audio.wave.DoubleWave;
+
 // TODO: RML
 @Deprecated
 public class Convolution extends OperationOnWavesPlugin {
@@ -38,8 +39,8 @@ public class Convolution extends OperationOnWavesPlugin {
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-                "Puts result of convolution between first and second wave to the second wave" +
-                "</html>";
+               "Puts result of convolution between first and second wave to the second wave" +
+               "</html>";
     }
 }
 // TODO: RML

@@ -25,25 +25,28 @@ import util.audio.format.AudioType;
  * This class represents audio as series of bytes. Instance of this class can only be created through loadSong methods.
  */
 public class ByteWave {
-    private ByteWave() {}
+    private ByteWave() { }      // Instance can be created only through loadSong methods
 
     private byte[] song = null;
+
     public byte[] getSong() {
         return song;
     }
 
     /**
      * Returns the length of the underlying array or -1 if the array is set to null;
+     *
      * @return
      */
     public int getSongLen() {
-        if(song == null) {
+        if (song == null) {
             return -1;
         }
         return song.length;
     }
 
     private int mask;
+
     public int getMask() {
         return mask;
     }
@@ -52,28 +55,32 @@ public class ByteWave {
     private AudioInputStream decodedAudioStream;
 
     private int numberOfChannels;
+
     public int getNumberOfChannels() {
         return numberOfChannels;
     }
 
     private int sampleRate;
+
     public int getSampleRate() {
         return sampleRate;
     }
 
     private int sampleSizeInBits;
+
     public int getSampleSizeInBits() {
         return sampleSizeInBits;
     }
 
     private int sampleSizeInBytes;
+
     public int getSampleSizeInBytes() {
         return sampleSizeInBytes;
     }
 
 
-
     private int wholeFileSize;
+
     public int getWholeFileSize() {
         return wholeFileSize;
     }
@@ -87,21 +94,25 @@ public class ByteWave {
 
     private float frameRate;
     private int frameSize;
+
     public int getFrameSize() {
         return frameSize;
     }
 
     private boolean isBigEndian;
+
     public boolean getIsBigEndian() {
         return isBigEndian;
     }
 
     private Encoding encoding;
+
     public Encoding getEncoding() {
         return encoding;
     }
 
     private boolean isSigned;
+
     public boolean getIsSigned() {
         return isSigned;
     }
@@ -109,15 +120,19 @@ public class ByteWave {
     private int headerSize;
 
     private int lengthOfAudioInSeconds;
+
     public int getLengthOfAudioInSeconds() {
         return lengthOfAudioInSeconds;
     }
 
     private String fileName;
+
     public String getFileName() {
         return fileName;
     }
+
     private String path;
+
     public String getPath() {
         return path;
     }
@@ -131,7 +146,9 @@ public class ByteWave {
 
     private int maxAbsoluteValue;
 
-    public int calculateSizeOfOneSec() { return AudioUtilities.calculateSizeOfOneSec(this.sampleRate, this.frameSize); }
+    public int calculateSizeOfOneSec() {
+        return AudioUtilities.calculateSizeOfOneSec(this.sampleRate, this.frameSize);
+    }
 
 
     /**
@@ -146,7 +163,7 @@ public class ByteWave {
 
     public void convertToMono() throws IOException {
         this.song = AudioConverter.convertToMono(this.song, this.frameSize, this.numberOfChannels,
-                this.sampleSizeInBytes, this.isBigEndian, this.isSigned);
+                                                 this.sampleSizeInBytes, this.isBigEndian, this.isSigned);
         this.numberOfChannels = 1;
         this.frameSize = sampleSizeInBytes;
         this.decodedAudioFormat = new AudioFormat(decodedAudioFormat.getEncoding(),
@@ -157,25 +174,26 @@ public class ByteWave {
     }
 
 
-
     /**
      * Plays the loaded song. It is played in audioFormat given as parameter.
-     * @param audioFormat is the audio audioFormat.
+     *
+     * @param audioFormat   is the audio audioFormat.
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when error with playing the song occurred.
      */
     public void playSong(AudioFormat audioFormat, boolean playBackwards) throws LineUnavailableException, IOException {
-        if(playBackwards) {
+        if (playBackwards) {
             byte[] songArr = convertStreamToByteArray();
             AudioUtilities.playSong(songArr, audioFormat, playBackwards);
-        } else {
+        }
+        else {
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
             SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
             line.open(audioFormat);
             line.start();
             int bytesRead = 0;
             byte[] buffer = new byte[frameSize * 256];
-            while(bytesRead != -1) {
+            while (bytesRead != -1) {
                 bytesRead = decodedAudioStream.read(buffer, 0, buffer.length);
                 line.write(buffer, 0, bytesRead);
             }
@@ -187,16 +205,17 @@ public class ByteWave {
     /**
      * Plays the loaded song. Other parameters of this method describe the audioFormat in which will be the audio played.
      * Playing the audio backwards may be too slow, the input stream has to be transformed to byte array first.
-     * @param encoding is the encoding of the audio data.
-     * @param sampleRate is the sample rate of the audio data.
+     *
+     * @param encoding         is the encoding of the audio data.
+     * @param sampleRate       is the sample rate of the audio data.
      * @param sampleSizeInBits is the size of 1 sample in bits.
      * @param numberOfChannels represents the number of channels.
-     * @param frameSize is the size of one frame.
-     * @param frameRate is the frame rate of the audio.
-     * @param isBigEndian is true if the samples are in big endian, false if in little endian
-     * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
+     * @param frameSize        is the size of one frame.
+     * @param frameRate        is the frame rate of the audio.
+     * @param isBigEndian      is true if the samples are in big endian, false if in little endian
+     * @param playBackwards    if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
-     * @throws IOException is thrown when error with the input stream occurred.
+     * @throws IOException              is thrown when error with the input stream occurred.
      */
     public void playSong(Encoding encoding, int sampleRate, int sampleSizeInBits, int numberOfChannels, int frameSize, float frameRate, boolean isBigEndian, boolean playBackwards) throws LineUnavailableException, IOException {
         AudioFormat audioFormat = new AudioFormat(encoding, sampleRate, sampleSizeInBits, numberOfChannels, frameSize, frameRate, isBigEndian);
@@ -206,15 +225,16 @@ public class ByteWave {
 
     /**
      * Creates instance of ByteWave based on given song and writes the audio properties to output together with some additional info.
-     * @param file is the file with the song
+     *
+     * @param file    is the file with the song
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
-     * if it is false, then doesn't set the variable, which may save a lot of memory and time.
-     * @throws IOException is thrown if there was problem with reading the info from the file.
+     *                if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     * @throws IOException is thrown if there was problem with reading the info from the file.
      */
     public static ByteWave loadSongAndPrintVariablesDEBUG(File file, boolean setSong) throws IOException {
         ByteWave byteWave;
-        if((byteWave = loadSong(file, setSong)) != null) {
+        if ((byteWave = loadSong(file, setSong)) != null) {
             byteWave.writeVariables();
             return byteWave;
         }
@@ -223,15 +243,16 @@ public class ByteWave {
 
     /**
      * Creates instance of ByteWave based on given song and writes the audio properties to output together with some additional info.
-     * @param path is the path to the song
+     *
+     * @param path    is the path to the song
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
-     * if it is false, then doesn't set the variable, which may save a lot of memory and time.
-     * @throws IOException is thrown if there was problem with reading the info from the file.
+     *                if it is false, then doesn't set the variable, which may save a lot of memory and time.
      * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     * @throws IOException is thrown if there was problem with reading the info from the file.
      */
     public static ByteWave loadSongAndPrintVariablesDEBUG(String path, boolean setSong) throws IOException {
         ByteWave byteWave;
-        if((byteWave = loadSong(path, setSong)) != null) {
+        if ((byteWave = loadSong(path, setSong)) != null) {
             byteWave.writeVariables();
             return byteWave;
         }
@@ -240,16 +261,17 @@ public class ByteWave {
 
     /**
      * Creates instance of ByteWave based on given song.
-     * @param path is the path to the song
+     *
+     * @param path    is the path to the song
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      *                if it is false, then doesn't set the variable, which may save a lot of memory and time, but only limited number
      *                of methods works with stream
-     * @throws IOException is thrown if there was problem with reading the info from the file.
      * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     * @throws IOException is thrown if there was problem with reading the info from the file.
      */
     public static ByteWave loadSong(String path, boolean setSong) throws IOException {
         ByteWave bw = new ByteWave();
-        if(loadSong(bw, path, setSong)) {
+        if (loadSong(bw, path, setSong)) {
             return bw;
         }
         return null;
@@ -259,13 +281,13 @@ public class ByteWave {
     // Could be public, but the problem is that it destroys the ByteWave instance if it fails
     private static boolean loadSong(ByteWave byteWave, String path, boolean setSong) throws IOException {
         byteWave.setNameVariables(path);
-        if(!byteWave.setFormatAndStream(path)) {
+        if (!byteWave.setFormatAndStream(path)) {
             return false;
         }
         byteWave.setVariables();
 
 
-        if(setSong) {
+        if (setSong) {
             byteWave.setSong();
         }
         else {
@@ -273,26 +295,26 @@ public class ByteWave {
         }
 
 
-        if(!byteWave.setFormatAndStream(path)) {        // If there was some problem, then something unexpected happened
+        if (!byteWave.setFormatAndStream(path)) {        // If there was some problem, then something unexpected happened
             return false;                               // Because the previous call succeeded
         }
         return true;
     }
 
 
-
     /**
      * Creates instance of ByteWave based on given song.
-     * @param file is the file with the song
+     *
+     * @param file    is the file with the song
      * @param setSong is true, if we want to write the whole song to 1D byte array song (It is property of this class).
      *                if it is false, then doesn't set the variable, which may save a lot of memory and time, but only limited number
      *                of methods works with stream
-     * @throws IOException is thrown if there was problem with reading the info from the file.
      * @return Returns instance of ByteWave if there was no problem with file, null if it couldn't be read (for example it wasn't audio).
+     * @throws IOException is thrown if there was problem with reading the info from the file.
      */
     public static ByteWave loadSong(File file, boolean setSong) throws IOException {
         ByteWave byteWave = new ByteWave();
-        if(loadSong(byteWave, file, setSong)) {
+        if (loadSong(byteWave, file, setSong)) {
             return byteWave;
         }
         return null;
@@ -301,12 +323,12 @@ public class ByteWave {
     // Could be public, but the problem is that it destroys the ByteWave instance if it fails
     private static boolean loadSong(ByteWave byteWave, File file, boolean setSong) throws IOException {
         byteWave.setNameVariables(file);
-        if(!byteWave.setFormatAndStream(file)) {
+        if (!byteWave.setFormatAndStream(file)) {
             return false;
         }
         byteWave.setVariables();
 
-        if(setSong) {
+        if (setSong) {
             byteWave.setSong();
         }
         else {
@@ -314,7 +336,7 @@ public class ByteWave {
         }
 
 
-        if(!byteWave.setFormatAndStream(file)) {        // If there was some problem, then something unexpected happened
+        if (!byteWave.setFormatAndStream(file)) {        // If there was some problem, then something unexpected happened
             return false;                               // Because the previous call succeeded
         }
         return true;
@@ -327,7 +349,7 @@ public class ByteWave {
         return true;
     }
 
-    private void setSong() throws IOException  {
+    private void setSong() throws IOException {
         setTotalAudioLength();
         setFormatAndStream(this.path);
         song = convertStreamToByteArray();
@@ -335,8 +357,6 @@ public class ByteWave {
         headerSize = wholeFileSize - audioStreamSizeInBytes;
         decodedAudioStream.close();
     }
-
-
 
 
     private void setNameVariables(File file) {
@@ -359,7 +379,7 @@ public class ByteWave {
         sampleSizeInBits = decodedAudioFormat.getSampleSizeInBits();
         sampleSizeInBytes = sampleSizeInBits / 8;
         frameSize = sampleSizeInBytes * numberOfChannels;
-        sampleRate = (int)decodedAudioFormat.getSampleRate();
+        sampleRate = (int) decodedAudioFormat.getSampleRate();
         mask = AudioUtilities.calculateMask(sampleSizeInBytes);
         maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
 
@@ -367,10 +387,10 @@ public class ByteWave {
 
 
         // That is the number of frames that means total number of samples is numberOfChannels * numberOfFrames
-        if(this.audioType == AudioType.MP3) {
+        if (this.audioType == AudioType.MP3) {
             //  This MP3 frame count - in mp3 frame is ~0.026 seconds
             int frameCount = Integer.parseInt(originalAudioFileFormat.properties().get("mp3.length.frames").toString());
-            lengthOfAudioInSeconds = (int)(frameCount * 0.026);        // 0.026s is size of 1 frame
+            lengthOfAudioInSeconds = (int) (frameCount * 0.026);        // 0.026s is size of 1 frame
         }
         else {
             int totalNumberOfFrames = originalAudioFileFormat.getFrameLength();
@@ -379,7 +399,7 @@ public class ByteWave {
 
         isSigned = AudioFormatWithSign.getIsSigned(encoding);
 
-        if(frameSize != decodedAudioFormat.getFrameSize()) {
+        if (frameSize != decodedAudioFormat.getFrameSize()) {
             throw new IOException();
         }
     }
@@ -389,13 +409,15 @@ public class ByteWave {
      * Gets the audioFormat of the decoded audio and also gets the audio stream for the decoded audio and sets corresponding properties.
      * For the decoding of mp3 files is used library. If false is returnes, then there is some problem and song should
      * be invalidated.
+     *
      * @param path is the path to the file with audio.
      * @return Returns true if all was set correctly, false if there was some problem.
      */
     private boolean setFormatAndStream(String path) {
         try {
             soundFile = new File(path);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
@@ -409,7 +431,7 @@ public class ByteWave {
 
     private boolean setFormatAndStream() {
         try {
-            if(originalAudioStream != null) {
+            if (originalAudioStream != null) {
                 originalAudioStream.close();
             }
             originalAudioFileFormat = AudioSystem.getAudioFileFormat(soundFile);
@@ -417,15 +439,15 @@ public class ByteWave {
             originalAudioStream = AudioSystem.getAudioInputStream(soundFile);
             originalAudioFormat = originalAudioStream.getFormat();
 
-            if("mp3".equals(type.getExtension())) {
+            if ("mp3".equals(type.getExtension())) {
                 audioType = AudioType.MP3;
                 decodedAudioFormat = new AudioFormat(Encoding.PCM_SIGNED,
-                    originalAudioFormat.getSampleRate(),
-                    16,
-                    originalAudioFormat.getChannels(),
-                    originalAudioFormat.getChannels() * 2,
-                    originalAudioFormat.getSampleRate(),
-                    false);
+                                                     originalAudioFormat.getSampleRate(),
+                                                     16,
+                                                     originalAudioFormat.getChannels(),
+                                                     originalAudioFormat.getChannels() * 2,
+                                                     originalAudioFormat.getSampleRate(),
+                                                     false);
                 decodedAudioStream = AudioSystem.getAudioInputStream(decodedAudioFormat, originalAudioStream);
             }
             else {
@@ -433,7 +455,8 @@ public class ByteWave {
                 decodedAudioFormat = originalAudioFormat;
                 decodedAudioStream = originalAudioStream;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             originalAudioStream = null;
             originalAudioFormat = null;
             decodedAudioFormat = null;
@@ -447,7 +470,7 @@ public class ByteWave {
 
 
     public String getFileFormatType() {
-        if(audioType == AudioType.MP3) {
+        if (audioType == AudioType.MP3) {
             return "MP3 (.mp3)";
         }
         else {
@@ -465,7 +488,7 @@ public class ByteWave {
         System.out.println("Audio info:");
         System.out.println("AudioFileFormat properties:");
         System.out.println("Number of properties:\t" + originalAudioFileFormat.properties().size());
-        for(Map.Entry<String, Object> property : originalAudioFileFormat.properties().entrySet()) {
+        for (Map.Entry<String, Object> property : originalAudioFileFormat.properties().entrySet()) {
             System.out.println("Property name:\t" + property.getKey() + "\nValue of property:\t" + property.getValue());
         }
         System.out.println();
@@ -473,7 +496,7 @@ public class ByteWave {
         // Mostly doesn't write anything
         System.out.println("AudioFormat properties:");
         System.out.println("Number of properties:\t" + decodedAudioFormat.properties().size());
-        for(Map.Entry<String, Object> property : decodedAudioFormat.properties().entrySet()) {
+        for (Map.Entry<String, Object> property : decodedAudioFormat.properties().entrySet()) {
             System.out.println("Property name:\t" + property.getKey() + "\nValue of property:\t" + property.getValue());
         }
         System.out.println();
@@ -496,8 +519,8 @@ public class ByteWave {
 
         // /1000 because it's kbit/s
         System.out.printf("kbit/s:\t%d\n", ((numberOfChannels * sampleRate * sampleSizeInBits) / 1000));
-        if(song != null) {
-            System.out.println("song length in bytes:\t" + song.length);	// size of song in bytes
+        if (song != null) {
+            System.out.println("song length in bytes:\t" + song.length);    // size of song in bytes
         }
 
         System.out.println("audio length in seconds:\t" + lengthOfAudioInSeconds);
@@ -509,6 +532,7 @@ public class ByteWave {
      * Puts all the samples together. For example if the audio is stereo, then result 1D array looks like this
      * Puts 1st sample from the 1st channel, then 1st sample from the 2nd channel, then 2nd sample from 1st channel then
      * 2nd sample from 2nd channel, etc. (do that for all the samples).
+     *
      * @param channels is 2D byte array. Each byte array represents 1 channels.
      * @return Returns 1D byte array.
      */
@@ -517,14 +541,15 @@ public class ByteWave {
         ArrayList<Byte> songList = new ArrayList<>();
         int len;
         byte sample;
-        if(channels.length == 1) {		// it is mono
+        if (channels.length == 1) {        // it is mono
             return channels[0];
-        } else {
+        }
+        else {
             // Putting channels together to make original song
             len = channels[0].length / sampleSizeInBytes;
-            for(int i = 0; i < len; i++) {		// All have same size
-                for(int j = 0; j < channels.length; j++) {
-                    for(int k = 0; k < sampleSizeInBytes; k++) {
+            for (int i = 0; i < len; i++) {        // All have same size
+                for (int j = 0; j < channels.length; j++) {
+                    for (int k = 0; k < sampleSizeInBytes; k++) {
                         sample = channels[j][i * sampleSizeInBytes + k];
                         songList.add(sample);
                     }
@@ -532,7 +557,7 @@ public class ByteWave {
             }
 
             song = new byte[songList.size()];
-            for(int i = 0; i < song.length; i++) {
+            for (int i = 0; i < song.length; i++) {
                 song[i] = songList.get(i);
             }
             return song;
@@ -542,11 +567,10 @@ public class ByteWave {
 
     public void convertSampleRate(int newSampleRate) throws IOException {
         this.song = AudioConverter.convertSampleRate(this.song, this.sampleSizeInBytes, this.frameSize,
-                this.numberOfChannels, this.sampleRate, newSampleRate,
-                this.isBigEndian, this.isSigned, false);
+                                                     this.numberOfChannels, this.sampleRate, newSampleRate,
+                                                     this.isBigEndian, this.isSigned, false);
         this.sampleRate = newSampleRate;
     }
-
 
 
     public boolean saveAudio(String path, Type type) {
@@ -562,11 +586,12 @@ public class ByteWave {
      */
     public double[][] separateChannelsDouble() throws IOException {
         return AudioConverter.separateChannelsDouble(decodedAudioStream, numberOfChannels, sampleSizeInBytes,
-                isBigEndian, isSigned, audioStreamSizeInBytes);
+                                                     isBigEndian, isSigned, audioStreamSizeInBytes);
     }
 
     /**
      * Creates new double[] array with normalized values in [-1, 1]. It uses the internal song array, not the stream.
+     *
      * @return
      * @throws IOException
      */
@@ -599,7 +624,7 @@ public class ByteWave {
         windowSize = Utilities.convertToMultipleDown(windowSize, this.frameSize);
         double[] windows = new double[windowsLen];
         return BPMSimple.computeBPM(this.song, windowSize, windows, this.numberOfChannels, this.sampleSizeInBytes,
-                this.frameSize, this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
+                                    this.frameSize, this.sampleRate, this.mask, this.isBigEndian, this.isSigned, 4);
     }
 
 
@@ -609,29 +634,29 @@ public class ByteWave {
     public int computeBPMSimpleWithFreqBands(int subbandCount, SubbandSplitterIFace splitter,
                                              double coef, int windowsBetweenBeats,
                                              double varianceLimit) {
-         int historySubbandsCount = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
-         int windowSize = this.sampleRate / historySubbandsCount;
-         int powerOf2After = Utilities.getFirstPowerOfNAfterNumber(windowSize, 2);
-         int powerOf2Before = powerOf2After / 2;
-         int remainderBefore = windowSize - powerOf2Before;
-         int remainderAfter = powerOf2After - windowSize;
+        int historySubbandsCount = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
+        int windowSize = this.sampleRate / historySubbandsCount;
+        int powerOf2After = Utilities.getFirstPowerOfNAfterNumber(windowSize, 2);
+        int powerOf2Before = powerOf2After / 2;
+        int remainderBefore = windowSize - powerOf2Before;
+        int remainderAfter = powerOf2After - windowSize;
         // Trying to get power of 2 closest to the number ... for fft efficiency
-         if(remainderAfter > remainderBefore) {
-             windowSize = powerOf2Before;
-         }
-         else {
-             windowSize = powerOf2After;
-         }
+        if (remainderAfter > remainderBefore) {
+            windowSize = powerOf2Before;
+        }
+        else {
+            windowSize = powerOf2After;
+        }
 
         // But not always is the power of 2 divisible by the frameSize, so we move it
-         int mod = windowSize % this.frameSize;
-         windowSize += mod;
-         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
-         double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
+        int mod = windowSize % this.frameSize;
+        windowSize += mod;
+        DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
+        double[][] subbandEnergies = new double[historySubbandsCount][subbandCount];
 
-             return BPMSimpleWithFreqBands.computeBPM(this.song, this.sampleSizeInBytes, this.sampleRate,
-                                                      windowSize, this.isBigEndian, this.isSigned, this.mask,
-                                                      this.maxAbsoluteValue, fft, splitter, subbandEnergies,
-                                                      coef, windowsBetweenBeats, varianceLimit);
-     }
+        return BPMSimpleWithFreqBands.computeBPM(this.song, this.sampleSizeInBytes, this.sampleRate,
+                                                 windowSize, this.isBigEndian, this.isSigned, this.mask,
+                                                 this.maxAbsoluteValue, fft, splitter, subbandEnergies,
+                                                 coef, windowsBetweenBeats, varianceLimit);
+    }
 }

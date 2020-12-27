@@ -9,9 +9,9 @@ public class OperatorInputPort extends InputPort {
     public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "OP" + connectorIndex, "Operand " + connectorIndex,
-                connectorIndex, inputPortToGUIAdder,
-                "This port gets values for operand number " + connectorIndex,
-                neutralValue);
+              connectorIndex, inputPortToGUIAdder,
+              "This port gets values for operand number " + connectorIndex,
+              neutralValue);
     }
 
     public OperatorInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,

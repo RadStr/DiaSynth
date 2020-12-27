@@ -19,8 +19,6 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
     }
 
 
-
-
     /**
      * Keeps filling the song array with the values (if end of the values array is reached move to input start index)
      */
@@ -48,6 +46,7 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
     /**
      * Not used anymore - version with input and output start and end indices is preferred.
      * Keeps filling the song array with the values (if end of the values array is reached move to 0)
+     *
      * @param arr
      * @param values
      * @param startIndex
@@ -56,8 +55,8 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
     public static void fillArrayWithValues(double[] arr, double[] values, int startIndex, int endIndex) {
         boolean isPowerOf2 = Utilities.testIfNumberIsPowerOfN(values.length, 2) >= 0;
 
-        for(int i = startIndex, valuesInd = 0; i < endIndex; i++, valuesInd++) {
-            if(isPowerOf2) {
+        for (int i = startIndex, valuesInd = 0; i < endIndex; i++, valuesInd++) {
+            if (isPowerOf2) {
                 arr[i] = values[valuesInd % values.length];
             }
             else {
@@ -68,8 +67,6 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
             }
         }
     }
-
-
 
 
     @Override
@@ -90,10 +87,10 @@ public class FillWaveWithOtherWaveOperation extends OperationOnWavesPlugin {
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-            "Fill output wave (second wave) with samples of input wave (first wave)<br>" +
-            "If the output wave is longer than input wave, then input wave behaves as circular buffer<br>" +
-            "So when end of input wave is reached, it moves to [0] and continues.<br>" +
-            "Unless shouldAlignLengths is set to true" +
-            "</html>";
+               "Fill output wave (second wave) with samples of input wave (first wave)<br>" +
+               "If the output wave is longer than input wave, then input wave behaves as circular buffer<br>" +
+               "So when end of input wave is reached, it moves to [0] and continues.<br>" +
+               "Unless shouldAlignLengths is set to true" +
+               "</html>";
     }
 }

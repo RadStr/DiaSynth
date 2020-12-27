@@ -22,18 +22,22 @@ public class VerticalReferencesPanel extends JPanel {
     private final boolean IS_DOUBLE = true;
 
     private double minValue;
+
     public double getMinValue() {
         return minValue;
     }
+
     public void setMinValue(double minValue) {
         this.minValue = minValue;
         setMidValue();
     }
 
     private double maxValue;
+
     public double getMaxValue() {
         return maxValue;
     }
+
     public void setMaxValue(double maxValue) {
         this.maxValue = maxValue;
         setMidValue();
@@ -41,9 +45,11 @@ public class VerticalReferencesPanel extends JPanel {
 
 
     private double midValue;
+
     public double getMidValue() {
         return midValue;
     }
+
     private void setMidValue() {
         midValue = Aggregation.performAggregation(minValue, maxValue, Aggregation.AVG);
     }
@@ -62,15 +68,15 @@ public class VerticalReferencesPanel extends JPanel {
 
 
         JPanel thisPanel = this;
-        ComponentListener resizeListener = new ComponentAdapter(){
+        ComponentListener resizeListener = new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 int height = e.getComponent().getHeight();
                 int spaceSizeBetweenLabelsInPixels = 50;
                 int halfHeight = height / 2;
                 labelCount = halfHeight / spaceSizeBetweenLabelsInPixels;
-                if(IS_DOUBLE) {
-                    if(labelCount > 100) {
+                if (IS_DOUBLE) {
+                    if (labelCount > 100) {
                         labelCount = 100;
                     }
                 }
@@ -90,7 +96,7 @@ public class VerticalReferencesPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if(IS_DOUBLE) {     // Always call the double variant
+        if (IS_DOUBLE) {     // Always call the double variant
             drawSamplesValueRangeDouble(g);
         }
         else {
@@ -155,7 +161,6 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
 
-
     // TODO: NEVIM S TIM INTEM - MOZNA TO VYHODIT
     // midVal is usually 0
     private void drawSamplesValueRangeInt(Graphics g, int minVal, int maxVal, int midVal) {
@@ -203,20 +208,21 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
 
-
-
     private void drawFirstValueInt(int x, int y, int valToDraw, Color color, Graphics g, int textHeight) {
         int shiftForStringY = textHeight - textHeight / 4;
         drawValueInt(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawInternalValueInt(int x, int y, int valToDraw, Color color, Graphics g, int textHeight) {
         int shiftForStringY = textHeight / 4;
         drawValueInt(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawLastValueInt(int x, int y, int valToDraw, Color color, Graphics g, int textHeight) {
         int shiftForStringY = -textHeight / 4;
         drawValueInt(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawValueInt(int x, int y, int valToDraw, Color color, Graphics g, int shiftForStringY) {
         String valString = getStringInt(valToDraw);
         drawValue(valString, x, y, color, g, shiftForStringY);
@@ -227,25 +233,27 @@ public class VerticalReferencesPanel extends JPanel {
         int shiftForStringY = textHeight - textHeight / 4;
         drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawInternalValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
         int shiftForStringY = textHeight / 4;
         drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawLastValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
         int shiftForStringY = -textHeight / 4;
         drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
     }
+
     private void drawValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int shiftForStringY) {
         String valString = getStringDouble(valToDraw);
         drawValue(valString, x, y, color, g, shiftForStringY);
     }
 
 
-
     private void drawValue(String valString, int x, int y, Color color, Graphics g, int shiftForStringY) {
         int startX = SwingUtils.drawStringWithSpace(g, color, valString, 0, this.getWidth(), y + shiftForStringY);
         int w = g.getFontMetrics().stringWidth(valString);
-        if(w > valuesLongestWidth) {
+        if (w > valuesLongestWidth) {
             valuesLongestWidth = w;
         }
 
@@ -263,7 +271,6 @@ public class VerticalReferencesPanel extends JPanel {
         String valString = Integer.toString(valToDraw);
         return valString;
     }
-
 
 
     @Override

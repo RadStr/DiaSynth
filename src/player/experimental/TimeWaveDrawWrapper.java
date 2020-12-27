@@ -10,24 +10,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-
 public class TimeWaveDrawWrapper extends DrawWrapperBase {
     public static TimeWaveDrawWrapper createMaxSizeTimeWaveDrawWrapper(int timeInMs, boolean isEditable,
                                                                        Color backgroundColor,
                                                                        boolean shouldDrawLabelsAtTop) {
         int binCount = DrawWrapperBase.calculateMaxSizeBinCount(-1, 1);
         int firstX = new TimeWaveDrawWrapper(timeInMs, binCount,
-                isEditable, backgroundColor, shouldDrawLabelsAtTop).timeWaveDrawPanel.getFirstBinStartX();
+                                             isEditable, backgroundColor, shouldDrawLabelsAtTop).timeWaveDrawPanel.getFirstBinStartX();
         binCount -= 2 * firstX;
 
         return new TimeWaveDrawWrapper(timeInMs, binCount, isEditable,
-                backgroundColor, shouldDrawLabelsAtTop);
+                                       backgroundColor, shouldDrawLabelsAtTop);
     }
 
     public TimeWaveDrawWrapper(int timeInMs, int binCount, boolean isEditable,
                                Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         this(new TimeWaveDrawPanel(timeInMs, binCount, isEditable, backgroundColor, shouldDrawLabelsAtTop),
-                -1, 1);
+             -1, 1);
     }
 
     private TimeWaveDrawWrapper(TimeWaveDrawPanel timeWaveDrawPanel, double minValue, double maxValue) {
@@ -36,6 +35,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
     }
 
     private TimeWaveDrawPanel timeWaveDrawPanel;
+
     public double[] getOneSecondWave(int sampleRate) {
         return timeWaveDrawPanel.getOneSecondWave(sampleRate);
     }
@@ -56,13 +56,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             public void actionPerformed(ActionEvent e) {
                 TimeOptionsDialogPanel classWithValues = new TimeOptionsDialogPanel(timeWaveDrawPanel);
                 AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                        classWithValues.getClass());
+                                                                  classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                        "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                           JOptionPane.PLAIN_MESSAGE);
 
-                if(result == JOptionPane.OK_OPTION) {
+                if (result == JOptionPane.OK_OPTION) {
                     timeWaveDrawPanel.setTimeInMs(classWithValues.timeInMs);
                 }
             }
@@ -78,13 +78,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             public void actionPerformed(ActionEvent e) {
                 TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(thisWrapper, waveAdder);
                 AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                        classWithValues.getClass());
+                                                                  classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                        "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                           JOptionPane.PLAIN_MESSAGE);
 
-                if(result == JOptionPane.OK_OPTION) {
+                if (result == JOptionPane.OK_OPTION) {
                     timeWaveDrawPanel.setTimeInMs(classWithValues.getTimeInMs());
                     periodCount = classWithValues.getPeriodCount();
                     double[] wave = getNPeriods(classWithValues.getSampleRate(), periodCount);
@@ -99,7 +99,6 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
     private int periodCount = 1;
 
 
-
     private static class TimeActionDialogPanel extends TimeOptionsDialogPanel implements PluginBaseIFace {
         public TimeActionDialogPanel(TimeWaveDrawWrapper timeWaveDrawWrapper, WaveAdderIFace waveAdder) {
             super(timeWaveDrawWrapper.timeWaveDrawPanel);
@@ -109,7 +108,7 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
 
 
         @PluginParameterAnnotation(name = "Sample rate:", lowerBound = "0",
-                parameterTooltip = "Controls the sample rate of the drawn wave")
+                                   parameterTooltip = "Controls the sample rate of the drawn wave")
         private int sampleRate;
 
         public int getSampleRate() {
@@ -117,8 +116,9 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         }
 
         @PluginParameterAnnotation(name = "Period count:", lowerBound = "1",
-                parameterTooltip = "Controls the number of periods (repetitions) of drawn wave")
+                                   parameterTooltip = "Controls the number of periods (repetitions) of drawn wave")
         private int periodCount;
+
         public int getPeriodCount() {
             return periodCount;
         }
@@ -136,8 +136,9 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
         }
 
         @PluginParameterAnnotation(name = "Time (in Ms):", lowerBound = "1",
-                parameterTooltip = "Controls the length of the drawn wave. The time is in milliseconds.")
+                                   parameterTooltip = "Controls the length of the drawn wave. The time is in milliseconds.")
         private int timeInMs;
+
         public int getTimeInMs() {
             return timeInMs;
         }

@@ -8,7 +8,7 @@ import util.math.ArithmeticOperation;
 
 public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "New amplitude:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
-            parameterTooltip = "The new maximum value to which will be the wave stretched")
+                               parameterTooltip = "The new maximum value to which will be the wave stretched")
     private double newAbsoluteMax;
 
 
@@ -31,7 +31,7 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
         newAbsoluteMax = Math.abs(newAbsoluteMax);
         newAbsoluteMax = Math.min(newAbsoluteMax, 1);
         // If == then it is already stretched as much as it should be, don't do anything
-        if(extreme != newAbsoluteMax && extreme != 0) {
+        if (extreme != newAbsoluteMax && extreme != 0) {
             double ratio = newAbsoluteMax / extreme;
             ArithmeticOperation.performOperationOnSamples(wave, startIndex, endIndex,
                                                           ratio, ArithmeticOperation.MULTIPLY);
@@ -61,6 +61,7 @@ public class WaveStretcherOnWave implements OperationOnWavePluginIFace {
 
     /**
      * Finds the absolute extreme, the bigger of the two values in absolute value.
+     *
      * @param minMax contains min of the [start,end] of wave at [0] and max at [1]
      * @return
      */

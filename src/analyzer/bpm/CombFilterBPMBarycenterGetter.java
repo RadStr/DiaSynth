@@ -17,10 +17,10 @@ public class CombFilterBPMBarycenterGetter implements CombFilterBPMGetterIFace {
         int bpm;
 
 
-        for(int i = 0; i < energies.length; i++) {
+        for (int i = 0; i < energies.length; i++) {
             maxEnergy = 0;
-            for(int bpmInd = 0; bpmInd < energies[i].length; bpmInd++) {
-                if(energies[i][bpmInd] > maxEnergy) {
+            for (int bpmInd = 0; bpmInd < energies[i].length; bpmInd++) {
+                if (energies[i][bpmInd] > maxEnergy) {
                     maxBpmInd = bpmInd;
                     maxEnergy = energies[i][bpmInd];
                 }

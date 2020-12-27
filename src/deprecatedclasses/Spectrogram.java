@@ -24,7 +24,7 @@ public class Spectrogram {
                                                   int pixelWidthForWindow, int pixelHeightForBin) {
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
         return createSpectrogram(song, numberOfChannels, windowSize, windowShift,
-                startIndex, endIndex, freqJump, fft, pixelWidthForWindow, pixelHeightForBin);
+                                 startIndex, endIndex, freqJump, fft, pixelWidthForWindow, pixelHeightForBin);
     }
 
 
@@ -356,9 +356,9 @@ public class Spectrogram {
         double[] fftResult = new double[windowSize];
 
         int windowCount = (endIndex - startIndex) / windowSize;        // TODO: Tady vzit Math.ceil abych nabral i to posledni okno
-        double pixelWidthForWindow = spectrogramWidthInPixels / (double)windowCount;
+        double pixelWidthForWindow = spectrogramWidthInPixels / (double) windowCount;
         int binCount = FFT.getBinCountRealForward(windowSize);
-        double pixelHeightForBin = spectrogramHeightInPixels / (double)binCount;
+        double pixelHeightForBin = spectrogramHeightInPixels / (double) binCount;
 
 
         int spectrogramWidthInPixelsWithReference = spectrogramWidthInPixels + 100;    // TODO:
@@ -369,7 +369,7 @@ public class Spectrogram {
         Graphics g = spectrogram.getGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, spectrogram.getWidth(), spectrogram.getHeight());
-        double windowOverlapCountForOneWindow = windowSize / (double)windowShift;
+        double windowOverlapCountForOneWindow = windowSize / (double) windowShift;
 //        int windowOverlapCountForOneWindowInt = (int)windowOverlapCountForOneWindow;    // TODO: Asi pres Math.ceil
         double pixelWidthForWindowPart;
         double[][] currentlyCalculatedMeasures;
@@ -377,17 +377,16 @@ public class Spectrogram {
         double pixelWidthForOneWindowInCaseItIsSmallerThanOneIThenHaveAddThisValueSomehowToThecurrentlyCalculatedMeasuresSize;
 
 
-
         double[] windowsOverlaps = null;
         double[] lastWindowParts = null;
         double[] counters = null;
-        if(lastWindowReminder == 0) {
+        if (lastWindowReminder == 0) {
             currentlyCalculatedMeasures = new double[binCount][(int) windowOverlapCountForOneWindow];
         }
         else {
-            currentlyCalculatedMeasures = new double[binCount][(int)Math.ceil(windowOverlapCountForOneWindow)];
+            currentlyCalculatedMeasures = new double[binCount][(int) Math.ceil(windowOverlapCountForOneWindow)];
 
-            windowsOverlaps = new double[(int)Math.ceil(windowOverlapCountForOneWindow)];
+            windowsOverlaps = new double[(int) Math.ceil(windowOverlapCountForOneWindow)];
             lastWindowParts = new double[windowsOverlaps.length];   // TODO: Not needed but it is easier to understand if I have separater array for it
             counters = new double[lastWindowParts.length];
 
@@ -401,12 +400,12 @@ public class Spectrogram {
             lastWindowParts[0] = lastWindowReminder;
             System.out.println(0 + "\t" + windowsOverlaps[0]);
             for (int i = 1; i < windowsOverlaps.length; i++) {
-                windowsOverlaps[i] = (int)Math.ceil(windowsOverlaps[i - 1]) - windowsOverlaps[i - 1];
+                windowsOverlaps[i] = (int) Math.ceil(windowsOverlaps[i - 1]) - windowsOverlaps[i - 1];
                 windowsOverlaps[i] = windowsOverlaps[0] - windowsOverlaps[i];
                 lastWindowParts[i] = windowsOverlaps[i] % 1; // TODO: Not sure maybe not even needed
 
                 counters[i] = (1 - lastWindowParts[i - 1]);
-                System.out.println(i + "\t" + windowsOverlaps[i] + "\t" + ((int)Math.ceil(windowsOverlaps[i - 1]) - windowsOverlaps[i - 1]));
+                System.out.println(i + "\t" + windowsOverlaps[i] + "\t" + ((int) Math.ceil(windowsOverlaps[i - 1]) - windowsOverlaps[i - 1]));
             }
 // TODO:            System.exit((int)Math.ceil(1.00));
         }
@@ -417,10 +416,9 @@ public class Spectrogram {
         // TODO:
 
         double windowsPerPixel = 1;
-        if(pixelWidthForWindowPart < 1) {
+        if (pixelWidthForWindowPart < 1) {
             windowsPerPixel = 1 / pixelWidthForWindowPart;
         }
-
 
 
 //        if(windowOverlapCountForOneWindowInt == 0) {
@@ -458,14 +456,15 @@ public class Spectrogram {
         double[] tmpArr2 = new double[fftMeasures.length];
         int currWindowCalculatedInd = 0;       // Is the index for which we are no calculating the values - l - Lies between 0 and windowOverlapCountForOneWindowInt
         double currX = spectrogramStart;
-        int nextPixel = (int)(currX + 1);    // Used only if (pixelWidthForWindowPart < 1)
+        int nextPixel = (int) (currX + 1);    // Used only if (pixelWidthForWindowPart < 1)
 
         double multiplyFactor = lastWindowReminder;
         int indexWhereToPutNotFullValue = currentlyCalculatedMeasures[0].length - 1;
         double[] arrWithNotFullMeasures = new double[fftMeasures.length];
-        TODO: // TODO: Just debug label
+        TODO:
+        // TODO: Just debug label
 
-        for(int i = startIndex, currWindow = 0; i < endIndex; i += windowShift, currWindow++, indexWhereToPutNotFullValue++) {
+        for (int i = startIndex, currWindow = 0; i < endIndex; i += windowShift, currWindow++, indexWhereToPutNotFullValue++) {
             indexWhereToPutNotFullValue %= currentlyCalculatedMeasures[0].length;
             oldestWindow = newOldestWindow;
             oldestWindowSet = false;
@@ -478,7 +477,7 @@ public class Spectrogram {
 
 // TODO:                double windowPartsCount = windowOverlapCountForOneWindow;
                 double lastWindowPart;
-                if(lastWindowReminder == 0) {
+                if (lastWindowReminder == 0) {
 // TODO:                    windowPartsCount = currentlyCalculatedMeasures[0].length;
                     lastWindowPart = 0;
                 }
@@ -490,29 +489,29 @@ public class Spectrogram {
                 if (currX < nextPixel) {
                     System.out.println("NEWMEASURES:\t" + currentlyCalculatedMeasures[0][0]);
                     addCurrentMeasures(song, i, numberOfChannels, fft, fftResult, fftMeasures, logarithmBase,
-                            currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, multiplyFactor,
-                            windowPartsCount, true, counters, windowsOverlaps, lastWindowParts, tmpArrs,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures);
+                                       currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, multiplyFactor,
+                                       windowPartsCount, true, counters, windowsOverlaps, lastWindowParts, tmpArrs,
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures);
                     continue;           // Just keep calculating the values until we can draw the pixel value
                 }
 
                 nextPixel++;
             }
             else {
-                if(lastWindowReminder == 0) {
+                if (lastWindowReminder == 0) {
 //                    int windowPartsCount = currentlyCalculatedMeasures[0].length;
                     addCurrentMeasures(song, i, numberOfChannels, fft, fftResult, fftMeasures, logarithmBase,
-                            currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, 0,
-                            windowPartsCount, false, counters, windowsOverlaps, lastWindowParts, tmpArrs,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures);
+                                       currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, 0,
+                                       windowPartsCount, false, counters, windowsOverlaps, lastWindowParts, tmpArrs,
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures);
                 }
                 else {
                     int mod = currWindow % currentlyCalculatedMeasures[0].length;
 //                    int windowPartsCount = (int)Math.ceil(windowsOverlaps[mod]);
                     addCurrentMeasures(song, i, numberOfChannels, fft, fftResult, fftMeasures, logarithmBase,
-                            currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, multiplyFactor,
-                            windowPartsCount, false, counters, windowsOverlaps, lastWindowParts, tmpArrs,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures);
+                                       currWindow, currentlyCalculatedMeasures, tmpArr, tmpArr2, multiplyFactor,
+                                       windowPartsCount, false, counters, windowsOverlaps, lastWindowParts, tmpArrs,
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures);
                 }
             }
             // TODO: Nahrazeno funkci
@@ -544,8 +543,6 @@ public class Spectrogram {
 //                        currentlyCalculatedMeasures[j][k] += fftMeasures[j] / currentlyCalculatedMeasures[j].length;
 //                    }
 //                }
-
-
 
 
 // TODO:
@@ -589,16 +586,15 @@ public class Spectrogram {
 //                    }
 ////TODO:System.exit(currWindow);
             currX = drawOneWindowInSpectrogram(currY, counters, windowsOverlaps, lastWindowParts, currentlyCalculatedMeasures,
-                    oldestWindowSet, newOldestWindow, currWindow, pixelHeightForBin, binCount,
-                    windowSize, logarithmBase, g, currX, pixelWidthForWindow, lastWindowReminder,
-                    tmpArrs, windowOverlapCountForOneWindow, windowsPerPixel);
+                                               oldestWindowSet, newOldestWindow, currWindow, pixelHeightForBin, binCount,
+                                               windowSize, logarithmBase, g, currX, pixelWidthForWindow, lastWindowReminder,
+                                               tmpArrs, windowOverlapCountForOneWindow, windowsPerPixel);
 //                }
 //            }
 
             System.out.println("counter0\t" + counters[0] + "\t" + lastWindowParts[0] + "\t" + windowsOverlaps[0]);
             System.out.println("counter1\t" + counters[1] + "\t" + lastWindowParts[1] + "\t" + windowsOverlaps[1]);
             System.out.println();
-
 
 
 //                if(counters[window] >= windowsOverlaps[window]) {
@@ -700,7 +696,6 @@ public class Spectrogram {
         }
 
 
-
         // Draw the measure reference
         g.setColor(Color.white);
         int startXReference = spectrogramStart + spectrogramWidthInPixels;     // TODO: V tehle jmenech promennych je bordel
@@ -717,7 +712,7 @@ public class Spectrogram {
         int width = 60;
         int height = 1;
         double colorVal = 0;
-        for(int y = spectrogramHeightInPixels; y >= 0; y--, colorVal += pixelSkipDouble) {
+        for (int y = spectrogramHeightInPixels; y >= 0; y--, colorVal += pixelSkipDouble) {
             Color c = Color.getHSBColor(1 - (float) colorVal, (float) colorVal, (float) colorVal);
             g.setColor(c);
             g.fillRect(x, y, width, height);
@@ -729,7 +724,7 @@ public class Spectrogram {
         int n = 8;      // take every nth bin
         double maxTextHeight = n * pixelHeightForBin;
         String[] binFreqs = AudioUtilities.computeFreqs(binCount, freqJump, 0, n, 2);
-        SwingUtils.findMaxFontSize(24, g, binFreqs, spectrogramStart - 15, (int)maxTextHeight, 1);
+        SwingUtils.findMaxFontSize(24, g, binFreqs, spectrogramStart - 15, (int) maxTextHeight, 1);
         FontMetrics fontMetrics = g.getFontMetrics();
 
         g.setColor(Color.white);
@@ -742,8 +737,8 @@ public class Spectrogram {
         // Draw the small lines
         double currY = 0;
         double midY = pixelHeightForBin / 2;
-        for(int i = 0; i < binCount; i++, currY += pixelHeightForBin, midY += pixelHeightForBin) {
-            if(i % n!= 0) {
+        for (int i = 0; i < binCount; i++, currY += pixelHeightForBin, midY += pixelHeightForBin) {
+            if (i % n != 0) {
                 g.drawLine(lineXSmall, (int) midY, spectrogramStart, (int) midY);   // TODO: Zase mozna Math.ceil
             }
         }
@@ -754,38 +749,36 @@ public class Spectrogram {
         // Draw the big lines + text
         currY = 0;
         midY = pixelHeightForBin / 2;
-        for(int bin = binFreqs.length - 1; bin >= 0; bin--, currY += maxTextHeight, midY += maxTextHeight)
-        {
-            System.out.println(bin + "\t"  + currY);
-            g.drawLine(lineXBig, (int)midY, spectrogramStart, (int)midY);   // TODO: Zase mozna Math.ceil
+        for (int bin = binFreqs.length - 1; bin >= 0; bin--, currY += maxTextHeight, midY += maxTextHeight) {
+            System.out.println(bin + "\t" + currY);
+            g.drawLine(lineXBig, (int) midY, spectrogramStart, (int) midY);   // TODO: Zase mozna Math.ceil
             int textLen = fontMetrics.stringWidth(binFreqs[bin]);
-            if(bin == binFreqs.length - 1) {        // Special cases at top and at bottom (0Hz and nyquist freq)
+            if (bin == binFreqs.length - 1) {        // Special cases at top and at bottom (0Hz and nyquist freq)
                 g.drawString(binFreqs[bin], spectrogramStart - textLen - 15, 15);   // TODO: y == 15 because of the top ledge (the ledge with cross)
             }
-            else if(bin == 0) {
+            else if (bin == 0) {
                 g.drawString(binFreqs[bin], spectrogramStart - textLen - 15, spectrogramHeightInPixels);
             }
             else {
-                g.drawString(binFreqs[bin], spectrogramStart - textLen - 15, (int)(currY + freeSpace));    // TODO: Zase mozna Math.ceil
+                g.drawString(binFreqs[bin], spectrogramStart - textLen - 15, (int) (currY + freeSpace));    // TODO: Zase mozna Math.ceil
             }
         }
 
 
         // Draw KHz to the top left
-        g.drawString("KHz", 0, (int)(spectrogramHeightInPixels - maxTextHeight / 2));      // TODO: Bude tam obcas prekryv
+        g.drawString("KHz", 0, (int) (spectrogramHeightInPixels - maxTextHeight / 2));      // TODO: Bude tam obcas prekryv
 
         return spectrogram;
     }
 
 
     private static void resetDoubleArr(double[][] arr) {
-        for(int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
                 arr[i][j] = 0;
             }
         }
     }
-
 
 
     private static double drawOneWindowInSpectrogram(double currY,
@@ -912,15 +905,15 @@ public class Spectrogram {
         FFT.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
         System.out.println("TODO:\t" + currentlyCalculatedMeasures[1][1]);
         System.out.println("--------------------------");
-        for(int i = 0; i < windowsOverlaps.length; i++) {
-            if(currWindow >= windowsOverlaps.length) {      // TODO:
+        for (int i = 0; i < windowsOverlaps.length; i++) {
+            if (currWindow >= windowsOverlaps.length) {      // TODO:
                 counters[i]++;
                 System.out.println("COUNTERS:\t" + i + "\t" + counters[i] + "\t" + windowsOverlaps[i] + "\t" + multiplyFactors[i]);
             }
-            if((multiplyFactors[i] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
+            if ((multiplyFactors[i] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
                 System.out.println(i + "\t" + multiplyFactors[i] + "\t" + (multiplyFactors[i] != 0) + "\t" + (currWindow >= windowsOverlaps.length));
                 if (counters[i] >= windowOverlapCountForOneWindow) {
-                    for(int bin = 0; bin < fftMeasures.length; bin++) {
+                    for (int bin = 0; bin < fftMeasures.length; bin++) {
                         tmpArrs[i][0][bin] = fftMeasures[bin] * multiplyFactors[i];
                         tmpArrs[i][1][bin] = fftMeasures[bin] * (1 - multiplyFactors[i]);
                         tmpArrs[i][0][bin]++;
@@ -945,12 +938,12 @@ public class Spectrogram {
         }
 
 
-        for(int bin = 0; bin < fftMeasures.length; bin++) {
-            if(multiplyFactor != 0 || moreWindowsPerPixel) {
+        for (int bin = 0; bin < fftMeasures.length; bin++) {
+            if (multiplyFactor != 0 || moreWindowsPerPixel) {
                 arrWithNotFullMeasures[bin] = fftMeasures[bin] * multiplyFactor;
                 arrWithNotFullMeasures[bin]++;
             }
-            if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[bin].length) || moreWindowsPerPixel) {
+            if ((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[bin].length) || moreWindowsPerPixel) {
                 tmpArr[bin] = fftMeasures[bin] * multiplyFactor;
                 tmpArr2[bin] = fftMeasures[bin] * (1 - multiplyFactor);
                 tmpArr[bin]++;
@@ -961,8 +954,8 @@ public class Spectrogram {
         }
 
         double TODOsum = 0;
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] > 0) System.out.println("MEASURES:\t" + i +"\t" + fftMeasures[i]);
+        for (int i = 0; i < fftMeasures.length; i++) {
+            if (fftMeasures[i] > 0) System.out.println("MEASURES:\t" + i + "\t" + fftMeasures[i]);
             TODOsum += fftMeasures[i];
         }
         System.out.println(TODOsum);
@@ -984,51 +977,52 @@ public class Spectrogram {
 
 // TODO: PROGRAMO - REDOING operations
         ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
-                fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+                                                      fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
         //ByteWave.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
-        if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
+        if ((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
-                    tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
-                    tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
-        if(multiplyFactor != 0 || moreWindowsPerPixel) {
+        if (multiplyFactor != 0 || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
-                    arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] < 0) {
+        for (int i = 0; i < fftMeasures.length; i++) {
+            if (fftMeasures[i] < 0) {
                 System.exit(45679);
             }
         }
 
         System.out.println("....:\t" + currentlyCalculatedMeasures[0][1]);
 // TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
-        for(int bin = 0; bin < fftMeasures.length; bin++) {
+        for (int bin = 0; bin < fftMeasures.length; bin++) {
 // TODO: Debug print
-            if(fftMeasures[bin] > 0) {
+            if (fftMeasures[bin] > 0) {
                 System.out.println(bin + "\t" + fftMeasures[bin]);
             }
-            if(moreWindowsPerPixel) {
+            if (moreWindowsPerPixel) {
                 addCurrentMeasures(mod, currentlyCalculatedMeasures[bin], fftMeasures[bin], bin, tmpArr, multiplyFactor,
-                        windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
-                        indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
+                                   windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
+                                   indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
             }
             else {
                 if (currWindow < currentlyCalculatedMeasures[bin].length) {
                     addCurrentMeasures(currWindow, currentlyCalculatedMeasures[bin], fftMeasures[bin], windowOverlapCountForOneWindow,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin], multiplyFactor);
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin], multiplyFactor);
 
-                } else {
+                }
+                else {
                     addCurrentMeasures(mod, currentlyCalculatedMeasures[bin], fftMeasures[bin], bin, tmpArr, multiplyFactor,
-                            windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
+                                       windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
                 }
             }
 
@@ -1070,20 +1064,19 @@ public class Spectrogram {
     }
 
 
-
     private static void addCurrentMeasures(int currWindow, double[] currentlyCalculatedMeasures,
                                            double fftMeasure, double numberOfWindowParts,
                                            int indexWhereToPutNotFullValue, double notFullMeasure, double multiplyFactor) {
         int i;
-        for(i = 0; i < currWindow; i++) {
+        for (i = 0; i < currWindow; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / numberOfWindowParts;
         }
 
-        for(; i < currentlyCalculatedMeasures.length - 1; i++) {
-            currentlyCalculatedMeasures[i] += fftMeasure / (i+1);        // TODO: To se mi nezda
+        for (; i < currentlyCalculatedMeasures.length - 1; i++) {
+            currentlyCalculatedMeasures[i] += fftMeasure / (i + 1);        // TODO: To se mi nezda
         }
         currentlyCalculatedMeasures[i] += fftMeasure / numberOfWindowParts;
-        if(multiplyFactor != 0) {
+        if (multiplyFactor != 0) {
             currentlyCalculatedMeasures[indexWhereToPutNotFullValue] = notFullMeasure / numberOfWindowParts;
             currentlyCalculatedMeasures[indexWhereToPutNotFullValue] = multiplyFactor * fftMeasure / numberOfWindowParts;
         }
@@ -1101,11 +1094,11 @@ public class Spectrogram {
                                            double fftMeasure, int bin, double[] tmpArr,
                                            double multiplyFactor, double windowOverlapCountForOneWindow,
                                            double[] counters, double[] numberOfWindowParts,
-                                           double[][][]tmpArrs, double[] multiplyFactors,
+                                           double[][][] tmpArrs, double[] multiplyFactors,
                                            int indexWhereToPutNotFullValue, double notFullMeasure) {
-        if(bin == 0) {
+        if (bin == 0) {
             System.out.println(bin + "\t" + fftMeasure + "\t:::::\t" + notFullMeasure);
-            for(int i = 0; i < currentlyCalculatedMeasures.length; i++) {
+            for (int i = 0; i < currentlyCalculatedMeasures.length; i++) {
                 if (currentlyCalculatedMeasures[i] > 11) {
                     System.out.println("OVER:\t" + i + "\t" + currentlyCalculatedMeasures[i]);
                 }
@@ -1114,17 +1107,17 @@ public class Spectrogram {
 
 
         int i = 0;
-        for(; i < indexWhereToPutNotFullValue; i++) {
+        for (; i < indexWhereToPutNotFullValue; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / windowOverlapCountForOneWindow;
         }
 
-        if(multiplyFactor != 0) {
+        if (multiplyFactor != 0) {
             currentlyCalculatedMeasures[i] = notFullMeasure / windowOverlapCountForOneWindow;
             currentlyCalculatedMeasures[i] = multiplyFactor * fftMeasure / windowOverlapCountForOneWindow;
             i++;
         }
 
-        for(; i < currentlyCalculatedMeasures.length; i++) {
+        for (; i < currentlyCalculatedMeasures.length; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / windowOverlapCountForOneWindow;
         }
 
@@ -1146,11 +1139,6 @@ public class Spectrogram {
     }
 
 
-
-
-
-
-
     private static void addCurrentMeasuresMoreWindowsPerPixel(double[] song, int currSongIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                               double[] fftResult, double[] fftMeasures, double logarithmBase, int currWindow,
                                                               double[][] currentlyCalculatedMeasures,
@@ -1160,22 +1148,22 @@ public class Spectrogram {
                                                               double[][][] tmpArrs, int indexWhereToPutNotFullValue, double[] arrWithNotFullMeasures) {
         int mod = currWindow % currentlyCalculatedMeasures[0].length;
         // TODO: int mod = currWindow % currentlyCalculatedMeasures[bin].length; takhle to bylo predtim, ale vzhledem k tomu ze to ma stejny rozmery tak to nevadi
-        for(int i = currSongIndex; i <= currSongIndex + fftResult.length; i++) {
+        for (int i = currSongIndex; i <= currSongIndex + fftResult.length; i++) {
             song[i] = 1;
         }
         FFT.calculateFFTRealForward(song, currSongIndex, fftResult.length, numberOfChannels, fft, fftResult);         // TODO: Tahle vicekanalova verze se mi vubec nelibi
         FFT.convertResultsOfFFTToRealRealForward(fftResult, fftMeasures);
         System.out.println("TODO:\t" + currentlyCalculatedMeasures[1][1]);
         System.out.println("--------------------------");
-        for(int i = 0; i < windowsOverlaps.length; i++) {
-            if(currWindow >= windowsOverlaps.length) {      // TODO:
+        for (int i = 0; i < windowsOverlaps.length; i++) {
+            if (currWindow >= windowsOverlaps.length) {      // TODO:
                 counters[i]++;
                 System.out.println("COUNTERS:\t" + i + "\t" + counters[i] + "\t" + windowsOverlaps[i] + "\t" + multiplyFactors[i]);
             }
-            if((multiplyFactors[i] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
+            if ((multiplyFactors[i] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
                 System.out.println(i + "\t" + multiplyFactors[i] + "\t" + (multiplyFactors[i] != 0) + "\t" + (currWindow >= windowsOverlaps.length));
                 if (counters[i] >= windowOverlapCountForOneWindow) {
-                    for(int bin = 0; bin < fftMeasures.length; bin++) {
+                    for (int bin = 0; bin < fftMeasures.length; bin++) {
                         tmpArrs[i][0][bin] = fftMeasures[bin] * multiplyFactors[i];
                         tmpArrs[i][1][bin] = fftMeasures[bin] * (1 - multiplyFactors[i]);
                         tmpArrs[i][0][bin]++;
@@ -1186,12 +1174,12 @@ public class Spectrogram {
         }
 
 
-        for(int bin = 0; bin < fftMeasures.length; bin++) {
-            if(multiplyFactor != 0 || moreWindowsPerPixel) {
+        for (int bin = 0; bin < fftMeasures.length; bin++) {
+            if (multiplyFactor != 0 || moreWindowsPerPixel) {
                 arrWithNotFullMeasures[bin] = fftMeasures[bin] * multiplyFactor;
                 arrWithNotFullMeasures[bin]++;
             }
-            if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[bin].length) || moreWindowsPerPixel) {
+            if ((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[bin].length) || moreWindowsPerPixel) {
                 tmpArr[bin] = fftMeasures[bin] * multiplyFactor;
                 tmpArr2[bin] = fftMeasures[bin] * (1 - multiplyFactor);
                 tmpArr[bin]++;
@@ -1202,8 +1190,8 @@ public class Spectrogram {
         }
 
         double TODOsum = 0;
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] > 0) System.out.println("MEASURES:\t" + i +"\t" + fftMeasures[i]);
+        for (int i = 0; i < fftMeasures.length; i++) {
+            if (fftMeasures[i] > 0) System.out.println("MEASURES:\t" + i + "\t" + fftMeasures[i]);
             TODOsum += fftMeasures[i];
         }
         System.out.println(TODOsum);
@@ -1213,13 +1201,13 @@ public class Spectrogram {
 // TODO: PROGRAMO - REDOING operations
         System.out.println("TODO:\t" + currentlyCalculatedMeasures[1][1]);
         for (int window = 0; window < tmpArrs.length; window++) {
-            if((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
+            if ((multiplyFactors[window] != 0 && currWindow >= windowsOverlaps.length) || moreWindowsPerPixel) {
                 if (counters[window] >= windowOverlapCountForOneWindow) {
                     ArithmeticOperation.performOperationOnSamples(tmpArrs[window][0], tmpArrs[window][0], 0, 0,
-                            tmpArrs[window][0].length, logarithmBase, ArithmeticOperation.LOG);
+                                                                  tmpArrs[window][0].length, logarithmBase, ArithmeticOperation.LOG);
                     //ByteWave.operationOnSamplesByReference(tmpArrs[window][0], logarithmBase, ArithmeticOperation.LOG);
                     ArithmeticOperation.performOperationOnSamples(tmpArrs[window][1], tmpArrs[window][1], 0, 0,
-                            tmpArrs[window][1].length, logarithmBase, ArithmeticOperation.LOG);
+                                                                  tmpArrs[window][1].length, logarithmBase, ArithmeticOperation.LOG);
                     //ByteWave.operationOnSamplesByReference(tmpArrs[window][1], logarithmBase, ArithmeticOperation.LOG);
                 }
             }
@@ -1227,69 +1215,69 @@ public class Spectrogram {
 //TODO:        System.out.println("TmpArrs1:\t" + tmpArrs[1][0][1]);
 
         ArithmeticOperation.performOperationOnSamples(fftMeasures, fftMeasures, 0, 0,
-                fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+                                                      fftMeasures.length, logarithmBase, ArithmeticOperation.LOG);
         //ByteWave.operationOnSamplesByReference(fftMeasures, logarithmBase, ArithmeticOperation.LOG);
-        if((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
+        if ((multiplyFactor != 0 && currWindow >= currentlyCalculatedMeasures[0].length) || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(tmpArr, tmpArr, 0, 0,
-                    tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          tmpArr.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(tmpArr, logarithmBase, ArithmeticOperation.LOG);
             ArithmeticOperation.performOperationOnSamples(tmpArr2, tmpArr2, 0, 0,
-                    tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          tmpArr2.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(tmpArr2, logarithmBase, ArithmeticOperation.LOG);
         }
 
-        if(multiplyFactor != 0 || moreWindowsPerPixel) {
+        if (multiplyFactor != 0 || moreWindowsPerPixel) {
             ArithmeticOperation.performOperationOnSamples(arrWithNotFullMeasures, arrWithNotFullMeasures, 0, 0,
-                    arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
+                                                          arrWithNotFullMeasures.length, logarithmBase, ArithmeticOperation.LOG);
             //ByteWave.operationOnSamplesByReference(arrWithNotFullMeasures, logarithmBase, ArithmeticOperation.LOG);
         }
 // TODO: PROGRAMO - REDOING operations
 
-        for(int i = 0; i < fftMeasures.length; i++) {
-            if(fftMeasures[i] < 0) {
+        for (int i = 0; i < fftMeasures.length; i++) {
+            if (fftMeasures[i] < 0) {
                 System.exit(45679);
             }
         }
 
         System.out.println("....:\t" + currentlyCalculatedMeasures[0][1]);
 // TODO: Asi nemusim a jestli musim, tak to je vypocet navic, protoze tam posilam sqrt stejne
-        for(int bin = 0; bin < fftMeasures.length; bin++) {
+        for (int bin = 0; bin < fftMeasures.length; bin++) {
 // TODO: Debug print
-            if(fftMeasures[bin] > 0) {
+            if (fftMeasures[bin] > 0) {
                 System.out.println(bin + "\t" + fftMeasures[bin]);
             }
-            if(moreWindowsPerPixel) {
+            if (moreWindowsPerPixel) {
                 addCurrentMeasures(mod, currentlyCalculatedMeasures[bin], fftMeasures[bin], bin, tmpArr, multiplyFactor,
-                        windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
-                        indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
+                                   windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
+                                   indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
             }
             else {
                 if (currWindow < currentlyCalculatedMeasures[bin].length) {
                     addCurrentMeasures(currWindow, currentlyCalculatedMeasures[bin], fftMeasures[bin], windowOverlapCountForOneWindow,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin], multiplyFactor);
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin], multiplyFactor);
 
-                } else {
+                }
+                else {
                     addCurrentMeasures(mod, currentlyCalculatedMeasures[bin], fftMeasures[bin], bin, tmpArr, multiplyFactor,
-                            windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
-                            indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
+                                       windowOverlapCountForOneWindow, counters, windowsOverlaps, tmpArrs, multiplyFactors,
+                                       indexWhereToPutNotFullValue, arrWithNotFullMeasures[bin]);
                 }
             }
 
 
-
-
             System.out.println("bin :]\t" + bin);
-            for(int i = 0; i < currentlyCalculatedMeasures[bin].length; i++) {
+            for (int i = 0; i < currentlyCalculatedMeasures[bin].length; i++) {
                 System.out.println("currMeasures:\t" + i + ":\t" + bin + "\t" + currentlyCalculatedMeasures[bin][i] +
-                        "\t" + tmpArrs[i][0][bin] + "\t" + fftMeasures[bin] + "\t" + multiplyFactors[1] + "\t" +
-                        (fftMeasures[bin] * multiplyFactors[1]) + "\t" + windowOverlapCountForOneWindow + "\t" +
-                        (tmpArrs[i][0][bin] / windowOverlapCountForOneWindow));
+                                   "\t" + tmpArrs[i][0][bin] + "\t" + fftMeasures[bin] + "\t" + multiplyFactors[1] + "\t" +
+                                   (fftMeasures[bin] * multiplyFactors[1]) + "\t" + windowOverlapCountForOneWindow + "\t" +
+                                   (tmpArrs[i][0][bin] / windowOverlapCountForOneWindow));
 
                 System.out.println(currWindow);
-                if(currentlyCalculatedMeasures[bin][i] < 0) {
+                if (currentlyCalculatedMeasures[bin][i] < 0) {
                     System.exit(123456);
                 }
-                if(Double.isNaN(currentlyCalculatedMeasures[bin][i]) || Double.isInfinite(currentlyCalculatedMeasures[bin][i])) System.exit(98989);
+                if (Double.isNaN(currentlyCalculatedMeasures[bin][i]) || Double.isInfinite(currentlyCalculatedMeasures[bin][i]))
+                    System.exit(98989);
 
                 // if(Double.isNaN(tmpArrs[i][0][bin])) System.exit(989890);
             }
@@ -1298,15 +1286,13 @@ public class Spectrogram {
     }
 
 
-
-
     private static void addCurrentMeasuresMoreWindowsPerPixel(double[] currentlyCalculatedMeasures,
                                                               double fftMeasure, int bin,
                                                               double multiplyFactor, double windowOverlapCountForOneWindow, double[] multiplyFactors,
                                                               int indexWhereToPutNotFullValue, double notFullMeasure) {
-        if(bin == 0) {
+        if (bin == 0) {
             System.out.println(bin + "\t" + fftMeasure + "\t:::::\t" + notFullMeasure);
-            for(int i = 0; i < currentlyCalculatedMeasures.length; i++) {
+            for (int i = 0; i < currentlyCalculatedMeasures.length; i++) {
                 if (currentlyCalculatedMeasures[i] > 11) {
                     System.out.println("OVER:\t" + i + "\t" + currentlyCalculatedMeasures[i]);
                 }
@@ -1315,17 +1301,17 @@ public class Spectrogram {
 
 
         int i = 0;
-        for(; i < indexWhereToPutNotFullValue; i++) {
+        for (; i < indexWhereToPutNotFullValue; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / windowOverlapCountForOneWindow;
         }
 
-        if(multiplyFactor != 0) {
+        if (multiplyFactor != 0) {
             currentlyCalculatedMeasures[i] = notFullMeasure / windowOverlapCountForOneWindow;
             currentlyCalculatedMeasures[i] = multiplyFactor * fftMeasure / windowOverlapCountForOneWindow;
             i++;
         }
 
-        for(; i < currentlyCalculatedMeasures.length; i++) {
+        for (; i < currentlyCalculatedMeasures.length; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / windowOverlapCountForOneWindow;
         }
     }
@@ -1338,15 +1324,15 @@ public class Spectrogram {
                                                               int indexWhereToPutNotFullValue, double notFullMeasure,
                                                               double multiplyFactor) {
         int i;
-        for(i = 0; i < currWindow; i++) {
+        for (i = 0; i < currWindow; i++) {
             currentlyCalculatedMeasures[i] += fftMeasure / numberOfWindowParts;
         }
 
-        for(; i < currentlyCalculatedMeasures.length - 1; i++) {
-            currentlyCalculatedMeasures[i] += fftMeasure / (i+1);        // TODO: To se mi nezda
+        for (; i < currentlyCalculatedMeasures.length - 1; i++) {
+            currentlyCalculatedMeasures[i] += fftMeasure / (i + 1);        // TODO: To se mi nezda
         }
         currentlyCalculatedMeasures[i] += fftMeasure / numberOfWindowParts;
-        if(multiplyFactor != 0) {
+        if (multiplyFactor != 0) {
             currentlyCalculatedMeasures[indexWhereToPutNotFullValue] = notFullMeasure / numberOfWindowParts;
             currentlyCalculatedMeasures[indexWhereToPutNotFullValue] = multiplyFactor * fftMeasure / numberOfWindowParts;
         }

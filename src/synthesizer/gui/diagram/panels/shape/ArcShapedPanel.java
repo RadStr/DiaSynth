@@ -62,17 +62,17 @@ public class ArcShapedPanel extends ShapedPanel {
     }
 
 
-
     /**
      * Creates area of outerArc and thickness.
-     * @param outerArc is the outer arc
+     *
+     * @param outerArc  is the outer arc
      * @param thickness is the thickness
      * @return Returns the shape area between inner and outer arc
      */
     public static Area createArc(Arc2D outerArc, int thickness) {
         Arc2D innerArc = new Arc2D.Double(outerArc.getX() + thickness / 2, outerArc.getY() + thickness,
-                outerArc.getWidth() - thickness, outerArc.getHeight() - thickness - thickness / 2,
-                outerArc.getAngleStart(), outerArc.getAngleExtent(), outerArc.getArcType());
+                                          outerArc.getWidth() - thickness, outerArc.getHeight() - thickness - thickness / 2,
+                                          outerArc.getAngleStart(), outerArc.getAngleExtent(), outerArc.getArcType());
 
         Area area = new Area(outerArc);
         area.subtract(new Area(innerArc));
@@ -97,8 +97,8 @@ public class ArcShapedPanel extends ShapedPanel {
         b *= b;
         x *= x;
 
-        double y = Math.sqrt(b * (1 - (x / (double)a)));
-        int yInt = (int)y;
+        double y = Math.sqrt(b * (1 - (x / (double) a)));
+        int yInt = (int) y;
         return yInt - size.height;
     }
 }

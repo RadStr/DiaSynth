@@ -14,9 +14,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
                                     ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
@@ -25,9 +24,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
     }
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
                                     DiagramPanel diagramPanel, int angle,
@@ -37,9 +35,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
     }
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public ParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                     int angle, ShapedPanelInternals internals, UnitViewForGUIIFace unit) {
@@ -49,9 +46,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     private void constructor(int angle) {
         parallelogram = new Area();
@@ -66,9 +62,11 @@ public class ParallelogramShapedPanel extends ShapedPanel {
     protected Polygon outerParallelogram;
     private Area parallelogram;
     private int angle;
+
     public int getAngle() {
         return angle;
     }
+
     public void setAngle(int newAngle) {
         angle = newAngle;
         reshape(this.getSize());
@@ -96,11 +94,12 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
     /**
      * Stores parallelogram to the parameter result.
+     *
      * @param result is the polygon to store the parallelogram to.
-     * @param width is the width to which should the parallelogram fit
+     * @param width  is the width to which should the parallelogram fit
      * @param height is the height to which should the parallelogram fit
-     * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     * @param angle  is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
+     *               Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public static void createOuterParallelogram(Polygon result, int width, int height, int angle) {
         int supplementAngle;
@@ -108,7 +107,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         int leftSideLen;
         int botDif;
 
-        if(angle > 90) {
+        if (angle > 90) {
             supplementAngle = 180 - angle;
             supplementAngleRads = Math.toRadians(supplementAngle);
             leftSideLen = (int) (height / Math.sin(supplementAngleRads));
@@ -123,7 +122,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
         int startX;
         int startY = 0;
-        if(angle < 90) {
+        if (angle < 90) {
             startX = botDif;
         }
         else {
@@ -137,7 +136,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         x += parallelogramBotLen;
         result.addPoint(x, y);
         y += height;
-        if(angle < 90) {
+        if (angle < 90) {
             x = width - botDif;
         }
         else {
@@ -152,10 +151,11 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
     /**
      * Creates parallelogram
-     * @param width is the width to which should the parallelogram fit
+     *
+     * @param width  is the width to which should the parallelogram fit
      * @param height is the height to which should the parallelogram fit
-     * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     * @param angle  is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
+     *               Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      * @return Returns instance of polygon representing the parallelogram.
      */
     public static Polygon createOuterParallelogram(int width, int height, int angle) {
@@ -167,18 +167,19 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
     /**
      * Creates area of outerParallelogram and thicknesses.
+     *
      * @param outerParallelogram is the outer parallelogram
-     * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
-     * @param topThickness is the thickness of the top and bot side of parallelogram.
-     * @param leftThickness is the thickness of the left and right side of parallelogram.
+     * @param angle              is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
+     *                           Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     * @param topThickness       is the thickness of the top and bot side of parallelogram.
+     * @param leftThickness      is the thickness of the left and right side of parallelogram.
      * @return Returns the shape area between inner and outer parallelogram
      */
     public static Area createParallelogram(Polygon outerParallelogram, int angle, int topThickness, int leftThickness) {
-        int x,y;
+        int x, y;
         double ratio, complementRatio;
         boolean isAcute = true;         // < 90
-        if(angle > 90) {
+        if (angle > 90) {
             angle = 180 - angle;        // Complement angle
             isAcute = false;
         }
@@ -186,7 +187,7 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         complementRatio = 1 - ratio;
         Polygon innerParallelogram = new Polygon();
 
-        int topSideLen = (int)(topThickness * (1 / ratio));
+        int topSideLen = (int) (topThickness * (1 / ratio));
 
 
         x = outerParallelogram.xpoints[0] + leftThickness;
@@ -219,8 +220,8 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
 
     private static int addToXBasedOnAngleAndThickness(int x, int sideLen, boolean isAcute, double ratio) {
-        int outerXOnCertainHeight = (int)(ratio * sideLen);
-        if(isAcute) {
+        int outerXOnCertainHeight = (int) (ratio * sideLen);
+        if (isAcute) {
             x -= outerXOnCertainHeight;
         }
         else {
@@ -235,8 +236,6 @@ public class ParallelogramShapedPanel extends ShapedPanel {
     }
 
 
-
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -246,18 +245,20 @@ public class ParallelogramShapedPanel extends ShapedPanel {
 
     /**
      * Gets the y on line from sp to ep for given x
+     *
      * @param x
      * @param sp start point of line
      * @param ep end point of line
      * @return
      */
     public static int getPointOnLine(int x, Point sp, Point ep) {
-        return getPointOnLine(x, sp.x, sp.y, ep.x , ep.y);
+        return getPointOnLine(x, sp.x, sp.y, ep.x, ep.y);
     }
 
     /**
      * Gets the y on line from sp to ep for given x.
      * sp stands for start point of line, ep for end point.
+     *
      * @param x
      * @param spx
      * @param spy
@@ -272,13 +273,11 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         // x = p * x1 + (1-p) * x2;
         // y = p * y1 + (1-p) * y2;
 
-        double p = (x - epx) / (double)(spx - epx);
-        int y = (int)(p * spy + (1 - p) * epy);
+        double p = (x - epx) / (double) (spx - epx);
+        int y = (int) (p * spy + (1 - p) * epy);
 
         return y;
     }
-
-
 
 
     @Override
@@ -291,10 +290,10 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         x += midX;
         boolean isOnLeftFromBotLine = x < xpoints[3];
         boolean isOnRightFromBotLine = x > xpoints[2];
-        if(isOnLeftFromBotLine) {
+        if (isOnLeftFromBotLine) {
             y = ParallelogramShapedPanel.getPointOnLine(x, xpoints[3], ypoints[3], xpoints[0], ypoints[0]);
         }
-        else if(isOnRightFromBotLine) {
+        else if (isOnRightFromBotLine) {
             y = ParallelogramShapedPanel.getPointOnLine(x, xpoints[1], ypoints[1], xpoints[2], ypoints[2]);
         }
         else {
@@ -304,9 +303,6 @@ public class ParallelogramShapedPanel extends ShapedPanel {
         y -= this.getSize().height;
         return y;
     }
-
-
-
 
 
     // I will put the inputs just on the horizontal line

@@ -16,7 +16,6 @@ public class WavePanelPopupMenu extends JPopupMenu {
         this.add(copyItem);
 
 
-
         pasteWithOverwritingMenu = new JMenu("Paste wave with overwriting");
         pasteWithOverwritingItems = new PasteItem[7];
         setPasteItems(pasteWithOverwritingMenu, pasteWithOverwritingItems, actions::pasteWaveWithOverwriting);
@@ -89,13 +88,10 @@ public class WavePanelPopupMenu extends JPopupMenu {
     private JMenuItem removeItem;
 
 
-
-
     public void setEnabledWithWavePopUpItems(boolean enabled) {
         pasteWithOverwritingMenu.setEnabled(enabled);
         pasteMenu.setEnabled(enabled);
     }
-
 
 
     public static void setPasteItems(JMenu pasteMenu, PasteItem[] pasteItems, PasteItemActionIFace pasteAction) {
@@ -106,7 +102,7 @@ public class WavePanelPopupMenu extends JPopupMenu {
         pasteItems[4] = new PasteItem(20);
         pasteItems[5] = new PasteItem(50);
         pasteItems[6] = new PasteItem(100);
-        for(PasteItem pasteItem : pasteItems) {
+        for (PasteItem pasteItem : pasteItems) {
             pasteItem.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

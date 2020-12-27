@@ -5,6 +5,7 @@ import util.Pair;
 // Not used, I am just using the linear subbandSplitter
 public class SubbandSplitterConstant implements SubbandSplitterIFace {
     private final int SUBBAND_COUNT;
+
     @Override
     public int getSubbandCount() {
         return SUBBAND_COUNT;

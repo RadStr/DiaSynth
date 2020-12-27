@@ -25,6 +25,7 @@ public class ReferenceMovableJPanel extends MovableJPanelBase {
         super.setLocation(point);
         location.set(point.x, point.y);
     }
+
     @Override
     public void setLocation(int x, int y) {
         super.setLocation(x, y);
@@ -60,7 +61,7 @@ public class ReferenceMovableJPanel extends MovableJPanelBase {
                                                int oldWidth, int newWidth) {
         double distanceFromMidPointX = locationToUpdate.getFirstDouble() - screenMidPoint.x;
         double distanceFromMidPointY = locationToUpdate.getSecondDouble() - screenMidPoint.y;
-        if(newWidth > oldWidth) {       // zooming
+        if (newWidth > oldWidth) {       // zooming
             locationToUpdate.add(distanceFromMidPointX, distanceFromMidPointY);
         }
         else {                          // unzooming

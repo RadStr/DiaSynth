@@ -16,6 +16,7 @@ public interface CombFilterBPMGetterIFace {
 
     /**
      * Returns BPM based on the given parameters, this is used to get the BPM based on index in the energies array.
+     *
      * @param startBPM
      * @param jumpBPM
      * @param index
@@ -49,17 +50,15 @@ public interface CombFilterBPMGetterIFace {
                                   DoubleFFT_1D fft, int sampleRate) {
         double[][] energies;
         energies = computeEnergies(samples, bpmArrays, sampleSize, sampleSizeInBits,
-            windowSize, startIndex, endIndex, isBigEndian, isSigned, subbandCount, splitter, fft, sampleRate);
+                                   windowSize, startIndex, endIndex, isBigEndian, isSigned, subbandCount, splitter, fft, sampleRate);
 
-        if(energies == null) {
+        if (energies == null) {
             return -1;
         }
 
 
         return calculateBPMFromEnergies(energies, bpmStart, bpmJump, bpmArrays.length);
     }
-
-
 
 
     public default double[][] computeEnergies(byte[] samples, double[][][] bpmArrays, int sampleSize, int sampleSizeInBits,
@@ -81,7 +80,8 @@ public interface CombFilterBPMGetterIFace {
             try {
                 index = AudioConverter.normalizeToDoubles(samples, fftResult, sampleSize, sampleSizeInBits,
                                                           index, isBigEndian, isSigned);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 return null;
             }
             fft.realForward(fftResult);
@@ -93,7 +93,7 @@ public interface CombFilterBPMGetterIFace {
                 FFT.convolutionInFreqDomainRealForward(fftRightSideOfHahnWindow, ifftResults[subband], ifftResults[subband]);
                 FFT.calculateIFFTRealForward(ifftResults[subband], fft, true);
                 NonRecursiveFilter.performNonRecursiveFilter(ifftResults[subband], 0, coefsForFilter,
-                                                            1, ifftResult, 0, ifftResult.length);
+                                                             1, ifftResult, 0, ifftResult.length);
                 System.arraycopy(ifftResult, 0, ifftResults[subband], 0, ifftResult.length);
                 Rectification.halfWaveRectificationDouble(ifftResults[subband], true);
                 fft.realForward(ifftResults[subband]);
@@ -108,6 +108,7 @@ public interface CombFilterBPMGetterIFace {
     /**
      * The ByteWave has to be in mono otherwise Integer.MIN_VALUE is returned.
      * And has to have the byte buffer loaded, otherwise -2 is returned.
+     *
      * @param startBPM
      * @param jumpBPM
      * @param upperBoundBPM
@@ -122,24 +123,24 @@ public interface CombFilterBPMGetterIFace {
                                   double numberOfSeconds,
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   int numberOfBeats, ByteWave byteWave) {
-        if(byteWave.getNumberOfChannels() != 1) {
+        if (byteWave.getNumberOfChannels() != 1) {
             return Integer.MIN_VALUE;
         }
         int songLen = byteWave.getSongLen();
-        if(songLen <= 0) {
+        if (songLen <= 0) {
             return -2;
         }
         int sampleSizeInBytes = byteWave.getSampleSizeInBytes();
         int lenOfOneSecond = byteWave.calculateSizeOfOneSec();
-        int lenInBytes = (int)(numberOfSeconds * lenOfOneSecond);
+        int lenInBytes = (int) (numberOfSeconds * lenOfOneSecond);
         int startIndex = songLen / 2;
         int mod = startIndex % sampleSizeInBytes;
         startIndex += (sampleSizeInBytes - mod);
         int endIndex = startIndex + lenInBytes;
         int bytesOver = endIndex - songLen;
-        if(bytesOver > 0) {     // Move to left if the endIndex is after the length of buffer
+        if (bytesOver > 0) {     // Move to left if the endIndex is after the length of buffer
             startIndex -= bytesOver;
-            if(startIndex < 0) {
+            if (startIndex < 0) {
                 return -1;
             }
             endIndex -= bytesOver;
@@ -169,22 +170,20 @@ public interface CombFilterBPMGetterIFace {
                                   int subbandCount, SubbandSplitterIFace splitter,
                                   DoubleFFT_1D fft, ByteWave byteWave) {
         return computeBPM(byteWave.getSong(), bpmArrays, startBPM, jumpBPM,
-                byteWave.getSampleSizeInBytes(), byteWave.getSampleSizeInBits(), windowSize,
-                startIndex, endIndex, byteWave.getIsBigEndian(), byteWave.getIsSigned(),
-                subbandCount, splitter, fft, byteWave.getSampleRate());
+                          byteWave.getSampleSizeInBytes(), byteWave.getSampleSizeInBits(), windowSize,
+                          startIndex, endIndex, byteWave.getIsBigEndian(), byteWave.getIsSigned(),
+                          subbandCount, splitter, fft, byteWave.getSampleRate());
     }
 
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Compute comb filter energies - static methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static double computeEnergyRealForward(double[][] fftResults, double[][] bpmArray) {
         double energy = 0;
-        for(int i = 0; i < fftResults.length; i++) {
+        for (int i = 0; i < fftResults.length; i++) {
             energy += computeEnergyRealForward(fftResults[i], bpmArray[i]);
         }
 
@@ -193,7 +192,7 @@ public interface CombFilterBPMGetterIFace {
 
     static void computeEnergies(double[] fftResult, double[][][] bpmArray, double[] energies) {
         for (int i = 0; i < bpmArray.length; i++) {
-            for(int j = 0; j < bpmArray[i].length; j++) {
+            for (int j = 0; j < bpmArray[i].length; j++) {
                 energies[i] += computeEnergyRealForward(fftResult, bpmArray[i][j]);
             }
         }
@@ -204,17 +203,16 @@ public interface CombFilterBPMGetterIFace {
         double imag;
         double energy = 0;
 
-        for(int i = 0; i < fftResult.length; i = i + 2) {
-            real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
+        for (int i = 0; i < fftResult.length; i = i + 2) {
+            real = fftResult[i] * bpmArray[i] - fftResult[i + 1] * bpmArray[i + 1];
             real *= real;
-            imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+            imag = fftResult[i] * bpmArray[i + 1] + fftResult[i + 1] * bpmArray[i];
             imag *= imag;
             energy += real + imag;
         }
 
         return energy;
     }
-
 
 
 // From documentation:
@@ -228,8 +226,10 @@ public interface CombFilterBPMGetterIFace {
 ////	 a[2*k] = Re[k], 0<=k<(n+1)/2
 ////	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 ////	 a[1] = Im[(n-1)/2]
+
     /**
      * We don't save the results, only calculate energy, which is equal to sum of measures of the convolution result.
+     *
      * @param fftResult
      * @param bpmArray
      * @return
@@ -238,26 +238,27 @@ public interface CombFilterBPMGetterIFace {
         double energy;
         double real;
         double imag;
-        if(fftResult.length % 2 == 0) {			// It's even
+        if (fftResult.length % 2 == 0) {            // It's even
             real = fftResult[0] * bpmArray[0];
             energy = FFT.calculateComplexNumMeasure(real, 0);
             real = fftResult[1] * bpmArray[1];
             energy += FFT.calculateComplexNumMeasure(real, 0);
-            for(int i = 2; i < fftResult.length; i = i + 2) {
-                real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
-                imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+            for (int i = 2; i < fftResult.length; i = i + 2) {
+                real = fftResult[i] * bpmArray[i] - fftResult[i + 1] * bpmArray[i + 1];
+                imag = fftResult[i] * bpmArray[i + 1] + fftResult[i + 1] * bpmArray[i];
                 energy += FFT.calculateComplexNumMeasure(real, imag);
             }
-        } else {
+        }
+        else {
             real = fftResult[0] * bpmArray[0];
             energy = FFT.calculateComplexNumMeasure(real, 0);
-            for(int i = 2; i < fftResult.length - 1; i = i + 2) {
-                real = fftResult[i] * bpmArray[i] - fftResult[i+1] * bpmArray[i+1];
-                imag = fftResult[i] * bpmArray[i+1] + fftResult[i+1] * bpmArray[i];
+            for (int i = 2; i < fftResult.length - 1; i = i + 2) {
+                real = fftResult[i] * bpmArray[i] - fftResult[i + 1] * bpmArray[i + 1];
+                imag = fftResult[i] * bpmArray[i + 1] + fftResult[i + 1] * bpmArray[i];
                 energy += FFT.calculateComplexNumMeasure(real, imag);
             }
 
-            real =  fftResult[fftResult.length - 1] * bpmArray[fftResult.length - 1] - fftResult[1] * bpmArray[1];
+            real = fftResult[fftResult.length - 1] * bpmArray[fftResult.length - 1] - fftResult[1] * bpmArray[1];
             imag = fftResult[fftResult.length - 1] * bpmArray[1] + fftResult[1] * bpmArray[fftResult.length - 1];
             energy += FFT.calculateComplexNumMeasure(real, imag);
         }
@@ -271,16 +272,17 @@ public interface CombFilterBPMGetterIFace {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// createBPMArrays methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns the FFT results of the generated BPM arrays. The first dimension is equal to the number of BPM arrays.
      * Second dimension is based on the length of BPM array (computed internally) and the fftWindowSize. It responds to
      * the number of FFT's performed and the last dimension are the FFT measures. ... the method is not used anymore
+     *
      * @param lowerBoundBPM
      * @param upperBoundBPM
      * @param jumpBPM
@@ -292,24 +294,24 @@ public interface CombFilterBPMGetterIFace {
      */
     static double[][][] createBPMArraysFFTMeasures(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
                                                    double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
-        if(upperBoundBPM < lowerBoundBPM) {
+        if (upperBoundBPM < lowerBoundBPM) {
             return null;
         }
         int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
-        int arrayLen = (int)(sampleRate * numberOfSeconds);
+        int arrayLen = (int) (sampleRate * numberOfSeconds);
         DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
         int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe should solve special case when fftWindowsCount == 0
         double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
         double[] fftArr = new double[fftWindowSize];
 
         int impulsePeriod;
-        for(int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
+        for (int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
             int totalIndexInBpm = 0;
             impulsePeriod = (60 * sampleRate) / currBPM;
             int beatCount = 0;
-            for(int j = 0; j < fftWindowsCount; j++) {
+            for (int j = 0; j < fftWindowsCount; j++) {
                 for (int k = 0; k < fftArr.length; k++, totalIndexInBpm++) {
-                    if(beatCount < numberOfBeats) {
+                    if (beatCount < numberOfBeats) {
                         if ((totalIndexInBpm % impulsePeriod) == 0) {
                             fftArr[k] = 1;
                             beatCount++;
@@ -335,6 +337,7 @@ public interface CombFilterBPMGetterIFace {
      * Returns the FFT results of the generated BPM arrays. The first dimension is equal to the number of BPM arrays.
      * Second dimension is based on the length of BPM array (computed internally) and the fftWindowSize. It responds to
      * the number of FFT's performed and the last dimension are the FFT results.
+     *
      * @param lowerBoundBPM
      * @param upperBoundBPM
      * @param jumpBPM
@@ -346,27 +349,27 @@ public interface CombFilterBPMGetterIFace {
      */
     static double[][][] createBPMArraysFFT(int lowerBoundBPM, int upperBoundBPM, int jumpBPM, int sampleRate,
                                            double numberOfSeconds, int fftWindowSize, int numberOfBeats) {
-        if(upperBoundBPM < lowerBoundBPM) {
+        if (upperBoundBPM < lowerBoundBPM) {
             return null;
         }
 
 
         int arrayCount = 1 + (upperBoundBPM - lowerBoundBPM) / jumpBPM;
-        int arrayLen = (int)(sampleRate * numberOfSeconds);
+        int arrayLen = (int) (sampleRate * numberOfSeconds);
         DoubleFFT_1D fft = new DoubleFFT_1D(fftWindowSize);
         int fftWindowsCount = arrayLen / fftWindowSize;     // TODO: Maybe solve special case when fftWindowsCount == 0
         double[][][] bpmFFTArrays = new double[arrayCount][fftWindowsCount][];
 
         int impulsePeriod;
-        for(int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
+        for (int i = 0, currBPM = lowerBoundBPM; i < bpmFFTArrays.length; i++, currBPM += jumpBPM) {
             int totalIndexInBpm = 0;
             impulsePeriod = (60 * sampleRate) / currBPM;
             int beatCount = 0;
-            for(int j = 0; j < fftWindowsCount; j++) {
+            for (int j = 0; j < fftWindowsCount; j++) {
                 double[] fftArr = new double[fftWindowSize];
                 for (int k = 0; k < fftArr.length; k++, totalIndexInBpm++) {
                     int mod = totalIndexInBpm % impulsePeriod;
-                    if(beatCount < numberOfBeats) {
+                    if (beatCount < numberOfBeats) {
                         if (mod == 0) {
                             fftArr[k] = 1;
                             beatCount++;
@@ -391,7 +394,6 @@ public interface CombFilterBPMGetterIFace {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// GetBPMArrays methods
@@ -405,9 +407,7 @@ public interface CombFilterBPMGetterIFace {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// IFFT on sub-bands - static methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -421,7 +421,7 @@ public interface CombFilterBPMGetterIFace {
 
     static void getIFFTBasedOnSubbands(double[] fftResult, int subbandCount, DoubleFFT_1D fft,
                                        SubbandSplitterIFace splitter, double[][] result) {
-        for(int subband = 0; subband < subbandCount; subband++) {
+        for (int subband = 0; subband < subbandCount; subband++) {
             splitter.getSubband(fftResult, subbandCount, subband, result[subband]);
             FFT.calculateIFFTRealForward(result[subband], fft, true);
         }

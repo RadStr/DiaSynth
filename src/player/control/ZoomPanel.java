@@ -40,7 +40,7 @@ public class ZoomPanel extends JPanel {
             // The sizes have to be artificial, since for some reason when it is set to the preferred size,
             // it doesn't fill the whole free space of button and also the button gets larger.
             // So I can't call it component listener with the preferred size, which is listening for resizing events.
-            img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
+            img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
             zoomButton.setIcon(new ImageIcon(img));
 
             if (PluginLoader.isJar(getClass())) {
@@ -53,9 +53,10 @@ public class ZoomPanel extends JPanel {
                 img = ImageIO.read(file);
             }
 
-            img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH) ;
+            img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
             unzoomButton.setIcon(new ImageIcon(img));
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ProgramTest.debugPrint("IMG file:", file.getAbsolutePath());
             MyLogger.logException(ex);
             System.exit(179);
@@ -66,21 +67,22 @@ public class ZoomPanel extends JPanel {
     }
 
     private JLabel zoomLabel;
+
     public void setNewZoom(int newZoom, boolean isMaxZoomReached) {
-        if(newZoom == 0) {
+        if (newZoom == 0) {
             disableUnzoomButton();
         }
         else {
-            if(!unzoomButton.isEnabled()) {
+            if (!unzoomButton.isEnabled()) {
                 enableUnzoomButton();
             }
         }
 
-        if(isMaxZoomReached) {
+        if (isMaxZoomReached) {
             disableZoomButton();
         }
         else {
-            if(!zoomButton.isEnabled()) {
+            if (!zoomButton.isEnabled()) {
                 enableZoomButton();
             }
         }
@@ -90,17 +92,21 @@ public class ZoomPanel extends JPanel {
     }
 
     private JButton unzoomButton;
+
     private void enableUnzoomButton() {
         unzoomButton.setEnabled(true);
     }
+
     private void disableUnzoomButton() {
         unzoomButton.setEnabled(false);
     }
 
     private JButton zoomButton;
+
     private void enableZoomButton() {
         zoomButton.setEnabled(true);
     }
+
     private void disableZoomButton() {
         zoomButton.setEnabled(false);
     }

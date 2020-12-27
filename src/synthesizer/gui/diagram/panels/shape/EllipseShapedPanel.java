@@ -58,10 +58,12 @@ public class EllipseShapedPanel extends ShapedPanel {
 
     // Code taken from https://stackoverflow.com/questions/35524394/draw-ring-with-given-thickness-position-and-radius-java2d
     // and modified
+
     /**
      * Creates ellipse which has sides of thickness thickness.
+     *
      * @param outerEllipse is the outer ellipse to create the ring shape from.
-     * @param thickness is the thickness of the sides of ellipse.
+     * @param thickness    is the thickness of the sides of ellipse.
      * @return Returns the shape area between inner and outer ellipse
      */
     public static Shape createRingShapeEllipse(Ellipse2D outerEllipse, double thickness) {
@@ -88,8 +90,8 @@ public class EllipseShapedPanel extends ShapedPanel {
         b *= b;
         x *= x;
 
-        double y = Math.sqrt(b * (1 - (x / (double)a)));
-        int yInt = (int)y;
+        double y = Math.sqrt(b * (1 - (x / (double) a)));
+        int yInt = (int) y;
         yInt += size.height / 2;
         return yInt - size.height;
     }
@@ -101,15 +103,15 @@ public class EllipseShapedPanel extends ShapedPanel {
 
         p.x = MovableJPanel.calculateXForHorizontalLineWithEdges(0, w, connectorIndex, connectorCount);
         p.y = getDistanceFromRectangleBorders(p.x - w / 2);
-        p.y = -p.y;		// I have to convert it to negative, because the distance is calculated for bot so it is inverted here
+        p.y = -p.y;        // I have to convert it to negative, because the distance is calculated for bot so it is inverted here
         convertRelativePixelToAbsolute(p);
     }
 
 
     @Override
     public Direction getDirectionForInputPortLabel(int connectorIndex, int connectorCount) {
-        if(connectorCount % 2 == 0) {
-            if(connectorIndex % 2 == 0) {
+        if (connectorCount % 2 == 0) {
+            if (connectorIndex % 2 == 0) {
                 return Direction.LEFT;
             }
             else {
@@ -120,9 +122,11 @@ public class EllipseShapedPanel extends ShapedPanel {
             int halfConnectors = connectorCount / 2;
             if (connectorIndex < halfConnectors) {
                 return Direction.LEFT;
-            } else if (connectorIndex > halfConnectors) {
+            }
+            else if (connectorIndex > halfConnectors) {
                 return Direction.RIGHT;
-            } else {
+            }
+            else {
                 return Direction.UP;
             }
         }

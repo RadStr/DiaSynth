@@ -7,7 +7,7 @@ import util.math.ArithmeticOperation;
 
 public class PowerOnWave implements OperationOnWavePluginIFace {
     @PluginParameterAnnotation(name = "Power:", defaultValue = "0",
-            parameterTooltip = "is the power to which will be the samples raised.")
+                               parameterTooltip = "is the power to which will be the samples raised.")
     private double value;
 
     @Override

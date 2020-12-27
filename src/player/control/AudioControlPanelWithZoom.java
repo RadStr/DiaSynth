@@ -14,6 +14,7 @@ public class AudioControlPanelWithZoom extends AudioControlPanel {
     }
 
     private ZoomPanel zoomPanel;
+
     public ZoomPanel getZoomPanel() {
         return zoomPanel;
     }

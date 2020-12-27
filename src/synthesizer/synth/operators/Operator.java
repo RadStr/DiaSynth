@@ -5,7 +5,10 @@ import synthesizer.gui.diagram.panels.port.InputPort;
 import synthesizer.synth.Unit;
 
 public abstract class Operator extends Unit {
-    public Operator(Unit u) { super(u);}
+    public Operator(Unit u) {
+        super(u);
+    }
+
     public Operator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -15,6 +18,7 @@ public abstract class Operator extends Unit {
         // Doesn't have properties
         propertiesPanel = null;
     }
+
     @Override
     public void updateAfterPropertiesCall() {
         // EMPTY
@@ -24,16 +28,17 @@ public abstract class Operator extends Unit {
     @Override
     public boolean getIsConst() {
         boolean isConst = true;
-        for(InputPort ip : inputPorts) {
+        for (InputPort ip : inputPorts) {
             isConst = isConst && ip.getIsConst();
         }
 
         return isConst;
     }
+
     @Override
     public boolean getIsNoiseGen() {
         boolean isNoiseGen = true;
-        for(InputPort ip : inputPorts) {
+        for (InputPort ip : inputPorts) {
             isNoiseGen = isNoiseGen && (ip.getIsNoiseGen() || ip.getIsConst());
         }
 
@@ -44,9 +49,9 @@ public abstract class Operator extends Unit {
     @Override
     public double getModulationFrequency() {
         double modulationIndex = Double.MAX_VALUE;
-        for(int i = 0; i < inputPorts.length; i++) {
+        for (int i = 0; i < inputPorts.length; i++) {
             double modIndexFromIP = inputPorts[i].getModulationFrequency();
-            if(modulationIndex != modIndexFromIP) {     // It is not Double.MAX_VALUE
+            if (modulationIndex != modIndexFromIP) {     // It is not Double.MAX_VALUE
                 modulationIndex = modIndexFromIP;
                 break;
             }
@@ -59,13 +64,14 @@ public abstract class Operator extends Unit {
     /**
      * Returns the amplitudes of the modulating wave
      * NOTE: This method isn't used anymore, but It may be useful in future, so it is kept in here
+     *
      * @return
      */
     @Override
     public double[] getModulatingWaveAmps() {
-        for(int i = 0; i < inputPorts.length; i++) {
+        for (int i = 0; i < inputPorts.length; i++) {
             double[] amps = inputPorts[i].getModulatingWaveAmps();
-            if(amps != null) {
+            if (amps != null) {
                 return amps;
             }
         }
@@ -80,9 +86,9 @@ public abstract class Operator extends Unit {
      */
     @Override
     public double[] getModulatingWaveFreqs() {
-        for(int i = 0; i < inputPorts.length; i++) {
+        for (int i = 0; i < inputPorts.length; i++) {
             double[] freqs = inputPorts[i].getModulatingWaveFreqs();
-            if(freqs != null) {
+            if (freqs != null) {
                 return freqs;
             }
         }
@@ -94,7 +100,7 @@ public abstract class Operator extends Unit {
     @Override
     public double[] getWaveAmps(int waveIndex) {
         int index = -1;
-        for(int i = 0, waveIndexInInputPort = 0; i < inputPorts.length; i++, waveIndexInInputPort = 0) {
+        for (int i = 0, waveIndexInInputPort = 0; i < inputPorts.length; i++, waveIndexInInputPort = 0) {
             double[] amps = inputPorts[i].getWaveAmps(waveIndexInInputPort);
             if (amps != null) {
                 waveIndexInInputPort++;
@@ -113,7 +119,7 @@ public abstract class Operator extends Unit {
     public double[] getWaveFreqs(int waveIndex) {
         int index = -1;
 
-        for(int i = 0; i < inputPorts.length; i++) {
+        for (int i = 0; i < inputPorts.length; i++) {
             double[] freqs = inputPorts[i].getWaveFreqs(0);
             if (freqs != null) {
                 index++;

@@ -13,14 +13,17 @@ public class ZoomVariablesAllWaves {
 
 
     private int maxAllowedZoom;
+
     public int getMaxAllowedZoom() {
         return maxAllowedZoom;
     }
+
     public void setMaxAllowedZoom(int val) {
         maxAllowedZoom = val;
     }
 
     public int zoom;
+
     public boolean getIsZoomAtZero() {
         return zoom == 0;
     }

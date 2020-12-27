@@ -9,12 +9,12 @@ public class ReleaseTimeInputPort extends InputPort {
     public ReleaseTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                                 int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "R_T", "Release time", connectorIndex, inputPortToGUIAdder,
-                "This port controls the length of the release phase of envelope (length is in seconds)",
-                neutralValue);
+              "This port controls the length of the release phase of envelope (length is in seconds)",
+              neutralValue);
     }
 
     public ReleaseTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
         this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

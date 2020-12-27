@@ -67,16 +67,16 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static final int STATIC_PANEL_MAX_HEIGHT = 65536;        // Parameter to play with
 
 
-    public static final int ZOOM_COUNT_FROM_START_TO_MIN = (int)Math.round(Utilities.logarithm(STATIC_PANEL_START_WIDTH, 2)) -
-            (int)Math.round(Utilities.logarithm(STATIC_PANEL_MIN_WIDTH, 2));
+    public static final int ZOOM_COUNT_FROM_START_TO_MIN = (int) Math.round(Utilities.logarithm(STATIC_PANEL_START_WIDTH, 2)) -
+                                                           (int) Math.round(Utilities.logarithm(STATIC_PANEL_MIN_WIDTH, 2));
 
 
     public static final int SPACE_BETWEEN_STATIC_PANELS_X = 64;       // Parameter to play with
     public static final int SPACE_BETWEEN_STATIC_PANELS_Y = 64;       // Parameter to play with
-    public static final int MIN_SPACE_BETWEEN_STATIC_PANELS_X = (int)(STATIC_PANEL_MIN_WIDTH *
-            (SPACE_BETWEEN_STATIC_PANELS_X / (double)STATIC_PANEL_START_WIDTH));
-    public static final int MIN_SPACE_BETWEEN_STATIC_PANELS_Y = (int)(STATIC_PANEL_MIN_HEIGHT *
-            (SPACE_BETWEEN_STATIC_PANELS_Y / (double)STATIC_PANEL_START_HEIGHT));
+    public static final int MIN_SPACE_BETWEEN_STATIC_PANELS_X = (int) (STATIC_PANEL_MIN_WIDTH *
+                                                                       (SPACE_BETWEEN_STATIC_PANELS_X / (double) STATIC_PANEL_START_WIDTH));
+    public static final int MIN_SPACE_BETWEEN_STATIC_PANELS_Y = (int) (STATIC_PANEL_MIN_HEIGHT *
+                                                                       (SPACE_BETWEEN_STATIC_PANELS_Y / (double) STATIC_PANEL_START_HEIGHT));
 
     public static final int DEFAULT_SIZE_DIVIDER = 20;
     public static final int ZOOM_PER_SCROLL = 2;
@@ -100,6 +100,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static final Color ARROW_COLOR = Color.BLUE;                 // Parameter to play with
 
     public static final int WHEEL_TIME_INTERVAL_BETWEEN_RESET_MILLIS = 250;
+
     public boolean isWheelMovementZoom(int wheelMovement) {
         return wheelMovement < 0;
     }
@@ -108,6 +109,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * The default color has to be passed since JLayeredPane doesn't have any background color until it is added to some component.
+     *
      * @param defaultColor is the color of the component to which is this class added.
      */
     public DiagramPanel(Color defaultColor, SynthesizerMainPanelIFace synthesizerMainPanel,
@@ -178,7 +180,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         audioThread = new AudioThreadWithRecordingSupport(this, true);
         audioThread.setWaveVisualizer(waveVisualizer);
         setOutputAudioFormat(new AudioFormatWithSign(44100, 16, 1,
-                true, false));
+                                                     true, false));
         MyLogger.log("Added audio thread to synth part", -1);
 
         MyLogger.log("Starting audio thread to synth part", 1);
@@ -195,18 +197,21 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     private File recordFile = new File("audio");
     private AudioFileFormat.Type recordAudioType = AudioFileFormat.Type.WAVE;
+
     public void setRecordPathRelatedValues(File chosenFile, AudioFileFormat.Type audioType) {
         recordFile = chosenFile;
         this.recordAudioType = audioType;
     }
 
     private double recordAudioLen = 3;
+
     public void setRecordTimeInSeconds(double recordAudioLen) {
         this.recordAudioLen = recordAudioLen;
     }
 
 
     private boolean shouldConvertToPlayerOutputFormat = false;
+
     public void setShouldConvertToPlayerFormat(boolean shouldConvert) {
         shouldConvertToPlayerOutputFormat = shouldConvert;
     }
@@ -217,11 +222,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         audioControlPanel.setEnabled(false);
         stopAudioUsingClick();
         byte[] instantRecord = synthDiagram.recordInstantlyBytes(recordAudioLen);
-        if(isRecordingToPlayer) {
+        if (isRecordingToPlayer) {
             synthesizerMainPanel.putRecordedWaveToPlayer(instantRecord, instantRecord.length,
-                    audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
+                                                         audioThread.getOutputFormat(), shouldConvertToPlayerOutputFormat);
         }
-        if(isRecordingToFile) {
+        if (isRecordingToFile) {
             saveRecordedAudio(instantRecord, 0, instantRecord.length);
         }
         audioControlPanel.setEnabled(true);
@@ -229,27 +234,32 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     private volatile boolean isRecordingRealTime = false;       // volatile because it is read by the audio thread
     private Object recordLock = new Object();
+
     private void setIsRecordingRealTime(boolean value) {
         synchronized (recordLock) {
             isRecordingRealTime = value;
         }
     }
+
     private volatile boolean isAudioThreadInsideCallback = false;
     private volatile boolean shouldWriteRecordToFile = false;
     private int realTimeRecordingCurrIndex;
     private byte[] realTimeRecord;
 
     private boolean isRecordingToPlayer = false;
+
     public void setIsRecordingToPlayer() {
         isRecordingToPlayer = !isRecordingToPlayer;
     }
+
     private boolean isRecordingToFile = false;
+
     public void setIsRecordingToFile() {
         isRecordingToFile = !isRecordingToFile;
     }
 
     public void recordRealTime() {
-        if(isRecordingRealTime) {
+        if (isRecordingRealTime) {
             stopRealTimeRecording();
         }
         else {
@@ -262,7 +272,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         AudioFormat af = audioThread.getOutputFormat();
         int frameSize = af.getChannels() * af.getSampleSizeInBits() / 8;
         double sampleRate = af.getSampleRate();
-        int audioLenInBytes = (int)(recordAudioLen * frameSize * sampleRate);
+        int audioLenInBytes = (int) (recordAudioLen * frameSize * sampleRate);
         audioLenInBytes = Utilities.convertToMultipleUp(audioLenInBytes, frameSize);
         realTimeRecord = new byte[audioLenInBytes];
         setIsRecordingRealTime(true);
@@ -270,10 +280,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     private void stopRealTimeRecording() {
         setIsRecordingRealTime(false);
-        while(isAudioThreadInsideCallback) {
+        while (isAudioThreadInsideCallback) {
             // Active waiting
         }
-        if(realTimeRecordingCurrIndex > 0) {
+        if (realTimeRecordingCurrIndex > 0) {
             if (isRecordingToPlayer) {
                 synthesizerMainPanel.putRecordedWaveToPlayer(realTimeRecord, realTimeRecordingCurrIndex,
                                                              audioThread.getOutputFormat(),
@@ -292,12 +302,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Copies the given buffer to the internal buffer which represents the recording.
+     *
      * @param playedAudio
      * @param endIndex
      */
     @Override
     public void recordingRealTimeCallback(byte[] playedAudio, int endIndex) {
-        if(isRecordingRealTime && !shouldWriteRecordToFile) {
+        if (isRecordingRealTime && !shouldWriteRecordToFile) {
             isAudioThreadInsideCallback = true;
             int copyLen = endIndex;
             if (realTimeRecordingCurrIndex + copyLen > realTimeRecord.length) {
@@ -308,7 +319,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
             realTimeRecordingCurrIndex += copyLen;
 
-            if(shouldWriteRecordToFile) {
+            if (shouldWriteRecordToFile) {
                 synthesizerMainPanel.clickRealTimeRecordingCheckbox();
             }
             isAudioThreadInsideCallback = false;
@@ -318,6 +329,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Returns true if audio was correctly written to output.
+     *
      * @return
      */
     private boolean saveRecordedAudio(byte[] recordedAudio, int startIndex, int endIndex) {
@@ -326,16 +338,18 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
-
     private SynthDiagram synthDiagram;
+
     public SynthDiagram getSynthDiagram() {
         return synthDiagram;
     }
+
     private AudioThreadWithRecordingSupport audioThread;
+
     public AudioControlPanel.VolumeControlGetterIFace getAudioThread() {
         return audioThread;
     }
+
     public AudioFormatWithSign getOutputAudioFormat() {
         return audioThread.getOutputFormat();
     }
@@ -344,10 +358,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         synthDiagram.play();
         audioThread.play();
     }
+
     public void pauseAudio() {
         synthDiagram.pause();
         audioThread.pause();
     }
+
     public void resetAudio() {
         synthDiagram.reset();
         audioThread.reset();
@@ -355,7 +371,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     private void stopAudioUsingClick() {
         BooleanButton playButton = synthesizerMainPanel.getAudioControlPanel().getPlayButton();
-        if(!playButton.getBoolVar()) {
+        if (!playButton.getBoolVar()) {
             playButton.doClick();
         }
     }
@@ -366,9 +382,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private Timer mousePosTimer;
 
     private OutputUnit[] outputPanels;
+
     private void setOutputPanels(ChannelCount channelCount) {
-        if(outputPanels != null) {
-            for(OutputUnit out : outputPanels) {
+        if (outputPanels != null) {
+            for (OutputUnit out : outputPanels) {
                 remove(out.getShapedPanel());
             }
         }
@@ -376,10 +393,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         this.channelCount = channelCount;
         outputPanels = new OutputUnit[channelCount.CHANNEL_COUNT];
         Point maxYPoint = panels.getMaxY();
-        for(int i = 0; i < outputPanels.length; i++) {
+        for (int i = 0; i < outputPanels.length; i++) {
             outputPanels[i] = new OutputUnit(this, i, channelCount, audioThread);
             ShapedPanel sp = outputPanels[i].getShapedPanel();
-            if(maxYPoint == null) {
+            if (maxYPoint == null) {
                 sp.setRelativePosToReferencePanel(i + 1, 1);
             }
             else {
@@ -397,10 +414,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public OutputUnit[] getOutputUnits() {
         return outputPanels;
     }
+
     @Override
     public int getOutputUnitWrittenSamples() {
         int maxWrittenSamples = 0;
-        for(int i = 0; i < outputPanels.length; i++) {
+        for (int i = 0; i < outputPanels.length; i++) {
             maxWrittenSamples = Math.max(maxWrittenSamples, outputPanels[i].getWrittenSamplesCount());
         }
 
@@ -412,9 +430,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public void setOutputAudioFormat(AudioFormatWithSign audioFormat) {
         audioFormat = AudioFormatJPanel.getSupportedAudioFormat(audioFormat);
         AudioControlPanel audioControlPanel = synthesizerMainPanel.getAudioControlPanel();
-        if(synthDiagram != null) {     // When setting the first audio audioFormat
+        if (synthDiagram != null) {     // When setting the first audio audioFormat
             BooleanButton playButton = audioControlPanel.getPlayButton();
-            if(!playButton.getBoolVar()) {
+            if (!playButton.getBoolVar()) {
                 playButton.doClick();
             }
             audioControlPanel.setEnabled(false);
@@ -422,7 +440,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         }
         setOutputPanels(ChannelCount.convertNumberToEnum(audioFormat.getChannels()));
         audioThread.setOutputAudioFormat(audioFormat);
-        if(synthDiagram != null) {     // When setting the first audio audioFormat
+        if (synthDiagram != null) {     // When setting the first audio audioFormat
             audioControlPanel.setMasterGainToCurrentSlideValue();
             audioControlPanel.setEnabled(true);
         }
@@ -436,14 +454,18 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     private ListSortedByY panels;
+
     public List<Unit> getPanels() {
         return panels;
     }
+
     private IntPairWithInternalDoublesWithMinAndMax currentPanelSize;
     private ReferenceMovableJPanel referencePanel;   // Give us the info where is currently the top left STATIC panel
+
     public int getReferencePanelWidth() {
         return referencePanel.getWidth();
     }
+
     public int getReferencePanelHeight() {
         return referencePanel.getHeight();
     }
@@ -470,32 +492,38 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     private int getPixelsPerElevation() {
-        return (int)(START_PIXELS_PER_ELEVATION * realZoom);
+        return (int) (START_PIXELS_PER_ELEVATION * realZoom);
     }
+
     // div by 2 because we take + and - numbers and -1 to have some space between panels and cables
     private final double maxElevation = (SPACE_BETWEEN_STATIC_PANELS_Y / START_PIXELS_PER_ELEVATION) / 2 - 1;
+
     @Override
     public int getMaxElevation() {
-        return (int)maxElevation;
+        return (int) maxElevation;
     }
 
 
     /////////
 
     private MovableJPanel currentlyMovingPanel;
+
     @Override
     public void setCurrentlyMovingPanel(MovableJPanel movedPanel) {
         currentlyMovingPanel = movedPanel;
     }
+
     public MovablePanelSpecificGetMethodsIFace getCurrentlyMovingPanel() {
         return currentlyMovingPanel;
     }
+
     public boolean getIsAnyPanelCurrentlyMoving() {
         return getCurrentlyMovingPanel() != null;
     }
 
 
     private MovableJPanel currentlyConnectingPanel;
+
     public void setCurrentlyConnectingPanel(MovableJPanel connectingPanel) {
         if (getCurrentlyConnectingPanel() != null) {
             for (Unit u : panels) {
@@ -506,9 +534,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
         this.repaint();
     }
+
     public MovablePanelSpecificGetMethodsIFace getCurrentlyConnectingPanel() {
         return currentlyConnectingPanel;
     }
+
     public boolean getIsAnyPanelCurrentlyConnecting() {
         return getCurrentlyConnectingPanel() != null;
     }
@@ -551,15 +581,18 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     private MovableJPanel panelCurrenlyConnectingTo = null;
+
     public MovableJPanel getPanelCurrenlyConnectingTo() {
         return panelCurrenlyConnectingTo;
     }
+
     public void setPanelCurrentlyConnectingTo(MovableJPanel panel) {
         panelCurrenlyConnectingTo = panel;
     }
 
 
     private boolean hasFocus;
+
     /**
      * Should be called when the windows is visible again.
      */
@@ -568,6 +601,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         mousePosTimer.start();
         this.repaint();
     }
+
     /**
      * Should be called when the window either isn't visible (it is minimized for example), or when we look at other window no (switched tabs).
      */
@@ -576,7 +610,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         mousePosTimer.stop();
         this.repaint();
     }
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -592,6 +625,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         Point mouseLoc = new Point(screenMidPoint.x, screenMidPoint.y);
         zoom(wheelMovement, mouseLoc);
     }
+
     public void zoomToMiddle(int zoom) {
         zoomToMiddleWithWheelMovement(-zoom);
     }
@@ -625,12 +659,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         double multiplyFactor = getZoomMultiplyFactor(zoomSign);
         int zoomCount = Math.abs(wheelMovement);
         moveXandYWhenZooming(mouseLoc.x - screenMidPoint.x, mouseLoc.y - screenMidPoint.y);       // Move it to the point so middle of the visible screen is where is the cursor
-        for(int i = 0; i < zoomCount; i++) {
+        for (int i = 0; i < zoomCount; i++) {
             oldPanelSize.width = currentPanelSize.getFirst();
             oldPanelSize.height = currentPanelSize.getSecond();
 
             currentPanelSize.multiplyPairByN(multiplyFactor);
-            if(currentPanelSize.equals(oldPanelSize)) {
+            if (currentPanelSize.equals(oldPanelSize)) {
                 // If we reached the minimum or maximum then we will just redraw (because else the cables aren't drawn correctly) and leave
                 break;
             }
@@ -640,7 +674,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         }
 
         synthesizerMainPanel.getAudioControlPanel().getZoomPanel().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
-                currentZoom, getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
+                                                                              currentZoom, getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
         this.repaint();
     }
 
@@ -649,7 +683,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         updateReferencePanel(panelSize);
 
         int i = 0;
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace panel = u.getShapedPanel();
             moveToPosBasedOnRelativeToRefPanel(panel);
             panel.updateSize(panelSize);
@@ -661,6 +695,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private int referencePanelOldWidth = STATIC_PANEL_START_WIDTH;
+
     public int getReferencePanelOldWidth() {
         return referencePanelOldWidth;
     }
@@ -705,6 +740,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             firstPanel.x += panelSizeWithBorderWidth;
         }
     }
+
     private void updateFirstPanelY(int scrollY) {
         firstPanel.y += scrollY;
         if (firstPanel.y > borderBasedOnZoomY) {
@@ -789,10 +825,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private void repairZeroSize(Dimension dim) {
-        if(dim.width < 1) {
+        if (dim.width < 1) {
             dim.width = 1;
         }
-        if(dim.height < 1) {
+        if (dim.height < 1) {
             dim.height = 1;
         }
     }
@@ -811,7 +847,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             boolean shouldRepaint = false;
 
             if (mouseLocRelativeToThisPanel.x < w && mouseLocRelativeToThisPanel.x > 0 &&  // It is in bounds of panel
-                    mouseLocRelativeToThisPanel.y < h && mouseLocRelativeToThisPanel.y > 0) {
+                mouseLocRelativeToThisPanel.y < h && mouseLocRelativeToThisPanel.y > 0) {
 
                 if (mouseLocRelativeToThisPanel.x < SCROLL_BORDER_SIZE_X) {
                     moveLeft(PIXELS_MOVED_PER_TICK);
@@ -842,12 +878,15 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private void moveLeft(int dif) {
         moveX(-dif);
     }
+
     private void moveRight(int dif) {
         moveX(dif);
     }
+
     private void moveUp(int dif) {
         moveY(-dif);
     }
+
     private void moveDown(int dif) {
         moveY(dif);
     }
@@ -860,9 +899,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         updateReferencePanelsX(-difX);
         updateReferencePanelsY(-difY);
 
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            if(p.getIsBeingMoved()) {
+            if (p.getIsBeingMoved()) {
                 p.mouseLocationChangedWithoutMouseMovement();
             }
             else {
@@ -874,9 +913,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private void moveX(int dif) {
         updateReferencePanelsX(-dif);
 
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            if(p.getIsBeingMoved()) {
+            if (p.getIsBeingMoved()) {
                 p.mouseLocationChangedWithoutMouseMovement();
             }
             else {
@@ -884,12 +923,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             }
         }
     }
+
     private void moveY(int dif) {
         updateReferencePanelsY(-dif);
 
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            if(p.getIsBeingMoved()) {
+            if (p.getIsBeingMoved()) {
                 p.mouseLocationChangedWithoutMouseMovement();
             }
             else {
@@ -910,17 +950,18 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Returns true there is some panel on the relative position.
+     *
      * @param panel is the panel which we are checking collision against.
-     * @param x is the relative position to reference panel of the panel in x coordinate.
-     * @param y is the relative position to reference panel of the panel in y coordinate.
+     * @param x     is the relative position to reference panel of the panel in x coordinate.
+     * @param y     is the relative position to reference panel of the panel in y coordinate.
      * @return Returns true there is some panel on the relative position.
      */
     public boolean checkForCollisions(Object panel, int x, int y) {
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelSpecificMethodsIFace p = u.getShapedPanel();
-            if(p != panel) {
+            if (p != panel) {
                 Point relativePos = p.getRelativePosToReferencePanel();
-                if(relativePos.x == x && relativePos.y == y) {
+                if (relativePos.x == x && relativePos.y == y) {
                     return true;
                 }
             }
@@ -931,10 +972,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     private Dimension minSize = new Dimension(4 * SCROLL_BORDER_SIZE_X, 4 * SCROLL_BORDER_SIZE_Y);
+
     @Override
     public Dimension getMinimumSize() {
         return minSize;
     }
+
     @Override
     public void resizeCallback(int newDivLoc) {
         // TODO:
@@ -947,9 +990,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     /**
      * Returns true if the x,y is inside any panel and sets the relative position of the movablePanel to that panel.
      * Else returns false and doesn't do anything
+     *
      * @param movablePanel is the panel which will have changes relative position if (x,y) is inside panel.
-     * @param x is the x coordinate against which will be checked if is inside any panel.
-     * @param y is the y coordinate against which will be checked if is inside any panel.
+     * @param x            is the x coordinate against which will be checked if is inside any panel.
+     * @param y            is the y coordinate against which will be checked if is inside any panel.
      * @return Returns true if it is inside any panel, false otherwise.
      */
     public boolean lockMovablePanel(MovableJPanel movablePanel, int x, int y) {
@@ -969,7 +1013,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public Point getMovablePanelOnTheLocation(Object panelWhichAsked, int x, int y) {
         Point staticPanelLoc = getStaticPanelLocation(x, y);
         if (staticPanelLoc != null) {
-            if(checkForCollisions(panelWhichAsked, staticPanelLoc.x, staticPanelLoc.y)) {
+            if (checkForCollisions(panelWhichAsked, staticPanelLoc.x, staticPanelLoc.y)) {
                 return staticPanelLoc;
             }
         }
@@ -981,6 +1025,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     /**
      * Finds the static panel which contains point at location (x, y) and returns the top left location of that panel.
      * Returns null if (x, y) is not contained in any panel.
+     *
      * @param x is the absolute x coordinate
      * @param y is the absolute y coordinate
      * @return Returns absolute coordinates, not relative.
@@ -1005,7 +1050,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             int refDistanceX = x - referencePanel.getLeftX();
             int returnPanelX = x;
             if (refDistanceX < 0) {
-                if(refDistanceX % panelSizeWithBorderWidth != 0) {      // Else we are at the start of the panel
+                if (refDistanceX % panelSizeWithBorderWidth != 0) {      // Else we are at the start of the panel
                     returnPanelX -= panelSizeWithBorderWidth + (refDistanceX % panelSizeWithBorderWidth);
                 }
             }
@@ -1017,7 +1062,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             int refDistanceY = y - referencePanel.getTopY();
             int returnPanelY = y;
             if (refDistanceY < 0) {
-                if(refDistanceY % panelSizeWithBorderHeight != 0) {      // Else we are at the start of the panel
+                if (refDistanceY % panelSizeWithBorderHeight != 0) {      // Else we are at the start of the panel
                     returnPanelY -= panelSizeWithBorderHeight + (refDistanceY % panelSizeWithBorderHeight);
                 }
             }
@@ -1067,30 +1112,31 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     public float calculateCableThickness() {
-        return (float)Math.pow(ZOOM_PER_SCROLL, currentZoom);
+        return (float) Math.pow(ZOOM_PER_SCROLL, currentZoom);
     }
 
 
     // Have to override paint method because, we want to draw the frame after the drawing of child component
     // Also I have to call paint again, else the cables won't paint over the shaped panels
     private boolean shouldRepaintAgain = false;
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        if(shouldRepaintAgain) {
+        if (shouldRepaintAgain) {
             this.repaint();
         }
         shouldRepaintAgain = !shouldRepaintAgain;
 
-        if(getShouldDrawEdges()) {
+        if (getShouldDrawEdges()) {
             drawScrollEdges(g);
-            if(!mousePosTimer.isRunning()) {
+            if (!mousePosTimer.isRunning()) {
                 mousePosTimer.start();
             }
         }
         else {
-            if(mousePosTimer.isRunning()) {
+            if (mousePosTimer.isRunning()) {
                 mousePosTimer.stop();
             }
         }
@@ -1102,31 +1148,31 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
         MovablePanelSpecificGetMethodsIFace movingPanel = getCurrentlyMovingPanel();
         Point movingPanelPos = null;
-        if(movingPanel != null) {
+        if (movingPanel != null) {
             movingPanelPos = movingPanel.getLocation();
             movingPanelPos.x += currentPanelSize.getFirstHalved();
             movingPanelPos.y += currentPanelSize.getSecond();
         }
 
-        int endCircleWidth = (int)(realZoom * START_CIRCLE_CONNECTION_SIZE);
-        int endCircleHeight = (int)(realZoom * START_CIRCLE_CONNECTION_SIZE);
+        int endCircleWidth = (int) (realZoom * START_CIRCLE_CONNECTION_SIZE);
+        int endCircleHeight = (int) (realZoom * START_CIRCLE_CONNECTION_SIZE);
         // Draw cables/connections
         for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
             List<Cable> cables = p.getOutputPort().getCables();
             for (Cable cable : cables) {
                 g.setColor(Color.black);
-                if(p == movingPanel) {
+                if (p == movingPanel) {
                     Point end = cable.getTargetPort().getLastPoint();
                     g.drawLine(movingPanelPos.x, movingPanelPos.y, end.x, end.y);
                 }
                 else {
                     MovablePanelSpecificGetMethodsIFace targetPanel = cable.getTargetPort().getPanelWhichContainsPort();
-                    if(targetPanel == movingPanel) {
+                    if (targetPanel == movingPanel) {
                         Point end = cable.getTargetPort().getLastPoint();
                         g.drawLine(p.getLeftX() + currentPanelSize.getFirstHalved(),
                                    p.getTopY() + currentPanelSize.getSecond(),
-                                    end.x, end.y);
+                                   end.x, end.y);
                     }
                     else {
                         int elevation = cable.getElevation();
@@ -1137,7 +1183,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                         Point pointBeforeConnection = cable.getLastPointBeforePort();
                         g.fillArc(pointBeforeConnection.x - endCircleWidth / 2,
                                   pointBeforeConnection.y - endCircleHeight / 2,
-                                   endCircleWidth, endCircleHeight, 0, 360);
+                                  endCircleWidth, endCircleHeight, 0, 360);
                     }
                 }
             }
@@ -1145,12 +1191,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         g.setColor(Color.black);
 
 
-        if(getIsAnyPanelCurrentlyConnecting()) {
+        if (getIsAnyPanelCurrentlyConnecting()) {
             int botX = currentlyConnectingPanel.getLeftX() + currentPanelSize.getFirstHalved();
             int botY = currentlyConnectingPanel.getTopY() + currentPanelSize.getSecond();
-            if(panelCurrenlyConnectingTo != null) {
-                g.drawLine(botX, botY,panelCurrenlyConnectingTo.getLeftX() + currentPanelSize.getFirstHalved(),
-                        panelCurrenlyConnectingTo.getTopY());
+            if (panelCurrenlyConnectingTo != null) {
+                g.drawLine(botX, botY, panelCurrenlyConnectingTo.getLeftX() + currentPanelSize.getFirstHalved(),
+                           panelCurrenlyConnectingTo.getTopY());
             }
             else {
                 Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
@@ -1163,8 +1209,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     /**
      * Recalculates, relative paths, collisions, and sets absolute coordinates of cables etc.
      */
-    public void recalculateAllCables()  {
-        for(Unit u : panels) {
+    public void recalculateAllCables() {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
             p.getOutputPort().resetCables();
         }
@@ -1178,9 +1224,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     public void setRelativeCableConnections() {
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            for(Cable cable : p.getOutputPort().getCables()) {
+            for (Cable cable : p.getOutputPort().getCables()) {
                 setRelativeCableConnections(p, cable.getTargetPort(), cable, true);
             }
         }
@@ -1202,10 +1248,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         double arcH = getRelativeArcHeight();
 
 
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            for(Cable cable : p.getOutputPort().getCables()) {
-                if(cable.getCableType() == Cable.CableType.STRAIGHT_LINE) {
+            for (Cable cable : p.getOutputPort().getCables()) {
+                if (cable.getCableType() == Cable.CableType.STRAIGHT_LINE) {
                     continue;
                 }
 
@@ -1214,10 +1260,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 iterator.next();
                 iterator.currentSegment(lines[1]);
                 iterator.next();
-                if(!iterator.isDone()) {        // Just straight line
+                if (!iterator.isDone()) {        // Just straight line
                     iterator.currentSegment(lines[2]);
                     iterator.next();
-                    if(!iterator.isDone()) {
+                    if (!iterator.isDone()) {
                         iterator.currentSegment(lines[3]);
                         iterator.next();
                         iterator.currentSegment(lines[4]);
@@ -1267,8 +1313,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
             p.recalculateCablesAbsolutePaths(referencePanel.getLocation(), currentPanelSize.getInternalsAsDimension(),
-                    borderBasedOnZoomX, borderBasedOnZoomY, panelSizeWithBorderWidth,
-                    panelSizeWithBorderHeight, getPixelsPerElevation());
+                                             borderBasedOnZoomX, borderBasedOnZoomY, panelSizeWithBorderWidth,
+                                             panelSizeWithBorderHeight, getPixelsPerElevation());
         }
     }
 
@@ -1282,7 +1328,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     public void resetElevations() {
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace panel = u.getShapedPanel();
             panel.getOutputPort().resetElevations();
         }
@@ -1299,6 +1345,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     // It is better than the boolean version if there is too many cables, then it warrants that the overlap will be uniform.
     private final int[] ELEVATION_ARR = new int[2 * getMaxElevation() + 1];
     private final int ZERO_ELEVATION_INDEX = getMaxElevation();
+
     // Currently using nicer but slower version. Maybe later just generate the random numbers instead
     //private Random randomGenerator = new Random();
     public void findElevation(Cable cable) {
@@ -1347,9 +1394,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 if (addVal < 0) {
                     addVal--;
                     addVal = -addVal;
-                } else if (addVal > 0) {
+                }
+                else if (addVal > 0) {
                     addVal = -addVal;
-                } else {
+                }
+                else {
                     addVal = 1;
                 }
 
@@ -1392,6 +1441,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * prefix h is the horizontal line, v is the vertical line (which is checked if is really vertical)
+     *
      * @param h1x
      * @param hy
      * @param h2x
@@ -1401,13 +1451,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
      * @return
      */
     public boolean isLineCollision(double h1x, double hy, double h2x,
-                                   double vx, double v1y,  double v2y) {
-        if(isLineHorizontal(v1y, v2y)) {
+                                   double vx, double v1y, double v2y) {
+        if (isLineHorizontal(v1y, v2y)) {
             return false;
         }
         else {
             // Sort x
-            if(h2x < h1x) {
+            if (h2x < h1x) {
                 double tmp = h1x;
                 h1x = h2x;
                 h2x = tmp;
@@ -1418,6 +1468,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private Point tmpPoint = new Point();
+
     // For isVertical there are 2 or 3 or 5 points - start and end of the first n/2 (where n == 2,3,5) vertical lines
     // and then the location of end of the last vertical line
     public void setRelativeCableConnections(MovablePanelIFace outputPanel,
@@ -1434,16 +1485,16 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             boolean straightLineCol = hasVerticalLineCollisionWithOtherPanel(outputPanel, connectedPanel,
                                                                              relativeLocStart.x, relativeLocStart.y,
                                                                              relativeLocEnd.y);
-            if(straightLineCol) {
+            if (straightLineCol) {
                 setRelativeCableConnection(outputPanel, connectedPort, cable, onlyVertical);
             }
             else {
                 cable.relativePathMoveTo(relativeLocStart.x, relativeLocStart.y);
                 connectedPanel.getNextToLastPoint(tmpPoint, connectedPort);
-                if(tmpPoint.y == -1) {
+                if (tmpPoint.y == -1) {
                     cable.relativePathLineTo(relativeLocEnd.x, relativeLocEnd.y - 0.5);
                 }
-                else if(tmpPoint.y == 1) {
+                else if (tmpPoint.y == 1) {
                     cable.relativePathLineTo(relativeLocEnd.x, relativeLocEnd.y - 0.5);
                 }
                 else {
@@ -1482,9 +1533,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 }
 
                 boolean hasCollisionGoingStraightToEnd = hasVerticalLineCollisionWithOtherPanel(null,
-                                                                                                 connectedPanel,
-                                                                                                 relativeLocEnd.x,
-                                                                                                 halfY, relativeLocEnd.y);
+                                                                                                connectedPanel,
+                                                                                                relativeLocEnd.x,
+                                                                                                halfY, relativeLocEnd.y);
 
                 // There is collision going down to end, just make it the old way - take first aisle
                 if (hasCollisionGoingStraightToEnd || hasCollisionMovingHorizontally) {
@@ -1517,7 +1568,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                     }
                     y = relativeLocEnd.y;
 
-                    if(tmpPoint.y != 0) {
+                    if (tmpPoint.y != 0) {
                         y -= 0.5;
                         cable.relativePathLineTo(x, y);
                         y += 0.5;
@@ -1539,10 +1590,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
     private boolean hasHorizontalLineCollisionWithOtherPanel(int startX, int endX, double startY) {
         // if line going to left
-        if(endX < startX) {
+        if (endX < startX) {
             int tmp = endX;
             endX = startX;
             startX = tmp;
@@ -1595,6 +1645,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Checks for collisions between the given cables. Returns true if there was collision, that means elevation is needed.
+     *
      * @param c1
      * @param c2
      * @return
@@ -1603,7 +1654,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         PathIteratorGetterIFace iteratorGetter = new RelativePathIteratorGetter(c1);
         RelativePathIteratorGetter iterator2Getter = new RelativePathIteratorGetter(c2);
         PathAroundIteratorGetter iterator2PathAroundGetter = new PathAroundIteratorGetter(c2);
-        if(shouldElevate(iteratorGetter, iterator2Getter, iterator2PathAroundGetter)) {
+        if (shouldElevate(iteratorGetter, iterator2Getter, iterator2PathAroundGetter)) {
             return true;
         }
         else {
@@ -1615,6 +1666,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     private interface PathIteratorGetterIFace {
         PathIterator getPathIterator();
+
         int getPathIteratorLen();
     }
 
@@ -1658,6 +1710,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * It checks for collisions between the iterator given by the first iterator getter and the iterator given by the 2nd iterator getter.
+     *
      * @param iteratorGetter
      * @param iterator2Getter
      * @return
@@ -1674,7 +1727,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         int secondIteratorLen = iterator2Getter.getPathIteratorLen();
 
 
-        for(; firstCablePartIndex < firstIteratorLen; firstCablePartIndex++, iterator.next()) {
+        for (; firstCablePartIndex < firstIteratorLen; firstCablePartIndex++, iterator.next()) {
             int firstCableType = setPointsForOverlapCheck(iterator, pointsFirstCable);
             if (firstCableType == PathIterator.SEG_MOVETO || firstCableType == PathIterator.SEG_QUADTO) {
                 continue;
@@ -1691,6 +1744,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     /**
      * A bit faster variant. It checks collision of the iterator from the iteratorGetter in first argument.
      * Against the other 2 arguments.
+     *
      * @param iteratorGetter
      * @param iterator2RelativePathGetter
      * @param iterator2PathAroundGetter
@@ -1708,13 +1762,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         firstCablePartIndex = 1;
 
 
-        for(; firstCablePartIndex < firstIteratorLen; firstCablePartIndex++, iterator.next()) {
+        for (; firstCablePartIndex < firstIteratorLen; firstCablePartIndex++, iterator.next()) {
             int firstCableType = setPointsForOverlapCheck(iterator, pointsFirstCable);
             if (firstCableType == PathIterator.SEG_MOVETO || firstCableType == PathIterator.SEG_QUADTO) {
                 continue;
             }
 
-            if(shouldElevateInternal(iterator2RelativePathGetter, iterator2PathAroundGetter)) {
+            if (shouldElevateInternal(iterator2RelativePathGetter, iterator2PathAroundGetter)) {
                 return true;
             }
         }
@@ -1725,6 +1779,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Checks collision of the 2 given iterators against the content of pointsFirstCable.
+     *
      * @param relativePathGetter
      * @param pathAroundGetter
      * @return
@@ -1733,7 +1788,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                           PathAroundIteratorGetter pathAroundGetter) {
         PathIterator iterator = relativePathGetter.getPathIterator();
         int iteratorLen = relativePathGetter.getPathIteratorLen();
-        if(shouldElevateInternal(iterator, iteratorLen)) {
+        if (shouldElevateInternal(iterator, iteratorLen)) {
             return true;
         }
         else {
@@ -1746,6 +1801,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Checks collision of the iterator against the content of pointsFirstCable.
+     *
      * @param iterator
      * @param iteratorLen
      * @return
@@ -1777,11 +1833,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         double val2 = arrForPoints[3];
         int type = iterator.currentSegment(arrForPoints);
         // I have to this because the currentSegment method only returns 1 point - the end point for line to and move to
-        if(type == PathIterator.SEG_MOVETO) {
+        if (type == PathIterator.SEG_MOVETO) {
             arrForPoints[2] = arrForPoints[0];
             arrForPoints[3] = arrForPoints[1];
         }
-        else if(type != PathIterator.SEG_QUADTO) {      // If == then don't do anything it is already set as it should be
+        else if (type != PathIterator.SEG_QUADTO) {      // If == then don't do anything it is already set as it should be
             arrForPoints[2] = arrForPoints[0];
             arrForPoints[3] = arrForPoints[1];
             arrForPoints[0] = val1;
@@ -1792,7 +1848,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     public boolean isLineOverlap() {
-        for(int i = 0; i < pointsFirstCable.length; i++) {
+        for (int i = 0; i < pointsFirstCable.length; i++) {
             tmpArrFirstCable[i] = pointsFirstCable[i];
             tmpArrSecondCable[i] = pointsSecondCable[i];
         }
@@ -1800,10 +1856,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         boolean isLineOneHorizontal = isLineHorizontal(tmpArrFirstCable[1], tmpArrFirstCable[3]);
         boolean isLineTwoHorizontal = isLineHorizontal(tmpArrSecondCable[1], tmpArrSecondCable[3]);
 
-        if(isLineOneHorizontal == isLineTwoHorizontal) {
+        if (isLineOneHorizontal == isLineTwoHorizontal) {
             double leftEnd, rightStart; // Left is top, right is bot, if the line is vertical
-            if(isLineOneHorizontal) {
-                if(tmpArrFirstCable[1] != tmpArrSecondCable[1]) {
+            if (isLineOneHorizontal) {
+                if (tmpArrFirstCable[1] != tmpArrSecondCable[1]) {
                     return false;           // It is now in the same row
                 }
                 // Sort it by x
@@ -1811,7 +1867,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 sortHorizontal(tmpArrSecondCable);
                 // Swaps the lines, so in the tmpArrFirstCable is the line starting more on left.
                 // (Both arrays are expected to be sorted and both lines to be horizontal)
-                if(tmpArrSecondCable[0] < tmpArrFirstCable[0]) {
+                if (tmpArrSecondCable[0] < tmpArrFirstCable[0]) {
                     double[] tmp = tmpArrSecondCable;
                     tmpArrSecondCable = tmpArrFirstCable;
                     tmpArrFirstCable = tmp;
@@ -1822,7 +1878,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 rightStart = tmpArrSecondCable[0];
             }
             else {
-                if(tmpArrFirstCable[0] != tmpArrSecondCable[0]) {
+                if (tmpArrFirstCable[0] != tmpArrSecondCable[0]) {
                     return false;           // It is now in the same column
                 }
 
@@ -1831,7 +1887,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 sortVertical(tmpArrSecondCable);
                 // Swaps the lines, so in the tmpArrFirstCable is the line starting more on top.
                 // (Both arrays are expected to be sorted and both lines to be vertical)
-                if(tmpArrSecondCable[1] < tmpArrFirstCable[1]) {
+                if (tmpArrSecondCable[1] < tmpArrFirstCable[1]) {
                     double[] tmp = tmpArrSecondCable;
                     tmpArrSecondCable = tmpArrFirstCable;
                     tmpArrFirstCable = tmp;
@@ -1853,7 +1909,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     // Sorts output for GeneralPath iterator when called currentSegment
     // Also the line is expected to be horizontal (so the y coordinate is same for both)
     private static void sortHorizontal(double[] arr) {
-        if(arr[2] < arr[0]) {
+        if (arr[2] < arr[0]) {
             double tmp = arr[0];
             arr[0] = arr[2];
             arr[2] = tmp;
@@ -1862,7 +1918,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     // Also the line is expected to be vertical (so the x coordinate is same for both)
     private static void sortVertical(double[] arr) {
-        if(arr[3] < arr[1]) {
+        if (arr[3] < arr[1]) {
             double tmp = arr[1];
             arr[1] = arr[3];
             arr[3] = tmp;
@@ -1885,11 +1941,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 Point absolutePos = c.getLocation();
                 putInMid(absolutePos, currentPanelSize.getFirst());
                 g.setColor(Color.red);
-                g.drawLine(x,y, absolutePos.x, absolutePos.y);
+                g.drawLine(x, y, absolutePos.x, absolutePos.y);
             }
         }
     }
-
 
 
     public void setRelativeCableConnection(MovablePanelIFace outputPanel, InputPort connectedPort,
@@ -1908,7 +1963,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         Point2D.Double endPos = new Point2D.Double(endPosInts.x, endPosInts.y);
         connectedPanel.getNextToLastPoint(tmpPoint, connectedPort);
         boolean isConnectionOnSide = true;
-        if(tmpPoint.y == 0) {
+        if (tmpPoint.y == 0) {
             isConnectionOnSide = false;
         }
         else if (tmpPoint.y == -1) {
@@ -1945,7 +2000,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                              double startX, double startY, Point2D.Double endPos,
                                              Object outputPanel, boolean onlyVertical) {
 
-        if(relativePosInputX == relativePosOutputX) {     // If it is also in the same column
+        if (relativePosInputX == relativePosOutputX) {     // If it is also in the same column
             cable.relativePathLineTo(endPos.x, endPos.y);
             cable.setCableType(Cable.CableType.STRAIGHT_LINE);
         }
@@ -1955,7 +2010,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
             final double arcW = getRelativeArcWidth();
             final double arcH = getRelativeArcHeight();
-            if(!onlyVertical) {
+            if (!onlyVertical) {
                 drawHorizontalLine(cable, startX, midY, endPos.x, arcW, arcH, 0.5, outputPanel);
             }
 
@@ -1966,13 +2021,14 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     public static double getRelativeArcWidth() {
         return 1;
     }
+
     public static double getRelativeArcHeight() {
         return 0.5;
     }
 
 
     private void drawHorizontalLine(Cable cable, double x1, double y, double x2, double arcW, double arcH) {
-        if(x1 == x2) {
+        if (x1 == x2) {
             return;
         }
         if (checkIfTheTargetOfOutputPanelIsOnLeft(x1, x2)) {
@@ -1987,7 +2043,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private void drawHorizontalLineToLeft(Cable cable, double x1, double y, double x2, double arcW, double arcH) {
         double colX = x1 - 0.5;
         double arcEndX = colX - arcW / 2;
-        if(arcEndX < x2) {
+        if (arcEndX < x2) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
@@ -1996,15 +2052,15 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             setCollisionsOnHorizontalLine(cable, x1, y, x2, true, arcLocations);
             double x = x1;
             double lastArcLoc = x;
-            for(double d : arcLocations) {
-                if(lastArcLoc != d) {
+            for (double d : arcLocations) {
+                if (lastArcLoc != d) {
                     lastArcLoc = d;
                     x = d + arcW / 2;
                     cable.relativePathLineTo(x, y);
                     cable.relativePathQuadTo(x - arcW / 2, y - arcH, x - arcW, y);
                 }
             }
-            if(x != x2 || (!arcLocations.isEmpty() && x - arcW != x2)) {
+            if (x != x2 || (!arcLocations.isEmpty() && x - arcW != x2)) {
                 cable.relativePathLineTo(x2, y);
             }
         }
@@ -2014,7 +2070,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     private void drawHorizontalLineToRight(Cable cable, double x1, double y, double x2, double arcW, double arcH) {
         double colX = x1 + 0.5;
         double arcEndX = colX + arcW / 2;
-        if(arcEndX > x2) {
+        if (arcEndX > x2) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
@@ -2023,20 +2079,19 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             setCollisionsOnHorizontalLine(cable, x1, y, x2, false, arcLocations);
             double x = x1;
             double lastArcLoc = x;
-            for(double d : arcLocations) {
-                if(lastArcLoc != d) {
+            for (double d : arcLocations) {
+                if (lastArcLoc != d) {
                     lastArcLoc = d;
                     x = d - arcW / 2;
                     cable.relativePathLineTo(x, y);
                     cable.relativePathQuadTo(x + arcW / 2, y - arcH, x + arcW, y);
                 }
             }
-            if(x != x2 || (!arcLocations.isEmpty() && x + arcW != x2)) {
+            if (x != x2 || (!arcLocations.isEmpty() && x + arcW != x2)) {
                 cable.relativePathLineTo(x2, y);
             }
         }
     }
-
 
 
     private void setCollisionsOnHorizontalLine(Cable cable, double x1, double y, double x2,
@@ -2047,7 +2102,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             MovablePanelIFace p = u.getShapedPanel();
             List<Cable> cables = p.getOutputPort().getCables();
             for (Cable c : cables) {
-                if(c != cable) {            // TODO: Probably not even needed
+                if (c != cable) {            // TODO: Probably not even needed
                     setCollisionsOnHorizontalLine(c, x1, x2, y, arcLocations);
                 }
             }
@@ -2058,22 +2113,24 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             arcLocations.sort(new Comparator<Double>() {
                 @Override
                 public int compare(Double o1, Double o2) {
-                    if(o2 > o1) {
+                    if (o2 > o1) {
                         return 1;
                     }
-                    else if(o2 < o1) {
+                    else if (o2 < o1) {
                         return -1;
                     }
                     return 0;
                 }
             });
-        } else {
+        }
+        else {
             arcLocations.sort(null);
         }
     }
 
 
-    @Deprecated // Not needed anymore since the algorithm for finding arcs prolongs automatically which is how it should be
+    @Deprecated
+    // Not needed anymore since the algorithm for finding arcs prolongs automatically which is how it should be
     private boolean checkIfShouldProlongLastVerticalLine(Cable cable) {
         boolean shouldProlongLastVerticalLine = false;
         Point nextToLastPoint = cable.getTargetPort().getNextToLastPoint();
@@ -2081,8 +2138,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         boolean isSideConnection = nextToLastPoint.y == 1 || nextToLastPoint.y == -1;
 
         if (isSideConnection &&
-                (cable.getCableType() == Cable.CableType.ADVANCED_ALGORITHM ||
-                        cable.getCableType() == Cable.CableType.AISLE_ALGORITHM)) {
+            (cable.getCableType() == Cable.CableType.ADVANCED_ALGORITHM ||
+             cable.getCableType() == Cable.CableType.AISLE_ALGORITHM)) {
             shouldProlongLastVerticalLine = true;
         }
 
@@ -2091,6 +2148,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     private final double[] tmpLineArr = new double[4];
+
     // Sets the arcLocations with x coordinates of the collisions
     private void setCollisionsOnHorizontalLine(Cable cableToCheckColAgainst, double startX,
                                                double endX, double y, List<Double> arcLocations) {
@@ -2102,24 +2160,24 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                                double endX, double y, List<Double> arcLocations) {
         double highestYForCurrentX = Integer.MIN_VALUE;
 
-        for(double oldX = 0, oldY = 0; !iterator.isDone();) {
+        for (double oldX = 0, oldY = 0; !iterator.isDone(); ) {
             int type = iterator.currentSegment(tmpLineArr);
             iterator.next();
-            if(type == PathIterator.SEG_MOVETO) {
+            if (type == PathIterator.SEG_MOVETO) {
                 oldX = tmpLineArr[0];
                 oldY = tmpLineArr[1];
                 highestYForCurrentX = oldY;
             }
-            else if(type == PathIterator.SEG_LINETO) {
+            else if (type == PathIterator.SEG_LINETO) {
                 // If it is "diagonal" line - it happens when we are checking collision against cable which doesn't have set vertical lines yet
-                if(oldX != tmpLineArr[0] && oldY != tmpLineArr[1]) {
+                if (oldX != tmpLineArr[0] && oldY != tmpLineArr[1]) {
                     highestYForCurrentX = oldY;
                 }
-                else if(isLineHorizontal(oldY, tmpLineArr[1])) {
+                else if (isLineHorizontal(oldY, tmpLineArr[1])) {
                     highestYForCurrentX = tmpLineArr[1];
                 }
 
-                if(isLineCollision(startX, y, endX, tmpLineArr[0], highestYForCurrentX, tmpLineArr[1])) {
+                if (isLineCollision(startX, y, endX, tmpLineArr[0], highestYForCurrentX, tmpLineArr[1])) {
                     arcLocations.add(tmpLineArr[0]);
                 }
 
@@ -2133,17 +2191,17 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
     /**
      * Draws horizontal line with solving collisions. Drawing left to right, that means x1 < x2 else this method doesn't work correctly
-     * @param cable is the class containing path to be drew.
-     * @param x1 must be smaller than x2
-     * @param y is the y where to draw the line
-     * @param x2 is the end of line
-     * @param arcW is the width of arc
-     * @param arcH is the height of arc
+     *
+     * @param cable                is the class containing path to be drew.
+     * @param x1                   must be smaller than x2
+     * @param y                    is the y where to draw the line
+     * @param x2                   is the end of line
+     * @param arcW                 is the width of arc
+     * @param arcH                 is the height of arc
      * @param distToFirstCrossroad is the distance from x1 to first crossroad, it is always > 0 even when x2 < x1 is on right
-     * @param outputPanel is the panel from which is going the line
+     * @param outputPanel          is the panel from which is going the line
      */
     private void drawHorizontalLine(Cable cable, double x1, double y, double x2, double arcW, double arcH,
                                     double distToFirstCrossroad, Object outputPanel) {
@@ -2161,7 +2219,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         double colX = x1 - distToFirstCrossroad;
         double arcEndX = colX - arcW / 2;
         ProgramTest.debugPrint("Draw horizontal line to left:", x1, arcEndX, colX, x2);
-        if(arcEndX < x2 || distToFirstCrossroad < 0) {
+        if (arcEndX < x2 || distToFirstCrossroad < 0) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
@@ -2184,7 +2242,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         double colX = x1 + distToFirstCrossroad;
         double arcEndX = colX + arcW / 2;
         ProgramTest.debugPrint("Draw horizontal line to right:", x1, arcEndX, colX, x2);
-        if(arcEndX > x2 || distToFirstCrossroad < 0) {
+        if (arcEndX > x2 || distToFirstCrossroad < 0) {
             // Just draw line, the next possible arc is after the x2
             cable.relativePathLineTo(x2, y);
         }
@@ -2204,7 +2262,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     /**
-     *
      * @param cable
      * @param x1
      * @param y
@@ -2220,22 +2277,22 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                            Object outputPanel, boolean isTargetOnLeft) {
         // For all panels check the outputs and check of collision - that means the target of output panel in panel p
         // has to be be lower that the y and also the output panel has to be above the line, and also the x must be equal
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            if(outputPanel != p) {
+            if (outputPanel != p) {
                 List<Port> connectedPorts = p.getOutputPort().getConnectedPorts();
                 Point relativeLocOutput = p.getRelativePosToReferencePanel();
                 for (Port port : connectedPorts) {
                     MovablePanelSpecificGetMethodsIFace mp = port.getPanelWhichContainsPort();
-                    if(isTargetOnLeft) {
-                        if(drawHorizontalLinePartCheckAgainstOnePanel(mp, cable,
-                                relativeLocOutput, x2, y, colX, arcW, arcH, true)) {
+                    if (isTargetOnLeft) {
+                        if (drawHorizontalLinePartCheckAgainstOnePanel(mp, cable,
+                                                                       relativeLocOutput, x2, y, colX, arcW, arcH, true)) {
                             return true;
                         }
                     }
                     else {
-                        if(drawHorizontalLinePartCheckAgainstOnePanel(mp, cable,
-                                relativeLocOutput, x2, y, colX, arcW, arcH, false)) {
+                        if (drawHorizontalLinePartCheckAgainstOnePanel(mp, cable,
+                                                                       relativeLocOutput, x2, y, colX, arcW, arcH, false)) {
                             return true;
                         }
                     }
@@ -2260,24 +2317,26 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         // Third line is when the second line changes from vertical to horizontal and it is also at least 2 rows -
         // TODO: Vymazat to v tom ifu uvnitr /* */
         if (relativeLocInput.y > y && relativeLocOutput.y < y
-                && !(relativeLocOutput.y + 1 - 0.5 == y && relativeLocInput.y - relativeLocOutput.y >= 2)
-                && !(relativeLocInput.y - 0.5 == y/* && relativeLocInput.y - relativeLocOutput.y >= 2*/)) {
+            && !(relativeLocOutput.y + 1 - 0.5 == y && relativeLocInput.y - relativeLocOutput.y >= 2)
+            && !(relativeLocInput.y - 0.5 == y/* && relativeLocInput.y - relativeLocOutput.y >= 2*/)) {
 
             if (checkIfTheTargetOfOutputPanelIsOnLeft(relativeLocOutput.x, relativeLocInput.x)) {
                 outputAisleX -= 0.5;
-            } else {
+            }
+            else {
                 outputAisleX += 0.5;
             }
             if (outputAisleX == colX) {       // Collision
                 if (isHorizontalLineToLeft) {
                     double curveStartX = colX + arcW / 2;
                     cableBeingBuild.relativePathLineTo(curveStartX, y);
-                    cableBeingBuild.relativePathQuadTo(curveStartX - arcW / (double)2, (y - arcH), (curveStartX - arcW), y);
+                    cableBeingBuild.relativePathQuadTo(curveStartX - arcW / (double) 2, (y - arcH), (curveStartX - arcW), y);
                     return true;
-                } else {
+                }
+                else {
                     double curveStartX = colX - arcW / 2;
                     cableBeingBuild.relativePathLineTo(curveStartX, y);
-                    cableBeingBuild.relativePathQuadTo(curveStartX + arcW / (double)2, (y - arcH), (curveStartX + arcW), y);
+                    cableBeingBuild.relativePathQuadTo(curveStartX + arcW / (double) 2, (y - arcH), (curveStartX + arcW), y);
                     return true;
                 }
             }
@@ -2320,18 +2379,17 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         oldDrawX = drawX;
 
         drawX = endPos.x;                                  // above the middle of the panel
-        if(!onlyVertical) {
+        if (!onlyVertical) {
             drawHorizontalLine(cable, oldDrawX, drawY, drawX, arcW, arcH, 1, outputPanel);
         }
 
-        if(isConnectionOnSide) {
+        if (isConnectionOnSide) {
             cable.relativePathLineTo(drawX, (double) endPos.y);
         }
         else {
             cable.relativePathLineTo(drawX, (double) drawY);
         }
     }
-
 
 
     private void putInMid(Point p, int w) {
@@ -2386,23 +2444,22 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
 
     /**
-     *
-     * @param g is the graphics to draw to
-     * @param w is the width of the edge.
-     * @param h is the height of the edge.
+     * @param g                       is the graphics to draw to
+     * @param w                       is the width of the edge.
+     * @param h                       is the height of the edge.
      * @param widthProportionTriangle lies in interval [0,1]. 0 means that the triangle takes 0 pixel,
      *                                1 the triangle takes the whole width (the w parameter)
-     * @param heightProportionRect lies in interval [0,1]. 0 means that the rectangle takes 0 pixel,
-     *                             1 the rectangle takes the whole height (the h parameter)
-     * @param c is the color of the arrow
-     * @param direction is the direction of the arrow.
+     * @param heightProportionRect    lies in interval [0,1]. 0 means that the rectangle takes 0 pixel,
+     *                                1 the rectangle takes the whole height (the h parameter)
+     * @param c                       is the color of the arrow
+     * @param direction               is the direction of the arrow.
      */
     private void drawEdgeArrow(Graphics g, int w, int h, double widthProportionTriangle, double heightProportionRect,
                                Color c, ArrowDirection direction) {
         int x = 0, y = 0;       // Default init because compiler doesn't see that it will be init in switch
-        int triangleW = (int)(ARROW_SIZE_X * widthProportionTriangle);
+        int triangleW = (int) (ARROW_SIZE_X * widthProportionTriangle);
         int rectW = ARROW_SIZE_X - triangleW;
-        int rectH = (int)(ARROW_SIZE_Y * heightProportionRect);
+        int rectH = (int) (ARROW_SIZE_Y * heightProportionRect);
         int rectangleTriangleDistanceY = (ARROW_SIZE_Y - rectH) / 2;
 
 
@@ -2483,15 +2540,16 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Draws arrow starting at x,y (the top left coordinates of the rectangle).
-     * @param g is the graphics to draw the arrow to.
-     * @param x is the top left x coordinate of the rectangle in arrow.
-     * @param y is the top left y coordinate of the rectangle in arrow.
-     * @param rectW is the width of the rectangle in arrow.
-     * @param rectH is the height of the rectangle in arrow.
-     * @param triangleW is the width of the triangle in arrow.
+     *
+     * @param g                          is the graphics to draw the arrow to.
+     * @param x                          is the top left x coordinate of the rectangle in arrow.
+     * @param y                          is the top left y coordinate of the rectangle in arrow.
+     * @param rectW                      is the width of the rectangle in arrow.
+     * @param rectH                      is the height of the rectangle in arrow.
+     * @param triangleW                  is the width of the triangle in arrow.
      * @param rectangleTriangleDistanceY is the vertical distance between the top right vertex of rectangle and top left vertex of triangle.
-     * @param c is the color of the arrow.
-     * @param direction is the direction of the arrow.
+     * @param c                          is the color of the arrow.
+     * @param direction                  is the direction of the arrow.
      */
     private void drawArrow(Graphics g, int x, int y, int rectW, int rectH, int triangleW,
                            int rectangleTriangleDistanceY, Color c, ArrowDirection direction) {
@@ -2572,6 +2630,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         setCurrentlyMovingPanel(p);
 
     }
+
     public void panelMovementEnded() {
         setLayer(currentlyMovingPanel, JLayeredPane.DEFAULT_LAYER);
         setCurrentlyMovingPanel(null);
@@ -2624,16 +2683,16 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private void clearPanels() {
-        while(panels.size() > 0) {
+        while (panels.size() > 0) {
             remove(panels.get(0).getShapedPanel());
         }
     }
 
     public void clearPanelsExceptOutputs() {
         int index = 0;
-        while(index < panels.size()) {
+        while (index < panels.size()) {
             Unit u = panels.get(index);
-            if(u instanceof OutputUnit) {
+            if (u instanceof OutputUnit) {
                 index++;
             }
             else {
@@ -2644,6 +2703,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Removes all the input cables - when deleted panel is input to some other component
+     *
      * @param mp is the deleted panel
      */
     @Deprecated
@@ -2658,6 +2718,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Removes all the output cables - when some panel has in output the deleted panel
+     *
      * @param mp is the deleted panel
      */
     @Deprecated
@@ -2665,7 +2726,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         InputPort[] inputPorts = mp.getInputPorts();
         for (Unit u : panels) {
             MovablePanelIFace p = u.getShapedPanel();
-            for(InputPort inputPort : inputPorts) {
+            for (InputPort inputPort : inputPorts) {
                 p.getOutputPort().removePort(inputPort);
             }
         }
@@ -2678,11 +2739,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     public void addPanelTemporary(Class<?> unitClass) {
-        if(!getIsAnyPanelCurrentlyMoving()) {
+        if (!getIsAnyPanelCurrentlyMoving()) {
             Unit u = createUnit(unitClass);
             ShapedPanel sp = u.getShapedPanel();
 
-            if(sp != null) {
+            if (sp != null) {
                 addPanelTemporary(u);
                 sp.startedAddingUnit();
             }
@@ -2690,11 +2751,9 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
-
-
     /**
      * Used when creating from menu (JTree) - doesn't copy the relative location
+     *
      * @param unitClass is the type of unit which should be created
      * @return
      */
@@ -2708,11 +2767,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // plugins and create enum based on that
             // And also this is called only when adding, so the performance hit is pretty small
             Constructor<?> ctor = unitClass.getConstructor(DiagramPanel.class);
-            u = (Unit) ctor.newInstance(new Object[] { this });
+            u = (Unit) ctor.newInstance(new Object[]{this});
             ShapedPanel sp = u.getShapedPanel();
             sp.updateSize(new Dimension(this.getReferencePanelWidth(), this.getReferencePanelHeight()));
         }
-        catch(Exception e) {
+        catch (Exception e) {
             MyLogger.logException(e);
             return null;
         }
@@ -2725,6 +2784,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
 
     /**
      * Used when copying - does copy the relative location
+     *
      * @param templateUnit
      * @return
      */
@@ -2739,11 +2799,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             // plugins and create enum based on that
             // And also this is called only when adding, so the performance hit is pretty small
             Constructor<?> ctor = templateUnitClass.getConstructor(Unit.class);
-            createdUnit = (Unit) ctor.newInstance(new Object[] { templateUnit });
+            createdUnit = (Unit) ctor.newInstance(new Object[]{templateUnit});
             ShapedPanel sp = createdUnit.getShapedPanel();
             sp.updateSize(new Dimension(this.getReferencePanelWidth(), this.getReferencePanelHeight()));
         }
-        catch(Exception e) {
+        catch (Exception e) {
             MyLogger.logException(e);
             return null;
         }
@@ -2756,6 +2816,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
      * Called when adding new unit to class. Adds new unit to the class. But the unit doesn't have placement, it is currently
      * being moved by user who is finding where to place panel. Later he may place it to incorrect position, then it is removed.
      * Or when the placement is valid then it is added to this panel permanently
+     *
      * @param u is the unit to be added
      */
     public void addPanelTemporary(Unit u) {
@@ -2777,12 +2838,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         mp.removeInputs();
         mp.removeOutputs();
         this.remove(mp);
-        for(InputPort ip : mp.getInputPorts()) {
+        for (InputPort ip : mp.getInputPorts()) {
             this.remove(ip.getPortLabel());
         }
         panels.remove(mp);
     }
-
 
 
     //  Deprecated since I started using symmetrical connection
@@ -2800,13 +2860,12 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
-
-
     private Point oldDragPos = null;
+
     private void stoppedDragging() {
         oldDragPos = null;
     }
+
     private boolean isDragging() {
         return oldDragPos != null;
     }
@@ -2814,7 +2873,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     @Override
     public void mouseDragged(MouseEvent e) {
         Point currPos = e.getPoint();
-        if(oldDragPos == null) {
+        if (oldDragPos == null) {
             oldDragPos = currPos;
         }
         else {
@@ -2834,7 +2893,6 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-
     @Override
     public void addInputPortLabel(JLabel inputPortLabel) {
         this.add(inputPortLabel, JLayeredPane.DRAG_LAYER);
@@ -2852,11 +2910,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     // And I noticed that I add the labels before the panel which is odd decision, but I will fix that later. It may
     // introduce new issues now.
     public void removeInputPortLabels(PortsGetterIFace panel) {
-        for(InputPort ip : panel.getInputPorts()) {
+        for (InputPort ip : panel.getInputPorts()) {
             removeInputPortLabel(ip);
         }
     }
-
 
 
     public int getIndexInPanelList(Object o) {
@@ -2877,10 +2934,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         output.println(channelCount.CHANNEL_COUNT);
         output.println(panels.size());
 
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             u.save(output);
         }
-        for(Unit u : panels) {
+        for (Unit u : panels) {
             u.getOutputPort().save(output);
         }
     }
@@ -2897,13 +2954,13 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             int channelCount = Integer.parseInt(line);
             AudioFormatWithSign af = audioThread.getOutputFormat();
             setOutputAudioFormat(new AudioFormatWithSign(af.getSampleRate(), af.getSampleSizeInBits(),
-                    channelCount, af.isSigned, af.isBigEndian()));
+                                                         channelCount, af.isSigned, af.isBigEndian()));
 
             line = input.readLine();
             int panelsLen = Integer.parseInt(line);
-            for(int i = 0; i < panelsLen; i++) {
+            for (int i = 0; i < panelsLen; i++) {
                 line = input.readLine();
-                if("OUTPUT-UNIT".equals(line)) {
+                if ("OUTPUT-UNIT".equals(line)) {
                     line = input.readLine();
                     int channel = Integer.parseInt(line);
                     input.readLine();       // Skip the output panel java name
@@ -2922,11 +2979,11 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                     this.addPanelPermanently(u);
                 }
             }
-            for(int i = 0; i < panelsLen; i++) {
+            for (int i = 0; i < panelsLen; i++) {
                 panels.get(i).getOutputPort().load(input);
             }
         }
-        catch(IOException e) {
+        catch (IOException e) {
             MyLogger.logException(e);
         }
         catch (ClassNotFoundException e) {

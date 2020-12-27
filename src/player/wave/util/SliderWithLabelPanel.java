@@ -12,9 +12,11 @@ public class SliderWithLabelPanel extends JPanel {
     public JSlider slider;
 
     private double normalizedValue;
+
     public double getNormalizedValue() {
         return normalizedValue;
     }
+
     private void setNormalizedValue(int value) {
         int min = slider.getMinimum();
         int max = slider.getMaximum();
@@ -29,7 +31,7 @@ public class SliderWithLabelPanel extends JPanel {
         slider = new JSlider(orientation, minVal, maxVal, defVal);
 
 
-        if(orientation == SwingConstants.VERTICAL) {
+        if (orientation == SwingConstants.VERTICAL) {
             this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
         else {      // It must be horizontal, else there would be exception on creation of JSlider
@@ -44,7 +46,7 @@ public class SliderWithLabelPanel extends JPanel {
             }
         });
 
-        if(isLabelOnLeft) {
+        if (isLabelOnLeft) {
             this.add(label);
             this.add(slider);
         }

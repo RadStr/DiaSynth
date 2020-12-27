@@ -11,6 +11,7 @@ public class DrawJFrame extends CustomJFramePlugin {
     }
 
     private JPanel drawPanel;
+
     public JPanel getDrawPanel() {
         return drawPanel;
     }

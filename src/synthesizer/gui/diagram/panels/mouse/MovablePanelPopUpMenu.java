@@ -40,8 +40,7 @@ public class MovablePanelPopUpMenu extends JPopupMenu {
         }
 
 
-
-        if(movablePanel.hasPropertiesPanel()) {
+        if (movablePanel.hasPropertiesPanel()) {
             propertiesItem = new JMenuItem("Properties");
             propertiesItem.addActionListener(new ActionListener() {
                 @Override
@@ -53,7 +52,7 @@ public class MovablePanelPopUpMenu extends JPopupMenu {
             this.add(propertiesItem);
         }
 
-        if(movablePanel.hasInputPorts()) {
+        if (movablePanel.hasInputPorts()) {
             removeInputItem = new JMenuItem("Remove input");
             removeInputItem.addActionListener(new ActionListener() {
                 @Override
@@ -74,7 +73,7 @@ public class MovablePanelPopUpMenu extends JPopupMenu {
             });
             this.add(removeInputsItem);
         }
-        
+
 
         if (!movablePanel.getIsOutputPanel()) {
             removeOutputsItem = new JMenuItem("Remove outputs");

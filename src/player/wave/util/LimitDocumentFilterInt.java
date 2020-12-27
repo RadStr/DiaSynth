@@ -6,6 +6,7 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 // Inspired by https://stackoverflow.com/questions/10136794/limiting-the-number-of-characters-in-a-jtextfield
+
 /**
  * Used for limiting number written in document. It cannot exceed certain number threshold (which may change dynamically).
  * Used in WaveMainPanel.
@@ -38,7 +39,8 @@ public class LimitDocumentFilterInt extends DocumentFilter {
                 // If the added string has always length 1, then the exception won't happen
                 // (There would have to be around 2^29 audio tracks)
                 newNum = Integer.parseInt(newNumString);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 return;
             }
             if (newNum <= getter.getLimit()) {
@@ -62,7 +64,8 @@ public class LimitDocumentFilterInt extends DocumentFilter {
         }
         if (offset == 0) {
             return s.charAt(0) == '0';
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -82,17 +85,17 @@ public class LimitDocumentFilterInt extends DocumentFilter {
 
     // Taken from: https://stackoverflow.com/questions/5439529/determine-if-a-string-is-an-integer-in-java
     public static boolean isInteger(String s) {
-        return isInteger(s,10);
+        return isInteger(s, 10);
     }
 
     public static boolean isInteger(String s, int radix) {
-        if(s.isEmpty()) return false;
-        for(int i = 0; i < s.length(); i++) {
-            if(i == 0 && s.charAt(i) == '-') {
-                if(s.length() == 1) return false;
+        if (s.isEmpty()) return false;
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 && s.charAt(i) == '-') {
+                if (s.length() == 1) return false;
                 else continue;
             }
-            if(Character.digit(s.charAt(i),radix) < 0) return false;
+            if (Character.digit(s.charAt(i), radix) < 0) return false;
         }
         return true;
     }

@@ -55,16 +55,17 @@ public enum Aggregation {
 
     /**
      * Returns default value for given aggregation.
+     *
      * @return Returns default value for given aggregation.
      */
     public abstract int defaultValueForMod();
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Static aggregation methods:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // TODO: Nejak nebere k uvahu pocet kanalu ale tvari se ze jo protoze bere frameSize
+
     /**
      * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the aggregation agg for each part
      * The output is sorted by the int value (which depends on the agg argument), if the output is sorted depends on the value of variable returnSorted.
@@ -113,7 +114,8 @@ public enum Aggregation {
                 bytesRead = -1;
 
     */
-            } else {
+            }
+            else {
                 songParts.add(new SongPartWithAverageValueOfSamples((int) specialValue, songPart, true));
             }
         }
@@ -216,7 +218,8 @@ public enum Aggregation {
                 }
                 songParts.add(new NormalizedSongPartWithAverageValueOfSamples((int) songPartValue, arr, false));
                 bytesRead = -1;
-            } else {
+            }
+            else {
                 songParts.add(new NormalizedSongPartWithAverageValueOfSamples((int) songPartValue, normalizedSongPart, true));
             }
         }
@@ -230,7 +233,7 @@ public enum Aggregation {
     }
 
     public static double performAggregation(double val1, double val2, Aggregation agg) {
-        switch(agg) {
+        switch (agg) {
             case ABS_MAX:
                 return Math.max(Math.abs(val1), Math.abs(val2));
             case ABS_MIN:
@@ -266,10 +269,10 @@ public enum Aggregation {
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      *
-     * @param samples     is double array with samples from one channel
+     * @param samples    is double array with samples from one channel
      * @param startIndex
      * @param len
-     * @param agg         represents the aggregation which will be performed on the len samples
+     * @param agg        represents the aggregation which will be performed on the len samples
      * @return Returns double which is result of the performed operation on len samples.
      * Returns Double.MIN_VALUE if the aggregation isn't supported
      */
@@ -278,7 +281,7 @@ public enum Aggregation {
 
         int endIndex = startIndex + len;
         for (int i = startIndex; i < endIndex; i++) {
-            switch(agg) {
+            switch (agg) {
                 case ABS_MAX: {
                     double abs = Math.abs(samples[i]);
                     if (specialValue < abs) {
@@ -317,7 +320,7 @@ public enum Aggregation {
         }
 
 
-        switch(agg) {
+        switch (agg) {
             case RMS:
                 specialValue /= len;
                 specialValue = Math.sqrt(specialValue);
@@ -333,15 +336,17 @@ public enum Aggregation {
 
     // Note - can be implemented using class from WavePanel with the extremes but,
     //  it is way too general and slower, and it is simple enough to implement it again here
+
     /**
      * Finds the min and max in the samples array at range [startIndex, endIndex]
      * Expects the samples to be from one channel (so if working with stereo, either convert stereo to mono
      * or call this method for each channel's samples respectively).
      * If the startIndex is out of bounds crashes. If len == 0 puts the samples[startIndex] into output[0] and output[1].
-     * @param samples     is double array with samples from one channel
+     *
+     * @param samples    is double array with samples from one channel
      * @param startIndex
      * @param endIndex
-     * @param output puts min at index 0 and max at index 1
+     * @param output     puts min at index 0 and max at index 1
      */
     public static void convertNSamplesToMinAndMax(double[] samples, int startIndex, int endIndex, double[] output) {
         double min = samples[startIndex];
@@ -396,7 +401,7 @@ public enum Aggregation {
         if (isBigEndian) {
             for (int j = 0; j < n; j++) {
                 sample = AudioConverter.convertBytesToIntBigEndian(samples, sampleSize, mask, index, isSigned);
-                switch(agg) {
+                switch (agg) {
                     case MAX:
                         if (specialValue < sample) {
                             specialValue = sample;
@@ -408,7 +413,7 @@ public enum Aggregation {
                         }
                         break;
                     case RMS:
-                        specialValue += sample * (double)sample;
+                        specialValue += sample * (double) sample;
                         break;
                     case SUM:
                     case AVG:
@@ -419,10 +424,11 @@ public enum Aggregation {
                 }
                 index = index + sampleSize;
             }
-        } else {
+        }
+        else {
             for (int j = 0; j < n; j++) {
                 sample = AudioConverter.convertBytesToIntLittleEndian(samples, sampleSize, mask, index, isSigned);
-                switch(agg) {
+                switch (agg) {
                     case MAX:
                         if (specialValue < sample) {
                             specialValue = sample;
@@ -434,7 +440,7 @@ public enum Aggregation {
                         }
                         break;
                     case RMS:
-                        specialValue += sample * (double)sample;
+                        specialValue += sample * (double) sample;
                         break;
                     case SUM:
                     case AVG:
@@ -453,7 +459,7 @@ public enum Aggregation {
             specialValue /= maxAbsVal;
             specialValue = Math.sqrt(specialValue / n);
         }
-        else if(agg == AVG) {
+        else if (agg == AVG) {
             specialValue /= n;
         }
 
@@ -469,6 +475,7 @@ public enum Aggregation {
      * (5) if agg = AVG then by taking the average value of samples
      * (6) if agg = RMS then by taking the RMS of samples
      * (7) if agg = SUM then by taking the sum of samples
+     *
      * @param stream           is the input stream containing samples.
      * @param numberOfChannels represents number of channels.
      * @param sampleSize       is the size of one sample in bytes.
@@ -499,7 +506,7 @@ public enum Aggregation {
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = AudioConverter.convertBytesToIntBigEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    switch(agg) {
+                    switch (agg) {
                         case MAX:
                             if (specialValue < sample) {
                                 specialValue = sample;
@@ -511,7 +518,7 @@ public enum Aggregation {
                             }
                             break;
                         case RMS:
-                            specialValue += sample * (double)sample;
+                            specialValue += sample * (double) sample;
                             break;
                         case AVG:
                         case SUM:
@@ -523,13 +530,14 @@ public enum Aggregation {
                     arrIndex = arrIndex + sampleSize;
                 }
             }
-        } else {
+        }
+        else {
             while (bytesRead != -1) {
                 bytesRead = AudioReader.readNSamples(stream, arr);
                 int arrIndex = 0;
                 while (arrIndex < bytesRead) {
                     sample = AudioConverter.convertBytesToIntLittleEndian(arr, sampleSize, mask, arrIndex, isSigned);
-                    switch(agg) {
+                    switch (agg) {
                         case MAX:
                             if (specialValue < sample) {
                                 specialValue = sample;
@@ -562,7 +570,7 @@ public enum Aggregation {
             specialValue /= maxAbsVal;
             specialValue = Math.sqrt(specialValue / n);
         }
-        else if(agg == AVG) {
+        else if (agg == AVG) {
             specialValue /= n;
         }
 
@@ -572,10 +580,11 @@ public enum Aggregation {
 
     /**
      * Returns all operations from Aggregation performed on given array.
-     * @param samples is the given array with samples.
-     * @param sampleSize is the size of 1 sample.
+     *
+     * @param samples     is the given array with samples.
+     * @param sampleSize  is the size of 1 sample.
      * @param isBigEndian true if the given samples are in big endian, false if in little endian.
-     * @param isSigned true if the samples are signed numbers, false otherwise.
+     * @param isSigned    true if the samples are signed numbers, false otherwise.
      * @return Returns array with mods in Aggregation order (given by calling Aggregation.values()).
      * Some values may be equal to Double.MIN_VALUE that means they are not supported
      * @throws IOException is thrown when the sample size is <= 0 or > 4

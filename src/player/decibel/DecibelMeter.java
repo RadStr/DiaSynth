@@ -11,121 +11,123 @@ import javax.swing.*;
 // I choose to use doubles instead of ints (for jumps) since it is just a few instructions
 // And the painting won't be called that often.
 public class DecibelMeter extends JPanel {
-	public DecibelMeter(SamplesGetterIFace samplesGetter) {
-		this.setLayout(null);
-		
-		this.samplesGetter = samplesGetter;
-		decibelReferences = new JLabel[START_REFERENCE_COUNT];
-		addReferenceLabels();
-		
-		this.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Component c = e.getComponent();
-				
-				int w = c.getWidth();
-				recalculateDecibelReferences(w);
-				if(decibelReferences == null || decibelReferences.length <= 0) {
-				    revalidate();
-				    repaint();
-				    return;
+    public DecibelMeter(SamplesGetterIFace samplesGetter) {
+        this.setLayout(null);
+
+        this.samplesGetter = samplesGetter;
+        decibelReferences = new JLabel[START_REFERENCE_COUNT];
+        addReferenceLabels();
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Component c = e.getComponent();
+
+                int w = c.getWidth();
+                recalculateDecibelReferences(w);
+                if (decibelReferences == null || decibelReferences.length <= 0) {
+                    revalidate();
+                    repaint();
+                    return;
                 }
-				int h = c.getHeight();
-				int decibelReferenceY = h / 2 - decibelReferences[0].getHeight() / 2;
-				double xJump = w / (double)(decibelReferences.length - 1);
-				double x = 0;
-				
-				for(int i = 0; i < decibelReferences.length - 1; i++, x += xJump) {
-					decibelReferences[i].setLocation((int)x, decibelReferenceY);
-					System.out.println(decibelReferences[i]);
-				}
-				// Last one is 0 - it needs to be on the left else it is not visible
-				JLabel last = decibelReferences[decibelReferences.length - 1]; 
-				last.setLocation(((int)x) - last.getWidth(), decibelReferenceY);
-				
-				
-				revalidate();
-				repaint();
-			}
-		});
+                int h = c.getHeight();
+                int decibelReferenceY = h / 2 - decibelReferences[0].getHeight() / 2;
+                double xJump = w / (double) (decibelReferences.length - 1);
+                double x = 0;
 
-		setToolTipText("Contains the amplitude in decibels (dB) for each channel");
-	}
-	
-	private SamplesGetterIFace samplesGetter;
-	private double[] decibels = new double[0];
-	private int[] decibelsWidths = new int[0];
-	
-	private static final int MIN_DECIBEL = -60;
-	private static final int START_REFERENCE_COUNT = 11;
-	
-	private double referenceJump = 6;
-	private JLabel[] decibelReferences;
-	
-	private void recalculateDecibelReferences(int newWidth) {
-		int maxLabelWidth = decibelReferences[0].getPreferredSize().width;
-		for(JLabel label : decibelReferences) {
-			this.remove(label);
-		}
-		
-		int newReferenceCount = newWidth / (2*maxLabelWidth);	
-		double floor;
-		do {
-			referenceJump = MIN_DECIBEL / (double)(newReferenceCount - 1);
-			referenceJump = -referenceJump;
-			floor = Math.floor(referenceJump);
-			newReferenceCount--;
-		} while(referenceJump != floor && referenceJump != floor + 0.5);	// If the jump is integer or integer + 0.5
-		newReferenceCount++;
-		
-		decibelReferences = new JLabel[newReferenceCount];
-		addReferenceLabels();
-	}
-	
-	private void addReferenceLabels() {
-		double reference = MIN_DECIBEL;
-		for(int i = 0; i < decibelReferences.length; i++, reference += referenceJump) {
-			if(i == decibelReferences.length - 1) {
-				decibelReferences[i] = new JLabel("0.0");
-			}
-			else {
-				decibelReferences[i] = new JLabel(String.format("%.1f", reference));
-			}
-			decibelReferences[i].setSize(decibelReferences[i].getPreferredSize());
-			this.add(decibelReferences[i]);
-		}
-	}
+                for (int i = 0; i < decibelReferences.length - 1; i++, x += xJump) {
+                    decibelReferences[i].setLocation((int) x, decibelReferenceY);
+                    System.out.println(decibelReferences[i]);
+                }
+                // Last one is 0 - it needs to be on the left else it is not visible
+                JLabel last = decibelReferences[decibelReferences.length - 1];
+                last.setLocation(((int) x) - last.getWidth(), decibelReferenceY);
 
 
-	private boolean shouldFindNewDecibels = true;
-	public void setShouldFindNewDecibels() {
-	    shouldFindNewDecibels = true;
+                revalidate();
+                repaint();
+            }
+        });
+
+        setToolTipText("Contains the amplitude in decibels (dB) for each channel");
     }
+
+    private SamplesGetterIFace samplesGetter;
+    private double[] decibels = new double[0];
+    private int[] decibelsWidths = new int[0];
+
+    private static final int MIN_DECIBEL = -60;
+    private static final int START_REFERENCE_COUNT = 11;
+
+    private double referenceJump = 6;
+    private JLabel[] decibelReferences;
+
+    private void recalculateDecibelReferences(int newWidth) {
+        int maxLabelWidth = decibelReferences[0].getPreferredSize().width;
+        for (JLabel label : decibelReferences) {
+            this.remove(label);
+        }
+
+        int newReferenceCount = newWidth / (2 * maxLabelWidth);
+        double floor;
+        do {
+            referenceJump = MIN_DECIBEL / (double) (newReferenceCount - 1);
+            referenceJump = -referenceJump;
+            floor = Math.floor(referenceJump);
+            newReferenceCount--;
+        } while (referenceJump != floor && referenceJump != floor + 0.5);    // If the jump is integer or integer + 0.5
+        newReferenceCount++;
+
+        decibelReferences = new JLabel[newReferenceCount];
+        addReferenceLabels();
+    }
+
+    private void addReferenceLabels() {
+        double reference = MIN_DECIBEL;
+        for (int i = 0; i < decibelReferences.length; i++, reference += referenceJump) {
+            if (i == decibelReferences.length - 1) {
+                decibelReferences[i] = new JLabel("0.0");
+            }
+            else {
+                decibelReferences[i] = new JLabel(String.format("%.1f", reference));
+            }
+            decibelReferences[i].setSize(decibelReferences[i].getPreferredSize());
+            this.add(decibelReferences[i]);
+        }
+    }
+
+
+    private boolean shouldFindNewDecibels = true;
+
+    public void setShouldFindNewDecibels() {
+        shouldFindNewDecibels = true;
+    }
+
     private int oldWidth;
 
-	public boolean isDrawingEnabled = true;
-	public void setIsDrawingEnabled(boolean enable) {
-		isDrawingEnabled = enable;
-		for(int i = 0; i < decibelReferences.length; i++) {
-			decibelReferences[i].setVisible(enable);
-		}
-	}
+    public boolean isDrawingEnabled = true;
+
+    public void setIsDrawingEnabled(boolean enable) {
+        isDrawingEnabled = enable;
+        for (int i = 0; i < decibelReferences.length; i++) {
+            decibelReferences[i].setVisible(enable);
+        }
+    }
 
 
-
-	@Override
-	public void paintComponent(Graphics g) {
+    @Override
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(!isDrawingEnabled) {
-        	return;
-		}
+        if (!isDrawingEnabled) {
+            return;
+        }
 
         int w = this.getWidth();
         int h = this.getHeight();
 
         // Because else there may be decibelsWidths for old width so there is for a brief moment incorrectly filled rectangle -
         // and it is very visible and unpleasant to see (filled rectangle appears and disappears few milliseconds after)
-        if(oldWidth != w) {
+        if (oldWidth != w) {
             setShouldFindNewDecibels();
             oldWidth = w;
         }
@@ -145,13 +147,13 @@ public class DecibelMeter extends JPanel {
 
 
             for (int i = 0; i < decibels.length; i++, currY = nextY, nextY += yJump) {
-				// Math.abs because log is defined only for >0 numbers
-				// The reference amplitude is 1 - and since division by 1 is neutral, there is no need to divide by 1
+                // Math.abs because log is defined only for >0 numbers
+                // The reference amplitude is 1 - and since division by 1 is neutral, there is no need to divide by 1
                 decibels[i] = 20 * Math.log10(Math.abs(samples[i]));
-                int rectangleHeight = ((int)nextY - (int)currY);
+                int rectangleHeight = ((int) nextY - (int) currY);
                 g.setColor(Color.blue);
 
-				// if sample == 0 then decibels == -infinity then result of this is infinity
+                // if sample == 0 then decibels == -infinity then result of this is infinity
                 decibelsWidths[i] = (int) (w * (decibels[i] / MIN_DECIBEL));
                 decibelsWidths[i] = Math.min(decibelsWidths[i], w);
                 g.fillRect(0, (int) currY, w - decibelsWidths[i], rectangleHeight);
@@ -161,7 +163,7 @@ public class DecibelMeter extends JPanel {
         }
         else {
             for (int i = 0; i < decibels.length; i++, currY = nextY, nextY += yJump) {
-                int rectangleHeight = ((int)nextY - (int)currY);
+                int rectangleHeight = ((int) nextY - (int) currY);
 
                 g.setColor(Color.blue);
                 g.fillRect(0, (int) currY, w - decibelsWidths[i], rectangleHeight);

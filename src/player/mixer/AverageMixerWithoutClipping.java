@@ -10,16 +10,19 @@ public class AverageMixerWithoutClipping extends DefaultAudioMixer {
 
     /**
      * Multiplies the value by multiply factor.
+     *
      * @param val
      * @param multiplyFactor
      * @return
      */
     @Override
     public int mixOneVal(int val, double multiplyFactor) {
-        return (int)mixOneVal((double)val, multiplyFactor);
+        return (int) mixOneVal((double) val, multiplyFactor);
     }
+
     /**
      * Multiplies the value by multiply factor.
+     *
      * @param val
      * @param multiplyFactor
      * @return
@@ -31,7 +34,7 @@ public class AverageMixerWithoutClipping extends DefaultAudioMixer {
 
     @Override
     public void update(double[][] multFactors) {
-        if(multFactors == null || multFactors.length == 0) {
+        if (multFactors == null || multFactors.length == 0) {
             waveCount = 1;
         }
         else {

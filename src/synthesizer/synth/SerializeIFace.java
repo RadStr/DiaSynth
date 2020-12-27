@@ -5,5 +5,6 @@ import java.io.PrintWriter;
 
 public interface SerializeIFace {
     void save(PrintWriter output);
+
     void load(BufferedReader input);
 }

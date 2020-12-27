@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 
 public class FrameWithFocusControl extends JFrame {
     private boolean hasFocus = false;
+
     public boolean getHasFocus() {
         return hasFocus;
     }
@@ -26,6 +27,7 @@ public class FrameWithFocusControl extends JFrame {
             public void windowIconified(WindowEvent e) {
                 hasFocus = false;
             }
+
             @Override
             public void windowDeiconified(WindowEvent e) {
                 hasFocus = true;
@@ -36,6 +38,7 @@ public class FrameWithFocusControl extends JFrame {
             public void windowActivated(WindowEvent e) {
                 hasFocus = true;
             }
+
             @Override
             public void windowDeactivated(WindowEvent e) {
                 hasFocus = false;

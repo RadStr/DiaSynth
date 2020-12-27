@@ -10,12 +10,12 @@ public class AttackAmplitudeInputPort extends InputPort {
                                     int connectorIndex,
                                     InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "A_A", "Attack amplitude", connectorIndex, inputPortToGUIAdder,
-                "This port controls the amplitude which is reached at the end of attack phase",
-                neutralValue);
+              "This port controls the amplitude which is reached at the end of attack phase",
+              neutralValue);
     }
 
     public AttackAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+                                    int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
         this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

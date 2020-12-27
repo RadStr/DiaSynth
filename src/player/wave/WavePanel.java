@@ -32,20 +32,24 @@ public class WavePanel extends JPanel {
 
 
     public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 1024;
-//    public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 350;     // for testing
+    //    public static final int START_DEFAULT_WAVE_WIDTH_IN_PIXELS = 350;     // for testing
     private int defaultWaveWidthInPixels = START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
+
     public int getDefaultWaveWidthInPixels() {
         return defaultWaveWidthInPixels;
     }
 
 
     private DoubleWave doubleWave;
+
     public DoubleWave getDoubleWave() {
         return doubleWave;
     }
+
     public int getSongLen() {
         return doubleWave.getSong().length;
     }
+
     public double getNthSample(int n) {
         return doubleWave.getSong()[n];
     }
@@ -53,11 +57,13 @@ public class WavePanel extends JPanel {
     private WaveMainPanel wholeWavePanel;
 
     private int waveWidth = 0;
+
     public int getWaveWidth() {
         return waveWidth;
     }
 
     private WavePanelPopupMenu waveRightClickPopUpMenu;
+
     public void setEnabledWithWavePopUpItems(boolean enabled) {
         waveRightClickPopUpMenu.setEnabledWithWavePopUpItems(enabled);
     }
@@ -72,7 +78,7 @@ public class WavePanel extends JPanel {
         drawValuesSupplierIndividual = new DrawValuesSupplierIndividual();
         drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
 
-        ComponentListener resizeListener = new ComponentAdapter(){
+        ComponentListener resizeListener = new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 wholeWavePanel.revalidate();
@@ -103,12 +109,15 @@ public class WavePanel extends JPanel {
 
 
     private boolean doubleWaveLenChanged = false;
+
     private void resetLengthChangedMarker() {
         doubleWaveLenChanged = false;
     }
+
     private void setLengthChangedMarker() {
         doubleWaveLenChanged = true;
     }
+
     public void reloadDrawValues() {
         setLengthChangedMarker();
     }
@@ -124,21 +133,23 @@ public class WavePanel extends JPanel {
         setNewDoubleWave(newSong);
         setMaxCacheZoom();
     }
+
     private void setNewDoubleWave(double[] newSong) {
         doubleWave = new DoubleWave(newSong, doubleWave, false);
         setLengthChangedMarker();
         setMaxCacheZoom();
     }
+
     private void setNewDoubleWave(double[] newSong, int newSampleRate) {
         doubleWave = new DoubleWave(newSong, newSampleRate, 1,
-                doubleWave.getFilenameWithoutExtension(), false);
+                                    doubleWave.getFilenameWithoutExtension(), false);
         setLengthChangedMarker();
         setMaxCacheZoom();
     }
 
     public void setNewDoubleWave(int newLen) {
         double[] oldSong = getDoubleWave().getSong();
-        if(newLen != oldSong.length) {
+        if (newLen != oldSong.length) {
             double[] newSong = new double[newLen];
             int len = Math.min(oldSong.length, newSong.length);
             System.arraycopy(oldSong, 0, newSong, 0, len);
@@ -154,10 +165,10 @@ public class WavePanel extends JPanel {
         double[] newWave;
         try {
             newWave = AudioConverter.convertSampleRate(doubleWave.getSong(), 1,
-                    doubleWave.getSampleRate(), newSampleRate, true);
+                                                       doubleWave.getSampleRate(), newSampleRate, true);
             setNewDoubleWave(newWave, newSampleRate);
         }
-        catch(IOException e) {
+        catch (IOException e) {
             // EMPTY
         }
     }
@@ -170,7 +181,7 @@ public class WavePanel extends JPanel {
         fixIndividualSampleBug();
 
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
-        if(visibleWaveWidth != oldVisibleWaveWidth || doubleWaveLenChanged || (visibleWaveWidth > waveWidth)) {
+        if (visibleWaveWidth != oldVisibleWaveWidth || doubleWaveLenChanged || (visibleWaveWidth > waveWidth)) {
             resetLengthChangedMarker();
             ProgramTest.debugPrint("visibleWidthChangedCallback()", visibleWaveWidth, getPreferredSize());
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
@@ -185,24 +196,23 @@ public class WavePanel extends JPanel {
     }
 
     /**
-     *
      * @param visibleWaveWidth
      * @return Returns new visible wave width
      */
     private int repairPreferredWidthToVisibleWidth(int visibleWaveWidth) {
         double zoomMultiplication = Math.pow(ZOOM_VALUE, zoomVariables.currentZoom);       // Because I can be larger even when zooming (for example for zoom == 1 I need to have the visible widrth larger than 2048 which is possible)
         ProgramTest.debugPrint("WAVE_WIDTH_2", waveWidth, visibleWaveWidth);
-        if(visibleWaveWidth > waveWidth) {
-            int possibleDefaultWaveWidth = (int)(visibleWaveWidth / zoomMultiplication);
+        if (visibleWaveWidth > waveWidth) {
+            int possibleDefaultWaveWidth = (int) (visibleWaveWidth / zoomMultiplication);
             defaultWaveWidthInPixels = possibleDefaultWaveWidth;
             waveWidth = visibleWaveWidth;
         }
         else if (defaultWaveWidthInPixels != START_DEFAULT_WAVE_WIDTH_IN_PIXELS &&
-                visibleWaveWidth < waveWidth && waveWidth == defaultWaveWidthInPixels &&
-                visibleWaveWidth < START_DEFAULT_WAVE_WIDTH_IN_PIXELS) {
+                 visibleWaveWidth < waveWidth && waveWidth == defaultWaveWidthInPixels &&
+                 visibleWaveWidth < START_DEFAULT_WAVE_WIDTH_IN_PIXELS) {
             defaultWaveWidthInPixels = START_DEFAULT_WAVE_WIDTH_IN_PIXELS;
             //defaultWaveWidthInPixels = Math.max(START_DEFAULT_WAVE_WIDTH_IN_PIXELS, visibleWaveWidth);    // TODO:
-            waveWidth = (int)(defaultWaveWidthInPixels * zoomMultiplication);
+            waveWidth = (int) (defaultWaveWidthInPixels * zoomMultiplication);
         }
 
         oldVisibleWaveWidth = visibleWaveWidth;
@@ -215,7 +225,7 @@ public class WavePanel extends JPanel {
 
     private void setCurrentDrawValuesBasedOnZoom() {
         ProgramTest.debugPrint("setCurrentDrawValuesBasedOnZoom", zoomVariables.currentZoom, zoomVariables.maxCacheZoom);
-        if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
+        if (zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
             setCurrentDrawValuesToNewIndividual();
         }
         else {
@@ -237,9 +247,10 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
-            totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierIndividual);
+                                                            totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierIndividual);
         currentDrawValues = drawValuesIndividual;
     }
+
     private void setCurrentDrawValuesToNewAggregated() {
         drawValuesSupplierAggregated = new DrawValuesSupplierAggregated();
         mainWaveClass = drawValuesSupplierAggregated;
@@ -249,17 +260,17 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         drawValuesAggregated = new WaveDrawValuesAggregated(visibleWaveWidth, totalWaveWidth, startIndex, valueCount,
-            WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierAggregated);
+                                                            WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierAggregated);
         currentDrawValues = drawValuesAggregated;
     }
 
 
-
     private boolean isFirstWaveDrawing = true;
+
     private void firstWaveDrawingAction() {
         ProgramTest.debugPrint("wave paintComponent before:", doubleWave.getFilenameWithExtension(),
                                this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
-        if(isFirstWaveDrawing) {
+        if (isFirstWaveDrawing) {
             isFirstWaveDrawing = false;
             setVariablesWhichNeededSize();
         }
@@ -280,12 +291,8 @@ public class WavePanel extends JPanel {
      * The other solution would be to block the first event of resizing scroll and then just do the shifting and after
      * that we will show the correct wave, but that may introduce unexpected problems, which I don't currently have time to
      * solve. I may do it later though. (TODO).
-     *
      */
     private Image zoomBridgeImg = null;
-
-
-
 
 
     /**
@@ -297,7 +304,7 @@ public class WavePanel extends JPanel {
     // zoomVariables is always non-null
     // so that is fine and the maxCacheZoom is updated to correct values in the setNewDouble method.
     private void fixIndividualSampleBug() {
-        if(zoomVariables.currentZoom < zoomVariables.maxCacheZoom && currentDrawValues == drawValuesIndividual) {
+        if (zoomVariables.currentZoom < zoomVariables.maxCacheZoom && currentDrawValues == drawValuesIndividual) {
             int visibleWidth = wholeWavePanel.getWaveVisibleWidth();
             setDrawValuesInZoom(currScroll, visibleWidth, waveWidth);
         }
@@ -337,7 +344,8 @@ public class WavePanel extends JPanel {
             Color color;
             if (clipboard.isCut()) {
                 color = Color.black;
-            } else {
+            }
+            else {
                 color = Color.gray;
             }
 
@@ -365,7 +373,7 @@ public class WavePanel extends JPanel {
     private void drawTimeLine(Graphics g) {
         double x = wholeWavePanel.getTimeLineX();
         x -= wholeWavePanel.getCurrentHorizontalScroll();
-        drawTimeLine(g, (int)(x), 0, this.getHeight());
+        drawTimeLine(g, (int) (x), 0, this.getHeight());
     }
 
     private static void drawTimeLine(Graphics g, int x, int startY, int endY) {
@@ -375,7 +383,7 @@ public class WavePanel extends JPanel {
 
 
     public void markPart(Graphics g, Color color) {
-        if(wholeWavePanel.getShouldMarkPart()) {
+        if (wholeWavePanel.getShouldMarkPart()) {
             int markStartX = wholeWavePanel.getMarkStartXPixel();
             int markEndX = wholeWavePanel.getMarkEndXPixel();
             markPartGeneralFull(g, markStartX, markEndX, color, this.getHeight());
@@ -393,10 +401,10 @@ public class WavePanel extends JPanel {
         int markEndXShifted = markEndX - horizontalScroll;
         g.setColor(color);
         int dif;
-        if(markStartX > markEndX) {
+        if (markStartX > markEndX) {
             dif = markStartX - markEndX;
             dif = Math.min(dif, 15);
-            g.fillRect(markEndXShifted,0, dif, height);
+            g.fillRect(markEndXShifted, 0, dif, height);
             g.fillRect(markStartXShifted - dif, 0, dif, height);
         }
         else {
@@ -414,22 +422,19 @@ public class WavePanel extends JPanel {
         int markEndXShifted = markEndX - horizontalScroll;
         g.setColor(color);
 
-        if(markStartX > markEndX) {
-            g.fillRect(markEndXShifted, 0,  markStartX - markEndX, height);
+        if (markStartX > markEndX) {
+            g.fillRect(markEndXShifted, 0, markStartX - markEndX, height);
         }
         else {
-            g.fillRect(markStartXShifted, 0,  markEndX - markStartX, height);
+            g.fillRect(markStartXShifted, 0, markEndX - markStartX, height);
         }
 
 
 // TODO: DEBUG
         ProgramTest.debugPrint("MARK_PART_GENERAL:", horizontalScroll, markStartX, markEndX,
-                markStartXShifted, markEndXShifted, this.getVisibleRect());
+                               markStartXShifted, markEndXShifted, this.getVisibleRect());
 // TODO: DEBUG
     }
-
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -438,15 +443,12 @@ public class WavePanel extends JPanel {
     private ZoomVariablesOneWave zoomVariables;
 
 
-
-
     /**
-     *
      * @param values
      * @param startIndex
      * @param inputLen
-     * @param outputLen is the number of the wanted pixels in output, in classic case it is == width,
-     *                  so the values array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     * @param outputLen  is the number of the wanted pixels in output, in classic case it is == width,
+     *                   so the values array has to be at least twice the outputLen since it needs to contain min and max for each pixel
      * @return
      */
     public static int findExtremesInValues(double[] values, int startIndex, int outputStartIndex, int inputLen, int outputLen) {
@@ -467,13 +469,12 @@ public class WavePanel extends JPanel {
 
 
     /**
-     *
      * @param values
      * @param extremes
      * @param startIndex
      * @param inputLen
-     * @param outputLen is the number of the wanted pixels in output, in classic case it is == width,
-     *                  so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     * @param outputLen  is the number of the wanted pixels in output, in classic case it is == width,
+     *                   so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
      * @return
      */
     public static int findExtremesInValues(double[] values, double[] extremes, int startIndex,
@@ -485,24 +486,25 @@ public class WavePanel extends JPanel {
 
     /**
      * Finds extremes in given values. on extremes[2*i] = min, extremes[2*i + 1] = max
-     * @param values are the values to take extremes from.
-     * @param extremes is the array which will contain the extremes
-     * @param startIndex is the start index in the values array to take extremes from
-     * @param inputLen is the number of valid indexes in the values array.
+     *
+     * @param values                 are the values to take extremes from.
+     * @param extremes               is the array which will contain the extremes
+     * @param startIndex             is the start index in the values array to take extremes from
+     * @param inputLen               is the number of valid indexes in the values array.
      * @param inputValsPerOutputVals is the number of input values per two output values (min and max)
-     * @param outputLen is the number of the wanted pixels in output, in classic case it is == width,
-     *                  so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     * @param outputLen              is the number of the wanted pixels in output, in classic case it is == width,
+     *                               so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
      * @return Returns the first non-filled output index.
      */
     public static int findExtremesInValues(double[] values, double[] extremes, int startIndex, int outputStartIndex,
                                            int inputLen, double inputValsPerOutputVals, int outputLen) {
         // In case if outputLen == w this is the same as samples per pixel
-        final int inputValsPerOutputValsInt = (int)inputValsPerOutputVals;
+        final int inputValsPerOutputValsInt = (int) inputValsPerOutputVals;
         final int power = Utilities.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
 
         double modulo;
         double currentInputValsPerOutputVals = inputValsPerOutputVals;
-        if(inputValsPerOutputValsInt == 0) {
+        if (inputValsPerOutputValsInt == 0) {
             modulo = inputValsPerOutputVals;
         }
         else {
@@ -516,16 +518,16 @@ public class WavePanel extends JPanel {
         int outInd = outputStartIndex;
         final int endIndex = startIndex + inputLen;
         for (int i = startIndex, imod = 0; i < endIndex; i++) {
-            if(values[i] != 0 && isFirstDebug && modulo != 0) {
+            if (values[i] != 0 && isFirstDebug && modulo != 0) {
                 int moduloCountNeededFor1 = 0;
-                for(double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo);
+                for (double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo) ;
                 ProgramTest.debugPrint("First non-zero in extreme method", i, values[i], i / inputValsPerOutputVals,
-                    moduloCountNeededFor1, inputValsPerOutputVals);
+                                       moduloCountNeededFor1, inputValsPerOutputVals);
 
                 isFirstDebug = false;
             }
             if (power == -1 || power == -2) {       // the number is final, so compiler should optimize the branching out
-                if (imod >= (int)currentInputValsPerOutputVals) {
+                if (imod >= (int) currentInputValsPerOutputVals) {
                     imod = 0;
                     extremes[outInd] = min;
                     min = Double.MAX_VALUE;
@@ -536,7 +538,7 @@ public class WavePanel extends JPanel {
                     outInd++;
 
 
-                    if(currentInputValsPerOutputVals >= (inputValsPerOutputValsInt + 1)) {
+                    if (currentInputValsPerOutputVals >= (inputValsPerOutputValsInt + 1)) {
                         currentInputValsPerOutputVals--;
                     }
                     currentInputValsPerOutputVals += modulo;
@@ -550,7 +552,7 @@ public class WavePanel extends JPanel {
                 imod++;
             }
             else {      // It is integer and power of 2
-                if(i != startIndex && i % ((int)currentInputValsPerOutputVals) == 0) {
+                if (i != startIndex && i % ((int) currentInputValsPerOutputVals) == 0) {
                     extremes[outInd] = min;
                     min = Double.MAX_VALUE;
                     outInd++;
@@ -568,7 +570,7 @@ public class WavePanel extends JPanel {
             min = Double.min(min, values[i]);
             max = Double.max(max, values[i]);
         }
-        if(outInd < outputStartIndex + 2*outputLen) {
+        if (outInd < outputStartIndex + 2 * outputLen) {
             extremes[outInd] = min;
             outInd++;
             extremes[outInd] = max;
@@ -598,7 +600,7 @@ public class WavePanel extends JPanel {
 
     /**
      * @param startIndex is the start index in the input array.
-     * @param inputLen is the length of the input array
+     * @param inputLen   is the length of the input array
      */
     public static int findExtremesInExtremes(double[] inputExtremes, int startIndex, int outputStartIndex, int inputLen) {
         return findExtremesInExtremes(inputExtremes, inputExtremes, startIndex, outputStartIndex, inputLen);
@@ -607,14 +609,16 @@ public class WavePanel extends JPanel {
 
     // Micro optim. I can make either by if or by using mod (mod is better if inputValsPerOutputVals == 2^n)
     // (I did some testing in Testing_Branching_Optimization project - I am not adding that to this project though)
+
     /**
      * Finds extremes in given extremes, where on index [2*i] = min, [2*i + 1] = max for input and output array.
      * The reason why this has separate implementation is because in the findExtremesInValues method we take
      * maximums for both minimums and maximums, and same for minimums, so this method saves half the time
-     * @param inputExtremes are the extremes to take extremes from.
+     *
+     * @param inputExtremes  are the extremes to take extremes from.
      * @param outputExtremes is the array which will contain the output extremes
-     * @param startIndex is the start index in the inputExtremes array to take extremes from
-     * @param inputLen is the number of valid indexes in the values array.
+     * @param startIndex     is the start index in the inputExtremes array to take extremes from
+     * @param inputLen       is the number of valid indexes in the values array.
      * @return Returns the first non-filled output index.
      */
     public static int findExtremesInExtremes(double[] inputExtremes, double[] outputExtremes, int startIndex,
@@ -627,7 +631,7 @@ public class WavePanel extends JPanel {
         double max = Double.NEGATIVE_INFINITY;
         int outInd = outputStartIndex;
         final int endIndex = startIndex + inputLen;
-        for (int i = startIndex, halfI = 0, iHalfMod = 0; i < endIndex;) {
+        for (int i = startIndex, halfI = 0, iHalfMod = 0; i < endIndex; ) {
             // Since it is power of 2 this is the effective variant
             if (halfI != 0 && halfI % inputValsPerOutputVals == 0) {
                 outputExtremes[outInd] = min;
@@ -649,7 +653,7 @@ public class WavePanel extends JPanel {
             i++;
             halfI++;
         }
-        if(outInd < outputStartIndex + outputLen) {
+        if (outInd < outputStartIndex + outputLen) {
             outputExtremes[outInd] = min;
             outInd++;
             outputExtremes[outInd] = max;
@@ -658,7 +662,7 @@ public class WavePanel extends JPanel {
 
 
 // TODO: DEBUG - HNED
-        if(outInd != outputStartIndex + outputLen) {
+        if (outInd != outputStartIndex + outputLen) {
             System.exit(12456);
         }
 // TODO: DEBUG - HNED
@@ -675,24 +679,25 @@ public class WavePanel extends JPanel {
 
     /**
      * Finds averages in given values. and puts the to averages array
-     * @param values are the values to take averages from.
-     * @param averages is the array which will contain the averages
-     * @param startIndex is the start index in the values array to take averages from
-     * @param inputLen is the number of valid indexes in the values array.
+     *
+     * @param values                 are the values to take averages from.
+     * @param averages               is the array which will contain the averages
+     * @param startIndex             is the start index in the values array to take averages from
+     * @param inputLen               is the number of valid indexes in the values array.
      * @param inputValsPerOutputVals is the number of input values per one output value
-     * @param outputLen is the number of the wanted pixels in output, in classic case it is == width,
-     *                  so the averages array has to be at least the outputLen long
+     * @param outputLen              is the number of the wanted pixels in output, in classic case it is == width,
+     *                               so the averages array has to be at least the outputLen long
      * @return Returns the first non-filled output index.
      */
     private static int findAveragesInValues(double[] values, double[] averages, int startIndex, int outputStartIndex,
                                             int inputLen, double inputValsPerOutputVals, int outputLen) {
         // In case if outputLen == w this is the same as samples per pixel
-        final int inputValsPerOutputValsInt = (int)inputValsPerOutputVals;
+        final int inputValsPerOutputValsInt = (int) inputValsPerOutputVals;
         final int power = Utilities.testIfNumberIsPowerOfN(inputValsPerOutputVals, 2);
 
         double modulo;
         double currentInputValsPerOutputVals = inputValsPerOutputVals;
-        if(inputValsPerOutputValsInt == 0) {
+        if (inputValsPerOutputValsInt == 0) {
             modulo = inputValsPerOutputVals;
         }
         else {
@@ -708,25 +713,25 @@ public class WavePanel extends JPanel {
         final int endIndex = startIndex + inputLen;
         for (int i = startIndex, imod = 0; i < endIndex; i++) {
             // TODO: DEBUG
-            if(values[i] != 0 && isFirstDebug) {
+            if (values[i] != 0 && isFirstDebug) {
                 int moduloCountNeededFor1 = 0;
-                for(double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo);
+                for (double sum = 0; sum < 1; moduloCountNeededFor1++, sum += modulo) ;
                 ProgramTest.debugPrint("First non-zero in extreme method", i, values[i], i / inputValsPerOutputVals,
-                    moduloCountNeededFor1, inputValsPerOutputVals);
+                                       moduloCountNeededFor1, inputValsPerOutputVals);
 
                 isFirstDebug = false;
             }
             // TODO: DEBUG
 
             if (power == -1 || power == -2) {       // the number is final, so compiler should optimize the branching out
-                if (imod >= (int)currentInputValsPerOutputVals) {
+                if (imod >= (int) currentInputValsPerOutputVals) {
                     imod = 0;
-                    averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
+                    averages[outInd] = calculateAvg(avg, (int) currentInputValsPerOutputVals);
                     outInd++;
                     avg = 0;
 
 
-                    if(currentInputValsPerOutputVals >= (inputValsPerOutputValsInt + 1)) {
+                    if (currentInputValsPerOutputVals >= (inputValsPerOutputValsInt + 1)) {
                         currentInputValsPerOutputVals--;
                     }
                     currentInputValsPerOutputVals += modulo;
@@ -738,8 +743,8 @@ public class WavePanel extends JPanel {
                 imod++;
             }
             else {      // It is integer and power of 2
-                if(i != startIndex && i % ((int)currentInputValsPerOutputVals) == 0) {
-                    averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
+                if (i != startIndex && i % ((int) currentInputValsPerOutputVals) == 0) {
+                    averages[outInd] = calculateAvg(avg, (int) currentInputValsPerOutputVals);
                     outInd++;
                     avg = 0;
 // TODO: DEBUG
@@ -750,8 +755,8 @@ public class WavePanel extends JPanel {
 
             avg += values[i];
         }
-        if(outInd < outputStartIndex + outputLen) {
-            averages[outInd] = calculateAvg(avg, (int)currentInputValsPerOutputVals);
+        if (outInd < outputStartIndex + outputLen) {
+            averages[outInd] = calculateAvg(avg, (int) currentInputValsPerOutputVals);
             outInd++;
         }
 
@@ -764,24 +769,22 @@ public class WavePanel extends JPanel {
     }
 
 
-
     public static int calculateOutputLen(int inputLen, double inputValsPerOutputVals) {
-        int outputLen = (int)(inputLen / inputValsPerOutputVals);
+        int outputLen = (int) (inputLen / inputValsPerOutputVals);
         return outputLen;
     }
 
     public static double calculateInputValsPerOutputValsPure(int inputLen, int outputLen) {
-        double samplesPerPixel = inputLen / (double)outputLen;
+        double samplesPerPixel = inputLen / (double) outputLen;
         return samplesPerPixel;
     }
-
 
 
     public void saveZoomBridgeImg() {
         Rectangle visibleRect = this.getVisibleRect();
         // When there is no bridge img already, we aren't initializing and when the wave is visible (we don't need to scroll to find it),
         // then save bridge picture
-        if(zoomBridgeImg == null && zoomVariables != null && visibleRect.width > 0 && visibleRect.height > 0) {
+        if (zoomBridgeImg == null && zoomVariables != null && visibleRect.width > 0 && visibleRect.height > 0) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method
             zoomBridgeImg = this.createImage(visibleRect.width, visibleRect.height);
@@ -797,7 +800,7 @@ public class WavePanel extends JPanel {
 
 
     public static int calculateWidth(int zoom, int defaultWaveWidth) {
-        return (int)(Math.pow(ZOOM_VALUE, zoom) * defaultWaveWidth);
+        return (int) (Math.pow(ZOOM_VALUE, zoom) * defaultWaveWidth);
     }
 
     public void updateZoom(int newZoom, int scrollBeforeZoom, boolean shouldZoomToMid, boolean shouldZoomToEnd) {
@@ -811,22 +814,22 @@ public class WavePanel extends JPanel {
         int newVisibleWidth = wholeWavePanel.getWaveVisibleWidth();
 
         ProgramTest.debugPrint("Updating zoom before", waveWidth, getPreferredSize().width, getVisibleRect().width,
-            wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
+                               wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
 //            this.setPreferredSize(new Dimension(this.getPreferredSize().width, this.getPreferredSize().height));
         waveWidth = newWidth;
 
 
         ProgramTest.debugPrint("Updating zoom after", waveWidth, getPreferredSize().width, getVisibleRect().width,
-            wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
+                               wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
 
         int startIndexInValues = getLeftPixelAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid,
-            shouldZoomToEnd);
+                                                       shouldZoomToEnd);
         ProgramTest.debugPrint("currScroll before", currScroll);
         currScroll = startIndexInValues;
 
         ProgramTest.debugPrint("currScroll after", currScroll);
         ProgramTest.debugPrint("ZOOMING BEFORE", currentDrawValues.getStartIndex(), startIndexInValues,
-            oldWidth, newWidth, newVisibleWidth);
+                               oldWidth, newWidth, newVisibleWidth);
         ProgramTest.debugPrint(oldZoom, newZoom);
 
 
@@ -837,12 +840,12 @@ public class WavePanel extends JPanel {
 
     private void setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth) {
         int valueCount = getSongLen();
-        if(zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
+        if (zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
             mainWaveClass = drawValuesSupplierIndividual;
-            if(drawValuesIndividual != currentDrawValues) {
+            if (drawValuesIndividual != currentDrawValues) {
                 drawValuesAggregated = null;
                 drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
-                        newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+                                                                    newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
                 currentDrawValues = drawValuesIndividual;
             }
             else {
@@ -851,10 +854,10 @@ public class WavePanel extends JPanel {
         }
         else {
             mainWaveClass = drawValuesSupplierAggregated;
-            if(drawValuesAggregated != currentDrawValues) {
+            if (drawValuesAggregated != currentDrawValues) {
                 drawValuesIndividual = null;
                 drawValuesAggregated = new WaveDrawValuesAggregated(newVisibleWidth,
-                        newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+                                                                    newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
                 currentDrawValues = drawValuesAggregated;
             }
             else {
@@ -870,9 +873,9 @@ public class WavePanel extends JPanel {
 
     public int convertScrollValueToIndividualIndexInAudio(double scrollValue) {
         double result = scrollValue * WavePanel.calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
-        ProgramTest.debugPrint("convertScrollValueToIndividualIndexInAudio start", scrollValue, result, (int)(result + 1));
-        if((int)result == 0) {
-            if(scrollValue == 0) {
+        ProgramTest.debugPrint("convertScrollValueToIndividualIndexInAudio start", scrollValue, result, (int) (result + 1));
+        if ((int) result == 0) {
+            if (scrollValue == 0) {
                 return 0;
             }
             else {
@@ -889,12 +892,11 @@ public class WavePanel extends JPanel {
 
 
         double tolerance = 0.00001;
-        if(result > ((int)result + 1) - tolerance) {    // Basically take into account precision error for doubles, I think this tolerance should be more than ok.
-            return (int)result + 2;
+        if (result > ((int) result + 1) - tolerance) {    // Basically take into account precision error for doubles, I think this tolerance should be more than ok.
+            return (int) result + 2;
         }
-        return (int)result + 1;
+        return (int) result + 1;
     }
-
 
 
     public static double getRatio(int oldWidth, int newWidth, int visibleWaveWidth) {
@@ -903,7 +905,8 @@ public class WavePanel extends JPanel {
         int oldMaxScroll = oldWidth - visibleWaveWidth;
         if (isZooming) {
             ratio = WavePanel.ZOOM_VALUE;
-        } else {
+        }
+        else {
             ratio = 1 / (double) WavePanel.ZOOM_VALUE;
         }
 
@@ -913,19 +916,19 @@ public class WavePanel extends JPanel {
 
     public static int getLeftCornerAfterZoom(int oldWidth, int newWidth, int visibleWaveWidth, int scrollBeforeZoom) {
         double ratio = getRatio(oldWidth, newWidth, visibleWaveWidth);
-        return (int)(scrollBeforeZoom * ratio);
+        return (int) (scrollBeforeZoom * ratio);
     }
 
     public static int getLeftPixelAfterZoom(int oldWidth, int newWidth, int newVisibleWidth, int scrollBeforeZoom, boolean shouldZoomToMid,
                                             boolean shouldZoomToEnd) {
         ProgramTest.debugPrint("getLeftPixelAfterZoom", oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid, shouldZoomToEnd);
         int scrollAfterZoom;
-        if(shouldZoomToMid) {
+        if (shouldZoomToMid) {
             int oldScroll = scrollBeforeZoom;
             int oldMid = oldScroll + newVisibleWidth / 2;       // Find old mid
             boolean isZoom = newWidth > oldWidth;
             int oldMaxScroll = oldWidth - newVisibleWidth;
-            if(!isZoom && oldMid >= oldMaxScroll) {
+            if (!isZoom && oldMid >= oldMaxScroll) {
                 scrollAfterZoom = newWidth - newVisibleWidth;        // Just point the scroll to end
             }
             else {
@@ -933,7 +936,7 @@ public class WavePanel extends JPanel {
                 scrollAfterZoom -= newVisibleWidth / 2;                      // Push it to left so it is pointing to mid
             }
         }
-        else if(shouldZoomToEnd) {
+        else if (shouldZoomToEnd) {
             scrollAfterZoom = newWidth - newVisibleWidth;        // Just point the scroll to end
         }
         else {
@@ -941,7 +944,7 @@ public class WavePanel extends JPanel {
         }
 
         ProgramTest.debugPrint("getLeftPixelAfterZoom", scrollAfterZoom);
-        if(scrollAfterZoom < 0) {
+        if (scrollAfterZoom < 0) {
             scrollAfterZoom = 0;
         }
         return scrollAfterZoom;
@@ -950,6 +953,7 @@ public class WavePanel extends JPanel {
 
     /**
      * Called when scrolling
+     *
      * @param oldLeftPixel is the old leftest pixel
      * @param newLeftPixel is the new leftest pixel
      */
@@ -960,25 +964,27 @@ public class WavePanel extends JPanel {
         currScroll = newLeftPixel;
 
         ProgramTest.debugPrint("updateWaveDrawValues",
-            getVisibleRect().width, getVisibleRect().height, waveWidth,
-            oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
+                               getVisibleRect().width, getVisibleRect().height, waveWidth,
+                               oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
         currentDrawValues.shiftBuffer(pixelChange);
     }
 
 
     private void setMaxCacheZoom() {
         // The if is not needed I think, but just in case
-        if(zoomVariables != null) {
+        if (zoomVariables != null) {
             zoomVariables.maxCacheZoom = calculateMaxCacheZoom();
         }
     }
+
     private int calculateMaxCacheZoom() {
         return calculateMaxCacheZoom(getSongLen(), defaultWaveWidthInPixels);
     }
+
     public static int calculateMaxCacheZoom(int length, int defaultWaveWidth) {
         int maxCacheZoom = 1;
         int zoomedWidth = defaultWaveWidth * WavePanel.ZOOM_VALUE;
-        while(zoomedWidth < length) {
+        while (zoomedWidth < length) {
             maxCacheZoom++;
             zoomedWidth *= WavePanel.ZOOM_VALUE;
         }
@@ -1022,7 +1028,7 @@ public class WavePanel extends JPanel {
         int maxZoom = 0;
         int lastMax = Integer.MAX_VALUE / zoom;
         int width = defaultWidth;
-        while(width <= lastMax) {
+        while (width <= lastMax) {
             width *= zoom;
             maxZoom++;
         }
@@ -1030,22 +1036,20 @@ public class WavePanel extends JPanel {
     }
 
 
-
-
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////// Audio player operations on waves - ModOperations
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Pastes by inserting - doesn't delete any old value.
+     *
      * @param arrToCopy
      * @param startCopyIndex
      * @param startPasteIndex
      * @param len
      * @param copyCount
      * @return Returns new length of wave
-     * */
+     */
     public int paste(double[] arrToCopy, int startCopyIndex, int startPasteIndex, int len, int copyCount, boolean isCut) {
         int copyLen = len * copyCount;
         double[] oldSong = getDoubleWave().getSong();
@@ -1055,9 +1059,9 @@ public class WavePanel extends JPanel {
         // Copy the rest of the old array
         System.arraycopy(oldSong, startPasteIndex, newSong, outIndex, oldSong.length - startPasteIndex);
 
-        if(isCut) {
+        if (isCut) {
             int endCopyIndex = startCopyIndex + len;
-            if(oldSong == arrToCopy) {
+            if (oldSong == arrToCopy) {
                 int endPasteIndex = startCopyIndex + copyLen;
                 if (startPasteIndex >= startCopyIndex && startPasteIndex < endCopyIndex) {
                     int remainingLen = endCopyIndex - startPasteIndex;
@@ -1088,6 +1092,7 @@ public class WavePanel extends JPanel {
 
     /**
      * Copies by deleting (overwriting) - Puts new values instead of the old values
+     *
      * @param arrToCopy
      * @param startCopyIndex
      * @param startPasteIndex
@@ -1095,7 +1100,7 @@ public class WavePanel extends JPanel {
      * @param copyCount
      */
     public int pasteWithOverwriting(double[] arrToCopy, int startCopyIndex, int startPasteIndex,
-                                  int len, int copyCount, boolean isCut) {
+                                    int len, int copyCount, boolean isCut) {
         int copyLen = len * copyCount;
         double[] oldSong = getDoubleWave().getSong();
         // Either I make the array larger when the last position where I will put copy is after the old array
@@ -1104,24 +1109,24 @@ public class WavePanel extends JPanel {
         double[] newSong = new double[newLen];
         int outIndex = pasteStartAndThePaste(oldSong, arrToCopy, newSong, startCopyIndex, startPasteIndex, len, copyCount);
         // Still need to copy the end of the old array
-        if(outIndex < oldSong.length) {
+        if (outIndex < oldSong.length) {
             // Copy the rest of the old array
             System.arraycopy(oldSong, outIndex, newSong, outIndex, oldSong.length - outIndex);
         }
         // Else the array was made larger, no need to copy anything
 
 
-        if(isCut) {
-            if(oldSong == arrToCopy) {
+        if (isCut) {
+            if (oldSong == arrToCopy) {
                 int endCopyIndex = startCopyIndex + len;
                 int endPasteIndex = startPasteIndex + copyLen;
-                if(startPasteIndex > startCopyIndex && startPasteIndex < endCopyIndex) {
+                if (startPasteIndex > startCopyIndex && startPasteIndex < endCopyIndex) {
                     Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, startPasteIndex, 0);
                 }
-                else if(endPasteIndex < startCopyIndex || startPasteIndex > endCopyIndex) {
+                else if (endPasteIndex < startCopyIndex || startPasteIndex > endCopyIndex) {
                     Utilities.setOneDimArrWithCheck(newSong, startCopyIndex, endCopyIndex, 0);
                 }
-                else if(endPasteIndex > startCopyIndex && endPasteIndex < endCopyIndex) {
+                else if (endPasteIndex > startCopyIndex && endPasteIndex < endCopyIndex) {
                     Utilities.setOneDimArrWithCheck(newSong, endPasteIndex, endCopyIndex, 0);
                 }
                 // Else the the values were already overwritten so no need to set anything to 0
@@ -1137,8 +1142,6 @@ public class WavePanel extends JPanel {
     }
 
 
-
-
     public int moveWave(int oldStartIndex, int newStartIndex, int len) {
         double[] oldSong = getDoubleWave().getSong();
         return pasteWithOverwriting(oldSong, oldStartIndex, newStartIndex, len, 1, true);
@@ -1146,6 +1149,7 @@ public class WavePanel extends JPanel {
 
     /**
      * Internal copying method - copies the start of old array and the arrToCopy. Returns the first free index in the newSong (first free output index)
+     *
      * @param oldSong
      * @param arrToCopy
      * @param newSong
@@ -1162,7 +1166,7 @@ public class WavePanel extends JPanel {
 
         // The copying itself
         int pasteIndex = startPasteIndex;
-        for(int i = 0; i < copyCount; i++, pasteIndex += len) {
+        for (int i = 0; i < copyCount; i++, pasteIndex += len) {
             System.arraycopy(arrToCopy, startCopyIndex, newSong, pasteIndex, len);
         }
 
@@ -1187,19 +1191,11 @@ public class WavePanel extends JPanel {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
-
     private WaveDrawValuesIndividual drawValuesIndividual;
     private WaveDrawValuesAggregated drawValuesAggregated;
     private WaveDrawValues currentDrawValues;
     private DrawValuesSupplierIndividual drawValuesSupplierIndividual;
     private DrawValuesSupplierAggregated drawValuesSupplierAggregated;
-
 
 
     abstract class DrawValuesSupplier implements DrawValuesSupplierIFace {
@@ -1236,7 +1232,6 @@ public class WavePanel extends JPanel {
     }
 
 
-
     class DrawValuesSupplierIndividual extends DrawValuesSupplier {
         @Override
         public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
@@ -1267,11 +1262,9 @@ public class WavePanel extends JPanel {
 
         @Deprecated
         public int convertToOutputIndex(double inputIndex) {
-            return (int)inputIndex;
+            return (int) inputIndex;
         }
     }
-
-
 
 
     class DrawValuesSupplierAggregated extends DrawValuesSupplier {

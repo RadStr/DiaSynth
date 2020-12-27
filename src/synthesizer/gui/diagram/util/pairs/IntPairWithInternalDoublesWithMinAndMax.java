@@ -10,6 +10,7 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
         this(0, 0, 1,
              1, 65536, 65536);
     }
+
     public IntPairWithInternalDoublesWithMinAndMax(double first, double second, int firstMin,
                                                    int secondMin, int firstMax, int secondMax) {
         this.firstMin = firstMin;
@@ -28,7 +29,7 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
 
     @Override
     protected void setFirst(double val) {
-        if(firstMax < Integer.MAX_VALUE && firstMin > Integer.MIN_VALUE) {
+        if (firstMax < Integer.MAX_VALUE && firstMin > Integer.MIN_VALUE) {
             setFirstWithoutOverflow(val);
         }
         else {
@@ -38,7 +39,7 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
 
     @Override
     protected void setSecond(double val) {
-        if(secondMax < Integer.MAX_VALUE && secondMin > Integer.MIN_VALUE) {
+        if (secondMax < Integer.MAX_VALUE && secondMin > Integer.MIN_VALUE) {
             setSecondWithoutOverflow(val);
         }
         else {
@@ -52,6 +53,7 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
             setFirstInt();
         }
     }
+
     private void setFirstWithOverflow(double val) {
         if (val >= firstMin && val <= firstMax && !MathClass.isIntOverflow(val)) {
             first = val;
@@ -63,13 +65,14 @@ public class IntPairWithInternalDoublesWithMinAndMax extends IntPairWithInternal
     private void setSecondWithoutOverflow(double val) {
         if (val >= secondMin && val <= secondMax) {
             second = val;
-            secondInt = (int)Math.floor(second);
+            secondInt = (int) Math.floor(second);
         }
     }
+
     private void setSecondWithOverflow(double val) {
         if (val >= secondMin && val <= secondMax && !MathClass.isIntOverflow(val)) {
             second = val;
-            secondInt = (int)Math.floor(second);
+            secondInt = (int) Math.floor(second);
         }
     }
 

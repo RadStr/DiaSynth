@@ -1,7 +1,6 @@
 package deprecatedclasses;
 
 
-
 import analyzer.bpm.SubbandSplitterIFace;
 import util.Pair;
 import util.Utilities;
@@ -17,15 +16,18 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
     private double previousHzOverflow;
     private final int SAMPLE_RATE;
     public final int SUBBAND_COUNT;
+
     @Override
     public int getSubbandCount() {
         return SUBBAND_COUNT;
     }
+
     public final int START_HZ;
 
     /**
      * The subbandCount will only used, if it will be smaller than then the maximum subband count which we is based on given
      * sample rate and startHz parameters.
+     *
      * @param sampleRate
      * @param startHz
      * @param subbandCount
@@ -35,7 +37,6 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
         SUBBAND_COUNT = Math.min(subbandCount, Utilities.getFirstPowerExponentOfNBeforeNumber(startHz, sampleRate, 2));
         START_HZ = startHz;
     }
-
 
 
 //    private Pair<Integer, Integer> getStartIndAndLen(int windowSize, int subband) {
@@ -111,7 +112,6 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
 //    }
 
 
-
     private Pair<Integer, Integer> getStartIndAndLen(int windowSize, int subband) {
         windowSize--;           // Because we don't use the 0-th bin.
         Pair<Integer, Integer> retPair;
@@ -123,15 +123,15 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
 //        double jumpHZ = (double) SAMPLE_RATE / windowSize;
         double jumpHZ = (double) SAMPLE_RATE / windowSize;
 
-        if(subband == 0) {
+        if (subband == 0) {
             subbandRangeInHz = START_HZ;
             previousStartIndex = 1;         // Because the first bin doesn't count
             previousHzOverflow = 0;
         }
         else if (subband < SUBBAND_COUNT - 1) {
-            subbandRangeInHz = START_HZ  * (1 << (subband - 1));
+            subbandRangeInHz = START_HZ * (1 << (subband - 1));
         }
-        else if(subband == SUBBAND_COUNT - 1) {
+        else if (subband == SUBBAND_COUNT - 1) {
             return new Pair<>(previousStartIndex, windowSize - previousStartIndex);
         }
         else {
@@ -139,7 +139,7 @@ public class SubbandSplitterOld implements SubbandSplitterIFace {
         }
 
 
-        len = (int)Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
+        len = (int) Math.ceil((subbandRangeInHz - previousHzOverflow) / jumpHZ);
         previousHzOverflow += len * jumpHZ;     // += because to get how much I overshot from the starting point
         previousHzOverflow %= subbandRangeInHz;
 

@@ -4,13 +4,13 @@ import javax.swing.*;
 
 @Deprecated
 public class Main {
-	private static JFrame frame;
-	
-	public static JFrame getFrame() {
-		return frame;
-	}
+    private static JFrame frame;
 
-	// TODO: Tehle text na vic mistech pak vymazat
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    // TODO: Tehle text na vic mistech pak vymazat
     // TODO: I will do it this way - user may choose the audioFormat to which will be all the audio waves converted - I could
     // make it like the waves will be in some different formats and in the mixing they will be converted to the
     // output audioFormat but that is too difficult I think
@@ -138,13 +138,11 @@ public class Main {
 
     }
 
-	public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
                 startProgram();
             }
         });
-	}
+    }
 }

@@ -15,13 +15,17 @@ public class DecibelMeterMain {
 
     private Timer decibelTimer;
     private DecibelMeter decibelMeter;
+
     public DecibelMeter getDecibelMeter() {
         return decibelMeter;
     }
+
     private double[] channelSamples;
+
     public double[] getChannelSamples() {
         return channelSamples;
     }
+
     public void changeNumberOfChannels(int newChannelCount) {
         channelSamples = new double[newChannelCount];
     }

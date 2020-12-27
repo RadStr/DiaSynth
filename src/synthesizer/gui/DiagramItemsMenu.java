@@ -13,7 +13,8 @@ public class DiagramItemsMenu extends JScrollPane {
               JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     }
 
-    private final Dimension minSize = new Dimension(0,0);
+    private final Dimension minSize = new Dimension(0, 0);
+
     @Override
     public Dimension getMinimumSize() {
         return minSize;

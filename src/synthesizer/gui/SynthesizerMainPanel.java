@@ -54,7 +54,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                 });
 
                 JOptionPane.showOptionDialog(null, panelList, "Zoom to panel",
-                                              JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                                              null, new Object[]{}, null);
             }
         });
@@ -74,7 +74,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                         if (playerButtons.getPlayButton().getBoolVar()) {
                             botPanel.getDiagramPanel().resetAudio();
                             waveVisualizer.pause();
-                        } else {
+                        }
+                        else {
                             botPanel.getDiagramPanel().startAudio();
                             waveVisualizer.start();
                         }
@@ -91,14 +92,14 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
         playerButtons.add(waveVisualizer);
         GridBagConstraintsSetter.setConstraint(constraints, 0, 0, 1, 1,
-                                              0, 0, 0, 0, GridBagConstraints.NONE);
+                                               0, 0, 0, 0, GridBagConstraints.NONE);
         this.add(playerButtons, constraints);
 
         GridBagConstraintsSetter.setConstraint(constraints, 0, 1, 1, 1,
-                                              0, 0, 0, 0, GridBagConstraints.NONE);
+                                               0, 0, 0, 0, GridBagConstraints.NONE);
         this.add(buttonPanel, constraints);
         GridBagConstraintsSetter.setConstraint(constraints, 0, 2, 1, 1,
-                                              0, 0, 1, 1, GridBagConstraints.BOTH);
+                                               0, 0, 1, 1, GridBagConstraints.BOTH);
         this.add(botPanel, constraints);
 
         menuBar = new JMenuBar();
@@ -115,7 +116,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
         instantRecordingCheckbox = new JCheckBoxMenuItem("Record instantly");
         instantRecordingCheckbox.addItemListener((e) -> {
-            if(e.getStateChange() == ItemEvent.SELECTED) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
                 botPanel.getDiagramPanel().recordInstantly();
             }
             instantRecordingCheckbox.setSelected(false);
@@ -187,10 +188,11 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
      */
     private void setEnabledRecordingCheckboxes() {
         boolean canRecord = playerRecordCheckBoxMenuItem.isSelected() || fileRecordCheckBoxMenuItem.isSelected();
-        if(realTimeRecordingCheckbox.isEnabled() != canRecord) {
+        if (realTimeRecordingCheckbox.isEnabled() != canRecord) {
             setEnabledRecordingCheckboxes(canRecord);
         }
     }
+
     private void setEnabledRecordingCheckboxes(boolean enabled) {
         realTimeRecordingCheckbox.setEnabled(enabled);
         instantRecordingCheckbox.setEnabled(enabled);
@@ -239,7 +241,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                         MyLogger.logException(ex);
                         return;
                     }
-                    try(PrintWriter pw = new PrintWriter(f)) {
+                    try (PrintWriter pw = new PrintWriter(f)) {
                         botPanel.getDiagramPanel().save(pw);
                     }
                     catch (FileNotFoundException ex) {
@@ -289,7 +291,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             public void actionPerformed(ActionEvent e) {
                 AudioFormatJPanel p = new AudioFormatJPanel(botPanel.getDiagramPanel().getOutputAudioFormat());
                 int result = JOptionPane.showConfirmDialog(null, p, "Audio audioFormat chooser",
-                                                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {
                     botPanel.getDiagramPanel().setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true));
                 }
@@ -307,8 +309,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             @Override
             public void actionPerformed(ActionEvent e) {
                 int result = JOptionPane.showOptionDialog(null, recordInfoGetter,
-                        "Record parameters setter", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                        null, new Object[]{}, null);
+                                                          "Record parameters setter", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                                          null, new Object[]{}, null);
             }
         });
 
@@ -332,7 +334,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             this.add(new JLabel("Record time in seconds: "));
             Field[] declaredFields = RecordInfoGetterPanel.class.getDeclaredFields();
             Field field = null;
-            for(Field f : declaredFields) {
+            for (Field f : declaredFields) {
                 if ("recordTimeInSecs".equals(f.getName())) {
                     field = f;
                     field.setAccessible(true);
@@ -342,8 +344,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
             try {
                 this.add(new JTextFieldWithBounds(true, 0, 60000,
-                "Put in the time in seconds (so for example 0.5 for half a second)",
-                        field, this, this));
+                                                  "Put in the time in seconds (so for example 0.5 for half a second)",
+                                                  field, this, this));
             }
             catch (IllegalAccessException e) {
                 MyLogger.logException(e);
@@ -382,7 +384,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                     int returnVal = fileChooser.showSaveDialog(frame);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         chosenFile = fileChooser.getSelectedFile();
-                        filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
+                        filter = (FileFilterAudioFormats) fileChooser.getFileFilter();
                         botPanel.getDiagramPanel().setRecordPathRelatedValues(chosenFile, filter.AUDIO_TYPE);
                         closeButton.doClick();
                     }
@@ -393,11 +395,10 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             {
                 JFileChooser fileChooser = AudioPlayerPanel.getFileChooserForSaving(null);
                 File file = fileChooser.getSelectedFile();
-                filter = (FileFilterAudioFormats)fileChooser.getFileFilter();
+                filter = (FileFilterAudioFormats) fileChooser.getFileFilter();
                 botPanel.getDiagramPanel().setRecordPathRelatedValues(file, filter.AUDIO_TYPE);
             }
         }
-
 
 
         private double recordTimeInSecs = 3;
@@ -410,7 +411,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             if ("-".equals(value)) {
                 return;
             }
-            else if("".equals(value)) {
+            else if ("".equals(value)) {
                 setEnabledRecordingCheckboxes(false);
                 recordTimeInSecs = 0;
                 botPanel.getDiagramPanel().setRecordTimeInSeconds(recordTimeInSecs);
@@ -418,11 +419,11 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             else {
                 double val = Double.parseDouble(value);
                 recordTimeInSecs = val;
-                if(val == 0) {
+                if (val == 0) {
                     setEnabledRecordingCheckboxes(false);
                 }
                 else {
-                    if(!instantRecordingCheckbox.isEnabled()) {
+                    if (!instantRecordingCheckbox.isEnabled()) {
                         setEnabledRecordingCheckboxes();
                     }
                 }
@@ -433,10 +434,9 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
     }
 
 
-
     @Override
     public void changedTabAction(boolean hasFocus) {
-        if(hasFocus) {
+        if (hasFocus) {
             frame.setJMenuBar(menuBar);
         }
         else {
@@ -446,7 +446,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
     private void resetPlaying() {
         BooleanButton playButton = playerButtons.getPlayButton();
-        if(!playButton.getBoolVar()) {
+        if (!playButton.getBoolVar()) {
             playButton.doClick();
         }
         else {

@@ -17,11 +17,11 @@ public enum AlignmentEnum {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
 
-            if(outputLen > inputLen) {
+            if (outputLen > inputLen) {
                 int dif = outputLen - inputLen;
                 outputEndIndex -= dif;
             }
-            else if(outputLen < inputLen) {
+            else if (outputLen < inputLen) {
                 int dif = inputLen - outputLen;
                 inputEndIndex -= dif;
             }
@@ -36,11 +36,11 @@ public enum AlignmentEnum {
                                                int inputSongLength, int outputSongLength) {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
-            if(outputLen > inputLen) {
+            if (outputLen > inputLen) {
                 int dif = outputLen - inputLen;
                 inputEndIndex = Math.min(inputEndIndex + dif, inputSongLength);
             }
-            else if(outputLen < inputLen) {
+            else if (outputLen < inputLen) {
                 int dif = inputLen - outputLen;
                 outputEndIndex = Math.min(outputEndIndex + dif, outputSongLength);
             }
@@ -100,7 +100,7 @@ public enum AlignmentEnum {
     public static AlignmentEnum convertStringToEnumValue(String s) {
         AlignmentEnum[] values = AlignmentEnum.values();
         for (AlignmentEnum v : values) {
-            if(v.toString().equals(s)) {
+            if (v.toString().equals(s)) {
                 return v;
             }
         }

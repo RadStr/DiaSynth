@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 // When I talk about compiler I mean JVM
 
 
-
 // This is example of code tag for better code clarity
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +42,6 @@ import java.awt.event.WindowEvent;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* --------------------------------------------- [END] --------------------------------------------- */
 ///////////////////
@@ -51,8 +49,6 @@ import java.awt.event.WindowEvent;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // END OF TEMPLATE TO COPY
-
-
 
 
 // How I created the .jar
@@ -66,7 +62,7 @@ import java.awt.event.WindowEvent;
 // https://stackoverflow.com/questions/1051640/correct-way-to-add-external-jars-lib-jar-to-an-intellij-idea-project
 public class Main {
     public static void main(String[] args) {
-        if(!PluginLoader.isInJar()) {
+        if (!PluginLoader.isInJar()) {
             PluginLoader.removePreviouslyLoadedPlugins();
             PluginLoader.copyPlugins();
         }
@@ -79,6 +75,7 @@ public class Main {
     }
 
     // https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TabbedPaneDemoProject/src/components/TabbedPaneDemo.java
+
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from
@@ -121,10 +118,10 @@ public class Main {
 
             MyLogger.logWithoutIndentation("Showed GUI");
         }
-        catch(Exception e) {
+        catch (Exception e) {
             MyLogger.logWithoutIndentation("UNEXPECTED EXCEPTION INSIDE PROGRAM ... ENDING PROGRAM");
             MyLogger.logException(e);
-            if(frame == null) {
+            if (frame == null) {
                 MyLogger.logWithoutIndentation("Program ended before the frame was created.");
             }
             MyLogger.logWithoutIndentation("PROGRAM ENDED");

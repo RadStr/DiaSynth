@@ -72,16 +72,16 @@ public class RhombusShapedPanel extends ShapedPanel {
     }
 
 
-
     /**
      * Creates area of outerParallelogram and thicknesses.
-     * @param outerRhombus is the outer rhombus
-     * @param topThickness is the thickness of the top and bot side of rhombus.
+     *
+     * @param outerRhombus  is the outer rhombus
+     * @param topThickness  is the thickness of the top and bot side of rhombus.
      * @param leftThickness is the thickness of the left and right side of rhombus.
      * @return Returns the shape area between inner and outer rhombus
      */
     public static Area createRhombus(Polygon outerRhombus, int topThickness, int leftThickness) {
-        int x,y;
+        int x, y;
         Polygon innerRhombus = new Polygon();
 
         x = outerRhombus.xpoints[0];
@@ -111,8 +111,6 @@ public class RhombusShapedPanel extends ShapedPanel {
     }
 
 
-
-
     @Override
     public int getDistanceFromRectangleBorders(int x) {
         int[] xpoints = outerRhombus.xpoints;
@@ -122,7 +120,7 @@ public class RhombusShapedPanel extends ShapedPanel {
         boolean isOnRight = x > 0;
         int midX = this.getSize().width / 2;
         x += midX;
-        if(isOnRight) {
+        if (isOnRight) {
             y = ParallelogramShapedPanel.getPointOnLine(x, xpoints[1], ypoints[1], xpoints[2], ypoints[2]);
         }
         else {
@@ -140,22 +138,22 @@ public class RhombusShapedPanel extends ShapedPanel {
         int[] xpoints = outerRhombus.xpoints;
         int[] ypoints = outerRhombus.ypoints;
 
-        if(connectorIndex == 0) {
+        if (connectorIndex == 0) {
             p.x = xpoints[0];
             p.y = ypoints[0];
         }
-        else if(connectorIndex == 1) {      // Left
+        else if (connectorIndex == 1) {      // Left
             p.x = xpoints[3];
             p.y = ypoints[3];
         }
-        else if(connectorIndex == 2) {      // Right
+        else if (connectorIndex == 2) {      // Right
             p.x = xpoints[1];
             p.y = ypoints[1];
         }
         else {
             connectorCount -= 3;
             int connectorIndexOnLine = calculateIndexOnLine(connectorIndex);
-            if(connectorIndex % 2 == 1) {       // Put it on left line
+            if (connectorIndex % 2 == 1) {       // Put it on left line
                 // The modulo is here because if there are more inputs on left (% 2 == 1)
                 // then there is 1 more connector than on the right
                 connectorCount = (connectorCount / 2) + (connectorCount % 2);
@@ -174,7 +172,7 @@ public class RhombusShapedPanel extends ShapedPanel {
 
     private static int getConnectorCountOnSide(int connectorIndex, int connectorCount) {
         connectorCount -= 3;
-        if(connectorIndex % 2 == 1) {       // Put it on left line
+        if (connectorIndex % 2 == 1) {       // Put it on left line
             // The modulo is here because if there are more inputs on left (% 2 == 1)
             // then there is 1 more connector than on the right
             connectorCount = (connectorCount / 2) + (connectorCount % 2);
@@ -191,13 +189,12 @@ public class RhombusShapedPanel extends ShapedPanel {
     }
 
 
-
     @Override
     public Direction getDirectionForInputPortLabel(int connectorIndex, int connectorCount) {
-        if(connectorIndex == 0) {
+        if (connectorIndex == 0) {
             return Direction.UP;
         }
-        else if(connectorIndex % 2 == 1) {
+        else if (connectorIndex % 2 == 1) {
             return Direction.LEFT;
         }
         else {
@@ -209,14 +206,14 @@ public class RhombusShapedPanel extends ShapedPanel {
     @Override
     public void getNextToLastPoint(Point nextToLastPoint, int connectorIndex, int connectorCount) {
         getLastPoint(nextToLastPoint, connectorIndex, connectorCount);
-        if(connectorIndex == 0) {
+        if (connectorIndex == 0) {
             nextToLastPoint.y = 0;
         }
-        else if(connectorIndex == 1) {      // Left
+        else if (connectorIndex == 1) {      // Left
             nextToLastPoint.x = nextToLastPoint.y;
             nextToLastPoint.y = -1;
         }
-        else if(connectorIndex == 2) {      // Right
+        else if (connectorIndex == 2) {      // Right
             nextToLastPoint.x = nextToLastPoint.y;
             nextToLastPoint.y = 1;
         }
@@ -228,7 +225,7 @@ public class RhombusShapedPanel extends ShapedPanel {
             Direction direction = getDirectionForInputPortLabel(connectorIndex, connectorCount);
             boolean isInFirstHalf = (indexOnLine > half && direction == Direction.LEFT) ||
                                     (indexOnLine < half && direction == Direction.RIGHT);
-            if(isInFirstHalf) {
+            if (isInFirstHalf) {
                 nextToLastPoint.y = 0;
             }
             else {
@@ -241,7 +238,7 @@ public class RhombusShapedPanel extends ShapedPanel {
                 // (The cables overshadow the labels)
                 // int h = this.getHeight() / 2;
 
-                switch(direction) {
+                switch (direction) {
                     case LEFT:
                         nextToLastPoint.x = nextToLastPoint.y/* - (h / connectorCountOnSide)*/;
                         nextToLastPoint.y = -1;

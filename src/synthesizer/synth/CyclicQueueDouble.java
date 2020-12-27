@@ -6,14 +6,12 @@ package synthesizer.synth;
  * Class works if 1 thread is consumer and other producer.
  * (Both consumer and producer can run on only 1 thread, but it isn't recommended).
  * To be maximally efficient use the push/pop variants with arrays (if asking for more than 1 value of course).
- *
  */
 // NOTE 2: We could implement it to just modulo all the values when certain push limit is reached
 // (we could check that using timer, for example).
 // But it may introduce many problems which might be quite difficult for debugging.
 public class CyclicQueueDouble {
     /**
-     *
      * @param lenExponent the real length of the queue will be 2^lenExponent
      */
     public CyclicQueueDouble(int lenExponent) {
@@ -28,19 +26,24 @@ public class CyclicQueueDouble {
     private final double[] queue;
     // Needs to be volatile, because getLen is called from both the producer and consumer thread
     private volatile int popIndex;
+
     private int getPopIndexMod() {
         return getIndexMod(popIndex);
     }
+
     private volatile int pushIndex;
+
     private int getPushIndexMod() {
         return getIndexMod(pushIndex);
     }
+
     public int getIndexMod(int index) {
         return index & MOD_LEN;
     }
 
     /**
      * Returns current length of queue
+     *
      * @return
      */
     public int getLen() {
@@ -49,6 +52,7 @@ public class CyclicQueueDouble {
 
     /**
      * Returns maximum capacity of queue.
+     *
      * @return
      */
     public int getTotalQueueCapacity() {
@@ -57,6 +61,7 @@ public class CyclicQueueDouble {
 
     /**
      * Returns number of values which would be popped when pop with corresponding values would be called
+     *
      * @param startIndex
      * @param endIndex
      * @return
@@ -73,7 +78,7 @@ public class CyclicQueueDouble {
 
 
     public int push(double value) {
-        if(pushIndex - popIndex < queue.length) {
+        if (pushIndex - popIndex < queue.length) {
             queue[getPushIndexMod()] = value;
             pushIndex++;
             return 1;
@@ -82,9 +87,10 @@ public class CyclicQueueDouble {
             return 0;
         }
     }
+
     public int push(double[] values, int startIndex, int endIndex) {
         int len = getPushLength(startIndex, endIndex);
-        for(int index = 0; index < len; index++, startIndex++, pushIndex++) {
+        for (int index = 0; index < len; index++, startIndex++, pushIndex++) {
             queue[getPushIndexMod()] = values[startIndex];
         }
 
@@ -93,15 +99,16 @@ public class CyclicQueueDouble {
 
     public double pop() {
         double retVal = 0;
-        if(pushIndex > popIndex) {
+        if (pushIndex > popIndex) {
             retVal = queue[getPopIndexMod()];
             popIndex++;
         }
         return retVal;
     }
+
     public int pop(double[] values, int startIndex, int endIndex) {
         int len = getPopLength(startIndex, endIndex);
-        for(int index = 0; index < len; index++, startIndex++, popIndex++) {
+        for (int index = 0; index < len; index++, startIndex++, popIndex++) {
             values[startIndex] = queue[getPopIndexMod()];
         }
 
@@ -110,6 +117,7 @@ public class CyclicQueueDouble {
 
     /**
      * Pops n elements from queue without storing them anywhere
+     *
      * @param n
      * @return
      */
@@ -123,10 +131,11 @@ public class CyclicQueueDouble {
     public double peek() {
         return queue[popIndex % queue.length];
     }
+
     public int peek(double[] values, int startIndex, int endIndex) {
         int peekIndex = popIndex;
         int len = Math.min(endIndex - startIndex, pushIndex - peekIndex);
-        for(int index = 0; index < len; index++, startIndex++, peekIndex++) {
+        for (int index = 0; index < len; index++, startIndex++, peekIndex++) {
             values[startIndex] = queue[getIndexMod(peekIndex)];
         }
 
@@ -139,6 +148,7 @@ public class CyclicQueueDouble {
      * Since easily you can call push and while pushing call remove. That breaks everything. Another break case is
      * when popping the remove is called. So in result some values may be popped even when they are already "removed".
      * So this method should be called only when audio thread is stopped, otherwise it may be quite difficult.
+     *
      * @param n
      */
     public int remove(int n) {

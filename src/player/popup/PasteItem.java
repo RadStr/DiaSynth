@@ -9,6 +9,7 @@ public class PasteItem extends JMenuItem {
     }
 
     private int copyCount;
+
     public int getCopyCount() {
         return copyCount;
     }

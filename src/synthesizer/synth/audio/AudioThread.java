@@ -37,22 +37,25 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         cyclicQueueSizeDivFactor = convertTimeInMsToDivFactor(cyclicQueueSizeInMs);
         // TODO: RML - ted popravde neivm jestli to muzu odstranit z toho konstruktoru
         setOutputAudioFormat(new AudioFormatWithSign(44100, 16, 1,
-                true, false));
+                                                     true, false));
         // TODO: RML
 
         lastPlayedSampleInChannel = 0;
     }
 
     private PlayedWaveVisualizer waveVisualizer;
+
     public PlayedWaveVisualizer getWaveVisualizer() {
         return waveVisualizer;
     }
+
     public void setWaveVisualizer(PlayedWaveVisualizer waveVisualizer) {
         this.waveVisualizer = waveVisualizer;
     }
 
     /**
      * Just calls the other constructor with parameters, maxPlayTimeInMs=40, cyclicQueueSizeInMs=400, shouldPause
+     *
      * @param shouldPause
      */
     public AudioThread(boolean shouldPause) {
@@ -64,11 +67,12 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     private double cyclicQueueSizeDivFactor;
 
     public static double convertTimeInMsToDivFactor(int time) {
-        return 1000 / (double)time;
+        return 1000 / (double) time;
     }
 
     /**
      * Puts samples to queue and returns number of written samples to queue
+     *
      * @param samples
      * @return
      */
@@ -78,6 +82,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
 
     /**
      * Puts samples to queue and returns number of written samples to queue
+     *
      * @param samples
      * @param startIndex
      * @param endIndex
@@ -89,6 +94,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
 
     /**
      * Returns how many samples can be put to queue corresponding to channel.
+     *
      * @param channel
      * @return
      */
@@ -98,12 +104,14 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
 
 
     private AudioFormatWithSign outputAudioFormat;
+
     @Override
     public AudioFormatWithSign getOutputFormat() {
         return outputAudioFormat;
     }
+
     public void setOutputAudioFormat(AudioFormatWithSign newFormat) {
-        if(audioLine != null) {
+        if (audioLine != null) {
             masterGain = null;
             audioLine.close();
         }
@@ -111,19 +119,19 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         int channelCount = outputAudioFormat.getChannels();
         sampleSizeInBytes = outputAudioFormat.getSampleSizeInBits() / 8;
         maxAbsoluteValue = AudioUtilities.getMaxAbsoluteValueSigned(outputAudioFormat.getSampleSizeInBits());
-        int sampleRate = (int)outputAudioFormat.getSampleRate();
+        int sampleRate = (int) outputAudioFormat.getSampleRate();
 
-        if(waveVisualizer != null) {
+        if (waveVisualizer != null) {
             waveVisualizer.setNumberOfChannels(channelCount);
             waveVisualizer.setSampleRate(sampleRate);
         }
 
         frameSize = channelCount * sampleSizeInBytes;
-        int sizeInSamples = (int)(sampleRate / cyclicQueueSizeDivFactor);
+        int sizeInSamples = (int) (sampleRate / cyclicQueueSizeDivFactor);
         sizeInSamples = Math.max(Unit.BUFFER_LEN, sizeInSamples);
         int lenExponent = Utilities.getFirstPowerExponentOfNAfterNumber(sizeInSamples, 2) - 1;
         queuesDouble = new CyclicQueueDouble[channelCount];
-        for(int i = 0; i < queuesDouble.length; i++) {
+        for (int i = 0; i < queuesDouble.length; i++) {
             // [x0.5, x1] result will be of len in ms
             queuesDouble[i] = new CyclicQueueDouble(lenExponent);
         }
@@ -137,8 +145,8 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             audioLine = (SourceDataLine) AudioSystem.getLine(info);
             audioLine.open(outputAudioFormat);
             // NOTE: Type.VOLUME isn't available control
-            masterGain = (FloatControl)audioLine.getControl(FloatControl.Type.MASTER_GAIN);
-            muteControl = (BooleanControl)audioLine.getControl(BooleanControl.Type.MUTE);
+            masterGain = (FloatControl) audioLine.getControl(FloatControl.Type.MASTER_GAIN);
+            muteControl = (BooleanControl) audioLine.getControl(BooleanControl.Type.MUTE);
             audioLine.start();
             audioLineMaxAvailableBytes = audioLine.available();
             samplesToBePlayedByteLen = Math.min(audioLineMaxAvailableBytes, samplesToBePlayedByteLen);
@@ -163,12 +171,14 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
 
 
     private FloatControl masterGain;
+
     @Override
     public FloatControl getGain() {
         return masterGain;
     }
 
     private BooleanControl muteControl;
+
     @Override
     public BooleanControl getMuteControl() {
         return muteControl;
@@ -183,16 +193,20 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     private int minAllowedAvailableSize;
 
     private volatile boolean waiting = false;   // Modified only by audio thread
+
     public boolean isPaused() {
         return waiting;
     }
+
     private volatile boolean shouldPause;
     private Object pauseLock = new Object();
+
     private void setShouldPause(boolean value) {
         synchronized (pauseLock) {
             shouldPause = value;
         }
     }
+
     protected Object audioLock = new Object();
     private int lastPlayedSampleInChannel;
     private double[][] samplesToBePlayedDouble;
@@ -207,7 +221,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         synchronized (audioLock) {
             while (true) {
                 int byteArrIndex = getAudioSamples();
-                if(byteArrIndex > 0) {
+                if (byteArrIndex > 0) {
                     audioLine.write(samplesToBePlayed, 0, byteArrIndex);
                 }
             }
@@ -217,6 +231,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
 
     /**
      * Is used internally in audio play loop, shouldn't be ever called from different place, then the audio loop.
+     *
      * @return Returns -1 if the audio samples weren't set (for example not all queues are filled enough).
      * Otherwise returns number of valid samples in byte[] samplesToBePlayed
      */
@@ -241,14 +256,14 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             ProgramTest.debugPrint("AUDIO - STOPPED WAITING");
             int minLen = queuesDouble[0].getTotalQueueCapacity();
             minLen = Math.min(minLen, samplesToBePlayedDouble[0].length * 8);
-            while(queuesDouble[0].getLen() < minLen) {
+            while (queuesDouble[0].getLen() < minLen) {
                 // Wait until there are at least some samples to be played
-                if(shouldPause) {
+                if (shouldPause) {
                     break;
                 }
             }
 
-            if(shouldPause) {
+            if (shouldPause) {
                 return -1;
             }
             ProgramTest.debugPrint("AUDIO - CONTINUE PLAYING");
@@ -263,12 +278,12 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         boolean shouldSkip = false;
         validSampleCount = queuesDouble[0].getPopLength(0, availableLen);
         for (int i = 1; i < samplesToBePlayedDouble.length; i++) {
-            if(validSampleCount > queuesDouble[i].getLen()) {
+            if (validSampleCount > queuesDouble[i].getLen()) {
                 shouldSkip = true;
                 break;
             }
         }
-        if(shouldSkip) {
+        if (shouldSkip) {
             return -1;
         }
 
@@ -281,7 +296,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
                                                    samplesToBePlayed, maxAbsoluteValue,
                                                    outputAudioFormat.isBigEndian(), outputAudioFormat.isSigned);
 
-        if(waveVisualizer != null) {
+        if (waveVisualizer != null) {
             for (int ch = 0; ch < samplesToBePlayedDouble.length; ch++) {
                 waveVisualizer.pushSamplesToQueue(samplesToBePlayedDouble[ch], 0, validSampleCount, ch);
             }
@@ -291,21 +306,19 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     }
 
 
-
     public static int fillByteArrWithChannels(double[][] channels, int validSampleCount,
-                                               int sampleSizeInBytes, byte[] outArr,
-                                               int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
+                                              int sampleSizeInBytes, byte[] outArr,
+                                              int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
         int byteArrIndex = 0;
         for (int s = 0; s < validSampleCount; s++) {
             for (int i = 0; i < channels.length; i++, byteArrIndex += sampleSizeInBytes) {
                 AudioConverter.convertDoubleToByteArr(channels[i][s], sampleSizeInBytes,
-                        maxAbsoluteValue, isBigEndian, isSigned, byteArrIndex, outArr);
+                                                      maxAbsoluteValue, isBigEndian, isSigned, byteArrIndex, outArr);
             }
         }
 
         return byteArrIndex;
     }
-
 
 
     public void pause() {
@@ -326,8 +339,8 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         for (int i = 0; i < queuesDouble.length; i++) {
             queuesDouble[i].reset();
         }
-        for(int i = 0; i < samplesToBePlayedDouble.length; i++) {
-            for(int j = 0; j < samplesToBePlayedDouble[i].length; j++) {
+        for (int i = 0; i < samplesToBePlayedDouble.length; i++) {
+            for (int j = 0; j < samplesToBePlayedDouble[i].length; j++) {
                 samplesToBePlayedDouble[i][j] = 0;
             }
         }

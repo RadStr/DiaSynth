@@ -25,13 +25,13 @@ public class AudioControlPanel extends JPanel {
         buttons = new JButton[2];
         if (PluginLoader.isJar(getClass())) {
             playButton = new BooleanButtonWithImages(true,
-                    "/" + resourcesDir + "PlayButtonTrans.png",
-                    "/" + resourcesDir + "PauseButtonTrans.png");
+                                                     "/" + resourcesDir + "PlayButtonTrans.png",
+                                                     "/" + resourcesDir + "PauseButtonTrans.png");
         }
         else {
             playButton = new BooleanButtonWithImages(true,
-                    resourcesDir + "PlayButtonTrans.png",
-                    resourcesDir + "PauseButtonTrans.png");
+                                                     resourcesDir + "PlayButtonTrans.png",
+                                                     resourcesDir + "PauseButtonTrans.png");
         }
 
         playButton.addActionListener(playButtonActionListener);
@@ -40,19 +40,19 @@ public class AudioControlPanel extends JPanel {
 
         if (PluginLoader.isJar(getClass())) {
             muteButton = new BooleanButtonWithImages(false,
-                    "/" + resourcesDir + "soundIconOffTrans.png",
-                    "/" + resourcesDir + "soundIconOnTrans.png");
+                                                     "/" + resourcesDir + "soundIconOffTrans.png",
+                                                     "/" + resourcesDir + "soundIconOnTrans.png");
         }
         else {
             muteButton = new BooleanButtonWithImages(false,
-                    resourcesDir + "soundIconOffTrans.png",
-                    resourcesDir + "soundIconOnTrans.png");
+                                                     resourcesDir + "soundIconOffTrans.png",
+                                                     resourcesDir + "soundIconOnTrans.png");
         }
         buttons[1] = muteButton;
         muteButton.setToolTipText("Mute button");
         muteButton.addActionListener((e) -> volumeControlGetter.getMuteControl().setValue(muteButton.getBoolVar()));
 
-        for(int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < buttons.length; i++) {
             insideControlPanel.add(buttons[i]);
         }
 
@@ -75,9 +75,10 @@ public class AudioControlPanel extends JPanel {
 
 
     private VolumeControlGetterIFace volumeControlGetter;
+
     public void setMasterGainToCurrentSlideValue() {
         FloatControl masterGainControl = volumeControlGetter.getGain();
-        if(masterGainControl != null) {
+        if (masterGainControl != null) {
             // maxGain is 0, because with sound boost, there could be clipping.
             double maxGain = 0;
             // minGain is / 2 because then the volume is too low and for the sound to be heard
@@ -103,16 +104,19 @@ public class AudioControlPanel extends JPanel {
 
     private JButton[] buttons;
     private BooleanButton playButton;
+
     public BooleanButton getPlayButton() {
         return playButton;
     }
 
     private BooleanButton muteButton;
+
     public BooleanButton getMuteButton() {
         return muteButton;
     }
 
     private JSlider volumeSlider;
+
     public JSlider getVolumeSlider() {
         return volumeSlider;
     }
@@ -126,6 +130,7 @@ public class AudioControlPanel extends JPanel {
 
     public interface VolumeControlGetterIFace {
         FloatControl getGain();
+
         BooleanControl getMuteControl();
     }
 }

@@ -9,10 +9,12 @@ public interface MovablePanelViewForPort extends MovablePanelSpecificGetMethodsI
     MaxElevationGetterIFace getClassWithMaxElevationInfo();
 
     int getIndexInPanelList();
+
     void connectToPort(int targetPanelIndexInPanelList, int targetConnectorIndex);
 
     /**
      * Doesn't need to be overridden. It is there just for convenience
+     *
      * @param p
      * @return
      */
@@ -22,6 +24,7 @@ public interface MovablePanelViewForPort extends MovablePanelSpecificGetMethodsI
 
     /**
      * Doesn't need to be overridden. It is there just for convenience
+     *
      * @param lastPoint
      * @param p
      */

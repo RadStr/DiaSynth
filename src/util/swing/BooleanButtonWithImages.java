@@ -44,7 +44,8 @@ public class BooleanButtonWithImages extends BooleanButton {
             // So I can't call it in component listener with the preferred size, which is listening for resizing events.
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
             ifTrueImageIcon = new ImageIcon(img);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             MyLogger.logException(ex);
         }
 
@@ -60,14 +61,15 @@ public class BooleanButtonWithImages extends BooleanButton {
             }
             img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
             ifFalseImageIcon = new ImageIcon(img);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             MyLogger.logException(ex);
         }
     }
 
     @Override
     protected void setButtonVisuals() {
-        if(boolVar) {
+        if (boolVar) {
             this.setIcon(ifTrueImageIcon);
         }
         else {

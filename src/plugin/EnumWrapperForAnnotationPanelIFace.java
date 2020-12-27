@@ -5,8 +5,12 @@ package plugin;
  */
 public interface EnumWrapperForAnnotationPanelIFace {
     String[] getEnumsToStrings(String fieldName);
+
     void setEnumValue(String value, String fieldName);
+
     void setEnumValueToDefault(String fieldName);
+
     String getDefaultEnumString(String fieldName);
+
     String getToolTipForComboBox(String fieldName);
 }

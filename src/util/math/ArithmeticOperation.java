@@ -22,7 +22,7 @@ public enum ArithmeticOperation {
     public static ArithmeticOperation convertStringToEnumValue(String s) {
         ArithmeticOperation[] values = ArithmeticOperation.values();
         for (ArithmeticOperation v : values) {
-            if(v.toString().equals(s)) {
+            if (v.toString().equals(s)) {
                 return v;
             }
         }
@@ -31,13 +31,13 @@ public enum ArithmeticOperation {
     }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// performOperation method
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static double performOperation(double sample, double changeValue, ArithmeticOperation op) {
-        switch(op) {
+        switch (op) {
             case PLUS:
                 sample += changeValue;
                 break;
@@ -61,12 +61,12 @@ public enum ArithmeticOperation {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// performOperationOnSamples methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Changes samples values based on type of operation and on size of changeValue.
      * Doesn't change given samples array. Creates new one and puts results in it
@@ -74,11 +74,12 @@ public enum ArithmeticOperation {
      * For op = MULTIPLY we multiply all samples by changeValue.
      * For op = LOG we take logarithm from the samples. The logarithm is of base changeValue.
      * For op = POWER we raise the samples to the changeValue-th power.
-     * @param samples is the array containing samples.
-     * @param startIndex is the start index from which to start perform operations on.
-     * @param len is the number of samples to perform operation on
+     *
+     * @param samples     is the array containing samples.
+     * @param startIndex  is the start index from which to start perform operations on.
+     * @param len         is the number of samples to perform operation on
      * @param changeValue is the value which will be used on all elements in samples array.
-     * @param op is the operation to be performed on the samples.
+     * @param op          is the operation to be performed on the samples.
      * @return Returns copy of the samples array with corresponding changes.
      */
     public static double[] performOperationOnSamples(double[] samples, int startIndex, int outputStartIndex,
@@ -96,17 +97,18 @@ public enum ArithmeticOperation {
      * For op = MULTIPLY we multiply all samples by changeValue.
      * For op = LOG we take logarithm from the samples. The logarithm is of base changeValue.
      * For op = POWER we raise the samples to the changeValue-th power.
-     * @param samples is the array containing samples.
-     * @param outputArr is the array to put the results in (can be same as the samples array)
+     *
+     * @param samples           is the array containing samples.
+     * @param outputArr         is the array to put the results in (can be same as the samples array)
      * @param samplesStartIndex is the start index from which to start perform operations on.
-     * @param len is the number of samples to perform operation on
-     * @param changeValue is the value which will be used on all elements in samples array.
-     * @param op is the operation to be performed on the samples.
+     * @param len               is the number of samples to perform operation on
+     * @param changeValue       is the value which will be used on all elements in samples array.
+     * @param op                is the operation to be performed on the samples.
      */
     public static void performOperationOnSamples(double[] samples, double[] outputArr, int samplesStartIndex, int outputStartIndex,
                                                  int len, double changeValue, ArithmeticOperation op) {
         int endIndex = samplesStartIndex + len;
-        for(int i = samplesStartIndex, outIndex = outputStartIndex; i < endIndex; i++, outIndex++) {
+        for (int i = samplesStartIndex, outIndex = outputStartIndex; i < endIndex; i++, outIndex++) {
             outputArr[outIndex] = performOperation(samples[i], changeValue, op);
         }
     }
@@ -118,11 +120,12 @@ public enum ArithmeticOperation {
      * For op = MULTIPLY we multiply all samples by changeValue.
      * For op = LOG we take logarithm from the samples. The logarithm is of base changeValue.
      * For op = POWER we raise the samples to the changeValue-th power.
-     * @param samples is the array containing samples.
-     * @param startIndex is the start index in array
-     * @param endIndex is the end index in array
+     *
+     * @param samples     is the array containing samples.
+     * @param startIndex  is the start index in array
+     * @param endIndex    is the end index in array
      * @param changeValue is the value which will be used on all elements in samples array.
-     * @param op is the operation to be performed on the samples.
+     * @param op          is the operation to be performed on the samples.
      */
     public static void performOperationOnSamples(double[] samples, int startIndex, int endIndex, double changeValue, ArithmeticOperation op) {
         int len = endIndex - startIndex;
@@ -131,6 +134,7 @@ public enum ArithmeticOperation {
 
     /**
      * Not used, this is too general
+     *
      * @param input
      * @param changeValues
      * @param output
@@ -152,10 +156,10 @@ public enum ArithmeticOperation {
         if (isPowerOf2) {
             int changeValuesLen = changeValuesEndIndex - changeValuesStartIndex;
             boolean isPowerOf2CV = Utilities.testIfNumberIsPowerOfN(inputLen, 2) >= 0;
-            if(isPowerOf2CV) {
+            if (isPowerOf2CV) {
                 for (int oi = outputStartIndex, ii = inputStartIndex, cvi = changeValuesStartIndex; oi < outputEndIndex; oi++, ii++, cvi++) {
                     output[oi] = performOperation(input[inputStartIndex + (ii % inputLen)],
-                        changeValues[changeValuesStartIndex + (cvi % changeValuesLen)], op);
+                                                  changeValues[changeValuesStartIndex + (cvi % changeValuesLen)], op);
                 }
             }
             else {
@@ -168,11 +172,11 @@ public enum ArithmeticOperation {
             }
         }
         else {
-            for(int oi = outputStartIndex, ii = inputStartIndex, cvi = changeValuesStartIndex; oi < outputEndIndex; oi++, ii++, cvi++) {
+            for (int oi = outputStartIndex, ii = inputStartIndex, cvi = changeValuesStartIndex; oi < outputEndIndex; oi++, ii++, cvi++) {
                 if (ii >= inputEndIndex) {
                     ii = inputStartIndex;
                 }
-                if(cvi >= changeValuesEndIndex) {
+                if (cvi >= changeValuesEndIndex) {
                     cvi = changeValuesStartIndex;
                 }
                 output[oi] = performOperation(input[ii], changeValues[cvi], op);
@@ -195,7 +199,7 @@ public enum ArithmeticOperation {
             }
         }
         else {
-            for(int oi = outputStartIndex, ii = inputStartIndex; oi < outputEndIndex; oi++, ii++) {
+            for (int oi = outputStartIndex, ii = inputStartIndex; oi < outputEndIndex; oi++, ii++) {
                 if (ii >= inputEndIndex) {
                     ii = inputStartIndex;
                 }

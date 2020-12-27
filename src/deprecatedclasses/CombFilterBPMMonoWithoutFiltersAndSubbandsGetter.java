@@ -20,11 +20,11 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
         double[][] fftResults;
         try {
             fftResults = FFT.calculateFFTRealForward(samples, sampleSize, sampleSizeInBits, // TODO: Tahle metoda se casto pouziva se stejnym FFT oknem ... nema smysl vytvaret porad ten samy
-                windowSize, startIndex, endIndex, isBigEndian, isSigned, fft);     // TODO: tohle vraci measury ... nikoliv imag a real cast ... prizpusobit k tomu tu metodu
+                                                     windowSize, startIndex, endIndex, isBigEndian, isSigned, fft);     // TODO: tohle vraci measury ... nikoliv imag a real cast ... prizpusobit k tomu tu metodu
             // TODO: A jeste ten nechci volat na cely song ... vypocetne narocny ... melo by se to delat na nejakou 5ti sekundovou cast
             // TODO: !!!!!!!!!!!!!!
         }
-        catch(IOException e) {
+        catch (IOException e) {
             return -1;          // TODO: Nebo bych mel vyhodit exception? - podle me bych to mel resit hned tady
         }
 
@@ -37,7 +37,6 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
     public int calculateBPMFromEnergies(double[][] energies, int startBPM, int jumpBPM, int bpmCount) {
         return -1;
     }
-
 
 
     public int calculateBPM(double[][][] bpmArrays, double[][] fftResults, int startBPM, int jumpBPM) {
@@ -53,7 +52,7 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
 // TODO: JUST DEBUG
 
         // TODO:        System.out.println(fftResults.length + "\t!\t" + fftResults[0].length);
-        for(int i = 0; i < bpmArrays.length; i++) {
+        for (int i = 0; i < bpmArrays.length; i++) {
 // TODO:            System.out.println(bpmArrays[i].length + "\t!\t" + bpmArrays[i][0].length);
             energy = CombFilterBPMGetterIFace.computeEnergyRealForward(fftResults, bpmArrays[i]);
 //            System.out.println((startBPM + i * jumpBPM) + ":\t" + energy);
@@ -68,7 +67,7 @@ public class CombFilterBPMMonoWithoutFiltersAndSubbandsGetter implements CombFil
 //            }
 //            // TODO:
 
-            if(energy > maxEnergy) {
+            if (energy > maxEnergy) {
                 maxEnergy = energy;
                 maxBPMIndex = i;
             }

@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 
 public class JTextFieldWithBounds extends JTextField {
     /**
-     *
      * @throws IllegalAccessException is thrown when the field couldn't be accessed
      */
     public JTextFieldWithBounds(boolean isFloatOrDouble, double lowerBoundDouble, double upperBoundDouble,
@@ -17,7 +16,7 @@ public class JTextFieldWithBounds extends JTextField {
         super(field.get(objectContainingField).toString());         // Set it to the default value
         this.setToolTipText(tooltip);
         ((AbstractDocument) this.getDocument()).
-            setDocumentFilter(new LimitDocumentFilterIntAndDouble(lowerBoundDouble, upperBoundDouble,
-                                                                  isFloatOrDouble, field, fieldSetter));
+                setDocumentFilter(new LimitDocumentFilterIntAndDouble(lowerBoundDouble, upperBoundDouble,
+                                                                      isFloatOrDouble, field, fieldSetter));
     }
 }

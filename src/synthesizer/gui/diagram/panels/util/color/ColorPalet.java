@@ -28,7 +28,7 @@ public class ColorPalet {
 //            Color.decode("0x232C16"),    // Dark Olive Green
     };
 
-    public static Color getColor(int index){
+    public static Color getColor(int index) {
         return KELLY_COLORS[index];
     }
 

@@ -10,6 +10,7 @@ public class WhiteNoiseGeneratorNoFreq extends WhiteNoiseGenerator {
     public WhiteNoiseGeneratorNoFreq(Unit u) {
         super(u);
     }
+
     public WhiteNoiseGeneratorNoFreq(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -17,7 +18,7 @@ public class WhiteNoiseGeneratorNoFreq extends WhiteNoiseGenerator {
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[1];
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AmplitudeInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
         }
         else {

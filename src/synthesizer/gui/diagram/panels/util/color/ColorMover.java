@@ -1,5 +1,6 @@
 package synthesizer.gui.diagram.panels.util.color;// TODO: Prepsat - zmenil jsem zpusob
 // TODO: Mozna jen staci to mit static - protoze to bude asi pro vsechny stejnym takze mi staci kdyz budu mit instanci toho ColorMoveru mit static
+
 /**
  * This class lets you set 2 points - start and end. and allows you to change currPos.
  * And also let's you change boolean variable isUniversalMove.
@@ -62,7 +63,8 @@ public class ColorMover {
     private void setOneStepBetweenStartAndEnd() {
         if (isMovingToStartPos) {
             endPos.getJumps(startPos, stepCount, startToEndJump);
-        } else {
+        }
+        else {
             startPos.getJumps(endPos, stepCount, startToEndJump);
         }
     }
@@ -70,7 +72,8 @@ public class ColorMover {
     private void setOneStepUniversal() {
         if (isMovingToStartPos) {
             currPos.getJumps(startPos, stepCount, defaultPosJump);
-        } else {
+        }
+        else {
             currPos.getJumps(endPos, stepCount, defaultPosJump);
         }
     }
@@ -87,11 +90,13 @@ public class ColorMover {
         if (currStep < stepCount) {
             if (isUniversalMove) {
                 moveOneStepUniversal();
-            } else {
+            }
+            else {
                 moveOneStepBetweenStartAndEnd();
             }
             currStep++;
-        } else {
+        }
+        else {
             currStep = 0;
             if (isUniversalMove) {
                 isUniversalMove = false;

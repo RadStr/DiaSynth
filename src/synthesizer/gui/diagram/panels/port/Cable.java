@@ -28,10 +28,13 @@ public class Cable {
 
 
     private int pathAroundTargetPanelLen;
+
     public int getPathAroundTargetPanelLen() {
         return pathAroundTargetPanelLen;
     }
+
     private Path2D pathAroundTargetPanel;
+
     /**
      * Adds a point to the path by moving to the specified
      * coordinates specified in double precision.
@@ -61,11 +64,13 @@ public class Cable {
         pathAroundTargetPanel.reset();
         pathAroundTargetPanelLen = 0;
     }
+
     public PathIterator getPathAroundTargetPanelIterator() {
         return pathAroundTargetPanel.getPathIterator(null);
     }
 
     private double sideConnectorLastYForCollision = -Integer.MIN_VALUE;
+
     public void setPathAroundTargetPanel() {
         resetPathAroundTargetPanel();
 
@@ -76,12 +81,12 @@ public class Cable {
         pathAroundTargetPanelLineTo(relativeLocEnd.x + 0.5, relativeLocEnd.y - 0.5);
         Point p = new Point();
         targetPanel.getNextToLastPoint(p, targetPort);
-        if(p.y == -1) {
+        if (p.y == -1) {
             sideConnectorLastYForCollision = relativeLocEnd.y;
             pathAroundTargetPanelMoveTo(relativeLocEnd.x - 0.5, relativeLocEnd.y - 0.5);
             pathAroundTargetPanelLineTo(relativeLocEnd.x - 0.5, sideConnectorLastYForCollision);
         }
-        else if(p.y == 1) {
+        else if (p.y == 1) {
             sideConnectorLastYForCollision = relativeLocEnd.y;
             pathAroundTargetPanelMoveTo(relativeLocEnd.x + 0.5, relativeLocEnd.y - 0.5);
             pathAroundTargetPanelLineTo(relativeLocEnd.x + 0.5, sideConnectorLastYForCollision);
@@ -97,9 +102,11 @@ public class Cable {
 
 
     private CableType cableType;
+
     public CableType getCableType() {
         return cableType;
     }
+
     public void setCableType(CableType val) {
         cableType = val;
     }
@@ -107,23 +114,29 @@ public class Cable {
     private final MaxElevationGetterIFace MAX_ELEVATION;
 
     private MovablePanelSpecificGetMethodsIFace sourcePanel;
+
     public Point getSourcePanelRelativeLoc() {
         return sourcePanel.getRelativePosToReferencePanel();
     }
+
     private InputPort targetPort;
+
     public InputPort getTargetPort() {
         return targetPort;
     }
+
     public Point getTargetPanelRelativeLoc() {
         return targetPort.getPanelWhichContainsPort().getRelativePosToReferencePanel();
     }
 
     private Path2D absolutePath;
+
     public Path2D getAbsolutePath() {
         return absolutePath;
     }
 
     private Point lastPointBeforePort = new Point();
+
     public Point getLastPointBeforePort() {
         return lastPointBeforePort;
     }
@@ -133,6 +146,7 @@ public class Cable {
      */
     private Path2D relativePath;
     private int relativePathLen = 0;
+
     public int getRelativePathLen() {
         return relativePathLen;
     }
@@ -219,7 +233,6 @@ public class Cable {
 // TODO: RML
 
 
-
         int midBotReferencePanelX = referencePanelLoc.x + panelSize.width / 2;
         int referencePanelEndX = referencePanelLoc.x + panelSize.width;
         int referencePanelEndY = referencePanelLoc.y + panelSize.height;
@@ -231,7 +244,7 @@ public class Cable {
         boolean wasLastQuad = false;
         int index = 0;
 
-        for(PathIterator iterator = relativePath.getPathIterator(null); !iterator.isDone(); index++) {
+        for (PathIterator iterator = relativePath.getPathIterator(null); !iterator.isDone(); index++) {
             if (index < 2) {
                 x = midBotReferencePanelX;
             }
@@ -337,17 +350,17 @@ public class Cable {
                     endingCondition =
                             (isConnectorOnSides && (
                                     (index >= relativePathLen - 2 && (cableType == CableType.ADVANCED_ALGORITHM) ||
-                                            cableType == CableType.STRAIGHT_LINE) ||
-                                            (index >= relativePathLen - 1 && cableType == CableType.AISLE_ALGORITHM)
+                                     cableType == CableType.STRAIGHT_LINE) ||
+                                    (index >= relativePathLen - 1 && cableType == CableType.AISLE_ALGORITHM)
                             )) ||
                             (!isConnectorOnSides && (
                                     (index >= relativePathLen - 3 && cableType == CableType.ADVANCED_ALGORITHM) ||
-                                            (index >= relativePathLen - 2 && cableType == CableType.AISLE_ALGORITHM)
+                                    (index >= relativePathLen - 2 && cableType == CableType.AISLE_ALGORITHM)
                             ));
 
                     if (cableType == CableType.ADVANCED_ALGORITHM &&
-                            iterator.currentSegment(tmpArr) != PathIterator.SEG_QUADTO &&
-                            index != relativePathLen - 2 && !isConnectorOnSides) {
+                        iterator.currentSegment(tmpArr) != PathIterator.SEG_QUADTO &&
+                        index != relativePathLen - 2 && !isConnectorOnSides) {
                         x = midBotReferencePanelX;
                     }
 
@@ -393,7 +406,8 @@ public class Cable {
                                     else {
                                         x -= panelSize.width;
                                     }
-                                } else {
+                                }
+                                else {
                                     // EMPTY
                                 }
                             }
@@ -402,7 +416,7 @@ public class Cable {
                     else {
                         x -= totalElevation;
                     }
-                    if(endingCondition) {                     // Just draw the last lines and exit
+                    if (endingCondition) {                     // Just draw the last lines and exit
                         setLastFewPoints(x, y, tmpPoint, totalElevation, borderWidth, borderHeight);
                         return;
                     }
@@ -426,7 +440,7 @@ public class Cable {
         Point panelLoc = targetPort.getPanelWhichContainsPort().getLocation();
 
         targetPort.getNextToLastPoint(tmpPoint);
-        if(tmpPoint.y == 0) {
+        if (tmpPoint.y == 0) {
             double newY = panelLoc.y + totalElevation - borderHeight / 2;
             if (y != newY) {
                 absolutePath.lineTo(x, y);
@@ -436,7 +450,7 @@ public class Cable {
 
             x = tmpPoint.x;
         }
-        else if(tmpPoint.y == -1) {
+        else if (tmpPoint.y == -1) {
             double newX = panelLoc.x - totalElevation - borderWidth / 2;
             if (x != newX) {
                 absolutePath.lineTo(x, y);
@@ -467,7 +481,7 @@ public class Cable {
 
     private void setLastTwoPoints(double x, double y, Point tmpPoint) {
         targetPort.getNextToLastPoint(tmpPoint);
-        if(tmpPoint.y == 0) {
+        if (tmpPoint.y == 0) {
             x = tmpPoint.x;
         }
         else {
@@ -483,8 +497,8 @@ public class Cable {
 
 
     private double getNewXAfterFixForLastQuad(boolean isArcToLeft, double lineX, double oldX, double arcX, double x, int borderWidth, Dimension panelSize) {
-        if(isArcToLeft) {           // going left - end of arc is more on left than the arc
-            if(lineX > oldX) {     // But the line is going to right
+        if (isArcToLeft) {           // going left - end of arc is more on left than the arc
+            if (lineX > oldX) {     // But the line is going to right
                 if (arcX == Math.floor(arcX)) {
                     x -= borderWidth / 2 + panelSize.width / 4;
                 }
@@ -502,7 +516,7 @@ public class Cable {
             }
         }
         else {
-            if(lineX < oldX) {
+            if (lineX < oldX) {
                 if (arcX == Math.floor(arcX)) {
                     x += borderWidth / 2 + panelSize.width / 4;
                 }
@@ -520,7 +534,8 @@ public class Cable {
             int modulo;
             if ((int) doubleVal == 0) {
                 modulo = 1;
-            } else {
+            }
+            else {
                 modulo = floorVal;
                 if (modulo < 0 && modulo != 1) {
                     modulo++;
@@ -535,9 +550,11 @@ public class Cable {
 
 
     private int elevation = 0;
+
     public int getElevation() {
         return elevation;
     }
+
     public void resetElevation() {
         isElevationSet = false;
         elevation = 0;
@@ -545,7 +562,7 @@ public class Cable {
 
 
     public void setElevationBasedOnMaxElevation(int currMaxElevation) {     // Goes like 0->1->-1->2->-2 ... etc.
-        if(isBiggerThanCurrentlySetWithNext(currMaxElevation) || !isElevationSet) {
+        if (isBiggerThanCurrentlySetWithNext(currMaxElevation) || !isElevationSet) {
             if (currMaxElevation == 0) {
                 if (MAX_ELEVATION.getMaxElevation() != 0)
                     elevation = 1;
@@ -554,7 +571,8 @@ public class Cable {
             }
             else if (currMaxElevation > 0) {
                 elevation = -currMaxElevation;
-            } else {
+            }
+            else {
                 elevation = currMaxElevation - 1;
                 elevation = -elevation;
                 if (elevation > MAX_ELEVATION.getMaxElevation()) {
@@ -570,6 +588,7 @@ public class Cable {
 
     /**
      * Works with setElevationBasedOnMaxElevation so it checks if the value after the val is bigger
+     *
      * @param val
      * @return
      */
@@ -591,6 +610,7 @@ public class Cable {
     }
 
     private boolean isElevationSet;
+
     public boolean getIsElevationSet() {
         return isElevationSet;
     }
@@ -611,12 +631,14 @@ public class Cable {
         absolutePath = new Path2D.Double(absolutePath, at);
         lastPointBeforePort.x += xMovement;
     }
+
     public void moveY(int yMovement) {
         AffineTransform at = new AffineTransform();
         at.translate(0, yMovement);
         absolutePath = new Path2D.Double(absolutePath, at);
         lastPointBeforePort.y += yMovement;
     }
+
     public void move(int xMovement, int yMovement) {
         AffineTransform at = new AffineTransform();
         at.translate(xMovement, yMovement);

@@ -6,7 +6,6 @@ public interface SubbandSplitterIFace {
     int getSubbandCount();
 
 
-
     // From documentation:
 //	if n is even then
 //	 a[2*k] = Re[k], 0<=k<n/2
@@ -18,9 +17,11 @@ public interface SubbandSplitterIFace {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
+
     /**
      * Copies the fftMeasures array part corresponding to the specified subband to the result array (to the same positions).
      * Method doesn't change other indices of the result array.
+     *
      * @param fftResult
      * @param subbandCount
      * @param subband
@@ -46,6 +47,7 @@ public interface SubbandSplitterIFace {
     /**
      * Copies the fftMeasures array part corresponding to the specified subband to newly created array (to the same positions).
      * It is equivalent to setting all other indices except the subbands one to 0.
+     *
      * @param fftMeasures
      * @param subbandCount
      * @param subband
@@ -60,6 +62,7 @@ public interface SubbandSplitterIFace {
     /**
      * Takes sum of the specified subband in the given fftMeasures array. The resulting sum is averaged (divided by the array length)
      * and then multiplied by the length of the subband.
+     *
      * @param fftMeasures
      * @param subbandCount
      * @param subband
@@ -82,6 +85,7 @@ public interface SubbandSplitterIFace {
 
     /**
      * Help method, which shouldn't be called from outside. Gets the start index and length for the given subband.
+     *
      * @param arrayLen
      * @param subbandCount
      * @param subband

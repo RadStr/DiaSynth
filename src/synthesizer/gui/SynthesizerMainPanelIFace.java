@@ -10,8 +10,11 @@ import java.awt.*;
  */
 public interface SynthesizerMainPanelIFace extends AudioControlPanelGetterIFace {
     void clickRealTimeRecordingCheckbox();
+
     void putRecordedWaveToPlayer(byte[] record, int len, AudioFormatWithSign outputFormat,
                                  boolean shouldConvertToPlayerOutputFormat);
+
     Dimension getSize();
+
     int getTopButtonsPreferredHeight();
 }

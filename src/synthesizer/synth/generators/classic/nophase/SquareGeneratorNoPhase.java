@@ -10,6 +10,7 @@ public class SquareGeneratorNoPhase extends SquareGenerator {
     public SquareGeneratorNoPhase(Unit u) {
         super(u);
     }
+
     public SquareGeneratorNoPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }

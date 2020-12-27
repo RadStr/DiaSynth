@@ -27,13 +27,14 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         double val = -1;
         // 2 Because we have range -1 to 1 I need to split it to the labels and -1 because the first doesn't count
         double valJump = 2.0d / (len - 1);
-        for(int i = 0; i < labels.length; i++, val += valJump) {
+        for (int i = 0; i < labels.length; i++, val += valJump) {
             labels[i] = String.format("%.2f", val);
         }
     }
 
     /**
      * Returns double, because the result will be interpolated.
+     *
      * @param inputValue
      * @return
      */
@@ -48,6 +49,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
 
     /**
      * Returns double, because the result will be interpolated.
+     *
      * @param inputValue
      * @return
      */
@@ -56,7 +58,7 @@ public class FunctionWaveDrawPanel extends WaveDrawPanel {
         double ratio = inputValue / 2.0;
         double binIndex;
 
-        if(inputValue != 0) {
+        if (inputValue != 0) {
             binIndex = ratio * (functionArrLen - 1);
         }
         else {

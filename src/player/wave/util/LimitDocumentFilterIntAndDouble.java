@@ -41,13 +41,13 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
         boolean alreadyContainsMinus = prefix.contains("-") || suffix.contains("-");
         boolean isJustMinus = false;
 
-        if(text.indexOf('-') == 0) {
-            if(alreadyContainsMinus) {
+        if (text.indexOf('-') == 0) {
+            if (alreadyContainsMinus) {
                 return;
             }
             // It is only '-' and neither the prefix and suffix doesn't contain '-'
-            else if(text.length() == 1) {
-                if(prefix.length() == 0 && suffix.length() == 0 && lowerBound < 0) {
+            else if (text.length() == 1) {
+                if (prefix.length() == 0 && suffix.length() == 0 && lowerBound < 0) {
                     internalReplace(fb, offset, length, text, attrs, text);
                     return;
                 }
@@ -58,36 +58,36 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
         // The new given number is either just minus or int or double there is no other possibility
         String newNumString = prefix + text + suffix;
         // Check if the new text are only digits
-        if(LimitDocumentFilterInt.isInteger(text, 10) || isJustMinus) {
+        if (LimitDocumentFilterInt.isInteger(text, 10) || isJustMinus) {
             double newNum;
 
             try {
-                if(isFloatOrDouble) {
+                if (isFloatOrDouble) {
                     newNum = Double.parseDouble(newNumString);
                 }
                 else {
                     newNum = Integer.parseInt(newNumString);
                 }
             }
-            catch(NumberFormatException e) {
+            catch (NumberFormatException e) {
                 return;
             }
 
             ifInBoundsReplace(fb, offset, length, text, attrs, newNum, newNumString);
         }
-        else if(isFloatOrDouble && text.indexOf('.') != -1 && !hasDecimalPoint &&
-                !(text.indexOf('.') == 0 && prefix.length() == 0) ||    // I don't allow the . to be at start
-                isJustMinus) {
+        else if (isFloatOrDouble && text.indexOf('.') != -1 && !hasDecimalPoint &&
+                 !(text.indexOf('.') == 0 && prefix.length() == 0) ||    // I don't allow the . to be at start
+                 isJustMinus) {
             hasDecimalPoint = true;
 
-            if(text.indexOf('.') == text.length() - 1 && "".equals(suffix)) {
+            if (text.indexOf('.') == text.length() - 1 && "".equals(suffix)) {
                 newNumString += "0";
             }
             double newNum;
             try {
                 newNum = Double.parseDouble(newNumString);
             }
-            catch(NumberFormatException e) {
+            catch (NumberFormatException e) {
                 return;
             }
 
@@ -104,9 +104,9 @@ public class LimitDocumentFilterIntAndDouble extends DocumentFilter {
     private String internalRemove(FilterBypass fb, int offset, int length) throws BadLocationException {
         Document doc = fb.getDocument();
         String oldNumString = doc.getText(0, doc.getLength());  // The number I had before
-        if(length > 0) {
+        if (length > 0) {
             String removedSubString = oldNumString.substring(offset, offset + length);
-            if(removedSubString.contains(".")) {
+            if (removedSubString.contains(".")) {
                 hasDecimalPoint = false;
             }
             oldNumString = oldNumString.substring(0, offset) + oldNumString.substring(offset + length);

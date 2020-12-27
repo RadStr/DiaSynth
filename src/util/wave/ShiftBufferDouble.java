@@ -23,37 +23,46 @@ public class ShiftBufferDouble {
     private static int calculateWindowCount(int windowCountToTheRight) {
         return 2 * windowCountToTheRight + 1;
     }
+
     private static int calculateBufferSize(int windowSize, double windowCount) {
-        return (int)Math.ceil(windowSize * windowCount);
+        return (int) Math.ceil(windowSize * windowCount);
     }
 
 
     private ShiftBufferBoundsIFace boundsUpdater;
 
     private int minLeftIndex;
+
     private void resetMinLeftIndexToZero() {
         setMinLeftIndex(0);
     }
+
     public void setMinLeftIndex() {
         setMinLeftIndex(boundsUpdater.calculateMinLeftIndexForShiftBuffer());
     }
+
     private void setMinLeftIndex(int val) {
         minLeftIndex = Math.max(val, 0);
     }
+
     private void updateMinLeftIndex(int update) {
         setMinLeftIndex(getMinLeftIndex() + update);
     }
+
     public int getMinLeftIndex() {
         return minLeftIndex;
     }
 
     private int maxRightIndex;
+
     private void resetMaxRightIndexToBufferLen() {
         setMaxRightIndex(buffer.length);
     }
+
     public void setMaxRightIndex() {
         setMaxRightIndex(boundsUpdater.calculateMaxRightIndexForShiftBuffer());
     }
+
     public void setMaxRightIndex(int val) {
         maxRightIndex = Math.min(val, buffer.length);
     }
@@ -61,15 +70,18 @@ public class ShiftBufferDouble {
     private void updateMaxRightIndex(int update) {
         setMaxRightIndex(getMaxRightIndex() + update);
     }
+
     public int getMaxRightIndex() {
         return maxRightIndex;
     }
 
     private int middleIndex;
+
     private void setMidIndex() {
-        int middleWindow = (int)(windowCount / 2);
+        int middleWindow = (int) (windowCount / 2);
         middleIndex = middleWindow * windowSize;
     }
+
     public int getMiddleIndex() {
         return middleIndex;
     }
@@ -86,27 +98,32 @@ public class ShiftBufferDouble {
     }
 
     private double[] buffer;
+
     public int getBufferLength() {
         return maxRightIndex - minLeftIndex;
     }
+
     public double[] getBuffer() {
         return buffer;
     }
+
     public double getValueAtIndex(int index) {
         return buffer[index];
     }
 
 
-
     private double windowCount;
+
     public double getWindowCount() {
         return windowCount;
     }
 
     private int windowSize;
+
     public int getWindowSize() {
         return windowSize;
     }
+
     public void setWindowSize(int val) {
         windowSize = val;
         endIndex = startIndex + windowSize;
@@ -114,6 +131,7 @@ public class ShiftBufferDouble {
     }
 
     private int startIndex;
+
     public int getStartIndex() {
         return startIndex;
     }
@@ -123,16 +141,19 @@ public class ShiftBufferDouble {
         setStartIndex(startIndex + update);
         boolean result = updateIfOutOfBounds();
     }
+
     private void setStartIndex(int val) {
         startIndex = val;
         endIndex = startIndex + windowSize;
     }
+
     public void resetStartIndex() {
         this.setStartIndex(middleIndex);
     }
 
 
     private int endIndex;       // The variable is set inside the updateStartIndex method
+
     public int getEndIndex() {
         return endIndex;
     }
@@ -155,7 +176,7 @@ public class ShiftBufferDouble {
      * Checks if startIndex < 0 and if so, then reads new values.
      */
     private boolean updateIfOutOfBoundsStartIndex() {
-        if(startIndex < 0) {
+        if (startIndex < 0) {
             setMaxRightIndex();
             int copiedValCount = updateInternalBufferScrollingToLeft();
             ProgramTest.debugPrint("updateIfOutOfBoundsStartIndex", copiedValCount, getMaxRightIndex());
@@ -175,7 +196,7 @@ public class ShiftBufferDouble {
     private boolean updateIfOutOfBoundsEndIndex() {
         int endIndex = getEndIndex();
 
-        if(endIndex > maxRightIndex) {
+        if (endIndex > maxRightIndex) {
             setMinLeftIndex();
             int totalCopiedValCount = updateInternalBufferScrollingToRight();
             int newValsCount = boundsUpdater.getNewValCountOnRight(totalCopiedValCount);
@@ -223,14 +244,14 @@ public class ShiftBufferDouble {
     public int updateInternalBufferScrollingToLeft() {
         int startCopyToIndex = getIndexToCopyToWhenScrollingLeft();
         int totalCopiedValCount = getMaxRightIndex() - startCopyToIndex;
-        if(totalCopiedValCount <= 0) {
+        if (totalCopiedValCount <= 0) {
             return 0;
         }
 
         // In this case we can reuse some old values from buffer, so we don't read it all from HDD cache
         // (or calculate again when caching is disabled)
         // Basically it shifts by the middleIndex - startIndex to the left
-        if(startCopyToIndex < maxRightIndex) {
+        if (startCopyToIndex < maxRightIndex) {
             // To the right, because we take the old in buffer on start and put them on the end of the buffer
             shiftBufferToRight(startCopyToIndex);
         }
@@ -241,14 +262,14 @@ public class ShiftBufferDouble {
     public int updateInternalBufferScrollingToRight() {
         int startCopyFromIndex = getIndexToCopyFromWhenScrollingRight();
         int totalCopiedValCount = getMaxRightIndex() - startCopyFromIndex;
-        if(totalCopiedValCount <= 0) {
+        if (totalCopiedValCount <= 0) {
             return 0;
         }
 
         // In this case we can reuse some old values from buffer, so we don't read it all from HDD cache
         // (or calculate again when caching is disabled)
         // Basically it shifts by the middleIndex - startIndex to the left
-        if(startCopyFromIndex < maxRightIndex) {
+        if (startCopyFromIndex < maxRightIndex) {
             // To the left, because we take the values in buffer on end and put them on the start of the buffer
             shiftBufferToLeft(startCopyFromIndex);
             return totalCopiedValCount;
@@ -258,14 +279,13 @@ public class ShiftBufferDouble {
     }
 
 
-
     private void shiftBufferToLeft(int startCopyFromIndex) {
         ProgramTest.debugPrint("shiftBufferToLeft", startCopyFromIndex, getMinLeftIndex(),
-            buffer.length, buffer.length - startCopyFromIndex, maxRightIndex, maxRightIndex - startCopyFromIndex);
+                               buffer.length, buffer.length - startCopyFromIndex, maxRightIndex, maxRightIndex - startCopyFromIndex);
 
-        for(int copyToIndex = getMinLeftIndex(), copyFromIndex = startCopyFromIndex;
-                copyFromIndex < maxRightIndex;
-                copyFromIndex++, copyToIndex++) {
+        for (int copyToIndex = getMinLeftIndex(), copyFromIndex = startCopyFromIndex;
+             copyFromIndex < maxRightIndex;
+             copyFromIndex++, copyToIndex++) {
             buffer[copyToIndex] = buffer[copyFromIndex];
         }
     }
@@ -274,12 +294,12 @@ public class ShiftBufferDouble {
     private void shiftBufferToRight(int startCopyToIndex) {
         // TODO: DEBUG
         ProgramTest.debugPrint("shiftBufferToRight", startCopyToIndex, buffer.length,
-            buffer.length - startCopyToIndex, maxRightIndex, maxRightIndex - startCopyToIndex);
+                               buffer.length - startCopyToIndex, maxRightIndex, maxRightIndex - startCopyToIndex);
         // TODO: DEBUG
         // Have to go from end because otherwise I will rewrite the values before I copy them
-        for(int copyToIndex = maxRightIndex - 1, copyFromIndex = (maxRightIndex - 1) - startCopyToIndex;
-                copyToIndex >= startCopyToIndex;
-                copyFromIndex--, copyToIndex--) {
+        for (int copyToIndex = maxRightIndex - 1, copyFromIndex = (maxRightIndex - 1) - startCopyToIndex;
+             copyToIndex >= startCopyToIndex;
+             copyFromIndex--, copyToIndex--) {
             buffer[copyToIndex] = buffer[copyFromIndex];
         }
     }

@@ -10,14 +10,14 @@ public class SustainAmplitudeInputPort extends InputPort {
                                      int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder,
                                      double neutralValue) {
         super(u, panelWhichContainsPort, "S_A", "Sustain amplitude",
-                connectorIndex, inputPortToGUIAdder,
-                "This port controls the amplitude which the envelope has during sustain phase",
-                neutralValue);
+              connectorIndex, inputPortToGUIAdder,
+              "This port controls the amplitude which the envelope has during sustain phase",
+              neutralValue);
     }
 
 
     public SustainAmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                                    int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder,0.8);
+                                     int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 0.8);
     }
 }

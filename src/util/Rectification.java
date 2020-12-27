@@ -4,7 +4,7 @@ import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 
 public class Rectification {
-    private Rectification() {}      // Allow only static access
+    private Rectification() { }      // Allow only static access
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,20 +14,20 @@ public class Rectification {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-////////////////////
+    ////////////////////
 ////////// Half wave rectification
 ////////////////////
     public static void halfWaveRectificationInt(int[] samples, boolean passPositive, int sampleSize, boolean isSigned) {
         int zeroValue = getZeroValue(isSigned, sampleSize);
 
-        for(int i = 0; i < samples.length; i++) {
-            if(passPositive) {
-                if(samples[i] < zeroValue) {
+        for (int i = 0; i < samples.length; i++) {
+            if (passPositive) {
+                if (samples[i] < zeroValue) {
                     samples[i] = zeroValue;
                 }
             }
             else {
-                if(samples[i] > zeroValue) {
+                if (samples[i] > zeroValue) {
                     samples[i] = zeroValue;
                 }
             }
@@ -36,14 +36,14 @@ public class Rectification {
 
     // Double values are shifted so they are between -1 and 1
     public static void halfWaveRectificationDouble(double[] samples, boolean passPositive) {
-        for(int i = 0; i < samples.length; i++) {
-            if(passPositive) {
-                if(samples[i] < 0) {
+        for (int i = 0; i < samples.length; i++) {
+            if (passPositive) {
+                if (samples[i] < 0) {
                     samples[i] = 0;
                 }
             }
             else {
-                if(samples[i] > 0) {
+                if (samples[i] > 0) {
                     samples[i] = 0;
                 }
             }
@@ -56,10 +56,10 @@ public class Rectification {
         int zeroValue = getZeroValue(zeroValueBytes, isBigEndian, isSigned, sampleSize);
 
         int sample;
-        for(int i = 0; i < samples.length;) {
+        for (int i = 0; i < samples.length; ) {
             sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
-            if(passPositive) {
-                if(sample < zeroValue) {
+            if (passPositive) {
+                if (sample < zeroValue) {
                     i = setArrayValues(samples, zeroValueBytes, i);
                 }
                 else {
@@ -67,8 +67,8 @@ public class Rectification {
                 }
             }
             else {
-                if(sample > zeroValue) {
-                    if(sample < zeroValue) {
+                if (sample > zeroValue) {
+                    if (sample < zeroValue) {
                         i = setArrayValues(samples, zeroValueBytes, i);
                     }
                 }
@@ -80,12 +80,12 @@ public class Rectification {
     }
 
 
-////////////////////
+    ////////////////////
 ////////// Full wave rectification
 ////////////////////
     public static void fullWaveRectificationDouble(double[] samples, boolean passPositive) {
-        for(int i = 0; i < samples.length; i++) {
-            if(passPositive) {
+        for (int i = 0; i < samples.length; i++) {
+            if (passPositive) {
                 samples[i] = Math.abs(samples[i]);
             }
             else {
@@ -97,7 +97,7 @@ public class Rectification {
     public static void fullWaveRectificationInt(int[] samples, boolean passPositive, int sampleSize, boolean isSigned) {
         int zero = getZeroValue(isSigned, sampleSize);
 
-        for(int i = 0; i < samples.length; i++) {
+        for (int i = 0; i < samples.length; i++) {
             samples[i] = getAbsoluteValueGeneral(samples[i], zero, passPositive);
         }
     }
@@ -108,12 +108,12 @@ public class Rectification {
         int zeroValue = getZeroValue(isSigned, sampleSize);
 
         int sample;
-        for(int i = 0; i < samples.length;) {
+        for (int i = 0; i < samples.length; ) {
             sample = AudioConverter.convertBytesToInt(samples, sampleSize, mask, i, isBigEndian, isSigned);
             getAbsoluteValueGeneral(sample, zeroValue, passPositive, sampleBytes, sampleSize, isBigEndian);
 
-            if(passPositive) {
-                if(sample < zeroValue) {
+            if (passPositive) {
+                if (sample < zeroValue) {
                     i = setArrayValues(samples, sampleBytes, i);
                 }
                 else {
@@ -121,7 +121,7 @@ public class Rectification {
                 }
             }
             else {
-                if(sample > zeroValue) {
+                if (sample > zeroValue) {
                     i = setArrayValues(samples, sampleBytes, i);
                 }
                 else {
@@ -137,14 +137,13 @@ public class Rectification {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Rectification - help methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static int getZeroValue(boolean isSigned, int sampleSize) {
-        if(isSigned) {
+        if (isSigned) {
             return 0;
         }
         else {
@@ -155,8 +154,8 @@ public class Rectification {
 
     public static int getZeroValue(byte[] zeroValueBytesResult, boolean isBigEndian, boolean isSigned, int sampleSize) {
         int zeroValue = 0;
-        if(isSigned) {
-            for(int i = 0; i < zeroValueBytesResult.length; i++) {
+        if (isSigned) {
+            for (int i = 0; i < zeroValueBytesResult.length; i++) {
                 zeroValueBytesResult[i] = 0;
             }
         }
@@ -171,7 +170,7 @@ public class Rectification {
 
 
     public static int setArrayValues(byte[] array, byte[] arrayWithSetValues, int index) {
-        for(int j = 0; j < arrayWithSetValues.length; j++, index++) {
+        for (int j = 0; j < arrayWithSetValues.length; j++, index++) {
             array[index] = arrayWithSetValues[j];
         }
 
@@ -181,7 +180,7 @@ public class Rectification {
     public static int getAbsoluteValueGeneral(int value, int zero, boolean isPositive,
                                               byte[] resultInBytes, int sampleSize, boolean isBigEndian) {
         int retVal;
-        if(isPositive) {
+        if (isPositive) {
             retVal = getAbsoluteValueGeneralPositive(value, zero);
         }
         else {
@@ -193,7 +192,7 @@ public class Rectification {
     }
 
     public static int getAbsoluteValueGeneral(int value, int zero, boolean isPositive) {
-        if(isPositive) {
+        if (isPositive) {
             return getAbsoluteValueGeneralPositive(value, zero);
         }
         else {

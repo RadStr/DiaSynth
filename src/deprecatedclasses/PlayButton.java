@@ -24,7 +24,7 @@ public class PlayButton extends JButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         isPaused = !isPaused;
-        if(isPaused) {
+        if (isPaused) {
             this.setText("Paused");
         }
         else {

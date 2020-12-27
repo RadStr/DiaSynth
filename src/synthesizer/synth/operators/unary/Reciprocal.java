@@ -54,6 +54,7 @@ public class Reciprocal extends UnaryOperator {
      */
     public static final double MIN_ALLOWED_VAL_FOR_ONE = 0.05;
     private double minAllowedVal = MIN_ALLOWED_VAL_FOR_ONE;
+
     @Override
     public void calculateSamples() {
         minAllowedVal = MIN_ALLOWED_VAL_FOR_ONE * inputPorts[0].getMaxAbsValue();
@@ -62,8 +63,8 @@ public class Reciprocal extends UnaryOperator {
 
     @Override
     public double unaryOperation(double val) {
-        if(val > -minAllowedVal && val < minAllowedVal) {
-            if(val < 0) {
+        if (val > -minAllowedVal && val < minAllowedVal) {
+            if (val < 0) {
                 val = -minAllowedVal;
             }
             else {

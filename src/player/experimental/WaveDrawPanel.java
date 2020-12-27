@@ -10,7 +10,7 @@ public abstract class WaveDrawPanel extends DrawPanel {
     public WaveDrawPanel(int binCount, String labelTypeToolTip, boolean isEditable,
                          Color backgroundColor, boolean shouldDrawLabelsAtTop) {
         super(binCount, labelTypeToolTip, isEditable, true, false,
-                backgroundColor, shouldDrawLabelsAtTop, true);
+              backgroundColor, shouldDrawLabelsAtTop, true);
     }
 
 
@@ -49,29 +49,30 @@ public abstract class WaveDrawPanel extends DrawPanel {
     }
 
     /**
-     *
      * @param g
      * @param drawValue
      * @param currX
      * @param binWidth
      * @param h
-     * @param fillRect if set to true than draw bin as filled rectangle, otherwise draw it as rectangle with no filling.
+     * @param fillRect  if set to true than draw bin as filled rectangle, otherwise draw it as rectangle with no filling.
      */
     public static void drawBinValueBetweenMinusOneAndOne(Graphics g, double drawValue, int currX,
                                                          int binWidth, int h, boolean fillRect) {
         int midY = h / 2;
         int y = midY - (int) (drawValue * midY);
-        if(fillRect) {
+        if (fillRect) {
             if (y < midY) {
                 g.fillRect(currX, y, binWidth, midY - y);
-            } else {
+            }
+            else {
                 g.fillRect(currX, midY, binWidth, y - midY);
             }
         }
         else {
             if (y < midY) {
                 g.drawRect(currX, y, binWidth, midY - y);
-            } else {
+            }
+            else {
                 g.drawRect(currX, midY, binWidth, y - midY);
             }
         }

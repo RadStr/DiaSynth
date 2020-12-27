@@ -11,7 +11,6 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
     private final double START_ANGLE;
 
     /**
-     *
      * @param rectangleCount
      * @param distanceFromCircleDivFactor
      * @param rectangleThicknessDivFactor
@@ -31,7 +30,6 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
 
 
     /**
-     *
      * @param rectangleCount
      * @param distanceFromCircleDivFactor
      * @param rectangleThicknessDivFactor
@@ -43,9 +41,8 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
     public CenteredRectanglesInternals(int rectangleCount, int distanceFromCircleDivFactor,
                                        int rectangleThicknessDivFactor, int circleDiameterDecreaseDivFactor) {
         this(0, rectangleCount, distanceFromCircleDivFactor,
-                rectangleThicknessDivFactor, circleDiameterDecreaseDivFactor);
+             rectangleThicknessDivFactor, circleDiameterDecreaseDivFactor);
     }
-
 
 
     private void constructor(int rectangleCount) {
@@ -80,20 +77,20 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
         int absY = relY + heightMinDif / 2;
         int h = minD - 2 * relY;
 
-        if(CIRCLE_DIAMETER_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
+        if (CIRCLE_DIAMETER_DECREASE_DIV_FACTOR != Integer.MAX_VALUE) {
             absY -= minD / CIRCLE_DIAMETER_DECREASE_DIV_FACTOR;
         }
         verticalRectangle.setRect(x, absY, w, h);
         rectangles[0] = verticalRectangle;
-        if(START_ANGLE != 0) {
+        if (START_ANGLE != 0) {
             AffineTransform at = AffineTransform.getRotateInstance(START_ANGLE,
-                    x + w / 2, absY + h / 2);
+                                                                   x + w / 2, absY + h / 2);
             Shape rectangle = at.createTransformedShape(rectangles[0]);
             rectangles[0] = rectangle;
         }
         for (int i = 1; i < rectangles.length; i++) {
             AffineTransform at = AffineTransform.getRotateInstance(i * Math.PI / rectangles.length,
-                    x + w / 2, absY + h / 2);
+                                                                   x + w / 2, absY + h / 2);
             Shape rectangle = at.createTransformedShape(rectangles[0]);
             rectangles[i] = rectangle;
         }
@@ -103,8 +100,8 @@ public class CenteredRectanglesInternals implements ShapedPanelInternals {
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
-        Graphics2D g2 = (Graphics2D)g;
-        for(int i = 0; i < rectangles.length; i++) {
+        Graphics2D g2 = (Graphics2D) g;
+        for (int i = 0; i < rectangles.length; i++) {
             g2.fill(rectangles[i]);
         }
     }

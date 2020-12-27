@@ -33,17 +33,17 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
 
     /**
      * Resizes the internal buffer class based on the resize of the window which paints the wave.
-     * @param newVisibleWidth represents the new visible wave visibleWidth.
+     *
+     * @param newVisibleWidth        represents the new visible wave visibleWidth.
      * @param totalWaveWidthInPixels is the total visibleWidth of the wave.
-     * @param startIndexInValues is the current index in the wave values, which corresponds to the left visible pixel.
-     * @param valueCount is the number of the draw values in the whole wave.
+     * @param startIndexInValues     is the current index in the wave values, which corresponds to the left visible pixel.
+     * @param valueCount             is the number of the draw values in the whole wave.
      */
     public abstract void waveResize(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount);
 
     public abstract void shiftBuffer(int pixelShift);
 
     /**
-     *
      * @param g
      * @param width
      * @param height
@@ -53,8 +53,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
 
 
     /**
-     *
-     * @param startFillIndex is the pixel in the cached buffer file, to start taking the values from. So in the case min/max it is 1/2 the real index
+     * @param startFillIndex   is the pixel in the cached buffer file, to start taking the values from. So in the case min/max it is 1/2 the real index
      * @param bufferStartIndex
      * @param bufferEndIndex
      */
@@ -99,7 +98,6 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
 
 
     /**
-     *
      * @param startIndexInAudio is the start index in audio - the index of the most left currently visible sample.
      */
     protected void fillWholeBuffer(int startIndexInAudio) {
@@ -115,6 +113,7 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
 
     /**
      * Shift it to the left because the first visible value will be at middle index
+     *
      * @param startIndexInAudio is the start index in audio - the index of the most left currently visible sample.
      * @return Returns the index in audio corresponding to the most left index in shift buffer.
      */

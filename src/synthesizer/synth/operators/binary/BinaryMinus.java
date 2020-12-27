@@ -7,7 +7,10 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
 public class BinaryMinus extends BinaryOperator {
-    public BinaryMinus(Unit u) { super(u); }
+    public BinaryMinus(Unit u) {
+        super(u);
+    }
+
     public BinaryMinus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -15,7 +18,7 @@ public class BinaryMinus extends BinaryOperator {
 
     @Override
     public double[] getNeutralValues() {
-        return new double[] { 0, 0 };
+        return new double[]{0, 0};
     }
 
 

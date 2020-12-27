@@ -7,7 +7,10 @@ import synthesizer.synth.generators.GeneratorNoPhase;
 import synthesizer.synth.Unit;
 
 public class SineGeneratorNoPhase extends SineGenerator {
-    public SineGeneratorNoPhase(Unit u) { super(u);}
+    public SineGeneratorNoPhase(Unit u) {
+        super(u);
+    }
+
     public SineGeneratorNoPhase(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }

@@ -34,12 +34,13 @@ public enum ChannelCount {
 
 
     public final int CHANNEL_COUNT;
+
     private ChannelCount(int channelCount) {
         CHANNEL_COUNT = channelCount;
     }
 
     public static ChannelCount convertNumberToEnum(int channelCount) {
-        switch(channelCount) {
+        switch (channelCount) {
             case 1:
                 return MONO;
             case 2:
@@ -57,11 +58,10 @@ public enum ChannelCount {
     }
 
 
-
     public static ChannelCount parseChannel(String s) {
         ChannelCount[] values = ChannelCount.values();
         for (ChannelCount v : values) {
-            if(v.toString().equals(s)) {
+            if (v.toString().equals(s)) {
                 return v;
             }
         }

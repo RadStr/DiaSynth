@@ -6,6 +6,7 @@ public class CustomJFramePlugin extends JFrame implements PluginBaseIFace {
     public CustomJFramePlugin(String pluginName) {
         PLUGIN_NAME = pluginName;
     }
+
     private final String PLUGIN_NAME;
 
     /**

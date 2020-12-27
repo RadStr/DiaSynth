@@ -18,19 +18,21 @@ public class FrequencyWithMeasure implements Comparable<FrequencyWithMeasure> {
     @Override
     public int compareTo(FrequencyWithMeasure arg0) {
         double result = this.measure - arg0.measure;
-        if(result > 0) {
+        if (result > 0) {
             return 1;
-        } else if(result == 0) {
+        }
+        else if (result == 0) {
             return 0;
-        } else {
+        }
+        else {
             return -1;
         }
     }
 
     @Override
     public boolean equals(Object obj) {
-        FrequencyWithMeasure o = (FrequencyWithMeasure)obj;
-        if(this.frequency == o.frequency && this.measure == o.measure) {
+        FrequencyWithMeasure o = (FrequencyWithMeasure) obj;
+        if (this.frequency == o.frequency && this.measure == o.measure) {
             return true;
         }
         return false;

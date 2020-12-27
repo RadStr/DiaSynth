@@ -28,7 +28,7 @@ public class HalfWaveRectifier extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                               new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 

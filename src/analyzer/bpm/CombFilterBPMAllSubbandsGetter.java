@@ -22,7 +22,7 @@ public class CombFilterBPMAllSubbandsGetter implements CombFilterBPMGetterIFace 
     private static double calculateEnergySum(double[][] energies, int bpmIndex) {
         double energy = 0;
 
-        for(int i = 0; i < energies.length; i++) {
+        for (int i = 0; i < energies.length; i++) {
             energy += energies[i][bpmIndex];
         }
 

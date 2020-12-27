@@ -27,13 +27,12 @@ public class FFTWindowPartWrapper extends DrawWrapperBase {
     }
 
 
-
     protected FFTWindowPartPanel fftWindowPartPanel;
 
     @Override
     public void setDrawPanel(DrawPanel drawPanel) {
         super.setDrawPanel(drawPanel);
-        fftWindowPartPanel = (FFTWindowPartPanel)drawPanel;
+        fftWindowPartPanel = (FFTWindowPartPanel) drawPanel;
     }
 
     @Override

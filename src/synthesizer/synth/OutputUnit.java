@@ -29,7 +29,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
                 break;
             case STEREO:     // Stereo
                 TOOLTIP += "STEREO" + "<br>";
-                if(channel == 0) {
+                if (channel == 0) {
                     DEFAULT_NAME = "OUT-L";
                     TOOLTIP += "LEFT CHANNEL" + "<br>";
                 }
@@ -157,6 +157,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     private final AudioThread audioThread;
     private final int channel;
     private int writtenSamplesCount = -1;
+
     public final int getWrittenSamplesCount() {
         return writtenSamplesCount;
     }
@@ -180,6 +181,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     private String TOOLTIP;
 
     private final String DEFAULT_NAME;
+
     @Override
     public String getDefaultPanelName() {
         return DEFAULT_NAME == null ? "" : DEFAULT_NAME;
@@ -195,7 +197,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
     @Override
     public double[] getNeutralValues() {
-        return new double[] { 0 };
+        return new double[]{0};
     }
 
     @Override
@@ -214,13 +216,13 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
 
     @PluginParameterAnnotation(name = "Amplitude:", lowerBound = "0", upperBound = "1",
-            parameterTooltip = "Maximum absolute value allowed to output")
+                               parameterTooltip = "Maximum absolute value allowed to output")
     private double maxAbsoluteValue = 1;
     @PluginParameterAnnotation(name = "Always scale:",
-            parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from " +
-                               "first parameter.<br>" +
-                               "If set to false, then the wave will be scaled to the max absolute value only if " +
-                               "its max absolute value is larger than the first parameter</html>")
+                               parameterTooltip = "<html>If set to true, then every wave will be scaled to the max absolute value from " +
+                                                  "first parameter.<br>" +
+                                                  "If set to false, then the wave will be scaled to the max absolute value only if " +
+                                                  "its max absolute value is larger than the first parameter</html>")
     private boolean shouldAlwaysSetToMaxAbs = false;
 
 
@@ -233,7 +235,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
         boolean didNomalize = tryNormalize(ops, maxAbsVal);
 
         writtenSamplesCount = Math.min(remainingLen, results.length);
-        if(didNomalize) {
+        if (didNomalize) {
             System.arraycopy(results, 0, channelRecords[channel], index, writtenSamplesCount);
         }
         else {
@@ -243,12 +245,13 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
     /**
      * Returns true if normalization took place.
+     *
      * @param input
      * @param maxAbsVal
      * @return
      */
     private boolean tryNormalize(double[] input, double maxAbsVal) {
-        if(shouldAlwaysSetToMaxAbs) {
+        if (shouldAlwaysSetToMaxAbs) {
             for (int i = 0; i < input.length; i++) {
                 results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
             }
@@ -260,7 +263,8 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
                     for (int i = 0; i < input.length; i++) {
                         results[i] = input[i] / maxAbsVal;
                     }
-                } else {
+                }
+                else {
                     for (int i = 0; i < input.length; i++) {
                         results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
                     }
@@ -288,7 +292,6 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
             writtenSamplesCount = audioThread.pushSamplesToQueue(ops, channel);
         }
     }
-
 
 
     /**
@@ -319,6 +322,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     protected void setPropertiesPanel() {
         propertiesPanel = this;
     }
+
     @Override
     public void updateAfterPropertiesCall() {
         // EMPTY
@@ -340,6 +344,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
         // Not used
         return inputPorts[0].getIsConst();
     }
+
     @Override
     public boolean getIsNoiseGen() {
         return inputPorts[0].getIsNoiseGen();

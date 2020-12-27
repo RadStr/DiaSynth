@@ -23,6 +23,7 @@ public class WaveShaper extends UnaryOperator {
         super(u);
         copyInternalState(u);
     }
+
     public WaveShaper(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -34,11 +35,14 @@ public class WaveShaper extends UnaryOperator {
         }
 
         private double[] function;
+
         private void setFunction(double[] function) {
             this.function = function;
             setFunctionOutputMaxAbsVal();
         }
+
         private double functionOutputMaxAbsVal;
+
         private void setFunctionOutputMaxAbsVal() {
             functionOutputMaxAbsVal = Aggregation.performAggregation(function, Aggregation.ABS_MAX);
         }
@@ -49,13 +53,14 @@ public class WaveShaper extends UnaryOperator {
     // is being changed and the samples are generated at the same time,
     // then there could be invalid values (half-written doubles).
     private volatile FunctionWithMaxAbsVal functionWrapper;
+
     private void setFunctionWrapper(double[] function) {
         functionWrapper = new FunctionWithMaxAbsVal(function);
     }
 
     private void setFunction() {
-        DrawJFrame f = (DrawJFrame)propertiesPanel;
-        WaveShaperPanel waveShaperPanel = (WaveShaperPanel)f.getDrawPanel();
+        DrawJFrame f = (DrawJFrame) propertiesPanel;
+        WaveShaperPanel waveShaperPanel = (WaveShaperPanel) f.getDrawPanel();
         double[] waveShaperFunction = waveShaperPanel.getOutputValues();
         double[] newFunction = new double[waveShaperFunction.length];
         System.arraycopy(waveShaperFunction, 0, newFunction, 0, newFunction.length);
@@ -66,15 +71,14 @@ public class WaveShaper extends UnaryOperator {
     protected void setPropertiesPanel() {
         // Doesn't have properties
         propertiesPanel = AudioPlayerPanel.createDrawFrame(AudioPlayerPanel.DRAW_PANEL_TYPES.WAVESHAPER, -1,
-                                                          null, null, -1, -1);
+                                                           null, null, -1, -1);
         setFunction();
-        ((JFrame)propertiesPanel).addWindowListener(new WindowAdapter() {
-           @Override
-           public void windowClosing(WindowEvent e)
-           {
-               setFunction();
-           }
-       });
+        ((JFrame) propertiesPanel).addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                setFunction();
+            }
+        });
     }
 
 
@@ -91,7 +95,7 @@ public class WaveShaper extends UnaryOperator {
     @Override
     protected ShapedPanel createShapedPanel(DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                               new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -99,7 +103,7 @@ public class WaveShaper extends UnaryOperator {
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
                                             DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
-                new ConstantTextInternals(getPanelName()), this);
+                                               new ConstantTextInternals(getPanelName()), this);
         return sp;
     }
 
@@ -118,8 +122,8 @@ public class WaveShaper extends UnaryOperator {
 
         //  Normalize, because the waveshaper expects the input to be on [-1, 1] interval
         double amplitude = inputPorts[0].getMaxAbsValue();
-        if(amplitude != 0) {
-            for(int i = 0; i < results.length; i++) {
+        if (amplitude != 0) {
+            for (int i = 0; i < results.length; i++) {
                 results[i] = unaryOperation(ops[i] / amplitude);
             }
         }
@@ -136,15 +140,13 @@ public class WaveShaper extends UnaryOperator {
     }
 
 
-
     @Override
     public String getTooltip() {
         return "<html>" +
-                "The waveshaper operator. Uses function f: [-1, 1] -> [-1, 1] to transform input values to output values." +
-                "The function is set using GUI component" +
-                "</html>";
+               "The waveshaper operator. Uses function f: [-1, 1] -> [-1, 1] to transform input values to output values." +
+               "The function is set using GUI component" +
+               "</html>";
     }
-
 
 
     @Override
@@ -180,15 +182,16 @@ public class WaveShaper extends UnaryOperator {
             RandomAccessFile file = new RandomAccessFile(path, "r");
             double[] function = DoubleWave.getStoredDoubleArray(file.getChannel());
             setWaveShaperPanelDrawValues(function);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
         }
     }
 
     private void setWaveShaperPanelDrawValues(double[] function) {
         if (function != null) {
-            DrawJFrame f = (DrawJFrame)propertiesPanel;
-            WaveShaperPanel waveShaperPanel = (WaveShaperPanel)f.getDrawPanel();
+            DrawJFrame f = (DrawJFrame) propertiesPanel;
+            WaveShaperPanel waveShaperPanel = (WaveShaperPanel) f.getDrawPanel();
             waveShaperPanel.setOutputValues(function);
             setFunction();
         }
@@ -196,6 +199,6 @@ public class WaveShaper extends UnaryOperator {
 
     @Override
     public void copyInternalState(Unit copySource) {
-        setWaveShaperPanelDrawValues(((WaveShaper)copySource).functionWrapper.function);
+        setWaveShaperPanelDrawValues(((WaveShaper) copySource).functionWrapper.function);
     }
 }

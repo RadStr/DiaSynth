@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 
 public class PluginLoader {
-    private PluginLoader() {}       // Disable instantiation - make only static access possible
+    private PluginLoader() { }       // Disable instantiation - make only static access possible
 
     // we have to differ between running in jar and not running in jar, because working with internals of .jar file can't
     // be done the same way as working with normal filesystem.
@@ -25,7 +25,7 @@ public class PluginLoader {
     // not inside jar.
     public static <T> List<T> loadPlugins(Class<T> pluginIface, String pluginPackage) {
         Class<?> c = PluginBaseIFace.class;
-        if(isJar(c)) {
+        if (isJar(c)) {
             String pathToJar = getPathToJar(c);
             MyLogger.log("Runs in jar with path: " + pathToJar, 0);
             return loadPluginsInJar(pluginIface, pluginPackage, pathToJar);
@@ -41,8 +41,8 @@ public class PluginLoader {
     // jar, [note: the path to the jar file ends with !/ (or rather just !, the / marks the start of new path)]
     // The path inside the jar is the same as in classic filesystem, so path/to/file/file.class
     // Inspired a bit by https://stackoverflow.com/questions/482560/can-you-tell-on-runtime-if-youre-running-java-from-within-a-jar
+
     /**
-     *
      * @param c is the class inside the jar
      * @return
      */
@@ -56,7 +56,6 @@ public class PluginLoader {
 
 
     /**
-     *
      * @param c is the class for which we want to find URL
      * @return
      */
@@ -66,6 +65,7 @@ public class PluginLoader {
 
     /**
      * Returns path to jar, without the jar:file: at start and without the !/ which marks end of path to jar.
+     *
      * @param classInsideJar
      * @return
      */
@@ -98,14 +98,14 @@ public class PluginLoader {
         path = classFilesDir + "/" + path;
         // Find all the candidates for plugins
         final File folder = new File(path);
-        if(!folder.exists()) {
+        if (!folder.exists()) {
             return list;
         }
 
         List<String> pluginNames = new ArrayList<>();
         PluginLoader.search(".*\\.class", folder, pluginNames);
 
-        for(String pluginName : pluginNames) {
+        for (String pluginName : pluginNames) {
             pluginName = PluginLoader.removeClassExtension(pluginName);
             pluginName = pluginPackage + "." + pluginName;
             try {
@@ -127,6 +127,7 @@ public class PluginLoader {
 
     /**
      * Doesn't control correctness of parameters
+     *
      * @param s
      * @param n
      * @return
@@ -137,6 +138,7 @@ public class PluginLoader {
 
 
     public static final int CLASS_EXTENSION_LEN = ".class".length();
+
     public static String removeClassExtension(String s) {
         return removeLastNChars(s, CLASS_EXTENSION_LEN);
     }
@@ -149,23 +151,23 @@ public class PluginLoader {
 
 
     public static <T> void addInstanceToList(Class<?> clazz, List<T> list) throws NoSuchMethodException,
-            IllegalAccessException, InstantiationException {
+                                                                                  IllegalAccessException, InstantiationException {
         Constructor<?> constructor = clazz.getConstructor();
         if (constructor == null) {
             MyLogger.log("Doesn't have constructor without parameters - " + clazz.getName(), 0);
-        } else {
+        }
+        else {
             T newInstance = (T) clazz.newInstance();
             list.add(newInstance);
         }
     }
 
 
-
     // Modified code from:
     // https://stackoverflow.com/questions/25449/how-to-create-a-pluginable-java-program
     // https://alexiyorlov.github.io/tutorials/java-plugins.html
+
     /**
-     *
      * @param pluginIface
      * @param packageContainingPlugins is the package which contains the plugins
      * @param <T>
@@ -193,7 +195,8 @@ public class PluginLoader {
                     classes.add(jarEntry.getName());
                 }
             });
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
         }
         URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
@@ -209,7 +212,8 @@ public class PluginLoader {
                         break;
                     }
                 }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            }
+            catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 MyLogger.logException(e);
             }
         });
@@ -218,8 +222,8 @@ public class PluginLoader {
 
     public static boolean isImplementingIFace(Class<?> iface, Class<?> classToCheck) {
         Class<?>[] interfaces = classToCheck.getInterfaces();
-        for(Class<?> i : interfaces) {
-            if(iface == i) {
+        for (Class<?> i : interfaces) {
+            if (iface == i) {
                 return true;
             }
         }
@@ -244,12 +248,13 @@ public class PluginLoader {
 
 
     // I tried to use URL and Class loaders, but couldn't make it work, so we just cheat a bit.
+
     /**
      * In case of classic compilation when we have the source files (and run it using IDE for example),
      * the plugins will be put to the output directory, where are the .class files located.
      * For classic compilation the directory with plugins should be located in the same directory where
      * is the src/ directory.
-     *
+     * <p>
      * If we are launching the app from jar, then we don't do anything. For one reason, we can't
      * change the running jar, it will throw exception that it can't find class for first class the classloader
      * will try to load after the change of file. So we solved it differently we have another jar called
@@ -280,13 +285,15 @@ public class PluginLoader {
                             dstDir.mkdirs();
                         }
                         Files.copy(file, dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         MyLogger.logException(e);
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
         }
     }
@@ -311,13 +318,13 @@ public class PluginLoader {
                     Path relativePath = classFilesDirPath.relativize(file);
                     String srcFilePath = null;
                     String relPathString = relativePath.toString();
-                    if(relPathString.endsWith(".class")) {
+                    if (relPathString.endsWith(".class")) {
                         int dollarSignIndex = relPathString.indexOf('$');
                         // I will do it simply like this, I could use regex or something like that, but it doesn't really
                         // solve the problem anyways - the problem is that there can be '$' inside of source file names
                         // But let's expect that the user won't do such things as adding $ to names. It can be solved
                         // by trying different combinations, but it is really overkill for such niche problem.
-                        if(dollarSignIndex == -1) {
+                        if (dollarSignIndex == -1) {
                             srcFilePath = "src/" +
                                           relPathString.substring(0, relPathString.length() - "class".length()) +
                                           "java";
@@ -342,13 +349,14 @@ public class PluginLoader {
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
                     File dirFile = dir.toFile();
-                    if(dirFile.listFiles().length == 0) {
+                    if (dirFile.listFiles().length == 0) {
                         dirFile.delete();
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
         }
     }

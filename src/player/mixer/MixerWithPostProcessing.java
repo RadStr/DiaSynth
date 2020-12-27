@@ -25,7 +25,7 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
 
     @Override
     public void mix(int[][] vals, double[][] multFactors, int index, int[] outputArr) {
-        for(int ch = 0; ch < multFactors[0].length; ch++) {
+        for (int ch = 0; ch < multFactors[0].length; ch++) {
             outputArr[ch] = mixOneVal(vals[0][index], multFactors[0][ch]);
             for (int i = 1; i < vals.length; i++) {
                 int val = mixOneVal(vals[i][index], multFactors[i][ch]);
@@ -35,10 +35,11 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
             outputArr[ch] = postProcessing(outputArr[ch], ch);
         }
     }
+
     // Same as int but with double[] vals and outputArr
     @Override
     public void mix(double[][] vals, double[][] multFactors, int index, double[] outputArr) {
-        for(int ch = 0; ch < multFactors[0].length; ch++) {
+        for (int ch = 0; ch < multFactors[0].length; ch++) {
             outputArr[ch] = mixOneVal(vals[0][index], multFactors[0][ch]);
             for (int i = 1; i < vals.length; i++) {
                 double val = mixOneVal(vals[i][index], multFactors[i][ch]);
@@ -56,13 +57,12 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
     }
 
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Methods when the output audioFormat has 1 channel
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void mix(int[] vals, double[][] multFactors, int[] outputArr) {
-        for(int ch = 0; ch < multFactors[0].length; ch++) {
+        for (int ch = 0; ch < multFactors[0].length; ch++) {
             outputArr[ch] = mixOneVal(vals[0], multFactors[0][ch]);
             for (int i = 1; i < vals.length; i++) {
                 int val = mixOneVal(vals[i], multFactors[i][ch]);
@@ -72,10 +72,11 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
             outputArr[ch] = postProcessing(outputArr[ch], ch);
         }
     }
+
     // Same as int but with double[] vals and outputArr
     @Override
     public void mix(double[] vals, double[][] multFactors, double[] outputArr) {
-        for(int ch = 0; ch < multFactors[0].length; ch++) {
+        for (int ch = 0; ch < multFactors[0].length; ch++) {
             outputArr[ch] = mixOneVal(vals[0], multFactors[0][ch]);
             for (int i = 1; i < vals.length; i++) {
                 double val = mixOneVal(vals[i], multFactors[i][ch]);
@@ -91,7 +92,7 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
     @Override
     public int mix(int[][] vals, double[][] multFactors, int channel, int index) {
         int result = mixOneVal(vals[0][index], multFactors[0][channel]);
-        for(int i = 1; i < multFactors.length; i++) {
+        for (int i = 1; i < multFactors.length; i++) {
             int val = mixOneVal(vals[i][index], multFactors[i][channel]);
             result = mix(result, val);
         }
@@ -99,6 +100,7 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
         result = postProcessing(result, channel);
         return result;
     }
+
     @Override
     public double mix(double[][] vals, double[][] multFactors, int channel, int index) {
         double result = mixOneVal(vals[0][index], multFactors[0][channel]);
@@ -112,17 +114,13 @@ abstract public class MixerWithPostProcessing extends DefaultAudioMixer {
     }
 
 
-
-
     /**
-     *
      * @param sample is the sample before post processing
      * @return Returns sample after postprocessing
      */
     abstract public int postProcessing(int sample, int channel);
 
     /**
-     *
      * @param sample is the sample before post processing
      * @return Returns sample after postprocessing
      */

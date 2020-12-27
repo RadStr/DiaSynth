@@ -39,15 +39,13 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
     }
 
 
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////// EnumWrapperForAnnotationPanelIFace
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public String[] getEnumsToStrings(String fieldName) {
-        if("arithmeticOperation".equals(fieldName)) {
+        if ("arithmeticOperation".equals(fieldName)) {
             return ArithmeticOperation.getEnumsToStrings();
         }
         return null;
@@ -55,7 +53,7 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
 
     @Override
     public void setEnumValue(String value, String fieldName) {
-        if("arithmeticOperation".equals(fieldName)) {
+        if ("arithmeticOperation".equals(fieldName)) {
             arithmeticOperation = ArithmeticOperation.convertStringToEnumValue(value);
         }
     }
@@ -67,14 +65,14 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
 
     @Override
     public String getDefaultEnumString(String fieldName) {
-        if("arithmeticOperation".equals(fieldName)) {
+        if ("arithmeticOperation".equals(fieldName)) {
             return ArithmeticOperation.getEnumsToStrings()[getDefaultIndex(fieldName)];
         }
         return "";
     }
 
     private int getDefaultIndex(String fieldName) {
-        if("arithmeticOperation".equals(fieldName)) {
+        if ("arithmeticOperation".equals(fieldName)) {
             return 1;
         }
         return -1;
@@ -82,13 +80,13 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
 
     @Override
     public String getToolTipForComboBox(String fieldName) {
-        if("arithmeticOperation".equals(fieldName)) {
+        if ("arithmeticOperation".equals(fieldName)) {
             return "<html>" +
-                "PLUS is addition<br>" +
-                "MULTIPLY is multiplication<br>" +
-                "LOG is logarithm<br>" +
-                "POWER is power" +
-                "</html>";
+                   "PLUS is addition<br>" +
+                   "MULTIPLY is multiplication<br>" +
+                   "LOG is logarithm<br>" +
+                   "POWER is power" +
+                   "</html>";
         }
         return "";
     }

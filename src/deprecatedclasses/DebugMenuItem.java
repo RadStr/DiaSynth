@@ -11,17 +11,20 @@ import java.awt.event.MouseEvent;
 public class DebugMenuItem extends JPanel {
     private static int labelNumber = 0;
     private static DebugMenuItem itemWithFocus;
+
     public static DebugMenuItem getSelectedItem() {
         return itemWithFocus;
     }
+
     public static void itemDeletedFromList(Object item) {
-        if(item == itemWithFocus) {
+        if (item == itemWithFocus) {
             itemWithFocus = null;
         }
     }
 
     public final int panelNumber;
     private final JLabel panelText;
+
     public DebugMenuItem() {
         panelNumber = labelNumber;
         panelText = new JLabel(Integer.toString(panelNumber));
@@ -32,7 +35,7 @@ public class DebugMenuItem extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(itemWithFocus == thisPanel) {
+                if (itemWithFocus == thisPanel) {
                     itemWithFocus = null;
                 }
                 else {
@@ -48,9 +51,9 @@ public class DebugMenuItem extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(itemWithFocus == this) {
+        if (itemWithFocus == this) {
             g.setColor(Color.red);
-            g.fillRect(0,0,this.getWidth(), this.getHeight());
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
         }
 
 //        System.out.println("Component number " + panelNumber + ":\t" + "\t" + this.getPreferredSize() + this.getSize());

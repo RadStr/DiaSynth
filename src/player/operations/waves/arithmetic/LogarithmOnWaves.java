@@ -36,9 +36,9 @@ public class LogarithmOnWaves extends OperationOnWavesPlugin {
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-            "Logarithms samples of the input wave (the first wave) with base of output wave samples (the second one) " +
-            "and stores result to the output wave<br>" +
-            "log_outputWave[i](inputWave[i])" +
-            "</html>";
+               "Logarithms samples of the input wave (the first wave) with base of output wave samples (the second one) " +
+               "and stores result to the output wave<br>" +
+               "log_outputWave[i](inputWave[i])" +
+               "</html>";
     }
 }

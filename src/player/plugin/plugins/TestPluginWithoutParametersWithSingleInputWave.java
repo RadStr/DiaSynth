@@ -8,7 +8,7 @@ public class TestPluginWithoutParametersWithSingleInputWave implements Operation
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
         double[] song = audio.getSong();
-        for(int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i < endIndex; i++) {
             song[i] = -0.5;
         }
     }

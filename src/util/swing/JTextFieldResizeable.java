@@ -30,6 +30,7 @@ public class JTextFieldResizeable extends javax.swing.JTextField {
     }
 
     private final int LARGEST_WIDTH_DIGIT;
+
     private int calculateMaxWidthDigit() {
         Font f = this.getFont();
         FontMetrics fm = this.getFontMetrics(f);

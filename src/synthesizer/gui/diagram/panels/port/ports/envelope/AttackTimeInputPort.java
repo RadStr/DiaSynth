@@ -10,12 +10,12 @@ public class AttackTimeInputPort extends InputPort {
                                int connectorIndex,
                                InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "A_T", "Attack time", connectorIndex, inputPortToGUIAdder,
-                "This port controls the length of the attack phase of envelope (length is in seconds)",
-                neutralValue);
+              "This port controls the length of the attack phase of envelope (length is in seconds)",
+              neutralValue);
     }
 
     public AttackTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                                int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder,1);
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 1);
     }
 }

@@ -70,16 +70,16 @@ public class RectangleShapedPanel extends ShapedPanel {
     }
 
 
-
     /**
      * Creates area of outerParallelogram and thicknesses.
+     *
      * @param outerRectangle is the outer rectangle
-     * @param topThickness is the thickness of the top and bot side of rectangle.
-     * @param leftThickness is the thickness of the left and right side of rectangle.
+     * @param topThickness   is the thickness of the top and bot side of rectangle.
+     * @param leftThickness  is the thickness of the left and right side of rectangle.
      * @return Returns the shape area between inner and outer rectangle
      */
     public static Area createRectangle(Polygon outerRectangle, int topThickness, int leftThickness) {
-        int x,y;
+        int x, y;
         Polygon innerRectangle = new Polygon();
 
         x = outerRectangle.xpoints[0] + leftThickness;

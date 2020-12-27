@@ -27,7 +27,7 @@ public abstract class Generator extends GeneratorNoPhase {
     public static InputPort[] createInputPorts(Unit u, DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[3];
         ShapedPanel shapedPanel = u.getShapedPanel();
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new AmplitudeInputPort(u, shapedPanel, 0, panelWithUnits, neutralValues[0]);
             inputPorts[1] = new FrequencyInputPort(u, shapedPanel, 1, panelWithUnits, neutralValues[1]);
             inputPorts[2] = new PhaseInputPort(u, shapedPanel, 2, panelWithUnits, neutralValues[2]);
@@ -59,9 +59,8 @@ public abstract class Generator extends GeneratorNoPhase {
                                    double carrierFreq, double modulatingWaveFreq,
                                    double modulatingWaveOutValue, double currentInputFreq) {
         return generateSampleFM(timeInSecs, diagramFrequency, amp,
-                carrierFreq, modulatingWaveFreq, modulatingWaveOutValue, currentInputFreq, 0);
+                                carrierFreq, modulatingWaveFreq, modulatingWaveOutValue, currentInputFreq, 0);
     }
-
 
 
     // https://ccrma.stanford.edu/~jos/sasp/Frequency_Modulation_FM_Synthesis.html
@@ -85,7 +84,7 @@ public abstract class Generator extends GeneratorNoPhase {
                                    double carrierFreq, double modulatingWaveFreq,
                                    double modulatingWaveOutValue,
                                    double currentInputFreq, double phase) {
-        if(modulatingWaveFreq != 0) {
+        if (modulatingWaveFreq != 0) {
 //            phase += (currentInputFreq - carrierFreq) / modulatingWaveFreq;       // Also works
             phase += modulatingWaveOutValue / modulatingWaveFreq;
         }
@@ -98,7 +97,7 @@ public abstract class Generator extends GeneratorNoPhase {
     // But implemented it anyways, so it behaves correctly, even if it may produce weird results
     @Override
     public void calculateSamples() {
-        if(inputPorts.length <= 2) {     // It doesn't contain phase
+        if (inputPorts.length <= 2) {     // It doesn't contain phase
             super.calculateSamples();
             return;
         }
@@ -111,11 +110,11 @@ public abstract class Generator extends GeneratorNoPhase {
         double[] phases = inputPorts[2].getValues();
         boolean isFreqConst = inputPorts[1].getIsConst();
 
-        double timeInSeconds = timeInSamples / (double)diagramFrequency;
-        double timeJump = 1 / (double)diagramFrequency;
+        double timeInSeconds = timeInSamples / (double) diagramFrequency;
+        double timeJump = 1 / (double) diagramFrequency;
 
 
-        if(inputPorts[2].getIsConst()) {
+        if (inputPorts[2].getIsConst()) {
             calculateSamples(isFreqConst, timeInSeconds, timeJump, diagramFrequency, amps, freqs, phases[0]);
         }
         else {
@@ -126,6 +125,7 @@ public abstract class Generator extends GeneratorNoPhase {
 
     /**
      * Phase is in degrees
+     *
      * @param isFreqConst
      * @param timeInSeconds
      * @param timeJump
@@ -141,7 +141,7 @@ public abstract class Generator extends GeneratorNoPhase {
         // I don't want to perform fm when the noise gen is connected to input port since, it doesn't really make sense.
         // It basically says now for n samples create wave at frequency x and after that move phase to random value and
         // do that in loop. It just does clipping nothing else
-        if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
+        if (isFreqConst || inputPorts[1].getIsNoiseGen()) {
             for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                 results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i], phase);
             }
@@ -156,7 +156,7 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
+                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
                     }
                 }
                 else {
@@ -165,14 +165,14 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
+                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
                     }
                 }
             }
             else {
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveFreqs[i], freqs[i], freqs[i], phase);
+                                                  0, modWaveFreqs[i], freqs[i], freqs[i], phase);
                 }
             }
         }
@@ -180,8 +180,8 @@ public abstract class Generator extends GeneratorNoPhase {
 
 
     private void calculateSamples(boolean isFreqConst, double timeInSeconds, double timeJump,
-                                    int diagramFrequency, double[] amps, double[] freqs, double[] phases) {
-        if(isFreqConst || inputPorts[1].getIsNoiseGen()) {
+                                  int diagramFrequency, double[] amps, double[] freqs, double[] phases) {
+        if (isFreqConst || inputPorts[1].getIsNoiseGen()) {
             for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                 results[i] = generateSampleConst(timeInSeconds, diagramFrequency, amps[i], freqs[i], phases[i]);
             }
@@ -196,7 +196,7 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
+                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
                     }
                 }
                 else {
@@ -206,14 +206,14 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
+                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
                     }
                 }
             }
             else {
                 for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                     results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                            0, modWaveFreqs[i], freqs[i], freqs[i], phases[i]);
+                                                  0, modWaveFreqs[i], freqs[i], freqs[i], phases[i]);
                 }
             }
         }

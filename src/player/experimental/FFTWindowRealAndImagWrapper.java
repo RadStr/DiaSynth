@@ -15,8 +15,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 
-
-
 public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIFace {
     public FFTWindowRealAndImagWrapper(double[] song, int windowSize, int startIndex,
                                        int sampleRate, boolean isEditable,
@@ -33,15 +31,15 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         fft = new DoubleFFT_1D(windowSize);
 
 
-        if(song != null) {
+        if (song != null) {
             FFT.calculateFFTRealForward(song, startIndex, windowSize, 1, fft, fftResult);
         }
 
-        for(int i = 0; i < fftResult.length; i++) {
+        for (int i = 0; i < fftResult.length; i++) {
             fftResult[i] /= (2 * binCount);
         }
         FFT.separateRealAndImagPart(realPartPanel.fftWindowPartPanel.DRAW_VALUES,
-                imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
+                                    imagPartPanel.fftWindowPartPanel.DRAW_VALUES, fftResult, windowSize);
         realPartPanel.setDrawPanel(realPartPanel.fftWindowPartPanel);
         imagPartPanel.setDrawPanel(imagPartPanel.fftWindowPartPanel);
 
@@ -49,6 +47,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         add(realPartPanel);
         add(new JPanel() {
             private final Dimension prefSize = new Dimension(1, SPACE_BETWEEN_PARTS);
+
             @Override
             public Dimension getPreferredSize() {
                 return prefSize;
@@ -57,6 +56,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         add(imagPartPanel);
         add(new JPanel() {
             private final Dimension prefSize = new Dimension(1, SPACE_BETWEEN_PARTS);
+
             @Override
             public Dimension getPreferredSize() {
                 return prefSize;
@@ -72,8 +72,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     private final FFTWindowPartWrapper imagPartPanel;
 
 
-
     private Dimension minSize = new Dimension();
+
     @Override
     public Dimension getMinimumSize() {
         minSize.width = realPartPanel.getMinimumSize().width;
@@ -82,6 +82,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     }
 
     private Dimension prefSize = new Dimension();
+
     @Override
     public Dimension getPreferredSize() {
         prefSize.width = super.getPreferredSize().width;
@@ -95,7 +96,6 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     }
 
 
-
     public void setBinValues(FFTWindowPartPanel partPanel, int bin, double newValue) {
         FFTWindowPanelAbstract otherPartPanel = getTheOtherPartPanel(partPanel);
         double squareValue = newValue * newValue;
@@ -103,7 +103,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double otherPanelValueSquare = otherPanelValue * otherPanelValue;
 
         double squaresSum = otherPanelValueSquare + squareValue;
-        if(squaresSum > 1) {
+        if (squaresSum > 1) {
             double newOtherPanelValue = Math.sqrt(1 - squareValue);
             newOtherPanelValue *= Math.signum(otherPanelValue);
             otherPartPanel.setDrawValue(bin, newOtherPanelValue);
@@ -115,7 +115,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
     private FFTWindowPanelAbstract getTheOtherPartPanel(FFTWindowPanelAbstract partPanel) {
         FFTWindowPanelAbstract otherPartPanel;
-        if(partPanel == imagPartPanel.fftWindowPartPanel) {
+        if (partPanel == imagPartPanel.fftWindowPartPanel) {
             otherPartPanel = realPartPanel.fftWindowPartPanel;
         }
         else {
@@ -129,7 +129,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
         double[] realPart = realPartPanel.fftWindowPartPanel.DRAW_VALUES;
         double[] imagPart = imagPartPanel.fftWindowPartPanel.DRAW_VALUES;
         FFT.connectRealAndImagPart(realPart, imagPart, fftResult);
-        for(int i = 0; i < fftResult.length; i++) {
+        for (int i = 0; i < fftResult.length; i++) {
             fftResult[i] *= 2 * realPart.length;
         }
         getComplexIFFT(fftResult, fft);
@@ -154,7 +154,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
     @Override
     public void addMenus(JMenuBar menuBar, WaveAdderIFace waveAdder) {
-        if(!realPartPanel.drawPanel.getIsEditable()) {
+        if (!realPartPanel.drawPanel.getIsEditable()) {
             JMenu menu = new JMenu("Options");
             menuBar.add(menu);
             JCheckBoxMenuItem showRelativeCheckbox = new JCheckBoxMenuItem("Show relative");
@@ -163,7 +163,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             showRelativeCheckbox.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-                    if(e.getStateChange() == ItemEvent.SELECTED) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
                         realPartPanel.fftWindowPartPanel.makeRelativeValues();
                         imagPartPanel.fftWindowPartPanel.makeRelativeValues();
                     }
@@ -187,8 +187,8 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                     AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues, classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                               JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         FFTWindowPartPanel part = (FFTWindowPartPanel) realPartPanel.fftWindowPartPanel.createNewFFTPanel(
@@ -214,11 +214,11 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 public void actionPerformed(ActionEvent e) {
                     IFFTDialogPanel classWithValues = new IFFTDialogPanel();
                     AnnotationPanel performIFFTDialog = new AnnotationPanel(classWithValues,
-                            classWithValues.getClass());
+                                                                            classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
-                            "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
+                                                               JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         double[] wave = getIFFTResult(classWithValues.getPeriodCount());
@@ -247,6 +247,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             }
         });
     }
+
     private void addRealReset(JMenu menu) {
         JMenuItem resetMenuItem = new JMenuItem("Reset real part");
         resetMenuItem.setToolTipText("Resets the real part to neutral value");
@@ -259,6 +260,7 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
             }
         });
     }
+
     private void addImagReset(JMenu menu) {
         JMenuItem resetMenuItem = new JMenuItem("Reset imaginary part");
         resetMenuItem.setToolTipText("Resets the imaginary part to neutral value");
@@ -276,36 +278,40 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
     private static class FFTWindowOptionsDialogPanel implements PluginBaseIFace {
         public FFTWindowOptionsDialogPanel(FFTWindowPanelAbstract fftPanel) {
             this.windowSize = fftPanel.WINDOW_SIZE;
-            this.sampleRate = (int)Math.round(windowSize * fftPanel.FREQ_JUMP);
+            this.sampleRate = (int) Math.round(windowSize * fftPanel.FREQ_JUMP);
         }
 
 
         @PluginParameterAnnotation(name = "Window size:",
-                lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
-                upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
-                parameterTooltip = "Controls number of size of the FFT window.")
+                                   lowerBound = FFTWindowPanel.MIN_WINDOW_SIZE_STRING,
+                                   upperBound = FFTWindowPanel.MAX_WINDOW_SIZE_STRING,
+                                   parameterTooltip = "Controls number of size of the FFT window.")
         private int windowSize;
+
         public int getWindowSize() {
             return windowSize;
         }
 
         @PluginParameterAnnotation(name = "Change window size:", defaultValue = "TRUE",
-                parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, otherwise it won't be changed")
+                                   parameterTooltip = "If set to true, the window size will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeWindowSize;
+
         public boolean getShouldChangeWindowSize() {
             return shouldChangeWindowSize;
         }
 
         @PluginParameterAnnotation(name = "Sample rate:", lowerBound = "1",
-                parameterTooltip = "Controls the sample rate of the input samples.")
+                                   parameterTooltip = "Controls the sample rate of the input samples.")
         private int sampleRate;
+
         public int getSampleRate() {
             return sampleRate;
         }
 
         @PluginParameterAnnotation(name = "Change sample rate:", defaultValue = "TRUE",
-                parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
+                                   parameterTooltip = "If set to true, the sample rate of the original wave for purposes of fft will be changed after ending the dialog with ok, otherwise it won't be changed")
         private boolean shouldChangeSampleRate;
+
         public boolean getShouldChangeSampleRate() {
             return shouldChangeSampleRate;
         }
@@ -338,8 +344,9 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
 
     private static class IFFTDialogPanel implements PluginBaseIFace {
         @PluginParameterAnnotation(name = "Period count:", lowerBound = "1", defaultValue = "1",
-                parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
+                                   parameterTooltip = "Controls the number of periods (repetitions) of IFFT result")
         private int periodCount;
+
         public int getPeriodCount() {
             return periodCount;
         }

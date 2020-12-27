@@ -36,8 +36,8 @@ public class PowerOnWaves extends OperationOnWavesPlugin {
     @Override
     public String getPluginTooltip() {
         return "<html>" +
-            "Raises samples of the input wave (the first wave) to the power of output wave samples (the second one) and stores result to the output wave<br>" +
-            "inputWave[i] ^ outputWave[i]" +
-            "</html>";
+               "Raises samples of the input wave (the first wave) to the power of output wave samples (the second one) and stores result to the output wave<br>" +
+               "inputWave[i] ^ outputWave[i]" +
+               "</html>";
     }
 }

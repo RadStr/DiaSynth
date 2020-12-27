@@ -16,6 +16,7 @@ public class DoublePluginExample implements AnalyzerDoublePluginIFace {
     public String getName() {
         return "Analyze - Double plugin";
     }
+
     @Override
     public String getTooltip() {
         return "This is example of tooltip for double plugin.";

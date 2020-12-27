@@ -6,6 +6,7 @@ package player.wave.util;
 public interface LimitGetterIFace {
     /**
      * Gets the highest possible int which can be in text.
+     *
      * @return
      */
     int getLimit();

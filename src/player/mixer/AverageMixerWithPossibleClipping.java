@@ -24,7 +24,7 @@ public class AverageMixerWithPossibleClipping extends MixerWithPostProcessing {
 
     @Override
     public void update(double[][] multFactors) {
-        if(multFactors == null || multFactors.length == 0) {
+        if (multFactors == null || multFactors.length == 0) {
             waveCount = 1;
         }
         else {

@@ -8,12 +8,14 @@ public interface BaseAnalyzerPluginIFace {
     /**
      * Returns the name of the checkbox, which will be shown
      * to user in analyzer panel.(BPM, RMS, ..).
+     *
      * @return
      */
     String getName();
 
     /**
      * Returns the tooltip for the checkbox in analyzer panel.
+     *
      * @return
      */
     String getTooltip();

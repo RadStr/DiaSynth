@@ -14,18 +14,18 @@ public class ArcConstantTextInternals extends ConstantTextInternals {
                                     int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
                                     int rectangleStartYDecreaseDivFactor) {
         super(label, rectangleWidthDecreaseDivFactor, rectangleHeightDecreaseDivFactor,
-                rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
+              rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
     }
 
     public ArcConstantTextInternals(String text, int rectangleWidthDecreaseDivFactor,
                                     int rectangleHeightDecreaseDivFactor, int rectangleStartXDecreaseDivFactor,
                                     int rectangleStartYDecreaseDivFactor) {
         super(text, rectangleWidthDecreaseDivFactor, rectangleHeightDecreaseDivFactor,
-                rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
+              rectangleStartXDecreaseDivFactor, rectangleStartYDecreaseDivFactor);
     }
 
     public ArcConstantTextInternals(String text) {
         super(text, DEFAULT_RECTANGLE_WIDTH_DECREASE_DIV_FACTOR, DEFAULT_RECTANGLE_HEIGHT_DECREASE_DIV_FACTOR,
-                DEFAULT_RECTANGLE_START_X_DECREASE_DIV_FACTOR, DEFAULT_RECTANGLE_START_Y_DECREASE_DIV_FACTOR);
+              DEFAULT_RECTANGLE_START_X_DECREASE_DIV_FACTOR, DEFAULT_RECTANGLE_START_Y_DECREASE_DIV_FACTOR);
     }
 }

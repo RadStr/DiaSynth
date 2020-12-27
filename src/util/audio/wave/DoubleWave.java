@@ -11,7 +11,7 @@ import java.nio.channels.FileChannel;
 public class DoubleWave {
     public static final String HOME_DIRECTORY = new File("").getAbsolutePath();
     public static final String DOUBLE_WAVE_DIRECTORY = HOME_DIRECTORY + File.separator +
-            "WaveCacheDirectory" + File.separator;
+                                                       "WaveCacheDirectory" + File.separator;
     public static final String DOUBLE_WAVE_EXTENSION = ".dwav";
     public static final int WAVE_LEN = 0;
     public static final int SAMPLE_RATE_POS = 1;
@@ -20,7 +20,6 @@ public class DoubleWave {
 
 
     /**
-     *
      * @param filename
      * @param buffer
      * @param sampleRate
@@ -30,13 +29,12 @@ public class DoubleWave {
      */
     public static int createDoubleWaveFile(String filename, double[] buffer, int sampleRate, int numberOfChannels) {
         String path = getFullPath(filename);
-        int[] prefix = new int[] { buffer.length, sampleRate, numberOfChannels };
+        int[] prefix = new int[]{buffer.length, sampleRate, numberOfChannels};
         return storeDoubleArray(buffer, 0, buffer.length, path, prefix);
     }
 
 
     /**
-     *
      * @param filename
      * @return Returns the length of written samples to file, or -1 when error with creating the file occurs.
      * -2 when error with writing to file occurs
@@ -49,15 +47,15 @@ public class DoubleWave {
 
 
     public static int storeDoubleArray(double[] doubles, int startIndex, int len, String path) {
-        return storeDoubleArray(doubles, startIndex, len, path, new int[] { len });
+        return storeDoubleArray(doubles, startIndex, len, path, new int[]{len});
     }
 
     // Partly taken from https://stackoverflow.com/questions/4358875/fastest-way-to-write-an-array-of-integers-to-a-file-in-java
     // Fixed using https://stackoverflow.com/questions/40599842/java-non-writable-channel-exception
     // Note programming the reading is basically the same, I just use getDouble instead of putDouble
     // I used that inside DrawValuesSupplierIFace class
+
     /**
-     *
      * @param doubles
      * @param path
      * @param prefix
@@ -75,16 +73,18 @@ public class DoubleWave {
         try {
             FileChannel fileChannel = file.getChannel();
             ByteBuffer buf = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0,
-                Double.BYTES * len + prefix.length * Integer.BYTES);
+                                             Double.BYTES * len + prefix.length * Integer.BYTES);
             for (int i : prefix) {
                 buf.putInt(i);
             }
             for (int i = startIndex; i < startIndex + len; i++) {
                 buf.putDouble(doubles[i]);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             retVal = -2;
-        } finally {
+        }
+        finally {
             safeClose(file);
         }
         // I also first should set the file to null so it can be correctly garbage collected
@@ -117,11 +117,14 @@ public class DoubleWave {
             f.getParentFile().mkdirs();
             if (!f.createNewFile()) {        // If the file exist, then delete it
                 //f.delete();
-                try(PrintWriter pw = new PrintWriter(f)) { }
+                try (PrintWriter pw = new PrintWriter(f)) {
+                    // TODO: Nevim proc to tady je popravde - jestli to delam schvalne a vymazu to tim PrintWriterem nebo ne
+                }
             }
             raf = new RandomAccessFile(filename, "rw");
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             raf = null;
         }
         return raf;
@@ -130,6 +133,7 @@ public class DoubleWave {
 
     /**
      * Is the load method for storeDoubleArray if prefix.length == 1 and prefix[0] = length in samples.
+     *
      * @param fileChannel
      * @return
      */
@@ -138,16 +142,18 @@ public class DoubleWave {
         try {
             ByteBuffer byteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, Integer.BYTES);
             int len = byteBuffer.getInt();
-            if(len > 0) {
+            if (len > 0) {
                 storedArr = new double[len];
                 byteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, Integer.BYTES, Double.BYTES * len);
                 for (int i = 0; i < storedArr.length; i++) {
                     storedArr[i] = byteBuffer.getDouble();
                 }
             }
-        } catch (EOFException e) {
+        }
+        catch (EOFException e) {
             storedArr = null;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             storedArr = null;
         }
 
@@ -156,18 +162,22 @@ public class DoubleWave {
 
 
     private boolean isFullSongLoaded = true;
+
     public boolean getIsFullSongLoaded() {
         return isFullSongLoaded;
     }
 
     private double[] song;
+
     public double[] getSong() {
         return song;
     }
+
     public void setSong(int newLen) {
         double[] newSong = DoubleWave.createArrayWithZerosAtEnd(this.song, newLen);
         setSong(newSong);
     }
+
     private void setSong(double[] song) {
         repairEverythingAssociatedWithBuffer(this.song, song);
         this.song = song;
@@ -193,11 +203,13 @@ public class DoubleWave {
     }
 
     private int sampleRate;
+
     public int getSampleRate() {
         return sampleRate;
     }
 
     private int numberOfChannels;
+
     public int getNumberOfChannels() {
         return numberOfChannels;
     }
@@ -206,18 +218,23 @@ public class DoubleWave {
      * filenameWithoutExtension without the extension
      */
     private String filenameWithoutExtension;
+
     public String getFilenameWithoutExtension() {
         return filenameWithoutExtension;
     }
+
     public String getFilenameWithExtension() {
         return getFilenameWithExtension(filenameWithoutExtension);
     }
+
     public static String getFilenameWithExtension(String filename) {
         return filename + DoubleWave.DOUBLE_WAVE_EXTENSION;
     }
+
     public String getFullPath() {
         return getFullPath(filenameWithoutExtension);
     }
+
     public static String getFullPath(String filename) {
         filename = getFilenameWithExtension(filename);
         return addDirectoryToFilename(filename);
@@ -228,9 +245,9 @@ public class DoubleWave {
     }
 
 
-
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
+     *
      * @param filenameWithoutExtension is the file name without the extension which will be created
      */
     public DoubleWave(String filenameWithoutExtension, ByteWave byteWave, boolean shouldCreateDoubleWaveFile) {
@@ -239,10 +256,11 @@ public class DoubleWave {
 
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
-     * @param filenameWithoutExtension is the file name without the extension which will be created
+     *
+     * @param filenameWithoutExtension   is the file name without the extension which will be created
      * @param byteWave
      * @param shouldCreateDoubleWaveFile
-     * @param newSampleRate if < 0 then don't perform sample rate conversion
+     * @param newSampleRate              if < 0 then don't perform sample rate conversion
      */
     public DoubleWave(String filenameWithoutExtension, ByteWave byteWave,
                       boolean shouldCreateDoubleWaveFile, int newSampleRate) {
@@ -253,16 +271,16 @@ public class DoubleWave {
         this.numberOfChannels = byteWave.getNumberOfChannels();
         try {
             song = byteWave.normalizeToDoubles();
-            if(newSampleRate >= 0) {
+            if (newSampleRate >= 0) {
                 song = AudioConverter.convertSampleRate(song, byteWave.getNumberOfChannels(),
-                        byteWave.getSampleRate(), newSampleRate, true);
+                                                        byteWave.getSampleRate(), newSampleRate, true);
                 this.sampleRate = newSampleRate;
             }
-            if(shouldCreateDoubleWaveFile) {
+            if (shouldCreateDoubleWaveFile) {
                 createDoubleWaveFile();
             }
         }
-        catch(IOException e) {
+        catch (IOException e) {
             song = null;
             sampleRate = -1;
             numberOfChannels = -1;
@@ -279,19 +297,20 @@ public class DoubleWave {
 
     /**
      * If the normalizing fails (throws exception) then all values are set to "default" values (null, -1, empty string)
+     *
      * @param byteWave
      * @param shouldCreateDoubleWaveFile
-     * @param newSampleRate is the new sample rate to which we should convert,
-     *                      < 0 if we want to keep the old audioFormat
+     * @param newSampleRate              is the new sample rate to which we should convert,
+     *                                   < 0 if we want to keep the old audioFormat
      */
     public DoubleWave(ByteWave byteWave, boolean shouldCreateDoubleWaveFile, int newSampleRate) {
         this(Utilities.getNameWithoutExtension(byteWave.getFileName()), byteWave,
-                                               shouldCreateDoubleWaveFile, newSampleRate);
+             shouldCreateDoubleWaveFile, newSampleRate);
     }
 
     public DoubleWave(double[] wave, DoubleWave oldWave, boolean shouldCreateDoubleWaveFile) {
         this(wave, oldWave.getSampleRate(), oldWave.getNumberOfChannels(),
-            oldWave.getFilenameWithoutExtension(), shouldCreateDoubleWaveFile);
+             oldWave.getFilenameWithoutExtension(), shouldCreateDoubleWaveFile);
     }
 
     public DoubleWave(double[] wave, int sampleRate, int numberOfChannels,
@@ -302,19 +321,21 @@ public class DoubleWave {
         this.filenameWithoutExtension = filenameWithoutExtension;
         doubleWaveFileExists = shouldCreateDoubleWaveFile;
 
-        if(shouldCreateDoubleWaveFile) {
+        if (shouldCreateDoubleWaveFile) {
             createDoubleWaveFile();
         }
     }
 
 
     private boolean doubleWaveFileExists = false;
+
     public boolean getDoubleWaveFileExists() {
         return doubleWaveFileExists;
     }
 
     /**
      * Instance variant for the static method.
+     *
      * @return Returns the length of written samples to file, or -1 when FileNotFoundException occurs.
      * -2 when IOException occurs
      */
@@ -336,7 +357,7 @@ public class DoubleWave {
     }
 
     public static int convertSampleToMillis(int sample, int sampleRate) {
-        return (int)(1000 * (double)sample / sampleRate);
+        return (int) (1000 * (double) sample / sampleRate);
     }
 
 

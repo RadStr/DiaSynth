@@ -7,10 +7,10 @@ import java.awt.*;
 
 // Named SwingUtils so the name doesn't collide with SwingUtilities from Java STL
 public class SwingUtils {
-    private SwingUtils() {}      // Allow only static access
+    private SwingUtils() { }      // Allow only static access
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Draw methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -56,8 +56,7 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Set label location methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -71,7 +70,7 @@ public class SwingUtils {
 
     public static void setLabelLocWithSpace(JLabel label, int startX, int startY, int binWidth, int binHeight) {
         FontMetrics fm = label.getFontMetrics(label.getFont());
-        int textLen =  fm.stringWidth(label.getText());
+        int textLen = fm.stringWidth(label.getText());
         int textStartX = (binWidth - textLen) / 2;
         int x = startX + textStartX;
 
@@ -88,8 +87,7 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Find font methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -101,23 +99,23 @@ public class SwingUtils {
 
         Font newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
         int textWidth = fm.stringWidth(label.getText());
-        if(textWidth < maxWidth && textWidth >= 0) {
-            while(currFontSize < DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE) {
+        if (textWidth < maxWidth && textWidth >= 0) {
+            while (currFontSize < DiasynthTabbedPanel.MAX_LABEL_FONT_SIZE) {
                 currFontSize++;
                 newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
                 fm = label.getFontMetrics(newFont);
                 textWidth = fm.stringWidth(label.getText());
-                if(textWidth > maxWidth) {
+                if (textWidth > maxWidth) {
                     currFontSize = Math.max(1, currFontSize - 1);
                     newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
                     fm = label.getFontMetrics(newFont);
                     label.setFont(newFont);
-                    if(fm.getHeight() > maxHeight) {
+                    if (fm.getHeight() > maxHeight) {
                         findBiggestFontToFitMaxHeight(label, maxHeight);
                     }
                     return;
                 }
-                else if(textWidth < 0) {
+                else if (textWidth < 0) {
                     break;
                 }
             }
@@ -128,17 +126,17 @@ public class SwingUtils {
             findBiggestFontToFitMaxHeight(label, maxHeight);
         }
         else if (textWidth > maxWidth) {
-            while(currFontSize > 1) {
+            while (currFontSize > 1) {
                 currFontSize--;
                 newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
                 fm = label.getFontMetrics(newFont);
-                if(fm.stringWidth(label.getText()) < maxWidth) {
+                if (fm.stringWidth(label.getText()) < maxWidth) {
                     break;
                 }
             }
 
             label.setFont(newFont);
-            if(fm.getHeight() > maxHeight) {
+            if (fm.getHeight() > maxHeight) {
                 findBiggestFontToFitMaxHeight(label, maxHeight);
             }
             return;
@@ -149,7 +147,7 @@ public class SwingUtils {
         Font newFont = label.getFont();
         int currFontSize = newFont.getSize();
         FontMetrics fm = label.getFontMetrics(newFont);
-        while(fm.getHeight() >= maxHeight) {
+        while (fm.getHeight() >= maxHeight) {
             currFontSize--;
             newFont = new Font(newFont.getName(), newFont.getStyle(), currFontSize);
             fm = label.getFontMetrics(newFont);
@@ -163,13 +161,13 @@ public class SwingUtils {
     public static int findMaxFontSize(JLabel label) {
         Font oldFont = label.getFont();
         int currFontSize = 0;
-        FontMetrics fm ;
+        FontMetrics fm;
         Font newFont;
-        while(true) {
+        while (true) {
             currFontSize++;
             newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
             fm = label.getFontMetrics(newFont);
-            if(fm.stringWidth(label.getText()) < 0) {
+            if (fm.stringWidth(label.getText()) < 0) {
                 return currFontSize - 1;
             }
         }
@@ -179,18 +177,18 @@ public class SwingUtils {
                                       int maxWidth, int maxHeight, int checkNthIndexes) {
         int fontSize = startFontSize;
         FontMetrics fontMetrics;
-        for(int i = 0; fontSize > 0; fontSize--) {
+        for (int i = 0; fontSize > 0; fontSize--) {
             g.setFont(new Font("Serif", Font.BOLD, fontSize));
             fontMetrics = g.getFontMetrics();
-            for(; i < texts.length; i++) {
-                if(i % checkNthIndexes == 0) {
+            for (; i < texts.length; i++) {
+                if (i % checkNthIndexes == 0) {
                     if (fontMetrics.stringWidth(texts[i]) > maxWidth || fontMetrics.getHeight() > maxHeight) {
                         break;
                     }
                 }
             }
 
-            if(i >= texts.length) {
+            if (i >= texts.length) {
                 break;
             }
         }
@@ -204,14 +202,13 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Set font methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void setFontSize(JLabel label, int oldWidth, int newWidth) {
-        float ratio = newWidth / (float)oldWidth;
+        float ratio = newWidth / (float) oldWidth;
         Font oldFont = label.getFont();
         Font newFont = oldFont.deriveFont(ratio * oldFont.getSize2D());
         label.setFont(newFont);
@@ -223,8 +220,7 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Find max width for set of characters methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -232,7 +228,7 @@ public class SwingUtils {
     public static int calculateMaxWidth(char startChar, char endChar, FontMetrics fm) {
         int maxWidth = -1;
         char c = startChar;
-        while(c <= endChar) {
+        while (c <= endChar) {
             maxWidth = Math.max(maxWidth, fm.charWidth(c));
             c++;
         }
@@ -266,8 +262,7 @@ public class SwingUtils {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Other methods which find sizes
     /* -------------------------------------------- [START] -------------------------------------------- */

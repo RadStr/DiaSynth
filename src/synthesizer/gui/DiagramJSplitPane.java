@@ -35,9 +35,10 @@ public class DiagramJSplitPane extends JSplitPane {
         if (spui instanceof BasicSplitPaneUI) {
             MouseAdapter splitterMouseAdapter = new MouseAdapter() {
                 private boolean drag = false;
+
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    if(drag) {
+                    if (drag) {
                         drag = false;
                         setWidthBetweenDivLocAndEnd(thisPanel.getDividerLocation(), thisPanel.getWidth());
                     }
@@ -56,12 +57,13 @@ public class DiagramJSplitPane extends JSplitPane {
 
     private void addResizeListener() {
         // Resize listener
-        ComponentListener resizeListener = new ComponentAdapter(){
+        ComponentListener resizeListener = new ComponentAdapter() {
             private boolean isFirstCall = true;
+
             @Override
             public void componentResized(ComponentEvent e) {
-                JSplitPane sp = (JSplitPane)e.getComponent();
-                if(isFirstCall) {
+                JSplitPane sp = (JSplitPane) e.getComponent();
+                if (isFirstCall) {
                     isFirstCall = false;
                     sp.setDividerLocation(THIS_SPLIT_DIVIDER_WEIGHT);
                     int divLoc = sp.getDividerLocation();
@@ -71,12 +73,12 @@ public class DiagramJSplitPane extends JSplitPane {
                 else {
                     int w = sp.getWidth();
                     int newDivLoc = w - widthBetweenDivLocAndEnd;
-                    int newMaxSplit = (int)(w * THIS_SPLIT_DIVIDER_WEIGHT);
-                    if(newDivLoc < 0) {
+                    int newMaxSplit = (int) (w * THIS_SPLIT_DIVIDER_WEIGHT);
+                    if (newDivLoc < 0) {
                         newDivLoc = 0;
                         leftPanel.resizeCallback(newDivLoc);
                     }
-                    else if(newMaxSplit > newDivLoc) {
+                    else if (newMaxSplit > newDivLoc) {
                         leftPanel.resizeCallback(newDivLoc);
                     }
                     else {
@@ -103,6 +105,7 @@ public class DiagramJSplitPane extends JSplitPane {
     // It resizes it up and breaks the layout of the top panels because they don't have enough space as result of that
     // So I have to set the preferred size manually so it takes up all the space except the preferred height of the buttons
     private Dimension prefSize;
+
     @Override
     public Dimension getPreferredSize() {
         int buttonsHeight = synthesizerMainPanel.getTopButtonsPreferredHeight();
@@ -111,7 +114,7 @@ public class DiagramJSplitPane extends JSplitPane {
         prefSize.width = superPrefSize.width;
         prefSize.height = mainPanelHeight - buttonsHeight;
 
-        if(prefSize.height <= 0) {
+        if (prefSize.height <= 0) {
             prefSize.height = superPrefSize.height;
         }
         return prefSize;
@@ -119,14 +122,17 @@ public class DiagramJSplitPane extends JSplitPane {
 
 
     private DiagramPanel leftPanel;
+
     public DiagramPanel getDiagramPanel() {
         return leftPanel;
     }
 
     private int widthBetweenDivLocAndEnd;
+
     private void setWidthBetweenDivLocAndEnd(int divLoc, int w) {
         widthBetweenDivLocAndEnd = calculateWidthBetweenDivLocAndEnd(divLoc, w);
     }
+
     public static int calculateWidthBetweenDivLocAndEnd(int divLoc, int w) {
         return w - divLoc;
     }

@@ -45,6 +45,7 @@ public class TrapeziumShapedPanel extends ShapedPanel {
 
 
     private Area trapeziumEdge = new Area();
+
     private void setTrapeziumEdge(Dimension newSize) {
         int thickness = ShapedPanel.calculateThickness(THICKNESS_DIV_FACTOR, newSize);
         trapeziumEdge = TrapeziumShapedPanel.getTrapeziumEdge(outerTrapezium, newSize, thickness);
@@ -102,11 +103,11 @@ public class TrapeziumShapedPanel extends ShapedPanel {
         int leftLineConnectorsCount = connectorCount / 3;
         int midLineConnectorsCount = leftLineConnectorsCount + connectorCount % 3;
         int rightLineStartIndex = leftLineConnectorsCount + midLineConnectorsCount;
-        if(connectorIndex < leftLineConnectorsCount) {                                      // left line
+        if (connectorIndex < leftLineConnectorsCount) {                                      // left line
             p.x = MovableJPanel.calculateXForHorizontalLineWithEdges(xpoints[3], xpoints[0], connectorIndex, leftLineConnectorsCount);
             p.y = ParallelogramShapedPanel.getPointOnLine(p.x, xpoints[3], ypoints[3], xpoints[0], ypoints[0]);
         }
-        else if(connectorIndex < rightLineStartIndex) {        // mid line
+        else if (connectorIndex < rightLineStartIndex) {        // mid line
             connectorIndex -= leftLineConnectorsCount;
             p.x = MovableJPanel.calculateXForHorizontalLineWithEdges(xpoints[0], xpoints[1], connectorIndex, midLineConnectorsCount);
             p.y = ypoints[0];
@@ -128,11 +129,11 @@ public class TrapeziumShapedPanel extends ShapedPanel {
         int leftLineConnectorsCount = connectorCount / 3;
         int midLineConnectorsCount = leftLineConnectorsCount + connectorCount % 3;
         int rightLineStartIndex = leftLineConnectorsCount + midLineConnectorsCount;
-        if(connectorIndex < leftLineConnectorsCount) {    // left line
+        if (connectorIndex < leftLineConnectorsCount) {    // left line
             nextToLastPoint.x = nextToLastPoint.y;
             nextToLastPoint.y = -1;
         }
-        else if(connectorIndex < rightLineStartIndex) {   // mid line
+        else if (connectorIndex < rightLineStartIndex) {   // mid line
             nextToLastPoint.y = 0;
         }
         else {                                            // right line
@@ -143,7 +144,7 @@ public class TrapeziumShapedPanel extends ShapedPanel {
 
     @Override
     public Direction getDirectionForInputPortLabel(int connectorIndex, int connectorCount) {
-        if(connectorIndex < connectorCount / 2) {         // left half
+        if (connectorIndex < connectorCount / 2) {         // left half
             return Direction.LEFT;
         }
         else {                                            // right half

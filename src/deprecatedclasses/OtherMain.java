@@ -4,6 +4,7 @@ import synthesizer.gui.SynthesizerMainPanel;
 
 import javax.swing.*;
 import java.awt.*;
+
 // TODO: RML
 @Deprecated
 public class OtherMain {
@@ -22,7 +23,7 @@ public class OtherMain {
         //frame.getContentPane().setLayout(new FlowLayout());
         frame.getContentPane().setLayout(new BorderLayout()); // TODO:
         SynthesizerMainPanel panel = new SynthesizerMainPanel(frame, null);
-       // DiagramItemsMenu panel = new DiagramItemsMenu();
+        // DiagramItemsMenu panel = new DiagramItemsMenu();
         //frame.add(panel);
         frame.add(panel, BorderLayout.CENTER);    // TODO:
         frame.pack();

@@ -8,9 +8,8 @@ import java.awt.*;
 
 public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPanel {
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public EquilateralParallelogramShapedPanel(DiagramPanel diagramPanel, int angle,
                                                ShapedPanelInternals internals,
@@ -19,9 +18,8 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
     }
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, int w, int h,
                                                DiagramPanel diagramPanel, int angle,
@@ -31,9 +29,8 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
     }
 
     /**
-     *
      * @param angle is in degrees. It is the left angle at the left bot point. (bot right -> bot left -> top left).
-     * Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
+     *              Works correctly for angle > 0 && angle < 180. If angle < 0 && angle > -180 then it also works, but probably not the way user intended.
      */
     public EquilateralParallelogramShapedPanel(int relativeX, int relativeY, DiagramPanel diagramPanel,
                                                int angle, ShapedPanelInternals internals,
@@ -43,7 +40,7 @@ public class EquilateralParallelogramShapedPanel extends ParallelogramShapedPane
 
     @Override
     public void reshape(Dimension newSize) {
-        if(newSize.width < newSize.height) {
+        if (newSize.width < newSize.height) {
             newSize = new Dimension(newSize.width, newSize.width);
         }
         else {

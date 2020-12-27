@@ -9,13 +9,13 @@ public class DecayTimeInputPort extends InputPort {
     public DecayTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "D_T", "Decay time", connectorIndex, inputPortToGUIAdder,
-                "This port controls the length of the decay phase of envelope (length is in seconds)",
-                neutralValue);
+              "This port controls the length of the decay phase of envelope (length is in seconds)",
+              neutralValue);
     }
 
 
     public DecayTimeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
-                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
-        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder,0.5);
+                              int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder) {
+        this(u, panelWhichContainsPort, connectorIndex, inputPortToGUIAdder, 0.5);
     }
 }

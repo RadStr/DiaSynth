@@ -7,9 +7,9 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AudioUtilities {
-    private AudioUtilities() {}      // Allow only static access
+    private AudioUtilities() { }      // Allow only static access
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Constants
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -28,12 +28,12 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Mask calculation methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Creates mask used for converting the byte array to number of size sampleSize bytes, which must fit to int.
      * The mask has the top sampleSize * 8 bits set to 1, the rest is set to 0
@@ -93,16 +93,17 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Play audio methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Plays the audio given in the 1D array song in audio audioFormat given as parameter.
-     * @param song is the audio with the samples to be played.
-     * @param audioFormat is the audio audioFormat.
+     *
+     * @param song          is the audio with the samples to be played.
+     * @param audioFormat   is the audio audioFormat.
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when error with playing the song occurred.
      */
@@ -113,7 +114,7 @@ public class AudioUtilities {
         SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
         line.open(audioFormat);
         line.start();
-        if(playBackwards) {
+        if (playBackwards) {
             AudioProcessor.reverseArr(song, audioFormat.getSampleSizeInBits() / 8);
         }
         // because number of frames needs to be integer, so if some last bytes doesn't fit in the last frame,
@@ -125,15 +126,16 @@ public class AudioUtilities {
 
     /**
      * Plays the audio given in the 1D array song, other parameters of this method describe the audioFormat in which will be the audio played.
-     * @param song is 1D byte array which contains the samples, which will be played.
-     * @param encoding is the encoding of the audio data.
-     * @param sampleRate is the sample rate of the audio data.
+     *
+     * @param song             is 1D byte array which contains the samples, which will be played.
+     * @param encoding         is the encoding of the audio data.
+     * @param sampleRate       is the sample rate of the audio data.
      * @param sampleSizeInBits is the size of 1 sample in bits.
      * @param numberOfChannels represents the number of channels.
-     * @param frameSize is the size of one frame.
-     * @param frameRate is the frame rate of the audio.
-     * @param isBigEndian is true if the samples are in big endian, false if in little endian
-     * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
+     * @param frameSize        is the size of one frame.
+     * @param frameRate        is the frame rate of the audio.
+     * @param isBigEndian      is true if the samples are in big endian, false if in little endian
+     * @param playBackwards    if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
     public static void playSong(byte[] song, AudioFormat.Encoding encoding, int sampleRate, int sampleSizeInBits,
@@ -145,16 +147,17 @@ public class AudioUtilities {
 
     /**
      * Plays song parts given in the songParts parameter.
-     * @param songParts contains the song parts together with the average value of the song part.
-     * @param audioFormat is the audio audioFormat to play the song parts in.
-     * @param ascending is true if we want to play the song parts in ascending order (first play part at the 0th index, then 1st, etc.)
-     * if it is set to false, then play in descending order (last index, last - 1 index, etc.)
-     * This is important if the songParts array is sorted, if so then the ascending order (when ascending = true)
-     * plays the songParts with lowest
-     * average amplitude first. Otherwise first the ones with the highest and then continue in descending order.
+     *
+     * @param songParts     contains the song parts together with the average value of the song part.
+     * @param audioFormat   is the audio audioFormat to play the song parts in.
+     * @param ascending     is true if we want to play the song parts in ascending order (first play part at the 0th index, then 1st, etc.)
+     *                      if it is set to false, then play in descending order (last index, last - 1 index, etc.)
+     *                      This is important if the songParts array is sorted, if so then the ascending order (when ascending = true)
+     *                      plays the songParts with lowest
+     *                      average amplitude first. Otherwise first the ones with the highest and then continue in descending order.
      * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
-     * Also if we want to play the song backwards (from finish to start), then we should call it with
-     * specific values: ascending = false and the song parts should't be sorted* @throws LineUnavailableException
+     *                      Also if we want to play the song backwards (from finish to start), then we should call it with
+     *                      specific values: ascending = false and the song parts should't be sorted* @throws LineUnavailableException
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
     public static void playSongParts(SongPartWithAverageValueOfSamples[] songParts, AudioFormat audioFormat, boolean ascending, boolean playBackwards) throws LineUnavailableException {
@@ -168,34 +171,37 @@ public class AudioUtilities {
         line.open(audioFormat);
         line.start();
 
-        if(playBackwards) {
-            for(int i = 0; i < songParts.length; i++) {
+        if (playBackwards) {
+            for (int i = 0; i < songParts.length; i++) {
                 AudioProcessor.reverseArr(songParts[i].songPart, audioFormat.getSampleSizeInBits() / 8);
             }
-            if(ascending) {
-                for(int i = 0; i < songParts.length; i++) {
+            if (ascending) {
+                for (int i = 0; i < songParts.length; i++) {
                     // Because number of frames needs to be integer
-                    if(songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
-                        bytesWritten = line.write(songParts[i].songPart, 0, songParts[i].songPart.length);
-                    }
-                }
-            } else {
-                for(int i = songParts.length - 1; i >= 0; i--) {
-                    // Because number of frames needs to be integer
-                    if(songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
+                    if (songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
                         bytesWritten = line.write(songParts[i].songPart, 0, songParts[i].songPart.length);
                     }
                 }
             }
-        } else {
-            if(ascending) {
-                for(int i = 0; i < songParts.length; i++) {
+            else {
+                for (int i = songParts.length - 1; i >= 0; i--) {
+                    // Because number of frames needs to be integer
+                    if (songParts[i].songPart.length % audioFormat.getFrameSize() == 0) {
+                        bytesWritten = line.write(songParts[i].songPart, 0, songParts[i].songPart.length);
+                    }
+                }
+            }
+        }
+        else {
+            if (ascending) {
+                for (int i = 0; i < songParts.length; i++) {
                     // Because number of frames needs to be integer
                     int bytesToWrite = songParts[i].songPart.length - (songParts[i].songPart.length % audioFormat.getFrameSize());
                     bytesWritten = line.write(songParts[i].songPart, 0, bytesToWrite);
                 }
-            } else {
-                for(int i = songParts.length - 1; i >= 0; i--) {
+            }
+            else {
+                for (int i = songParts.length - 1; i >= 0; i--) {
                     // Because number of frames needs to be integer
                     int bytesToWrite = songParts[i].songPart.length - (songParts[i].songPart.length % audioFormat.getFrameSize());
                     bytesWritten = line.write(songParts[i].songPart, 0, bytesToWrite);
@@ -207,21 +213,22 @@ public class AudioUtilities {
 
     /**
      * Plays song parts given in the songParts parameter.
-     * @param songParts contains the song parts together with the average value of the song part.
-     * @param encoding is the encoding of the audio data.
-     * @param sampleRate is the sample rate of the audio data.
+     *
+     * @param songParts        contains the song parts together with the average value of the song part.
+     * @param encoding         is the encoding of the audio data.
+     * @param sampleRate       is the sample rate of the audio data.
      * @param sampleSizeInBits is the size of 1 sample in bits.
      * @param numberOfChannels represents the number of channels.
-     * @param frameSize is the size of one frame.
-     * @param frameRate is the frame rate of the audio.
-     * @param isBigEndian is true if the samples are in big endian, false if in little endian
-     * @param ascending is true if we want to play the song parts in ascending order (first play part at the 0th index, then 1st, etc.)
-     * if it is set to false, then play in descending order (last index, last - 1 index, etc.)
-     * This is important if the songParts array is sorted, if so then the ascending order play the songParts with lowest
-     * average amplitude first. Otherwise first the ones with the highest and then continue in descending order.
-     * @param playBackwards if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
-     * Also if we want to play the song backwards (from finish to start), then we should call it with
-     * specific values: ascending = false and the song parts should't be sorted
+     * @param frameSize        is the size of one frame.
+     * @param frameRate        is the frame rate of the audio.
+     * @param isBigEndian      is true if the samples are in big endian, false if in little endian
+     * @param ascending        is true if we want to play the song parts in ascending order (first play part at the 0th index, then 1st, etc.)
+     *                         if it is set to false, then play in descending order (last index, last - 1 index, etc.)
+     *                         This is important if the songParts array is sorted, if so then the ascending order play the songParts with lowest
+     *                         average amplitude first. Otherwise first the ones with the highest and then continue in descending order.
+     * @param playBackwards    if true, then the song will be played from last sample to first, otherwise will be played normally from start to finish.
+     *                         Also if we want to play the song backwards (from finish to start), then we should call it with
+     *                         specific values: ascending = false and the song parts should't be sorted
      * @throws LineUnavailableException is thrown when there is problem with feeding the data to the SourceDataLine.
      */
     public static void playSongParts(SongPartWithAverageValueOfSamples[] songParts, AudioFormat.Encoding encoding,
@@ -238,14 +245,13 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Max absolute value methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static int getMaxAbsoluteValue(int sampleSizeInBits, boolean isSigned) {
-        if(isSigned) {
+        if (isSigned) {
             return getMaxAbsoluteValueSigned(sampleSizeInBits);
         }
         else {
@@ -267,8 +273,7 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Frequencies help methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -283,9 +288,9 @@ public class AudioUtilities {
         int len = 1 + (binCount - 1) / takeEveryNthFreq;  // -1 Because for example for binCount = takeEveryNthFreq = 4 I'd have 2 without the -1
         String[] binFreqs = new String[len];
         double currFreqHz = startFreq;
-        for(int i = 0; i < binFreqs.length; i++, currFreqHz += freqJump * takeEveryNthFreq) {
+        for (int i = 0; i < binFreqs.length; i++, currFreqHz += freqJump * takeEveryNthFreq) {
             double currFreqKhz = currFreqHz / 1000;
-            String freqString = String.format("%." + precision +"f", currFreqKhz);
+            String freqString = String.format("%." + precision + "f", currFreqKhz);
             binFreqs[i] = freqString;
         }
 
@@ -298,8 +303,7 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Convert frames to time methods.
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -310,12 +314,13 @@ public class AudioUtilities {
 
     /**
      * Doesn't work for long audio files - 596 hours+ (more exactly 2 147 483secs / 60 / 60)
+     *
      * @param frame
      * @param sizeOfOneSec
      * @return
      */
     public static int convertFrameToMillis(int frame, int sizeOfOneSec) {
-        return (int)(1000 * (double)frame / sizeOfOneSec);
+        return (int) (1000 * (double) frame / sizeOfOneSec);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */
@@ -324,8 +329,7 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Other help methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -344,12 +348,6 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     ///////////////////                        Not used Methods
@@ -361,34 +359,36 @@ public class AudioUtilities {
     /////////////////// White noise methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Fills given array with random numbers from range lowestRandom to highestRandom. Usually from -1 to 1.
      * Where 1 random generated number is used to set next repeatedNumbersCount samples.
      * Changes the values in array.
-     * @param arr is the array to be filled.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
-     * @param highestRandom is the highest possible number to be generated. Usually 1.
+     *
+     * @param arr                  is the array to be filled.
+     * @param lowestRandom         is the lowest possible number to be generated. Usually -1.
+     * @param highestRandom        is the highest possible number to be generated. Usually 1.
      * @param repeatedNumbersCount is number of samples to be set with 1 random number.
      */
     public static void generateWhiteNoiseWithRepeatByRef(double[] arr, int repeatedNumbersCount, double lowestRandom, double highestRandom) {
         double random;
-        for(int i = 0; i < arr.length;) {
+        for (int i = 0; i < arr.length; ) {
             random = ThreadLocalRandom.current().nextDouble(lowestRandom, highestRandom);
-            for(int j = 0; j < repeatedNumbersCount; j++, i++) {
+            for (int j = 0; j < repeatedNumbersCount; j++, i++) {
                 arr[i] = random;
             }
         }
     }
 
 
-
     /**
      * Fills given array with random numbers from range lowestRandom to highestRandom. Usually from -1 to 1.
      * Where 1 random generated number is used to set next repeatedNumbersCount samples.
-     * @param len is the length of the array to be filled with random noise.
+     *
+     * @param len                  is the length of the array to be filled with random noise.
      * @param repeatedNumbersCount is number of samples to be set with 1 random number.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
-     * @param highestRandom is the highest possible number to be generated. Usually 1.
+     * @param lowestRandom         is the lowest possible number to be generated. Usually -1.
+     * @param highestRandom        is the highest possible number to be generated. Usually 1.
      * @return returns the array with white noise with repeat.
      */
     public static double[] generateWhiteNoiseWithRepeatByCopy(int len, int repeatedNumbersCount, double lowestRandom, double highestRandom) {
@@ -403,11 +403,12 @@ public class AudioUtilities {
      * 2 random numbers are generated. First sample gets the first random number, then n-1 samples
      * are linearly interpolated to the second random number (exclusive) and then follows the second random number.
      * Then the second random is taken as first and new second random number is generated, then we interpolate this, etc.
-     * @param arr is the array to be filled.
-     * @param n is number of samples after which will be next random number generated.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
+     *
+     * @param arr           is the array to be filled.
+     * @param n             is number of samples after which will be next random number generated.
+     * @param lowestRandom  is the lowest possible number to be generated. Usually -1.
      * @param highestRandom is the highest possible number to be generated. Usually 1.
-     * That means: Generate random number every nth sample.
+     *                      That means: Generate random number every nth sample.
      */
     public static void generateWhiteNoiseWithLinearInterpolationByRef(double[] arr, int n, double lowestRandom, double highestRandom) {
         double random1;
@@ -415,14 +416,14 @@ public class AudioUtilities {
         double jump;
 
 
-        for(int i = 0; i < arr.length;) {
+        for (int i = 0; i < arr.length; ) {
             random1 = random2;
             random2 = ThreadLocalRandom.current().nextDouble(lowestRandom, highestRandom);
             jump = (random2 - random1) / n;
 
             arr[i] = random1;
             i++;
-            for(int j = 0; j < n; j++, i++) {
+            for (int j = 0; j < n; j++, i++) {
                 arr[i] = random1;
                 random1 += jump;
             }
@@ -434,9 +435,10 @@ public class AudioUtilities {
 
     /**
      * Same as generateWhiteNoiseWithLinearInterpolationByRef but the array is returned and created internally.
-     * @param len is the length of the array to be filled with random noise.
-     * @param n is number of samples after which will be next random number generated.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
+     *
+     * @param len           is the length of the array to be filled with random noise.
+     * @param n             is number of samples after which will be next random number generated.
+     * @param lowestRandom  is the lowest possible number to be generated. Usually -1.
      * @param highestRandom is the highest possible number to be generated. Usually 1.
      * @return Returns white noise with linear interpolation.
      */
@@ -452,25 +454,26 @@ public class AudioUtilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Set samples to random values methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Probability 1 - probabilityToContinue is the probability that the method will end.
      * Until the method ends, it chooses random sample in each iteration which will be set with parameter number.
      * Changes the input array.
-     * @param samples is the input array.
-     * @param number is the number with which will be set randomly chosen sample.
+     *
+     * @param samples               is the input array.
+     * @param number                is the number with which will be set randomly chosen sample.
      * @param probabilityToContinue is the probability that we will set some next sample with parameter number.
      */
     public static void setRandomSamplesToNumberByRef(double[] samples, double number, double probabilityToContinue) {
         Random rand = new Random();
         int index;
 
-        while(rand.nextDouble() < probabilityToContinue) {
+        while (rand.nextDouble() < probabilityToContinue) {
             index = rand.nextInt(samples.length);
             samples[index] = number;
         }
@@ -478,14 +481,15 @@ public class AudioUtilities {
 
     /**
      * Same as setRandomSamplesToNumberByRef but doesn't change the input array.
-     * @param samples is the input array.
-     * @param number is the number with which will be set randomly chosen sample.
+     *
+     * @param samples               is the input array.
+     * @param number                is the number with which will be set randomly chosen sample.
      * @param probabilityToContinue is the probability that we will set some next sample with parameter number.
      * @return Returns copy of the samples array where random samples are set to number.
      */
     public static double[] setRandomSamplesToNumberByCopy(double[] samples, double number, double probabilityToContinue) {
         double[] retArr = new double[samples.length];
-        for(int i = 0; i < samples.length; i++) {
+        for (int i = 0; i < samples.length; i++) {
             retArr[i] = samples[i];
         }
         setRandomSamplesToNumberByRef(retArr, number, probabilityToContinue);
@@ -499,32 +503,35 @@ public class AudioUtilities {
      * Until the method ends, it chooses random sample in each iteration which will be set to random double number between
      * lowestRandom and highestRandom.
      * Changes the input array.
-     * @param samples is the input array.
+     *
+     * @param samples               is the input array.
      * @param probabilityToContinue is the probability that we will set some next sample with parameter number.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
-     * @param highestRandom is the highest possible number to be generated. Usually 1.
+     * @param lowestRandom          is the lowest possible number to be generated. Usually -1.
+     * @param highestRandom         is the highest possible number to be generated. Usually 1.
      */
     public static void setRandomSamplesToRandomNumberByRef(double[] samples, double probabilityToContinue, double lowestRandom, double highestRandom) {
         Random rand = new Random();
         int index;
 
-        while(rand.nextDouble() < probabilityToContinue) {
+        while (rand.nextDouble() < probabilityToContinue) {
             index = rand.nextInt(samples.length);
-            samples[index] = ThreadLocalRandom.current().nextDouble(lowestRandom, highestRandom);;
+            samples[index] = ThreadLocalRandom.current().nextDouble(lowestRandom, highestRandom);
+            ;
         }
     }
 
     /**
      * Same as setRandomSamplesToNumberByRef but doesn't change the input array.
-     * @param samples is the input array.
+     *
+     * @param samples               is the input array.
      * @param probabilityToContinue is the probability that we will set some next sample with parameter number.
-     * @param lowestRandom is the lowest possible number to be generated. Usually -1.
-     * @param highestRandom is the highest possible number to be generated. Usually 1.
+     * @param lowestRandom          is the lowest possible number to be generated. Usually -1.
+     * @param highestRandom         is the highest possible number to be generated. Usually 1.
      * @return Returns copy of the samples array where random samples are set to number.
      */
     public static double[] setRandomSamplesToRandomNumberByCopy(double[] samples, double probabilityToContinue, double lowestRandom, double highestRandom) {
         double[] retArr = new double[samples.length];
-        for(int i = 0; i < samples.length; i++) {
+        for (int i = 0; i < samples.length; i++) {
             retArr[i] = samples[i];
         }
         setRandomSamplesToRandomNumberByRef(retArr, probabilityToContinue, lowestRandom, highestRandom);

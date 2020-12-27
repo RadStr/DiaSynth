@@ -9,7 +9,7 @@ public class AmplitudeInputPort extends InputPort {
     public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                               int connectorIndex, InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "AMP", "AMPLITUDE", connectorIndex, inputPortToGUIAdder,
-                "This port controls the amplitude of generated wave.", neutralValue);
+              "This port controls the amplitude of generated wave.", neutralValue);
     }
 
     public AmplitudeInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,

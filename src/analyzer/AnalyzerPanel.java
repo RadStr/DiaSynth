@@ -85,12 +85,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             public void actionPerformed(ActionEvent e) {
                 int rowCount = dataModel.getRowCount();
                 boolean anyFileAnalyzed = false;
-                for(int i = 0; i < rowCount; i++) {
-                    analyze((String)dataModel.getValueAt(0, 0));
+                for (int i = 0; i < rowCount; i++) {
+                    analyze((String) dataModel.getValueAt(0, 0));
                     anyFileAnalyzed = true;
                     dataModel.removeRow(0);
                 }
-                if(anyFileAnalyzed) {
+                if (anyFileAnalyzed) {
                     AnalyzerXML.createXMLFile(ANALYZED_AUDIO_XML_FILENAME, AnalyzerXML.getXMLDoc().getFirstChild(), frame);
                     subject.notifyObservers();
                 }
@@ -113,7 +113,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         buttons[1] = analyzeButton;
         buttons[2] = removeSelectedButton;
 
-        for(int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < buttons.length; i++) {
             buttonPanel.add(buttons[i]);
         }
         this.add(buttonPanel, BorderLayout.SOUTH);
@@ -136,7 +136,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         checkBoxes[11] = new JCheckBox("BPM");
 
         box.add(checkBoxTextLabel);
-        for(int i = 0; i < checkBoxes.length; i++) {
+        for (int i = 0; i < checkBoxes.length; i++) {
             box.add(checkBoxes[i]);
             checkBoxes[i].setSelected(true);
         }
@@ -151,9 +151,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         this.add(checkBoxScrollPane, BorderLayout.EAST);
 
 
-
         String[] header = {"Selected files"};
-        String[] names = new String[] {};
+        String[] names = new String[]{};
 
         String[][] data = new String[names.length][1];
         for (int i = 0; i < names.length; i++) {
@@ -171,7 +170,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fileChooser = new JFileChooser();
-                if(currentDirectory != null) {
+                if (currentDirectory != null) {
                     fileChooser.setCurrentDirectory(currentDirectory);
                 }
                 fileChooser.setMultiSelectionEnabled(true);
@@ -189,7 +188,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     private void loadPlugins() {
         MyLogger.log("Adding analyzer byte plugins", 1);
         List<AnalyzerBytePluginIFace> bytePlugins = AnalyzerBytePluginIFace.loadPlugins();
-        for(AnalyzerBytePluginIFace p : bytePlugins) {
+        for (AnalyzerBytePluginIFace p : bytePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
             checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
@@ -199,7 +198,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         MyLogger.log("Adding analyzer int plugins", 1);
         List<AnalyzerIntPluginIFace> intPlugins = AnalyzerIntPluginIFace.loadPlugins();
-        for(AnalyzerIntPluginIFace p : intPlugins) {
+        for (AnalyzerIntPluginIFace p : intPlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
             checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
@@ -209,7 +208,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         MyLogger.log("Adding analyzer double plugins", 1);
         List<AnalyzerDoublePluginIFace> doublePlugins = AnalyzerDoublePluginIFace.loadPlugins();
-        for(AnalyzerDoublePluginIFace p : doublePlugins) {
+        for (AnalyzerDoublePluginIFace p : doublePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
             checkBox.setToolTipText(p.getTooltip());
             checkBox.setSelected(true);
@@ -219,13 +218,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private void addPluginsToBox(Box box) {
-        for(Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
+        for (Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
             box.add(p.getKey());
         }
-        for(Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
+        for (Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
             box.add(p.getKey());
         }
-        for(Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
+        for (Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
             box.add(p.getKey());
         }
     }
@@ -237,8 +236,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private void runSelectedPluginsByte(ByteWave byteWave, List<Pair<String, String>> list) {
-        for(Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
-            if(p.getKey().isSelected()) {
+        for (Pair<JCheckBox, AnalyzerBytePluginIFace> p : bytePluginPairs) {
+            if (p.getKey().isSelected()) {
                 list.add(analyzeBytePlugin(byteWave, p.getValue()));
             }
         }
@@ -251,12 +250,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private void runSelectedPluginsInt(ByteWave byteWave, List<Pair<String, String>> list) {
         int[] wave = null;
-        for(Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
-            if(p.getKey().isSelected()) {
-                if(wave == null) {
+        for (Pair<JCheckBox, AnalyzerIntPluginIFace> p : intPluginPairs) {
+            if (p.getKey().isSelected()) {
+                if (wave == null) {
                     try {
                         wave = byteWave.convertBytesToSamples();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         return;
                     }
                 }
@@ -267,9 +267,9 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private void runSelectedPluginsDouble(ByteWave byteWave, List<Pair<String, String>> list) {
         DoubleWave wave = null;
-        for(Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
-            if(p.getKey().isSelected()) {
-                if(wave == null) {
+        for (Pair<JCheckBox, AnalyzerDoublePluginIFace> p : doublePluginPairs) {
+            if (p.getKey().isSelected()) {
+                if (wave == null) {
                     wave = new DoubleWave(byteWave, false);
                 }
                 list.add(p.getValue().analyze(wave));
@@ -279,6 +279,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
     private File currentDirectory;
+
     private void performActionForFileChooser(int returnVal) {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             currentDirectory = fileChooser.getCurrentDirectory();
@@ -288,14 +289,15 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private void addFilesToModel(File[] files) {
-        for(int i = 0; i < files.length; i++) {
-            if(files[i].isDirectory()) {
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isDirectory()) {
                 addFilesToModel(files[i].listFiles());
             }
             else {
                 try {
-                    dataModel.addRow(new String[]{ files[i].getCanonicalPath() });
-                } catch (IOException e) {			// Shouldn't happen
+                    dataModel.addRow(new String[]{files[i].getCanonicalPath()});
+                }
+                catch (IOException e) {            // Shouldn't happen
                     MyLogger.logException(e);
                     new ErrorFrame(frame, "Unknown error");
                 }
@@ -315,12 +317,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         ByteWave byteWave;
         try {
             byteWave = ByteWave.loadSong(filename, true);
-            if(byteWave == null) {
+            if (byteWave == null) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                        filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                                               filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
             return;
         }
@@ -330,54 +333,51 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         try {
             byteWave.convertToMono();
         }
-        catch(IOException e) {
+        catch (IOException e) {
             return;
         }
 
 
-
-
-
-        if(checkBoxes[0].isSelected()) {
+        if (checkBoxes[0].isSelected()) {
             list.add(analyzeSizeInBytes(byteWave));
         }
-        if(checkBoxes[1].isSelected()) {
+        if (checkBoxes[1].isSelected()) {
             list.add(analyzeSongLength(byteWave));
         }
-        if(checkBoxes[2].isSelected()) {
+        if (checkBoxes[2].isSelected()) {
             list.add(analyzeFileFormat(byteWave));
         }
-        if(checkBoxes[3].isSelected()) {
+        if (checkBoxes[3].isSelected()) {
             list.add(analyzeEncoding(byteWave));
         }
-        if(checkBoxes[4].isSelected()) {
+        if (checkBoxes[4].isSelected()) {
             list.add(analyzeSampleSize(byteWave));
         }
-        if(checkBoxes[5].isSelected()) {
+        if (checkBoxes[5].isSelected()) {
             list.add(analyzeSampleRate(byteWave));
         }
-        if(checkBoxes[6].isSelected()) {
+        if (checkBoxes[6].isSelected()) {
             list.add(analyzeNumberOfChannels(numberOfChannels));
         }
-        if(checkBoxes[7].isSelected()) {
+        if (checkBoxes[7].isSelected()) {
             list.add(analyzeEndianness(byteWave));
         }
 
         double[] mods = null;
-        if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {
-                mods = byteWave.calculateAllAggregations();
+        if (checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {
+            mods = byteWave.calculateAllAggregations();
         }
-        if(checkBoxes[8].isSelected()) {
+        if (checkBoxes[8].isSelected()) {
             list.add(analyzeSampleMax(mods));
             list.add(analyzeSampleMin(mods));
         }
-        if(checkBoxes[9].isSelected()) {
+        if (checkBoxes[9].isSelected()) {
             list.add(analyzeSampleAverage(mods));
         }
-        if(checkBoxes[10].isSelected()) {
+        if (checkBoxes[10].isSelected()) {
             list.add(analyzeSampleRMS(mods));
         }
-        if(checkBoxes[11].isSelected()) {
+        if (checkBoxes[11].isSelected()) {
             list.add(analyzeBPMSimpleFull(byteWave));
             list.add(analyzeBPMAdvancedFullLinear(byteWave));
             list.add(analyzeBPMAllPart(byteWave));
@@ -388,17 +388,17 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         Node node = AnalyzerXML.getFirstSongNodeMatchingGivenName(file.getName());
-        if(node == null) {		// The song wasn't analyzed before
+        if (node == null) {        // The song wasn't analyzed before
             AnalyzerXML.addAnalyzedFileToXML(AnalyzerXML.getXMLDoc(), list, "songs", "song");
         }
         else {
             NodeList childNodes = node.getChildNodes();
-            for(Pair<String, String> p : list) {
+            for (Pair<String, String> p : list) {
                 Node currentPairNode = AnalyzerXML.findFirstNodeWithGivenAttribute(childNodes, p.getKey());
-                if(currentPairNode == null) {		// Add new node
+                if (currentPairNode == null) {        // Add new node
                     AnalyzerXML.addNewNode(node, p);
                 }
-                else {								// Change existing node
+                else {                                // Change existing node
                     AnalyzerXML.getValueNodeFromInfoNode(currentPairNode).setTextContent(p.getValue());
                 }
             }
@@ -411,12 +411,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeSampleRate(ByteWave byteWave) {
-        return new Pair<String, String>("Sample rate", ((Integer)byteWave.getSampleRate()).toString());
+        return new Pair<String, String>("Sample rate", ((Integer) byteWave.getSampleRate()).toString());
     }
 
     private static Pair<String, String> analyzeSongLength(ByteWave byteWave) {
         return new Pair<String, String>(SongLibraryPanel.HEADER_LENGTH_COLUMN_TITLE,
-                Time.convertSecondsToTime(byteWave.getLengthOfAudioInSeconds(), -1));
+                                        Time.convertSecondsToTime(byteWave.getLengthOfAudioInSeconds(), -1));
     }
 
     private static Pair<String, String> analyzeSizeInBytes(ByteWave byteWave) {
@@ -445,7 +445,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeEndianness(ByteWave byteWave) {
-        if(byteWave.getIsSigned()) {
+        if (byteWave.getIsSigned()) {
             return new Pair<String, String>("Endianness", "Big endian");
         }
         else {
@@ -459,15 +459,15 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
     private static Pair<String, String> analyzeSampleSize(ByteWave byteWave) {
         return new Pair<String, String>("Sample Size (In bytes)",
-                ((Integer)(byteWave.getSampleSizeInBytes())).toString());
+                                        ((Integer) (byteWave.getSampleSizeInBytes())).toString());
     }
 
     private static Pair<String, String> analyzeNumberOfChannels(int numberOfChannels) {
-        return new Pair<String, String>("Number of channels", ((Integer)numberOfChannels).toString());
+        return new Pair<String, String>("Number of channels", ((Integer) numberOfChannels).toString());
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(ByteWave byteWave) {
-        return new Pair<String, String>("BPM (Simple full)", ((Integer)byteWave.computeBPMSimple()).toString());
+        return new Pair<String, String>("BPM (Simple full)", ((Integer) byteWave.computeBPMSimple()).toString());
     }
 
 
@@ -475,8 +475,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         int subbandCount = 8;
         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
 
-        return new Pair<String, String>("BPM (Advanced full)", ((Integer)byteWave.computeBPMSimpleWithFreqBands(subbandCount,
-                splitter, 2.5, 6, 0.16)).toString());
+        return new Pair<String, String>("BPM (Advanced full)", ((Integer) byteWave.computeBPMSimpleWithFreqBands(subbandCount,
+                                                                                                                 splitter, 2.5, 6, 0.16)).toString());
     }
 
 
@@ -492,12 +492,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         CombFilterBPMGetterIFace combFilterAlg;
 
         numberOfSeconds = 6.15;
-        numberOfBeats = (int)Math.ceil(numberOfSeconds);
+        numberOfBeats = (int) Math.ceil(numberOfSeconds);
         combFilterAlg = new CombFilterBPMBarycenterGetter();      // Barycenter version
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM,
-                numberOfSeconds, subbandCount, splitter, numberOfBeats, byteWave);
+                                       numberOfSeconds, subbandCount, splitter, numberOfBeats, byteWave);
 
-        return new Pair<String, String>("BPM (Barycenter part)", ((Integer)bpm).toString());
+        return new Pair<String, String>("BPM (Barycenter part)", ((Integer) bpm).toString());
     }
 
     public static Pair<String, String> analyzeBPMAllPart(ByteWave byteWave) {
@@ -514,12 +514,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
 
         numberOfSeconds = 2.2;
-        numberOfBeats = (int)Math.ceil(numberOfSeconds);
+        numberOfBeats = (int) Math.ceil(numberOfSeconds);
         combFilterAlg = new CombFilterBPMAllSubbandsGetter();     // All sub-bands version
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM, numberOfSeconds,
                                        subbandCount, splitter, numberOfBeats, byteWave);
 
-        return new Pair<String, String>("BPM (All part)", ((Integer)bpm).toString());
+        return new Pair<String, String>("BPM (All part)", ((Integer) bpm).toString());
     }
 
 

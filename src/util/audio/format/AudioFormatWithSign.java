@@ -73,7 +73,7 @@ public class AudioFormatWithSign extends AudioFormat {
 
     public AudioFormatWithSign(AudioFormat audioFormat) {
         super(audioFormat.getSampleRate(), audioFormat.getSampleSizeInBits(),
-                audioFormat.getChannels(), getIsSigned(audioFormat), audioFormat.isBigEndian());
+              audioFormat.getChannels(), getIsSigned(audioFormat), audioFormat.isBigEndian());
         isSigned = getIsSigned(audioFormat);
     }
 

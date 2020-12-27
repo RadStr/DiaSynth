@@ -13,11 +13,16 @@ public @interface PluginParameterAnnotation {
     /**
      * Name which will be shown on the GUI, if not set then the name of the field will be used.
      * Note for programmers: If the name isn't set then it is equal to PluginParameterAnnotation.UNDEFINED_VALUE
+     *
      * @return
      */
     public String name() default UNDEFINED_VAL;
+
     public String lowerBound() default UNDEFINED_VAL;
+
     public String upperBound() default UNDEFINED_VAL;
+
     public String defaultValue() default UNDEFINED_VAL;
+
     public String parameterTooltip() default "";
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 public class SquareShapedPanel extends RectangleShapedPanel {
-    private static final  int THICKNESS_DIV_FACTOR = 8;
+    private static final int THICKNESS_DIV_FACTOR = 8;
 
 
     public SquareShapedPanel(DiagramPanel diagramPanel, ShapedPanelInternals internals,

@@ -13,9 +13,8 @@ import java.lang.reflect.Field;
 
 public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
     /**
-     *
      * @param objectWithAnnotations is the object on which should be the fields changed.
-     * @param classWithAnnotations is .getClass() of the objectWithAnnotations (It is final, so I can't take it from the object)
+     * @param classWithAnnotations  is .getClass() of the objectWithAnnotations (It is final, so I can't take it from the object)
      */
     public AnnotationPanel(Object objectWithAnnotations, Class<?> classWithAnnotations) {
         this.classWithAnnotations = objectWithAnnotations;
@@ -29,7 +28,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
         // https://stackoverflow.com/questions/16295949/get-all-fields-even-private-and-inherited-from-class
         // Now go through all parent classes
         Class<?> superClass = classWithAnnotations;
-        while((superClass = superClass.getSuperclass()) != null) {
+        while ((superClass = superClass.getSuperclass()) != null) {
             fields = superClass.getDeclaredFields();
             addFieldsToPanel(objectWithAnnotations, superClass, fields);
         }
@@ -55,7 +54,6 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             }
 
 
-
             String lowerBound = annotation.lowerBound();
             String upperBound = annotation.upperBound();
             /// Now a lot of ifs - try to parse the lower bound if it fails set it to minimum value of given type
@@ -68,7 +66,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     byte lb = Byte.parseByte(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Byte.MIN_VALUE;
                 }
             }
@@ -76,7 +75,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     short lb = Short.parseShort(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Short.MIN_VALUE;
                 }
             }
@@ -84,7 +84,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     int lb = Integer.parseInt(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Integer.MIN_VALUE;
                 }
             }
@@ -92,7 +93,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     long lb = Long.parseLong(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Long.MIN_VALUE;
                 }
             }
@@ -102,7 +104,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     float lb = Float.parseFloat(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Float.NEGATIVE_INFINITY;
                 }
             }
@@ -112,12 +115,13 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     double lb = Double.parseDouble(lowerBound);
                     lowerBoundDouble = lb;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     lowerBoundDouble = Double.NEGATIVE_INFINITY;
                 }
             }
-            else if(fieldType.isEnum() && PluginLoader.isImplementingIFace(EnumWrapperForAnnotationPanelIFace.class,
-                                                                           classWithAnnotations)) {
+            else if (fieldType.isEnum() && PluginLoader.isImplementingIFace(EnumWrapperForAnnotationPanelIFace.class,
+                                                                            classWithAnnotations)) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 String fieldName = f.getName();
                 EnumWrapperForAnnotationPanelIFace wrapper = (EnumWrapperForAnnotationPanelIFace) objectWithAnnotations;
@@ -141,11 +145,11 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 viewPanel.add(comboBox);
                 continue;
             }
-            else if(fieldType == Boolean.TYPE) {
+            else if (fieldType == Boolean.TYPE) {
                 JLabel parameterName = createLabelBasedOnAnnotation(f, annotation);
                 parameterName.setToolTipText(annotation.parameterTooltip());
 
-                String[] values = new String[] { "FALSE", "TRUE" };
+                String[] values = new String[]{"FALSE", "TRUE"};
                 JComboBox comboBox = new JComboBox(values);
                 String tooltip = tooltipParameterType + " " + "{FALSE, TRUE}";
                 comboBox.setToolTipText(tooltip);
@@ -162,11 +166,12 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     if (f.getBoolean(objectWithAnnotations)) {
                         comboBox.setSelectedItem(comboBox.getItemAt(1));
-                    } else {
+                    }
+                    else {
                         comboBox.setSelectedItem(comboBox.getItemAt(0));
                     }
                 }
-                catch(Exception e) {
+                catch (Exception e) {
                     continue;
                 }
 
@@ -204,7 +209,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     byte ub = Byte.parseByte(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Byte.MAX_VALUE;
                 }
             }
@@ -212,7 +218,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     short ub = Short.parseShort(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Short.MAX_VALUE;
                 }
             }
@@ -220,7 +227,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     int ub = Integer.parseInt(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Integer.MAX_VALUE;
                 }
             }
@@ -228,7 +236,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     long ub = Long.parseLong(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Long.MAX_VALUE;
                 }
             }
@@ -236,7 +245,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     float ub = Float.parseFloat(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Float.MAX_VALUE;
                 }
             }
@@ -244,7 +254,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 try {
                     double ub = Double.parseDouble(upperBound);
                     upperBoundDouble = ub;
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     upperBoundDouble = Double.MAX_VALUE;
                 }
             }
@@ -263,9 +274,9 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             JTextField parameterValue = null;
             try {
                 parameterValue = new JTextFieldWithBounds(isFloatOrDouble, lowerBoundDouble, upperBoundDouble,
-                    tooltip, f, objectWithAnnotations, this::setField);
+                                                          tooltip, f, objectWithAnnotations, this::setField);
             }
-            catch(Exception e) {
+            catch (Exception e) {
                 MyLogger.logException(e);
                 System.exit(1489);      // Shouldn't happen since at the start I call f.setAccessible(true);
             }
@@ -278,7 +289,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
 
     private static JLabel createLabelBasedOnAnnotation(Field f, PluginParameterAnnotation annotation) {
         JLabel parameterName;
-        if(annotation.name().equals(PluginParameterAnnotation.UNDEFINED_VAL)) {
+        if (annotation.name().equals(PluginParameterAnnotation.UNDEFINED_VAL)) {
             parameterName = new JLabel(f.getName());
         }
         else {
@@ -289,22 +300,21 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
     }
 
 
-
     public static String addValueToString(Class<?> fieldType, double val, String s) {
         if (fieldType == Byte.TYPE) {
-            s += Byte.toString((byte)val);
+            s += Byte.toString((byte) val);
         }
         else if (fieldType == Short.TYPE) {
-            s += Short.toString((short)val);
+            s += Short.toString((short) val);
         }
         else if (fieldType == Integer.TYPE) {
-            s += Integer.toString((int)val);
+            s += Integer.toString((int) val);
         }
         else if (fieldType == Long.TYPE) {
-            s += Long.toString((long)val);
+            s += Long.toString((long) val);
         }
         else if (fieldType == Float.TYPE) {
-            s += Float.toString((float)val);
+            s += Float.toString((float) val);
         }
         else if (fieldType == Double.TYPE) {
             s += Double.toString(val);
@@ -315,7 +325,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
 
     @Override
     public void setField(Field field, String value) {
-        if("-".equals(value) || "".equals(value)) {
+        if ("-".equals(value) || "".equals(value)) {
             return;
         }
         Class<?> fieldType = field.getType();
@@ -345,7 +355,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 double val = Double.parseDouble(value);
                 field.setDouble(classWithAnnotations, val);
             }
-            else if(fieldType == Boolean.TYPE) {
+            else if (fieldType == Boolean.TYPE) {
                 boolean val = Boolean.parseBoolean(value);
                 field.setBoolean(classWithAnnotations, val);
             }
@@ -357,7 +367,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
     }
 
     private void setDefaultValueField(Field field, String value) {
-        if(!PluginParameterAnnotation.UNDEFINED_VAL.equals(value)) {
+        if (!PluginParameterAnnotation.UNDEFINED_VAL.equals(value)) {
             setField(field, value);
         }
     }

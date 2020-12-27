@@ -14,7 +14,8 @@ public class TODO_SYNTH {
         V_CHECKFORCOLLISIONS:
         // TODO: Not needed to pass the width/height
         PROC_SE_VYPLATI_MIT_TY_INTY_VINT_PAIR_ULOZENY_PRIMO:
-        https://stackoverflow.com/questions/28668348/how-expensive-is-it-to-convert-between-int-and-double
+        https:
+//stackoverflow.com/questions/28668348/how-expensive-is-it-to-convert-between-int-and-double
 
         UKAZOVAT_CTVERCE_JEN_KDYZ_DRAGUJU_A_NAOPAK_DRATY_NEUKAZOVAT_KDYZ_DRAGUJU:
         // Ty cary musim delat pres ty mezery stejne i kdyz nebudu ty policka ukazovat
@@ -73,7 +74,6 @@ public class TODO_SYNTH {
         // TODO: A s tim souvisi dalsi optimalizace ze jak mam to lockovani tak to nemusim vlastne ani delat
         // Staci kdyz si budu pamatovat v tom rectanglu ve width a v relativni pozici toho panelu
         // A pak to jen ulozim az skoncim draggovani
-
 
 
         CO_UDELAT:

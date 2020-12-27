@@ -7,7 +7,10 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
 public class UnaryMinus extends UnaryOperator {
-    public UnaryMinus(Unit u) { super(u); }
+    public UnaryMinus(Unit u) {
+        super(u);
+    }
+
     public UnaryMinus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }

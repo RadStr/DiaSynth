@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class EmptyPanelWithSetMethod extends JPanel {
     public EmptyPanelWithSetMethod() {
-        size = new Dimension(0,0);
+        size = new Dimension(0, 0);
     }
 
     public EmptyPanelWithSetMethod(Dimension dim) {
@@ -22,21 +22,25 @@ public class EmptyPanelWithSetMethod extends JPanel {
     public Dimension getPreferredSize() {
         return size;
     }
+
     @Override
     public Dimension getMinimumSize() {
         return size;
     }
+
     @Override
     public Dimension getMaximumSize() {
         return size;
     }
+
     @Override
     public Dimension getSize() {
         return size;
     }
+
     @Override
     public Dimension getSize(Dimension d) {
-        if(d == null) {
+        if (d == null) {
             d = new Dimension(0, 0);
         }
         else {

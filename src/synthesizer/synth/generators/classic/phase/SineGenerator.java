@@ -5,7 +5,10 @@ import synthesizer.synth.generators.Generator;
 import synthesizer.synth.Unit;
 
 public class SineGenerator extends Generator {
-    public SineGenerator(Unit u) { super(u);}
+    public SineGenerator(Unit u) {
+        super(u);
+    }
+
     public SineGenerator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -23,13 +26,14 @@ public class SineGenerator extends Generator {
 
     /**
      * Creates array of length len, and fills it with periodCount periods of sine wave.
+     *
      * @param phase is in radians
      * @return
      */
     public static double[] createSine(int len, double amp, double periodCount, double phase) {
         double[] sine = new double[len];
-        for(int i = 0; i < sine.length; i++) {
-            sine[i] = amp * Math.sin(freqToRad(periodCount) * (i / (double)sine.length) + phase);
+        for (int i = 0; i < sine.length; i++) {
+            sine[i] = amp * Math.sin(freqToRad(periodCount) * (i / (double) sine.length) + phase);
         }
 
         return sine;
@@ -38,13 +42,14 @@ public class SineGenerator extends Generator {
 
     /**
      * Creates array of length len, and fills it with sine wave of frequency freq.
+     *
      * @param phase is in radians
      * @return
      */
     public static double[] createSine(int len, double amp, double freq, int sampleRate, double phase) {
         double[] sine = new double[len];
-        for(int i = 0; i < sine.length; i++) {
-            sine[i] = amp * Math.sin(freqToRad(freq) * (i / (double)sampleRate) + phase);
+        for (int i = 0; i < sine.length; i++) {
+            sine[i] = amp * Math.sin(freqToRad(freq) * (i / (double) sampleRate) + phase);
         }
 
         return sine;

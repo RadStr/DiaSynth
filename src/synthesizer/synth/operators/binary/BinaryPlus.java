@@ -8,7 +8,10 @@ import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.Unit;
 
 public class BinaryPlus extends BinaryOperator {
-    public BinaryPlus(Unit u) { super(u); }
+    public BinaryPlus(Unit u) {
+        super(u);
+    }
+
     public BinaryPlus(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -16,7 +19,7 @@ public class BinaryPlus extends BinaryOperator {
 
     @Override
     public double[] getNeutralValues() {
-        return new double[] { 0, 0 };
+        return new double[]{0, 0};
     }
 
 
@@ -28,7 +31,7 @@ public class BinaryPlus extends BinaryOperator {
 
     @Override
     protected ShapedPanel createShapedPanel(int relativeX, int relativeY, int w, int h,
-                                         DiagramPanel panelWithUnits) {
+                                            DiagramPanel panelWithUnits) {
         ShapedPanel sp = new CircleShapedPanel(relativeX, relativeY, w, h, panelWithUnits,
                                                new PlusInternals(), this);
         return sp;

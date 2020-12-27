@@ -9,7 +9,7 @@ public class SingleInputPort extends InputPort {
     public SingleInputPort(UnitGeneratedValuesInfo u, MovablePanelViewForPort panelWhichContainsPort,
                            InputPortToGUIAdderIFace inputPortToGUIAdder, double neutralValue) {
         super(u, panelWhichContainsPort, "INPUT", "INPUT PORT", 0,
-                inputPortToGUIAdder, "Input port for the panel.", neutralValue);
+              inputPortToGUIAdder, "Input port for the panel.", neutralValue);
     }
 
 

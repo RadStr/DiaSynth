@@ -8,13 +8,16 @@ import java.util.List;
 
 public abstract class BooleanButton extends JButton implements ActionListener {
     protected boolean boolVar;
+
     public boolean getBoolVar() {
         return boolVar;
     }
+
     public void setBoolVar(boolean val) {
         boolVar = val;
         setButtonVisuals();
     }
+
     private List<ActionListener> listeners;
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +31,7 @@ public abstract class BooleanButton extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         boolVar = !boolVar;
         setButtonVisuals();
-        for(int i = 0; i < listeners.size(); i++) {
+        for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).actionPerformed(e);
         }
     }

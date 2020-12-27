@@ -47,7 +47,7 @@ public class ProgramTest {
         public void main(String[] args) throws LineUnavailableException {
             Tone t = new Tone();
             final AudioFormat af =
-                new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+                    new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
             SourceDataLine line = AudioSystem.getSourceDataLine(af);
             line.open(af, Note.SAMPLE_RATE);
             line.start();
@@ -99,6 +99,7 @@ public class ProgramTest {
 
         /**
          * Mono variant
+         *
          * @param freq
          * @param sampleRate
          * @param lengthInSeconds
@@ -116,6 +117,7 @@ public class ProgramTest {
 
         /**
          * General variant
+         *
          * @param freq
          * @param sampleRate
          * @param lengthInSeconds
@@ -132,13 +134,13 @@ public class ProgramTest {
             for (int i = 0, byteIndex = 0; i < sampleCount; i++) {
                 double period = (double) sampleRate / freq;
                 double angle = 2.0 * Math.PI * i / period;
-                sample = (int)(Math.sin(angle) * maxValue);
-                if(!isSigned) {
+                sample = (int) (Math.sin(angle) * maxValue);
+                if (!isSigned) {
                     sample += maxValue;
                 }
 
                 AudioConverter.convertIntToByteArr(sampleBytes, sample, isBigEndian);
-                for(int j = 0; j < sampleBytes.length; j++, byteIndex++) {
+                for (int j = 0; j < sampleBytes.length; j++, byteIndex++) {
                     samples[byteIndex] = sampleBytes[j];
                 }
             }
@@ -184,7 +186,7 @@ public class ProgramTest {
         float frameRate = 44100;
 
         System.out.println("separateChannelsOfSongTestBoth:\t" +
-                            separateChannelsOfSongTestBoth(bais, song, numberOfChannels,
+                           separateChannelsOfSongTestBoth(bais, song, numberOfChannels,
                                                           sampleSizeInBits / 8));
 
         bais = new ByteArrayInputStream(song);
@@ -192,61 +194,61 @@ public class ProgramTest {
         int x = 33;
         int startFrame = 67;
         System.out.println("Testing getEveryXthTimePeriodWithLength:\t" +
-            getEveryXthTimePeriodWithLengthTestBoth(bais, song, length, x,
-                                                   sampleSizeInBits / 8 * numberOfChannels, startFrame));
+                           getEveryXthTimePeriodWithLengthTestBoth(bais, song, length, x,
+                                                                   sampleSizeInBits / 8 * numberOfChannels, startFrame));
 
         bais = new ByteArrayInputStream(song);
         int n1 = 32;
         int startSample = 68;
         System.out.println("takeEveryNthSampleOneChannel:\t" +
-                            takeEveryNthSampleOneChannelTestBoth(bais, song, sampleSizeInBits / 8,
-                                                                 n1, startSample));
+                           takeEveryNthSampleOneChannelTestBoth(bais, song, sampleSizeInBits / 8,
+                                                                n1, startSample));
 
         bais = new ByteArrayInputStream(song);
         int n2 = 18;
         System.out.println("song length:\t" + song.length);
         int frameSize = numberOfChannels * (sampleSizeInBits / 8);
         System.out.println("takeEveryNthSampleMoreChannels:\t" +
-                            takeEveryNthSampleMoreChannelsTestBoth(bais, song, numberOfChannels,
+                           takeEveryNthSampleMoreChannelsTestBoth(bais, song, numberOfChannels,
                                                                   sampleSizeInBits / 8, n2,
-                                  Utilities.convertToMultipleDown(song.length / (2 * frameSize), frameSize)));
+                                                                  Utilities.convertToMultipleDown(song.length / (2 * frameSize), frameSize)));
 
         bais = new ByteArrayInputStream(song);
         bais2 = new ByteArrayInputStream(song);
         boolean isBigEndian = false;
         ProgramTest.debugPrint("takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariant:",
-            takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariant(bais, bais2, song, numberOfChannels,
-                                                                            sampleSizeInBits / 8, n2,
-                                                                            7 * frameSize, isBigEndian,
-                                                                             isSigned, song.length));
+                               takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariant(bais, bais2, song, numberOfChannels,
+                                                                                                sampleSizeInBits / 8, n2,
+                                                                                                7 * frameSize, isBigEndian,
+                                                                                                isSigned, song.length));
 
         ProgramTest.debugPrint("takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariantTest2():",
-                                         takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariantTest2());
+                               takeEveryNthSampleMoreChannelsDoubleTestCorrectnessOfFastVariantTest2());
 
         bais = new ByteArrayInputStream(song);
         isBigEndian = false;
         System.out.println("performAggregationRMStestBoth with little endian:\t" +
-            performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8,
-                                          isBigEndian, isSigned, song.length));
+                           performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8,
+                                                         isBigEndian, isSigned, song.length));
 
         bais = new ByteArrayInputStream(song);
         isBigEndian = true;
         System.out.println("performAggregationRMStestBoth with big endian:\t" +
-            performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8,
-                                          isBigEndian, isSigned, song.length));
+                           performAggregationRMStestBoth(bais, song, numberOfChannels, sampleSizeInBits / 8,
+                                                         isBigEndian, isSigned, song.length));
 
 
         convertBytesToNormalizedSamplesTests();
         convertToMonoTests();
         System.out.println("convertBytesToSamplesTest2():\t" + convertBytesToSamplesTest2());
         System.out.println("convertToMono1ByteSamples2ChannelsTest():\t" +
-                            convertToMono1ByteSamples2ChannelsTest());
+                           convertToMono1ByteSamples2ChannelsTest());
         convertBytesToSamplesTest3();
         System.out.println("performMovingWindowAverageByRefTest()\t" + performMovingWindowAverageByRefTest());
         convertSampleRateTests();
         System.out.println("performNonRecursiveFilterTest():\t" + performNonRecursiveFilterTest());
         System.out.println("performOneNonRecursiveFilterSmallTestDiffCoefs():\t" +
-                            performOneNonRecursiveFilterSmallTestDiffCoefs());
+                           performOneNonRecursiveFilterSmallTestDiffCoefs());
         for (int k = 0; k < 10; k++) {
             System.out.println();
         }
@@ -274,7 +276,7 @@ public class ProgramTest {
         // Test FFT window visualisation 1
         sampleRate = 22050;
         int windowSize = 512;
-        double freq = sampleRate / (double)windowSize;
+        double freq = sampleRate / (double) windowSize;
         // Chooses the harmonics of fft if whole number, if not then the fft gets confused
         freq *= windowSize / 2 - 1.5;
         int sampleSize = 2;
@@ -286,16 +288,16 @@ public class ProgramTest {
         int windowHeight = 900;
         boolean result;
         result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
-            startIndex, windowSize, windowWidth, windowHeight);
+                                     startIndex, windowSize, windowWidth, windowHeight);
         System.out.println("createFFTWindowTest:\t" + result);
         for (int k = 0; k < 10; k++) {
             System.out.println();
         }
         // Test FFT window visualisation 2
-        freq = sampleRate / (double)windowSize;
+        freq = sampleRate / (double) windowSize;
         freq *= windowSize / 2 - 1;      // Chooses the harmonics of fft if whole number, if not then the fft gets confused
         result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
-            startIndex, windowSize, windowWidth, windowHeight);
+                                     startIndex, windowSize, windowWidth, windowHeight);
         System.out.println("createFFTWindowTest:\t" + result);
         for (int k = 0; k < 10; k++) {
             System.out.println();
@@ -361,12 +363,12 @@ public class ProgramTest {
         int lengthInSeconds = 10;
         byte[] samples1 = Note.generateFrequencyFreq(freq, sampleRate, lengthInSeconds);
         byte[] samples2 = Note.generateFrequencyFreq(freq, sampleRate, lengthInSeconds, 1, true, true);
-        if(samples1.length != samples2.length) {
+        if (samples1.length != samples2.length) {
             return false;
         }
 
-        for(int i = 0; i < samples1.length; i++) {
-            if(samples1[i] != samples2[i]) {
+        for (int i = 0; i < samples1.length; i++) {
+            if (samples1[i] != samples2[i]) {
                 return false;
             }
         }
@@ -387,13 +389,14 @@ public class ProgramTest {
             tolerance = sampleRate / sizeOfOneSongPart + 1;
             System.out.println("-:\t" + (freq - tolerance) + "\t+:\t" + (freq + tolerance));
             byte[] audioWithFreqfreq = Note.generateFrequencyFreq(freq, sampleRate, 5,
-                sampleSize, isBigEndian, isSigned);
+                                                                  sampleSize, isBigEndian, isSigned);
             InputStream is = new ByteArrayInputStream(audioWithFreqfreq);
             SongPartWithAverageValueOfSamples[] spwavos = new SongPartWithAverageValueOfSamples[0];
             try {
                 spwavos = Aggregation.takeSongPartsAndAddAggregation(is, sizeOfOneSongPart, frameSize, isBigEndian,
                                                                      isSigned, sampleSize, false, Aggregation.AVG);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION\t");
                 return false;
             }
@@ -401,7 +404,8 @@ public class ProgramTest {
             FrequencyWithMeasure[][] freqs = new FrequencyWithMeasure[0][];
             try {
                 freqs = FFT.calculateFFTRealForward(spwavos, sampleSize, sampleRate, isBigEndian, isSigned);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION\t");
                 return false;
             }
@@ -413,20 +417,21 @@ public class ProgramTest {
                                                                                sampleSizeInBits, sampleRate,
                                                                                sizeOfOneSongPart, isBigEndian,
                                                                                isSigned);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION");
                 return false;
             }
 
-            if(freqs.length != freqsCalculatedStraigthFromBytes.length) {
+            if (freqs.length != freqsCalculatedStraigthFromBytes.length) {
                 return false;
             }
-            for(int i = 0; i < freqs.length; i++) {
-                for(int j = 0; j < freqs[i].length; j++) {
-                    if(freqsCalculatedStraigthFromBytes[i].length != freqs[i].length) {
+            for (int i = 0; i < freqs.length; i++) {
+                for (int j = 0; j < freqs[i].length; j++) {
+                    if (freqsCalculatedStraigthFromBytes[i].length != freqs[i].length) {
                         return false;
                     }
-                    if(!freqsCalculatedStraigthFromBytes[i][j].equals(freqs[i][j])) {
+                    if (!freqsCalculatedStraigthFromBytes[i][j].equals(freqs[i][j])) {
                         System.out.println("Not same values: ");
                         return false;
                     }
@@ -438,7 +443,8 @@ public class ProgramTest {
                 onlyMeasures = FFT.calculateFFTRealForwardOnlyMeasures(audioWithFreqfreq, sampleSize, sampleSizeInBits,
                                                                        sizeOfOneSongPart, 0,
                                                                        audioWithFreqfreq.length, isBigEndian, isSigned);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 System.out.println("FALSE: EXCEPTION");
                 return false;
             }
@@ -453,8 +459,9 @@ public class ProgramTest {
                     highestMeasures = getNHighestMeasures(onlyMeasures[i], topNMeasures);
                     highestFrequencies = FFT.takeNFreqsWithHighestMeasure(freqs[i], topNMeasures, false);
                     highestFrequencies2 = FFT.takeNFreqsWithHighestMeasure(freqsCalculatedStraigthFromBytes[i],
-                        topNMeasures, false);
-                } catch (IOException e) {
+                                                                           topNMeasures, false);
+                }
+                catch (IOException e) {
                     System.out.println("FALSE: EXCEPTION\t");
                     return false;
                 }
@@ -472,7 +479,8 @@ public class ProgramTest {
                         System.out.print("Frequencies are in tolerance:\t");
                         System.out.println("true");
                     }
-                } else {
+                }
+                else {
                     System.out.print("Frequencies are in tolerance:\t");
                     System.out.println("false");
                     System.out.println("original frequency: " + freq +
@@ -481,8 +489,8 @@ public class ProgramTest {
                 }
 
 
-                for(int index = 0; index < highestFrequencies.length; index++) {
-                    if(highestFrequencies[index].frequency != highestFrequencies2[index].frequency &&
+                for (int index = 0; index < highestFrequencies.length; index++) {
+                    if (highestFrequencies[index].frequency != highestFrequencies2[index].frequency &&
                         highestFrequencies[index].measure != highestFrequencies2[index].measure) {
                         System.out.println("FALSE: HIGHEST FREQUENCIES AREN'T THE SAME: frequencies: " +
                                            highestFrequencies[index].frequency + ":" +
@@ -492,7 +500,7 @@ public class ProgramTest {
                         return false;
                     }
 
-                    if(highestFrequencies[index].measure != highestMeasures[index]) {
+                    if (highestFrequencies[index].measure != highestMeasures[index]) {
                         System.out.println("FALSE: MEASURES IN ONLY MEASURES AND MEASURES WITH FREQS AREN'T THE SAME: " +
                                            highestFrequencies[index].measure + ":" + onlyMeasures[index]);
                         return false;
@@ -508,13 +516,13 @@ public class ProgramTest {
 
 
     private static double[] getNHighestMeasures(double[] arr, int n) {
-        if(n > arr.length) {
+        if (n > arr.length) {
             return null;
         }
         double[] result = new double[n];
         Arrays.sort(arr);
         int index = arr.length - 1;
-        for(int i = 0; i < result.length; i++, index--) {
+        for (int i = 0; i < result.length; i++, index--) {
             result[i] = arr[index];
         }
 
@@ -597,7 +605,7 @@ public class ProgramTest {
         byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels,
                                                                          sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
-        for(int i = 0; i < samples3Double.length; i++) {
+        for (int i = 0; i < samples3Double.length; i++) {
             samples3Double[i] = AudioConverter.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
                                                                   isBigEndian, isSigned);
         }
@@ -612,7 +620,7 @@ public class ProgramTest {
         Random rand = new Random();
         int LEN = 4447632;
         byte[] samplesFromStream = new byte[LEN];
-        for(int i = 0; i < samplesFromStream.length; i++) {
+        for (int i = 0; i < samplesFromStream.length; i++) {
             byte val = (byte) (rand.nextInt(255) - 128);
             samplesFromStream[i] = val;
         }
@@ -630,14 +638,14 @@ public class ProgramTest {
                                                                                            sampleSize, n, startSample,
                                                                                            isBigEndian, isSigned, LEN);
         double[][] samples2 = AudioProcessor.getEveryNthSampleMoreChannelsDouble(stream2, numberOfChannels, sampleSize,
-            n, startSample, isBigEndian, isSigned, LEN);
+                                                                                 n, startSample, isBigEndian, isSigned, LEN);
 
         byte[][] samples3 = AudioProcessor.getEveryNthSampleMoreChannels(samplesFromStream, numberOfChannels,
                                                                          sampleSize, n, startSample);
         double[][] samples3Double = new double[samples3.length][];
-        for(int i = 0; i < samples3Double.length; i++) {
+        for (int i = 0; i < samples3Double.length; i++) {
             samples3Double[i] = AudioConverter.normalizeToDoubles(samples3[i], sampleSize, sampleSize * 8,
-                                                           isBigEndian, isSigned);
+                                                                  isBigEndian, isSigned);
         }
 
         boolean result1 = checkEqualityOfArraysTwoDim(samples1, samples3Double);
@@ -645,7 +653,6 @@ public class ProgramTest {
         ProgramTest.debugPrint("Checking against byte variant:", result1, result2);
         return checkEqualityOfArraysTwoDim(samples1, samples2);
     }
-
 
 
     /**
@@ -666,7 +673,8 @@ public class ProgramTest {
         if (Aggregation.performAggregation(stream, numberOfChannels, sampleSize, isBigEndian, isSigned, byteLength, Aggregation.RMS) ==
             Aggregation.performAggregation(samplesFromStream, sampleSize, isBigEndian, isSigned, Aggregation.RMS)) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -755,7 +763,6 @@ public class ProgramTest {
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.MAX) != correctResult) {
             return false;
         }
-
 
 
         isBigEndian = false;
@@ -917,14 +924,14 @@ public class ProgramTest {
         samples[7] = 4;
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
+                                  Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
+                                  Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
@@ -941,21 +948,20 @@ public class ProgramTest {
         samples[7] = 0;
 
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
+                                  Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         isSigned = true;
         correctResult = Math.sqrt(((1 * 1 + 2 * 2 + 3 * 3 + 4 * 4) / 4.0) /
-                Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
+                                  Math.pow(AudioUtilities.getMaxAbsoluteValue(16, isSigned), 2));
         if (Aggregation.performAggregation(samples, 2, isBigEndian, isSigned, Aggregation.RMS) != correctResult) {
             return false;
         }
 
         return true;
     }
-
 
 
     /**
@@ -968,7 +974,8 @@ public class ProgramTest {
     public static boolean checkEqualityOfArraysOneDim(double[] arr1, double[] arr2, int startIndex, double tolerance) {
         if (arr1.length != arr2.length) {
             return false;
-        } else {
+        }
+        else {
             return checkEqualityOfArraysOneDim(arr1, arr2, startIndex, arr1.length, tolerance);
         }
     }
@@ -985,10 +992,10 @@ public class ProgramTest {
         for (int i = startIndex; i < len; i++) {
             if (arr2[i] < arr1[i] - tolerance || arr2[i] > arr1[i] + tolerance) {
                 System.out.println(i + "\t" + arr1[i] + "\t" + arr2[i]);
-                if(i > 0) {
+                if (i > 0) {
                     System.out.println((i - 1) + "\t" + arr1[i - 1] + "\t" + arr2[i - 1]);
                 }
-                if(i < len - 1) {
+                if (i < len - 1) {
                     System.out.println((i + 1) + "\t" + arr1[i + 1] + "\t" + arr2[i + 1]);
                 }
                 return false;
@@ -1009,7 +1016,8 @@ public class ProgramTest {
     public static boolean checkEqualityOfArraysOneDim(byte[] arr1, byte[] arr2, int startIndex) {
         if (arr1.length != arr2.length) {
             return false;
-        } else {
+        }
+        else {
             for (int i = startIndex; i < arr1.length; i++) {
                 if (arr1[i] != arr2[i]) {
                     return false;
@@ -1032,11 +1040,13 @@ public class ProgramTest {
 
         if (arr1.length != arr2.length) {
             return false;
-        } else {
+        }
+        else {
             for (int i = 0; i < arr1.length; i++) {
                 if (arr1[i].length != arr2[i].length) {
                     return false;
-                } else {
+                }
+                else {
                     for (int j = 0; j < arr1[i].length; j++) {
                         if (arr1[i][j] != arr2[i][j]) {
                             return false;
@@ -1051,6 +1061,7 @@ public class ProgramTest {
 
 
     // Same as byte variant - I had to copy paste, since java generics are bad
+
     /**
      * Checks equality of two 2D labelReferenceArrs.
      *
@@ -1062,11 +1073,13 @@ public class ProgramTest {
 
         if (arr1.length != arr2.length) {
             return false;
-        } else {
+        }
+        else {
             for (int i = 0; i < arr1.length; i++) {
                 if (arr1[i].length != arr2[i].length) {
                     return false;
-                } else {
+                }
+                else {
                     for (int j = 0; j < arr1[i].length; j++) {
                         if (arr1[i][j] != arr2[i][j]) {
                             return false;
@@ -1078,7 +1091,6 @@ public class ProgramTest {
 
         return true;
     }
-
 
 
     /**
@@ -1151,7 +1163,8 @@ public class ProgramTest {
 
 
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return false;
         }
     }
@@ -1189,7 +1202,8 @@ public class ProgramTest {
                     return false;
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             return false;
         }
 
@@ -1450,7 +1464,7 @@ public class ProgramTest {
             isBigEndian = true;
             isSigned = true;
             sampleSize = 1;
-            samples = new byte[] {110};
+            samples = new byte[]{110};
             result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != samples[0]) {
                 System.out.println(result[0]);
@@ -1460,7 +1474,7 @@ public class ProgramTest {
             isBigEndian = true;
             isSigned = true;
             sampleSize = 1;
-            samples = new byte[] {-110};
+            samples = new byte[]{-110};
             result = AudioConverter.convertBytesToSamples(samples, sampleSize, isBigEndian, isSigned);
             if (result[0] != samples[0]) {
                 System.out.println(result[0]);
@@ -1469,7 +1483,8 @@ public class ProgramTest {
 
 
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return false;
         }
     }
@@ -1480,7 +1495,8 @@ public class ProgramTest {
         for (int i = 0; i < testArr.length; i++) {
             if (i % 2 == 0) {
                 testArr[i] = (byte) (i + 2);
-            } else {
+            }
+            else {
                 testArr[i] = (byte) (i + 3);
             }
         }
@@ -1488,7 +1504,8 @@ public class ProgramTest {
         byte[] result = null;
         try {
             result = AudioConverter.convertToMono(testArr, 2, 2, 1, true, false);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("FALSE1");
             return false;
         }
@@ -1518,14 +1535,15 @@ public class ProgramTest {
         try {
             result = AudioConverter.convertToMono(testArrByte, sampleSize * numberOfChannels, numberOfChannels,
                                                   sampleSize, isBigEndian, isSigned);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("FALSE1\t");
             return false;
         }
         int correctArrLen = sampleSize * testArrInt.length / numberOfChannels;
         if (result.length != correctArrLen) {
             System.out.print("FALSE2\tCorrect array length:" +
-                correctArrLen + "\tCalculated array length:" + result.length + "\t");
+                             correctArrLen + "\tCalculated array length:" + result.length + "\t");
             return false;
         }
 
@@ -1550,15 +1568,15 @@ public class ProgramTest {
 
     public static void convertToMonoTests() {
         System.out.println("convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian:\t" +
-            convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian());
+                           convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian());
         System.out.println("convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian:\t" +
-            convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian());
+                           convertToMonoTest2ByteSamplesSigned2ChannelsBigEndian());
         System.out.println("convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian:\t" +
-            convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian());
+                           convertToMonoTest2ByteSamplesUnsigned2ChannelsLittleEndian());
         System.out.println("convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian:\t" +
-            convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian());
+                           convertToMonoTest2ByteSamplesSigned2ChannelsLittleEndian());
         System.out.println("convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian:\t" +
-            convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian());
+                           convertToMonoTest3ByteSamplesSigned4ChannelsLittleEndian());
     }
 
     public static boolean convertToMonoTest2ByteSamplesUnsigned2ChannelsBigEndian() {
@@ -1615,7 +1633,8 @@ public class ProgramTest {
         double[] result = new double[0];
         try {
             result = AudioConverter.normalizeToDoubles(byteSamples, sampleSize, sampleSizeInBits, isBigEndian, isSigned);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("FALSE2\t");
             return false;
         }
@@ -1693,7 +1712,8 @@ public class ProgramTest {
             for (int i = 0; i < testArrInt.length; i++) {
                 testArrInt[i] = random.nextInt(maxSample) - (maxSample / 2);
             }
-        } else {
+        }
+        else {
             for (int i = 0; i < testArrInt.length; i++) {
                 testArrInt[i] = random.nextInt(maxSample);
             }
@@ -1817,7 +1837,6 @@ public class ProgramTest {
         }
 
 
-
         // Random test - basically implements window average again
         numberOfChannels = 1;
         double resultSample;
@@ -1854,7 +1873,7 @@ public class ProgramTest {
                 resultSample /= windowSize;
                 if (samples[i] > resultSample + epsilon || samples[i] < resultSample - epsilon) {
                     System.out.print("FALSE10:\tCorrect value: " + resultSample + "\tCalculated value: " + samples[i] +
-                        "\tIndex: " + i + "\tWindow size: " + windowSize + "\t");
+                                     "\tIndex: " + i + "\tWindow size: " + windowSize + "\t");
                     return false;
                 }
             }
@@ -1866,7 +1885,7 @@ public class ProgramTest {
 
     public static boolean windowsAverageVsNonRecursiveDoubleFilter(int len) {
         int channelTestCount = 6;
-        for(int ch = 2; ch < channelTestCount; ch++) {
+        for (int ch = 2; ch < channelTestCount; ch++) {
             if (len % ch != 0) {
                 len *= ch;
             }
@@ -1875,27 +1894,27 @@ public class ProgramTest {
         double[] result1 = new double[len];
         double[] result2 = new double[len];
         Random rand = new Random();
-        for(int i = 0; i < arr1.length; i++) {
+        for (int i = 0; i < arr1.length; i++) {
             arr1[i] = rand.nextDouble();
         }
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             double[] coef = new double[rand.nextInt(len)];
-            for(int j = 0; j < coef.length; j++) {
-                coef[j] = (double)1 / coef.length;
+            for (int j = 0; j < coef.length; j++) {
+                coef[j] = (double) 1 / coef.length;
             }
 
-            for(int ch = 1; ch < channelTestCount; ch++) {
+            for (int ch = 1; ch < channelTestCount; ch++) {
                 NonRecursiveFilter.performNonRecursiveFilter(arr1, 0, coef, ch,
                                                              result1, 0, result1.length);
                 System.arraycopy(arr1, 0, result2, 0, arr1.length);
                 NonRecursiveFilter.performMovingWindowAverageByRef(result2, coef.length, ch);
 
-                if(!ProgramTest.checkEqualityOfArraysOneDim(result1, result2, coef.length * ch, 0.000000000001)) {
+                if (!ProgramTest.checkEqualityOfArraysOneDim(result1, result2, coef.length * ch, 0.000000000001)) {
                     System.out.println("Channel that failed:\t" + ch);
                     return false;
                 }
             }
-         }
+        }
 
         return true;
     }
@@ -1903,8 +1922,8 @@ public class ProgramTest {
 
     private static double[] getAVGCoefs(int windowSize) {
         double[] coef = new double[windowSize];
-        for(int i = 0; i < coef.length; i++) {
-            coef[i] = 1 / (double)windowSize;
+        for (int i = 0; i < coef.length; i++) {
+            coef[i] = 1 / (double) windowSize;
         }
 
         return coef;
@@ -1914,9 +1933,9 @@ public class ProgramTest {
         byte[] sample;
         byte[] outputArr = new byte[intArr.length * sampleSize];
         int j = 0;
-        for(int i = 0; i < intArr.length; i++) {
+        for (int i = 0; i < intArr.length; i++) {
             sample = AudioConverter.convertIntToByteArr(sampleSize, intArr[i], convertToBigEndian);
-            for(int k = 0; k < sample.length; k++, j++) {
+            for (int k = 0; k < sample.length; k++, j++) {
                 outputArr[j] = sample[k];
             }
         }
@@ -1973,8 +1992,8 @@ public class ProgramTest {
             case 11:
                 resultFor1Channel = new int[]{0, 0, 0, 0, 0, 0};
                 break;
-                default:
-                    return null;
+            default:
+                return null;
         }
 
         for (int i = 0, intIndex = 0; intIndex < resultFor1Channel.length; intIndex++) {
@@ -2001,12 +2020,13 @@ public class ProgramTest {
         try {
             samples = NonRecursiveFilter.performNonRecursiveFilter(samples, coef, numberOfChannels, sampleSize,
                                                                    frameSize, isBigEndian, isSigned);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("Exception:\t");
             return false;
         }
 
-        if(samples.length != result.length) {
+        if (samples.length != result.length) {
             System.out.print("Not same length:\tCorrect length:\t" + result.length +
                              "\tCalculated length:\t" + samples.length);
             return false;
@@ -2037,7 +2057,7 @@ public class ProgramTest {
         numberOfChannels = 1;
         windowSize = 1;
         result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-        if(!result) {
+        if (!result) {
             System.out.print("FALSE1:");
             return false;
         }
@@ -2049,7 +2069,7 @@ public class ProgramTest {
         isSigned = true;
         isBigEndian = true;
         result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-        if(!result) {
+        if (!result) {
             System.out.print("FALSE2:");
             return false;
         }
@@ -2060,7 +2080,7 @@ public class ProgramTest {
         isSigned = true;
         isBigEndian = true;
         result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-        if(!result) {
+        if (!result) {
             System.out.print("FALSE3:");
             return false;
         }
@@ -2071,7 +2091,7 @@ public class ProgramTest {
         isSigned = false;
         isBigEndian = false;
         result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-        if(!result) {
+        if (!result) {
             System.out.print("FALSE4:");
             return false;
         }
@@ -2083,7 +2103,7 @@ public class ProgramTest {
         isSigned = true;
         isBigEndian = false;
         result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-        if(!result) {
+        if (!result) {
             System.out.print("FALSE5:");
             return false;
         }
@@ -2098,7 +2118,7 @@ public class ProgramTest {
         // Test for windowSizes from 1 to 10
         for (windowSize = 1; windowSize <= 11; windowSize++) {
             result = performOneNonRecursiveFilterTest(sampleSize, numberOfChannels, windowSize, isBigEndian, isSigned);
-            if(!result) {
+            if (!result) {
                 System.out.print("FALSE6:");
                 return false;
             }
@@ -2115,7 +2135,8 @@ public class ProgramTest {
         byte[] result = new byte[]{1 * 2, 2 * 2, 1 * 1 + 2 * 3, 1 * 2 + 2 * 4, 1 * 3 + 2 * 5, 1 * 4 + 2 * 1};
         try {
             samples = NonRecursiveFilter.performNonRecursiveFilter(samples, coefs, 2, 1, 2, true, false);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("EXCEPTION" + "\t");
             return false;
         }
@@ -2146,6 +2167,7 @@ public class ProgramTest {
      * So in short, it works correctly, but the last frame is sometimes incorrect (It doesn't matter that much)
      * But sometimes might be problem. So for this reason it is better to use the downsampling by upsampling first
      * and the dropping frames.
+     *
      * @param sampleSize
      * @param numberOfChannels
      * @param oldSampleRate
@@ -2164,7 +2186,8 @@ public class ProgramTest {
                 return false;
             }
             ratio = oldSampleRate / newSampleRate;
-        } else {
+        }
+        else {
             // Can't be tested unless I implement the method, so just return false
             return false;
         }
@@ -2174,14 +2197,15 @@ public class ProgramTest {
         byte[] calculatedArr = new byte[0];
         try {
             calculatedArr = AudioConverter.convertSampleRate(byteArr, sampleSize, frameSize, numberOfChannels,
-                    oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
+        }
+        catch (IOException e) {
             System.out.print("FALSE3:\t");
             return false;
         }
 
         int correctOutputSize = (byteArr.length / frameSize);
-        if(correctOutputSize % ratio < 1) {
+        if (correctOutputSize % ratio < 1) {
             correctOutputSize /= ratio;
             correctOutputSize *= frameSize;
         }
@@ -2190,7 +2214,7 @@ public class ProgramTest {
             correctOutputSize = (correctOutputSize + 1) * frameSize;
         }
         if (calculatedArr.length != correctOutputSize) {
-            System.out.print("FALSE4:\t" + "Correct length: " + correctOutputSize+
+            System.out.print("FALSE4:\t" + "Correct length: " + correctOutputSize +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
@@ -2198,13 +2222,15 @@ public class ProgramTest {
             byteArr = NonRecursiveFilter.runLowPassFilter(byteArr, newSampleRate / 2, 64,
                                                           oldSampleRate, numberOfChannels, sampleSize, frameSize,
                                                           isBigEndian, isSigned);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("FALSE5:\t Invalid sampleSize: " + sampleSize);
             return false;
         }
         try {
             arrInt = AudioConverter.convertBytesToSamples(byteArr, sampleSize, isBigEndian, isSigned);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.print("FALSE1");
             return false;
         }
@@ -2221,7 +2247,7 @@ public class ProgramTest {
                 int sample = AudioConverter.convertBytesToInt(calculatedArr, sampleSize, mask, i, isBigEndian, isSigned);
                 i += sampleSize;
                 if (sample != arrInt[intInd]) {
-                    System.out.print("FALSE6:\t" + "Index: " + intInd + "\tCorrect value: " +  arrInt[intInd] +
+                    System.out.print("FALSE6:\t" + "Index: " + intInd + "\tCorrect value: " + arrInt[intInd] +
                                      "\tCalculated value: " + sample + "\t");
                     return false;
                 }
@@ -2242,29 +2268,30 @@ public class ProgramTest {
         byte[] samples = new byte[16];
         int numberOfChannels = 1;
         int frameSize = numberOfChannels * sampleSize;
-        for(int index = 0; index < samples.length; index++) {
-            samples[index] = (byte)(2*index);
+        for (int index = 0; index < samples.length; index++) {
+            samples[index] = (byte) (2 * index);
         }
         byte[] result = new byte[samples.length * newSampleRate / oldSampleRate - 1];
         for (int i = 0; i < result.length; i++) {
-            result[i] = (byte)(i);
+            result[i] = (byte) (i);
         }
 
         byte[] calculatedArr = new byte[0];
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
+        }
+        catch (IOException e) {
             System.out.print("FALSE1");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE2:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE3:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2275,18 +2302,19 @@ public class ProgramTest {
         isSigned = true;
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, 1,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
+        }
+        catch (IOException e) {
             System.out.print("FALSE4");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE5:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE6:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2305,32 +2333,33 @@ public class ProgramTest {
         int oldSampleRate = 22050;
         int newSampleRate = 44100;
         byte[] samples = new byte[16];
-        for(int index = 0, halfIndex = 0; index < samples.length; index++,halfIndex++) {
-            samples[index++] = (byte)(2*halfIndex);
-            samples[index] = (byte)(2*halfIndex);
+        for (int index = 0, halfIndex = 0; index < samples.length; index++, halfIndex++) {
+            samples[index++] = (byte) (2 * halfIndex);
+            samples[index] = (byte) (2 * halfIndex);
         }
 
         byte[] result = new byte[samples.length * newSampleRate / oldSampleRate - numberOfChannels];
-        for (int index = 0, halfIndex = 0; index < result.length; index++,halfIndex++) {
-            result[index++] = (byte)halfIndex;
-            result[index] = (byte)halfIndex;
+        for (int index = 0, halfIndex = 0; index < result.length; index++, halfIndex++) {
+            result[index++] = (byte) halfIndex;
+            result[index] = (byte) halfIndex;
         }
 
         byte[] calculatedArr = new byte[0];
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, false);
+        }
+        catch (IOException e) {
             System.out.print("FALSE1:\t");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE2:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE3:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2340,18 +2369,19 @@ public class ProgramTest {
         isSigned = true;
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
+        }
+        catch (IOException e) {
             System.out.print("FALSE4");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE5:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE6:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2369,14 +2399,14 @@ public class ProgramTest {
         int oldSampleRate = 22050;
         int newSampleRate = 44100;
         byte[] samples = new byte[8 * numberOfChannels];
-        for(int index = 0, i = 0; i < samples.length; index++) {
-            for(int j = 0; j < numberOfChannels; j++, i++) {
+        for (int index = 0, i = 0; i < samples.length; index++) {
+            for (int j = 0; j < numberOfChannels; j++, i++) {
                 samples[i] = (byte) (2 * index);
             }
         }
         byte[] result = new byte[samples.length * newSampleRate / oldSampleRate - numberOfChannels];
-        for(int index = 0, i = 0; i < result.length; index++) {
-            for(int j = 0; j < numberOfChannels; j++, i++) {
+        for (int index = 0, i = 0; i < result.length; index++) {
+            for (int j = 0; j < numberOfChannels; j++, i++) {
                 result[i] = (byte) index;
             }
         }
@@ -2384,18 +2414,19 @@ public class ProgramTest {
         byte[] calculatedArr = new byte[0];
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
+        }
+        catch (IOException e) {
             System.out.print("FALSE1");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE2:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE3:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2409,16 +2440,16 @@ public class ProgramTest {
     // Test works "only" up to 16 channels
     public boolean convertSampleRateUpSampleTestUniform(int numberOfChannels, int sampleSize,
                                                         boolean isBigEndian, boolean isSigned) {
-        if(numberOfChannels > 16) {
+        if (numberOfChannels > 16) {
             return false;
         }
         int frameSize = numberOfChannels * sampleSize;
         int oldSampleRate = 22050;
         int newSampleRate = 44100;
         byte[] samples = new byte[8 * numberOfChannels * sampleSize];
-        for(int index = 0, i = 0; i < samples.length; index++) {
-            for(int j = 0; j < numberOfChannels; j++) {
-                if(isBigEndian) {
+        for (int index = 0, i = 0; i < samples.length; index++) {
+            for (int j = 0; j < numberOfChannels; j++) {
+                if (isBigEndian) {
                     samples[i] = (byte) (2 * index);
                     i++;
                     for (int k = 0; k < sampleSize - 1; k++, i++) {
@@ -2435,9 +2466,9 @@ public class ProgramTest {
             }
         }
         byte[] result = new byte[samples.length * newSampleRate / oldSampleRate - (numberOfChannels * sampleSize)];
-        for(int index = 0, i = 0; i < result.length; index++) {
-            for(int j = 0; j < numberOfChannels; j++) {
-                if(isBigEndian) {
+        for (int index = 0, i = 0; i < result.length; index++) {
+            for (int j = 0; j < numberOfChannels; j++) {
+                if (isBigEndian) {
                     result[i] = (byte) index;
                     i++;
                     for (int k = 0; k < sampleSize - 1; k++, i++) {
@@ -2457,18 +2488,19 @@ public class ProgramTest {
         byte[] calculatedArr = new byte[0];
         try {
             calculatedArr = AudioConverter.convertSampleRate(samples, sampleSize, frameSize, numberOfChannels,
-                oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
-        } catch (IOException e) {
+                                                             oldSampleRate, newSampleRate, isBigEndian, isSigned, true);
+        }
+        catch (IOException e) {
             System.out.print("FALSE1");
             return false;
         }
-        if(calculatedArr.length != result.length) {
+        if (calculatedArr.length != result.length) {
             System.out.print("FALSE2:\t" + "Correct length: " + result.length +
                              "\tCalculated length: " + calculatedArr.length + "\t");
             return false;
         }
-        for(int i = 0; i < calculatedArr.length; i++) {
-            if(calculatedArr[i] != result[i]) {
+        for (int i = 0; i < calculatedArr.length; i++) {
+            if (calculatedArr[i] != result[i]) {
                 System.out.print("FALSE3:\t" + "Index: " + i + "\tCorrect value: " + result[i] +
                                  "\tCalculated value: " + calculatedArr[i] + "\t");
                 return false;
@@ -2492,31 +2524,31 @@ public class ProgramTest {
         boolean result;
 
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform1:\t" + result);
 
         isBigEndian = true;
         isSigned = false;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform2:\t" + result);
 
         isBigEndian = false;
         isSigned = true;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform3:\t" + result);
 
         isBigEndian = true;
         isSigned = true;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform4:\t" + result);
 
         sampleSize = 3;
         numberOfChannels = 7;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform5:\t" + result);
 
         newSampleRate = 22050;
@@ -2524,7 +2556,7 @@ public class ProgramTest {
         sampleSize = 3;
         numberOfChannels = 7;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform6\t" + result);
 
 
@@ -2533,7 +2565,7 @@ public class ProgramTest {
         sampleSize = 3;
         numberOfChannels = 3;
         result = convertSampleRateDownSampleTestUniform(sampleSize, numberOfChannels, oldSampleRate,
-            newSampleRate, isBigEndian, isSigned);
+                                                        newSampleRate, isBigEndian, isSigned);
         System.out.println("convertSampleRateDownSampleTestUniform7\t" + result);
 
 
@@ -2605,21 +2637,21 @@ public class ProgramTest {
 
     public static boolean testGetSubbandRealForward(SubbandSplitterIFace splitter, int subbandCount, int arrLen) {
         double[] arr = new double[arrLen];
-        for(int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = i + 1;
         }
-        for(int subband = 0; subband < subbandCount; subband++) {
+        for (int subband = 0; subband < subbandCount; subband++) {
             double[] result = new double[arr.length];
             int startIndex = -1;
             int counter = 0;
             int endIndex = -1;
             splitter.getSubband(arr, subbandCount, subband, result);
-            for(int i = 0; i < result.length; i++) {
-                if(result[i] != 0) {
+            for (int i = 0; i < result.length; i++) {
+                if (result[i] != 0) {
                     System.out.println("Test: " + i);
                     counter++;
                     endIndex = i;
-                    if(startIndex == -1) {
+                    if (startIndex == -1) {
                         startIndex = i;
                     }
                 }
@@ -2631,17 +2663,17 @@ public class ProgramTest {
     }
 
 
-
     public boolean createFFTWindowTest(double freq, int sampleRate, int sampleSize, int numberOfChannels,
                                        boolean isBigEndian, boolean isSigned, int startIndex,
                                        int windowSize, int windowWidth, int windowHeight) {
-        int neededLenInSecs = (int)Math.ceil((windowSize + startIndex) / (double)sampleRate);
+        int neededLenInSecs = (int) Math.ceil((windowSize + startIndex) / (double) sampleRate);
         byte[] song = Note.generateFrequencyFreq(freq, sampleRate, neededLenInSecs, sampleSize, isBigEndian, isSigned);
         double[] songDouble;
         try {
             songDouble = AudioConverter.normalizeToDoubles(song, sampleSize, sampleSize * 8,
-                    isBigEndian, isSigned);
-        } catch (IOException e) {
+                                                           isBigEndian, isSigned);
+        }
+        catch (IOException e) {
             e.printStackTrace();
             return false;
         }
@@ -2656,13 +2688,13 @@ public class ProgramTest {
     private void createFFTWindow(double[] song, int windowSize, int startIndex, double freqJump) {
         JFrame frame = new JFrame();
         frame.setContentPane(new FFTWindowPanel(song, windowSize, startIndex, freqJump,
-                true, Color.lightGray, false));
+                                                true, Color.lightGray, false));
 
         // Instead of pack
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double w = screenSize.getWidth();
         double h = screenSize.getHeight();
-        frame.setSize((int)w, (int)h/2);
+        frame.setSize((int) w, (int) h / 2);
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // if you want the X button to close the app
@@ -2679,10 +2711,6 @@ public class ProgramTest {
     }
 
 
-
-
-
-
     public static void testGetAbsoluteValueGeneral() {
         System.out.println("testIfGetAbsoluteValueGeneralPositive():\t" + testIfGetAbsoluteValueGeneralPositive());
         System.out.println("testIfGetAbsoluteValueGeneralNegative():\t" + testIfGetAbsoluteValueGeneralNegative());
@@ -2692,10 +2720,10 @@ public class ProgramTest {
     public static boolean testIfGetAbsoluteValueGeneralPositive() {
         Random rand = new Random();
 
-        for(int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             int value = rand.nextInt();
             int zero = rand.nextInt();
-            if(getAbsoluteValueGeneralPositiveBranching(value, zero) != getAbsoluteValueGeneralPositiveNoBranching(value, zero)) {
+            if (getAbsoluteValueGeneralPositiveBranching(value, zero) != getAbsoluteValueGeneralPositiveNoBranching(value, zero)) {
                 return false;
             }
         }
@@ -2706,10 +2734,10 @@ public class ProgramTest {
     private static boolean testIfGetAbsoluteValueGeneralNegative() {
         Random rand = new Random();
 
-        for(int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             int value = rand.nextInt();
             int zero = rand.nextInt();
-            if(getAbsoluteValueGeneralNegativeBranching(value, zero) != getAbsoluteValueGeneralNegativeNoBranching(value, zero)) {
+            if (getAbsoluteValueGeneralNegativeBranching(value, zero) != getAbsoluteValueGeneralNegativeNoBranching(value, zero)) {
                 return false;
             }
         }
@@ -2725,9 +2753,10 @@ public class ProgramTest {
         int returnVal = zero + (sign * dif);      // Doesn't need if branching
         return returnVal;
     }
+
     private static int getAbsoluteValueGeneralPositiveBranching(int value, int zero) {
         // Version with branching
-        if(value > zero) {
+        if (value > zero) {
             return value;
         }
         else {
@@ -2747,7 +2776,7 @@ public class ProgramTest {
 
     private static int getAbsoluteValueGeneralNegativeBranching(int value, int zero) {
         // Version with branching
-        if(value > zero) {
+        if (value > zero) {
             // value - zero tells how much it is above zero, so we subtract that number from zero
             return zero - (value - zero);
         }
@@ -2757,21 +2786,20 @@ public class ProgramTest {
     }
 
 
-
     public static boolean testSetOneDimArr() {
         double[] array = new double[100];
         double[] correctResult = new double[array.length];
         Random rand = new Random();
-        for(int i = 0; i < array.length; i++) {
-            for(int j = array.length; j > i; j--) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = array.length; j > i; j--) {
                 Arrays.fill(array, 0);
                 Arrays.fill(correctResult, 0);
                 double val = rand.nextDouble();
                 Utilities.setOneDimArr(array, i, j, val);
-                for(int k = i; k < j; k++) {
+                for (int k = i; k < j; k++) {
                     correctResult[k] = val;
                 }
-                if(!checkEqualityOfArraysOneDim(array, correctResult, 0, array.length, 0)) {
+                if (!checkEqualityOfArraysOneDim(array, correctResult, 0, array.length, 0)) {
                     return false;
                 }
             }
@@ -2784,6 +2812,7 @@ public class ProgramTest {
     /**
      * Method to try if 2 bins are equal, I made it because the FFT was giving weird results, but it was because I
      * misunderstood the results of FFT.
+     *
      * @param windowSize
      * @param testCount
      * @return
@@ -2794,10 +2823,9 @@ public class ProgramTest {
         DoubleFFT_1D fft = new DoubleFFT_1D(windowSize);
         int differentBinsCount = 0;
 
-        for(int i = 0; i < testCount; i++) {
+        for (int i = 0; i < testCount; i++) {
             Utilities.fillArrWithRandomValues(arr, 1);
             fft.realForward(arr);
-
 
 
 //	if n is even then
@@ -2810,14 +2838,14 @@ public class ProgramTest {
 //	 a[2*k] = Re[k], 0<=k<(n+1)/2
 //	 a[2*k+1] = Im[k], 0<k<(n-1)/2
 //	 a[1] = Im[(n-1)/2]
-            if(arr.length % 2 == 0) {
+            if (arr.length % 2 == 0) {
                 //if(!(arr[1] == arr[arr.length - 2] && arr[arr.length -1] == 0)) {
-                if(arr[1] != arr[arr.length - 2]) {
+                if (arr[1] != arr[arr.length - 2]) {
                     differentBinsCount++;
                 }
             }
             else {
-                if(arr[1] != arr[arr.length - 1]) {
+                if (arr[1] != arr[arr.length - 1]) {
                     differentBinsCount++;
                 }
             }
@@ -2825,7 +2853,7 @@ public class ProgramTest {
 
 
         ProgramTest.debugPrint("testFFTBinCount (dif/total):", differentBinsCount + "/" + testCount,
-                                "windowSize:", windowSize);
+                               "windowSize:", windowSize);
     }
 
 
@@ -2921,7 +2949,7 @@ public class ProgramTest {
         DoubleFFT_1D fft = new DoubleFFT_1D(len);
 
         double[] arr = new double[complexLen];
-        for(int i = 0; i < realIndices.length; i++) {
+        for (int i = 0; i < realIndices.length; i++) {
             arr[2 * realIndices[i]] = realAmps[i];
             arr[2 * len + 2 * imagIndices[i] + 1] = imagAmps[i];
         }
@@ -2936,7 +2964,6 @@ public class ProgramTest {
     private static double EPSILON = 0.001;
 
     /**
-     *
      * @param arr
      * @param threshold is between -1 and 1.
      */
@@ -2945,8 +2972,8 @@ public class ProgramTest {
         threshold *= (windowSize / 2);
         ProgramTest.debugPrint("\n\n\nPRINTING VALUES OVER THRESHOLD:", threshold, "ARR LEN:", arr.length);
         threshold -= EPSILON;
-        for(int i = 0; i < arr.length; i++) {
-            if(Math.abs(arr[i]) > threshold) {
+        for (int i = 0; i < arr.length; i++) {
+            if (Math.abs(arr[i]) > threshold) {
                 ProgramTest.debugPrint(i, ":", arr[i]);
             }
         }
@@ -2955,14 +2982,13 @@ public class ProgramTest {
 
 
     /**
-     *
      * @param arr
      * @param thresholds are between -1 and 1.
      */
     private static void printFFTValuesOverThreshold(int windowSize, double[] arr, double[]... thresholds) {
         double max = Integer.MIN_VALUE;
-        for(int i = 0; i < thresholds.length; i++) {
-            for(int j = 0; j < thresholds[i].length; j++) {
+        for (int i = 0; i < thresholds.length; i++) {
+            for (int j = 0; j < thresholds[i].length; j++) {
                 double val = Math.abs(thresholds[i][j]);
                 if (val > max) {
                     max = val;
@@ -2975,9 +3001,9 @@ public class ProgramTest {
 
     private static void printFFTValuesOverThreshold(int windowSize, double[] arr, double... thresholds) {
         double max = Integer.MIN_VALUE;
-        for(int i = 0; i < thresholds.length; i++) {
+        for (int i = 0; i < thresholds.length; i++) {
             double threshold = Math.abs(thresholds[i]);
-            if(threshold > max) {
+            if (threshold > max) {
                 max = threshold;
             }
         }
@@ -2985,27 +3011,24 @@ public class ProgramTest {
     }
 
 
-
-
-
     public static void tryFFTSums(int iterationCount) {
         Random r = new Random();
-        for(int i = 0; i < iterationCount; i++) {
+        for (int i = 0; i < iterationCount; i++) {
             int exponent = r.nextInt(9) + 4;
             //int exponent = 3;
-            double[] audio =  Utilities.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1,
-                                                                      0, 0, 0);
+            double[] audio = Utilities.CURVE_TYPE.RANDOM.createCurve(1 << exponent, 1,
+                                                                     0, 0, 0);
             //double[] audio =  ByteWave.CURVE_TYPE.LINE.createCurve(1 << exponent, 1, 0, 0, 0);
             DoubleFFT_1D fft = new DoubleFFT_1D(audio.length);
             FFT.calculateFFTRealForward(audio, 0, audio.length, 1, fft, audio);
-            for(int j = 0; j < audio.length; j++) {
+            for (int j = 0; j < audio.length; j++) {
                 //audio[j] /= (audio.length / 2);
                 audio[j] /= audio.length;
             }
             double[] measures = new double[FFT.getBinCountRealForward(audio.length)];
             FFT.convertResultsOfFFTToRealRealForward(audio, measures);
 
-            for(int j = 0; j < audio.length; j++) {
+            for (int j = 0; j < audio.length; j++) {
                 audio[j] = Math.abs(audio[j]);
             }
 
@@ -3014,7 +3037,7 @@ public class ProgramTest {
 
             sum2 -= measures[0];
             sum2 -= measures[measures.length - 1];
-            if(sum1 >= 1 || sum2 >= 1) {
+            if (sum1 >= 1 || sum2 >= 1) {
                 ProgramTest.debugPrint("SUM IS BIGGER THAN ONE:", sum1, sum2, "Size:", audio.length);
                 ProgramTest.debugPrint(audio);
                 ProgramTest.debugPrint(measures);
@@ -3022,21 +3045,21 @@ public class ProgramTest {
         }
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Debug methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void printArray(byte[] arr) {
         System.out.println("!!!Printing array!!!");
-        for(int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
     }
 
 
     public static void printNTimes(String stringToPrint, int n) {
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.println(stringToPrint);
         }
     }
@@ -3048,28 +3071,30 @@ public class ProgramTest {
 
     public static void printCharKTimesOnNLines(char c, int k, int n) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) {
             sb.append(c);
         }
         String s = sb.toString();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             printNTimes(s, n);
         }
     }
 
 
-
     /**
      * Specific variant of debugPrintWithSep. Uses tabulator (\t) as separator.
+     *
      * @param texts are the strings, which will be written to output separated by \t.
      */
     public static void debugPrint(String... texts) {
         debugPrintWithSep("\t", texts);
     }
+
     /**
      * Writes the strings separated by separator. Puts new line at the end.
+     *
      * @param separator is the separator which will be put between the strings.
-     * @param texts are the strings, which will be written to output separated by separator.
+     * @param texts     are the strings, which will be written to output separated by separator.
      */
     public static void debugPrintWithSep(String separator, String... texts) {
         // Classic implementation
@@ -3090,17 +3115,20 @@ public class ProgramTest {
 
     /**
      * Uses refraction - so it is slow. Specific variant of debugPrintWithSep. Uses tabulator (\t) as separator.
+     *
      * @param objects are the objects, on which will be called .toString() and
      *                will be written to output separated by \t.
      */
     public static void debugPrint(Object... objects) {
         debugPrintWithSep("\t", objects);
     }
+
     /**
      * Uses refraction - so it is slow. Writes the objects separated by separator. Puts new line at the end.
+     *
      * @param separator is the separator which will be put between the objects.
-     * @param objects are the objects, on which will be called .toString() and
-     *                will be written to output separated by separator.
+     * @param objects   are the objects, on which will be called .toString() and
+     *                  will be written to output separated by separator.
      */
     public static void debugPrintWithSep(String separator, Object... objects) {
         //https://stackoverflow.com/questions/9633991/how-to-check-if-processing-the-last-item-in-an-iterator
@@ -3115,12 +3143,13 @@ public class ProgramTest {
     /**
      * Uses refraction to check if the given object is array, if so,
      * then print is it in audioFormat index:\t value [space]. Else returns o.toString()
+     *
      * @param o
      * @return
      */
     public static String debugPrintObject(Object o) {
         Class<? extends Object> c = o.getClass();
-        if(c.isArray()) {                                   // Check if it is array
+        if (c.isArray()) {                                   // Check if it is array
             StringBuilder ret = new StringBuilder();
             int arrLen;
             ret.append("NOW PRINTING ARRAY:\n");
@@ -3148,7 +3177,7 @@ public class ProgramTest {
                 }
             }
 
-            if(!shouldPutNewLineToArrayPrint(arrLen - 1)) {     // If the last separator wasn't \n
+            if (!shouldPutNewLineToArrayPrint(arrLen - 1)) {     // If the last separator wasn't \n
                 ret.append('\n');
             }
             ret.append("STOPPED PRINTING ARRAY:\n");
@@ -3161,8 +3190,9 @@ public class ProgramTest {
 
 
     private static final int ARR_INDICES_ON_LINE = 2;
+
     private static void appendSeparatorInArray(StringBuilder sb, int index) {
-        if(shouldPutNewLineToArrayPrint(index)) {
+        if (shouldPutNewLineToArrayPrint(index)) {
             sb.append('\n');       // Separator
         }
         else {

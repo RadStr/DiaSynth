@@ -9,8 +9,7 @@ import java.awt.*;
 
 public class WaveDrawValuesIndividual extends WaveDrawValues {
     /**
-     *
-     * @param leftPixel is the left visible pixel. but in sense of whole wave
+     * @param leftPixel              is the left visible pixel. but in sense of whole wave
      * @param newVisibleWidth
      * @param totalWaveWidthInPixels
      * @param startIndexInValues
@@ -60,10 +59,11 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
      * Is the pixel of the first sample in the sense of whole wave
      */
     private double firstSamplePixel;
+
     private void setFirstSamplePixel() {
         firstSamplePixel = leftPixel;
         double mod = leftPixel % pixelDifferenceBetweenSamples;
-        if(mod != 0) {
+        if (mod != 0) {
             firstSamplePixel += (pixelDifferenceBetweenSamples - mod);
         }
     }
@@ -75,15 +75,15 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         // Because java does some resizing for the scroll by 1 pixel so sometimes the value of leftPixel goes to -1,
         // which makes the the samples moved 1 pixel to right - the 0th sample starts where should be the 1st one, which
         // would be fine if didn't have the tooltips, which are then 1 sample off.
-        if(leftPixel < 0) {
+        if (leftPixel < 0) {
             leftPixel = 0;
         }
 
         double oldFirstSamplePixel = firstSamplePixel;
         setFirstSamplePixel();
         double change = (firstSamplePixel - oldFirstSamplePixel) / pixelDifferenceBetweenSamples;
-        int changeInt = (int)Math.round(change);
-        if(changeInt != 0) {
+        int changeInt = (int) Math.round(change);
+        if (changeInt != 0) {
             shiftBufferDouble.updateStartIndex(changeInt);
         }
     }
@@ -101,22 +101,22 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
         int index = shiftBufferDouble.getStartIndex();
         ProgramTest.debugPrint("drawSamples", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
-            currentVisiblePixel, width, pixelDifferenceBetweenSamples, shiftBufferDouble.getMaxRightIndex());
+                               currentVisiblePixel, width, pixelDifferenceBetweenSamples, shiftBufferDouble.getMaxRightIndex());
 
         int maxRightIndex = shiftBufferDouble.getMaxRightIndex();
 
         boolean hasDrawnPixelBefore = false;
         int previousVisiblePixelInt = -1;
         int previousHeight = -1;
-        while(currentVisiblePixel < width && index < maxRightIndex) {
+        while (currentVisiblePixel < width && index < maxRightIndex) {
             // minus because it the lowest value has to have to be at the highest pixel
-            int sampleHeight = -(int)(shiftBufferDouble.getValueAtIndex(index) * halfHeight);
+            int sampleHeight = -(int) (shiftBufferDouble.getValueAtIndex(index) * halfHeight);
             // Shift it so it starts in the middle
             sampleHeight += halfHeight + shiftY;
-            int currentPixelInt = (int)currentVisiblePixel;
+            int currentPixelInt = (int) currentVisiblePixel;
 
-            if(pixelDifferenceBetweenSamples < 4) {
-                if(hasDrawnPixelBefore) {
+            if (pixelDifferenceBetweenSamples < 4) {
+                if (hasDrawnPixelBefore) {
                     // TODO: Asi vymazat ty ostatni verze
                     // Version with rectangles
 //                    if(previousHeight < halfHeight) {
@@ -139,7 +139,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 //                    StaticDrawMethodsClass.drawCenteredCircle(g, currentPixelInt, sampleHeight, 1); // Bigger dots
                 }
 
-                if(!hasDrawnPixelBefore) {
+                if (!hasDrawnPixelBefore) {
                     hasDrawnPixelBefore = true;
                 }
                 previousVisiblePixelInt = currentPixelInt;
@@ -162,7 +162,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
 
     @Override
     public int convertFromPixelToBuffer(double val) {
-        int retVal = (int)Math.round(val / pixelDifferenceBetweenSamples);
+        int retVal = (int) Math.round(val / pixelDifferenceBetweenSamples);
         retVal--;
         return retVal;
     }
@@ -182,7 +182,7 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         // then I had problem that when I started filling I started
         // from index 1 and it was because of this. I had 0 and by retVal-- I got -1 which I subtracted in the
         // convertToNonVisibleMostLeftIndexInAudio method, so I got +1 index than I really should have had.
-        if(retVal > 0) {
+        if (retVal > 0) {
             retVal--;
         }
         return retVal;

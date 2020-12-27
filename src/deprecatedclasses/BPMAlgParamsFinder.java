@@ -31,9 +31,9 @@ public class BPMAlgParamsFinder {
     public static List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> createAndPrintDifList() {
         List<Pair<String, Pair<String, Integer>>> bpmList = new ArrayList<>();
         String[] paths = new String[0];         // Not distributing the test files
-        for(int i = 0; i < paths.length; i++) {
+        for (int i = 0; i < paths.length; i++) {
             File dir = new File(paths[i]);
-            if(dir.isDirectory()) {
+            if (dir.isDirectory()) {
                 for (File f : dir.listFiles()) {
                     String path = f.getAbsolutePath();
                     findCoefs(path, bpmList);
@@ -56,12 +56,13 @@ public class BPMAlgParamsFinder {
 
         try {
             byteWave = ByteWave.loadSong(filename, true);
-            if(byteWave == null) {
+            if (byteWave == null) {
                 MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
-                        filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
+                                               filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
             return;
         }
@@ -69,7 +70,7 @@ public class BPMAlgParamsFinder {
         try {
             byteWave.convertToMono();
         }
-        catch(IOException e) {
+        catch (IOException e) {
             return;
         }
 
@@ -80,8 +81,8 @@ public class BPMAlgParamsFinder {
         int referenceBPM = -1;
         int subbandCount = 64;
         double coef = 2.3;
-        while(coef < 2.9) {
-            for(double varianceLimit = 0; varianceLimit < 0.19; varianceLimit += 0.02) {
+        while (coef < 2.9) {
+            for (double varianceLimit = 0; varianceLimit < 0.19; varianceLimit += 0.02) {
                 for (int windowsBetweenBeats = 4; windowsBetweenBeats < 9; windowsBetweenBeats++) {
                     for (int i = 0; i < 5; i++) {
                         switch (i) {
@@ -122,8 +123,8 @@ public class BPMAlgParamsFinder {
         int referenceBPM = -1;
         int subbandCount = 64;
         double coef = 2;
-        while(coef < 3) {
-            for(double varianceLimit = 0; varianceLimit < 1.4; varianceLimit += 0.16) {
+        while (coef < 3) {
+            for (double varianceLimit = 0; varianceLimit < 1.4; varianceLimit += 0.16) {
                 for (int windowsBetweenBeats = 0; windowsBetweenBeats < 5; windowsBetweenBeats++) {
                     for (int i = 0; i < 5; i++) {
                         switch (i) {
@@ -148,11 +149,11 @@ public class BPMAlgParamsFinder {
                         SubbandSplitterIFace splitter;
                         splitter = new SubbandSplitter(byteWave.getSampleRate(), 0, subbandCount);
                         int bpm = byteWave.computeBPMSimpleWithFreqBands(subbandCount, splitter, coef,
-                                windowsBetweenBeats, varianceLimit);
+                                                                         windowsBetweenBeats, varianceLimit);
 
                         String name = "BPMAdvancedFullLog" + subbandCount + "Coef" + (int) Math.round(100 * coef) +
-                                "Win" + windowsBetweenBeats;
-                        name += "Var" + (int)Math.round(100 * varianceLimit);
+                                      "Win" + windowsBetweenBeats;
+                        name += "Var" + (int) Math.round(100 * varianceLimit);
 
                         referenceBPM = addBPMToList(byteWave, name, list, bpm, referenceBPM);
                     }
@@ -170,12 +171,11 @@ public class BPMAlgParamsFinder {
     }
 
     /**
-     *
      * @param byteWave
      * @param algName
      * @param list
      * @param calculatedBPM is the bpm of the currently compared algorithm
-     * @param referenceBPM is used if bpm > 0
+     * @param referenceBPM  is used if bpm > 0
      * @return Returns the calculated BPM reference value
      */
     public static int addBPMToList(ByteWave byteWave, String algName,
@@ -184,7 +184,7 @@ public class BPMAlgParamsFinder {
         int difference;
         int bpm;
 
-        if(referenceBPM > 0) {
+        if (referenceBPM > 0) {
             bpm = referenceBPM;
             difference = calculateDif(bpm, calculatedBPM);
         }
@@ -192,7 +192,8 @@ public class BPMAlgParamsFinder {
             if (byteWave.getFileName().toUpperCase().contains("BPM")) {
                 bpm = getBPMFromName(byteWave.getFileName());
                 difference = BPM_DIF_MULT_FACTOR * calculateDif(bpm, calculatedBPM);
-            } else {
+            }
+            else {
                 Pair<String, String> tmpPair;
                 tmpPair = AnalyzerPanel.analyzeBPMAllPart(byteWave);
                 int bpmAll = Integer.parseInt(tmpPair.getValue());
@@ -224,15 +225,15 @@ public class BPMAlgParamsFinder {
         int bpm;
         int startIndex = -1;
         int endIndex = -1;
-        for(int i = 0; i < name.length(); i++) {
+        for (int i = 0; i < name.length(); i++) {
             char c = name.charAt(i);
-            if(Character.isDigit(c)) {
-                if(startIndex < 0) {
+            if (Character.isDigit(c)) {
+                if (startIndex < 0) {
                     startIndex = i;
                 }
             }
             else {
-                if(startIndex >= 0) {
+                if (startIndex >= 0) {
                     endIndex = i - 1;
                     break;
                 }
@@ -249,30 +250,30 @@ public class BPMAlgParamsFinder {
         final List<Pair<String, Pair<String, Integer>>> currAlgPairs = new ArrayList<>();
         int count = 1;
         String firstName = list.get(0).getKey();
-        for(int i = 1; i < list.size(); i++) {
+        for (int i = 1; i < list.size(); i++) {
             Pair<String, Pair<String, Integer>> currPair = list.get(i);
-            if(firstName.equals(currPair.getKey())) {
+            if (firstName.equals(currPair.getKey())) {
                 count++;
             }
         }
         final double[] difs = new double[count];
 
 
-        for(int i = 0; i < list.size(); i++) {
-            if(difListContainsName(difList, list.get(i).getKey())) {
+        for (int i = 0; i < list.size(); i++) {
+            if (difListContainsName(difList, list.get(i).getKey())) {
                 continue;
             }
             String name = null;
             int dif = 0;
             currAlgPairs.clear();
-            for(int j = i; j < list.size(); j++) {
+            for (int j = i; j < list.size(); j++) {
                 // TODO: DEBUG
 //                if(name != null) {
 //                    ProgramTest.debugPrint("ALG:", name, dif);
 //                }
                 // TODO: DEBUG
                 Pair<String, Pair<String, Integer>> currPair = list.get(j);
-                if(name == null) {
+                if (name == null) {
                     if (!difListContainsName(difList, currPair.getKey())) {
                         name = currPair.getKey();
                         dif = currPair.getValue().getValue();
@@ -280,7 +281,7 @@ public class BPMAlgParamsFinder {
                     }
                 }
                 else {
-                    if(name.equals(currPair.getKey())) {
+                    if (name.equals(currPair.getKey())) {
                         dif += currPair.getValue().getValue();
                         currAlgPairs.add(currPair);
                     }
@@ -288,10 +289,9 @@ public class BPMAlgParamsFinder {
             }
 
 
-
-            double avg = dif / (double)currAlgPairs.size();
+            double avg = dif / (double) currAlgPairs.size();
             double variance = calculateVariance(avg, currAlgPairs);
-            for(int k = 0; k < currAlgPairs.size(); k++) {
+            for (int k = 0; k < currAlgPairs.size(); k++) {
                 Pair<String, Pair<String, Integer>> p = currAlgPairs.get(k);
                 difs[k] = Math.abs(p.getValue().getValue() - avg);
             }
@@ -308,7 +308,7 @@ public class BPMAlgParamsFinder {
 
     private static double calculateVariance(double avg, List<Pair<String, Pair<String, Integer>>> vals) {
         double variance = 0;
-        for(Pair<String, Pair<String, Integer>> p : vals) {
+        for (Pair<String, Pair<String, Integer>> p : vals) {
             int val = p.getValue().getValue();
             double tmp = val - avg;
             variance += tmp * tmp;
@@ -318,9 +318,9 @@ public class BPMAlgParamsFinder {
     }
 
     private static boolean difListContainsName(List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> difList, String name) {
-        for(int i = 0; i < difList.size(); i++) {
+        for (int i = 0; i < difList.size(); i++) {
             Pair<String, Integer> p = difList.get(i).getKey().getKey();
-            if(p.getKey().equals(name)) {
+            if (p.getKey().equals(name)) {
                 return true;
             }
         }
@@ -341,11 +341,11 @@ public class BPMAlgParamsFinder {
     }
 
     public static void printDifList(List<Pair<Pair<Pair<String, Integer>, double[]>, Double>> difList, int difPrintCount) {
-        for(int i = 0; i < difList.size(); i++) {
+        for (int i = 0; i < difList.size(); i++) {
             MyLogger.log(difList.get(i).getKey().toString() +
-                    "\t" + difList.get(i).getValue().toString(), 0);
+                         "\t" + difList.get(i).getValue().toString(), 0);
             double[] arr = difList.get(i).getKey().getValue();
-            for(int j = 0; j < difPrintCount; j++) {
+            for (int j = 0; j < difPrintCount; j++) {
                 MyLogger.log(String.format("%.2f", arr[arr.length - j - 1]), 0);
             }
             MyLogger.log("----", 0);

@@ -7,7 +7,10 @@ import synthesizer.synth.operators.Operator;
 import synthesizer.synth.Unit;
 
 public abstract class BinaryOperator extends Operator {
-    public BinaryOperator(Unit u) { super(u); }
+    public BinaryOperator(Unit u) {
+        super(u);
+    }
+
     public BinaryOperator(DiagramPanel panelWithUnits) {
         super(panelWithUnits);
     }
@@ -16,7 +19,7 @@ public abstract class BinaryOperator extends Operator {
     @Override
     protected InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues) {
         InputPort[] inputPorts = new InputPort[2];
-        if(neutralValues != null && neutralValues.length >= inputPorts.length) {
+        if (neutralValues != null && neutralValues.length >= inputPorts.length) {
             inputPorts[0] = new OperatorInputPort(this, shapedPanel, 0, panelWithUnits, neutralValues[0]);
             inputPorts[1] = new OperatorInputPort(this, shapedPanel, 1, panelWithUnits, neutralValues[1]);
         }

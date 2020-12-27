@@ -1,7 +1,7 @@
 package util.wave;
 
 public class Range {
-    public Range() {}
+    public Range() { }
 
     public Range(int start, int end) {
         this.start = start;

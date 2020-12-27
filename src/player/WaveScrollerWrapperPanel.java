@@ -73,9 +73,11 @@ public class WaveScrollerWrapperPanel extends JPanel {
 
 
     private boolean scrollReceivedResizeEvent = false;
+
     public boolean getScrollReceivedResizeEvent() {
         return scrollReceivedResizeEvent;
     }
+
     public void processScrollReceivedResizeEvent() {
         scrollReceivedResizeEvent = false;
     }
@@ -91,7 +93,7 @@ public class WaveScrollerWrapperPanel extends JPanel {
             int newWidth = e.getComponent().getWidth();
             JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
             int scrollBarVal = scrollBar.getValue();
-            if(isFirst) {
+            if (isFirst) {
                 oldScrollVal = scrollBarVal;
                 isFirst = false;
             }
@@ -105,7 +107,7 @@ public class WaveScrollerWrapperPanel extends JPanel {
             // TODO: DEBUG:
 
             int newVal = WavePanel.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
-                getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
+                                                         getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
             scrollBar.setValue(newVal);
 
             ProgramTest.debugPrint("Resizing the horizontal wave scroller (end of method):", newVal, oldWidth, newWidth);
@@ -133,28 +135,33 @@ public class WaveScrollerWrapperPanel extends JPanel {
 
     // This is so I can't zoom and scroll at the same time - there would be inconsistency
     private boolean isScrollbarBeingUsed = false;
+
     public boolean getIsScrollbarBeingUsed() {
         return isScrollbarBeingUsed;
     }
+
     public void setIsScrollbarBeingUsed(boolean val) {
         isScrollbarBeingUsed = val;
     }
 
     // This is the value before zoom
     private int oldScrollbarValue;
+
     public int getOldScrollbarValue() {
         return oldScrollbarValue;
     }
+
     public void setOldScrollbarValue(int val) {
         oldScrollbarValue = val;
     }
 
 
-
     private final JScrollPane waveScroller;
+
     public JScrollPane getWaveScroller() {
         return waveScroller;
     }
+
     public void scrollToStart() {
         JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
         scrollBar.setValue(0);
@@ -163,6 +170,7 @@ public class WaveScrollerWrapperPanel extends JPanel {
     public int getCurrentHorizontalScroll() {
         return waveScroller.getHorizontalScrollBar().getValue();
     }
+
     public int getMaxHorizontalScroll() {
         JScrollBar scrollBar = waveScroller.getHorizontalScrollBar();
         int max = scrollBar.getMaximum();
@@ -179,6 +187,7 @@ public class WaveScrollerWrapperPanel extends JPanel {
      * Sets the width of the panel representing scrollbar, we set it separately,
      * since the width of vertical scrollbar shouldn't
      * change therefore it is set only once at start and then we call it again after some resizing, just in case.
+     *
      * @param width
      */
     public void setLastEmptyPanelWidth(int width) {
@@ -188,6 +197,7 @@ public class WaveScrollerWrapperPanel extends JPanel {
     public Dimension getEmptyPanelSizeDebug() {
         return new Dimension(emptyPanelForHorizontalScroll.getSize());
     }
+
     public void resetEmptyPanelSize() {
         setEmptyPanelsSizes(0, 0, 0);
     }
@@ -201,8 +211,8 @@ public class WaveScrollerWrapperPanel extends JPanel {
         emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(widthBeforeWavePanel, h));
         emptyPanelForHorizontalScroll.setSizeInternal(new Dimension(wavePanelWidth, h));
         ProgramTest.debugPrint("Empty panel size inside wave scroller:", emptyPanelBeforeHorizontalScroll.getSize(),
-            emptyPanelForHorizontalScroll.getSize(), emptyPanelAfterHorizontalScroll.getSize(), waveScroller.getHorizontalScrollBar().getSize(),
-            waveScroller.getViewport().getSize(), waveScroller.getViewport().getViewRect());
+                               emptyPanelForHorizontalScroll.getSize(), emptyPanelAfterHorizontalScroll.getSize(), waveScroller.getHorizontalScrollBar().getSize(),
+                               waveScroller.getViewport().getSize(), waveScroller.getViewport().getViewRect());
 
         // I have to this because it just randomly resizes otherwise for no reason - probably java bug in layout manager
         // https://stackoverflow.com/questions/9632936/jscrollpanes-inside-gridbaglayout-gets-resized-randomly
@@ -211,13 +221,14 @@ public class WaveScrollerWrapperPanel extends JPanel {
     }
 
     public void updateWhenZooming() {
-        ComponentEvent event = new ComponentEvent((Component)waveScrollCallback, ComponentEvent.COMPONENT_RESIZED);
+        ComponentEvent event = new ComponentEvent((Component) waveScrollCallback, ComponentEvent.COMPONENT_RESIZED);
         listener.componentResized(event);
     }
 
     public void revalidateEmptyPanel() {
         emptyPanelForHorizontalScroll.revalidate();
     }
+
     public void repaintEmptyPanel() {
         emptyPanelForHorizontalScroll.repaint();
     }
@@ -225,8 +236,6 @@ public class WaveScrollerWrapperPanel extends JPanel {
 
     private WaveScrollEventCallbackIFace waveScrollCallback;
     private HorizontalBarAdjustmentListener horizontalBarAdjustmentListener;
-
-
 
 
     public class HorizontalBarAdjustmentListener implements AdjustmentListener {

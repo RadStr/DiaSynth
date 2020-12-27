@@ -23,6 +23,7 @@ public class OutputPort extends Port implements SerializeIFace {
     public boolean getIsConst() {
         return unitValsInfo.getIsConst();
     }
+
     @Override
     public boolean getIsNoiseGen() {
         return unitValsInfo.getIsNoiseGen();
@@ -32,10 +33,12 @@ public class OutputPort extends Port implements SerializeIFace {
     public double getMaxAbsValue() {
         return unitValsInfo.getMaxAbsValue();
     }
+
     @Override
     public double getValue(int index) {
         return unitValsInfo.getValue(index);
     }
+
     @Override
     public double[] getValues() {
         return unitValsInfo.getValues();
@@ -92,18 +95,22 @@ public class OutputPort extends Port implements SerializeIFace {
 
 
     private List<Port> connectedPorts;
+
     public List<Port> getConnectedPorts() {
         return connectedPorts;
     }
+
     private final List<Cable> cables = new ArrayList<Cable>();
+
     public List<Cable> getCables() {
         return cables;
     }
+
     public void setAbsolutePaths(Point referencePanelLoc, Dimension panelSize, int borderWidth, int borderHeight,
                                  int panelSizeWithBorderWidth, int panelSizeWithBorderHeight, int pixelsPerElevation) {
         for (Cable c : cables) {
             c.setAbsolutePathBasedOnRelativePath(referencePanelLoc, panelSize, borderWidth, borderHeight,
-                    panelSizeWithBorderWidth, panelSizeWithBorderHeight, pixelsPerElevation);
+                                                 panelSizeWithBorderWidth, panelSizeWithBorderHeight, pixelsPerElevation);
         }
     }
 
@@ -112,11 +119,13 @@ public class OutputPort extends Port implements SerializeIFace {
             c.move(xMovement, yMovement);
         }
     }
+
     public void moveCablesX(int xMovement) {
         for (Cable c : cables) {
             c.moveX(xMovement);
         }
     }
+
     public void moveCablesY(int yMovement) {
         for (Cable c : cables) {
             c.moveY(yMovement);
@@ -124,39 +133,38 @@ public class OutputPort extends Port implements SerializeIFace {
     }
 
     public void resetCablesAndElevations() {
-        for(Cable c : getCables()) {
+        for (Cable c : getCables()) {
             c.resetPaths();
             c.resetElevation();
         }
     }
 
     public void resetCables() {
-        for(Cable c : getCables()) {
+        for (Cable c : getCables()) {
             c.resetPaths();
         }
     }
 
 
     public void resetElevations() {
-        for(Cable c : getCables()) {
+        for (Cable c : getCables()) {
             c.resetElevation();
         }
     }
 
 
-
     @Override
     public void connectToPort(Port port, boolean connectAlsoOnTheOtherPort) {
-        if(!connectedPorts.contains(port)) {
+        if (!connectedPorts.contains(port)) {
             Point p = port.getPanelWhichContainsPort().getRelativePosToReferencePanel();
             int y = panelWhichContainsPort.getRelativePosToReferencePanel().y;
             if (y < p.y) {
                 connectedPorts.add(port);
                 Cable cable = new Cable(panelWhichContainsPort.getClassWithMaxElevationInfo(),
-                        this.panelWhichContainsPort, (InputPort) port);     // If it isn't Input port then something is very wrong
+                                        this.panelWhichContainsPort, (InputPort) port);     // If it isn't Input port then something is very wrong
                 cables.add(cable);
 
-                if(connectAlsoOnTheOtherPort) {
+                if (connectAlsoOnTheOtherPort) {
                     port.connectToPort(this, false);
                 }
             }
@@ -164,13 +172,12 @@ public class OutputPort extends Port implements SerializeIFace {
     }
 
 
-
     private int removeOnlyPort(Port port, boolean removeTheOtherPort) {
-        for(int i = 0; i < connectedPorts.size(); i++) {
+        for (int i = 0; i < connectedPorts.size(); i++) {
             Port p = connectedPorts.get(i);
-            if(p == port) {
+            if (p == port) {
                 connectedPorts.remove(i);
-                if(removeTheOtherPort) {
+                if (removeTheOtherPort) {
                     p.removePort(this, false);
                 }
                 return i;
@@ -183,7 +190,7 @@ public class OutputPort extends Port implements SerializeIFace {
     @Override
     public int removePort(Port port, boolean removeTheOtherPort) {
         int index = removeOnlyPort(port, removeTheOtherPort);
-        if(index >= 0) {
+        if (index >= 0) {
             cables.remove(index);
         }
 
@@ -193,7 +200,7 @@ public class OutputPort extends Port implements SerializeIFace {
     @Override
     public void removeAllPorts() {
         int len = connectedPorts.size();
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             removePort(connectedPorts.get(0));
         }
         cables.clear();
@@ -202,10 +209,11 @@ public class OutputPort extends Port implements SerializeIFace {
 
     /**
      * Copies the fields from the given parameter to the instance on which was the method called.
+     *
      * @param copySourcePort is the port from which we will copy.
      */
     private void copyFields(OutputPort copySourcePort) {
-        for(Port p : copySourcePort.connectedPorts) {
+        for (Port p : copySourcePort.connectedPorts) {
             this.connectToPort(p);
         }
     }
@@ -223,7 +231,7 @@ public class OutputPort extends Port implements SerializeIFace {
     public void save(PrintWriter output) {
         output.println(connectedPorts.size());
         // I will save the index of the panel followed by the index of input port for each connected port
-        for(Port p : connectedPorts) {
+        for (Port p : connectedPorts) {
             output.println(p.panelWhichContainsPort.getIndexInPanelList() + " " + p.CONNECTOR_INDEX);
         }
     }

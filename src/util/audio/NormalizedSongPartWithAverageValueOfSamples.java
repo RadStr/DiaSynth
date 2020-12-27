@@ -14,12 +14,13 @@ public class NormalizedSongPartWithAverageValueOfSamples implements Comparable<N
     public NormalizedSongPartWithAverageValueOfSamples(int averageAmplitude, double[] songPart, boolean makeNewArray) {
         this.averageAmplitude = averageAmplitude;
 
-        if(makeNewArray) {
+        if (makeNewArray) {
             this.songPart = new double[songPart.length];
-            for(int i = 0; i < songPart.length; i++) {
+            for (int i = 0; i < songPart.length; i++) {
                 this.songPart[i] = songPart[i];
             }
-        } else {
+        }
+        else {
             this.songPart = songPart;
         }
     }

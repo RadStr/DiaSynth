@@ -10,12 +10,14 @@ public interface DrawValuesSupplierIFace {
 
     /**
      * Should be called only for the ending conversion. (Addition of 2 these method calls probably gives wrong result)
+     *
      * @param pixel
      * @return
      */
     int convertFromPixelToIndexInAudio(double pixel);
 
     int getCurrentScroll();
+
     int getMaxScroll();
 
     int getAudioLen();

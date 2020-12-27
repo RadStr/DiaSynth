@@ -7,9 +7,11 @@ import java.awt.*;
 @Deprecated
 public class JSplitPaneForWaves extends JSplitPane {
     private boolean isSwap = false;
+
     public boolean getIsSwap() {
         return isSwap;
     }
+
     public void setIsSwap(boolean val) {
         isSwap = val;
     }
@@ -23,29 +25,34 @@ public class JSplitPaneForWaves extends JSplitPane {
     public Dimension getPreferredSize() {
         return prefSize;
     }
+
     @Override
     public void setPreferredSize(Dimension dim) {
-        if(!isSwap) {
+        if (!isSwap) {
             this.prefSize = dim;
         }
     }
+
     @Override
     public Dimension getMinimumSize() {
         return minSize;
     }
+
     @Override
     public void setMinimumSize(Dimension dim) {
-        if(!isSwap) {
+        if (!isSwap) {
             this.minSize = dim;
         }
     }
+
     @Override
     public Dimension getMaximumSize() {
         return maxSize;
     }
+
     @Override
     public void setMaximumSize(Dimension dim) {
-        if(!isSwap) {
+        if (!isSwap) {
             this.maxSize = dim;
         }
     }

@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class GridBagConstraintsSetter {
     public static void setConstraint(GridBagConstraints c,
-                              int gridx, int gridy, int gridWidth, int gridHeight,
-                              int ipadx, int ipady, double weigthx, double weigthy, int fill) {
+                                     int gridx, int gridy, int gridWidth, int gridHeight,
+                                     int ipadx, int ipady, double weigthx, double weigthy, int fill) {
         c.gridx = gridx;
         c.gridy = gridy;
         c.gridwidth = gridWidth;

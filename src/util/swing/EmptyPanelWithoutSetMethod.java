@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class EmptyPanelWithoutSetMethod extends JPanel {
     public EmptyPanelWithoutSetMethod() {
-        size = new Dimension(0,0);
+        size = new Dimension(0, 0);
     }
 
     public EmptyPanelWithoutSetMethod(Dimension dim) {
@@ -25,21 +25,25 @@ public class EmptyPanelWithoutSetMethod extends JPanel {
     public Dimension getPreferredSize() {
         return size;
     }
+
     @Override
     public Dimension getMinimumSize() {
         return size;
     }
+
     @Override
     public Dimension getMaximumSize() {
         return size;
     }
+
     @Override
     public Dimension getSize() {
         return size;
     }
+
     @Override
     public Dimension getSize(Dimension d) {
-        if(d == null) {
+        if (d == null) {
             d = new Dimension(0, 0);
         }
         else {
@@ -51,11 +55,22 @@ public class EmptyPanelWithoutSetMethod extends JPanel {
 
 
     @Override
-    public void setPreferredSize(Dimension d) { }
+    public void setPreferredSize(Dimension d) {
+        // EMPTY
+    }
+
     @Override
-    public void setMinimumSize(Dimension d) { }
+    public void setMinimumSize(Dimension d) {
+        // EMPTY
+    }
+
     @Override
-    public void setMaximumSize(Dimension d) { }
+    public void setMaximumSize(Dimension d) {
+        // EMPTY
+    }
+
     @Override
-    public void setSize(Dimension d) { }
+    public void setSize(Dimension d) {
+        // EMPTY
+    }
 }

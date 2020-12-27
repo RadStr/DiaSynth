@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class AudioReader {
-    private AudioReader() {}        // Allow only static access
+    private AudioReader() { }        // Allow only static access
 
 
     /**
@@ -72,7 +72,8 @@ public class AudioReader {
         while (freeIndexesCount != 0) {
             if (freeIndexesCount > arr.length) {
                 bytesRead = samples.read(arr, 0, arr.length);
-            } else {
+            }
+            else {
                 bytesRead = samples.read(arr, 0, freeIndexesCount);
             }
             bytesReadSum = bytesReadSum + bytesRead;
@@ -87,8 +88,10 @@ public class AudioReader {
 
 
     // In future it may be better to return long.
+
     /**
      * Returns -1 if exception ocurred otherwise returns the length of input stream.
+     *
      * @param samples
      */
     public static int getLengthOfInputStream(InputStream samples) {
@@ -97,7 +100,7 @@ public class AudioReader {
 
         try {
             byte[] arr = new byte[Math.min(4096, samples.available())];
-            if(arr.length <= 0) {       // available returned incorrect value
+            if (arr.length <= 0) {       // available returned incorrect value
                 arr = new byte[4096];
             }
             while (bytesRead != -1) {

@@ -28,18 +28,19 @@ public class WaveTableGenerator extends Generator {
     }
 
     private void setDefaultWaveTable() {
-        double[] sine = SineGenerator.createSine(512, 1,1, 0);
+        double[] sine = SineGenerator.createSine(512, 1, 1, 0);
         setWaveTable(sine, null);
     }
 
     private WaveTable waveTable;
+
     public void setWaveTable(double[] wave, String path) {
         waveTable = createWaveTable(wave, path);
     }
 
     public static WaveTable createWaveTable(double[] wave, String path) {
         WaveTable waveTable;
-        if(Utilities.testIfNumberIsPowerOfN(wave.length, 2) > 0) {
+        if (Utilities.testIfNumberIsPowerOfN(wave.length, 2) > 0) {
             waveTable = new WaveTableFast(wave, path);
         }
         else {
@@ -51,20 +52,21 @@ public class WaveTableGenerator extends Generator {
 
     public void setWaveTable(GeneratorNoPhase g, int len, double amp) {
         double[] wave = new double[len];
-        for(int i = 0; i < len; i++) {
+        for (int i = 0; i < len; i++) {
             wave[i] = g.generateSampleConst(i, len, amp, 1);
         }
         setWaveTable(wave, null);
     }
 
     private void setWaveTable(File f) {
-        if(f != null && f.exists() && f.isFile()) {
+        if (f != null && f.exists() && f.isFile()) {
             loadWaveTable(f.getPath());
         }
     }
 
 
     private JFileChooser propertiesPanelView;
+
     @Override
     protected void setPropertiesPanel() {
         propertiesPanel = new JFileChooserPlugin();
@@ -94,10 +96,11 @@ public class WaveTableGenerator extends Generator {
 
 
     private boolean isFirstCall = true;
+
     @Override
     public void calculateSamples() {
-        if(waveTable != null) {
-            if(isFirstCall) {
+        if (waveTable != null) {
+            if (isFirstCall) {
                 // I have to move it to state in which it would be if it ran from the start, else
                 // the results would be inconsistent,
                 // because when I add new wave table when the diagram is already running,
@@ -130,12 +133,12 @@ public class WaveTableGenerator extends Generator {
     @Override
     public void save(PrintWriter output) {
         super.save(output);
-        if(waveTable.WAVE_PATH == null) {
+        if (waveTable.WAVE_PATH == null) {
             double[] wave = waveTable.getWave();
             String PREFIX_PATH = "resources/WaveTables/WT_GEN_";
             int index = 0;
             String path = PREFIX_PATH + index;
-            while(new File(path).exists()) {
+            while (new File(path).exists()) {
                 index++;
                 path = PREFIX_PATH + index;
             }
@@ -164,19 +167,22 @@ public class WaveTableGenerator extends Generator {
         try {
             DoubleWave doubleWave;
             doubleWave = AudioPlayerPanel.loadMonoDoubleWave(new File(path),
-                    -1, false);
+                                                             -1, false);
             if (doubleWave == null || doubleWave.getSongLength() <= 0) {
                 RandomAccessFile file = new RandomAccessFile(path, "r");
                 double[] wave = DoubleWave.getStoredDoubleArray(file.getChannel());
                 if (wave != null) {
                     setWaveTable(wave, path);
-                } else {
+                }
+                else {
                     setDefaultWaveTable();
                 }
-            } else {
+            }
+            else {
                 setWaveTable(doubleWave.getSong(), path);
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             MyLogger.logException(e);
         }
     }
@@ -184,7 +190,7 @@ public class WaveTableGenerator extends Generator {
 
     @Override
     public void copyInternalState(Unit copySource) {
-        WaveTableGenerator copySourceCasted = (WaveTableGenerator)copySource;
+        WaveTableGenerator copySourceCasted = (WaveTableGenerator) copySource;
         double[] waveTableWave = copySourceCasted.waveTable.getWave();
         double[] copiedWaveTableWave = new double[waveTableWave.length];
         System.arraycopy(waveTableWave, 0, copiedWaveTableWave, 0, waveTableWave.length);

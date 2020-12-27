@@ -18,9 +18,11 @@ public class EmptyWaveMakerDialog extends LengthDialog {
     }
 
     private int numberOfWaves;
+
     public int getNumberOfWaves() {
         return numberOfWaves;
     }
+
     private JLabel waveCountLabel;
     private JComboBox waveCountComboBox;
     private JLabel unitLabel;
@@ -32,7 +34,7 @@ public class EmptyWaveMakerDialog extends LengthDialog {
 
 
         String[] values = new String[10];
-        for(int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             values[i] = Integer.toString(i + 1);
         }
         waveCountComboBox = new JComboBox(values);

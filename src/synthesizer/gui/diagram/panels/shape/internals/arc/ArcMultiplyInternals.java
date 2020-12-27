@@ -8,6 +8,6 @@ public class ArcMultiplyInternals extends CenteredRectanglesInternals {
 
     public ArcMultiplyInternals() {
         super(MultiplyInternals.RECTANGLE_COUNT, MultiplyInternals.DISTANCE_FROM_CIRCLE_DIV_FACTOR,
-                MultiplyInternals.RECTANGLE_THICKNESS_DIV_FACTOR, CIRCLE_DIAMETER_DECREASE_DIV_FACTOR);
+              MultiplyInternals.RECTANGLE_THICKNESS_DIV_FACTOR, CIRCLE_DIAMETER_DECREASE_DIV_FACTOR);
     }
 }

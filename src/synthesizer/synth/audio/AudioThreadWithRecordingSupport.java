@@ -23,6 +23,7 @@ public class AudioThreadWithRecordingSupport extends AudioThread {
     /**
      * Just calls the other constructor with parameters, recordingCallback,
      * maxPlayTimeInMs=40, cyclicQueueSizeInMs=400, shouldPause
+     *
      * @param shouldPause
      */
     public AudioThreadWithRecordingSupport(AudioRecordingCallback recordingCallback, boolean shouldPause) {
@@ -38,7 +39,7 @@ public class AudioThreadWithRecordingSupport extends AudioThread {
         synchronized (audioLock) {
             while (true) {
                 int byteArrIndex = getAudioSamples();
-                if(byteArrIndex > 0) {
+                if (byteArrIndex > 0) {
                     recordingCallback.recordingRealTimeCallback(samplesToBePlayed, byteArrIndex);
                     audioLine.write(samplesToBePlayed, 0, byteArrIndex);
                 }

@@ -20,6 +20,7 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
     public int getNthChannelMixSliderVal(int n) {
         return sliders[n].slider.getValue();
     }
+
     public double getNthChannelMixSliderNormalizedVal(int n) {
         return sliders[n].getNormalizedValue();
     }
@@ -34,7 +35,7 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
         this.defValMixSlider = defValMixSlider;
         this.isLabelOnLeft = isLabelOnLeft;
 
-        if(orientationMixSlider == SwingConstants.VERTICAL) {
+        if (orientationMixSlider == SwingConstants.VERTICAL) {
             this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         }
         else {      // It must be horizontal, else there would be exception on creation of JSlider
@@ -46,8 +47,8 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
 
 
     private void removeOldSliders() {
-        if(sliders != null) {
-            for(SliderWithLabelPanel slider : sliders) {
+        if (sliders != null) {
+            for (SliderWithLabelPanel slider : sliders) {
                 this.remove(slider);
             }
         }
@@ -60,13 +61,13 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
         switch (channelCount) {
             case MONO:     // Mono
                 setSlider(0, "M", "Mono",
-                    orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
+                          orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
                 break;
             case STEREO:     // Stereo
                 setSlider(0, "L", "Left",
-                    orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
+                          orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
                 setSlider(1, "R", "Right",
-                    orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
+                          orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
                 break;
 // TODO: Currently not supported
 //            case QUADRO:
@@ -115,16 +116,16 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
 //                break;
 // TODO: Currently not supported
             default:
-                for(int i = 0; i < sliders.length; i++) {
+                for (int i = 0; i < sliders.length; i++) {
                     setSlider(i, Integer.toString(i), "i-th channel",
-                        orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
+                              orientationMixSlider, minValMixSlider, maxValMixSlider, defValMixSlider);
                 }
                 break;
         }
 
 
         alignLabelsToRight();
-        for(int i = 0; i < sliders.length; i++) {
+        for (int i = 0; i < sliders.length; i++) {
             this.add(sliders[i]);
         }
     }
@@ -132,12 +133,12 @@ public class WaveMixPanel extends JPanel implements WaveMixPanelUpdaterIFace {
 
     private void alignLabelsToRight() {
         int maxWidth = -1;
-        for(SliderWithLabelPanel s : sliders) {
+        for (SliderWithLabelPanel s : sliders) {
             maxWidth = Math.max(maxWidth, s.label.getPreferredSize().width);
         }
-        for(SliderWithLabelPanel s : sliders) {
+        for (SliderWithLabelPanel s : sliders) {
             int dif = maxWidth - s.label.getPreferredSize().width;
-            if(dif != 0) {
+            if (dif != 0) {
 //                https://stackoverflow.com/questions/27136517/how-to-add-a-space-before-the-text-in-a-jlabel
                 s.label.setBorder(new EmptyBorder(0, 0, 0, dif));
             }

@@ -6,10 +6,10 @@ import java.io.File;
 import java.util.Random;
 
 public class Utilities {
-    private Utilities() {}      // Allow only static access
+    private Utilities() { }      // Allow only static access
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Fill array with values methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -25,6 +25,7 @@ public class Utilities {
     }
 
     // Modified code from https://stackoverflow.com/questions/9128737/fastest-way-to-set-all-values-of-an-array
+
     /**
      * initialize a smaller piece of the array and use the System.arraycopy
      * call to fill in the rest of the array in an expanding binary fashion
@@ -75,6 +76,7 @@ public class Utilities {
 
         /**
          * Fills array with values based on given parameters. Based on curve some parameters may be ignored.
+         *
          * @param len
          * @param amp
          * @param freq
@@ -103,15 +105,16 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Array copying methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Creates new array of length originalArrLen * copyCount, which contains first originalArrLen indices of array arr
      * and they are contained in the result copyCount times.
+     *
      * @param arr
      * @param originalArrLen
      * @param copyCount
@@ -126,6 +129,7 @@ public class Utilities {
 
     /**
      * Copies the first originalArrLen indices copyCount times to resultArr.
+     *
      * @param arr
      * @param originalArrLen
      * @param resultArr
@@ -140,6 +144,7 @@ public class Utilities {
     /**
      * The method takes first len indices of array arr and copies them until end of array is reached.
      * arr.length % len == 0, otherwise the method throws exception.
+     *
      * @param arr
      * @param len
      */
@@ -153,7 +158,6 @@ public class Utilities {
     /////////////////// Array copying methods
     /* --------------------------------------------- [END] --------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,10 +186,7 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Methods for alignment to multiples and powers
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -244,6 +245,7 @@ public class Utilities {
 
     /**
      * Tests if number num is power of n.
+     *
      * @param num is the number to test.
      * @param n   is the power.
      * @return Returns -1 if it num is not i-th power of n, returns i otherwise.
@@ -258,7 +260,8 @@ public class Utilities {
         }
         if (result == num) {
             return i;
-        } else {
+        }
+        else {
             return -1;
         }
     }
@@ -266,6 +269,7 @@ public class Utilities {
 
     /**
      * Tests if number num is power of n.
+     *
      * @param num is the number to test.
      * @param n   is the power.
      * @return Returns -1 if it num is not i-th power of n, returns i otherwise. Returns -2 if the number is not integer
@@ -273,7 +277,8 @@ public class Utilities {
     public static int testIfNumberIsPowerOfN(double num, int n) {
         if (num == Math.floor(num)) {
             return testIfNumberIsPowerOfN((int) num, n);
-        } else {
+        }
+        else {
             return -2;
         }
     }
@@ -295,15 +300,15 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Filename related methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Separates input to extension and name (part without extension). The name as return value of method.
+     *
      * @param input is the input name from which will be taken the name.
      * @return Returns the name without extension. If there was no extension returns the original name.
      */
@@ -322,7 +327,8 @@ public class Utilities {
         int lastIndex = path.lastIndexOf(File.separator);
         if (lastIndex == -1) {
             filename = path;
-        } else {
+        }
+        else {
             filename = path.substring(lastIndex + 1);
         }
         return filename;
@@ -334,8 +340,7 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// String methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -357,8 +362,7 @@ public class Utilities {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Other methods
     /* -------------------------------------------- [START] -------------------------------------------- */
@@ -370,9 +374,9 @@ public class Utilities {
     public static double computeVariance(double average, double[] values) {
         double variance = 0;
         double val;
-        for(int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             val = values[i] - average;
-            variance += val*val;
+            variance += val * val;
         }
 
         return variance / values.length;

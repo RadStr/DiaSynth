@@ -19,10 +19,10 @@ public class PortChooser extends JPanel {
 
         InputPort[] inputPorts = portsGetter.getInputPorts();
 
-        for(InputPort inputPort : inputPorts) {
+        for (InputPort inputPort : inputPorts) {
             String portName = inputPort.getPortLabel().FULL_NAME;
             JButton portButton = new JButton(portName);
-            if(!filter.isInputPortValid(inputPort)) {
+            if (!filter.isInputPortValid(inputPort)) {
                 portButton.setEnabled(false);
             }
             portButtons.add(portButton);
@@ -49,10 +49,10 @@ public class PortChooser extends JPanel {
     private List<JButton> portButtons;
 
     private InputPort chosenPort = null;
+
     private InputPort getChosenPort() {
         return chosenPort;
     }
-
 
 
     // Combination of this https://stackoverflow.com/questions/18105598/closing-a-joptionpane-programmatically
@@ -63,7 +63,7 @@ public class PortChooser extends JPanel {
             if (window instanceof JDialog) {
                 JDialog dialog = (JDialog) window;
                 if (dialog.getContentPane().getComponentCount() == 1
-                        && dialog.getContentPane().getComponent(0) instanceof JOptionPane) {
+                    && dialog.getContentPane().getComponent(0) instanceof JOptionPane) {
                     ((JOptionPane) dialog.getContentPane().getComponent(0)).setValue(JOptionPane.OK_OPTION);
                 }
             }
@@ -75,6 +75,7 @@ public class PortChooser extends JPanel {
     private static void closeDialog() {
         closeDialog(portChooser);
     }
+
     public static void closeDialog(Component dialogPanel) {
         Window win = SwingUtilities.getWindowAncestor(dialogPanel);
         win.dispose();
@@ -82,12 +83,13 @@ public class PortChooser extends JPanel {
 
 
     private static PortChooser portChooser;
+
     public static InputPort choosePort(InputPortsGetterIFace portsGetter, PortFilterIFace filter) {
         portChooser = new PortChooser(portsGetter, filter);
         Component panelContainingPort = (Component) portsGetter.getInputPorts()[0].getPanelWhichContainsPort();
         JOptionPane.showOptionDialog(panelContainingPort, portChooser,
-                "Choose input port dialog", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, new Object[]{}, null);
+                                     "Choose input port dialog", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                     null, new Object[]{}, null);
 
         InputPort chosenPort;
         chosenPort = portChooser.getChosenPort();

@@ -27,8 +27,6 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     private int widthOfVisibleAudioWindowInFrames;  // If zoomed, changes
 
 
-
-
     public WavePanelMouseListener(WaveMainPanel waveMainPanel) {
         this.waveMainPanel = waveMainPanel;
 // TODO: PROGRAMO
@@ -44,7 +42,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     //////////////// MouseListener
     @Override
     public void mouseClicked(MouseEvent e) {    // mouseClicked is when the mouse button has been pressed and released.
-        if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
+        if (!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             int waveWidth = waveMainPanel.getWaveWidth();
             int songLenInFrames = waveMainPanel.getDoubleWaveLength();
 
@@ -82,7 +80,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
 
     @Override
     public void mousePressed(MouseEvent e) {    // mousePressed is when the mouse button has been pressed (doesn't need release).
-        if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
+        if (!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             waveMainPanel.setShouldMarkPart(false);
             waveMainPanel.setMarkStartXVariablesBasedOnPixel(e.getX());
 //        this.setSampleToBePlayedToClickedLocation(startX);        // TODO: Zatim to zpusobi jen exception
@@ -115,7 +113,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
+        if (!SwingUtilities.isRightMouseButton(e)) {     // If not right click (not popup)
             waveMainPanel.draggingWave();
             waveMainPanel.setShouldMarkPart(true);
             waveMainPanel.setMarkEndXVariablesBasedOnPixel(e.getX());
@@ -125,9 +123,9 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
 
 
     private StringBuilder tooltip = new StringBuilder(200);        // Set to huge value, so that we don't have to keep creating new underlying array
-    private static final char[][] TOOLTIP_STRINGS  = new char[][] {
-        "<html>Sample index: ".toCharArray(), "<br>Value: ".toCharArray(), "<br>Sample time: ".toCharArray(),
-                "<br>Wave size in pixels: ".toCharArray(), "</html>".toCharArray()
+    private static final char[][] TOOLTIP_STRINGS = new char[][]{
+            "<html>Sample index: ".toCharArray(), "<br>Value: ".toCharArray(), "<br>Sample time: ".toCharArray(),
+            "<br>Wave size in pixels: ".toCharArray(), "</html>".toCharArray()
     };
 
     private int insertToTooltip(char[] chars, int index) {
@@ -144,7 +142,7 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     public void mouseMoved(MouseEvent e) {
         // TODO: Asi neni nutny - uz to je pokryty v tech predchozich tohle tu bylo kvuli tomu vykreslovani hodnot samplu ale to budu stejne delat pres toolbox
         int sampleIndex = convertXToSampleIndex(e.getX());
-        if(sampleIndex < waveMainPanel.getSongLen()) {
+        if (sampleIndex < waveMainPanel.getSongLen()) {
             double value = waveMainPanel.getNthSample(sampleIndex);
             String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
             String valueString = VerticalReferencesPanel.getStringDouble(value);
@@ -183,15 +181,14 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     }
 
 
-
     private int convertXToSampleIndex(int x) {
         x += waveMainPanel.getCurrentHorizontalScroll();
 // TODO: DEBUG
 //        ProgramTest.debugPrint("Mouse x:", x);
 // TODO: DEBUG
         //double numberOfSamplesPerPixel = widthOfVisibleAudioWindowInFrames / (double)waveMainPanel.getWaveWidth();
-        double numberOfSamplesPerPixel = waveMainPanel.getAudioLenInFrames() / (double)waveMainPanel.getWaveWidth();
-        int sampleIndex = (int)(numberOfSamplesPerPixel * x);
+        double numberOfSamplesPerPixel = waveMainPanel.getAudioLenInFrames() / (double) waveMainPanel.getWaveWidth();
+        int sampleIndex = (int) (numberOfSamplesPerPixel * x);
 //        sampleIndex += leftestVisibleFrameInWindow;
         return sampleIndex;
     }

@@ -8,6 +8,7 @@ public class SimpleAverageMixer extends DefaultAudioMixer {
     protected int mix(int val1, int val2) {
         return (val1 + val2) / 2;
     }
+
     @Override
     protected double mix(double val1, double val2) {
         return (val1 + val2) / 2;

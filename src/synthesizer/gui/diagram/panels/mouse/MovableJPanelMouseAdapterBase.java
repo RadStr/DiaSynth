@@ -16,8 +16,7 @@ public abstract class MovableJPanelMouseAdapterBase extends MouseAdapter {
     protected MovablePanelPopUpMenu rightClickPopUpMenu;
 
     /**
-     *
-     * @param movablePanel is the panel of which takes this mouse adapter care of.
+     * @param movablePanel   is the panel of which takes this mouse adapter care of.
      * @param sourceCallback is the callback which is called on the source. (The output port, the panel moved, etc.)
      */
     public MovableJPanelMouseAdapterBase(MovableJPanel movablePanel, CallbackIFace sourceCallback) {
@@ -36,6 +35,7 @@ public abstract class MovableJPanelMouseAdapterBase extends MouseAdapter {
 
     /**
      * Returns true if there is panel currently connecting but it is not the movable panel associated with this listener
+     *
      * @return
      */
     public boolean checkIfShouldChangeTimerState() {

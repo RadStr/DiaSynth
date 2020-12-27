@@ -16,7 +16,7 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
     @Override
     public void waveResize(int newVisibleWidth, int totalWaveWidthInPixels, int startIndexInValues, int valueCount) {
-        if(visibleWidth != newVisibleWidth || shiftBufferDouble == null) {
+        if (visibleWidth != newVisibleWidth || shiftBufferDouble == null) {
             visibleWidth = newVisibleWidth;
             int windowSize = 2 * newVisibleWidth;        // 2 * because it contains min and max
             shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, windowSize, this);
@@ -48,7 +48,6 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
     }
 
 
-
     @Override
     public void drawSamples(Graphics g, int width, int height, int shiftY) {
         g.setColor(Color.blue);
@@ -56,9 +55,9 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         shiftBufferDouble.setRange(windowRange);
 // TODO: DEBUG
         ProgramTest.debugPrint("START_INDEX:", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
-                windowRange.start, windowRange.end, shiftBufferDouble.getMaxRightIndex(), shiftBufferDouble.getBufferLength(),
-                shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex(),
-                (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()) / 2);
+                               windowRange.start, windowRange.end, shiftBufferDouble.getMaxRightIndex(), shiftBufferDouble.getBufferLength(),
+                               shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex(),
+                               (shiftBufferDouble.getEndIndex() - shiftBufferDouble.getStartIndex()) / 2);
 // TODO: DEBUG
         int previousX = -1;
         int previousYMin = -1;
@@ -78,11 +77,12 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
 
             g.drawLine(x, sampleMinHeightSample, x, sampleMaxHeightSample);
-            if(x > 0) {
+            if (x > 0) {
                 // Now check if we need to connect the the previous sample (sample aggregation) with next one
                 if (previousYMax < sampleMinHeightSample) {         // If the previous line is below the current
                     g.drawLine(previousX, previousYMax, x, sampleMinHeightSample);
-                } else if (previousYMin > sampleMaxHeightSample) {  // If the previous line is above the current
+                }
+                else if (previousYMin > sampleMaxHeightSample) {  // If the previous line is above the current
                     g.drawLine(previousX, previousYMin, x, sampleMaxHeightSample);
                 }
             }
@@ -100,19 +100,18 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
 
     @Override
     public double convertFromBufferToPixel(int val) {
-        return val / (double)2;
+        return val / (double) 2;
     }
 
     @Override
     public int convertFromPixelToBuffer(double val) {
-        return (int)(2 * val);
+        return (int) (2 * val);
     }
 
     @Override
     public int convertFromPixelToIndexInAudio(double val) {
-        return (int)val;
+        return (int) val;
     }
-
 
 
     @Override
@@ -132,8 +131,8 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         maxRightIndex += shiftBufferDouble.getMiddleIndex();
         ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", mainWaveClass.getMaxScroll(), mainWaveClass.getCurrentScroll());
         ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", maxRightIndex, pixelCount, convertFromPixelToBuffer(pixelCount),
-            shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < shiftBufferDouble.getMiddleIndex(),
-            shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
+                               shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < shiftBufferDouble.getMiddleIndex(),
+                               shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
         return maxRightIndex;
     }
 }

@@ -166,7 +166,8 @@ public class TimestampsPanel extends JPanel {
         int i = startIndex;
         // + timestampCountBetweenTwoMainTimeStamps - 1 because Every time I go over the label I have to add to the timeInt
         // Basically when when startIndex is 1 I am after the first label so the next label I draw will be the one after that
-        timeInt = (startIndex + timestampCountBetweenTwoMainTimeStamps - 1) / timestampCountBetweenTwoMainTimeStamps * timeJumpInt;
+        timeInt = (startIndex + timestampCountBetweenTwoMainTimeStamps - 1) / timestampCountBetweenTwoMainTimeStamps *
+                  timeJumpInt;
         double x = waveStartX - (scrollX % pixelJump);
         int endX = waveStartX + visibleWaveWidth;
 

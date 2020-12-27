@@ -160,8 +160,10 @@ public class OutputPort extends Port implements SerializeIFace {
             int y = panelWhichContainsPort.getRelativePosToReferencePanel().y;
             if (y < p.y) {
                 connectedPorts.add(port);
+
+                // If the port in this call isn't InputPort then something is very wrong
                 Cable cable = new Cable(panelWhichContainsPort.getClassWithMaxElevationInfo(),
-                                        this.panelWhichContainsPort, (InputPort) port);     // If it isn't Input port then something is very wrong
+                                        this.panelWhichContainsPort, (InputPort) port);
                 cables.add(cable);
 
                 if (connectAlsoOnTheOtherPort) {

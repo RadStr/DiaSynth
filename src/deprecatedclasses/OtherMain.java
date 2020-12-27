@@ -28,7 +28,8 @@ public class OtherMain {
         frame.add(panel, BorderLayout.CENTER);    // TODO:
         frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // if you want the X button to close the app
+        // If we want the X button to close the app
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 // TODO: RML

@@ -61,7 +61,8 @@ public class ProgramTest {
 
         private void play(SourceDataLine line, Note note, int ms) {
             ms = Math.min(ms, Note.SECONDS * 1000);
-            ms = Note.SECONDS * 1000;                        // I added this to make the tones last longer by changing the SECONDS property
+            // I added this to make the tones last longer by changing the SECONDS property
+            ms = Note.SECONDS * 1000;
             int length = Note.SAMPLE_RATE * ms / 1000;
             byte[] audioData = note.data();
             for (int i = 0; i < audioData.length; i++) {
@@ -295,7 +296,10 @@ public class ProgramTest {
         }
         // Test FFT window visualisation 2
         freq = sampleRate / (double) windowSize;
-        freq *= windowSize / 2 - 1;      // Chooses the harmonics of fft if whole number, if not then the fft gets confused
+
+        // Chooses the harmonics of fft if whole number, if not then the fft gets confused
+        freq *= windowSize / 2 - 1;
+
         result = createFFTWindowTest(freq, sampleRate, sampleSize, numberOfChannels, isBigEndian, isSigned,
                                      startIndex, windowSize, windowWidth, windowHeight);
         System.out.println("createFFTWindowTest:\t" + result);

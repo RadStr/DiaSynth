@@ -281,7 +281,9 @@ public class DiagramUnitsJTree extends JTree {
             }
             processedEntries[index] = true;
             if (currEntry.isDirectory()) {
-                currJarEntryName = currJarEntryName.substring(0, currJarEntryName.length() - 1);    // Because there is / at the end of JAR directory
+                // -1 because there is / at the end of JAR directory
+                currJarEntryName = currJarEntryName.substring(0, currJarEntryName.length() - 1);
+
                 currJarEntryName = getStringAfterLastChar(currJarEntryName, '/');
                 JTreeCellTextForUnits newTreeCell = new JTreeCellTextForUnits(currJarEntryName);
                 treeCell.addChildren(newTreeCell);

@@ -460,7 +460,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     private IntPairWithInternalDoublesWithMinAndMax currentPanelSize;
-    private ReferenceMovableJPanel referencePanel;   // Give us the info where is currently the top left STATIC panel
+    private ReferenceMovableJPanel referencePanel;
 
     public int getReferencePanelWidth() {
         return referencePanel.getWidth();
@@ -658,7 +658,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         int zoomSign = Integer.signum(zoomChange);
         double multiplyFactor = getZoomMultiplyFactor(zoomSign);
         int zoomCount = Math.abs(wheelMovement);
-        moveXandYWhenZooming(mouseLoc.x - screenMidPoint.x, mouseLoc.y - screenMidPoint.y);       // Move it to the point so middle of the visible screen is where is the cursor
+
+        // Move it to the point so middle of the visible screen is where is the cursor
+        moveXandYWhenZooming(mouseLoc.x - screenMidPoint.x, mouseLoc.y - screenMidPoint.y);
+
         for (int i = 0; i < zoomCount; i++) {
             oldPanelSize.width = currentPanelSize.getFirst();
             oldPanelSize.height = currentPanelSize.getSecond();

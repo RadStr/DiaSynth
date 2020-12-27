@@ -35,7 +35,9 @@ public class EllipseShapedPanel extends ShapedPanel {
 
     private void constructor() {
         panelShape = new Polygon();
-        ring = new Polygon();        // Just dummy init, else there is exception because the reshape method is called after the first drawing
+        // Just dummy init, else there is exception.
+        // because the reshape method is called after the first drawing
+        ring = new Polygon();
     }
 
     @Override
@@ -103,7 +105,10 @@ public class EllipseShapedPanel extends ShapedPanel {
 
         p.x = MovableJPanel.calculateXForHorizontalLineWithEdges(0, w, connectorIndex, connectorCount);
         p.y = getDistanceFromRectangleBorders(p.x - w / 2);
-        p.y = -p.y;        // I have to convert it to negative, because the distance is calculated for bot so it is inverted here
+        // I have to convert it to negative,
+        // because the distance is calculated for bot so it is inverted here
+        p.y = -p.y;
+
         convertRelativePixelToAbsolute(p);
     }
 

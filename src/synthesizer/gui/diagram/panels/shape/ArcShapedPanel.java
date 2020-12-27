@@ -32,7 +32,10 @@ public class ArcShapedPanel extends ShapedPanel {
 
 
     private void constructor() {
-        arc = new Area();        // Just dummy init, else there is exception because the reshape method is called after the first drawing
+        // Just dummy init, else there is exception,
+        // because the reshape method is called after the first drawing
+        arc = new Area();
+
         panelShapeView = new Arc2D.Double();
         panelShape = panelShapeView;
     }

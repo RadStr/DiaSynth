@@ -840,7 +840,8 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
         Direction lastLineDirection = getDirectionForInputPortLabel(ip);
         switch (lastLineDirection) {
             case LEFT:
-                label.setLocation(p.x - lw - cableThickness, p.y - lh - cableThickness); // Put it above the cable
+                // Put it above the cable
+                label.setLocation(p.x - lw - cableThickness, p.y - lh - cableThickness);
                 break;
             case UP:
                 label.setLocation(p.x - lw - 2 * cableThickness, p.y - lh - cableThickness);

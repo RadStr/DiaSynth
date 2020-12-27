@@ -368,13 +368,8 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         double[] mods = null;
         if(checkBoxes[8].isSelected() || checkBoxes[9].isSelected() || checkBoxes[10].isSelected()) {
-            try {
                 mods = Aggregation.calculateAllAggregations(byteWave.song, byteWave.sampleSizeInBytes,
                                                             byteWave.isBigEndian, byteWave.isSigned);
-            } catch (IOException e) {
-                MyLogger.logException(e);
-                new ErrorFrame(frame, "Invalid sample size:\t" + e.getMessage());
-            }
         }
         if(checkBoxes[8].isSelected()) {
             list.add(analyzeSampleMax(mods));

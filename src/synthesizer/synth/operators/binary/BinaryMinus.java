@@ -44,7 +44,7 @@ public class BinaryMinus extends BinaryOperator {
         // EMPTY
     }
 
-Tohle je spatne ... getMaxAbsVal muze vratit a vrati spatny cislo - ma to byt max z a - minimum z b
+
     public double binaryOperation(double a, double b) {
         return a - b;
     }

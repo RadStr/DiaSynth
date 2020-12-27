@@ -134,7 +134,7 @@ public class AudioConverter {
      * @throws IOException is thrown when method calculateMask failed - fails if the sampleSize is invalid.
      */
     public static void convertToMono(byte[] samples, int frameSize, int numberOfChannels, int sampleSize,
-                                     boolean isBigEndian, boolean isSigned, byte[] monoSong) throws IOException {
+                                     boolean isBigEndian, boolean isSigned, byte[] monoSong) {
         int sample = 0;
         int monoSample = 0;
 
@@ -950,7 +950,7 @@ public class AudioConverter {
      */
     private static byte[] convertSampleRateImmediateVersion(byte[] samples, int sampleSize, int numberOfChannels,
                                                             int oldSampleRate, int newSampleRate,
-                                                            boolean isBigEndian, boolean isSigned) throws IOException {
+                                                            boolean isBigEndian, boolean isSigned) {
         int frameSize = numberOfChannels * sampleSize;
         if (samples == null || samples.length <= frameSize) {
             return samples;
@@ -1311,7 +1311,6 @@ public class AudioConverter {
         upSampledArr = NonRecursiveFilter.runLowPassFilter(upSampledArr, newSampleRate / 2,
                 64, oldSampleRate, numberOfChannels, sampleSize, frameSize, isBigEndian, isSigned);
         int len = frameSize;        // Get frame count
-        //int frameCount = upSampledArr.length / (upSampleRateRatio * frameSize);
         int frameCount = upSampledArr.length / frameSize;
         if(frameCount % upSampleRateRatio == 0) {
             len = 0;

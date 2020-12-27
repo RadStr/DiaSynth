@@ -263,7 +263,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             }
             catch (Exception e) {
                 MyLogger.logException(e);
-                System.exit(1489);      // Shouldn't happen since at the start I call f.setAccessible(true);
+                return;
             }
             Pair<JLabel, JTextField> p = new Pair<>(parameterName, parameterValue);
             viewPanel.add(p.getKey());

@@ -7,6 +7,7 @@ import synthesizer.synth.Unit;
 import util.Utilities;
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
+import util.audio.format.AudioFormatJPanel;
 import util.audio.format.AudioFormatWithSign;
 import player.control.AudioControlPanel;
 import util.logging.MyLogger;
@@ -35,22 +36,10 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         setShouldPause(shouldPause);
         maxPlayTimeDivFactor = convertTimeInMsToDivFactor(maxPlayTimeInMs);
         cyclicQueueSizeDivFactor = convertTimeInMsToDivFactor(cyclicQueueSizeInMs);
-        // TODO: RML - ted popravde neivm jestli to muzu odstranit z toho konstruktoru
-        setOutputAudioFormat(new AudioFormatWithSign(44100, 16, 1,
-                                                     true, false));
-        // TODO: RML
-
+        AudioFormatWithSign af = new AudioFormatWithSign(44100, 16, 1,
+                                                         true, false);
+        setOutputAudioFormat(AudioFormatJPanel.getSupportedAudioFormat(af));
         lastPlayedSampleInChannel = 0;
-    }
-
-    private PlayedWaveVisualizer waveVisualizer;
-
-    public PlayedWaveVisualizer getWaveVisualizer() {
-        return waveVisualizer;
-    }
-
-    public void setWaveVisualizer(PlayedWaveVisualizer waveVisualizer) {
-        this.waveVisualizer = waveVisualizer;
     }
 
     /**
@@ -60,6 +49,17 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
      */
     public AudioThread(boolean shouldPause) {
         this(40, 400, shouldPause);
+    }
+
+
+    private PlayedWaveVisualizer waveVisualizer;
+
+    public PlayedWaveVisualizer getWaveVisualizer() {
+        return waveVisualizer;
+    }
+
+    public void setWaveVisualizer(PlayedWaveVisualizer waveVisualizer) {
+        this.waveVisualizer = waveVisualizer;
     }
 
     private CyclicQueueDouble[] queuesDouble;
@@ -111,10 +111,19 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     }
 
     public void setOutputAudioFormat(AudioFormatWithSign newFormat) {
-        if (audioLine != null) {
+        try {
             masterGain = null;
-            audioLine.close();
+            if (audioLine != null) {
+                if (audioLine.isOpen()) {
+                    audioLine.close();
+                }
+            }
         }
+        catch (Exception e) {
+            MyLogger.logException(e);
+        }
+
+
         outputAudioFormat = newFormat;
         int channelCount = outputAudioFormat.getChannels();
         sampleSizeInBytes = outputAudioFormat.getSampleSizeInBits() / 8;
@@ -157,7 +166,6 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
         }
         catch (LineUnavailableException e) {
             MyLogger.logException(e);
-            System.exit(148);
         }
     }
 

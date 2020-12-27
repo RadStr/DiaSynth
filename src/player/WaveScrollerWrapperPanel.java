@@ -99,13 +99,6 @@ public class WaveScrollerWrapperPanel extends JPanel {
             }
 
             int visibleWidthOfWave = emptyPanelForHorizontalScroll.getVisibleRect().width;
-            // TODO: DEBUG:
-//                int extent = scrollBar.getModel().getExtent();
-//                ProgramTest.debugPrint("RESIZING SCROLLBAR", oldWidth, newWidth, getOldScrollbarValue(),
-//                    scrollBarVal, scrollBar.getMaximum() - extent);
-//                ProgramTest.debugPrint(((AudioPlayerPanel)waveScrollCallback).waves.get(0).getPreferredSize());
-            // TODO: DEBUG:
-
             int newVal = WavePanel.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
                                                          getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
             scrollBar.setValue(newVal);

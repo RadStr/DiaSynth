@@ -47,7 +47,8 @@ public class SubbandSplitterLinear implements SubbandSplitterIFace {
                 for (int i = 0; i < binSizes.length - 1; i++) {
                     binSizes[i] *= freeSpaceMultiplier;
                 }
-                sum -= binSizes[binSizes.length - 1];         // Set the last bin to 0, we will set it to the real value after that
+                // Set the last bin to 0, we will set it to the real value after that
+                sum -= binSizes[binSizes.length - 1];
                 sum *= freeSpaceMultiplier;
             }
             binSizes[binSizes.length - 1] = binCount - sum;

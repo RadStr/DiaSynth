@@ -186,7 +186,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
         g.setColor(Color.BLUE);
         for (int x = 0, y; x < wave.length; x++) {
             y = (int) (wave[x] * h);
-            //g.drawRect(x, y, 1, 1);		// TODO: NOVY TODO
             g.drawLine(x, h / 2, x, y);
             System.out.println("double draw panel painting: " + x + ":\t" + wave[x]);
         }
@@ -241,7 +240,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
                 wave[i] = y / h;
             }
         }
-        //wave[currMouseLoc.x] = currMouseLoc.y / (double)h;		// TODO: NOVY TODO
     }
 
 

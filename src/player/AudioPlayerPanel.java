@@ -1046,7 +1046,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private int convertToPixelMovement(int increaseSpeed) {
-//        increaseSpeed /= 5; // Every 5 moved pixels the speed of scrolling/making the wave larger speeds up by 1 pixel per drag
         return increaseSpeed;
     }
 
@@ -1097,12 +1096,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         WaveMainPanel waveMainPanel2 = waves.get(newIndexZero);
         System.out.println("swapSplitterComponents:\t" + splitters.get(0).getTopComponent());
         System.out.println("swapSplitterComponents:\t" + splitters.get(0).getBottomComponent());
-
-        if (panelWithWaves.getViewport().getViewPosition().y < 0) {
-            // TODO: I think that it can be removed later, but for now keep it just to be sure
-            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
-                         panelWithWaves.getViewport().getViewSize().height, 0);
-        }
 
         swap2WavesIndexes(oldIndex, oldIndexString, oldIndexZero,
                           newIndex, newIndexString, newIndexZero, waveMainPanel1, waveMainPanel2);
@@ -1533,11 +1526,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void moveSwapSplitter(int from, int to) {
         WaveMainPanel waveMainPanel1;
         WaveMainPanel waveMainPanel2;
-        if (panelWithWaves.getViewport().getViewPosition().y < 0) {
-            // TODO: I think that it can be removed later, but for now keep it just to be sure
-            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
-                         panelWithWaves.getViewport().getViewSize().height, 0);
-        }
 
 
         if (from < to) {     // Swapping from up to down
@@ -2832,19 +2820,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-// TODO: Could do in future, will be quite easy
-//    private void addReverseToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-//    private void addSetSamplesToRandomNumbersToMenu(JMenu menu) {
-//        JMenuItem menuItem;
-//
-//        menu.add(menuItem);
-//    }
-
-
     private boolean waveMarkIsBeingDragged = false;
 
     public boolean getWaveMarkIsBeingDragged() {
@@ -3266,6 +3241,19 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         private SourceDataLine line = null;
 
         private void setDataLine() {
+            // Close the old line if it isn't closed
+            try {
+                if (line != null) {
+                    if (line.isOpen()) {
+                        line.close();
+                    }
+                }
+            }
+            catch (Exception e) {
+                MyLogger.logException(e);
+            }
+
+
             try {
                 DataLine.Info info = new DataLine.Info(SourceDataLine.class, outputAudioFormat);
                 line = null;
@@ -3732,12 +3720,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private int moveJScrollPaneDown(int moveSpeed) {
-        if (panelWithWaves.getViewport().getViewPosition().y < 0) {
-            // TODO: I think that it can be removed later, but for now keep it just to be sure
-            MyLogger.log("CRITICAL FAIL INSIDE swapSplitterComponents:\t" +
-                         panelWithWaves.getViewport().getViewSize().height, 0);
-        }
-
         JViewport view = panelWithWaves.getViewport();
         Point oldPos = view.getViewPosition();
         int movedSize = convertToPixelMovement(moveSpeed);

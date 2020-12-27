@@ -1625,7 +1625,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         int from = waveMainPanel.getWaveIndex();        // Index is from 1
         from--;                                 // Now indexed from 0
         // If it isn't the last wave and if it is at least as low or lower as the start of the wave below
-        if (from < waves.size() - 1 && mouseY >= waves.get(from + 1).getY()) {   // If it is wave below
+        // (Moving down)
+        if (from < waves.size() - 1 && mouseY >= waves.get(from + 1).getY()) {
             int to;
             for (to = from + 1; to < waves.size(); to++) {       // Check how much below it is
                 wave = waves.get(to);
@@ -1638,6 +1639,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             moveSwapSplitter(from, to);
         }
         // If it isn't the first wave and if it is at least as high or higher than the start of the wave above
+        // (Moving up)
         else if (from > 0 && mouseY <= waves.get(from - 1).getY()) {
             int to;
             for (to = from - 1; to >= 0; to--) {     // Check how much above it is

@@ -1,7 +1,5 @@
 package util.audio.io;
 
-import util.audio.BytesReadWithArr;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,28 +7,6 @@ public class AudioReader {
     private AudioReader() { }        // Allow only static access
 
 
-    /**
-     * Reads n samples from stream.
-     *
-     * @param audioStream is the input stream with samples.
-     * @param n           represents number of samples to be read.
-     * @param sampleSize  represents size of one sample.
-     * @return Returns bytes read with the array containing the read bytes (size of the array is always n * sampleSize)
-     * @throws IOException is thrown when error with input stream occurred.
-     */
-    public static BytesReadWithArr readNSamples(InputStream audioStream, int n, int sampleSize) throws IOException {
-        int bytesRead = 0;
-        int bytesReadSum = 0;
-        byte[] arr = new byte[n * sampleSize];
-        int freeIndexesCount = arr.length;
-        while (bytesReadSum != arr.length && bytesRead != -1) {
-            bytesRead = audioStream.read(arr, bytesReadSum, freeIndexesCount);
-            bytesReadSum = bytesReadSum + bytesRead;
-            freeIndexesCount = freeIndexesCount - bytesRead;
-        }
-
-        return new BytesReadWithArr(arr, bytesReadSum);
-    }
 
     /**
      * Reads bytes from input stream to the array given in parameter,

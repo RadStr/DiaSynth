@@ -3,8 +3,6 @@ package util;
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
 import util.audio.io.AudioReader;
-import util.audio.NormalizedSongPartWithAverageValueOfSamples;
-import util.audio.SongPartWithAverageValueOfSamples;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,110 +62,6 @@ public enum Aggregation {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Static aggregation methods:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /**
-     * Splits the input stream to parts of size numberOfFramesInOneSongPart * frameSize and calculates the aggregation mod for each part.
-     * The output is sorted by the int value (which depends on the mod argument).
-     * If the output is sorted depends on the value of variable returnSorted.
-     * The mod value is calculated of the original (non-normalized) values.
-     * If the song is multi-channel (for example stereo), then the average value is calculated as it was mono
-     *
-     * @param audioStream                 is the input stream with the audio samples.
-     * @param numberOfFramesInOneSongPart is the total number of frames in 1 song part
-     * @param frameSize                   is the size of 1 frame, which equals numberOfChannels * sampleSize, unless the method is used differently
-     * @param isBigEndian                 is boolean variable, which is true if the samples are big endian and false if little endian
-     * @param sampleSize                  is the size of 1 sample
-     * @param isSigned                    is boolean variable, which is true if the samples are signed and false if unsigned
-     * @param returnSorted                if true, then the output is sorted by the int value, which depends on the mod, else the output is not sorted, that
-     *                                    means if we connected all the song parts from the result in the order as they are in the array, then it would be
-     *                                    same as the original input stream
-     * @param mod                         represents the aggregation - what int will be added to each song part.
-     * @return Returns the array of type NormalizedSongPartWithAverageValueOfSamples which contains the song parts in form of normalized samples, which are stored in 1D double array.
-     * Together with the int based on the mod argument. Returns Double.MIN_VALUE if the aggregation isn't supported.
-     * @throws IOException is thrown when error in reading the input stream occurred, or if the value in argument mod is invalid
-     */
-    @Deprecated
-    public static NormalizedSongPartWithAverageValueOfSamples[] takeNormalizedSongPartsAndAddMod(InputStream audioStream,
-                                                                                                 int numberOfFramesInOneSongPart,
-                                                                                                 int frameSize,
-                                                                                                 boolean isBigEndian,
-                                                                                                 int sampleSize,
-                                                                                                 boolean isSigned,
-                                                                                                 boolean returnSorted,
-                                                                                                 Aggregation mod) throws IOException {
-        ArrayList<NormalizedSongPartWithAverageValueOfSamples> songParts = new ArrayList<>();
-        int size = numberOfFramesInOneSongPart * frameSize;            // size of the song part
-        byte[] songPart = new byte[size];
-        double[] normalizedSongPart;
-        int bytesRead = 0;
-
-        int bytesReadSum = 0;
-        while (bytesRead != -1) {
-            bytesReadSum = AudioReader.readNSamples(audioStream, songPart);
-            if (bytesRead < sampleSize) {
-                break;
-            }
-
-            int[] intArr;
-            intArr = AudioConverter.convertBytesToSamples(songPart, sampleSize, isBigEndian, isSigned);
-
-            double songPartValue = 0;
-            switch (mod) {
-                case RMS:
-                    for (int i = 0; i < intArr.length; i++) {
-                        songPartValue = songPartValue + (double) (intArr[i] * intArr[i]) / intArr.length;
-                    }
-                    songPartValue = Math.sqrt(songPartValue);
-                    break;
-                case AVG:
-                    for (int i = 0; i < intArr.length; i++) {
-                        songPartValue = songPartValue + (double) intArr[i] / intArr.length;
-                    }
-                    break;
-                case MIN:
-                    int min = Integer.MAX_VALUE;
-                    for (int i = 0; i < intArr.length; i++) {
-                        if (intArr[i] < min) {
-                            min = intArr[i];
-                        }
-                    }
-                    songPartValue = min;
-                    break;
-                case MAX:
-                    int max = Integer.MIN_VALUE;
-                    for (int i = 0; i < intArr.length; i++) {
-                        if (intArr[i] > max) {
-                            max = intArr[i];
-                        }
-                    }
-                    songPartValue = max;
-                    break;
-                default:
-                    songPartValue = Double.MIN_VALUE;
-                    break;
-            }
-            normalizedSongPart = AudioConverter.normalizeToDoubles(intArr, sampleSize * 8, isSigned);
-
-            if (bytesReadSum != songPart.length) {
-                double[] arr = new double[bytesReadSum / sampleSize];
-                for (int i = 0; i < arr.length; i++) {
-                    arr[i] = normalizedSongPart[i];
-                }
-                songParts.add(new NormalizedSongPartWithAverageValueOfSamples((int) songPartValue, arr, false));
-                bytesRead = -1;
-            }
-            else {
-                songParts.add(new NormalizedSongPartWithAverageValueOfSamples((int) songPartValue, normalizedSongPart, true));
-            }
-        }
-
-        NormalizedSongPartWithAverageValueOfSamples[] arr = new NormalizedSongPartWithAverageValueOfSamples[songParts.size()];
-        arr = songParts.toArray(arr);
-        if (returnSorted) {
-            Arrays.sort(arr);
-        }
-        return arr;
-    }
-
     public static double performAggregation(double val1, double val2, Aggregation agg) {
         switch (agg) {
             case ABS_MAX:

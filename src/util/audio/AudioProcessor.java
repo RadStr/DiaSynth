@@ -553,23 +553,6 @@ public class AudioProcessor {
 
         return channelLen;
     }
-
-
-    /**
-     * Takes the int values representing some property (min or max or avg or rms)of each song part and returns them in 1D double array.
-     *
-     * @param songParts are the samples of the song part together with int, which represents some property of the song part.
-     * @return Returns 1D double array containing the int values which are in the SongPartWithAverageValueOfSamples as int property.
-     */
-    public static double[] getValuesFromSongParts(SongPartWithAverageValueOfSamples[] songParts) {
-        double[] values = new double[songParts.length];
-
-        for (int i = 0; i < values.length; i++) {
-            values[i] = songParts[i].averageAmplitude;
-        }
-
-        return values;
-    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* --------------------------------------------- [END] --------------------------------------------- */
     /////////////////// Other

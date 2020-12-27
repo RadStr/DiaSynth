@@ -54,7 +54,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                                                           MouseListener, MouseMotionListener,
                                                           MaxElevationGetterIFace, ResizeSplitpaneCallbackIFace,
                                                           UnitAdditionIFace, InputPortToGUIAdderIFace,
-                                                          SerializeIFace, OutputUnitGetter, AudioRecordingCallback {
+                                                          SerializeIFace, OutputUnitGetterIFace, AudioRecordingCallback {
     public static final int START_PIXELS_PER_ELEVATION = 4;
     public static final int START_CIRCLE_CONNECTION_SIZE = 4;
 

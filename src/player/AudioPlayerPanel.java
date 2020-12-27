@@ -3406,9 +3406,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     tryPause();
                     for (nextSample = currSample + indexJumpInDoubleArr; nextSample < outputEndIndex; nextSample = currSample + indexJumpInDoubleArr) {
                         tryPause();
-
-                        // TODO: CONCURRENCY
-                        // Just to be sure that there is no concurrency issue - like setting the songs to null midway though the for cycle
                         boolean filledWithWaveSamples = performMixing(songs, multFactors, audioArr.length);
 
                         // This is here for the app to be more responsive,

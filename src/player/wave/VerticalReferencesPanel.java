@@ -15,14 +15,7 @@ public class VerticalReferencesPanel extends JPanel {
     private double pixelJump;
     private int labelCount;
     private int minLineLen = 5;
-
-    // Another cut feature, wanted to make it more general and also have possibility to reference ints,
-    // but to be honest the doubles just look better. The code for ints is there though, there is just no way for user
-    // to use it.
-    private final boolean IS_DOUBLE = true;
-
     private double minValue;
-
     public double getMinValue() {
         return minValue;
     }
@@ -33,7 +26,6 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
     private double maxValue;
-
     public double getMaxValue() {
         return maxValue;
     }
@@ -75,10 +67,8 @@ public class VerticalReferencesPanel extends JPanel {
                 int spaceSizeBetweenLabelsInPixels = 50;
                 int halfHeight = height / 2;
                 labelCount = halfHeight / spaceSizeBetweenLabelsInPixels;
-                if (IS_DOUBLE) {
-                    if (labelCount > 100) {
-                        labelCount = 100;
-                    }
+                if (labelCount > 100) {
+                    labelCount = 100;
                 }
                 // +1 because we need to take into consideration the middle value.
                 pixelJump = halfHeight / (double) (labelCount + 1);
@@ -95,30 +85,21 @@ public class VerticalReferencesPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (IS_DOUBLE) {     // Always call the double variant
-            drawSamplesValueRangeDouble(g);
-        }
-        else {
-            drawSamplesValueRangeInt(g, 24);
-        }
+        drawSamplesValueRangeDouble(g);
     }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+/////////////////// METHODS FOR DRAWING THE DOUBLE REFERENCES
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void drawSamplesValueRangeDouble(Graphics g) {
         drawSamplesValueRangeDouble(g, minValue, maxValue, midValue);
     }
 
-    private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
-        int valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
-        int valMin = -valMax;
-        valMax--;
-        drawSamplesValueRangeInt(g, valMin, valMax, 0);
-    }
-
     // midVal is usually 0
     private void drawSamplesValueRangeDouble(Graphics g, double minVal, double maxVal, double midVal) {
-        int waveHeight = this.getHeight();
         int waveStartX = 30;
         int waveStartY = 0;
 
@@ -161,7 +142,73 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
 
-    // TODO: NEVIM S TIM INTEM - MOZNA TO VYHODIT
+    private void drawFirstValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
+        int shiftForStringY = textHeight - textHeight / 4;
+        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
+    }
+
+    private void drawInternalValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
+        int shiftForStringY = textHeight / 4;
+        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
+    }
+
+    private void drawLastValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
+        int shiftForStringY = -textHeight / 4;
+        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
+    }
+
+    private void drawValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int shiftForStringY) {
+        String valString = getStringDouble(valToDraw);
+        drawValue(valString, x, y, color, g, shiftForStringY);
+    }
+
+
+    private void drawValue(String valString, int x, int y, Color color, Graphics g, int shiftForStringY) {
+        int startX = SwingUtils.drawStringWithSpace(g, color, valString, 0, this.getWidth(), y + shiftForStringY);
+        int w = g.getFontMetrics().stringWidth(valString);
+        if (w > valuesLongestWidth) {
+            valuesLongestWidth = w;
+        }
+
+        startX += w;
+        g.drawLine(startX, y, this.getWidth(), y);
+    }
+
+
+    public static String getStringDouble(double valToDraw) {
+        String valString = String.format("%.2f", valToDraw);
+        return valString;
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+/////////////////// METHODS FOR DRAWING THE DOUBLE REFERENCES
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(valuesLongestWidth + minLineLen, super.getPreferredSize().height);
+    }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+/////////////////// METHODS FOR DRAWING INT REFERENCES (SAME AS THE DOUBLE VARIANT, BUT WITH INTS) - CUT FEATURE
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Another cut feature, wanted to make it more general and also have possibility to reference ints,
+    // but to be honest the doubles just look better.
+
+    private void drawSamplesValueRangeInt(Graphics g, int sampleSizeInBits) {
+        int valMax = AudioUtilities.getMaxAbsoluteValueSigned(sampleSizeInBits);
+        int valMin = -valMax;
+        valMax--;
+        drawSamplesValueRangeInt(g, valMin, valMax, 0);
+    }
+
+
     // midVal is usually 0
     private void drawSamplesValueRangeInt(Graphics g, int minVal, int maxVal, int midVal) {
         int waveStartX = 30;
@@ -229,52 +276,13 @@ public class VerticalReferencesPanel extends JPanel {
     }
 
 
-    private void drawFirstValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
-        int shiftForStringY = textHeight - textHeight / 4;
-        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
-    }
-
-    private void drawInternalValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
-        int shiftForStringY = textHeight / 4;
-        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
-    }
-
-    private void drawLastValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int textHeight) {
-        int shiftForStringY = -textHeight / 4;
-        drawValueDouble(x, y, valToDraw, color, g, shiftForStringY);
-    }
-
-    private void drawValueDouble(int x, int y, double valToDraw, Color color, Graphics g, int shiftForStringY) {
-        String valString = getStringDouble(valToDraw);
-        drawValue(valString, x, y, color, g, shiftForStringY);
-    }
-
-
-    private void drawValue(String valString, int x, int y, Color color, Graphics g, int shiftForStringY) {
-        int startX = SwingUtils.drawStringWithSpace(g, color, valString, 0, this.getWidth(), y + shiftForStringY);
-        int w = g.getFontMetrics().stringWidth(valString);
-        if (w > valuesLongestWidth) {
-            valuesLongestWidth = w;
-        }
-
-        startX += w;
-        g.drawLine(startX, y, this.getWidth(), y);
-    }
-
-
-    public static String getStringDouble(double valToDraw) {
-        String valString = String.format("%.2f", valToDraw);
-        return valString;
-    }
-
     public static String getStringInt(int valToDraw) {
         String valString = Integer.toString(valToDraw);
         return valString;
     }
-
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(valuesLongestWidth + minLineLen, super.getPreferredSize().height);
-    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+/////////////////// METHODS FOR DRAWING INTS (SAME AS THE DOUBLE VARIANT, BUT WITH INTS) - CUT FEATURE
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

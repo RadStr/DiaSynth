@@ -310,14 +310,6 @@ public class ProgramTest {
                                                                   sampleSize, isBigEndian, isSigned);
             InputStream is = new ByteArrayInputStream(audioWithFreqfreq);
             SongPartWithAverageValueOfSamples[] spwavos = new SongPartWithAverageValueOfSamples[0];
-            try {
-                spwavos = Aggregation.takeSongPartsAndAddAggregation(is, sizeOfOneSongPart, frameSize, isBigEndian,
-                                                                     isSigned, sampleSize, false, Aggregation.AVG);
-            }
-            catch (IOException e) {
-                System.out.println("FALSE: EXCEPTION\t");
-                return false;
-            }
 
             FrequencyWithMeasure[][] freqs = new FrequencyWithMeasure[0][];
             try {

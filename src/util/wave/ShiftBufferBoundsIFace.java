@@ -20,6 +20,4 @@ public interface ShiftBufferBoundsIFace {
      * @param totalCopiedValCount is the total number of copied indices from old buffer
      */
     void updateBufferWithNewValuesOnRight(int totalCopiedValCount);
-
-    int getNewValCountOnRight(int copiedValCount);
 }

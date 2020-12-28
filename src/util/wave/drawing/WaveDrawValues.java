@@ -91,7 +91,6 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
         return shiftBufferDouble.getMaxRightIndex();
     }
 
-    @Override
     public int getNewValCountOnRight(int copiedValCount) {
         return getBufferEndIndexOnRight() - getBufferStartIndexOnRight(copiedValCount);
     }

@@ -18,8 +18,6 @@ public interface DrawValuesSupplierIFace {
 
     int getCurrentScroll();
 
-    int getMaxScroll();
-
     int getAudioLen();
 
     default double calculatePixelDifferenceBetweenSamples(int totalWaveWidthInPixels) {

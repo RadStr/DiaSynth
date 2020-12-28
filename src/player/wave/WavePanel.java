@@ -1088,8 +1088,6 @@ public class WavePanel extends JPanel {
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
         }
 
-
-        @Override
         public int getMaxScroll() {
             return waveWidth - wholeWavePanel.getWaveVisibleWidth();
         }

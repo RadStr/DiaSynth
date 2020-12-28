@@ -282,11 +282,6 @@ public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIF
     }
 
     @Override
-    public int getMaxScroll() {
-        return 0;
-    }
-
-    @Override
     public int getAudioLen() {
         return Integer.MAX_VALUE;
     }

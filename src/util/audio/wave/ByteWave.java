@@ -526,7 +526,8 @@ public class ByteWave {
         }
 
         System.out.println("audio length in seconds:\t" + lengthOfAudioInSeconds);
-        System.out.println("Audio lengths (in audioFormat hours:mins:secs):\t" + Time.convertSecondsToTime(lengthOfAudioInSeconds, -1));
+        System.out.println("Audio lengths (in audioFormat hours:mins:secs):\t" +
+                           Time.convertSecondsToTime(lengthOfAudioInSeconds, -1));
     }
 
 

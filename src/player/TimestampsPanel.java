@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TimestampsPanel extends JPanel {
+    public TimestampsPanel(AudioPlayerPanel audioPlayerPanel) {
+        this.audioPlayerPanel = audioPlayerPanel;
+    }
+
 
     private AudioPlayerPanel audioPlayerPanel;
     /**
@@ -18,10 +22,6 @@ public class TimestampsPanel extends JPanel {
      * the label and then there are 2 other commas and after that is another timestamp label.
      */
     public static final int MARKS_PER_TIMESTAMP = 3;
-
-    public TimestampsPanel(AudioPlayerPanel audioPlayerPanel) {
-        this.audioPlayerPanel = audioPlayerPanel;
-    }
 
 
     @Override

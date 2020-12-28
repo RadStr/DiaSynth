@@ -1,6 +1,7 @@
 package player;
 
 
+import player.wave.WavePanelMouseListener;
 import util.audio.wave.ByteWave;
 import player.mixer.*;
 import player.control.AudioControlPanel;
@@ -2456,10 +2457,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     public void changedTabAction(boolean hasFocus) {
         if (hasFocus) {
             thisFrame.setJMenuBar(menuBar);
+            WavePanelMouseListener.startTooltipTimer();
         }
         else {
             clickPauseButtonIfPlaying();
             audioThread.reset();
+            WavePanelMouseListener.stopTooltipTimer();
         }
     }
 

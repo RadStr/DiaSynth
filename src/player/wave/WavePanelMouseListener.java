@@ -4,15 +4,31 @@ import util.audio.wave.DoubleWave;
 import util.Time;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class WavePanelMouseListener implements MouseListener, MouseMotionListener {
     public WavePanelMouseListener(WaveMainPanel waveMainPanel) {
         this.waveMainPanel = waveMainPanel;
     }
 
+
+    private static boolean canChangeTooltip = true;
+    private static final Timer TOOLTIP_TIMER;
+    public static void startTooltipTimer() {
+        TOOLTIP_TIMER.start();
+    }
+    public static void stopTooltipTimer() {
+        TOOLTIP_TIMER.stop();
+    }
+    static {
+        TOOLTIP_TIMER = new Timer(100,
+                                  new ActionListener() {
+                                      @Override
+                                      public void actionPerformed(ActionEvent e) {
+                                          canChangeTooltip = true;
+                                      }
+                                  });
+    }
 
     private WaveMainPanel waveMainPanel;
 
@@ -86,8 +102,8 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     // Set to huge value, so that we don't have to keep creating new underlying array
     private StringBuilder tooltip = new StringBuilder(200);
     private static final char[][] TOOLTIP_STRINGS = new char[][]{
-            "<html>Sample index: ".toCharArray(), "<br>Value: ".toCharArray(), "<br>Sample time: ".toCharArray(),
-            "<br>Wave size in pixels: ".toCharArray(), "</html>".toCharArray()
+            "<html>Index: ".toCharArray(), "<br>Value: ".toCharArray(), "<br>Time: ".toCharArray(),
+            /*"<br>Wave size in pixels: ".toCharArray(),*/ "</html>".toCharArray()
     };
 
     private int insertToTooltip(char[] chars, int index) {
@@ -100,29 +116,34 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
         return index + s.length();
     }
 
+
     @Override
     public void mouseMoved(MouseEvent e) {
-        int sampleIndex = convertXToSampleIndex(e.getX());
-        if (sampleIndex < waveMainPanel.getSongLen()) {
-            double value = waveMainPanel.getNthSample(sampleIndex);
-            String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
-            String valueString = VerticalReferencesPanel.getStringDouble(value);
-            int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
-            String timeInMillis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
+        if(canChangeTooltip) {
+            canChangeTooltip = false;
 
-            tooltip.setLength(0);
-            tooltip.append(TOOLTIP_STRINGS[0]);
-            tooltip.append(sampleIndexString);
-            tooltip.append(TOOLTIP_STRINGS[1]);
-            tooltip.append(valueString);
-            tooltip.append(TOOLTIP_STRINGS[2]);
-            tooltip.append(timeInMillis);
-            tooltip.append(TOOLTIP_STRINGS[3]);
-            tooltip.append(waveMainPanel.getWave().getSize().toString());
-            tooltip.append(TOOLTIP_STRINGS[4]);
-            waveMainPanel.setWaveTooltipText(tooltip.toString());
+            int sampleIndex = convertXToSampleIndex(e.getX());
+            if (sampleIndex < waveMainPanel.getSongLen()) {
+                double value = waveMainPanel.getNthSample(sampleIndex);
+                String sampleIndexString = VerticalReferencesPanel.getStringInt(sampleIndex);
+                String valueString = VerticalReferencesPanel.getStringDouble(value);
+                int sampleTimeInMillis = waveMainPanel.convertSampleToMillis(sampleIndex);
+                String timeInMillis = Time.convertMillisecondsToTime(sampleTimeInMillis, -1);
 
-            waveMainPanel.repaintPanelWithMultipleWaves();
+                tooltip.setLength(0);
+                tooltip.append(TOOLTIP_STRINGS[0]);
+                tooltip.append(sampleIndexString);
+                tooltip.append(TOOLTIP_STRINGS[1]);
+                tooltip.append(valueString);
+                tooltip.append(TOOLTIP_STRINGS[2]);
+                tooltip.append(timeInMillis);
+                tooltip.append(TOOLTIP_STRINGS[3]);
+//                tooltip.append(waveMainPanel.getWave().getSize().toString());
+//                tooltip.append(TOOLTIP_STRINGS[4]);
+                waveMainPanel.setWaveTooltipText(tooltip.toString());
+
+                waveMainPanel.repaintPanelWithMultipleWaves();
+            }
         }
     }
 

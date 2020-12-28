@@ -445,7 +445,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeEndianness(ByteWave byteWave) {
-        if (byteWave.getIsSigned()) {
+        if (byteWave.getIsBigEndian()) {
             return new Pair<String, String>("Endianness", "Big endian");
         }
         else {

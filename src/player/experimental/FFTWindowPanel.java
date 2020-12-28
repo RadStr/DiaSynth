@@ -31,7 +31,7 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
         else {
             Utilities.setOneDimArr(fftResult, 0, fftResult.length, 0);
         }
-        FFT.convertResultsOfFFTToRealRealForward(fftResult, DRAW_VALUES);
+        FFT.convertResultsOfFFTToMeasuresRealForward(fftResult, DRAW_VALUES);
         normalizeAndSetDrawValues();
         setLastPartOfTooltip();
     }
@@ -100,10 +100,10 @@ public class FFTWindowPanel extends FFTWindowPanelAbstract {
 
     public double[] getIFFTResult(boolean setImagPartToZero, int periodCount) {
         if (setImagPartToZero) {
-            FFT.convertFFTAmplitudesToClassicFFTArr(DRAW_VALUES, fftResult);
+            FFT.convertFFTAmplitudesToComplexFFTArr(DRAW_VALUES, fftResult);
         }
         else {
-            FFT.convertFFTAmplitudesToClassicFFTArrRandom(DRAW_VALUES, fftResult);
+            FFT.convertFFTAmplitudesToComplexFFTArrRandom(DRAW_VALUES, fftResult);
         }
 
         for (int i = 0; i < fftResult.length; i++) {

@@ -2633,9 +2633,9 @@ public class ProgramTest {
         double[] sine;
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
-        FFT.realToComplexRealOnly(sine, arr, false);
+        FFT.copyRealPartToComplexArr(sine, arr, false);
         sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
-        FFT.realToComplexImagOnly(sine, arr, false);
+        FFT.copyImagPartToComplexArr(sine, arr, false);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -2652,7 +2652,7 @@ public class ProgramTest {
         double[] sine;
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, realAmp, realFreq, sampleRate, realPhase);
-        FFT.realToComplexRealOnly(sine, arr, true);
+        FFT.copyRealPartToComplexArr(sine, arr, true);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -2667,7 +2667,7 @@ public class ProgramTest {
         double[] sine = new double[len];
         double[] arr = new double[complexLen];
         sine = curve.createCurve(len, imagAmp, imagFreq, sampleRate, imagPhase);
-        FFT.realToComplexImagOnly(sine, arr, true);
+        FFT.copyImagPartToComplexArr(sine, arr, true);
         fft.complexForward(arr);
 
         //ProgramTest.debugPrint(arr);
@@ -2776,7 +2776,7 @@ public class ProgramTest {
                 audio[j] /= audio.length;
             }
             double[] measures = new double[FFT.getBinCountRealForward(audio.length)];
-            FFT.convertResultsOfFFTToRealRealForward(audio, measures);
+            FFT.convertResultsOfFFTToMeasuresRealForward(audio, measures);
 
             for (int j = 0; j < audio.length; j++) {
                 audio[j] = Math.abs(audio[j]);

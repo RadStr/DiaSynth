@@ -150,7 +150,7 @@ public class BPMSimpleWithFreqBands {
         FFT.calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize,
                                     mask, fft, fftArray, maxAbsoluteValue, isBigEndian, isSigned);
 
-        FFT.convertResultsOfFFTToRealRealForward(fftArray, fftArrayMeasures);
+        FFT.convertResultsOfFFTToMeasuresRealForward(fftArray, fftArrayMeasures);
         for (int subband = 0; subband < currEnergies.length; subband++) {
             currEnergies[subband] = splitter.getSubbandEnergy(fftArrayMeasures, currEnergies.length, subband);
         }

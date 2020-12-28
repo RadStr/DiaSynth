@@ -59,16 +59,23 @@ public class FFT {
      * @param fftResult is 1D double array gotten from fft. On even indexes contains real parts, on odd imaginary ones.
      * @return Returns 1D double array of half length of the original array. The new array contains the distances of complex numbers from zero.
      */
-    public static double[] convertResultsOfFFTToRealRealForward(double[] fftResult) {
+    public static double[] convertResultsOfFFTToMeasuresRealForward(double[] fftResult) {
         double[] result;
         int binCount = getBinCountRealForward(fftResult.length);
         result = new double[binCount];
-        convertResultsOfFFTToRealRealForward(fftResult, result);
+        convertResultsOfFFTToMeasuresRealForward(fftResult, result);
         return result;
     }
 
-    // TODO: Napsat dokumentaci
-    public static void convertResultsOfFFTToRealRealForward(double[] fftResult, double[] result) {
+
+    /**
+     * Converts the result of FFT, which we go using the real forward variant of the FFT from library. Converts it to
+     * real numbers by calculating the measures. We get measures from the real and imaginary part  by taking the
+     * distance of the complex number from zero, which is calculated as realPart * realPart + imagPart * imagPart.
+     * @param fftResult
+     * @param result
+     */
+    public static void convertResultsOfFFTToMeasuresRealForward(double[] fftResult, double[] result) {
         if (fftResult.length % 2 == 0) {            // It's even
             result[0] = calculateComplexNumMeasure(fftResult[0], 0);
             int index = 1;
@@ -111,7 +118,7 @@ public class FFT {
      * @param result
      * @return
      */
-    public static double[] convertFFTAmplitudesToClassicFFTArr(double[] fftMeasures, double[] result) {
+    public static double[] convertFFTAmplitudesToComplexFFTArr(double[] fftMeasures, double[] result) {
         if (result.length % 2 == 0) {            // It's even
             result[0] = Math.sqrt(fftMeasures[0]);
             result[1] = Math.sqrt(fftMeasures[fftMeasures.length - 1]);
@@ -159,7 +166,7 @@ public class FFT {
      * @param result
      * @return
      */
-    public static double[] convertFFTAmplitudesToClassicFFTArrRandom(double[] fftMeasures, double[] result) {
+    public static double[] convertFFTAmplitudesToComplexFFTArrRandom(double[] fftMeasures, double[] result) {
         if (result.length % 2 == 0) {            // It's even
             result[0] = Math.sqrt(fftMeasures[0]);
             result[1] = Math.sqrt(fftMeasures[fftMeasures.length - 1]);
@@ -239,26 +246,26 @@ public class FFT {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* -------------------------------------------- [START] -------------------------------------------- */
     /////////////////// Convert real numbers to complex numbers methods
     /* -------------------------------------------- [START] -------------------------------------------- */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static void realToComplexRealOnly(double[] real, double[] complex, final boolean shouldSetOtherPartToZero) {
-        realToComplexRealOnly(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
+    public static void copyRealPartToComplexArr(double[] real, double[] complex, final boolean shouldSetOtherPartToZero) {
+        copyRealPartToComplexArr(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
     }
 
     /**
      * Converts array with real values to array with comples values, which as at [% 2 == 0] real values and everywhere else 0.
      */
-    public static void realToComplexRealOnly(double[] real, int realArrLen, double[] complex,
-                                             final boolean shouldSetOtherPartToZero) {
-        realToComplexRealOnly(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
+    public static void copyRealPartToComplexArr(double[] real, int realArrLen, double[] complex,
+                                                final boolean shouldSetOtherPartToZero) {
+        copyRealPartToComplexArr(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
     }
 
-    public static void realToComplexRealOnly(double[] real, int realStartIndex, int realArrLen,
-                                             double[] complex, int complexStartIndex,
-                                             final boolean shouldSetOtherPartToZero) {
+    public static void copyRealPartToComplexArr(double[] real, int realStartIndex, int realArrLen,
+                                                double[] complex, int complexStartIndex,
+                                                final boolean shouldSetOtherPartToZero) {
         for (int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c++) {
             complex[c] = real[r];
             c++;
@@ -269,19 +276,19 @@ public class FFT {
     }
 
 
-    public static void realToComplexImagOnly(double[] real, double[] complex,
-                                             final boolean shouldSetOtherPartToZero) {
-        realToComplexImagOnly(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
+    public static void copyImagPartToComplexArr(double[] real, double[] complex,
+                                                final boolean shouldSetOtherPartToZero) {
+        copyImagPartToComplexArr(real, 0, real.length, complex, 0, shouldSetOtherPartToZero);
     }
 
-    public static void realToComplexImagOnly(double[] real, int realArrLen, double[] complex,
-                                             final boolean shouldSetOtherPartToZero) {
-        realToComplexImagOnly(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
+    public static void copyImagPartToComplexArr(double[] real, int realArrLen, double[] complex,
+                                                final boolean shouldSetOtherPartToZero) {
+        copyImagPartToComplexArr(real, 0, realArrLen, complex, 0, shouldSetOtherPartToZero);
     }
 
-    public static void realToComplexImagOnly(double[] real, int realStartIndex, int realArrLen,
-                                             double[] complex, int complexStartIndex,
-                                             final boolean shouldSetOtherPartToZero) {
+    public static void copyImagPartToComplexArr(double[] real, int realStartIndex, int realArrLen,
+                                                double[] complex, int complexStartIndex,
+                                                final boolean shouldSetOtherPartToZero) {
         for (int r = realStartIndex, c = complexStartIndex; r < realArrLen; r++, c++) {
             if (shouldSetOtherPartToZero) {
                 complex[c] = 0;
@@ -373,7 +380,7 @@ public class FFT {
      * But the number of complex numbers in result doesn't have to be even.
      * Take look at FFT NOTES to understand how many bins are for each window size.
      */
-    public static void connectRealAndImagPart(double[] real, double[] imag, double[] result) {
+    public static void copyRealAndImagToComplexArr(double[] real, double[] imag, double[] result) {
         int i = 0;
         int partIndex = 0;
         for (; partIndex < real.length; i++, partIndex++) {
@@ -492,18 +499,32 @@ public class FFT {
     }
 
 
-    // TODO: Ty jmena jsou trochu divny !!!!!!!!!!!!!!!!!!!!!!!
-// TODO: Napsat komentare
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* -------------------------------------------- [START] -------------------------------------------- */
+/////////////////// Calculate FFT (and IFFT) using the library JTransforms library
+/////////////////// (most of them are not used, but they all should be correct)
+    /* -------------------------------------------- [START] -------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculates real forward IFFT, the result is put in the same array.
+     */
     public static void calculateIFFTRealForward(double[] samples, boolean scale) {
         DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
         calculateIFFTRealForward(samples, fft, scale);
     }
 
     // This method is a bit overkill, but whatever
+    /**
+     * Calculates real forward IFFT, the result is put in the same array.
+     */
     public static void calculateIFFTRealForward(double[] samples, DoubleFFT_1D fft, boolean scale) {
         fft.realInverse(samples, scale);
     }
 
+    /**
+     * Calculates real forward IFFT, the result is put in new array.
+     */
     public static double[] calculateIFFTRealForwardCopyVariant(double[] samples, DoubleFFT_1D fft, boolean scale) {
         double[] copy = Arrays.copyOf(samples, samples.length);
         calculateIFFTRealForward(copy, fft, scale);
@@ -517,23 +538,34 @@ public class FFT {
     }
 
 
-    // TODO: Napsat komentare
+    /**
+     * Calculates complex forward IFFT, the result is put in the same array.
+     */
     public static void calculateIFFTComplexForward(double[] samples, boolean scale) {
         DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
         calculateIFFTComplexForward(samples, fft, scale);
     }
 
     // This method is a bit overkill, but whatever
+    /**
+     * Calculates complex forward IFFT, the result is put in the same array.
+     */
     public static void calculateIFFTComplexForward(double[] samples, DoubleFFT_1D fft, boolean scale) {
         fft.complexInverse(samples, scale);
     }
 
+    /**
+     * Calculates complex forward IFFT, the result is put in new array.
+     */
     public static double[] calculateIFFTComplexForwardCopyVariant(double[] samples, DoubleFFT_1D fft, boolean scale) {
         double[] copy = Arrays.copyOf(samples, samples.length);
         calculateIFFTComplexForward(copy, fft, scale);
         return copy;
     }
 
+    /**
+     * Calculates complex forward IFFT, the result is put in new array.
+     */
     public static double[] calculateIFFTComplexForwardCopyVariant(double[] samples, boolean scale) {
         double[] copy = Arrays.copyOf(samples, samples.length);
         calculateIFFTComplexForward(copy, scale);
@@ -541,6 +573,9 @@ public class FFT {
     }
 
 
+    /**
+     * Calculates complex forward IFFT, the result is put in new array, which is double the length of given array.
+     */
     public static double[] calculateIFFTComplexForwardProlongArray(double[] samples, boolean scale) {
         double[] result = Arrays.copyOf(samples, samples.length * 2);
         DoubleFFT_1D fft = new DoubleFFT_1D(samples.length);
@@ -548,6 +583,9 @@ public class FFT {
         return result;
     }
 
+    /**
+     * Calculates complex forward IFFT, the result is put in new array, which is double the length of given array.
+     */
     public static double[] calculateIFFTComplexForwardProlongArray(double[] samples, DoubleFFT_1D fft, boolean scale) {
         double[] result = Arrays.copyOf(samples, samples.length * 2);
         calculateIFFTComplexForward(result, fft, scale);
@@ -555,6 +593,9 @@ public class FFT {
     }
 
 
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     */
     public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
                                                    int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
@@ -562,10 +603,17 @@ public class FFT {
         return result;
     }
 
-    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels, int fftSize) {
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     */
+    public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len,
+                                                   int numberOfChannels, int fftSize) {
         return calculateFFTRealForward(samples, startIndex, len, numberOfChannels, fftSize, fftSize);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     */
     public static double[] calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
                                                    DoubleFFT_1D fft, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
@@ -573,7 +621,13 @@ public class FFT {
         return result;
     }
 
-    ////////////////////
+
+
+
+
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     */
     public static void calculateFFTRealForward(double[] samples, int startIndex, int len, int numberOfChannels,
                                                double[] result, int fftSize) {
         if (result.length < fftSize) {
@@ -583,6 +637,9 @@ public class FFT {
         calculateFFTRealForward(samples, startIndex, len, numberOfChannels, fft, result);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     */
     public static void calculateFFTRealForward(double[] samples, int startIndex, int len,
                                                int numberOfChannels, DoubleFFT_1D fft, double[] result) {
         for (int i = 0; i < len; i++, startIndex += numberOfChannels) {
@@ -591,10 +648,10 @@ public class FFT {
         fft.realForward(result);
     }
 
-    //////////////////////
-    //////////////////////
-    // MaxAbsoluteValue is result of getMaxAbsoluteValueSigned
-
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
                                                    int maxAbsoluteValue, boolean isSigned,
                                                    int resultArrayLen, int fftSize) {
@@ -603,11 +660,19 @@ public class FFT {
         return result;
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
                                                    int maxAbsoluteValue, boolean isSigned, int fftSize) {
         return calculateFFTRealForward(samples, startIndex, numberOfChannels, maxAbsoluteValue, isSigned, fftSize, fftSize);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in new array of length resultArrayLen.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static double[] calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels,
                                                    DoubleFFT_1D fft, int maxAbsoluteValue,
                                                    boolean isSigned, int resultArrayLen) {
@@ -616,12 +681,19 @@ public class FFT {
         return result;
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, double[] result,
                                                int maxAbsoluteValue, boolean isSigned, int fftSize) {
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTRealForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     */
     public static void calculateFFTRealForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                double[] result, int maxAbsoluteValue, boolean isSigned) {
         for (int i = 0; i < result.length; i++, startIndex += numberOfChannels) {
@@ -630,44 +702,69 @@ public class FFT {
         fft.realForward(result);
     }
 
-    //////////////////////
-    //////////////////////
-    public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                                   int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int resultArrayLen, int fftSize) {
+
+
+
+    /**
+     * Calculates real forward FFT, the result is put in new array of length resultArrayLen.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
+                                                   int frameSize, int mask, int maxAbsoluteValue, boolean isBigEndian,
+                                                   boolean isSigned, int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
         calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask,
                                 result, maxAbsoluteValue, isBigEndian, isSigned, fftSize);
         return result;
     }
 
+
+    /**
+     * Calculates real forward FFT, the result is put in new array.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
                                                    int frameSize, int mask, int maxAbsoluteValue, boolean isBigEndian,
                                                    boolean isSigned, int fftSize) {
-        return calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, maxAbsoluteValue,
-                                       isBigEndian, isSigned, fftSize, fftSize);
+        return calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask,
+                                       maxAbsoluteValue, isBigEndian, isSigned, fftSize, fftSize);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in new array of length resultArrayLen.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static double[] calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
                                                    int frameSize, int mask,
                                                    DoubleFFT_1D fft, int maxAbsoluteValue, boolean isBigEndian,
                                                    boolean isSigned, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
-                                isBigEndian, isSigned);
+        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft,
+                                result, maxAbsoluteValue, isBigEndian, isSigned);
         return result;
     }
 
-    public static void calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                               double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static void calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
+                                               int frameSize, int mask, double[] result, int maxAbsoluteValue,
+                                               boolean isBigEndian, boolean isSigned, int fftSize) {
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
-        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
-                                isBigEndian, isSigned);
+        calculateFFTRealForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft,
+                                result, maxAbsoluteValue, isBigEndian, isSigned);
     }
 
+
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static void calculateFFTRealForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
                                                int frameSize, int mask,
-                                               DoubleFFT_1D fft,
-                                               double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
+                                               DoubleFFT_1D fft, double[] result, int maxAbsoluteValue,
+                                               boolean isBigEndian, boolean isSigned) {
         int valInt;
         for (int i = 0; i < result.length; i++, startIndex += numberOfChannels * frameSize) {
             valInt = AudioConverter.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
@@ -678,34 +775,57 @@ public class FFT {
     }
 
 
+    /**
+     * Calculates real forward FFT of length fftLen, the result is put in result array. The samples array isn't changed.
+     */
     public static void calculateFFTRealForward(double[] samples, int startIndex, double[] result, int fftLen) {
         DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);
         calculateFFTRealForward(samples, startIndex, fft, result);
     }
 
+    /**
+     * Calculates real forward FFT, the result is put in result array. The samples array isn't changed.
+     */
     public static void calculateFFTRealForward(double[] samples, int startIndex, DoubleFFT_1D fft, double[] result) {
         System.arraycopy(samples, startIndex, result, 0, result.length);
         fft.realForward(result);
     }
 
-    public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, int resultArrayLen, int fftSize) {
+    /**
+     * Calculates complex forward FFT, the result is put to new array of length resultArrayLen.
+     */
+    public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels,
+                                                      int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, result, fftSize);
         return result;
     }
 
-    public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, int fftSize) {
+
+    /**
+     * Calculates complex forward FFT, the result is put in new array.
+     */
+    public static double[] calculateFFTComplexForward(double[] samples, int startIndex,
+                                                      int numberOfChannels, int fftSize) {
         return calculateFFTComplexForward(samples, startIndex, numberOfChannels, 2 * fftSize, fftSize);
     }
 
-    public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft, int resultArrayLen) {
+    /**
+     * Calculates complex forward FFT, the result is put in new array.
+     */
+    public static double[] calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels,
+                                                      DoubleFFT_1D fft, int resultArrayLen) {
         double[] result = new double[resultArrayLen];
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, fft, result);
         return result;
     }
 
-    ////////////////////
-    public static void calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, double[] result, int fftSize) {
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in result array. The
+     * input array isn't changed
+     */
+    public static void calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels,
+                                                  double[] result, int fftSize) {
         if (result.length < fftSize) {
             return;
         }
@@ -713,7 +833,13 @@ public class FFT {
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, fft, result);
     }
 
-    public static void calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft, double[] result) {
+
+    /**
+     * Calculates complex forward FFT starting at startIndex, the result is put in result array. The
+     * input array isn't changed
+     */
+    public static void calculateFFTComplexForward(double[] samples, int startIndex, int numberOfChannels,
+                                                  DoubleFFT_1D fft, double[] result) {
         for (int i = 0; i < result.length; i++, startIndex += numberOfChannels - 1) {
             result[i++] = samples[startIndex++];
             result[i] = samples[startIndex];
@@ -721,33 +847,58 @@ public class FFT {
         fft.realForward(result);
     }
 
-    //////////////////////
-    //////////////////////
-    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, int maxAbsoluteValue,
-                                                      boolean isSigned, int resultArrayLen, int fftSize) {
+
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in new array of
+     * length resultArrayLen.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels,
+                                                      int maxAbsoluteValue, boolean isSigned,
+                                                      int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, result, maxAbsoluteValue, isSigned, fftSize);
         return result;
     }
 
-    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, int maxAbsoluteValue,
-                                                      boolean isSigned, int fftSize) {
-        return calculateFFTComplexForward(samples, startIndex, numberOfChannels, maxAbsoluteValue, isSigned, 2 * fftSize, fftSize);
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in new array. The
+     * input array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels,
+                                                      int maxAbsoluteValue, boolean isSigned, int fftSize) {
+        return calculateFFTComplexForward(samples, startIndex, numberOfChannels, maxAbsoluteValue, isSigned,
+                                          2 * fftSize, fftSize);
     }
 
-    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
-                                                      int maxAbsoluteValue, boolean isSigned, int resultArrayLen) {
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in new array of
+     * length resultArrayLen. The input array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels,
+                                                      DoubleFFT_1D fft, int maxAbsoluteValue, boolean isSigned,
+                                                      int resultArrayLen) {
         double[] result = new double[resultArrayLen];
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
         return result;
     }
 
-    public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, double[] result, int maxAbsoluteValue, boolean isSigned,
-                                                  int fftSize) {
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in result array.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, double[] result,
+                                                  int maxAbsoluteValue, boolean isSigned, int fftSize) {
         DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
         calculateFFTComplexForward(samples, startIndex, numberOfChannels, fft, result, maxAbsoluteValue, isSigned);
     }
 
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put in result array.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static void calculateFFTComplexForward(int[] samples, int startIndex, int numberOfChannels, DoubleFFT_1D fft,
                                                   double[] result, int maxAbsoluteValue, boolean isSigned) {
         for (int i = 0; i < result.length; i++, startIndex += numberOfChannels - 1) {
@@ -758,43 +909,71 @@ public class FFT {
         fft.realForward(result);
     }
 
-    //////////////////////
-    //////////////////////
-    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                                      int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int resultArrayLen, int fftSize) {
+
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex, the result is put to new array of
+     * length resultArrayLen.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels,
+                                                      int sampleSize, int frameSize, int mask,
+                                                      int maxAbsoluteValue, boolean isBigEndian, boolean isSigned,
+                                                      int resultArrayLen, int fftSize) {
         double[] result = new double[resultArrayLen];
-        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, result, maxAbsoluteValue,
-                                   isBigEndian, isSigned, fftSize);
+        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, result,
+                                   maxAbsoluteValue, isBigEndian, isSigned, fftSize);
         return result;
     }
 
-    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                                      int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
-        return calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, maxAbsoluteValue,
-                                          isBigEndian, isSigned, 2 * fftSize, fftSize);
+    /**
+     * Calculates complex forward FFT of size fftSize starting at startIndex.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels,
+                                                      int sampleSize, int frameSize, int mask, int maxAbsoluteValue,
+                                                      boolean isBigEndian, boolean isSigned, int fftSize) {
+        return calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask,
+                                          maxAbsoluteValue, isBigEndian, isSigned, 2 * fftSize, fftSize);
     }
 
-    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
-                                                      int frameSize, int mask,
-                                                      DoubleFFT_1D fft,
-                                                      int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int resultArrayLen) {
+
+    /**
+     * Calculates complex forward FFT starting at startIndex, puts it to new array of length resultArrayLen. The
+     * samples array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
+    public static double[] calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels,
+                                                      int sampleSize, int frameSize, int mask, DoubleFFT_1D fft,
+                                                      int maxAbsoluteValue, boolean isBigEndian, boolean isSigned,
+                                                      int resultArrayLen) {
         double[] result = new double[resultArrayLen];
-        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
-                                   isBigEndian, isSigned);
+        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft,
+                                   result, maxAbsoluteValue, isBigEndian, isSigned);
         return result;
     }
 
-    public static void calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize, int frameSize, int mask,
-                                                  double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned, int fftSize) {
-        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
-        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft, result, maxAbsoluteValue,
-                                   isBigEndian, isSigned);
-    }
 
+    /**
+     * Calculates complex forward FFT starting at startIndex, puts it to the result array.
+     * The samples array isn't changed.
+     * @param maxAbsoluteValue is result of getMaxAbsoluteValueSigned
+     */
     public static void calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
-                                                  int frameSize, int mask,
-                                                  DoubleFFT_1D fft,
-                                                  double[] result, int maxAbsoluteValue, boolean isBigEndian, boolean isSigned) {
+                                                  int frameSize, int mask, double[] result, int maxAbsoluteValue,
+                                                  boolean isBigEndian, boolean isSigned, int fftSize) {
+        DoubleFFT_1D fft = new DoubleFFT_1D(fftSize);
+        calculateFFTComplexForward(samples, startIndex, numberOfChannels, sampleSize, frameSize, mask, fft,
+                                   result, maxAbsoluteValue, isBigEndian, isSigned);
+    }
+
+    /**
+     * Calculates complex forward FFT starting at startIndex, puts it to the result array.
+     * The samples array isn't changed.
+     */
+    public static void calculateFFTComplexForward(byte[] samples, int startIndex, int numberOfChannels, int sampleSize,
+                                                  int frameSize, int mask, DoubleFFT_1D fft,
+                                                  double[] result, int maxAbsoluteValue,
+                                                  boolean isBigEndian, boolean isSigned) {
         int valInt;
         for (int i = 0; i < result.length; i++, startIndex += (numberOfChannels - 1) * frameSize) {
             valInt = AudioConverter.convertBytesToInt(samples, sampleSize, mask, startIndex, isBigEndian, isSigned);
@@ -807,11 +986,19 @@ public class FFT {
     }
 
 
+    /**
+     * Calculates complex forward FFT of length fftLen starting at startIndex, puts it to the result array.
+     * The samples array isn't changed.
+     */
     public static void calculateFFTComplexForward(double[] samples, int startIndex, double[] result, int fftLen) {
         DoubleFFT_1D fft = new DoubleFFT_1D(fftLen);
         calculateFFTComplexForward(samples, startIndex, fft, result);
     }
 
+    /**
+     * Calculates complex forward FFT starting at startIndex, puts it to the result array.
+     * The samples array isn't changed.
+     */
     public static void calculateFFTComplexForward(double[] samples, int startIndex, DoubleFFT_1D fft, double[] result) {
         System.arraycopy(samples, startIndex, result, 0, result.length);
         fft.realForward(result);
@@ -844,7 +1031,8 @@ public class FFT {
 
         for (int index = startIndex, i = 0; i < results.length; i++) {
             double[] arr = new double[windowSize];
-            index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
+            index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index,
+                                                      isBigEndian, isSigned);
             fft.realForward(arr);
             results[i] = arr;
         }
@@ -882,11 +1070,16 @@ public class FFT {
         for (int index = startIndex, i = 0; i < results.length; i++) {
             index = AudioConverter.normalizeToDoubles(samples, arr, sampleSize, sampleSizeInBits, index, isBigEndian, isSigned);
             fft.realForward(arr);
-            results[i] = convertResultsOfFFTToRealRealForward(arr);
+            results[i] = convertResultsOfFFTToMeasuresRealForward(arr);
         }
 
         return results;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* --------------------------------------------- [END] --------------------------------------------- */
+/////////////////// Calculate FFT (and IFFT) using the library JTransforms library
+    /* --------------------------------------------- [END] --------------------------------------------- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

@@ -326,7 +326,7 @@ public interface CombFilterBPMGetterIFace {
                 }
 
                 fft.realForward(fftArr);
-                bpmFFTArrays[i][j] = FFT.convertResultsOfFFTToRealRealForward(fftArr);
+                bpmFFTArrays[i][j] = FFT.convertResultsOfFFTToMeasuresRealForward(fftArr);
             }
         }
 

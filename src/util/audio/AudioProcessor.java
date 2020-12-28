@@ -141,8 +141,6 @@ public class AudioProcessor {
     }
 
 
-    // TODO: Called only from test
-
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
      * If the result of this method wants to be played in some audio player, then it is important to notice, that to
@@ -195,7 +193,6 @@ public class AudioProcessor {
     }
 
 
-    // TODO: Called only from test
 
     /**
      * Returns 1D array containing every nth sample of size sampleSize.
@@ -211,9 +208,9 @@ public class AudioProcessor {
     public static byte[] getEveryNthSampleMono(byte[] samples, int sampleSize, int n, int startSample) {
         // Solved by calling more general method
         byte[][] newSamples = getEveryXthTimePeriodWithLength(samples, 1, n, sampleSize, startSample);
-
         return AudioConverter.convertTwoDimArrToOneDim(newSamples);
     }
+
 
     /**
      * This method basically splits the array to channels and from each channel takes the n-th sample.

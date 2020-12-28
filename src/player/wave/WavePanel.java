@@ -2,13 +2,9 @@ package player.wave;
 
 import player.AudioPlayerPanel;
 import player.popup.WavePanelPopupMenu;
-import test.ProgramTest;
 import util.Utilities;
 import util.audio.AudioConverter;
-import util.audio.AudioUtilities;
 import util.audio.wave.DoubleWave;
-import util.logging.MyLogger;
-import util.swing.SwingUtils;
 import util.wave.drawing.WaveDrawValues;
 import util.wave.drawing.WaveDrawValuesAggregated;
 import util.wave.drawing.WaveDrawValuesIndividual;
@@ -21,9 +17,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.util.Arrays;
 
 public class WavePanel extends JPanel {
     public final static int ZOOM_VALUE = 2;
@@ -102,8 +95,8 @@ public class WavePanel extends JPanel {
         setPreferredSize(new Dimension(newPreferredWidth, newPreferredHeight));
 
         int currZoom = wholeWavePanel.getCurrentZoom();
-        int maxCacheZoom = calculateMaxCacheZoom();
-        zoomVariables = new ZoomVariablesOneWave(currZoom, maxCacheZoom);
+        int maxAggregatedZoom = calculateMaxAggregatedZoom();
+        zoomVariables = new ZoomVariablesOneWave(currZoom, maxAggregatedZoom);
         setCurrentDrawValuesBasedOnZoom();
     }
 
@@ -131,20 +124,20 @@ public class WavePanel extends JPanel {
         int len = newLen - startPasteIndex;
         System.arraycopy(oldSong, startCopyIndex, newSong, startPasteIndex, len);
         setNewDoubleWave(newSong);
-        setMaxCacheZoom();
+        setMaxAggregatedZoom();
     }
 
     private void setNewDoubleWave(double[] newSong) {
         doubleWave = new DoubleWave(newSong, doubleWave, false);
         setLengthChangedMarker();
-        setMaxCacheZoom();
+        setMaxAggregatedZoom();
     }
 
     private void setNewDoubleWave(double[] newSong, int newSampleRate) {
         doubleWave = new DoubleWave(newSong, newSampleRate, 1,
                                     doubleWave.getFilenameWithoutExtension(), false);
         setLengthChangedMarker();
-        setMaxCacheZoom();
+        setMaxAggregatedZoom();
     }
 
     public void setNewDoubleWave(int newLen) {
@@ -158,7 +151,7 @@ public class WavePanel extends JPanel {
         else {
             setLengthChangedMarker();
         }
-        setMaxCacheZoom();
+        setMaxAggregatedZoom();
     }
 
     public void setWaveToNewSampleRate(int newSampleRate) {
@@ -212,7 +205,7 @@ public class WavePanel extends JPanel {
         }
 
         oldVisibleWaveWidth = visibleWaveWidth;
-        setMaxCacheZoom();
+        setMaxAggregatedZoom();
         int newPrefHeight = wholeWavePanel.calculateWavePreferredHeight();
         this.setPreferredSize(new Dimension(visibleWaveWidth, newPrefHeight));
         return visibleWaveWidth;
@@ -220,7 +213,7 @@ public class WavePanel extends JPanel {
 
 
     private void setCurrentDrawValuesBasedOnZoom() {
-        if (zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
+        if (zoomVariables.currentZoom > zoomVariables.maxAggregatedZoom) {
             setCurrentDrawValuesToNewIndividual();
         }
         else {
@@ -293,9 +286,9 @@ public class WavePanel extends JPanel {
      */
     // This is the best solution I came up with probably not the best in general, but it works,
     // zoomVariables is always non-null
-    // so that is fine and the maxCacheZoom is updated to correct values in the setNewDouble method.
+    // so that is fine and the maxAggregatedZoom is updated to correct values in the setNewDouble method.
     private void fixIndividualSampleBug() {
-        if (zoomVariables.currentZoom < zoomVariables.maxCacheZoom && currentDrawValues == drawValuesIndividual) {
+        if (zoomVariables.currentZoom < zoomVariables.maxAggregatedZoom && currentDrawValues == drawValuesIndividual) {
             int visibleWidth = wholeWavePanel.getWaveVisibleWidth();
             setDrawValuesInZoom(currScroll, visibleWidth, waveWidth);
         }
@@ -739,12 +732,13 @@ public class WavePanel extends JPanel {
 
     private void setDrawValuesInZoom(int leftPixel, int newVisibleWidth, int newWidth) {
         int valueCount = getSongLen();
-        if (zoomVariables.currentZoom > zoomVariables.maxCacheZoom || zoomVariables.maxCacheZoom == 0) {
+        if (zoomVariables.currentZoom > zoomVariables.maxAggregatedZoom || zoomVariables.maxAggregatedZoom == 0) {
             mainWaveClass = drawValuesSupplierIndividual;
             if (drawValuesIndividual != currentDrawValues) {
                 drawValuesAggregated = null;
-                drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth,
-                                                                    newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+                drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, newVisibleWidth, newWidth,
+                                                                    mainWaveClass.getCurrentStartIndexInAudio(),
+                                                                    valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
                 currentDrawValues = drawValuesIndividual;
             }
             else {
@@ -855,27 +849,27 @@ public class WavePanel extends JPanel {
     }
 
 
-    private void setMaxCacheZoom() {
+    private void setMaxAggregatedZoom() {
         // The if is not needed I think, but just in case
         if (zoomVariables != null) {
-            zoomVariables.maxCacheZoom = calculateMaxCacheZoom();
+            zoomVariables.maxAggregatedZoom = calculateMaxAggregatedZoom();
         }
     }
 
-    private int calculateMaxCacheZoom() {
-        return calculateMaxCacheZoom(getSongLen(), defaultWaveWidthInPixels);
+    private int calculateMaxAggregatedZoom() {
+        return calculateMaxAggregatedZoom(getSongLen(), defaultWaveWidthInPixels);
     }
 
-    public static int calculateMaxCacheZoom(int length, int defaultWaveWidth) {
-        int maxCacheZoom = 1;
+    public static int calculateMaxAggregatedZoom(int length, int defaultWaveWidth) {
+        int maxAggregatedZoom = 1;
         int zoomedWidth = defaultWaveWidth * WavePanel.ZOOM_VALUE;
         while (zoomedWidth < length) {
-            maxCacheZoom++;
+            maxAggregatedZoom++;
             zoomedWidth *= WavePanel.ZOOM_VALUE;
         }
 
-        maxCacheZoom--;
-        return maxCacheZoom;
+        maxAggregatedZoom--;
+        return maxAggregatedZoom;
     }
 
 

@@ -1,17 +1,17 @@
 package player.wave;
 
 public class ZoomVariablesOneWave {
-    public ZoomVariablesOneWave(int currentZoom, int maxCacheZoom) {
+    public ZoomVariablesOneWave(int currentZoom, int maxAggregatedZoom) {
         this.currentZoom = currentZoom;
-        this.maxCacheZoom = maxCacheZoom;
+        this.maxAggregatedZoom = maxAggregatedZoom;
     }
 
-    public ZoomVariablesOneWave(int maxCacheZoom) {
+    public ZoomVariablesOneWave(int maxAggregatedZoom) {
         currentZoom = 0;
-        this.maxCacheZoom = maxCacheZoom;
+        this.maxAggregatedZoom = maxAggregatedZoom;
     }
 
 
-    public int maxCacheZoom;
+    public int maxAggregatedZoom;
     public int currentZoom;
 }

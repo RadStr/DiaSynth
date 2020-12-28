@@ -53,7 +53,8 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
 
 
     /**
-     * @param startFillIndex   is the pixel in the cached buffer file, to start taking the values from. So in the case min/max it is 1/2 the real index
+     * @param startFillIndex   is the pixel to start taking the values from.
+     *                         So in the case min/max it is 1/2 the real index
      * @param bufferStartIndex
      * @param bufferEndIndex
      */

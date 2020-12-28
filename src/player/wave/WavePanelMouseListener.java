@@ -102,8 +102,8 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
     // Set to huge value, so that we don't have to keep creating new underlying array
     private StringBuilder tooltip = new StringBuilder(200);
     private static final char[][] TOOLTIP_STRINGS = new char[][]{
-            "<html>Index: ".toCharArray(), "<br>Value: ".toCharArray(), "<br>Time: ".toCharArray(),
-            /*"<br>Wave size in pixels: ".toCharArray(),*/ "</html>".toCharArray()
+            "<html>Index: ".toCharArray(), "<br>Value: ".toCharArray(),
+            "<br>Time: ".toCharArray(), "</html>".toCharArray()
     };
 
     private int insertToTooltip(char[] chars, int index) {
@@ -138,8 +138,6 @@ public class WavePanelMouseListener implements MouseListener, MouseMotionListene
                 tooltip.append(TOOLTIP_STRINGS[2]);
                 tooltip.append(timeInMillis);
                 tooltip.append(TOOLTIP_STRINGS[3]);
-//                tooltip.append(waveMainPanel.getWave().getSize().toString());
-//                tooltip.append(TOOLTIP_STRINGS[4]);
                 waveMainPanel.setWaveTooltipText(tooltip.toString());
 
                 waveMainPanel.repaintPanelWithMultipleWaves();

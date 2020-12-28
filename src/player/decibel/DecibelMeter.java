@@ -37,7 +37,6 @@ public class DecibelMeter extends JPanel {
 
                 for (int i = 0; i < decibelReferences.length - 1; i++, x += xJump) {
                     decibelReferences[i].setLocation((int) x, decibelReferenceY);
-                    System.out.println(decibelReferences[i]);
                 }
                 // Last one is 0 - it needs to be on the left else it is not visible
                 JLabel last = decibelReferences[decibelReferences.length - 1];

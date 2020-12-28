@@ -102,12 +102,9 @@ public abstract class WaveDrawValues implements WaveDrawValuesConverterIFace, Sh
      */
     protected void fillWholeBuffer(int startIndexInAudio) {
         shiftBufferDouble.resetStartIndex();
-        ProgramTest.debugPrint("fill whole buffer", startIndexInAudio, mainWaveClass.getCurrentScroll(), mainWaveClass.getMaxScroll());
         shiftBufferDouble.setBounds();
         int minLeftIndex = shiftBufferDouble.getMinLeftIndex();
         startIndexInAudio = convertToNonVisibleMostLeftIndexInAudio(startIndexInAudio);
-
-        ProgramTest.debugPrint("fill whole buffer2", startIndexInAudio, minLeftIndex, shiftBufferDouble.getMaxRightIndex());
         fillBuffer(startIndexInAudio, minLeftIndex, shiftBufferDouble.getMaxRightIndex());
     }
 

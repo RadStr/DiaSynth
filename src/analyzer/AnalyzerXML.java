@@ -77,14 +77,12 @@ public class AnalyzerXML {
      * @param root
      */
     public static void removeInvalidNodes(Node root) {
-        ProgramTest.debugPrint("XML MAIN NODES LEN:", root.getChildNodes().getLength());
         boolean isPreviousNodeIndentation = false;
         NodeList rootChilds = root.getChildNodes();
         List<Integer> emptyNodesIndices = new ArrayList<>();
         for (int i = 0; i < rootChilds.getLength(); i++) {
             Node currNode = rootChilds.item(i);
             String currNodeText = currNode.getTextContent();
-            ProgramTest.debugPrint("Node " + i + ":" + currNodeText);
             if (currNodeText.matches("\n\\s+")) {
                 if (isPreviousNodeIndentation) {
                     emptyNodesIndices.add(i);
@@ -97,7 +95,6 @@ public class AnalyzerXML {
         }
 
         for (int i = emptyNodesIndices.size() - 1; i >= 0; i--) {
-            ProgramTest.debugPrint("Empty nodes:", i, emptyNodesIndices.get(i), emptyNodesIndices.size(), rootChilds.getLength());
             root.removeChild(rootChilds.item(emptyNodesIndices.get(i)));
         }
     }
@@ -120,7 +117,6 @@ public class AnalyzerXML {
         int len = nList.getLength();
         for (int i = 0; i < len; i++) {
             Node n = nList.item(i);
-            System.out.println("Text content:\t" + n.getTextContent());
             if (n.getTextContent().equals(val)) {
                 return i;
             }
@@ -363,7 +359,6 @@ public class AnalyzerXML {
                 Node n1 = childs.item(j);
                 if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
                     Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);
-                    ProgramTest.debugPrint("Pair name:", getInfoNodeValue(n1));
                     retList.add(pair);
                 }
             }

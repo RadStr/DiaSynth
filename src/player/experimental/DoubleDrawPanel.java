@@ -96,7 +96,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
             double val = currSample;
             for (int j = 0; j < (int) currentSamplesPerPixel; j++, outputIndex++, val += jump) {
                 newWave[outputIndex] = val;
-                System.out.println("OUTPUT_INDEX:\t" + outputIndex + "\t" + newWave[outputIndex]);
             }
 
             if (currentSamplesPerPixel >= ((int) samplesPerPixel + 1)) {
@@ -187,7 +186,6 @@ public class DoubleDrawPanel extends JPanel implements MouseMotionListener, Mous
         for (int x = 0, y; x < wave.length; x++) {
             y = (int) (wave[x] * h);
             g.drawLine(x, h / 2, x, y);
-            System.out.println("double draw panel painting: " + x + ":\t" + wave[x]);
         }
 
 

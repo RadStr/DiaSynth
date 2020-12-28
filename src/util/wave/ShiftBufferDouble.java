@@ -175,7 +175,6 @@ public class ShiftBufferDouble {
         if (startIndex < 0) {
             setMaxRightIndex();
             int copiedValCount = updateInternalBufferScrollingToLeft();
-            ProgramTest.debugPrint("updateIfOutOfBoundsStartIndex", copiedValCount, getMaxRightIndex());
             setMinLeftIndex();
             boundsUpdater.updateBufferWithNewValuesOnLeft(copiedValCount);
             resetStartIndex();
@@ -195,16 +194,12 @@ public class ShiftBufferDouble {
         if (endIndex > maxRightIndex) {
             setMinLeftIndex();
             int totalCopiedValCount = updateInternalBufferScrollingToRight();
-            int newValsCount = boundsUpdater.getNewValCountOnRight(totalCopiedValCount);
-            int oldMaxRightIndex = getMaxRightIndex();
             setMaxRightIndex();
-            ProgramTest.debugPrint("are setMaxRightIndex equal", getMaxRightIndex(), oldMaxRightIndex, oldMaxRightIndex == getMaxRightIndex());
             boundsUpdater.updateBufferWithNewValuesOnRight(totalCopiedValCount);
             resetStartIndex();
             return true;
         }
 
-        ProgramTest.debugPrint("maxRightIndex", getMaxRightIndex());
         return false;
     }
 
@@ -276,9 +271,6 @@ public class ShiftBufferDouble {
 
 
     private void shiftBufferToLeft(int startCopyFromIndex) {
-        ProgramTest.debugPrint("shiftBufferToLeft", startCopyFromIndex, getMinLeftIndex(),
-                               buffer.length, buffer.length - startCopyFromIndex, maxRightIndex, maxRightIndex - startCopyFromIndex);
-
         for (int copyToIndex = getMinLeftIndex(), copyFromIndex = startCopyFromIndex;
              copyFromIndex < maxRightIndex;
              copyFromIndex++, copyToIndex++) {

@@ -1,7 +1,6 @@
 package util;
 
 import test.ProgramTest;
-import debug.DEBUG_CLASS;
 
 public class Time {
     private Time() { }       // To disable instantiation - only static access available
@@ -98,9 +97,6 @@ public class Time {
      *                                001 when calling it with alignmentRecursionDepth == 0.
      */
     public static String convertMillisecondsToTime(int millis, StringBuilder timeSB, int alignmentRecursionDepth) {
-        if (DEBUG_CLASS.DEBUG) {
-            ProgramTest.debugPrint("MILLIS in convertMillisecondsToTime", millis);
-        }
         String res = "";
         if (alignmentRecursionDepth < 0) {
             if (millis < 1000) {

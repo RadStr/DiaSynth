@@ -20,11 +20,9 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
             visibleWidth = newVisibleWidth;
             int windowSize = 2 * newVisibleWidth;        // 2 * because it contains min and max
             shiftBufferDouble = new ShiftBufferDouble(windowCountToTheRight, windowSize, this);
-            ProgramTest.debugPrint("visible width * 2", 2 * newVisibleWidth);
             fillWholeBuffer(startIndexInValues);
         }
         else {
-            ProgramTest.debugPrint("STARTIND2", startIndexInValues);
             fillWholeBuffer(startIndexInValues);
         }
     }
@@ -123,10 +121,6 @@ public class WaveDrawValuesAggregated extends WaveDrawValues {
         int pixelCount = mainWaveClass.getTotalWidth() - mainWaveClass.getCurrentScroll();
         int maxRightIndex = convertFromPixelToBuffer(pixelCount);
         maxRightIndex += shiftBufferDouble.getMiddleIndex();
-        ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", mainWaveClass.getMaxScroll(), mainWaveClass.getCurrentScroll());
-        ProgramTest.debugPrint("calculateMaxRightIndexForShiftBuffer", maxRightIndex, pixelCount, convertFromPixelToBuffer(pixelCount),
-                               shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount) < shiftBufferDouble.getMiddleIndex(),
-                               shiftBufferDouble.getBuffer().length - convertFromPixelToBuffer(pixelCount));
         return maxRightIndex;
     }
 }

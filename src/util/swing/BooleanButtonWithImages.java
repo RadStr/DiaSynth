@@ -46,6 +46,7 @@ public class BooleanButtonWithImages extends BooleanButton {
             ifTrueImageIcon = new ImageIcon(img);
         }
         catch (Exception ex) {
+            MyLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfTrueImage);
             MyLogger.logException(ex);
         }
 
@@ -63,6 +64,7 @@ public class BooleanButtonWithImages extends BooleanButton {
             ifFalseImageIcon = new ImageIcon(img);
         }
         catch (Exception ex) {
+            MyLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfFalseImage);
             MyLogger.logException(ex);
         }
     }

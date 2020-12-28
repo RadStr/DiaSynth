@@ -100,9 +100,6 @@ public class WaveDrawValuesIndividual extends WaveDrawValues {
         g.setColor(Color.blue);
 
         int index = shiftBufferDouble.getStartIndex();
-        ProgramTest.debugPrint("drawSamples", shiftBufferDouble.getStartIndex(), shiftBufferDouble.getEndIndex(),
-                               currentVisiblePixel, width, pixelDifferenceBetweenSamples, shiftBufferDouble.getMaxRightIndex());
-
         int maxRightIndex = shiftBufferDouble.getMaxRightIndex();
 
         boolean hasDrawnPixelBefore = false;

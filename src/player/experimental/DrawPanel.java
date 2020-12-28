@@ -512,11 +512,7 @@ public abstract class DrawPanel extends JPanel implements MouseMotionListener, M
     public Dimension getPreferredSize() {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         JPanel contentPane = (JPanel) topFrame.getContentPane();
-        ProgramTest.debugPrint("INSETS:", contentPane.getInsets(), getLocation(), contentPane.getLocation(),
-                               getInsets(), topFrame.getInsets());
         Insets frameInsets = topFrame.getInsets();
-        // Same size
-        ProgramTest.debugPrint("Insets:", topFrame.getHeight() - frameInsets.top - frameInsets.bottom, contentPane.getHeight());
         // For some reason have to make it smaller. I choose to make it smaller by frameInsets.bottom, but could be anything > 5
         prefSize.height = contentPane.getHeight() - frameInsets.top - frameInsets.bottom;
         return prefSize;

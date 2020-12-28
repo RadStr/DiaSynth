@@ -46,20 +46,16 @@ import dialogs.LengthDialog;
 import util.audio.wave.DoubleWave;
 import util.logging.MyLogger;
 import test.ProgramTest;
-import debug.DEBUG_CLASS;
 import util.audio.format.FileFilterAudioFormats;
 import util.swing.FrameWithFocusControl;
-import util.swing.SwingUtils;
+
 
 import javax.sound.sampled.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -70,9 +66,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AudioPlayerPanel extends JPanel implements MouseListener,
-                                                        AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace, SamplesGetterIFace,
-                                                        TabChangeIFace, AudioControlPanel.VolumeControlGetterIFace, WaveAdderIFace {
-
+                                                        AudioPlayerPanelZoomUpdateIFace, WaveScrollEventCallbackIFace,
+                                                        SamplesGetterIFace, TabChangeIFace,
+                                                        AudioControlPanel.VolumeControlGetterIFace, WaveAdderIFace {
     public static final int HORIZONTAL_SCROLL_UNIT_INCREMENT = 32;
     public static final int VERTICAL_SCROLL_UNIT_INCREMENT = 32;
 
@@ -858,16 +854,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         public void propertyChange(PropertyChangeEvent evt) {
             if (!isSwapping) {
                 if (!channelCountChanged) {
-                    ProgramTest.debugPrint("first splitter Prop change:", evt.getNewValue(), evt.getOldValue());
                     // If divider moved down - dif > 0 (so bot component will be smaller, top bigger) else < 0
                     int oldValue = (int) evt.getOldValue();
                     int newValue = (int) evt.getNewValue();
-                    if (oldValue <= 0) {
-                        System.out.println("OLD SMALLER\t" + oldValue + "\t" + newValue);
-                    }
-                    if (newValue <= 0) {
-                        System.out.println("NEW SMALLER\t" + oldValue + "\t" + newValue);
-                    }
+
                     if (oldValue >= 0) {
                         if (newValue < splitter.getMinimumDividerLocation()) {
                             MyLogger.log("CRITICAL SIZE ERROR INSIDE FirstSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
@@ -917,12 +907,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if (!channelCountChanged) {
                     int oldValue = (int) evt.getOldValue();
                     int newValue = (int) evt.getNewValue();
-                    if (oldValue <= 0) {
-                        System.out.println("OLD SMALLER\t" + oldValue + "\t" + newValue);
-                    }
-                    if (newValue <= 0) {
-                        System.out.println("NEW SMALLER\t" + oldValue + "\t" + newValue);
-                    }
+
                     if (oldValue >= 0) {
                         int dif = newValue - oldValue;
                         WaveMainPanel top;
@@ -939,10 +924,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         }
                         top = (WaveMainPanel) topSplitter.getBottomComponent();
                         bot = (WaveMainPanel) botSplitter.getBottomComponent();
-
-
-                        ProgramTest.debugPrint("In compound property change", top.getWaveIndex() - 1,
-                                               top.getPreferredSize(), bot.getWaveIndex() - 1, bot.getPreferredSize());
                         setPrefSizes(bot, top, dif);
                     }
                 }
@@ -988,7 +969,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                 //int y = newValue;
                 int y = newValue - oldValue;
-                ProgramTest.debugPrint("property change last", oldValue, newValue, y, lastSplitter.getDividerLocation(), lastSplitter.getLastDividerLocation());
                 MouseEvent mouseEvent = new MouseEvent(lastSplitter, MouseEvent.MOUSE_RELEASED, 0, 0, x, y, 1, false);
                 lastSplitterMouseAdapter.mouseReleased(mouseEvent);
                 lastSplitterMoved = false;
@@ -1009,9 +989,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if (topDif == 0) {
                     // When going up I make the upper smaller and the bot set to min
                     movingDivsRecursively = false;
-                    ProgramTest.debugPrint("Before compound splitter", top.getWaveIndex() - 1, top.getPreferredSize());
                     top.setPreferredSizeByAdding(dif);
-                    ProgramTest.debugPrint("After compound splitter", top.getWaveIndex() - 1, top.getPreferredSize());
                     bot.setPrefSizeToMin();
                 }
                 else {
@@ -1027,7 +1005,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                 // If it isn't last, else it is already set by the listener of the last splitter
                 if (bot.getWaveIndex() != waves.size() || !movingLastSplitter) {
-                    ProgramTest.debugPrint("Compound:", movingLastSplitter);
                     bot.setPreferredSizeByAdding(-dif);
                 }
                 else {
@@ -1039,9 +1016,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             top.setPreferredSizeByAdding(dif);
             bot.setPreferredSizeByAdding(-dif);
         }
-        debugPrintSplitters();
-        ProgramTest.debugPrint("TOP", top.getWaveIndex() - 1, top.getMinimumSize(), top.getPreferredSize());
-        ProgramTest.debugPrint("BOT", bot.getWaveIndex() - 1, bot.getMinimumSize(), bot.getPreferredSize());
     }
 
 
@@ -1075,8 +1049,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    int TODOIND = 0;
-
     /**
      * Swaps 2 waves. Indexes in parameters are indexed from 1
      *
@@ -1087,15 +1059,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         for (int i = 0; i < waves.size(); i++) {
             isSwapping = true;
         }
-        System.out.println(",,," + (TODOIND++));
-        debugPrintSplitters();
 
         int oldIndexZero = oldIndex - 1;
         int newIndexZero = newIndex - 1;
         WaveMainPanel waveMainPanel1 = waves.get(oldIndexZero);
         WaveMainPanel waveMainPanel2 = waves.get(newIndexZero);
-        System.out.println("swapSplitterComponents:\t" + splitters.get(0).getTopComponent());
-        System.out.println("swapSplitterComponents:\t" + splitters.get(0).getBottomComponent());
 
         swap2WavesIndexes(oldIndex, oldIndexString, oldIndexZero,
                           newIndex, newIndexString, newIndexZero, waveMainPanel1, waveMainPanel2);
@@ -1107,7 +1075,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         swapComponentsInSplitters(waveMainPanel1Index, waveMainPanel2Index);
 
 
-        debugInitTodoPanes();
         panelWithWaves.validate();
         panelWithWaves.revalidate();
         panelWithWaves.repaint();
@@ -1301,16 +1268,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         else {
                             int previousDivLoc = getJSplitPaneDividerLoc(waves.get(wave.getWaveIndex() - 2));
                             newPrefHeight = divLoc - previousDivLoc - divSize;
-                            ProgramTest.debugPrint("releasedEventELSE", oldPos, p, oldPos.y + p.y, lastSplitter.getLastDividerLocation(), oldLoc, oldLoc + p.y,
-                                                   oldPrefSize, newPrefHeight, panelWithWaves.getHeight(), view.getHeight(), view.getViewSize().height);
                         }
 
-                        ProgramTest.debugPrint("Last splitter listener before", wave.getPreferredSize(), wave.getSize(),
-                                               getJSplitPaneDividerLoc(waves.get(wave.getWaveIndex() - 2)),
-                                               getJSplitPaneDividerLoc(waves.get(wave.getWaveIndex() - 2)) + wave.getPreferredSize().height,
-                                               wave.getWaveIndex() - 1, divLoc, divSize);
 
-                        int oldPrefHeight = oldPrefSize.height;
                         int dif = newPrefHeight - wave.getMinimumSize().height;
                         if (dif < 0 && existsPanelBiggerThanMinHeight(wave)) {
                             movingLastSplitter = true;
@@ -1318,17 +1278,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                         wave.setPreferredSize(newPrefHeight);
                         lastSplitter.setDividerLocation(divLoc);
-
-                        if (DEBUG_CLASS.DEBUG) {
-                            debugPrintSplitters();
-                            ProgramTest.debugPrintWithSep("**********************************", oldPrefHeight, newPrefHeight, p.y);
-                            ProgramTest.debugPrintWithSep("**********************************", wave.getSize());
-                        }
-
-                        ProgramTest.debugPrint("Last splitter listener after", wave.getPreferredSize(), wave.getSize(),
-                                               getJSplitPaneDividerLoc(waves.get(wave.getWaveIndex() - 2)),
-                                               getJSplitPaneDividerLoc(waves.get(wave.getWaveIndex() - 2)) + wave.getPreferredSize().height,
-                                               wave.getWaveIndex() - 1, divLoc, divSize);
 
                         wave.revalidate();
                         wave.repaint();
@@ -1357,11 +1306,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                 @Override
                 public void mouseDragged(MouseEvent e) {
-                    if (DEBUG_CLASS.DEBUG) {
-                        ProgramTest.printNTimes("-------------------------------", 5);
-                        System.out.println(e.getY());
-                    }
-
                     Point cursorPoint = MouseInfo.getPointerInfo().getLocation();
                     if (!lastSplitterDrag) {
                         lastSplitterDrag = true;
@@ -1574,9 +1518,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         waves.set(index2FromZero, waveMainPanel1);
         waveMainPanel1.setWaveIndex(index2);
         waveMainPanel1.setWaveIndexTextField(index2String);
-        if (DEBUG_CLASS.DEBUG) {
-            System.out.println(index1 + "\t" + index1String + "\t" + index2 + "\t" + index2String);
-        }
     }
 
 
@@ -2043,7 +1984,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                                                                    JOptionPane.PLAIN_MESSAGE);
                         if (result == JOptionPane.OK_OPTION) {
                             setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true), p.getShouldConvert());
-                            ProgramTest.debugPrint("outputAudioFormat", outputAudioFormat, p.getFormat());
                         }
                     }
                 }, false, false);
@@ -2414,11 +2354,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             public void componentResized(ComponentEvent e) {
                 drawPanel.revalidate();
                 drawPanel.repaint();
-                ProgramTest.debugPrint("Resize content:",
-                                       f.getContentPane().getSize(), drawPanel.getSize(), f.getSize(),
-                                       drawPanel.getPreferredSize(), f.getPreferredSize());
-                ProgramTest.debugPrint("Resize content another params:",
-                                       f.getContentPane().getMinimumSize(), drawPanel.getMinimumSize(), f.getMinimumSize());
+
+                // TODO: Maybe it will break, because the getters are "setters", when called they return the correct size
+                // TODO: which will be calculated at the moment of call - I REMOVED THE DEBUG PRINTS WITH GETTERS
 
                 if (f.getSize().width < f.getMinimumSize().width) {
                     f.setMinimumSize(new Dimension());
@@ -2874,8 +2812,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         markStartXSample = sample;
         double pixel = calculatePixel(sample);
         markStartXPixel = (int) pixel;
-
-        ProgramTest.debugPrint("mark start", markStartXPixel, markStartXSample);
     }
 
 
@@ -2941,7 +2877,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private int calculateSampleFromTotalWavePixel(int pixel) {
         int widthOfAudioInSamples = getDoubleWaveLength();
         int sample = (int) (widthOfAudioInSamples * (pixel / (double) getWaveWidth()));
-        ProgramTest.debugPrint("WAVE_WIDTH_0", sample, widthOfAudioInSamples, getWaveWidth(), pixel);
         return sample;
     }
 
@@ -2965,7 +2900,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
             if (splitters.size() >= 1) {
                 JSplitPane currSplitter = splitters.get(0);
-                ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
                 WaveMainPanel top;
                 WaveMainPanel bot;
                 top = (WaveMainPanel) currSplitter.getTopComponent();
@@ -2977,16 +2911,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 // Else there is only 1 wave so the bot panel is empty panel
 
                 setDivLocToMinDivLoc(currSplitter);
-                ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
-
                 for (int i = 1; i < splitters.size() - 1; i++) {
                     currSplitter = splitters.get(i);
-                    ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
                     bot = (WaveMainPanel) currSplitter.getBottomComponent();
                     bot.setPrefSizeToMin();
-                    ProgramTest.debugPrint("bot pref size", bot.getPreferredSize());
                     setDivLocToMinDivLoc(currSplitter);
-                    ProgramTest.debugPrint("min div loc:", currSplitter.getMinimumDividerLocation());
                 }
 
                 JSplitPane lastSplitter = splitters.get(splitters.size() - 1);
@@ -3557,11 +3486,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void updateTimeLineX(int waveWidth) {
-        ProgramTest.debugPrint("time line before", timeLineX);
         int audioLenInSamples = getDoubleWaveLength();
         timeLineX = currSample / (double) audioLenInSamples;
         timeLineX *= waveWidth;
-        ProgramTest.debugPrint("time line after", timeLineX, waveWidth);
     }
 
     private void callOnResize() {
@@ -3729,7 +3656,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if (dif < movedSize) {
                     movedSize = dif;
                 }
-                ProgramTest.debugPrint(view.getInsets().top, panelWithWaves.getInsets().top, view.getInsets().bottom, panelWithWaves.getInsets().bottom);
+
                 Point newPos = new Point(oldPos.x, oldPos.y + movedSize);
                 view.setViewPosition(newPos);
             }
@@ -3822,7 +3749,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      */
     @Override
     public void updateZoom(int zoomChange) {
-        System.out.println("Can zoom: " + getCanZoom());
         if (zoomChange != 0 && getCanZoom() && !waveScrollerWrapperPanel.getIsScrollbarBeingUsed() && waves.size() != 0) {
             disableZooming();
             setMaxAllowedZoom();
@@ -4421,7 +4347,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private JSplitPane[] todoPanes;
-
     private void debugInitTodoPanes() {
         todoPanes = new JSplitPane[splitters.size()];
         for (int i = 0; i < todoPanes.length; i++) {

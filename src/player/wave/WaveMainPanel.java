@@ -392,7 +392,6 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public void updatePreferredSize() {
         prefSize.width = super.getPreferredSize().width;
-        ProgramTest.debugPrint("updatePreferredSize", getPreferredSize(), wave.getPreferredSize());
         if (prefSize.height < getMinimumSize().height) {
             prefSize.height = super.getPreferredSize().height;
         }

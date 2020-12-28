@@ -102,8 +102,6 @@ public class WaveScrollerWrapperPanel extends JPanel {
             int newVal = WavePanel.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
                                                          getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
             scrollBar.setValue(newVal);
-
-            ProgramTest.debugPrint("Resizing the horizontal wave scroller (end of method):", newVal, oldWidth, newWidth);
             oldWidth = newWidth;
 
             waveScrollCallback.enableZooming();
@@ -203,9 +201,6 @@ public class WaveScrollerWrapperPanel extends JPanel {
         Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width, waveScroller.getViewport().getVisibleRect().height);
         emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(widthBeforeWavePanel, h));
         emptyPanelForHorizontalScroll.setSizeInternal(new Dimension(wavePanelWidth, h));
-        ProgramTest.debugPrint("Empty panel size inside wave scroller:", emptyPanelBeforeHorizontalScroll.getSize(),
-                               emptyPanelForHorizontalScroll.getSize(), emptyPanelAfterHorizontalScroll.getSize(), waveScroller.getHorizontalScrollBar().getSize(),
-                               waveScroller.getViewport().getSize(), waveScroller.getViewport().getViewRect());
 
         // I have to this because it just randomly resizes otherwise for no reason - probably java bug in layout manager
         // https://stackoverflow.com/questions/9632936/jscrollpanes-inside-gridbaglayout-gets-resized-randomly

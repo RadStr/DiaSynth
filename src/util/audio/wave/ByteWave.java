@@ -235,7 +235,7 @@ public class ByteWave {
     public static ByteWave loadSongAndPrintVariablesDEBUG(File file, boolean setSong) throws IOException {
         ByteWave byteWave;
         if ((byteWave = loadSong(file, setSong)) != null) {
-            byteWave.writeVariables();
+            byteWave.writeVariablesDebug();
             return byteWave;
         }
         return null;
@@ -253,7 +253,7 @@ public class ByteWave {
     public static ByteWave loadSongAndPrintVariablesDEBUG(String path, boolean setSong) throws IOException {
         ByteWave byteWave;
         if ((byteWave = loadSong(path, setSong)) != null) {
-            byteWave.writeVariables();
+            byteWave.writeVariablesDebug();
             return byteWave;
         }
         return null;
@@ -483,7 +483,7 @@ public class ByteWave {
     /**
      * Writes the contents of the properties together with some additional info.
      */
-    private void writeVariables() {
+    private void writeVariablesDebug() {
         for (int i = 0; i < 5; i++) {
             System.out.println();
         }
@@ -619,7 +619,7 @@ public class ByteWave {
     // BPM Algorithm 1
     ////////////////////////////////////////////////////
     public int computeBPMSimple() {
-        writeVariables();
+        writeVariablesDebug();
 
         int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
         int windowSize = sampleRate / windowsLen;

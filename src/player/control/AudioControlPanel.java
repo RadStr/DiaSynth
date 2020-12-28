@@ -97,7 +97,6 @@ public class AudioControlPanel extends JPanel {
             else if (val > maxGain) {
                 val = maxGain;
             }
-            System.out.println("setMasterGainToCurrentSlideValue" + val + "\t" + minGainAbs + "\t" + maxGain);
             masterGainControl.setValue((float) val);
         }
     }

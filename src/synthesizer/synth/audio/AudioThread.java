@@ -247,7 +247,6 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
     protected final int getAudioSamples() {
         // First I check if pause button was clicked and after that I play the current part
         if (shouldPause) {
-            ProgramTest.debugPrint("AUDIO - WAITING");
             waiting = true;
             audioLine.drain();
             audioLine.stop();
@@ -262,7 +261,6 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             audioLine.start();
             waiting = false;
             setShouldPause(false);
-            ProgramTest.debugPrint("AUDIO - STOPPED WAITING");
             int minLen = queuesDouble[0].getTotalQueueCapacity();
             minLen = Math.min(minLen, samplesToBePlayedDouble[0].length * 8);
             while (queuesDouble[0].getLen() < minLen) {
@@ -275,7 +273,6 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             if (shouldPause) {
                 return -1;
             }
-            ProgramTest.debugPrint("AUDIO - CONTINUE PLAYING");
         }
 
 

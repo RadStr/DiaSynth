@@ -183,13 +183,10 @@ public class WavePanel extends JPanel {
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
         if (visibleWaveWidth != oldVisibleWaveWidth || doubleWaveLenChanged || (visibleWaveWidth > waveWidth)) {
             resetLengthChangedMarker();
-            ProgramTest.debugPrint("visibleWidthChangedCallback()", visibleWaveWidth, getPreferredSize());
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
-            ProgramTest.debugPrint("WWW:", visibleWaveWidth, waveWidth);
             int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
             currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
 
-            ProgramTest.debugPrint("WWW2:", waveWidth, getVisibleRect().width, visibleWaveWidth);
             this.revalidate();
             this.repaint();
         }
@@ -201,7 +198,7 @@ public class WavePanel extends JPanel {
      */
     private int repairPreferredWidthToVisibleWidth(int visibleWaveWidth) {
         double zoomMultiplication = Math.pow(ZOOM_VALUE, zoomVariables.currentZoom);       // Because I can be larger even when zooming (for example for zoom == 1 I need to have the visible widrth larger than 2048 which is possible)
-        ProgramTest.debugPrint("WAVE_WIDTH_2", waveWidth, visibleWaveWidth);
+
         if (visibleWaveWidth > waveWidth) {
             int possibleDefaultWaveWidth = (int) (visibleWaveWidth / zoomMultiplication);
             defaultWaveWidthInPixels = possibleDefaultWaveWidth;
@@ -223,7 +220,6 @@ public class WavePanel extends JPanel {
 
 
     private void setCurrentDrawValuesBasedOnZoom() {
-        ProgramTest.debugPrint("setCurrentDrawValuesBasedOnZoom", zoomVariables.currentZoom, zoomVariables.maxCacheZoom);
         if (zoomVariables.currentZoom > zoomVariables.maxCacheZoom) {
             setCurrentDrawValuesToNewIndividual();
         }
@@ -267,14 +263,10 @@ public class WavePanel extends JPanel {
     private boolean isFirstWaveDrawing = true;
 
     private void firstWaveDrawingAction() {
-        ProgramTest.debugPrint("wave paintComponent before:", doubleWave.getFilenameWithExtension(),
-                               this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
         if (isFirstWaveDrawing) {
             isFirstWaveDrawing = false;
             setVariablesWhichNeededSize();
         }
-        ProgramTest.debugPrint("wave paintComponent after:", doubleWave.getFilenameWithExtension(),
-                               this.getVisibleRect(), getPreferredSize(), getMaxPossibleZoom());
     }
 
 
@@ -363,8 +355,6 @@ public class WavePanel extends JPanel {
 
     private void drawAudioWave(Graphics g) {
         int visibleWaveWidth = wholeWavePanel.getWaveVisibleWidth();
-        ProgramTest.debugPrint("drawAudioWave:", visibleWaveWidth, wholeWavePanel.getWaveVisibleWidth(),
-                               this.getHeight(), doubleWave.getFilenameWithoutExtension());
         currentDrawValues.drawSamples(g, visibleWaveWidth, this.getHeight(), 0);
     }
 
@@ -736,32 +726,14 @@ public class WavePanel extends JPanel {
         zoomVariables.currentZoom = newZoom;
 
         int newWidth = calculateWidth(newZoom, defaultWaveWidthInPixels);
-        System.out.println("New width:\t" + newWidth);
         int oldWidth = waveWidth;
         int newVisibleWidth = wholeWavePanel.getWaveVisibleWidth();
-
-        ProgramTest.debugPrint("Updating zoom before", waveWidth, getPreferredSize().width, getVisibleRect().width,
-                               wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
-//            this.setPreferredSize(new Dimension(this.getPreferredSize().width, this.getPreferredSize().height));
         waveWidth = newWidth;
-
-
-        ProgramTest.debugPrint("Updating zoom after", waveWidth, getPreferredSize().width, getVisibleRect().width,
-                               wholeWavePanel.getPreferredSize().width, wholeWavePanel.getSize());
 
         int startIndexInValues = getLeftPixelAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid,
                                                        shouldZoomToEnd);
-        ProgramTest.debugPrint("currScroll before", currScroll);
         currScroll = startIndexInValues;
-
-        ProgramTest.debugPrint("currScroll after", currScroll);
-        ProgramTest.debugPrint("ZOOMING BEFORE", currentDrawValues.getStartIndex(), startIndexInValues,
-                               oldWidth, newWidth, newVisibleWidth);
-        ProgramTest.debugPrint(oldZoom, newZoom);
-
-
         setDrawValuesInZoom(startIndexInValues, newVisibleWidth, newWidth);
-        ProgramTest.debugPrint("ZOOMING AFTER", startIndexInValues, startIndexInValues + 2 * newVisibleWidth);
     }
 
 
@@ -788,7 +760,6 @@ public class WavePanel extends JPanel {
                 currentDrawValues = drawValuesAggregated;
             }
             else {
-                ProgramTest.debugPrint("STARTIND", leftPixel, waveWidth);
                 currentDrawValues.performZoom(mainWaveClass.getCurrentStartIndexInAudio(), newWidth, valueCount);
             }
         }
@@ -800,7 +771,6 @@ public class WavePanel extends JPanel {
 
     public int convertScrollValueToIndividualIndexInAudio(double scrollValue) {
         double result = scrollValue * WavePanel.calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
-        ProgramTest.debugPrint("convertScrollValueToIndividualIndexInAudio start", scrollValue, result, (int) (result + 1));
         if ((int) result == 0) {
             if (scrollValue == 0) {
                 return 0;
@@ -832,7 +802,6 @@ public class WavePanel extends JPanel {
             ratio = 1 / (double) WavePanel.ZOOM_VALUE;
         }
 
-        ProgramTest.debugPrint("Ratio:", ratio, (newWidth - visibleWaveWidth), oldMaxScroll);
         return ratio;
     }
 
@@ -843,8 +812,8 @@ public class WavePanel extends JPanel {
 
     public static int getLeftPixelAfterZoom(int oldWidth, int newWidth, int newVisibleWidth, int scrollBeforeZoom, boolean shouldZoomToMid,
                                             boolean shouldZoomToEnd) {
-        ProgramTest.debugPrint("getLeftPixelAfterZoom", oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid, shouldZoomToEnd);
         int scrollAfterZoom;
+
         if (shouldZoomToMid) {
             int oldScroll = scrollBeforeZoom;
             int oldMid = oldScroll + newVisibleWidth / 2;       // Find old mid
@@ -865,7 +834,6 @@ public class WavePanel extends JPanel {
             scrollAfterZoom = getLeftCornerAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom);
         }
 
-        ProgramTest.debugPrint("getLeftPixelAfterZoom", scrollAfterZoom);
         if (scrollAfterZoom < 0) {
             scrollAfterZoom = 0;
         }
@@ -881,13 +849,8 @@ public class WavePanel extends JPanel {
      */
     public void updateWaveDrawValues(int oldLeftPixel, int newLeftPixel) {
         visibleWidthChangedCallback();
-
         int pixelChange = newLeftPixel - oldLeftPixel;
         currScroll = newLeftPixel;
-
-        ProgramTest.debugPrint("updateWaveDrawValues",
-                               getVisibleRect().width, getVisibleRect().height, waveWidth,
-                               oldLeftPixel, newLeftPixel, pixelChange, doubleWave.getFilenameWithoutExtension());
         currentDrawValues.shiftBuffer(pixelChange);
     }
 
@@ -1133,7 +1096,6 @@ public class WavePanel extends JPanel {
 
         @Override
         public int getCurrentScroll() {
-            ProgramTest.debugPrint("curr scroll", currScroll, wholeWavePanel.getCurrentHorizontalScroll());
             return currScroll;
         }
 

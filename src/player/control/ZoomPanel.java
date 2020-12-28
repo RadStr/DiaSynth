@@ -57,9 +57,8 @@ public class ZoomPanel extends JPanel {
             unzoomButton.setIcon(new ImageIcon(img));
         }
         catch (Exception ex) {
-            ProgramTest.debugPrint("IMG file:", file.getAbsolutePath());
+            MyLogger.logWithoutIndentation("IMG file is probably missing: " + file.getAbsolutePath());
             MyLogger.logException(ex);
-            System.exit(179);
         }
 
         zoomLabel = new JLabel("0");

@@ -194,7 +194,6 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
                     Dimension size = thisFrame.getSize();
                     SongInfoFrame siFrame = new SongInfoFrame(thisFrame, size.width, size.height, p.getValue(), observers, addToAudioPlayerIFace);
                     siFrame.setVisible(true);
-                    System.out.println("SELECTED:\t" + selectedRow + "\t" + p.getValue().getTextContent() + "\t" + selectedFilesPairList.size());
                 }
 
             }
@@ -256,23 +255,11 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
     private void actionDeletePerformed(ActionEvent e) {
         Document xmlDoc = AnalyzerXML.getXMLDoc();
         Node root = xmlDoc.getFirstChild();
-        System.out.println("Text context of songs node:\t" + root.getTextContent());
         int[] rows = selectedFilesTable.getSelectedRows();
         Arrays.sort(rows);
         for (int i = rows.length - 1; i >= 0; i--) {
             String name = (String) dataModelSelectedFiles.getValueAt(rows[i], 0);
             dataModelSelectedFiles.removeRow(rows[i]);
-            for (int l = 0; l < selectedFilesPairList.size(); l++) {
-                System.out.println("NAME:\t" + selectedFilesPairList.get(l).getKey());
-                System.out.println("Text context of node:\t" + selectedFilesPairList.get(l).getValue().getTextContent());
-                System.out.println("NAME of parent node:\t" + selectedFilesPairList.get(l).getValue().getParentNode().getNodeName());
-                System.out.println("Text context of parent node:\t" + selectedFilesPairList.get(l).getValue().getParentNode().getTextContent());
-                System.out.println("Count of nodes with name songs:\t" + xmlDoc.getElementsByTagName("songs").getLength());
-                System.out.println("Length of selectedFilesPairList:\t" + selectedFilesPairList.size());
-                System.out.println("Are parent and root same:\t" + (selectedFilesPairList.get(l).getValue().getParentNode() == root));
-                System.out.println("Are pairs the same:\t" + (allFilesPairList.get(l).getValue().getParentNode() == selectedFilesPairList.get(l).getValue().getParentNode()));
-                System.out.println("Are allpairs and root the same:\t" + (allFilesPairList.get(l).getValue().getParentNode() == root));
-            }
             root.removeChild(selectedFilesPairList.get(rows[i]).getValue());
             selectedFilesPairList.remove(rows[i]);
             int j = 0;

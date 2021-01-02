@@ -255,9 +255,6 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
         if (shouldAlwaysSetToMaxAbs) {
             for (int i = 0; i < input.length; i++) {
                 results[i] = NormalizeOperation.normalize(input[i], maxAbsVal, maxAbsoluteValue);
-                // TODO: Vymazat
-//                results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
-                // TODO: Vymazat
             }
             return true;
         }
@@ -266,17 +263,11 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
                 if (maxAbsoluteValue == 1) {
                     for (int i = 0; i < input.length; i++) {
                         results[i] = NormalizeOperation.normalize(input[i], maxAbsVal);
-                        // TODO: Vymazat
-//                        results[i] = input[i] / maxAbsVal;
-                        // TODO: Vymazat
                     }
                 }
                 else {
                     for (int i = 0; i < input.length; i++) {
                         results[i] = NormalizeOperation.normalize(input[i], maxAbsVal, maxAbsoluteValue);
-                        // TODO: Vymazat
-//                        results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
-                        // TODO: Vymazat
                     }
                 }
 

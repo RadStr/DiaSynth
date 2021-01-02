@@ -56,9 +56,11 @@ public class MyLogger {
     }
 
     public static void close() {
-        logStream.flush();
-        logStream.close();
-        logStream = null;
+        if(logStream != null) {
+            logStream.flush();
+            logStream.close();
+            logStream = null;
+        }
     }
 
 

@@ -51,6 +51,42 @@ public class BinaryMultiplication extends BinaryOperator {
         return a * b;
     }
 
+
+    // Min and Max can be optimized maybe, but I don't have time to think about that.
+    @Override
+    public double getMinValue() {
+        double minA = inputPorts[0].getMinValue();
+        double minB = inputPorts[1].getMinValue();
+        double maxA = inputPorts[0].getMaxValue();
+        double maxB = inputPorts[1].getMaxValue();
+
+        double a = binaryOperation(minA, maxB);
+        double b = binaryOperation(minB, maxA);
+        double c = binaryOperation(maxA, maxB);
+        double d = binaryOperation(minA, minB);
+
+        a = Math.min(a, b);
+        c = Math.min(c, d);
+        return Math.min(a, c);
+    }
+    @Override
+    public double getMaxValue() {
+        double minA = inputPorts[0].getMinValue();
+        double minB = inputPorts[1].getMinValue();
+        double maxA = inputPorts[0].getMaxValue();
+        double maxB = inputPorts[1].getMaxValue();
+
+        double a = binaryOperation(minA, maxB);
+        double b = binaryOperation(minB, maxA);
+        double c = binaryOperation(maxA, maxB);
+        double d = binaryOperation(minA, minB);
+
+        a = Math.max(a, b);
+        c = Math.max(c, d);
+        return Math.max(a, c);
+    }
+
+
     @Override
     public String getTooltip() {
         return "Multiplies 2 samples together";

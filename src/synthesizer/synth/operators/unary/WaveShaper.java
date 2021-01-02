@@ -39,12 +39,23 @@ public class WaveShaper extends UnaryOperator {
         private void setFunction(double[] function) {
             this.function = function;
             setFunctionOutputMaxAbsVal();
+            setFunctionOutputMinVal();
+            setFunctionOutputMaxVal();
         }
 
         private double functionOutputMaxAbsVal;
-
         private void setFunctionOutputMaxAbsVal() {
             functionOutputMaxAbsVal = Aggregation.performAggregation(function, Aggregation.ABS_MAX);
+        }
+
+        private double functionOutputMinVal;
+        private void setFunctionOutputMinVal() {
+            functionOutputMinVal = Aggregation.performAggregation(function, Aggregation.MIN);
+        }
+
+        private double functionOutputMaxVal;
+        private void setFunctionOutputMaxVal() {
+            functionOutputMaxVal = Aggregation.performAggregation(function, Aggregation.MAX);
         }
     }
 
@@ -137,6 +148,15 @@ public class WaveShaper extends UnaryOperator {
     @Override
     public double getMaxAbsValue() {
         return functionWrapper.functionOutputMaxAbsVal;
+    }
+
+    @Override
+    public double getMinValue() {
+        return functionWrapper.functionOutputMinVal;
+    }
+    @Override
+    public double getMaxValue() {
+        return functionWrapper.functionOutputMaxVal;
     }
 
 

@@ -109,6 +109,15 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
         return inputPorts[0].getMaxAbsValue();
     }
 
+    @Override
+    public double getMinValue() {
+        return -inputPorts[0].getMinValue();
+    }
+    @Override
+    public double getMaxValue() {
+        return inputPorts[0].getMaxValue();
+    }
+
 
     /**
      * Returns Double.MAX_VALUE if it doesn't have modulation frequency (if it is envelope or operation or noise generator).

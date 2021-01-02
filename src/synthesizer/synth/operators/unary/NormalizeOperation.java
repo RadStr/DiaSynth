@@ -19,13 +19,13 @@ public class NormalizeOperation extends UnaryOperator {
 
     @Override
     public void calculateSamples() {
-        maxAbsVal = Math.abs(inputPorts[0].getMaxAbsValue());
+        maxAbsVal = inputPorts[0].getMaxAbsValue();
         super.calculateSamples();
     }
 
     @Override
     public double unaryOperation(double val) {
-        return val / maxAbsVal;
+        return normalize(val, maxAbsVal);
     }
 
     @Override
@@ -63,11 +63,45 @@ public class NormalizeOperation extends UnaryOperator {
 
     @Override
     public double getMaxAbsValue() {
+        if(inputPorts[0].getMaxAbsValue() == 0) {
+            return 0;
+        }
         return 1;
+    }
+
+    @Override
+    public double getMinValue() {
+        return unaryOperation(inputPorts[0].getMinValue());
+    }
+    @Override
+    public double getMaxValue() {
+        return unaryOperation(inputPorts[0].getMaxValue());
     }
 
     @Override
     public void copyInternalState(Unit copySource) {
         // EMPTY
+    }
+
+
+    /**
+     * Normalizes the value in such way, that the maxAbsVal will be normalized to 1
+     * @param value is the value to be normalized
+     * @param maxAbsVal is the maximum absolute value in all of the values
+     * @return
+     */
+    public static double normalize(double value, double maxAbsVal) {
+        return value / maxAbsVal;
+    }
+
+    /**
+     * Normalizes the value in such way, that the maxAbsVal will be normalized to normalizedMaxAbsVal.
+     * @param value is the value to be normalized
+     * @param maxAbsVal is the maximum absolute value in all of the values
+     * @param normalizedMaxAbsVal is the value to which will be the maxAbsVal normalized.
+     * @return
+     */
+    public static double normalize(double value, double maxAbsVal, double normalizedMaxAbsVal) {
+        return value * (normalizedMaxAbsVal / maxAbsVal);
     }
 }

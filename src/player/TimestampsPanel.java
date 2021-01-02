@@ -116,7 +116,8 @@ public class TimestampsPanel extends JPanel {
 
 
     private void drawTimestamps(Graphics g, int waveStartX, int scrollX, double pixelJump, boolean isTimeInSecs,
-                                Color color, int timestampCountBetweenTwoMainTimeStamps, int timeJumpInt, int visibleWaveWidth) {
+                                Color color, int timestampCountBetweenTwoMainTimeStamps,
+                                int timeJumpInt, int visibleWaveWidth) {
         int h = this.getHeight();
         int yForStampWithLabel = h - h / 3;
         int yForStampWithoutLabel = h - h / 5;

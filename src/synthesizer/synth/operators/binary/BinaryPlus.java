@@ -58,6 +58,20 @@ public class BinaryPlus extends BinaryOperator {
     }
 
     @Override
+    public double getMinValue() {
+        double minA = inputPorts[0].getMinValue();
+        double minB = inputPorts[1].getMinValue();
+        return binaryOperation(minA, minB);
+    }
+    @Override
+    public double getMaxValue() {
+        double maxA = inputPorts[0].getMaxValue();
+        double maxB = inputPorts[1].getMaxValue();
+        return binaryOperation(maxA, maxB);
+    }
+
+
+    @Override
     public String getTooltip() {
         return "Adds 2 samples together";
     }

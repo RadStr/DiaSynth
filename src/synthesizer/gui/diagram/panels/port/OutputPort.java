@@ -33,6 +33,15 @@ public class OutputPort extends Port implements SerializeIFace {
     public double getMaxAbsValue() {
         return unitValsInfo.getMaxAbsValue();
     }
+    @Override
+    public double getMinValue() {
+        return unitValsInfo.getMinValue();
+    }
+    @Override
+    public double getMaxValue() {
+        return unitValsInfo.getMaxValue();
+    }
+
 
     @Override
     public double getValue(int index) {

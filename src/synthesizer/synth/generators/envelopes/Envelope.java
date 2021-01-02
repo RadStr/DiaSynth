@@ -144,6 +144,21 @@ public abstract class Envelope extends Unit {
         return Math.max(inputPorts[1].getMaxAbsValue(), inputPorts[4].getMaxAbsValue());
     }
 
+    @Override
+    public double getMinValue() {
+        // The min should be 0, if there isn't negative amplitude thrown in there (it depends on the user input).
+        double min = Math.min(inputPorts[1].getMinValue(), 0);
+        return Math.min(min, inputPorts[4].getMinValue());
+    }
+    @Override
+    public double getMaxValue() {
+        // The max should be inputPorts[1].getMaxValue(), but it depends on the user input.
+        double max = Math.max(inputPorts[1].getMaxValue(), 0);
+        return Math.max(max, inputPorts[4].getMaxValue());
+    }
+
+
+
 
     @Override
     public double getModulationFrequency() {

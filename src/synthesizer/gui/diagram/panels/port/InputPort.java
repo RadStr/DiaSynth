@@ -62,6 +62,22 @@ public class InputPort extends Port {
     }
 
     @Override
+    public double getMinValue() {
+        if (connectedPort != null) {
+            return connectedPort.getMinValue();
+        }
+        return ARR_WITH_DEFAULT_VALUES[0];
+    }
+    @Override
+    public double getMaxValue() {
+        if (connectedPort != null) {
+            return connectedPort.getMaxValue();
+        }
+        return ARR_WITH_DEFAULT_VALUES[0];
+    }
+
+
+    @Override
     public double getValue(int index) {
         if (connectedPort != null) {
             return connectedPort.getValue(index);

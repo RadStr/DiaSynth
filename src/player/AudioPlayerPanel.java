@@ -2356,9 +2356,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 drawPanel.revalidate();
                 drawPanel.repaint();
 
-                // TODO: Maybe it will break, because the getters are "setters", when called they return the correct size
-                // TODO: which will be calculated at the moment of call - I REMOVED THE DEBUG PRINTS WITH GETTERS
-
                 if (f.getSize().width < f.getMinimumSize().width) {
                     f.setMinimumSize(new Dimension());
                     f.pack();

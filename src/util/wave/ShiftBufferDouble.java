@@ -1,6 +1,5 @@
 package util.wave;
 
-import test.ProgramTest;
 
 /**
  * Immutable object, basically what it does, in constructor is created buffer, and we move in it by changing

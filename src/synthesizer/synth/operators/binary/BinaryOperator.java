@@ -33,14 +33,6 @@ public abstract class BinaryOperator extends Operator {
 
     public abstract double binaryOperation(double a, double b);
 
-    // Doesn't work for division. And probably doesn't work for many other binary operations.
-    @Override
-    public double getMaxAbsValue() {
-        double maxA = inputPorts[0].getMaxAbsValue();
-        double maxB = inputPorts[1].getMaxAbsValue();
-        return binaryOperation(maxA, maxB);
-    }
-
     @Override
     public void calculateSamples() {
         double[] ops = inputPorts[0].getValues();

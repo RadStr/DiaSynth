@@ -52,6 +52,21 @@ public class BinaryMinus extends BinaryOperator {
         return a - b;
     }
 
+
+    @Override
+    public double getMinValue() {
+        double minA = inputPorts[0].getMinValue();
+        double maxB = inputPorts[1].getMaxValue();
+        return binaryOperation(minA, maxB);
+    }
+    @Override
+    public double getMaxValue() {
+        double maxA = inputPorts[0].getMaxValue();
+        double minB = inputPorts[1].getMinValue();
+        return binaryOperation(maxA, minB);
+    }
+
+
     @Override
     public String getTooltip() {
         return "Subtracts right input from the left.";

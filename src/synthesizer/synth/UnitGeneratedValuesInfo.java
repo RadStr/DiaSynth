@@ -9,6 +9,8 @@ public interface UnitGeneratedValuesInfo {
     boolean getIsNoiseGen();
 
     double getMaxAbsValue();
+    double getMinValue();
+    double getMaxValue();
 
     double getValue(int index);
 

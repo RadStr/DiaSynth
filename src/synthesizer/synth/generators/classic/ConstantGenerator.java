@@ -77,6 +77,15 @@ public class ConstantGenerator extends Unit implements PluginBaseIFace {
         return generatedConstant;
     }
 
+    @Override
+    public double getMinValue() {
+        return generatedConstant;
+    }
+    @Override
+    public double getMaxValue() {
+        return generatedConstant;
+    }
+
     /**
      * Returns Double.MAX_VALUE if it doesn't have modulation frequency (if it is envelope or operation or noise generator).
      * Or returns its modulation frequency if it is generator.

@@ -50,8 +50,14 @@ public abstract class UnaryOperator extends Operator {
     // (For example operations which producing huge numbers for small inputs.
     // For example 1 / n gets bigger with smaller n, so it behaves the opposite).
     // Take a look at the reciprocal to understand how to get around this issue.
+    // It doesn't even work for unary minus - so careful
+
     @Override
-    public double getMaxAbsValue() {
-        return unaryOperation(inputPorts[0].getMaxAbsValue());
+    public double getMinValue() {
+        return unaryOperation(inputPorts[0].getMinValue());
+    }
+    @Override
+    public double getMaxValue() {
+        return unaryOperation(inputPorts[0].getMaxValue());
     }
 }

@@ -255,7 +255,16 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     public abstract String getTooltip();
 
     @Override
-    public abstract double getMaxAbsValue();
+    public double getMaxAbsValue() {
+        double min = getMinValue();
+        double max = getMaxValue();
+        return Math.max(Math.abs(min), Math.abs(max));
+    }
+
+    @Override
+    public abstract double getMinValue();
+    @Override
+    public abstract double getMaxValue();
 
 
     private boolean isOutputUnit;

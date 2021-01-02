@@ -46,6 +46,17 @@ public class UnaryMinus extends UnaryOperator {
         return -val;
     }
 
+
+    @Override
+    public double getMinValue() {
+        return unaryOperation(inputPorts[0].getMaxValue());
+    }
+    @Override
+    public double getMaxValue() {
+        return unaryOperation(inputPorts[0].getMinValue());
+    }
+
+
     @Override
     public String getTooltip() {
         return "Multiplies the sample by -1";

@@ -89,6 +89,15 @@ abstract public class GeneratorNoPhase extends Unit {
         return inputPorts[0].getMaxAbsValue();
     }
 
+    @Override
+    public double getMinValue() {
+        return -inputPorts[0].getMinValue();
+    }
+    @Override
+    public double getMaxValue() {
+        return inputPorts[0].getMaxValue();
+    }
+
     /**
      * Generates sample, expecting the frequency parameter (freq) to be constant
      */

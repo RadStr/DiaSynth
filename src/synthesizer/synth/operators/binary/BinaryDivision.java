@@ -76,6 +76,20 @@ public class BinaryDivision extends BinaryOperator {
         return binaryOperation(inputPorts[0].getMaxAbsValue(), minAllowedVal);
     }
 
+    @Override
+    public double getMinValue() {
+        double min = inputPorts[1].getMinValue();
+        double max = inputPorts[1].getMaxValue();
+        double d = Reciprocal.getMinDenominator(min, max, minAllowedVal);
+        This is cool and all, but it isn't enough, because in reciprocal we have only 1 sign - here the results depends
+                also on the sign of the left parameter (numrator)
+        TODO: TOMORROW
+    }
+    @Override
+    public double getMaxValue() {
+    TODO: TOMORROW
+    }
+
 
     @Override
     public String getTooltip() {

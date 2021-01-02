@@ -86,10 +86,68 @@ public class Reciprocal extends UnaryOperator {
         return 1 / val;
     }
 
+    // Could make it simpler - just call unaryOperation on both and get the maximum/minimum/maxAbs, but whatever
     @Override
     public double getMaxAbsValue() {
-        return 1 / minAllowedVal;
+        double min = inputPorts[0].getMinValue();
+        double max = inputPorts[0].getMaxValue();
+        if(min > minAllowedVal) {
+            return 1 / min;
+        }
+        else if(max < -minAllowedVal) {
+            return -1 / max;
+        }
+        else {
+            return 1 / minAllowedVal;
+        }
     }
+
+    @Override
+    public double getMinValue() {
+        double min = inputPorts[0].getMinValue();
+        double max = inputPorts[0].getMaxValue();
+        double d = getMinDenominator(min, max, minAllowedVal);
+        return 1 / d;
+    }
+    @Override
+    public double getMaxValue() {
+        double min = inputPorts[0].getMinValue();
+        double max = inputPorts[0].getMaxValue();
+        double d = getMaxDenominator(min, max, minAllowedVal);
+        return 1 / d;
+    }
+
+
+    public static double getMinDenominator(double min, double max, double minAllowedVal) {
+        if(min >= 0) {
+            max = Math.max(max, minAllowedVal);
+            return max;
+        }
+        else {
+            if(max < -minAllowedVal) {
+                return max;
+            }
+            else {
+                return -minAllowedVal;
+            }
+        }
+    }
+
+    public static double getMaxDenominator(double min, double max, double minAllowedVal) {
+        if(max < 0) {
+            min = Math.min(min, -minAllowedVal);
+            return min;
+        }
+        else {
+            if(min > minAllowedVal) {
+                return min;
+            }
+            else {
+                return minAllowedVal;
+            }
+        }
+    }
+
 
     @Override
     public void copyInternalState(Unit copySource) {

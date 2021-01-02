@@ -8,6 +8,7 @@ import synthesizer.gui.diagram.panels.shape.internals.DynamicTextInternals;
 import synthesizer.gui.diagram.panels.shape.RectangleShapedPanel;
 import synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import synthesizer.synth.audio.AudioThread;
+import synthesizer.synth.operators.unary.NormalizeOperation;
 import util.audio.format.ChannelCount;
 import plugin.PluginBaseIFace;
 
@@ -230,7 +231,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     public void calculateSamplesInstantRecord(double[][] channelRecords, int index, int remainingLen) {
         // Copy pasted code from calculate samples,
         // but with removed waiting and putting items to queue. It will be put to buffer instead.
-        final double maxAbsVal = Math.abs(getMaxAbsValue());
+        final double maxAbsVal = getMaxAbsValue();
         double[] ops = inputPorts[0].getValues();
         boolean didNomalize = tryNormalize(ops, maxAbsVal);
 
@@ -253,7 +254,10 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     private boolean tryNormalize(double[] input, double maxAbsVal) {
         if (shouldAlwaysSetToMaxAbs) {
             for (int i = 0; i < input.length; i++) {
-                results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
+                results[i] = NormalizeOperation.normalize(input[i], maxAbsVal, maxAbsoluteValue);
+                // TODO: Vymazat
+//                results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
+                // TODO: Vymazat
             }
             return true;
         }
@@ -261,12 +265,18 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
             if (maxAbsVal > maxAbsoluteValue) {
                 if (maxAbsoluteValue == 1) {
                     for (int i = 0; i < input.length; i++) {
-                        results[i] = input[i] / maxAbsVal;
+                        results[i] = NormalizeOperation.normalize(input[i], maxAbsVal);
+                        // TODO: Vymazat
+//                        results[i] = input[i] / maxAbsVal;
+                        // TODO: Vymazat
                     }
                 }
                 else {
                     for (int i = 0; i < input.length; i++) {
-                        results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
+                        results[i] = NormalizeOperation.normalize(input[i], maxAbsVal, maxAbsoluteValue);
+                        // TODO: Vymazat
+//                        results[i] = input[i] * (maxAbsoluteValue / maxAbsVal);
+                        // TODO: Vymazat
                     }
                 }
 
@@ -278,7 +288,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
 
     @Override
     public void calculateSamples() {
-        final double maxAbsVal = Math.abs(getMaxAbsValue());
+        final double maxAbsVal = getMaxAbsValue();
         double[] ops = inputPorts[0].getValues();
         boolean didNomalize = tryNormalize(ops, maxAbsVal);
         while (audioThread.getPushLen(channel, 0, ops.length) < ops.length) {
@@ -354,6 +364,15 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     @Override
     public double getMaxAbsValue() {
         return inputPorts[0].getMaxAbsValue();
+    }
+
+    @Override
+    public double getMinValue() {
+        return inputPorts[0].getMinValue();
+    }
+    @Override
+    public double getMaxValue() {
+        return inputPorts[0].getMaxValue();
     }
 
 

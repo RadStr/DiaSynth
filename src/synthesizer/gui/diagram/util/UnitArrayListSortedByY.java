@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * add(int index, Unit element) works as add(Unit u) to not break the promise that it is sorted by Y (secondary sorted by x).
  */
-public class ListSortedByY extends ArrayList<Unit> {
+public class UnitArrayListSortedByY extends ArrayList<Unit> {
     private Object lock = new Object();
     private volatile boolean hasChanged = false;
 

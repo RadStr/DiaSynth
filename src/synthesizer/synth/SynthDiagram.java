@@ -1,6 +1,6 @@
 package synthesizer.synth;
 
-import synthesizer.gui.diagram.util.ListSortedByY;
+import synthesizer.gui.diagram.util.UnitArrayListSortedByY;
 import synthesizer.synth.audio.AudioThread;
 import util.audio.AudioUtilities;
 import util.audio.format.AudioFormatWithSign;
@@ -10,7 +10,7 @@ import javax.sound.sampled.AudioFormat;
 import java.util.ConcurrentModificationException;
 
 public class SynthDiagram extends Thread {
-    public SynthDiagram(ListSortedByY units, OutputUnitGetterIFace outputUnitGetter,
+    public SynthDiagram(UnitArrayListSortedByY units, OutputUnitGetterIFace outputUnitGetter,
                         OutputFormatGetterIFace outputFormatGetter, boolean shouldPause) {
         setShouldPause(shouldPause);
         this.units = units;
@@ -21,7 +21,7 @@ public class SynthDiagram extends Thread {
 
     private OutputUnitGetterIFace outputUnitGetter;
     private OutputFormatGetterIFace outputFormatGetter;
-    private ListSortedByY units;
+    private UnitArrayListSortedByY units;
     private int timeInSamples;
 
     public int getTimeInSamples() {

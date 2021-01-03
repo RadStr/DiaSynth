@@ -1,6 +1,5 @@
 package synthesizer.gui.diagram;
 
-import test.ProgramTest;
 import synthesizer.gui.PlayedWaveVisualizer;
 import synthesizer.gui.diagram.ifaces.ResizeSplitpaneCallbackIFace;
 import synthesizer.gui.SynthesizerMainPanelIFace;
@@ -19,7 +18,7 @@ import synthesizer.gui.diagram.panels.port.OutputPort;
 import synthesizer.gui.diagram.panels.port.Port;
 import synthesizer.gui.diagram.util.pairs.IntPairWithInternalDoublesWithMinAndMax;
 import synthesizer.gui.tree.UnitAdditionIFace;
-import synthesizer.gui.diagram.util.ListSortedByY;
+import synthesizer.gui.diagram.util.UnitArrayListSortedByY;
 import synthesizer.gui.diagram.util.arrow.Arrow;
 import synthesizer.gui.diagram.util.arrow.ArrowDirection;
 import synthesizer.synth.*;
@@ -167,7 +166,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         referencePanel = new ReferenceMovableJPanel(0, 0, first, second, this);
         sizeChangeCallback();
 
-        panels = new ListSortedByY();
+        panels = new UnitArrayListSortedByY();
         recalculateAllCables();
 
         screenMidPoint = new Point();
@@ -453,7 +452,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
 
-    private ListSortedByY panels;
+    private UnitArrayListSortedByY panels;
 
     public List<Unit> getPanels() {
         return panels;

@@ -14,8 +14,19 @@ public class AlignmentOnWavesOperation implements OperationOnWavesPluginIFace,
                                parameterTooltip = "The enum which value tells what alignment should be done. " +
                                                   "Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
+    public void resetAlignment() {
+        lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
+    }
+
 
     private EndIndicesIntPair endIndicesIntPair = new EndIndicesIntPair();
+    public int getInputWaveEndIndex() {
+        return endIndicesIntPair.inputWaveEndIndex;
+    }
+
+    public int getOutputWaveEndIndex() {
+        return endIndicesIntPair.outputWaveEndIndex;
+    }
 
 
     @Override

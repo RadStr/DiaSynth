@@ -2505,6 +2505,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         addAudioOperation(op, menu);
     }
 
+
+    private AlignmentOnWavesOperation alignPanel = new AlignmentOnWavesOperation();
+
+
     private void addAudioOperation(OperationOnWavesPluginIFace operation, JMenu menu) {
         JMenuItem menuItem = new JMenuItem(operation.getPluginName());
         withInputWaveMenuItems.add(menuItem);
@@ -2513,7 +2517,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AlignmentOnWavesOperation alignPanel = new AlignmentOnWavesOperation();
+                alignPanel.resetAlignment();
                 boolean canContinueOperation = loadPluginParameters(alignPanel, true);
                 if (!canContinueOperation) {
                     return;
@@ -2641,7 +2645,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 // To reset the plugin
 
 
-                AlignmentOnWavesOperation alignPanel = new AlignmentOnWavesOperation();
+                alignPanel.resetAlignment();
                 boolean canContinueOperation = loadPluginParameters(alignPanel, true);
                 if (!canContinueOperation) {
                     return;
@@ -2693,10 +2697,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 // Now the user has to do everything in the frame by himself. Frames aren't currently easily pluginable.
                 // WE are not making dialog from the frame.
                 //
-                // When using frame plugin, then the programmer have look at how does the code work, since you will usually have to call
+                // When using frame plugin, then the programmer have look at how does the code work,
+                // since you will usually have to call
                 // special method to perform operation etc. For example stopAndModifyAudio when adding plugin to player or
-                // updateAfterPropertiesCall when using the plugin in properties inside synth part. Or in the second case just
-                // take care of the update inside the frame methods.
+                // updateAfterPropertiesCall when using the plugin in properties inside synth part.
+                // Or in the second case just take care of the update inside the frame methods.
                 //
                 // I don't see any simple way how to make dialog from JFrame, especially when I am using the size
                 // of frame inside the panel. I will repair it later maybe, but currently I don't have that much time
@@ -2709,13 +2714,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 int result;
                 if (containsCancelOption) {
                     result = JOptionPane.showConfirmDialog(null, panelInDialog,
-                                                           "Dialog: " + plugin.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                           JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + plugin.getPluginName(),
+                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 }
                 else {
                     result = JOptionPane.showConfirmDialog(null, panelInDialog,
-                                                           "Dialog: " + plugin.getPluginName(), JOptionPane.DEFAULT_OPTION,
-                                                           JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + plugin.getPluginName(),
+                                                           JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
                 }
                 if (result == JOptionPane.OK_OPTION) {
                     canContinueOperation = true;
@@ -2742,14 +2747,22 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
 
                 if (shouldMarkPart) {
+                    alignPanel.performOperation(clipboard.getWave(), doubleWave,
+                                                clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
+                                                getMarkStartXSample(), getMarkEndXSample());
+
                     operation.performOperation(clipboard.getWave(), doubleWave,
-                                               clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
-                                               getMarkStartXSample(), getMarkEndXSample());
+                                               clipboard.getMarkStartSample(), alignPanel.getInputWaveEndIndex(),
+                                               getMarkStartXSample(), alignPanel.getOutputWaveEndIndex());
                 }
                 else {
+                    alignPanel.performOperation(clipboard.getWave(), doubleWave,
+                                                clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
+                                                getMarkStartXSample(), getMarkEndXSample());
+
                     operation.performOperation(clipboard.getWave(), doubleWave,
-                                               clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),
-                                               0, doubleWave.getSongLength());
+                                               clipboard.getMarkStartSample(), alignPanel.getInputWaveEndIndex(),
+                                               0, alignPanel.getOutputWaveEndIndex());
                 }
 
                 waveMainPanel.reloadDrawValues();

@@ -71,17 +71,6 @@ public class BinaryDivision extends BinaryOperator {
         return a / b;
     }
 
-//    @Override
-//    public double getMaxAbsValue() {
-//        return binaryOperation(inputPorts[0].getMaxAbsValue(), minAllowedVal);
-//    }
-
-    @Override
-    public double getMaxAbsValue() {
-        double min = getMinValue();
-        double max = getMaxValue();
-        return Math.max(Math.abs(min), Math.abs(max));
-    }
 
     @Override
     public double getMinValue() {

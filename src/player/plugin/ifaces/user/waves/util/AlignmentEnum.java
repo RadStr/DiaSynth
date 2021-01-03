@@ -3,9 +3,9 @@ package player.plugin.ifaces.user.waves.util;
 public enum AlignmentEnum {
     NO_ALIGNMENT {
         public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
-                                               int inputStartIndex, int inputEndIndex,
-                                               int outputStartIndex, int outputEndIndex,
-                                               int inputSongLength, int outputSongLength) {
+                                                     int inputStartIndex, int inputEndIndex,
+                                                     int outputStartIndex, int outputEndIndex,
+                                                     int inputSongLength, int outputSongLength) {
             setEndIndices(classToBeUpdated, inputEndIndex, outputEndIndex);
         }
     },

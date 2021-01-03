@@ -1,7 +1,7 @@
 package player;
 
 
-import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
+import player.plugin.ifaces.user.waves.AlignmentOnWavesOperation;
 import player.wave.WavePanelMouseListener;
 import util.audio.wave.ByteWave;
 import player.mixer.*;
@@ -21,7 +21,6 @@ import player.wave.WaveMainPanel;
 import player.wave.WavePanel;
 import synthesizer.synth.audio.AudioThread;
 import main.TabChangeIFace;
-import util.Time;
 import util.Utilities;
 import util.audio.AudioConverter;
 import util.audio.AudioUtilities;
@@ -2514,7 +2513,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OperationOnWavesPlugin alignPanel = new OperationOnWavesPlugin();
+                AlignmentOnWavesOperation alignPanel = new AlignmentOnWavesOperation();
                 boolean canContinueOperation = loadPluginParameters(alignPanel, true);
                 if (!canContinueOperation) {
                     return;
@@ -2642,7 +2641,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 // To reset the plugin
 
 
-                OperationOnWavesPlugin alignPanel = new OperationOnWavesPlugin();
+                AlignmentOnWavesOperation alignPanel = new AlignmentOnWavesOperation();
                 boolean canContinueOperation = loadPluginParameters(alignPanel, true);
                 if (!canContinueOperation) {
                     return;

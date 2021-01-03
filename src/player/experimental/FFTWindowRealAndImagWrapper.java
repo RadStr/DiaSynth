@@ -184,11 +184,13 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 public void actionPerformed(ActionEvent e) {
                     FFTWindowOptionsDialogPanel classWithValues;
                     classWithValues = new FFTWindowOptionsDialogPanel(realPartPanel.fftWindowPartPanel);
-                    AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues, classWithValues.getClass());
+                    // It has annotations so no need to check for null.
+                    AnnotationPanel dialogPanel = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                        classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                               JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(),
+                                                               JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         FFTWindowPartPanel part = (FFTWindowPartPanel) realPartPanel.fftWindowPartPanel.createNewFFTPanel(
@@ -213,12 +215,13 @@ public class FFTWindowRealAndImagWrapper extends JPanel implements DrawWrapperIF
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     IFFTDialogPanel classWithValues = new IFFTDialogPanel();
-                    AnnotationPanel performIFFTDialog = new AnnotationPanel(classWithValues,
-                                                                            classWithValues.getClass());
+                    // It has annotations so no need to check for null.
+                    AnnotationPanel performIFFTDialog = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                              classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
-                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                               JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(),
+                                                               JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         double[] wave = getIFFTResult(classWithValues.getPeriodCount());

@@ -55,12 +55,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TimeOptionsDialogPanel classWithValues = new TimeOptionsDialogPanel(timeWaveDrawPanel);
-                AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                                                                  classWithValues.getClass());
+                // It has annotations so no need to check for null.
+                AnnotationPanel dialogPanel = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                    classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                                                           "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                           JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + classWithValues.getPluginName(),
+                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                 if (result == JOptionPane.OK_OPTION) {
                     timeWaveDrawPanel.setTimeInMs(classWithValues.timeInMs);
@@ -77,12 +78,13 @@ public class TimeWaveDrawWrapper extends DrawWrapperBase {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TimeActionDialogPanel classWithValues = new TimeActionDialogPanel(thisWrapper, waveAdder);
-                AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                                                                  classWithValues.getClass());
+                // It has annotations so no need to check for null.
+                AnnotationPanel dialogPanel = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                    classWithValues.getClass());
 
                 int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                                                           "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                           JOptionPane.PLAIN_MESSAGE);
+                                                           "Dialog: " + classWithValues.getPluginName(),
+                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                 if (result == JOptionPane.OK_OPTION) {
                     timeWaveDrawPanel.setTimeInMs(classWithValues.getTimeInMs());

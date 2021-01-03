@@ -13,10 +13,28 @@ import java.lang.reflect.Field;
 
 public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
     /**
+     * Returns null if there are no annotations in the class, otherwise returns the annotation panel.
      * @param objectWithAnnotations is the object on which should be the fields changed.
-     * @param classWithAnnotations  is .getClass() of the objectWithAnnotations (It is final, so I can't take it from the object)
+     * @param classWithAnnotations  is .getClass() of the objectWithAnnotations
+     *                              (It is final, so I can't take it from the object)
+     * @return Returns null if there are no annotations in the class, otherwise returns the annotation panel.
      */
-    public AnnotationPanel(Object objectWithAnnotations, Class<?> classWithAnnotations) {
+    public static AnnotationPanel createAnnotationPanel(Object objectWithAnnotations, Class<?> classWithAnnotations) {
+        AnnotationPanel ap = new AnnotationPanel(objectWithAnnotations, classWithAnnotations);
+        if(ap.hasAnnotation) {
+            return ap;
+        }
+        return null;
+    }
+
+
+
+    /**
+     * @param objectWithAnnotations is the object on which should be the fields changed.
+     * @param classWithAnnotations  is .getClass() of the objectWithAnnotations
+     *                              (It is final, so I can't take it from the object)
+     */
+    private AnnotationPanel(Object objectWithAnnotations, Class<?> classWithAnnotations) {
         this.classWithAnnotations = objectWithAnnotations;
 
         viewPanel = new JPanel(new GridLayout(0, 2));
@@ -38,7 +56,14 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
 
 
     private JPanel viewPanel;
+    private void addToViewPanel(Component leftComponent, Component rightComponent) {
+        viewPanel.add(leftComponent);
+        viewPanel.add(rightComponent);
+        hasAnnotation = true;
+    }
     private Object classWithAnnotations;
+
+    private boolean hasAnnotation = false;
 
 
     private void addFieldsToPanel(Object objectWithAnnotations, Class<?> classWithAnnotations, Field[] fields) {
@@ -141,8 +166,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 comboBox.setSelectedItem(wrapper.getDefaultEnumString(fieldName));
                 wrapper.setEnumValueToDefault(fieldName);
 
-                viewPanel.add(parameterName);
-                viewPanel.add(comboBox);
+                addToViewPanel(parameterName, comboBox);
                 continue;
             }
             else if (fieldType == Boolean.TYPE) {
@@ -175,8 +199,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                     continue;
                 }
 
-                viewPanel.add(parameterName);
-                viewPanel.add(comboBox);
+                addToViewPanel(parameterName, comboBox);
                 continue;
             }
             else {
@@ -266,8 +289,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                 return;
             }
             Pair<JLabel, JTextField> p = new Pair<>(parameterName, parameterValue);
-            viewPanel.add(p.getKey());
-            viewPanel.add(p.getValue());
+            addToViewPanel(p.getKey(), p.getValue());
         }
     }
 

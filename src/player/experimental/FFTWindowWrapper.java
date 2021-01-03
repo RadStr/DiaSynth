@@ -83,12 +83,13 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     FFTWindowOptionsDialogPanel classWithValues = new FFTWindowOptionsDialogPanel(fftPanel);
-                    AnnotationPanel dialogPanel = new AnnotationPanel(classWithValues,
-                                                                      classWithValues.getClass());
+                    // It has annotations so no need to check for null.
+                    AnnotationPanel dialogPanel = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                        classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, dialogPanel,
-                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                               JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(),
+                                                               JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         FFTWindowPanel newFFTPanel = (FFTWindowPanel) fftPanel.createNewFFTPanel(
@@ -107,12 +108,13 @@ public class FFTWindowWrapper extends DrawWrapperBase {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     IFFTDialogPanel classWithValues = new IFFTDialogPanel();
-                    AnnotationPanel performIFFTDialog = new AnnotationPanel(classWithValues,
-                                                                            classWithValues.getClass());
+                    // It has annotations so no need to check for null.
+                    AnnotationPanel performIFFTDialog = AnnotationPanel.createAnnotationPanel(classWithValues,
+                                                                                                  classWithValues.getClass());
 
                     int result = JOptionPane.showConfirmDialog(null, performIFFTDialog,
-                                                               "Dialog: " + classWithValues.getPluginName(), JOptionPane.OK_CANCEL_OPTION,
-                                                               JOptionPane.PLAIN_MESSAGE);
+                                                               "Dialog: " + classWithValues.getPluginName(),
+                                                               JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                     if (result == JOptionPane.OK_OPTION) {
                         double[] wave = fftPanel.getIFFTResult(classWithValues.getShouldSetImagPartToZero(),

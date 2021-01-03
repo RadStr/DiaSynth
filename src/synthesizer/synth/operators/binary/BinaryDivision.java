@@ -71,23 +71,70 @@ public class BinaryDivision extends BinaryOperator {
         return a / b;
     }
 
+//    @Override
+//    public double getMaxAbsValue() {
+//        return binaryOperation(inputPorts[0].getMaxAbsValue(), minAllowedVal);
+//    }
+
     @Override
     public double getMaxAbsValue() {
-        return binaryOperation(inputPorts[0].getMaxAbsValue(), minAllowedVal);
+        double min = getMinValue();
+        double max = getMaxValue();
+        return Math.max(Math.abs(min), Math.abs(max));
     }
 
     @Override
     public double getMinValue() {
         double min = inputPorts[1].getMinValue();
         double max = inputPorts[1].getMaxValue();
-        double d = Reciprocal.getMinDenominator(min, max, minAllowedVal);
-        This is cool and all, but it isn't enough, because in reciprocal we have only 1 sign - here the results depends
-                also on the sign of the left parameter (numrator)
-        TODO: TOMORROW
+        double pd = Reciprocal.getSmallestPositiveDenominator(min, max, minAllowedVal);
+        double nd = Reciprocal.getSmallestNegativeDenominator(min, max, minAllowedVal);
+
+        double numeratorMin = inputPorts[0].getMinValue();
+        double numeratorMax = inputPorts[0].getMaxValue();
+
+        // 4 cases for the minimum
+        // numeratorMin >= 0 and min >= 0 --- Finding the smallest positive number ... divide numMin by max
+        // numeratorMin < 0 and pd >= 0   --- Finding the smallest negative number ... divide numMin by pd
+
+        // Now 2 mirror cases for the numeratorMax and nd
+        // numeratorMax < 0 and max < 0   --- Finding the smallest positive number ... divide numMax by min
+        // numeratorMax >= 0 and nd < 0   --- Finding the smallest negative number ... divide numMax by nd
+        double result = Math.min(binaryOperation(numeratorMin, pd), binaryOperation(numeratorMax, nd));
+        if(result >= 0) {
+            result = Math.min(binaryOperation(numeratorMin, max), binaryOperation(numeratorMax, min));
+
+        }
+        return result;
     }
+
+
     @Override
     public double getMaxValue() {
-    TODO: TOMORROW
+        double min = inputPorts[1].getMinValue();
+        double max = inputPorts[1].getMaxValue();
+        double pd = Reciprocal.getSmallestPositiveDenominator(min, max, minAllowedVal);
+        double nd = Reciprocal.getSmallestNegativeDenominator(min, max, minAllowedVal);
+
+        double numeratorMin = inputPorts[0].getMinValue();
+        double numeratorMax = inputPorts[0].getMaxValue();
+
+
+        // 4 cases for the maximum
+        // Same as minimum just switch "signs", now when we get positive it is good (for maximum) -
+        // swap numeratorMin with numeratorMax (and numMax with numMin) and change the first compare operator
+        // numeratorMax < 0 and min >= 0   --- Finding the smallest negative number ... divide numMax by max
+        // numeratorMax >= 0 and pd >= 0   --- Finding the biggest positive number  ... divide numMax by pd
+
+        // Now 2 mirror cases for the numeratorMin and nd
+        // numeratorMin >= 0 and max < 0   --- Finding the smallest negative number ... divide numMin by min
+        // numeratorMin < 0 and nd < 0     --- Finding the biggest positive number  ... divide numMin by nd
+        double result = Math.max(binaryOperation(numeratorMax, pd), binaryOperation(numeratorMin, nd));
+        if(result < 0) {
+            result = Math.max(binaryOperation(numeratorMax, max), binaryOperation(numeratorMin, min));
+
+        }
+        return result;
     }
 
 

@@ -106,19 +106,19 @@ public class Reciprocal extends UnaryOperator {
     public double getMinValue() {
         double min = inputPorts[0].getMinValue();
         double max = inputPorts[0].getMaxValue();
-        double d = getMinDenominator(min, max, minAllowedVal);
+        double d = getDenominatorForMinValue(min, max, minAllowedVal);
         return 1 / d;
     }
     @Override
     public double getMaxValue() {
         double min = inputPorts[0].getMinValue();
         double max = inputPorts[0].getMaxValue();
-        double d = getMaxDenominator(min, max, minAllowedVal);
+        double d = getDenominatorForMaxValue(min, max, minAllowedVal);
         return 1 / d;
     }
 
 
-    public static double getMinDenominator(double min, double max, double minAllowedVal) {
+    public static double getDenominatorForMinValue(double min, double max, double minAllowedVal) {
         if(min >= 0) {
             max = Math.max(max, minAllowedVal);
             return max;
@@ -133,7 +133,7 @@ public class Reciprocal extends UnaryOperator {
         }
     }
 
-    public static double getMaxDenominator(double min, double max, double minAllowedVal) {
+    public static double getDenominatorForMaxValue(double min, double max, double minAllowedVal) {
         if(max < 0) {
             min = Math.min(min, -minAllowedVal);
             return min;
@@ -145,6 +145,38 @@ public class Reciprocal extends UnaryOperator {
             else {
                 return minAllowedVal;
             }
+        }
+    }
+
+    /**
+     * If it returns negative number, then there isn't any positive number on the [min, max] interval.
+     * @param min
+     * @param max
+     * @param minAllowedVal
+     * @return
+     */
+    public static double getSmallestPositiveDenominator(double min, double max, double minAllowedVal) {
+        if(min <= minAllowedVal && max >= 0) {
+            return minAllowedVal;
+        }
+        else {
+            return min;
+        }
+    }
+
+    /**
+     * If it returns positive number, then there isn't any negative number on the [min, max] interval.
+     * @param min
+     * @param max
+     * @param minAllowedVal
+     * @return
+     */
+    public static double getSmallestNegativeDenominator(double min, double max, double minAllowedVal) {
+        if(max >= -minAllowedVal && min < 0) {
+            return -minAllowedVal;
+        }
+        else {
+            return max;
         }
     }
 

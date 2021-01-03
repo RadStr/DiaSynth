@@ -2092,8 +2092,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void scrollToStart() {
         // What we do is first move the scroll to start so there won't be any issue with invalid scroll location and
         // then fake the zoom to fix size inconsistencies.
-        // Otherwise there will be issue with the drawing of wave,
-        // it will be drawn twice, but even after this, it will still be drawn incorrectly (the wave will be moved to right)
+        // Otherwise there would be issue with the drawing of wave,
+        // it would be drawn twice, but even after this, it would still be drawn incorrectly (the wave would be moved to right)
 
 
         waveScrollerWrapperPanel.scrollToStart();
@@ -2179,7 +2179,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     break;
                 case FFT_COMPLEX_VIEW_ONLY:
                     menuItem = new JMenuItem("FFT window complex (view only)");
-                    menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT. Doesn't allow editing");
+                    menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT. " +
+                                            "Doesn't allow editing");
                     break;
                 case WAVESHAPER:
                     menuItem = new JMenuItem("Waveshaper");
@@ -2239,7 +2240,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param DRAW_TYPE
      * @param sampleRate is only needed for the FFT draw panels.
      * @param waveAdder  is needed everywhere except waveshaper.
-     * @param inputArr   is the array which will be used as input for the draw panel, can be null. Also used only for the FFT draw panels.
+     * @param inputArr   is the array which will be used as input for the draw panel, can be null.
+     *                   Also used only for the FFT draw panels.
      * @param startIndex useful only when inputArr is non-null. If < 0 then set to 0. Also used only for the FFT draw panels.
      * @param windowSize useful only when inputArr is non-null. If <= 0 then set to 1024. Also used only for the FFT draw panels.
      * @return
@@ -2390,7 +2392,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addAudioOperationsWithoutWave(JMenu menu) {
         OperationOnWavePluginIFace op;
 

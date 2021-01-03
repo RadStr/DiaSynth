@@ -178,7 +178,8 @@ public class WavePanel extends JPanel {
             resetLengthChangedMarker();
             currScroll = wholeWavePanel.getCurrentHorizontalScroll();
             int newVisibleWidth = repairPreferredWidthToVisibleWidth(visibleWaveWidth);
-            currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(), getSongLen());
+            currentDrawValues.waveResize(newVisibleWidth, waveWidth, mainWaveClass.getCurrentStartIndexInAudio(),
+                                         getSongLen());
 
             this.revalidate();
             this.repaint();
@@ -190,7 +191,9 @@ public class WavePanel extends JPanel {
      * @return Returns new visible wave width
      */
     private int repairPreferredWidthToVisibleWidth(int visibleWaveWidth) {
-        double zoomMultiplication = Math.pow(ZOOM_VALUE, zoomVariables.currentZoom);       // Because I can be larger even when zooming (for example for zoom == 1 I need to have the visible widrth larger than 2048 which is possible)
+        // Because it can be larger even when zooming
+        // (for example for zoom == 1 I need to have the visible width larger than 2048 which is possible)
+        double zoomMultiplication = Math.pow(ZOOM_VALUE, zoomVariables.currentZoom);
 
         if (visibleWaveWidth > waveWidth) {
             int possibleDefaultWaveWidth = (int) (visibleWaveWidth / zoomMultiplication);
@@ -235,7 +238,8 @@ public class WavePanel extends JPanel {
         int valueCount = getSongLen();
 
         drawValuesIndividual = new WaveDrawValuesIndividual(leftPixel, visibleWaveWidth,
-                                                            totalWaveWidth, startIndex, valueCount, WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierIndividual);
+                                                            totalWaveWidth, startIndex, valueCount,
+                                                            WINDOW_COUNT_TO_THE_RIGHT, drawValuesSupplierIndividual);
         currentDrawValues = drawValuesIndividual;
     }
 
@@ -420,7 +424,8 @@ public class WavePanel extends JPanel {
      * @param startIndex
      * @param inputLen
      * @param outputLen  is the number of the wanted pixels in output, in classic case it is == width,
-     *                   so the values array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     *                   so the values array has to be at least twice the outputLen since.
+     *                  It needs to contain min and max for each pixel
      * @return
      */
     public static int findExtremesInValues(double[] values, int startIndex, int outputStartIndex, int inputLen, int outputLen) {
@@ -428,7 +433,8 @@ public class WavePanel extends JPanel {
         return findExtremesInValues(values, values, startIndex, outputStartIndex, inputLen, inputValsPerOutputVals, outputLen);
     }
 
-    public static int findExtremesInValues(double[] values, int startIndex, int outputStartIndex, int inputLen, double inputValsPerOutputVals) {
+    public static int findExtremesInValues(double[] values, int startIndex, int outputStartIndex, int inputLen,
+                                           double inputValsPerOutputVals) {
         int outputLen = calculateOutputLen(inputLen, inputValsPerOutputVals);
         return findExtremesInValues(values, values, startIndex, outputStartIndex, inputLen, inputValsPerOutputVals, outputLen);
     }
@@ -436,7 +442,8 @@ public class WavePanel extends JPanel {
     public static int findExtremesInValues(double[] values, double[] extremes, int startIndex, int outputStartIndex,
                                            int inputLen, double inputValsPerOutputVals) {
         int outputLen = calculateOutputLen(inputLen, inputValsPerOutputVals);
-        return findExtremesInValues(values, extremes, startIndex, outputStartIndex, inputLen, inputValsPerOutputVals, outputLen);
+        return findExtremesInValues(values, extremes, startIndex, outputStartIndex, inputLen,
+                                    inputValsPerOutputVals, outputLen);
     }
 
 
@@ -692,7 +699,8 @@ public class WavePanel extends JPanel {
 
     public void saveZoomBridgeImg() {
         Rectangle visibleRect = this.getVisibleRect();
-        // When there is no bridge img already, we aren't initializing and when the wave is visible (we don't need to scroll to find it),
+        // When there is no bridge img already, we aren't initializing and when the wave is visible
+        // (we don't need to scroll to find it),
         // then save bridge picture
         if (zoomBridgeImg == null && zoomVariables != null && visibleRect.width > 0 && visibleRect.height > 0) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
@@ -723,8 +731,8 @@ public class WavePanel extends JPanel {
         int newVisibleWidth = wholeWavePanel.getWaveVisibleWidth();
         waveWidth = newWidth;
 
-        int startIndexInValues = getLeftPixelAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom, shouldZoomToMid,
-                                                       shouldZoomToEnd);
+        int startIndexInValues = getLeftPixelAfterZoom(oldWidth, newWidth, newVisibleWidth, scrollBeforeZoom,
+                                                       shouldZoomToMid, shouldZoomToEnd);
         currScroll = startIndexInValues;
         setDrawValuesInZoom(startIndexInValues, newVisibleWidth, newWidth);
     }
@@ -750,7 +758,10 @@ public class WavePanel extends JPanel {
             if (drawValuesAggregated != currentDrawValues) {
                 drawValuesIndividual = null;
                 drawValuesAggregated = new WaveDrawValuesAggregated(newVisibleWidth,
-                                                                    newWidth, mainWaveClass.getCurrentStartIndexInAudio(), valueCount, WINDOW_COUNT_TO_THE_RIGHT, mainWaveClass);
+                                                                    newWidth,
+                                                                    mainWaveClass.getCurrentStartIndexInAudio(),
+                                                                    valueCount, WINDOW_COUNT_TO_THE_RIGHT,
+                                                                    mainWaveClass);
                 currentDrawValues = drawValuesAggregated;
             }
             else {
@@ -804,8 +815,8 @@ public class WavePanel extends JPanel {
         return (int) (scrollBeforeZoom * ratio);
     }
 
-    public static int getLeftPixelAfterZoom(int oldWidth, int newWidth, int newVisibleWidth, int scrollBeforeZoom, boolean shouldZoomToMid,
-                                            boolean shouldZoomToEnd) {
+    public static int getLeftPixelAfterZoom(int oldWidth, int newWidth, int newVisibleWidth, int scrollBeforeZoom,
+                                            boolean shouldZoomToMid, boolean shouldZoomToEnd) {
         int scrollAfterZoom;
 
         if (shouldZoomToMid) {
@@ -1027,7 +1038,8 @@ public class WavePanel extends JPanel {
     }
 
     /**
-     * Internal copying method - copies the start of old array and the arrToCopy. Returns the first free index in the newSong (first free output index)
+     * Internal copying method - copies the start of old array and the arrToCopy.
+     * Returns the first free index in the newSong (first free output index)
      *
      * @param oldSong
      * @param arrToCopy
@@ -1110,7 +1122,8 @@ public class WavePanel extends JPanel {
 
     class DrawValuesSupplierIndividual extends DrawValuesSupplier {
         @Override
-        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
+        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex,
+                                               int startFillIndex) {
             double[] song = doubleWave.getSong();
             for (int i = bufferStartIndex, fillInd = startFillIndex; i < bufferEndIndex; i++, fillInd++) {
                 buffer[i] = song[fillInd];
@@ -1142,14 +1155,16 @@ public class WavePanel extends JPanel {
 
     class DrawValuesSupplierAggregated extends DrawValuesSupplier {
         @Override
-        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex, int startFillIndex) {
+        public void fillBufferWithValuesToDraw(double[] buffer, int bufferStartIndex, int bufferEndIndex,
+                                               int startFillIndex) {
             int outputLen = (bufferEndIndex - bufferStartIndex) / 2;        // /2 because there are min and max
             double samplesPerPixel = calculateInputValsPerOutputValsPure(getSongLen(), waveWidth);
             int inputLen = (int) (samplesPerPixel * outputLen);
 
             double[] song = doubleWave.getSong();
             startFillIndex = (int) (samplesPerPixel * startFillIndex);
-            int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex, inputLen, outputLen);
+            int outIndex = WavePanel.findExtremesInValues(song, buffer, startFillIndex, bufferStartIndex,
+                                                          inputLen, outputLen);
         }
 
 

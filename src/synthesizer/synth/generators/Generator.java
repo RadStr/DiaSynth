@@ -76,7 +76,6 @@ public abstract class Generator extends GeneratorNoPhase {
     // The alpha and beta are the f_c and f_m but converted to rad/s (so it is just freqToRad())
     // https://ccrma.stanford.edu/sites/default/files/user/jc/fm_synthesispaper-2.pdf
 
-
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Frequency_Modulation.html
     // https://www.sfu.ca/sonic-studio-webdav/handbook/Graphics/Frequency_Modulation2.gif
     // https://web.sonoma.edu/esee/courses/ee442/lectures/sp2017/lect08_angle_mod.pdf - page 9, 13
@@ -156,7 +155,8 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
+                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i],
+                                                      freqs[i], phase);
                     }
                 }
                 else {
@@ -165,7 +165,8 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phase);
+                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i],
+                                                      freqs[i], phase);
                     }
                 }
             }
@@ -196,7 +197,8 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
+                                                      carrierFreq, modWaveFreqs[i], modWaveOutValues[i],
+                                                      freqs[i], phases[i]);
                     }
                 }
                 else {
@@ -206,7 +208,8 @@ public abstract class Generator extends GeneratorNoPhase {
 
                     for (int i = 0; i < results.length; i++, timeInSeconds += timeJump) {
                         results[i] = generateSampleFM(timeInSeconds, diagramFrequency, amps[i],
-                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i], freqs[i], phases[i]);
+                                                      carrierWaveFreqs[i], modWaveFreqs[i], modWaveOutValues[i],
+                                                      freqs[i], phases[i]);
                     }
                 }
             }

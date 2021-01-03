@@ -7,7 +7,6 @@ import util.audio.format.ChannelCount;
 import player.popup.WavePanelPopupMenuActionsIFace;
 import util.swing.JTextFieldResizeable;
 import util.audio.wave.DoubleWave;
-import test.ProgramTest;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -604,7 +603,7 @@ public class WaveMainPanel extends JPanel implements WaveMixPanelUpdaterIFace,
 
     public void updateHorizontalScrollSize() {
         int newScrollWidth = getHorizontalScrollSizeForThisWave();
-        panelWithWaves.setWaveScrollPanelsSizes(wave.getX(), newScrollWidth);
+        panelWithWaves.setWaveScrollerPanelsSizes(wave.getX(), newScrollWidth);
     }
 
     public int getHorizontalScrollSizeForThisWave() {

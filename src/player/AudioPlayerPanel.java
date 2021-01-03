@@ -144,11 +144,11 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         return new Dimension(waveScrollerWrapperPanel.getEmptyPanelSizeDebug());
     }
 
-    private void setWaveScrollPanelsSizes(Dimension size) {
-        setWaveScrollPanelsSizes(size.width, size.height);
+    private void setWaveScrollerPanelsSizes(Dimension size) {
+        setWaveScrollerPanelsSizes(size.width, size.height);
     }
 
-    private void setWaveScrollPanelsSizes(int leftPanelWidth, int rightPanelWidth, int h) {
+    private void setWaveScrollerPanelsSizes(int leftPanelWidth, int rightPanelWidth, int h) {
         waveScrollerWrapperPanel.setEmptyPanelsSizes(leftPanelWidth, rightPanelWidth, h);
     }
 
@@ -158,8 +158,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
      * @param leftPanelWidth
      * @param rightPanelWidth
      */
-    public void setWaveScrollPanelsSizes(int leftPanelWidth, int rightPanelWidth) {
-        setWaveScrollPanelsSizes(leftPanelWidth, rightPanelWidth, 0);
+    public void setWaveScrollerPanelsSizes(int leftPanelWidth, int rightPanelWidth) {
+        setWaveScrollerPanelsSizes(leftPanelWidth, rightPanelWidth, 0);
     }
 
     private Timer waveScrollerPollTimer;
@@ -439,13 +439,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private FrameWithFocusControl thisFrame;
 
     public void setVariablesWhichNeededSize() {
-        setWaveScrollPanelsSizes();
+        setWaveScrollerPanelsSizes();
         if (!waveScrollerPollTimer.isRunning()) {
             waveScrollerPollTimer.start();
         }
     }
 
-    private void setWaveScrollPanelsSizes() {
+    private void setWaveScrollerPanelsSizes() {
         // https://stackoverflow.com/questions/19869751/get-size-of-jpanel-before-setvisible-called
         int maxWaveWidth = Integer.MIN_VALUE;
         WaveMainPanel maxWave = null;
@@ -457,7 +457,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         }
 
-        setWaveScrollPanelsSizes(maxWave.getWaveStartX(), maxWaveWidth);
+        setWaveScrollerPanelsSizes(maxWave.getWaveStartX(), maxWaveWidth);
         waveScrollerWrapperPanel.setLastEmptyPanelWidth(getPanelWithWavesVerticalScrollbarWidth());
         waveScrollerWrapperPanel.revalidateEmptyPanel();
         waveScrollerWrapperPanel.repaintEmptyPanel();
@@ -765,7 +765,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if (oldVisibleWidth != w && waves.size() != 0) {
                     oldVisibleWidth = w;
                     visibleWidthChangedCallback();
-                    setWaveScrollPanelsSizes();
+                    setWaveScrollerPanelsSizes();
                 }
             }
         };
@@ -3838,7 +3838,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
             callOnResize();
-            setWaveScrollPanelsSizes();
+            setWaveScrollerPanelsSizes();
             this.revalidate();
             this.repaint();
         }

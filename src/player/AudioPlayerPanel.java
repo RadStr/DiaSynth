@@ -1,6 +1,7 @@
 package player;
 
 
+import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
 import player.wave.WavePanelMouseListener;
 import util.audio.wave.ByteWave;
 import player.mixer.*;
@@ -2513,7 +2514,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean canContinueOperation = loadPluginParameters(operation, true);
+                OperationOnWavesPlugin alignPanel = new OperationOnWavesPlugin();
+                boolean canContinueOperation = loadPluginParameters(alignPanel, true);
+                if (!canContinueOperation) {
+                    return;
+                }
+
+                canContinueOperation = loadPluginParameters(operation, true);
                 if (canContinueOperation) {
                     stopAndModifyAudio(false, new ModifyAudioIFace() {
                         @Override
@@ -2634,7 +2641,13 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
                 // To reset the plugin
 
-                boolean canContinueOperation = loadPluginParameters(plugin, true);
+
+                OperationOnWavesPlugin alignPanel = new OperationOnWavesPlugin();
+                boolean canContinueOperation = loadPluginParameters(alignPanel, true);
+                if (!canContinueOperation) {
+                    return;
+                }
+                canContinueOperation = loadPluginParameters(plugin, true);
                 if (canContinueOperation) {
                     stopAndModifyAudio(false, new ModifyAudioIFace() {
                         @Override
@@ -2728,6 +2741,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 if (doubleWave == clipboard.getWave()) {
                     continue;
                 }
+
                 if (shouldMarkPart) {
                     operation.performOperation(clipboard.getWave(), doubleWave,
                                                clipboard.getMarkStartSample(), clipboard.getMarkEndSample(),

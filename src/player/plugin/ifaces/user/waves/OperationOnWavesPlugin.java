@@ -1,5 +1,6 @@
 package player.plugin.ifaces.user.waves;
 
+import player.plugin.ifaces.user.waves.util.EndIndicesIntPair;
 import plugin.EnumWrapperForAnnotationPanelIFace;
 import plugin.PluginParameterAnnotation;
 import util.audio.wave.DoubleWave;
@@ -10,47 +11,51 @@ import util.audio.wave.DoubleWave;
  * The plugin inheriting from this has also has to have implements OperationOnWavesPluginIFace in signature, else it won't
  * be found as plugin.
  */
-abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace,
-                                                        EnumWrapperForAnnotationPanelIFace {
+public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace,
+                                               EnumWrapperForAnnotationPanelIFace {
     @PluginParameterAnnotation(name = "Length alignment:", defaultValue = "TRUE",
                                parameterTooltip = "The enum which value tells what alignment should be done. " +
                                                   "Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
 
-    public AlignmentEnum getLengthAlignment() {
-        return lengthAlignment;
-    }
+    private EndIndicesIntPair endIndicesIntPair = new EndIndicesIntPair();
 
-    public void setLengthAlignment(AlignmentEnum val) {
-        this.lengthAlignment = val;
-    }
-
-    private int inputEndIndex;
-
-    public int getInputEndIndex() {
-        return inputEndIndex;
-    }
-
-    public void setInputEndIndex(int val) {
-        this.inputEndIndex = val;
-    }
-
-    private int outputEndIndex;
-
-    public int getOutputEndIndex() {
-        return outputEndIndex;
-    }
-
-    public void setOutputEndIndex(int val) {
-        this.outputEndIndex = val;
-    }
+// TODO: Vymazat
+//    public AlignmentEnum getLengthAlignment() {
+//        return lengthAlignment;
+//    }
+//
+//    public void setLengthAlignment(AlignmentEnum val) {
+//        this.lengthAlignment = val;
+//    }
+//
+//    private int inputEndIndex;
+//
+//    public int getInputEndIndex() {
+//        return inputEndIndex;
+//    }
+//
+//    public void setInputEndIndex(int val) {
+//        this.inputEndIndex = val;
+//    }
+//
+//    private int outputEndIndex;
+//
+//    public int getOutputEndIndex() {
+//        return outputEndIndex;
+//    }
+//
+//    public void setOutputEndIndex(int val) {
+//        this.outputEndIndex = val;
+//    }
 
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
                                  int outputStartIndex, int outputEndIndex) {
-        lengthAlignment.updateEndIndicesBasedOnEnumValue(this, inputStartIndex, inputEndIndex,
-                                                         outputStartIndex, outputEndIndex, input.getSongLength(), output.getSongLength());
+        lengthAlignment.updateEndIndicesBasedOnEnumValue(endIndicesIntPair, inputStartIndex, inputEndIndex,
+                                                         outputStartIndex, outputEndIndex, input.getSongLength(),
+                                                         output.getSongLength());
     }
 
 
@@ -102,5 +107,37 @@ abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIF
                    "</html>";
         }
         return "";
+    }
+
+    /**
+     * @return Returns tooltip which will be shown when hovering over the button which will perform the operation.
+     */
+    @Override
+    public String getPluginTooltip() {
+        return "Set alignment";
+    }
+
+    /**
+     * @return Returns true if the operation needs parameters - so user needs to put them to the JPanel.
+     * If it returns false, then it doesn't need parameters from user and the operation can start immediately
+     */
+    @Override
+    public boolean shouldWaitForParametersFromUser() {
+        return true;
+    }
+
+    /**
+     * This parameter matters only when shouldWaitForParametersFromUser returns true
+     *
+     * @return
+     */
+    @Override
+    public boolean isUsingPanelCreatedFromAnnotations() {
+        return true;
+    }
+
+    @Override
+    public String getPluginName() {
+        return "Alignment";
     }
 }

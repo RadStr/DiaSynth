@@ -4,16 +4,13 @@ import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
 
-public class AdditionOnWaves extends OperationOnWavesPluginIFace {
+public class AdditionOnWaves implements OperationOnWavesPluginIFace {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
                                  int outputStartIndex, int outputEndIndex) {
-        super.performOperation(input, output, inputStartIndex, inputEndIndex, outputStartIndex, outputEndIndex);
         double[] inputWave = input.getSong();
         double[] outputWave = output.getSong();
-        inputEndIndex = getInputEndIndex();
-        outputEndIndex = getOutputEndIndex();
         ArithmeticOperation.performOperationOnSamples(inputWave, outputWave, inputStartIndex, inputEndIndex,
                                                       outputStartIndex, outputEndIndex, ArithmeticOperation.PLUS);
     }

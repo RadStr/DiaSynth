@@ -5,16 +5,13 @@ import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import util.Utilities;
 import util.audio.wave.DoubleWave;
 
-public class FillWaveWithOtherWaveOperation extends OperationOnWavesPluginIFace {
+public class FillWaveWithOtherWaveOperation implements OperationOnWavesPluginIFace {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
                                  int outputStartIndex, int outputEndIndex) {
-        super.performOperation(input, output, inputStartIndex, inputEndIndex, outputStartIndex, outputEndIndex);
         double[] inputWave = input.getSong();
         double[] outputWave = output.getSong();
-        inputEndIndex = getInputEndIndex();
-        outputEndIndex = getOutputEndIndex();
         FillWaveWithOtherWaveOperation.fillArrayWithValues(inputWave, outputWave, inputStartIndex,
                                                            inputEndIndex, outputStartIndex, outputEndIndex);
     }

@@ -6,6 +6,10 @@ public class EndIndicesIntPair {
         this.outputWaveEndIndex = outputWaveEndIndex;
     }
 
+    public EndIndicesIntPair() {
+        // EMPTY
+    }
+
     public int inputWaveEndIndex;
     public int outputWaveEndIndex;
 }

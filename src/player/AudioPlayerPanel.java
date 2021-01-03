@@ -448,7 +448,6 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         int maxWaveWidth = Integer.MIN_VALUE;
         WaveMainPanel maxWave = null;
         for (WaveMainPanel w : waves) {
-//            w.setVariablesWhichNeededSize();
             int newPossibleMaxWidth = w.getHorizontalScrollSizeForThisWave();
             if (maxWaveWidth < newPossibleMaxWidth) {
                 maxWaveWidth = newPossibleMaxWidth;

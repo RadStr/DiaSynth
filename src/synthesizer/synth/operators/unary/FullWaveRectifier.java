@@ -20,6 +20,36 @@ public class FullWaveRectifier extends UnaryOperator {
         return Math.abs(val);
     }
 
+
+    @Override
+    public double getMaxAbsValue() {
+        return unaryOperation(inputPorts[0].getMaxAbsValue());
+    }
+
+    @Override
+    public double getMinValue() {
+        double min = inputPorts[0].getMinValue();
+        double max = inputPorts[0].getMaxValue();
+        if(min <= 0 && max >= 0) {      // It goes through 0
+            return 0;
+        }
+        else {                          // Doesn't go through zero
+            if(min >= 0) {              // Only positive
+                return min;
+            }
+            else {                      // Only negative
+                return -max;
+            }
+        }
+    }
+
+    @Override
+    public double getMaxValue() {
+        return unaryOperation(inputPorts[0].getMaxAbsValue());
+    }
+
+
+
     @Override
     public String getDefaultPanelName() {
         return "RECT";

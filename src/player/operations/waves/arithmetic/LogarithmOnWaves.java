@@ -1,10 +1,10 @@
 package player.operations.waves.arithmetic;
 
-import player.plugin.ifaces.user.waves.OperationOnWavesPlugin;
+import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import util.audio.wave.DoubleWave;
 import util.math.ArithmeticOperation;
 
-public class LogarithmOnWaves extends OperationOnWavesPlugin {
+public class LogarithmOnWaves extends OperationOnWavesPluginIFace {
     @Override
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,

@@ -1,6 +1,6 @@
-package player.plugin.ifaces.user.waves;
+package player.plugin.ifaces.user.waves.util;
 
-import player.plugin.ifaces.user.waves.util.EndIndicesIntPair;
+import player.plugin.ifaces.user.waves.OperationOnWavesPluginIFace;
 import plugin.EnumWrapperForAnnotationPanelIFace;
 import plugin.PluginParameterAnnotation;
 import util.audio.wave.DoubleWave;

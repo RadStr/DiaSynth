@@ -1,6 +1,4 @@
-package player.plugin.ifaces.user.waves;
-
-import player.plugin.ifaces.user.waves.util.EndIndicesIntPair;
+package player.plugin.ifaces.user.waves.util;
 
 public enum AlignmentEnum {
     NO_ALIGNMENT {

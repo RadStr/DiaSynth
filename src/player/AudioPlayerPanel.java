@@ -1,7 +1,7 @@
 package player;
 
 
-import player.plugin.ifaces.user.waves.AlignmentOnWavesOperation;
+import player.plugin.ifaces.user.waves.util.AlignmentOnWavesOperation;
 import player.wave.WavePanelMouseListener;
 import util.audio.wave.ByteWave;
 import player.mixer.*;

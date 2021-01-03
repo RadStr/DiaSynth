@@ -106,7 +106,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         thisFrame.setEnabled(false);
         audioThread.pause();
         if (outputAudioFormat.getChannels() < newFormat.getChannels()) {
-            channelCountChanged = true;         // The splitters divider locs will be moved, but we don't want to trigger the listeners
+            // The splitters divider locs will be moved, but we don't want to trigger the listeners
+            channelCountChanged = true;
         }
         outputAudioFormat = newFormat;
         ChannelCount channelCount = getChannelCount();
@@ -398,7 +399,8 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     }
 
     private JSplitPane addNonFirstWave(DoubleWave wave) {
-        // Now just keep adding to the old splitter new splitter which has in top component the sound waves and in bottom component empty panel
+        // Now just keep adding to the old splitter new splitter which has in top component the sound waves and
+        // in bottom component empty panel
         ChannelCount channelCount = getChannelCount();
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         int waveIndex = waves.size() + 1;

@@ -10,9 +10,11 @@ import util.audio.wave.DoubleWave;
  * The plugin inheriting from this has also has to have implements OperationOnWavesPluginIFace in signature, else it won't
  * be found as plugin.
  */
-abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace, EnumWrapperForAnnotationPanelIFace {
+abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIFace,
+                                                        EnumWrapperForAnnotationPanelIFace {
     @PluginParameterAnnotation(name = "Length alignment:", defaultValue = "TRUE",
-                               parameterTooltip = "The enum which value tells what alignment should be done. Only changes the end indices not the start indices")
+                               parameterTooltip = "The enum which value tells what alignment should be done. " +
+                                                  "Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;
 
     public AlignmentEnum getLengthAlignment() {
@@ -47,8 +49,8 @@ abstract public class OperationOnWavesPlugin implements OperationOnWavesPluginIF
     public void performOperation(DoubleWave input, DoubleWave output,
                                  int inputStartIndex, int inputEndIndex,
                                  int outputStartIndex, int outputEndIndex) {
-        lengthAlignment.updateDataBasedOnEnumValue(this, inputStartIndex, inputEndIndex,
-                                                   outputStartIndex, outputEndIndex, input.getSongLength(), output.getSongLength());
+        lengthAlignment.updateEndIndicesBasedOnEnumValue(this, inputStartIndex, inputEndIndex,
+                                                         outputStartIndex, outputEndIndex, input.getSongLength(), output.getSongLength());
     }
 
 

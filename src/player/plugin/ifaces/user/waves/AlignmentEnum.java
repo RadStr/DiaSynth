@@ -1,8 +1,10 @@
 package player.plugin.ifaces.user.waves;
 
+import player.plugin.ifaces.user.waves.util.EndIndicesIntPair;
+
 public enum AlignmentEnum {
     NO_ALIGNMENT {
-        public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
+        public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
                                                int inputStartIndex, int inputEndIndex,
                                                int outputStartIndex, int outputEndIndex,
                                                int inputSongLength, int outputSongLength) {
@@ -10,10 +12,10 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_SHORTER {
-        public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
-                                               int inputStartIndex, int inputEndIndex,
-                                               int outputStartIndex, int outputEndIndex,
-                                               int inputSongLength, int outputSongLength) {
+        public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
+                                                     int inputStartIndex, int inputEndIndex,
+                                                     int outputStartIndex, int outputEndIndex,
+                                                     int inputSongLength, int outputSongLength) {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
 
@@ -30,10 +32,10 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_LONGER {
-        public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
-                                               int inputStartIndex, int inputEndIndex,
-                                               int outputStartIndex, int outputEndIndex,
-                                               int inputSongLength, int outputSongLength) {
+        public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
+                                                     int inputStartIndex, int inputEndIndex,
+                                                     int outputStartIndex, int outputEndIndex,
+                                                     int inputSongLength, int outputSongLength) {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
             if (outputLen > inputLen) {
@@ -49,10 +51,10 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_INPUT {
-        public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
-                                               int inputStartIndex, int inputEndIndex,
-                                               int outputStartIndex, int outputEndIndex,
-                                               int inputSongLength, int outputSongLength) {
+        public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
+                                                     int inputStartIndex, int inputEndIndex,
+                                                     int outputStartIndex, int outputEndIndex,
+                                                     int inputSongLength, int outputSongLength) {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
             int dif = outputLen - inputLen;
@@ -62,10 +64,10 @@ public enum AlignmentEnum {
         }
     },
     ALIGN_TO_OUTPUT {
-        public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
-                                               int inputStartIndex, int inputEndIndex,
-                                               int outputStartIndex, int outputEndIndex,
-                                               int inputSongLength, int outputSongLength) {
+        public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
+                                                     int inputStartIndex, int inputEndIndex,
+                                                     int outputStartIndex, int outputEndIndex,
+                                                     int inputSongLength, int outputSongLength) {
             int inputLen = inputEndIndex - inputStartIndex;
             int outputLen = outputEndIndex - outputStartIndex;
             int dif = inputLen - outputLen;
@@ -75,14 +77,27 @@ public enum AlignmentEnum {
         }
     };
 
-    abstract public void updateDataBasedOnEnumValue(OperationOnWavesPlugin classToBeUpdated,
-                                                    int inputStartIndex, int inputEndIndex,
-                                                    int outputStartIndex, int outputEndIndex,
-                                                    int inputSongLength, int outputSongLength);
 
-    private static void setEndIndices(OperationOnWavesPlugin classToBeUpdated, int inputEndIndex, int outputEndIndex) {
-        classToBeUpdated.setInputEndIndex(inputEndIndex);
-        classToBeUpdated.setOutputEndIndex(outputEndIndex);
+    /**
+     * Takes the input parameters and based on the parameters and the enum value changes the end indices and puts them to
+     * to the classToBeUpdated parameter. The values inside classToBeUpdated aren't considered, it is just used as
+     * output parameter.
+     * @param classToBeUpdated is the container with end indices to be updated. Output parameter.
+     * @param inputStartIndex
+     * @param inputEndIndex
+     * @param outputStartIndex
+     * @param outputEndIndex
+     * @param inputSongLength
+     * @param outputSongLength
+     */
+    abstract public void updateEndIndicesBasedOnEnumValue(EndIndicesIntPair classToBeUpdated,
+                                                          int inputStartIndex, int inputEndIndex,
+                                                          int outputStartIndex, int outputEndIndex,
+                                                          int inputSongLength, int outputSongLength);
+
+    private static void setEndIndices(EndIndicesIntPair classToBeUpdated, int inputEndIndex, int outputEndIndex) {
+        classToBeUpdated.inputWaveEndIndex = inputEndIndex;
+        classToBeUpdated.outputWaveEndIndex = outputEndIndex;
     }
 
 

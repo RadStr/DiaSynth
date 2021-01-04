@@ -37,7 +37,7 @@ public class SynthDiagram extends Thread {
         while (true) {
             try {
                 for (Unit unit : units) {
-                    if (!unit.performedCalculation) {
+                    if (!unit.getPerformedCalculation()) {
                         unit.calculateSamples();
                         unit.markAsCalculated();
                     }
@@ -85,7 +85,7 @@ public class SynthDiagram extends Thread {
             try {
                 for (Unit unit : units) {
                     // If it wasn't written yet (Since it is possible that it was written and some new unit was added)
-                    if (!unit.performedCalculation) {
+                    if (!unit.getPerformedCalculation()) {
                         unit.calculateSamplesInstantRecord(channelRecords, index, remainingLen);
                         unit.markAsCalculated();
                     }

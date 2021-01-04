@@ -174,7 +174,10 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     /**
      * Needs to be changed to true at the end of calculateSamples method
      */
-    protected boolean performedCalculation = false;
+    private boolean performedCalculation = false;
+    public boolean getPerformedCalculation() {
+        return performedCalculation;
+    }
 
     public void markAsCalculated() {
         performedCalculation = true;

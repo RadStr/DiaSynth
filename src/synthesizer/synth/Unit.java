@@ -197,6 +197,9 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     /**
      * Returns neutral values for ports (will be used to set default values for ports).
      * If null or if the array is shorter than number of ports then default values in ports are used.
+     * It is up to the person who implements the plugin, if
+     * he takes these values into consideration. He may ignore them and
+     * just set the input ports to hard-coded default values
      *
      * @return
      */

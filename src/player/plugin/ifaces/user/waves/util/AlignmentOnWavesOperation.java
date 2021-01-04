@@ -10,7 +10,7 @@ import util.audio.wave.DoubleWave;
  */
 public class AlignmentOnWavesOperation implements OperationOnWavesPluginIFace,
                                                   EnumWrapperForAnnotationPanelIFace {
-    @PluginParameterAnnotation(name = "Length alignment:", defaultValue = "TRUE",
+    @PluginParameterAnnotation(name = "Length alignment:",
                                parameterTooltip = "The enum which value tells what alignment should be done. " +
                                                   "Only changes the end indices not the start indices")
     private AlignmentEnum lengthAlignment = AlignmentEnum.NO_ALIGNMENT;

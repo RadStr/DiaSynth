@@ -33,7 +33,7 @@ public abstract class NoiseGenerator extends NoiseGeneratorNoFreq {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return null;
     }
 

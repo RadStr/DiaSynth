@@ -17,7 +17,7 @@ public class BinaryMultiplication extends BinaryOperator {
 
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return new double[]{1, 1};
     }
 

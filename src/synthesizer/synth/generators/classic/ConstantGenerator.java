@@ -120,7 +120,7 @@ public class ConstantGenerator extends Unit implements PluginBaseIFace {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         // Not used
         return null;
     }

@@ -65,7 +65,7 @@ abstract public class GeneratorNoPhase extends Unit {
 
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return null;
     }
 

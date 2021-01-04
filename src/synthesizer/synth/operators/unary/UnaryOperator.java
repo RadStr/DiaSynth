@@ -29,7 +29,7 @@ public abstract class UnaryOperator extends Operator {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return null;
     }
 

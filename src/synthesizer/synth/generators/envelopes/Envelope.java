@@ -54,7 +54,7 @@ public abstract class Envelope extends Unit {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return new double[0];
     }
 

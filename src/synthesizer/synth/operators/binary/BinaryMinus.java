@@ -17,7 +17,7 @@ public class BinaryMinus extends BinaryOperator {
 
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return new double[]{0, 0};
     }
 

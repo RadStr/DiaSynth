@@ -43,7 +43,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         Point relativePos = sp.getRelativePosToReferencePanel();
         this.shapedPanel = createShapedPanel(relativePos.x, relativePos.y, panelWithUnits.getReferencePanelWidth(),
                                              panelWithUnits.getReferencePanelHeight(), panelWithUnits);
-        inputPorts = createInputPorts(panelWithUnits, getNeutralValues());
+        inputPorts = createInputPorts(panelWithUnits, getNeutralValuesForPorts());
         outputPort = new OutputPort(this, shapedPanel);
         shapedPanel.setToolTipText(getTooltip());
     }
@@ -60,7 +60,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
         setPanelName(findFirstNonUsedName(panelWithUnits, getDefaultPanelName()));
         setPropertiesPanel();
         this.shapedPanel = createShapedPanel(panelWithUnits);
-        inputPorts = createInputPorts(panelWithUnits, getNeutralValues());
+        inputPorts = createInputPorts(panelWithUnits, getNeutralValuesForPorts());
         outputPort = new OutputPort(this, shapedPanel);
         shapedPanel.setToolTipText(getTooltip());
         this.panelWithUnits = panelWithUnits;
@@ -195,15 +195,15 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
     protected abstract InputPort[] createInputPorts(DiagramPanel panelWithUnits, double[] neutralValues);
 
     /**
-     * Returns neutral values for ports (will be used to set default values for ports).
-     * If null or if the array is shorter than number of ports then default values in ports are used.
+     * It is used as parameter to the createInputPorts method.
      * It is up to the person who implements the plugin, if
      * he takes these values into consideration. He may ignore them and
-     * just set the input ports to hard-coded default values
-     *
-     * @return
+     * just set the input ports to hard-coded default values in createInputPorts method.
+     * @return Returns neutral values for ports.
+     *         If null or if the array is shorter than number of ports
+     *         then these values should be ignored.
      */
-    public abstract double[] getNeutralValues();
+    public abstract double[] getNeutralValuesForPorts();
 
     protected OutputPort outputPort;
 
@@ -328,7 +328,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
                 int rh = panelWithUnits.getReferencePanelHeight();
                 panelWithUnits.removeInputPortLabels(shapedPanel);
                 shapedPanel = createShapedPanel(relativePos.x, relativePos.y, rw, rh, panelWithUnits);
-                inputPorts = createInputPorts(panelWithUnits, getNeutralValues());
+                inputPorts = createInputPorts(panelWithUnits, getNeutralValuesForPorts());
                 outputPort = new OutputPort(this, shapedPanel);
                 shapedPanel.setToolTipText(getTooltip());
                 shapedPanel.updateSize(new Dimension(rw, rh));

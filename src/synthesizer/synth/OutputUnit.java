@@ -197,7 +197,7 @@ public final class OutputUnit extends Unit implements PluginBaseIFace {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         return new double[]{0};
     }
 

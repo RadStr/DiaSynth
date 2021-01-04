@@ -46,7 +46,7 @@ public abstract class NoiseGeneratorNoFreq extends Unit {
     }
 
     @Override
-    public double[] getNeutralValues() {
+    public double[] getNeutralValuesForPorts() {
         // Not used
         return null;
     }

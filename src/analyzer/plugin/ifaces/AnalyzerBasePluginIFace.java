@@ -4,7 +4,7 @@ import plugin.util.PluginLoader;
 
 import java.util.List;
 
-public interface BaseAnalyzerPluginIFace {
+public interface AnalyzerBasePluginIFace {
     /**
      * Returns the name of the checkbox, which will be shown
      * to user in analyzer panel.(BPM, RMS, ..).
@@ -21,7 +21,7 @@ public interface BaseAnalyzerPluginIFace {
     String getTooltip();
 
     public static <T> List<T> loadPlugins(Class<T> pluginIface) {
-        String thisPackage = BaseAnalyzerPluginIFace.class.getPackage().getName();
+        String thisPackage = AnalyzerBasePluginIFace.class.getPackage().getName();
         int lastDot = thisPackage.lastIndexOf('.');
         String packageContainingPlugins = thisPackage.substring(0, lastDot + 1) + "plugins";
         return PluginLoader.loadPlugins(pluginIface, packageContainingPlugins);

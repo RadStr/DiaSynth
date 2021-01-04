@@ -4,7 +4,7 @@ import util.Pair;
 
 import java.util.List;
 
-public interface AnalyzerIntPluginIFace extends BaseAnalyzerPluginIFace {
+public interface AnalyzerIntPluginIFace extends AnalyzerBasePluginIFace {
     /**
      * @return Returns pair.
      * First value is the name which will be showed on left, next to the analyzed value.
@@ -14,6 +14,6 @@ public interface AnalyzerIntPluginIFace extends BaseAnalyzerPluginIFace {
 
     public static List<AnalyzerIntPluginIFace> loadPlugins() {
         Class<AnalyzerIntPluginIFace> pluginIFace = AnalyzerIntPluginIFace.class;
-        return BaseAnalyzerPluginIFace.loadPlugins(pluginIFace);
+        return AnalyzerBasePluginIFace.loadPlugins(pluginIFace);
     }
 }

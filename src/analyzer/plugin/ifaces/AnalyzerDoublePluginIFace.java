@@ -5,7 +5,7 @@ import util.audio.wave.DoubleWave;
 
 import java.util.List;
 
-public interface AnalyzerDoublePluginIFace extends BaseAnalyzerPluginIFace {
+public interface AnalyzerDoublePluginIFace extends AnalyzerBasePluginIFace {
     /**
      * @return Returns pair.
      * First value is the name which will be showed on left, next to the analyzed value.
@@ -15,6 +15,6 @@ public interface AnalyzerDoublePluginIFace extends BaseAnalyzerPluginIFace {
 
     public static List<AnalyzerDoublePluginIFace> loadPlugins() {
         Class<AnalyzerDoublePluginIFace> pluginIFace = AnalyzerDoublePluginIFace.class;
-        return BaseAnalyzerPluginIFace.loadPlugins(pluginIFace);
+        return AnalyzerBasePluginIFace.loadPlugins(pluginIFace);
     }
 }

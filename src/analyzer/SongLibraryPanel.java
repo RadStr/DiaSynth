@@ -156,7 +156,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         clearSelectedButton = new JButton();
         clearSelectedButton.setLayout(new BoxLayout(clearSelectedButton, BoxLayout.Y_AXIS));
-        JLabel l1 = new JLabel("Clears selected");
+        JLabel l1 = new JLabel("Clear selected");
         JLabel l2 = new JLabel("(Only removes them");
         JLabel l3 = new JLabel("from selected files list)");
         clearSelectedButton.add(l1);

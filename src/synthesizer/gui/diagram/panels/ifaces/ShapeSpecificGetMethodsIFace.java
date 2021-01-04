@@ -10,11 +10,11 @@ public interface ShapeSpecificGetMethodsIFace {
 
 
     /**
-     * Doesn't need to be overridden. It is there just for convenience
+     * Doesn't need to be overridden. It is there just for convenience.
      *
      * @param connectorIndex
      * @param connectorCount
-     * @return
+     * @return Returns the absolute coordinates last point of connection
      */
     default Point getLastPoint(int connectorIndex, int connectorCount) {
         Point p = new Point();
@@ -22,22 +22,28 @@ public interface ShapeSpecificGetMethodsIFace {
         return p;
     }
 
+    /**
+     * Gets the absolute coordinates last point of connection
+     * @param lastPoint
+     * @param connectorIndex
+     * @param connectorCount
+     */
     void getLastPoint(Point lastPoint, int connectorIndex, int connectorCount);
 
-    // These 2 methods are overridden in MovablePanel and doesn't need to be overridden anymore.
+    // These 2 methods are overridden in MovablePanel and there is no need to be overridden anymore.
 
     /**
      * This method should be overridden only once. It is same as getLastPoint(int connectorIndex, int connectorCount),
-     * but the overriding already knows the connector count.
+     * but the overriding class already knows the connector count.
      *
      * @param connectorIndex
-     * @return
+     * @return Returns the absolute coordinates last point of connection
      */
     Point getLastPoint(int connectorIndex);
 
     /**
      * This method should be overridden only once. It is same as getLastPoint(Point lastPoint, int connectorIndex, int connectorCount),
-     * * but the overriding already knows the connector count.
+     * but the overriding class already knows the connector count. Gets the absolute coordinates last point of connection
      *
      * @param lastPoint
      * @param connectorIndex

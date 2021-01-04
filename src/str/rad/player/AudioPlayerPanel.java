@@ -256,14 +256,14 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void removeWaveMoreThanOneRemaining(int index) {
-        swapWithLastAndRemove(index);
+        moveSwapToLastAndRemove(index);
         EmptyPanelWithoutSetMethod zeroSizePanel = new EmptyPanelWithoutSetMethod();
         getLastJSplitPane().setBottomComponent(zeroSizePanel);
         setSplittersMouseListener();
     }
 
 
-    private void swapWithLastAndRemove(int index) {
+    private void moveSwapToLastAndRemove(int index) {
         WaveMainPanel deletedWave = waves.get(index);
         clipboard.removeWaveFromClipboard(deletedWave);
         JSplitPane lastSplitter = getLastJSplitPane();

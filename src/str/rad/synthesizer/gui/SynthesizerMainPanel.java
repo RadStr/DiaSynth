@@ -284,13 +284,13 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
     // Close to the code from audio player, but needs to be a bit modified
     private void addChangeOutputFormatToMenu(JMenu menu) {
-        JMenuItem menuItem = new JMenuItem("Change output audioFormat");
+        JMenuItem menuItem = new JMenuItem("Change output audio format");
 
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AudioFormatJPanel p = new AudioFormatJPanel(botPanel.getDiagramPanel().getOutputAudioFormat());
-                int result = JOptionPane.showConfirmDialog(null, p, "Audio audioFormat chooser",
+                int result = JOptionPane.showConfirmDialog(null, p, "Audio format chooser",
                                                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (result == JOptionPane.OK_OPTION) {
                     botPanel.getDiagramPanel().setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true));

@@ -331,7 +331,7 @@ public class WavePanel extends JPanel {
         if (clipboard.isEqualToClipboardWavePanel(wholeWavePanel)) {
             Color color;
             if (clipboard.isCut()) {
-                color = Color.black;
+                color = Color.pink;
             }
             else {
                 color = Color.gray;

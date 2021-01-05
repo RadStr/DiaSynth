@@ -1601,7 +1601,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void addAddEmptyWaveToWaves(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Add empty wave(s)");
-        menuItem.setToolTipText("Adds new wave of given length with sample values == 0 to the player.");
+        menuItem.setToolTipText("Adds new wave of given length with samples equal to 0 to the player.");
 
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -1652,7 +1652,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void addAddFileToWaves(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Add waves");
-        menuItem.setToolTipText("Converts the wave in file to mono and adds it to the waves in audio player.");
+        menuItem.setToolTipText("Adds the channels of given audio file to audio player.");
 
         JFileChooser fileChooser = new JFileChooser();
         menuItem.addActionListener(new ActionListener() {
@@ -1682,15 +1682,15 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void addOpenEmptyFileToWaves(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Open empty wave");
-        menuItem.setToolTipText("Removes all current waves and adds empty wave (sample values == 0) of given length");
+        menuItem.setToolTipText("Removes all current waves and adds empty wave of given length with samples equal to 0");
 
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EmptyWaveMakerDialog emptyWaveMakerDialog = new EmptyWaveMakerDialog();
                 int result = JOptionPane.showConfirmDialog(null, emptyWaveMakerDialog,
-                                                           "Choose empty wave dialog", JOptionPane.OK_CANCEL_OPTION,
-                                                           JOptionPane.PLAIN_MESSAGE);
+                                                           "Choose empty wave dialog",
+                                                           JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 
                 if (result == JOptionPane.OK_OPTION) {
@@ -1972,7 +1972,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
 
     private void addChangeOutputFormatToMenu(JMenu menu) {
-        JMenuItem menuItem = new JMenuItem("Change output audioFormat");
+        JMenuItem menuItem = new JMenuItem("Change output audio format");
 
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -1982,7 +1982,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     public void modifyAudio() {
                         AudioFormatJPanelWithConvertFlag p = new AudioFormatJPanelWithConvertFlag(outputAudioFormat);
                         int result = JOptionPane.showConfirmDialog(null, p,
-                                                                   "Audio audioFormat chooser", JOptionPane.OK_CANCEL_OPTION,
+                                                                   "Audio format chooser", JOptionPane.OK_CANCEL_OPTION,
                                                                    JOptionPane.PLAIN_MESSAGE);
                         if (result == JOptionPane.OK_OPTION) {
                             setOutputAudioFormat(p.getFormat().createJavaAudioFormat(true), p.getShouldConvert());

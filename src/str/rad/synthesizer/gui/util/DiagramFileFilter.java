@@ -13,6 +13,6 @@ public class DiagramFileFilter extends FileFilter {
 
     @Override
     public String getDescription() {
-        return "Diagram file audioFormat" + " (" + DIAGRAM_EXTENSION + ")";
+        return "Diagram file format" + " (" + DIAGRAM_EXTENSION + ")";
     }
 }

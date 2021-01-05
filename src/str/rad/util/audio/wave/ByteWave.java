@@ -620,8 +620,6 @@ public class ByteWave {
     // BPM Algorithm 1
     ////////////////////////////////////////////////////
     public int computeBPMSimple() {
-        writeVariablesDebug();      // TODO: Vymazat
-
         int windowsLen = 43;    // Because 22050 / 43 == 512 == 1 << 9 ... 44100 / 43 == 1024 etc.
         int windowSize = sampleRate / windowsLen;
         windowSize = Utilities.convertToMultipleDown(windowSize, this.frameSize);

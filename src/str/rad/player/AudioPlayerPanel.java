@@ -658,7 +658,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         addAudioOperationsWithoutWave(audioModJMenu);
         audioModJMenu.addSeparator();
 
-        JMenu drawJMenu = new JMenu("EXPERIMENTAL");
+        JMenu drawJMenu = new JMenu("Experimental");
         drawJMenu.setToolTipText("FFT and wave drawing");
         addDrawWindowsOperations(drawJMenu);
         menuBar.add(drawJMenu);

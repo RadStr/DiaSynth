@@ -73,8 +73,8 @@ public class TimestampsPanel extends JPanel {
         int timeJumpInt;
         timeJumpInt = (int) timeJump;
         if (timeJumpInt >= timestampsMultiples) {
-            // We will put it to be the closest multiple of timestampsMultiples (for example if timestampsMultiples == 5
-            // and timeJumpInt = 7 then timeJumpInt = 10)
+            // We will round the time jump to the closest multiple of timestampsMultiples
+            // (for example if timestampsMultiples == 5 and timeJumpInt = 7 then timeJumpInt = 10)
             if (timeJumpInt % timestampsMultiples != 0) {
                 timeJumpInt += timestampsMultiples - (timeJumpInt % timestampsMultiples);
             }
@@ -98,7 +98,7 @@ public class TimestampsPanel extends JPanel {
         // Starts from index = 1
         int index = 1;
         int oldTimeJumpInt = timeJumpInt;
-        // Now check if it fits the window, if it doesn't that take only every index-th label
+        // Now check if it fits the window, if it doesn't then take only every index-th label
         for (; index <= labelCount; index++) {
             timeJumpInt = index * oldTimeJumpInt;
             pixelJump = timeJumpInt / numOfSecs;        // If the song is short enough, then numOfSecs = numOfMillisecs

@@ -87,8 +87,7 @@ public class FillWaveWithOtherWaveOperation implements OperationOnWavesPluginIFa
         return "<html>" +
                "Fill output wave (second wave) with samples of input wave (first wave)<br>" +
                "If the output wave is longer than input wave, then input wave behaves as circular buffer<br>" +
-               "So when end of input wave is reached, it moves to [0] and continues.<br>" +
-               "Unless shouldAlignLengths is set to true" +
+               "So when end of input wave is reached, it moves to [0] and continues." +
                "</html>";
     }
 }

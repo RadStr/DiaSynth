@@ -122,6 +122,8 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             instantRecordingCheckbox.setSelected(false);
         });
         menu.add(instantRecordingCheckbox);
+        instantRecordingCheckbox.setToolTipText("Records audio without playing it " +
+                                                "(so it takes only fraction of the total play time of recorded audio)");
 
         realTimeRecordingCheckbox = new JCheckBoxMenuItem("Record in real-time");
         realTimeRecordingCheckbox.addItemListener((e) -> botPanel.getDiagramPanel().recordRealTime());
@@ -302,8 +304,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
 
     private void addSetRecordInfoToMenu(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("SET RECORD INFO");
-        menuItem.setToolTipText("Records audio without playing it " +
-                                "(so it takes only fraction of the total play time of recorded audio)");
+
         recordInfoGetter = new RecordInfoGetterPanel();
         menuItem.addActionListener(new ActionListener() {
             @Override

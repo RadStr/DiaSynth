@@ -1682,7 +1682,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void addOpenEmptyFileToWaves(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Open empty wave");
-        menuItem.setToolTipText("Removes all current waves and adds empty wave of given length with samples equal to 0");
+        menuItem.setToolTipText("Removes all current waves and adds wave of given length with samples equal to 0");
 
         menuItem.addActionListener(new ActionListener() {
             @Override
@@ -1729,7 +1729,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
     private void addOpenMonoFileToMenu(JMenu menu) {
         JMenuItem menuItem = new JMenuItem("Open file mono");
-        menuItem.setToolTipText("Removes all current waves, converts to file to mono and puts that wave as only wave in player.");
+        menuItem.setToolTipText("Removes all current waves, converts the file to mono and puts that wave as only wave in player.");
 
         JFileChooser fileChooser = new JFileChooser();
         menuItem.addActionListener(new ActionListener() {

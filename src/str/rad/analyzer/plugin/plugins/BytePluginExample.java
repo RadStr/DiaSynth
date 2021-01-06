@@ -8,6 +8,10 @@ public class BytePluginExample implements AnalyzerBytePluginIFace {
                                         int sampleRate, boolean isBigEndian, boolean isSigned) {
         String name = "Byte plugin name";
         String analyzedValue = "Byte plugin - analyzed value";
+
+        if(samples != null && samples.length > 0) {
+            analyzedValue += " " + samples[0];
+        }
         return new Pair<>(name, analyzedValue);
     }
 
@@ -18,6 +22,6 @@ public class BytePluginExample implements AnalyzerBytePluginIFace {
 
     @Override
     public String getTooltip() {
-        return "This is example of tooltip for byte plugin.";
+        return "This is example of tooltip for byte plugin. Prints String followed by first value in samples array.";
     }
 }

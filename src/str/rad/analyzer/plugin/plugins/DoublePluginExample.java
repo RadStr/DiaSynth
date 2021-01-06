@@ -9,6 +9,10 @@ public class DoublePluginExample implements AnalyzerDoublePluginIFace {
     public Pair<String, String> analyze(DoubleWave wave) {
         String name = "Double plugin name";
         String analyzedValue = "Double plugin - analyzed value";
+
+        if(wave != null && wave.getSong().length > 0) {
+            analyzedValue += " " + wave.getSong()[0];
+        }
         return new Pair<>(name, analyzedValue);
     }
 
@@ -19,6 +23,6 @@ public class DoublePluginExample implements AnalyzerDoublePluginIFace {
 
     @Override
     public String getTooltip() {
-        return "This is example of tooltip for double plugin.";
+        return "This is example of tooltip for double plugin. Prints String followed by first value in samples array.";
     }
 }

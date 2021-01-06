@@ -7,9 +7,9 @@ import str.rad.util.audio.wave.DoubleWave;
 import str.rad.util.math.ArithmeticOperation;
 
 public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrapperForAnnotationPanelIFace {
-    @PluginParameterAnnotation(parameterTooltip = "parameter for operations")
+    @PluginParameterAnnotation(name = "parameter for operation")
     private double value;
-    @PluginParameterAnnotation
+    @PluginParameterAnnotation(name = "Arithmetic operation")
     private ArithmeticOperation arithmeticOperation = ArithmeticOperation.PLUS;
 
     @Override
@@ -30,7 +30,7 @@ public class TestPluginForEnum implements OperationOnWavePluginIFace, EnumWrappe
 
     @Override
     public String getPluginName() {
-        return "Perform operation on samples - plugin";
+        return "Test plugin - showing enum created from annotation";
     }
 
     @Override

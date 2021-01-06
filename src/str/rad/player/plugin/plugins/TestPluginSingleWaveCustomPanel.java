@@ -6,16 +6,16 @@ import str.rad.util.audio.wave.DoubleWave;
 import javax.swing.*;
 import java.awt.*;
 
-public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends JPanel
+public class TestPluginSingleWaveCustomPanel extends JPanel
         implements OperationOnWavePluginIFace {
 
-    public TestPluginWithParametersWithSingleInputWaveWithCustomPanel() {
+    public TestPluginSingleWaveCustomPanel() {
         this.setLayout(new GridLayout(0, 2));
 
-        label = new JLabel("TestPluginWithParametersWithSingleInputWaveWithCustomPanel");
+        label = new JLabel("Custom label");
         this.add(label);
 
-        textField = new JTextField("Put here double");
+        textField = new JTextField("Put double here");
         this.add(textField);
     }
 
@@ -25,7 +25,12 @@ public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends 
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
-        val = Double.parseDouble(textField.getText());
+        try {
+            val = Double.parseDouble(textField.getText());
+        }
+        catch(Exception e) {
+            return;
+        }
         double[] song = audio.getSong();
         for (int i = startIndex; i < endIndex; i++) {
             song[i] = val;
@@ -44,7 +49,7 @@ public class TestPluginWithParametersWithSingleInputWaveWithCustomPanel extends 
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithParametersWithSingleInputWaveWithCustomPanel";
+        return "Test plugin - Single wave and custom panel";
     }
 
     @Override

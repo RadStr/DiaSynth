@@ -6,8 +6,9 @@ import str.rad.util.audio.wave.DoubleWave;
 
 
 
-public class TestPluginWithParametersWithTwoInputWaves implements OperationOnWavesPluginIFace {
-    @PluginParameterAnnotation(lowerBound = "-0.1", upperBound = "0.1",
+public class TestPluginTwoWavesAndParams implements OperationOnWavesPluginIFace {
+    @PluginParameterAnnotation(name = "Value to add to output wave",
+                               lowerBound = "-0.1", upperBound = "0.1",
                                parameterTooltip = "will be added to the output wave", defaultValue = "0")
     private double param;
 
@@ -37,7 +38,7 @@ public class TestPluginWithParametersWithTwoInputWaves implements OperationOnWav
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithParametersWithTwoInputWaves";
+        return "Test plugin - two waves with input parameters from annotations";
     }
 
     @Override

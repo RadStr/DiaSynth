@@ -3,7 +3,7 @@ package str.rad.player.plugin.plugins;
 import str.rad.player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import str.rad.util.audio.wave.DoubleWave;
 
-public class TestPluginWithoutParametersWithSingleInputWave implements OperationOnWavePluginIFace {
+public class TestPluginNoParamsSingleWave implements OperationOnWavePluginIFace {
 
     @Override
     public void performOperation(DoubleWave audio, int startIndex, int endIndex) {
@@ -25,7 +25,7 @@ public class TestPluginWithoutParametersWithSingleInputWave implements Operation
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithoutParametersWithSingleInputWave";
+        return "Test plugin - without parameters with single input wave";
     }
 
     @Override

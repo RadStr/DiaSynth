@@ -4,19 +4,22 @@ import str.rad.player.plugin.ifaces.user.wave.OperationOnWavePluginIFace;
 import str.rad.plugin.PluginParameterAnnotation;
 import str.rad.util.audio.wave.DoubleWave;
 
-public class TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations implements OperationOnWavePluginIFace {
+public class TestPluginSingleWaveAndPanelFromAnnotations implements OperationOnWavePluginIFace {
 
-    @PluginParameterAnnotation(lowerBound = "-1", upperBound = "1", defaultValue = "0.5", parameterTooltip = "double param")
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 0",
+                               lowerBound = "-1", upperBound = "1", defaultValue = "0.5", parameterTooltip = "double param")
     private double testParam1;
-    @PluginParameterAnnotation
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 1")
     private double testParam2;
-    @PluginParameterAnnotation(lowerBound = "-0.5", upperBound = "0.5")
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 2",
+                               lowerBound = "-0.5", upperBound = "0.5")
     private double testParam3;
-    @PluginParameterAnnotation(lowerBound = "-20", upperBound = "20", defaultValue = "10", parameterTooltip = "int param")
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 3",
+                               lowerBound = "-20", upperBound = "20", defaultValue = "10", parameterTooltip = "int param")
     private int testParam4;
-    @PluginParameterAnnotation
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 4")
     private int testParam5;
-    @PluginParameterAnnotation(lowerBound = "1", upperBound = "9.4")
+    @PluginParameterAnnotation(name = "Set sample, which satisfies index % 6 == 5", lowerBound = "1", upperBound = "9.4")
     private double testParam6;
 
 
@@ -62,7 +65,7 @@ public class TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations
 
     @Override
     public String getPluginName() {
-        return "TestPluginWithParametersWithSingleInputWaveWithPanelFromAnnotations";
+        return "Test plugin - single wave, panel created from annotations";
     }
 
     @Override

@@ -464,7 +464,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     }
 
     private static Pair<String, String> analyzeBPMSimpleFull(ByteWave byteWave) {
-        return new Pair<String, String>("BPM (Simple full)", ((Integer) byteWave.computeBPMSimple()).toString());
+        return new Pair<String, String>("BPM simple", ((Integer) byteWave.computeBPMSimple()).toString());
     }
 
 
@@ -472,7 +472,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         int subbandCount = 8;
         SubbandSplitterIFace splitter = new SubbandSplitterLinear(subbandCount);
 
-        return new Pair<String, String>("BPM (Advanced full)", ((Integer) byteWave.computeBPMSimpleWithFreqBands(subbandCount,
+        return new Pair<String, String>("BPM - NOT ALWAYS CORRECT", ((Integer) byteWave.computeBPMSimpleWithFreqBands(subbandCount,
                                                                                                                  splitter, 2.5, 6, 0.16)).toString());
     }
 
@@ -494,7 +494,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM,
                                        numberOfSeconds, subbandCount, splitter, numberOfBeats, byteWave);
 
-        return new Pair<String, String>("BPM (Barycenter part)", ((Integer) bpm).toString());
+        return new Pair<String, String>("BPM comb filter - barycenter", ((Integer) bpm).toString());
     }
 
     public static Pair<String, String> analyzeBPMAllPart(ByteWave byteWave) {
@@ -516,6 +516,6 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         bpm = combFilterAlg.computeBPM(startBPM, jumpBPM, upperBoundBPM, numberOfSeconds,
                                        subbandCount, splitter, numberOfBeats, byteWave);
 
-        return new Pair<String, String>("BPM (All part)", ((Integer) bpm).toString());
+        return new Pair<String, String>("BPM comb filter - sum", ((Integer) bpm).toString());
     }
 }

@@ -2183,10 +2183,10 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     menuItem.setToolTipText("Creates fft window with both real and imaginary part result of FFT. " +
                                             "Doesn't allow editing");
                     break;
-                case WAVESHAPER:
-                    menuItem = new JMenuItem("Waveshaper");
-                    menuItem.setToolTipText("Creates waveshaper window which will be used on the marked wave parts.");
-                    break;
+//                case WAVESHAPER:
+//                    menuItem = new JMenuItem("Waveshaper");
+//                    menuItem.setToolTipText("Creates waveshaper window which will be used on the marked wave parts.");
+//                    break;
             }
 
 

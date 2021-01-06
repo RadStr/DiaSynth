@@ -6,7 +6,7 @@ import str.rad.util.audio.wave.DoubleWave;
 import str.rad.util.math.ArithmeticOperation;
 
 public class MultiplicationOnWave implements OperationOnWavePluginIFace {
-    @PluginParameterAnnotation(name = "Multiplication constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+    @PluginParameterAnnotation(name = "Multiplication constant:", defaultValue = "0",
                                parameterTooltip = "is the constant to multiply the samples with")
     private double value;
 

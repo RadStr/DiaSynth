@@ -6,7 +6,7 @@ import str.rad.util.audio.wave.DoubleWave;
 import str.rad.util.math.ArithmeticOperation;
 
 public class AdditionOnWave implements OperationOnWavePluginIFace {
-    @PluginParameterAnnotation(name = "Addition constant:", lowerBound = "-1", upperBound = "1", defaultValue = "0",
+    @PluginParameterAnnotation(name = "Addition constant:", defaultValue = "0",
                                parameterTooltip = "is the constant to be added to the samples")
     private double value;
 

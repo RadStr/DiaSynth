@@ -9,8 +9,7 @@ import java.awt.event.*;
 
 
 /**
- * A bit of hack class, I have empty panel connected to this and based on the scroll I scroll the moves.
- * I have to do it myself. Can't let java do it.
+ * A bit of hack class, represents the horizontal scrollbar. Uses some empty panels to do that.
  */
 public class WaveScrollerWrapperPanel extends JPanel {
     public WaveScrollerWrapperPanel(WaveScrollEventCallbackIFace waveScrollCallback) {
@@ -99,7 +98,9 @@ public class WaveScrollerWrapperPanel extends JPanel {
 
             int visibleWidthOfWave = emptyPanelForHorizontalScroll.getVisibleRect().width;
             int newVal = WavePanel.getLeftPixelAfterZoom(oldWidth, newWidth, visibleWidthOfWave,
-                                                         getOldScrollbarValue(), waveScrollCallback.getShouldZoomToMid(), waveScrollCallback.getShouldZoomToEnd());
+                                                         getOldScrollbarValue(),
+                                                         waveScrollCallback.getShouldZoomToMid(),
+                                                         waveScrollCallback.getShouldZoomToEnd());
             scrollBar.setValue(newVal);
             oldWidth = newWidth;
 
@@ -197,7 +198,8 @@ public class WaveScrollerWrapperPanel extends JPanel {
      * of the last panel, which is representing the vertical scrollbar width you must call setLastEmptyPanelWidth separately.
      */
     public void setEmptyPanelsSizes(int widthBeforeWavePanel, int wavePanelWidth, int h) {
-        Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width, waveScroller.getViewport().getVisibleRect().height);
+        Dimension oldVisibleSize = new Dimension(waveScroller.getViewport().getVisibleRect().width,
+                                                 waveScroller.getViewport().getVisibleRect().height);
         emptyPanelBeforeHorizontalScroll.setSizeInternal(new Dimension(widthBeforeWavePanel, h));
         emptyPanelForHorizontalScroll.setSizeInternal(new Dimension(wavePanelWidth, h));
 

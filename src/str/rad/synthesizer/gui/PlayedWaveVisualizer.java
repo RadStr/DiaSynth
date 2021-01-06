@@ -14,6 +14,10 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+
+/**
+ * Shows wave which is supplied through pushSamplesToQueue method.
+ */
 public class PlayedWaveVisualizer extends JPanel implements DrawValuesSupplierIFace {
     public PlayedWaveVisualizer() {
         this.addComponentListener(new ComponentListener() {

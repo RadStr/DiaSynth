@@ -187,7 +187,6 @@ public class WavePanel extends JPanel {
     }
 
     /**
-     * @param visibleWaveWidth
      * @return Returns new visible wave width
      */
     private int repairPreferredWidthToVisibleWidth(int visibleWaveWidth) {
@@ -413,9 +412,6 @@ public class WavePanel extends JPanel {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////// Taking care of drawing
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private ZoomVariablesOneWave zoomVariables;
 
 
@@ -453,7 +449,8 @@ public class WavePanel extends JPanel {
      * @param startIndex
      * @param inputLen
      * @param outputLen  is the number of the wanted pixels in output, in classic case it is == width,
-     *                   so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     *                   so the extremes array has to be at least twice the outputLen,
+     *                   since it needs to contain min and max for each pixel
      * @return
      */
     public static int findExtremesInValues(double[] values, double[] extremes, int startIndex,
@@ -472,7 +469,8 @@ public class WavePanel extends JPanel {
      * @param inputLen               is the number of valid indexes in the values array.
      * @param inputValsPerOutputVals is the number of input values per two output values (min and max)
      * @param outputLen              is the number of the wanted pixels in output, in classic case it is == width,
-     *                               so the extremes array has to be at least twice the outputLen since it needs to contain min and max for each pixel
+     *                               so the extremes array has to be at least twice the outputLen,
+     *                               since it needs to contain min and max for each pixel
      * @return Returns the first non-filled output index.
      */
     public static int findExtremesInValues(double[] values, double[] extremes, int startIndex, int outputStartIndex,
@@ -700,8 +698,7 @@ public class WavePanel extends JPanel {
     public void saveZoomBridgeImg() {
         Rectangle visibleRect = this.getVisibleRect();
         // When there is no bridge img already, we aren't initializing and when the wave is visible
-        // (we don't need to scroll to find it),
-        // then save bridge picture
+        // (we don't need to scroll to find it), then save bridge picture
         if (zoomBridgeImg == null && zoomVariables != null && visibleRect.width > 0 && visibleRect.height > 0) {
             // https://stackoverflow.com/questions/1349220/convert-jpanel-to-image ...
             // Just changed paint method to our internal paint method
@@ -796,10 +793,9 @@ public class WavePanel extends JPanel {
     }
 
 
-    public static double getRatio(int oldWidth, int newWidth, int visibleWaveWidth) {
+    public static double getZoomRatio(int oldWidth, int newWidth) {
         boolean isZooming = newWidth > oldWidth;
         double ratio;
-        int oldMaxScroll = oldWidth - visibleWaveWidth;
         if (isZooming) {
             ratio = WavePanel.ZOOM_VALUE;
         }
@@ -811,7 +807,7 @@ public class WavePanel extends JPanel {
     }
 
     public static int getLeftCornerAfterZoom(int oldWidth, int newWidth, int visibleWaveWidth, int scrollBeforeZoom) {
-        double ratio = getRatio(oldWidth, newWidth, visibleWaveWidth);
+        double ratio = getZoomRatio(oldWidth, newWidth);
         return (int) (scrollBeforeZoom * ratio);
     }
 

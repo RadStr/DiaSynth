@@ -518,12 +518,4 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
 
         return new Pair<String, String>("BPM (All part)", ((Integer) bpm).toString());
     }
-
-
-    // Idea is quite simple we create list of Pair<String, Pair<String, Integer>> where
-    // Pair<String, Pair<String, Integer>> first string is the name of the algorithm, the value is also pair,
-    // where the first value is name of the file and the second value is the difference of bpm that file for given bpm algorithm
-    // and the reference bpm
-
-
 }

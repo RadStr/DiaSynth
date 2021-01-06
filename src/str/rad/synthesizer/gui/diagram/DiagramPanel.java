@@ -602,7 +602,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
     }
 
     /**
-     * Should be called when the window either isn't visible (it is minimized for example), or when we look at other window no (switched tabs).
+     * Should be called when the window either isn't visible (it is minimized for example),
+     * or when we look at other window no (switched tabs).
      */
     public void focusLost() {
         hasFocus = false;
@@ -676,7 +677,8 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         }
 
         synthesizerMainPanel.getAudioControlPanel().getZoomPanel().setNewZoom(ZOOM_COUNT_FROM_START_TO_MIN +
-                                                                              currentZoom, getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
+                                                                              currentZoom,
+                                                                              getReferencePanelWidth() == STATIC_PANEL_MAX_WIDTH);
         this.repaint();
     }
 
@@ -860,7 +862,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                     shouldRepaint = true;
                 }
 
-                // It is if because we want to allow diagonal movement
+                // It is "if" because we want to allow diagonal movement
                 if (mouseLocRelativeToThisPanel.y < SCROLL_BORDER_SIZE_Y) {
                     moveUp(PIXELS_MOVED_PER_TICK);
                     shouldRepaint = true;

@@ -34,7 +34,10 @@ public class BPMSimple {
         double maxValueInEnergy = ((double) windowSize) * maxAbsValSigned * maxAbsValSigned;     // max energy
         double maxValueInVariance = 2 * maxValueInEnergy;           // the val - avg (since avg = -val then it is 2*)
         // It is way to strict (The max variance can be much lower), but I don't see how could I make it more accurate
-        maxValueInVariance *= maxValueInVariance;                   // Finally the variance of 1 window (we don't divide by the windows.length since we calculated for just 1 window as I said)
+
+        // Finally the variance of 1 window (we don't divide by the windows.length,
+        // since we calculated for just 1 window as I said)
+        maxValueInVariance *= maxValueInVariance;
         // Just took 10000 because it worked quite nicely, but not for every sample rate,
         // so we have to multiply it with some value based on that
         double varianceMultFactor = 10000 * Math.pow(3.75, 44100d / sampleRate - 1);

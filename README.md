@@ -1,10 +1,6 @@
 # DiaSynth
-Currently all parts works but it is still under construction (By december it should be "completed").<br/>
-<br/>
-It is continuation of project [Music-analyser](https://github.com/RadStr/Music-Analyser). The reason for creating new repository was wrong usage of git, because of that the old repository got really messy. Now I know how to use git correctly so this should be the final repository.<br/>
-<br/>
 Is is a school project which contains, audio player, audio synthesizer (using diagrams) and audio analyzer contained in one GUI. Written in java.<br/>
-It is using 2 libraries with following licenses.<br/>
+The project is using 2 libraries with following licenses.<br/>
 The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.<br/>
 Which are the files in libs directory under the names:<br/>
 -mp3spi1.9.5.jar<br/>

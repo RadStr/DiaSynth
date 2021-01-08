@@ -1,0 +1,113 @@
+<project name="Diasynth_Original" basedir="." default="main">
+
+    <property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+	<property name="jar.file"     value="${jar.dir}/${ant.project.name}.jar"/>
+	
+	<property name="resources.dir"     value="resources"/>
+	<property name="images.dir"     value="${resources.dir}/images"/>
+
+    <property name="main-class"  value="str.rad.main.Main"/>
+
+    <property name="lib.dir"     value="libs"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+	
+	
+	
+
+	<!-- Taken from https://gist.github.com/ashee/2438147 -->
+    <pathconvert property="libs.project" pathsep=" ">
+      <mapper>
+        <chainedmapper>
+
+          <!-- remove absolute path -->
+          <flattenmapper />
+
+          <!-- add libs/ prefix -->
+          <globmapper from="*" to="libs/*" />
+        </chainedmapper>
+      </mapper>
+
+      <path>
+
+        <!-- libs contains all jar files, in several subdirectories -->
+        <fileset dir="libs">
+          <include name="**/*.jar" />
+        </fileset>
+      </path>
+    </pathconvert>
+
+
+	
+    
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+    </target>
+
+    <target name="run" depends="jar">
+        <java fork="true" classname="${main-class}">
+            <classpath>
+				<!-- 
+				This commented "classpath" line takes the libs inside the directory with build.xml, but
+				maybe it is better to refer to libs in the jar directory, which is done when
+				this line is commented.
+				<path refid="classpath"/>
+				-->
+                <path location="${jar.file}"/>
+            </classpath>
+        </java>
+    </target>
+	
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.file}" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+				<attribute name="Class-Path" value="${libs.project}"/>
+            </manifest>
+			<!-- 
+				Including the images and libraries inside the jar.
+			     The libraries don't really make sense, since based on 
+				 https://stackoverflow.com/questions/183292/classpath-including-jar-within-a-jar
+				 you can't add the inside of jar to classpath, unless you code your own
+				 classloader or use some project which does it for you (like One-Jar).
+				 I put the images  inside the jar, but idk, maybe I will allow to read it from
+				 the resources directory outside the JAR, because then the user can
+				 easily change the images as he pleases, but it isn't really important.
+			<zipfileset dir="${lib.dir}" prefix="${lib.dir}" />
+			-->
+			<zipfileset dir="${images.dir}" prefix="${images.dir}" /> 
+        </jar>
+		
+		<!--
+		https://stackoverflow.com/questions/1685442/how-to-copy-a-directory-using-ant
+		-->
+		
+		
+		<copy todir="${jar.dir}/libs" >  
+			<fileset dir="${lib.dir}" />
+		</copy>
+    </target>
+	
+
+    
+
+    <target name="clean-build" depends="clean,jar"/>
+
+    <target name="main" depends="clean,run"/>
+
+</project>

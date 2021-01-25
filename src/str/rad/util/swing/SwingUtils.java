@@ -1,6 +1,7 @@
 package str.rad.util.swing;
 
 import str.rad.main.DiasynthTabbedPanel;
+import str.rad.util.logging.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -163,7 +164,11 @@ public class SwingUtils {
         int currFontSize = 0;
         FontMetrics fm;
         Font newFont;
-        while (true) {
+        final int MAX_FONT_SIZE = 26822;        // Hard constant based on my system ... because there is some issue on other computers
+        while (currFontSize < MAX_FONT_SIZE) {
+            if(currFontSize % 1000 == 0) {
+                MyLogger.logWithoutIndentation("Debug - finding max font size: " + currFontSize);
+            }
             currFontSize++;
             newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);
             fm = label.getFontMetrics(newFont);
@@ -171,6 +176,8 @@ public class SwingUtils {
                 return currFontSize - 1;
             }
         }
+
+        return MAX_FONT_SIZE;
     }
 
     public static int findMaxFontSize(int startFontSize, Graphics g, String[] texts,

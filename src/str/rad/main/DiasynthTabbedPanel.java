@@ -65,10 +65,21 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
     }
 
     public static final int MAX_LABEL_FONT_SIZE;
-
     static {
         JLabel testLabel = new JLabel("T");
-        MAX_LABEL_FONT_SIZE = SwingUtils.findMaxFontSize(testLabel);
+        int fontSize = 24;
+        try {
+            fontSize = SwingUtils.findMaxFontSize(testLabel);
+        }
+        catch(Exception e) {
+            fontSize = 24;
+            MyLogger.logException(e);
+        }
+        finally {
+            MAX_LABEL_FONT_SIZE = fontSize;
+        }
+
+        MyLogger.logWithoutIndentation("max FONT size: " + Integer.toString(MAX_LABEL_FONT_SIZE));
     }
 
     private TabChangeIFace oldTab;

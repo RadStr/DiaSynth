@@ -93,7 +93,7 @@ To start the version with plugins launch Diasynth_Updater.jar or Diasynth_Modifi
 The libs directory (and for plugins the Diasynth-plugins directory) has to be in the same directory as the .jar file.
 
 ## How to compile (Useful for the plugin programmers)
-The application can be build using [Apache Ant](http://www.javazoom.net/mp3spi/sources.html). 
+The application can be build using [Apache Ant](https://ant.apache.org/). 
 The steps for building are following.
 1. Download project (and unzip the .zip).
 2. Open command line and move to the directory containing **build.xml** file using `cd` command.
@@ -283,7 +283,7 @@ So there are differences between FM on wavetable and classic generator. Wavetabl
 
 ## How to write plugins
 The plugins can be written without necessity to write own GUI to insert input values for algorithm. 
-This next section ([Anotations](#annotations)) is useful if you are writing plugins for synthesizer or audio player.
+This next section ([Annotations](#annotations)) is useful if you are writing plugins for synthesizer or audio player.
 #### Annotations:
 In the next code we will see the annotation to mark the parameters of algorithm with. The program will then make sure to create GUI based on these and set the variable which has this annotation to the value given in the GUI.
 <p> 
@@ -891,7 +891,7 @@ Sorted by importance and the probable order in which it will be done. But as I s
 ## Similar projects
 Audio player: 
 * [Audacity](https://www.audacityteam.org/) is free open-source audio software.
-* [Adobe audition](https://www.adobe.com/cz/products/audition.htm) is paid audio software. 
+* [Adobe audition](https://www.adobe.com/products/audition.html) is paid audio software. 
  
 Synthesizers:
 * [CSound](https://csound.com/) is programming language, which can be used to create diagrams similar to those in this program. It doesn't contain GUI and is much more complex, but that also means that more things can be done in it.
@@ -901,7 +901,7 @@ Synthesizers:
 
 ## License
 The project is using 2 libraries with following licenses.<p>
-The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.
+The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) (NOTE: I just noticed that the url no longer exists, but [this github page](https://github.com/umjammer/mp3spi) is hopefully legit and preserves the project) is licensed under LGPL.
 The files from this library can be found in libs directory under the names:
 * mp3spi1.9.5.jar
 * tritonus_share.jar
@@ -922,7 +922,7 @@ As far as I understand it including the LICENSE file with copyright for JTransfo
 <p>
 
 The libraries (MP3SPI and tritonus) are discontinued for long time. The MP3SPI for around 10 years, the JLayer for 12 years and tritonus even for 17. So this next part really isn't necessary.<p>
-To cover the LGPL. It is enough to say which files from library are under that license and tell user where to download the newest version and how to replace them. Replacing is simple just replace the 3 .jar files from MP3SPI package. And to download the newest version go to the javazoom link (http://www.javazoom.net/mp3spi/sources.html) where you will find the JLayer and MP3SPI jar files and check http://www.tritonus.org/ for new version of tritonus lib.
+To cover the LGPL. It is enough to say which files from library are under that license and tell user where to download the newest version and how to replace them. Replacing is simple just replace the 3 .jar files from MP3SPI package. And to download the newest version go to the link mentioned above where you will find the JLayer and MP3SPI jar files and check http://www.tritonus.org/ for new version of tritonus lib.
 
 <p>
 As for license for whole program, currently undecided, but I guess I will just go with MIT, or any of the above, since the program still isn't done I will decide when I will be doing the last few fixes.

@@ -1,0 +1,53 @@
+1.0
+1
+9
+str.rad.synthesizer.synth.generators.classic.ConstantGenerator
+CONST
+0 -3
+40.0
+str.rad.synthesizer.synth.generators.classic.ConstantGenerator
+CONST2
+2 -3
+1.0
+str.rad.synthesizer.synth.generators.classic.ConstantGenerator
+CONST3
+-3 -2
+4.0
+str.rad.synthesizer.synth.generators.classic.ConstantGenerator
+CONST1
+-1 -2
+100.0
+str.rad.synthesizer.synth.generators.classic.phase.SineGenerator
+Sine1
+1 -2
+str.rad.synthesizer.synth.generators.classic.phase.SineGenerator
+Sine3
+-2 -1
+str.rad.synthesizer.synth.operators.binary.BinaryPlus
+BinaryPlus
+0 -1
+str.rad.synthesizer.synth.generators.classic.phase.TriangleGenerator
+TRI1
+0 0
+OUTPUT-UNIT
+0
+str.rad.synthesizer.synth.OutputUnit
+OUT
+0 1
+1
+4 0
+1
+4 1
+1
+5 1
+1
+6 0
+1
+6 1
+1
+7 0
+1
+7 1
+1
+8 0
+0

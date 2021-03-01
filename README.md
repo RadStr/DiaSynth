@@ -3,7 +3,7 @@
 
 ## Sections
 1. [How does Diasynth look](#how-does-diasynth-look)
-2. [Notes for README - IMPORTANT](#notes-for-readme)
+2. [Notes for README - IMPORTANT](#notes-for-readme---important)
 3. [Introduction](#introduction)
 4. [What can be the project used for?](#what-can-be-the-project-used-for)
 5. [Features](#features)
@@ -888,6 +888,46 @@ Sorted by importance and the probable order in which it will be done. But as I s
 - [ ] Use streaming instead of loading the whole audio tracks into memory (I am not sure if I will ever do this).
 
 
+## Similar projects
+Audio player: 
+* [Audacity](https://www.audacityteam.org/) is free open-source audio software.
+* [Adobe audition](https://www.adobe.com/cz/products/audition.htm) is paid audio software. 
+ 
+Synthesizers:
+* [CSound](https://csound.com/) is programming language, which can be used to create diagrams similar to those in this program. It doesn't contain GUI and is much more complex, but that also means that more things can be done in it.
+* [FLStudio](https://www.image-line.com/flstudio/) is closer to the real synthesizers.
+* [MAX/MSP](https://cycling74.com/) is paid software. It is advanced variant of synthesizer found in Diasynth, but the controls are much more complex, but also it contains many more features.
+* [PureData](https://puredata.info/) is free alternative to MAX/MSP. 
+
+## License
+The project is using 2 libraries with following licenses.<p>
+The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.
+The files from this library can be found in libs directory under the names:
+* mp3spi1.9.5.jar
+* tritonus_share.jar
+* jl1.0.1.jar
+<p>
+
+[JTransforms](https://sites.google.com/site/piotrwendykier/software/jtransforms) is distributed under the terms of the BSD-2-Clause license.
+Copyright is found in the LICENSE file taken from https://github.com/wendykierp/JTransforms
+
+<br/>
+
+The files can be found in in libs directory under the names starting with JTransforms.
+
+<p>
+
+As far as I understand it including the LICENSE file with copyright for JTransforms should be enough to cover BSD-2-Clause.
+
+<p>
+
+The libraries (MP3SPI and tritonus) are discontinued for long time. The MP3SPI for around 10 years, the JLayer for 12 years and tritonus even for 17. So this next part really isn't necessary.<p>
+To cover the LGPL. It is enough to say which files from library are under that license and tell user where to download the newest version and how to replace them. Replacing is simple just replace the 3 .jar files from MP3SPI package. And to download the newest version go to the javazoom link (http://www.javazoom.net/mp3spi/sources.html) where you will find the JLayer and MP3SPI jar files and check http://www.tritonus.org/ for new version of tritonus lib.
+
+<p>
+As for license for whole program, currently undecided, but I guess I will just go with MIT, or any of the above, since the program still isn't done I will decide when I will be doing the last few fixes.
+
+
 ## Object-oriented design
 Here are some dependencies of classes shown in diagrams. 
 The arrows show flow of information. 
@@ -945,43 +985,3 @@ I won't describe the diagrams in detail, the diagrams should be self-explanatory
 ###### MovableJPanel - represents Unit from GUI's perspective
   
 ![MovableJPanelDaigram](https://user-images.githubusercontent.com/40957172/109539652-da057680-7ac1-11eb-8e09-47c24e1c5567.png)
-
-
-## Similar projects
-Audio player: 
-* [Audacity](https://www.audacityteam.org/) is free open-source audio software.
-* [Adobe audition](https://www.adobe.com/cz/products/audition.htm) is paid audio software. 
- 
-Synthesizers:
-* [CSound](https://csound.com/) is programming language, which can be used to create diagrams similar to those in this program. It doesn't contain GUI and is much more complex, but that also means that more things can be done in it.
-* [FLStudio](https://www.image-line.com/flstudio/) is closer to the real synthesizers.
-* [MAX/MSP](https://cycling74.com/) is paid software. It is advanced variant of synthesizer found in Diasynth, but the controls are much more complex, but also it contains many more features.
-* [PureData](https://puredata.info/) is free alternative to MAX/MSP. 
-
-## License
-The project is using 2 libraries with following licenses.<p>
-The [MP3SPI package](http://www.javazoom.net/mp3spi/sources.html) is licensed under LGPL.
-The files from this library can be found in libs directory under the names:
-* mp3spi1.9.5.jar
-* tritonus_share.jar
-* jl1.0.1.jar
-<p>
-
-[JTransforms](https://sites.google.com/site/piotrwendykier/software/jtransforms) is distributed under the terms of the BSD-2-Clause license.
-Copyright is found in the LICENSE file taken from https://github.com/wendykierp/JTransforms
-
-<br/>
-
-The files can be found in in libs directory under the names starting with JTransforms.
-
-<p>
-
-As far as I understand it including the LICENSE file with copyright for JTransforms should be enough to cover BSD-2-Clause.
-
-<p>
-
-The libraries (MP3SPI and tritonus) are discontinued for long time. The MP3SPI for around 10 years, the JLayer for 12 years and tritonus even for 17. So this next part really isn't necessary.<p>
-To cover the LGPL. It is enough to say which files from library are under that license and tell user where to download the newest version and how to replace them. Replacing is simple just replace the 3 .jar files from MP3SPI package. And to download the newest version go to the javazoom link (http://www.javazoom.net/mp3spi/sources.html) where you will find the JLayer and MP3SPI jar files and check http://www.tritonus.org/ for new version of tritonus lib.
-
-<p>
-As for license for whole program, currently undecided, but I guess I will just go with MIT, or any of the above, since the program still isn't done I will decide when I will be doing the last few fixes.

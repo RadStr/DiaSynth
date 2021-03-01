@@ -245,7 +245,7 @@ Output of plus is connected to input controlling amplitude of some other generat
 
 <p>
   
-![AM_500_10_Dia](https://user-images.githubusercontent.com/40957172/109538276-2fd91f00-7ac0-11eb-924e-981d85ca53f8.PNG)
+<img src="https://user-images.githubusercontent.com/40957172/109538276-2fd91f00-7ac0-11eb-924e-981d85ca53f8.PNG" height="250">
 
 ##### Ring modulation (RM)
 RM is special case of AM, when the constant is equal to zero. So that means we can connect the wave straight to the input controlling amplitude. We don't need the operator plus. 
@@ -256,7 +256,7 @@ RM is special case of AM, when the constant is equal to zero. So that means we c
 
 <p>
   
-![RM_500_10_Dia](https://user-images.githubusercontent.com/40957172/109538393-513a0b00-7ac0-11eb-9edf-c2dc0cb5de98.PNG)
+<img src="https://user-images.githubusercontent.com/40957172/109538393-513a0b00-7ac0-11eb-9edf-c2dc0cb5de98.PNG" width="200">
 
 ##### Frequency modulation (FM)
 FM is basically like AM but with frequency. We have constant and generator (modulating oscillator) connected to operator plus and the output of plus is connected to frequency input of some generator. The constant is called carrier frequency.
@@ -275,7 +275,7 @@ So there are differences between FM on wavetable and classic generator. Wavetabl
 
 <p> 
 
-![FM_150_500_5_Dia](https://user-images.githubusercontent.com/40957172/109538479-6d3dac80-7ac0-11eb-8233-721f7eb50834.PNG)
+<img src="https://user-images.githubusercontent.com/40957172/109538479-6d3dac80-7ac0-11eb-8233-721f7eb50834.PNG" width="200">
 
 ## How to write plugins
 The plugins can be written without necessity to write own GUI to insert input values for algorithm. 
@@ -904,35 +904,41 @@ I won't describe the diagrams in detail, the diagrams should be self-explanatory
 
 ##### Analyzer
 
+###### Analyzer - top level (basically the only necessary diagram)
+
 ![AnalyzerDiagram](https://user-images.githubusercontent.com/40957172/109539426-9874cb80-7ac1-11eb-8c9e-6f2ab66c8719.png)
 
-<p>
+###### Observer design pattern to pass changes in analyzed audio 
   
 ![AnalyzerObserversCommunication](https://user-images.githubusercontent.com/40957172/109539428-9874cb80-7ac1-11eb-984a-3cac223076fb.png)
 
 
 ##### Audio player
 
+###### Audio player top-level view
+
 ![AudioPlayerDiagram](https://user-images.githubusercontent.com/40957172/109539579-c3f7b600-7ac1-11eb-920a-49815b5d03f1.png)
 
 
-<p>
+###### Audio player - communication between audio player and wave
   
 ![WaveMainPanelDiagram](https://user-images.githubusercontent.com/40957172/109539719-ec7fb000-7ac1-11eb-8073-3d3ab80798d4.png)
 
-<p>
+###### How is information about drawn samples moved
   
 ![WavePanelDrawValuesDiagram](https://user-images.githubusercontent.com/40957172/109539722-ed184680-7ac1-11eb-8074-115f533c66bc.png)
 
 ##### Synthesizer
 
+###### Synthesizer - top-level view
+
 ![SynthesizerMainPanelDiagram](https://user-images.githubusercontent.com/40957172/109539649-d96ce000-7ac1-11eb-8012-063fe965ddfb.png)
 
-<p>
+###### Synthesizer - diagram view
 
 ![SynthPartDiagram](https://user-images.githubusercontent.com/40957172/109539651-d96ce000-7ac1-11eb-934c-f69f9a2a5275.png)
 
-<p>
+###### MovableJPanel - represents Unit from GUI's perspective
   
 ![MovableJPanelDaigram](https://user-images.githubusercontent.com/40957172/109539652-da057680-7ac1-11eb-8e09-47c24e1c5567.png)
 

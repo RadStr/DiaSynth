@@ -3,7 +3,7 @@
 
 ## Sections
 1. [How does Diasynth look](#how-does-diasynth-look)
-2. [Notes for README](#notes-for-readme)
+2. [Notes for README - IMPORTANT](#notes-for-readme)
 3. [Introduction](#introduction)
 4. [What can be the project used for?](#what-can-be-the-project-used-for)
 5. [Features](#features)
@@ -37,7 +37,11 @@
 ![Analyzer - file chooser](https://user-images.githubusercontent.com/40957172/109537847-acb7c900-7abf-11eb-834c-71fc3071cd74.png)
 
 
-## Notes for README
+## Notes for README - IMPORTANT
+Examples of some nice diagrams can be found inside **test-data** folder.
+
+<p>
+
 In the text I will omit the `str.rad` prefix in packages (same for file paths). Since they exist only for global uniqueness of names.
 
 ## Introduction

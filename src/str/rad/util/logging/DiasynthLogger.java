@@ -7,7 +7,7 @@ import java.util.Date;
 public class DiasynthLogger {
     private DiasynthLogger() { }          // To make only static access possible
 
-    private static File logFile = new File("LOG.log");
+    private static File logFile = new File("Diasynth_LOG.log");
     private static PrintWriter logStream;
     private static int indentation = 0;
     private static String indentationString = "";

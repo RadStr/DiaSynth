@@ -75,7 +75,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 
         selectedFilesTable = new JTable();
         dataModelSelectedFiles = null;
-        selectedFilesObserver = new DataModelObserver(dataModelSelectedFiles, selectedFilesPairList, thisFrame) {
+        selectedFilesObserver = new DataModelObserver(dataModelSelectedFiles, selectedFilesPairList) {
             @Override
             public void reloadDataModelFromXML() {
                 selectedFilesPairList.clear();
@@ -102,7 +102,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
         allFilesLabel = new JLabel("All analyzed files");
         Box boxAllFiles = Box.createVerticalBox();
 
-        allFilesObserver = new DataModelObserver(dataModelAllFiles, allFilesPairList, thisFrame) {
+        allFilesObserver = new DataModelObserver(dataModelAllFiles, allFilesPairList) {
             @Override
             public void reloadDataModelFromXML() {
                 allFilesPairList = AnalyzerXML.getPairs(AnalyzerXML.getXMLDoc());

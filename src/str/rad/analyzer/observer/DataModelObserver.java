@@ -6,24 +6,21 @@ import str.rad.util.Pair;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 public abstract class DataModelObserver implements DataModelObserverIFace {
     private DefaultTableModel dataModel;
-    private JFrame frame;
-    private List<Pair<String, Node>> dataModelPair;
+    private List<Pair<String, Node>> dataModelPairs;
 
-    public void setDataModel(DefaultTableModel dataModel, List<Pair<String, Node>> dataModelPair) {
+    public void setDataModel(DefaultTableModel dataModel, List<Pair<String, Node>> dataModelPairs) {
         this.dataModel = dataModel;
-        this.dataModelPair = dataModelPair;
+        this.dataModelPairs = dataModelPairs;
     }
 
-    public DataModelObserver(DefaultTableModel dm, List<Pair<String, Node>> dmp, JFrame frame) {
-        this.dataModel = dm;
-        dataModelPair = dmp;
-        this.frame = frame;
+    public DataModelObserver(DefaultTableModel dataModel, List<Pair<String, Node>> dataModelPairs) {
+        this.dataModel = dataModel;
+        this.dataModelPairs = dataModelPairs;
     }
 
     @Override
@@ -42,15 +39,16 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
                 for (int j = 0; j < rowCount; j++) {
                     if (dataModel.getValueAt(j, col).equals(name)) {
                         dataModel.removeRow(j);
-                        if (dataModelPair != null) {
+                        if (dataModelPairs != null) {
                             Pair<String, Node> p;
-                            for (int index = 0; index < dataModelPair.size(); index++) {
-                                p = dataModelPair.get(index);
+                            for (int index = 0; index < dataModelPairs.size(); index++) {
+                                p = dataModelPairs.get(index);
                                 if (name.equals(p.getKey())) {
-                                    dataModelPair.remove(index);
+                                    dataModelPairs.remove(index);
                                 }
                             }
                         }
+
                         return true;
                     }
                 }

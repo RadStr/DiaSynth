@@ -23,6 +23,10 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
         this.dataModelPairs = dataModelPairs;
     }
 
+    /**
+     * Update data model by removing given node, which was deleted from XML file.
+     * @return Returns True if the node was inside the dataModel, false otherwise
+     */
     @Override
     public boolean update(Node nodeToBeRemoved) {
         String name;

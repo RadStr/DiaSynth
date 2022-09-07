@@ -32,14 +32,26 @@ public class DataModelSubject implements DataModelSubjectIFace {
     public void addObserver(DataModelObserverIFace obs) {
         observers.add(obs);
     }
-
     @Override
-    public void notifyObservers(Node node) {
+    public void removeObserver(DataModelObserverIFace obs) {
+        observers.remove(obs);
+    }
+
+
+    /**
+     * Notify observers about removal of given node.
+     */
+    @Override
+    public void notifyObservers(Node removedNode) {
         for (DataModelObserverIFace o : observers) {
-            o.update(node);
+            o.update(removedNode);
         }
     }
 
+    /**
+     * Notify observers that there was non-trivial change in the data model.
+     * Therefore the data needs to be reloaded from the XML to the data model.
+     */
     @Override
     public void notifyObservers() {
         AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");

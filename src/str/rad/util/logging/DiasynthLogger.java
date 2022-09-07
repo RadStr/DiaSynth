@@ -40,10 +40,8 @@ public class DiasynthLogger {
      */
     public static void log(String logMessage, int indentationAddition) {
         if (logStream != null) {
-            if (indentationAddition != 0) {
-                if (indentationAddition > 0) {
-                    indentation += indentationAddition;
-                }
+            if (indentationAddition > 0) {
+                indentation += indentationAddition;
                 // https://stackoverflow.com/questions/1235179/simple-way-to-repeat-a-string-in-java
                 indentationString = new String(new char[indentation]).replace('\0', '\t');
             }
@@ -51,6 +49,8 @@ public class DiasynthLogger {
             logStream.flush();
             if (indentationAddition < 0) {
                 indentation += indentationAddition;
+                indentation = Math.max(0, indentation);
+                indentationString = new String(new char[indentation]).replace('\0', '\t');
             }
         }
     }

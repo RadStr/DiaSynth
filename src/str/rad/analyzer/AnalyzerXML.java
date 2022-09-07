@@ -99,7 +99,11 @@ public class AnalyzerXML {
     }
 
 
-    public static Node findNodeXML(NodeList list, String name) {
+    /**
+     * Finds node with given name inside given NodeList.
+     * @return Returns null if there is no node with such name, otherwise returns the node.
+     */
+    public static Node findNodeWithGivenName(NodeList list, String name) {
         int len = list.getLength();
         for (int i = 0; i < len; i++) {
             Node node = list.item(i);
@@ -112,7 +116,7 @@ public class AnalyzerXML {
     }
 
 
-    public static int findNodeWithValue(NodeList nList, String val) {
+    public static int findNodeIndexWithGivenValue(NodeList nList, String val) {
         int len = nList.getLength();
         for (int i = 0; i < len; i++) {
             Node n = nList.item(i);
@@ -131,6 +135,9 @@ public class AnalyzerXML {
     }
 
 
+    /**
+     * Returns the values of info nodes found inside XML elements named "song". The info nodes must match given attribute.
+     */
     public static List<String> getInfoNodeValuesMatchingGivenAttribute(String attrName, String attrVal) {
         List<String> names = new ArrayList<>();
         NodeList nList = xmlDoc.getElementsByTagName("song");
@@ -140,7 +147,7 @@ public class AnalyzerXML {
             NodeList nnList = n.getChildNodes();
             for (int j = 0; j < nnList.getLength(); j++) {
                 Node nn = nnList.item(j);
-                if (isMatchingGivenAttribute(nn, attrName, attrVal)) {
+                if (isNodeMatchingGivenAttribute(nn, attrName, attrVal)) {
                     names.add(nn.getFirstChild().getTextContent());            // Add the name of the song
                     break;
                 }
@@ -164,7 +171,7 @@ public class AnalyzerXML {
             for (int j = 0; j < nnList.getLength(); j++) {
                 Node nn = nnList.item(j);
 
-                if (isMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
+                if (isNodeMatchingGivenAttribute(nn, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
                     if (getInfoNodeValue(nn).equals(songName)) {
                         return n;
                     }
@@ -183,7 +190,7 @@ public class AnalyzerXML {
         int len = nList.getLength();
         for (int j = 0; j < len; j++) {
             Node n = nList.item(j);
-            if (isMatchingGivenAttribute(n, attrName, attrVal)) {
+            if (isNodeMatchingGivenAttribute(n, attrName, attrVal)) {
                 return n;
             }
         }
@@ -229,14 +236,14 @@ public class AnalyzerXML {
 
     // Value is the part in <value> this is value </value> inside the node marked as infoNode
     public static Node getValueNodeFromInfoNode(Node infoNode) {
-        return findNodeXML(infoNode.getChildNodes(), "value");
+        return findNodeWithGivenName(infoNode.getChildNodes(), "value");
     }
 
     public static String getInfoNodeValue(Node infoNode) {
         return getValueNodeFromInfoNode(infoNode).getTextContent();
     }
 
-    public static boolean isMatchingGivenAttribute(Node n, String attrName, String attrVal) {
+    public static boolean isNodeMatchingGivenAttribute(Node n, String attrName, String attrVal) {
         // Added because when we are using the indentation, the node can be just the white characters representing the
         // indentation, so then it doesn't have any attributes. (although this check might be useful even for other cases)
         if (n.getAttributes() == null) {
@@ -356,7 +363,7 @@ public class AnalyzerXML {
             int len = childs.getLength();
             for (int j = 0; j < len; j++) {
                 Node n1 = childs.item(j);
-                if (isMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
+                if (isNodeMatchingGivenAttribute(n1, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
                     Pair<String, Node> pair = new Pair<String, Node>(getInfoNodeValue(n1), n);
                     retList.add(pair);
                 }

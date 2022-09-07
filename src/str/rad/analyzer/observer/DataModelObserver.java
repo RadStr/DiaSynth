@@ -36,7 +36,7 @@ public abstract class DataModelObserver implements DataModelObserverIFace {
         for (int i = 0; i < len; i++) {
             Node infoNode = infoNodes.item(i);
 
-            if (AnalyzerXML.isMatchingGivenAttribute(infoNode, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
+            if (AnalyzerXML.isNodeMatchingGivenAttribute(infoNode, "name", SongLibraryPanel.HEADER_NAME_COLUMN_TITLE)) {
                 name = AnalyzerXML.getInfoNodeValue(infoNode);
                 int rowCount = dataModel.getRowCount();
                 int col = dataModel.findColumn(SongLibraryPanel.HEADER_NAME_COLUMN_TITLE);

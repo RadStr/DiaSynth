@@ -315,7 +315,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
         NodeList childs = nodeToAdd.getChildNodes();
         for (int i = 0; i < colCount; i++) {
             String colName = tableModel.getColumnName(i);
-            Node val = AnalyzerXML.findNodeXML(childs, colName);
+            Node val = AnalyzerXML.findNodeWithGivenName(childs, colName);
             if (val == null) {
                 row[i] = "";
             }
@@ -325,7 +325,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
         }
 
         tableModel.addRow(row);
-        Node nameNode = AnalyzerXML.findNodeXML(childs, "name");
+        Node nameNode = AnalyzerXML.findNodeWithGivenName(childs, "name");
         if (nameNode == null) {
             pairList.add(new Pair<String, Node>("", nodeToAdd));
         }

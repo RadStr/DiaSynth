@@ -32,9 +32,10 @@ public class DiasynthLogger {
     }
 
     /**
-     * Logs given message. Before the logging updates current indentation by value given in second argument.
+     * Logs given message. Updates current indentation by value given in second argument.
+     * If the values is positive, then the update to indentation is performed before logging, if negative then after.
      * @param logMessage is the message to log
-     * @param indentationAddition reflects how many spaces should be added to the current indentation (Value can be negative).
+     * @param indentationAddition reflects how many tabulators should be added to the current indentation (Value can be negative).
      *
      */
     public static void log(String logMessage, int indentationAddition) {

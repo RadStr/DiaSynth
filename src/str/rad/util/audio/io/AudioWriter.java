@@ -1,6 +1,6 @@
 package str.rad.util.audio.io;
 
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -59,7 +59,7 @@ public class AudioWriter {
             return true;
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             return false;
         }
     }

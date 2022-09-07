@@ -1,9 +1,9 @@
 package str.rad.main;
 
 import str.rad.plugin.util.PluginLoader;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.ErrorFrame;
 import str.rad.util.swing.FrameWithFocusControl;
-import str.rad.util.logging.MyLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,7 +66,7 @@ public class Main {
             PluginLoader.removePreviouslyLoadedPlugins();
             PluginLoader.copyPlugins();
         }
-        MyLogger.logWithoutIndentation("Starting program");
+        DiasynthLogger.logWithoutIndentation("Starting program");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -86,7 +86,7 @@ public class Main {
 
         try {
             //Create and set up the window.
-            MyLogger.log("Creating frame", 1);
+            DiasynthLogger.log("Creating frame", 1);
             frame = new FrameWithFocusControl("DiaSynth") {
                 private Dimension minSize = new Dimension(1024, 768);
 
@@ -99,10 +99,10 @@ public class Main {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    MyLogger.close();
+                    DiasynthLogger.close();
                 }
             });
-            MyLogger.log("Created frame", -1);
+            DiasynthLogger.log("Created frame", -1);
 
             //Add content to the window.
             DiasynthTabbedPanel program = new DiasynthTabbedPanel(frame);
@@ -116,15 +116,15 @@ public class Main {
             frame.setMinimumSize(new Dimension(1024, 768));
             frame.setVisible(true);
 
-            MyLogger.logWithoutIndentation("Showed GUI");
+            DiasynthLogger.logWithoutIndentation("Showed GUI");
         }
         catch (Exception e) {
-            MyLogger.logWithoutIndentation("UNEXPECTED EXCEPTION INSIDE PROGRAM ... ENDING PROGRAM");
-            MyLogger.logException(e);
+            DiasynthLogger.logWithoutIndentation("UNEXPECTED EXCEPTION INSIDE PROGRAM ... ENDING PROGRAM");
+            DiasynthLogger.logException(e);
             if (frame == null) {
-                MyLogger.logWithoutIndentation("Program ended before the frame was created.");
+                DiasynthLogger.logWithoutIndentation("Program ended before the frame was created.");
             }
-            MyLogger.logWithoutIndentation("PROGRAM ENDED");
+            DiasynthLogger.logWithoutIndentation("PROGRAM ENDED");
             new ErrorFrame(frame, "UNEXPECTED EXCEPTION - check log file");
         }
     }

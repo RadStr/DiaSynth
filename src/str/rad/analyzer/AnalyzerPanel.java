@@ -14,6 +14,7 @@ import str.rad.util.Time;
 import str.rad.util.audio.AudioUtilities;
 import str.rad.util.audio.wave.ByteWave;
 import str.rad.util.audio.wave.DoubleWave;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.ErrorFrame;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,8 +29,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import str.rad.util.logging.MyLogger;
 
 public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     private static final long serialVersionUID = 1L;
@@ -68,11 +67,11 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     public AnalyzerPanel(JFrame thisWindow, DataModelObserverIFace[] observers) {
         frame = thisWindow;
         this.setLayout(new BorderLayout());
-        MyLogger.log("Creating Data model subject", 1);
+        DiasynthLogger.log("Creating Data model subject", 1);
         subject = new DataModelSubject(observers, thisWindow);
-        MyLogger.log("Created data model subject", -1);
+        DiasynthLogger.log("Created data model subject", -1);
 
-        MyLogger.log("Adding analyzer panel components", 1);
+        DiasynthLogger.log("Adding analyzer panel components", 1);
         buttonPanel = new JPanel(new FlowLayout());
         buttons = new JButton[3];
         fileChooseButton = new JButton("Choose file/directory to analyze");
@@ -137,12 +136,12 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             box.add(checkBoxes[i]);
             checkBoxes[i].setSelected(true);
         }
-        MyLogger.log("Added analyzer panel components", -1);
+        DiasynthLogger.log("Added analyzer panel components", -1);
 
-        MyLogger.log("Adding analyzer plugins", 1);
+        DiasynthLogger.log("Adding analyzer plugins", 1);
         loadPlugins();
         addPluginsToBox(box);
-        MyLogger.log("Added analyzer plugins", -1);
+        DiasynthLogger.log("Added analyzer plugins", -1);
 
         checkBoxScrollPane = new JScrollPane(box);
         this.add(checkBoxScrollPane, BorderLayout.EAST);
@@ -183,7 +182,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
     private List<Pair<JCheckBox, AnalyzerDoublePluginIFace>> doublePluginPairs = new ArrayList<>();
 
     private void loadPlugins() {
-        MyLogger.log("Adding analyzer byte plugins", 1);
+        DiasynthLogger.log("Adding analyzer byte plugins", 1);
         List<AnalyzerBytePluginIFace> bytePlugins = AnalyzerBytePluginIFace.loadPlugins();
         for (AnalyzerBytePluginIFace p : bytePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
@@ -191,9 +190,9 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             checkBox.setSelected(true);
             bytePluginPairs.add(new Pair<>(checkBox, p));
         }
-        MyLogger.log("Added analyzer byte plugins", -1);
+        DiasynthLogger.log("Added analyzer byte plugins", -1);
 
-        MyLogger.log("Adding analyzer int plugins", 1);
+        DiasynthLogger.log("Adding analyzer int plugins", 1);
         List<AnalyzerIntPluginIFace> intPlugins = AnalyzerIntPluginIFace.loadPlugins();
         for (AnalyzerIntPluginIFace p : intPlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
@@ -201,9 +200,9 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             checkBox.setSelected(true);
             intPluginPairs.add(new Pair<>(checkBox, p));
         }
-        MyLogger.log("Added analyzer int plugins", -1);
+        DiasynthLogger.log("Added analyzer int plugins", -1);
 
-        MyLogger.log("Adding analyzer double plugins", 1);
+        DiasynthLogger.log("Adding analyzer double plugins", 1);
         List<AnalyzerDoublePluginIFace> doublePlugins = AnalyzerDoublePluginIFace.loadPlugins();
         for (AnalyzerDoublePluginIFace p : doublePlugins) {
             JCheckBox checkBox = new JCheckBox(p.getName());
@@ -211,7 +210,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
             checkBox.setSelected(true);
             doublePluginPairs.add(new Pair<>(checkBox, p));
         }
-        MyLogger.log("Added analyzer int plugins", -1);
+        DiasynthLogger.log("Added analyzer int plugins", -1);
     }
 
     private void addPluginsToBox(Box box) {
@@ -295,7 +294,7 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
                     dataModel.addRow(new String[]{files[i].getCanonicalPath()});
                 }
                 catch (IOException e) {            // Shouldn't happen
-                    MyLogger.logException(e);
+                    DiasynthLogger.logException(e);
                     new ErrorFrame(frame, "Unknown error");
                 }
             }
@@ -315,13 +314,13 @@ public class AnalyzerPanel extends JPanel implements LeavingPanelIFace {
         try {
             byteWave = ByteWave.loadSong(filename, true);
             if (byteWave == null) {
-                MyLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
+                DiasynthLogger.logWithoutIndentation("Error in method analyze(String filename) in AnalyzerPanel\n" +
                                                filename + "\n" + AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 return;
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             return;
         }
 

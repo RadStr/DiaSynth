@@ -45,7 +45,7 @@ import str.rad.util.swing.EmptyPanelWithoutSetMethod;
 import str.rad.dialogs.EmptyWaveMakerDialog;
 import str.rad.dialogs.LengthDialog;
 import str.rad.util.audio.wave.DoubleWave;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.test.ProgramTest;
 import str.rad.util.audio.format.FileFilterAudioFormats;
 import str.rad.util.swing.FrameWithFocusControl;
@@ -627,7 +627,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         // Add menus
         menuBar = new JMenuBar();
 
-        MyLogger.log("Adding JMenuBar internals", 1);
+        DiasynthLogger.log("Adding JMenuBar internals", 1);
         // Saving/loading
         JMenu fileManipulationJMenu = new JMenu("File");
         addAddEmptyWaveToWaves(fileManipulationJMenu);
@@ -669,9 +669,9 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
         addAudioOperationsWithWave(audioModJMenu);
         audioModJMenu.addSeparator();
 
-        MyLogger.log("Adding audio player plugins", 1);
+        DiasynthLogger.log("Adding audio player plugins", 1);
         addPlugins(audioModJMenu);
-        MyLogger.log("Added audio player plugins", -1);
+        DiasynthLogger.log("Added audio player plugins", -1);
 
         menuBar.add(audioModJMenu);
 
@@ -691,7 +691,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
         setEnabledAllMenus(false);
         setEnabledWithWaveMenuItems(false);
-        MyLogger.log("Added JMenuBar internals", -1);
+        DiasynthLogger.log("Added JMenuBar internals", -1);
 
 
         waveScrollerWrapperPanel = new WaveScrollerWrapperPanel(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
@@ -862,7 +862,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
 
                     if (oldValue >= 0) {
                         if (newValue < splitter.getMinimumDividerLocation()) {
-                            MyLogger.log("CRITICAL SIZE ERROR INSIDE FirstSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                            DiasynthLogger.log("CRITICAL SIZE ERROR INSIDE FirstSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
                                          "Smaller than min divider:\t" + newValue + "\t" +
                                          splitter.getMinimumDividerLocation(), 0);
                         }
@@ -915,12 +915,12 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                         WaveMainPanel top;
                         WaveMainPanel bot;
                         if (newValue < topSplitter.getMinimumDividerLocation()) {
-                            MyLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                            DiasynthLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
                                          "Smaller than min divider top:\t" + newValue + "\t" +
                                          topSplitter.getMinimumDividerLocation(), 0);
                         }
                         if (newValue < botSplitter.getMinimumDividerLocation()) {
-                            MyLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
+                            DiasynthLogger.log("CRITICAL SIZE ERROR INSIDE CompoundSplitterChangeListener (PARAMETERS ON NEXT LINE):\n" +
                                          "Smaller than min divider bot:\t" + newValue + "\t" +
                                          botSplitter.getMinimumDividerLocation(), 0);
                         }
@@ -1668,7 +1668,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                                 addWaves(f, false);
                             }
                             catch (IOException exception) {
-                                MyLogger.logException(exception);
+                                DiasynthLogger.logException(exception);
                             }
                         }
                     }, true, false);
@@ -1782,7 +1782,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             ByteWave byteWave = ByteWave.loadSong(f, true);
             if (byteWave == null) {
                 if (shouldLog) {
-                    MyLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
+                    DiasynthLogger.logWithoutIndentation("Couldn't load audio in addMonoWave(File f) method.\n" +
                                                    AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
                 }
                 return null;
@@ -1791,7 +1791,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             wave = new DoubleWave(byteWave, false, newSampleRate);
         }
         catch (IOException exception) {
-            MyLogger.logException(exception);
+            DiasynthLogger.logException(exception);
         }
 
         return wave;
@@ -1817,7 +1817,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                                 addWaves(f, false);
                             }
                             catch (IOException exception) {
-                                MyLogger.logException(exception);
+                                DiasynthLogger.logException(exception);
                             }
                         }
                     }, false, true);
@@ -1831,7 +1831,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
     private void addWaves(File f, boolean shouldAddLater) throws IOException {
         ByteWave byteWave = ByteWave.loadSong(f, false);
         if (byteWave == null) {
-            MyLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
+            DiasynthLogger.logWithoutIndentation("Couldn't load audio in addWaves(File f) method.\n" +
                                            AudioUtilities.LOG_MESSAGE_WHEN_SET_VARIABLES_RETURN_FALSE);
             return;
         }
@@ -1898,7 +1898,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -1910,7 +1910,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -2585,7 +2585,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     // This is already checked when creating the first instance (pluginToAdd),
                     // only way this would fail would be when the source code changes during runtime
                     if (constructor == null) {
-                        MyLogger.log("Error in action listener inside " +
+                        DiasynthLogger.log("Error in action listener inside " +
                                      "addPlugin(OperationOnWavePluginIFace pluginToAdd, JMenu menu): " +
                                      pluginToAdd.getPluginName() + "\t(Doesn't have constructor without parameters)",
                                      0);
@@ -2594,7 +2594,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     plugin = (OperationOnWavePluginIFace) clazz.newInstance();
                 }
                 catch (Exception exception) {
-                    MyLogger.logException(exception);
+                    DiasynthLogger.logException(exception);
                     return;
                 }
                 // To reset the plugin
@@ -2630,7 +2630,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     Constructor<?> constructor = clazz.getConstructor();
                     // This is already checked when creating the first instance (pluginToAdd), only way this would fail would be when the source codes changes during runtime
                     if (constructor == null) {
-                        MyLogger.log("Error in action listener inside " +
+                        DiasynthLogger.log("Error in action listener inside " +
                                      "addPlugin(OperationOnWavesPluginIFace pluginToAdd, JMenu menu): " +
                                      pluginToAdd.getPluginName() + "\t(Doesn't have constructor without parameters)",
                                      0);
@@ -2639,7 +2639,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     plugin = (OperationOnWavesPluginIFace) clazz.newInstance();
                 }
                 catch (Exception exception) {
-                    MyLogger.logException(exception);
+                    DiasynthLogger.logException(exception);
                     return;
                 }
                 // To reset the plugin
@@ -3211,7 +3211,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 }
             }
             catch (Exception e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
             }
 
 
@@ -3223,7 +3223,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     line.open(outputAudioFormat);
                 }
                 catch (LineUnavailableException e) {
-                    MyLogger.logException(e);
+                    DiasynthLogger.logException(e);
                 }
 
                 muteControl = (BooleanControl) line.getControl(BooleanControl.Type.MUTE);
@@ -3235,7 +3235,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                 line.start();
             }
             catch (Exception e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
             }
 
             setMixer();
@@ -3414,7 +3414,7 @@ public class AudioPlayerPanel extends JPanel implements MouseListener,
                     audioLock.wait();        // Passive waiting
                 }
                 catch (InterruptedException e) {
-                    MyLogger.logException(e);
+                    DiasynthLogger.logException(e);
                 }
 
                 isPaused = false;

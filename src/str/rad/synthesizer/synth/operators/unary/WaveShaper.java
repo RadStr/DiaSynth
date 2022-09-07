@@ -11,7 +11,7 @@ import str.rad.player.experimental.DrawJFrame;
 import str.rad.player.experimental.FunctionWaveDrawPanel;
 import str.rad.util.Aggregation;
 import str.rad.util.audio.wave.DoubleWave;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -192,7 +192,7 @@ public class WaveShaper extends UnaryOperator {
             loadWaveShaperFunction(line);
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -204,7 +204,7 @@ public class WaveShaper extends UnaryOperator {
             setWaveShaperPanelDrawValues(function);
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 

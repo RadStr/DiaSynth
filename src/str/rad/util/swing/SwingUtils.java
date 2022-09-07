@@ -1,7 +1,7 @@
 package str.rad.util.swing;
 
 import str.rad.main.DiasynthTabbedPanel;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -167,7 +167,7 @@ public class SwingUtils {
         final int MAX_FONT_SIZE = 26822;        // Hard constant based on my system ... because there is some issue on other computers
         while (currFontSize < MAX_FONT_SIZE) {
             if(currFontSize % 1000 == 0) {
-                MyLogger.logWithoutIndentation("Debug - finding max font size: " + currFontSize);
+                DiasynthLogger.logWithoutIndentation("Debug - finding max font size: " + currFontSize);
             }
             currFontSize++;
             newFont = new Font(oldFont.getName(), oldFont.getStyle(), currFontSize);

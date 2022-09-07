@@ -2,7 +2,7 @@ package str.rad.dialogs;
 
 import str.rad.plugin.util.JTextFieldWithBounds;
 import str.rad.plugin.util.FieldSetterIFace;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class LengthDialog extends JPanel implements FieldSetterIFace {
                                                              "WAVE LENGTH", field, this, this);
         }
         catch (IllegalAccessException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             System.exit(444);
         }
 

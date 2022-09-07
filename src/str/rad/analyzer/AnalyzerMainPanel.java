@@ -3,7 +3,7 @@ package str.rad.analyzer;
 import str.rad.analyzer.observer.DataModelObserverIFace;
 import str.rad.main.AddToAudioPlayerIFace;
 import str.rad.main.TabChangeIFace;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,15 +22,15 @@ public class AnalyzerMainPanel extends JPanel implements TabChangeIFace {
         thisFrame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        MyLogger.log("Creating song library panel", 1);
+        DiasynthLogger.log("Creating song library panel", 1);
         songLibraryPanel = new SongLibraryPanel(frame, addToAudioPlayerIFace);
         DataModelObserverIFace[] observers = new DataModelObserverIFace[]{
                 songLibraryPanel.getAllFilesObserver(), songLibraryPanel.getSelectedFilesObserver()
         };
-        MyLogger.log("Created song library panel", -1);
-        MyLogger.log("Creating analyzer panel", 1);
+        DiasynthLogger.log("Created song library panel", -1);
+        DiasynthLogger.log("Creating analyzer panel", 1);
         analyzerPanel = new AnalyzerPanel(frame, observers);
-        MyLogger.log("Created analyzer panel", -1);
+        DiasynthLogger.log("Created analyzer panel", -1);
         menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menuBar.add(menu);

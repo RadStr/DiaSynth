@@ -1,7 +1,7 @@
 package str.rad.player.control;
 
 import str.rad.plugin.util.PluginLoader;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -56,8 +56,8 @@ public class ZoomPanel extends JPanel {
             unzoomButton.setIcon(new ImageIcon(img));
         }
         catch (Exception ex) {
-            MyLogger.logWithoutIndentation("IMG file is probably missing: " + file.getAbsolutePath());
-            MyLogger.logException(ex);
+            DiasynthLogger.logWithoutIndentation("IMG file is probably missing: " + file.getAbsolutePath());
+            DiasynthLogger.logException(ex);
         }
 
         zoomLabel = new JLabel("0");

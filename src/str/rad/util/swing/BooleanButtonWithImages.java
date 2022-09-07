@@ -1,7 +1,7 @@
 package str.rad.util.swing;
 
 import str.rad.plugin.util.PluginLoader;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,8 +46,8 @@ public class BooleanButtonWithImages extends BooleanButton {
             ifTrueImageIcon = new ImageIcon(img);
         }
         catch (Exception ex) {
-            MyLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfTrueImage);
-            MyLogger.logException(ex);
+            DiasynthLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfTrueImage);
+            DiasynthLogger.logException(ex);
         }
 
         try {
@@ -64,8 +64,8 @@ public class BooleanButtonWithImages extends BooleanButton {
             ifFalseImageIcon = new ImageIcon(img);
         }
         catch (Exception ex) {
-            MyLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfFalseImage);
-            MyLogger.logException(ex);
+            DiasynthLogger.logWithoutIndentation("IMG file is probably missing: " + pathToIfFalseImage);
+            DiasynthLogger.logException(ex);
         }
     }
 

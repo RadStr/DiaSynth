@@ -10,7 +10,7 @@ import str.rad.util.audio.AudioUtilities;
 import str.rad.util.audio.format.AudioFormatJPanel;
 import str.rad.util.audio.format.AudioFormatWithSign;
 import str.rad.player.control.AudioControlPanel;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.sound.sampled.*;
 
@@ -120,7 +120,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             }
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
 
 
@@ -165,7 +165,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
             minAllowedAvailableSize = audioLineMaxAvailableBytes - samplesToBePlayedByteLen;
         }
         catch (LineUnavailableException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -253,7 +253,7 @@ public class AudioThread extends Thread implements OutputFormatGetterIFace, Audi
                 audioLock.wait();        // Passive waiting
             }
             catch (InterruptedException e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
                 return -1;
             }
 

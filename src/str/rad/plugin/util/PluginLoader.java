@@ -2,7 +2,7 @@ package str.rad.plugin.util;
 
 import str.rad.plugin.PluginBaseIFace;
 import str.rad.synthesizer.synth.Unit;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,11 +26,11 @@ public class PluginLoader {
         Class<?> c = PluginBaseIFace.class;
         if (isJar(c)) {
             String pathToJar = getPathToJar(c);
-            MyLogger.log("Runs in jar with path: " + pathToJar, 0);
+            DiasynthLogger.log("Runs in jar with path: " + pathToJar, 0);
             return loadPluginsInJar(pluginIface, pluginPackage, pathToJar);
         }
         else {
-            MyLogger.log("Doesn't run in jar", 0);
+            DiasynthLogger.log("Doesn't run in jar", 0);
             return loadPluginsNotInJar(pluginIface, pluginPackage);
         }
     }
@@ -79,7 +79,7 @@ public class PluginLoader {
     public static String getJarName(Class<?> classInsideJar) {
         String jarName;
         String path = getResourceForClass(classInsideJar).toString();
-        MyLogger.log("FULL JAR PATH: " + path, 0);
+        DiasynthLogger.log("FULL JAR PATH: " + path, 0);
         int jarNameExtensionStartIndex = path.indexOf(".jar!/");
         path = path.substring(0, jarNameExtensionStartIndex + ".jar".length());
         int jarNameStartIndex = path.lastIndexOf('/') + 1;
@@ -118,7 +118,7 @@ public class PluginLoader {
                 }
             }
             catch (Exception e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
             }
         }
         return list;
@@ -153,7 +153,7 @@ public class PluginLoader {
                                                                                   IllegalAccessException, InstantiationException {
         Constructor<?> constructor = clazz.getConstructor();
         if (constructor == null) {
-            MyLogger.log("Doesn't have constructor without parameters - " + clazz.getName(), 0);
+            DiasynthLogger.log("Doesn't have constructor without parameters - " + clazz.getName(), 0);
         }
         else {
             T newInstance = (T) clazz.newInstance();
@@ -185,18 +185,18 @@ public class PluginLoader {
             JarFile jarFile = new JarFile(file);
 
             urls.add(new URL("jar:file:" + file.getName() + "!/"));
-            MyLogger.log("JAR PATH: " + urls.get(urls.size() - 1), 0);
+            DiasynthLogger.log("JAR PATH: " + urls.get(urls.size() - 1), 0);
             jarFile.stream().forEach(jarEntry -> {
                 // It is the path in jar so x/y/z
                 String jarEntryName = jarEntry.getName();
                 if (jarEntryName.startsWith(path) && jarEntryName.endsWith(".class")) {
-                    MyLogger.log("JAR ENTRY (.class): " + jarEntry.getName(), 0);
+                    DiasynthLogger.log("JAR ENTRY (.class): " + jarEntry.getName(), 0);
                     classes.add(jarEntry.getName());
                 }
             });
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
         URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
         classes.forEach(s -> {
@@ -205,7 +205,7 @@ public class PluginLoader {
                 Class[] interfaces = classs.getInterfaces();
                 for (Class anInterface : interfaces) {
                     if (anInterface == pluginIface) {
-                        MyLogger.log("LOADED CLASS: " + PluginLoader.convertPathToPackagePath(s),
+                        DiasynthLogger.log("LOADED CLASS: " + PluginLoader.convertPathToPackagePath(s),
                                      0);
                         addInstanceToList(classs, loadedPlugins);
                         break;
@@ -213,7 +213,7 @@ public class PluginLoader {
                 }
             }
             catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
             }
         });
         return loadedPlugins;
@@ -286,14 +286,14 @@ public class PluginLoader {
                         Files.copy(file, dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                     catch (IOException e) {
-                        MyLogger.logException(e);
+                        DiasynthLogger.logException(e);
                     }
                     return FileVisitResult.CONTINUE;
                 }
             });
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -356,7 +356,7 @@ public class PluginLoader {
             });
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 }

@@ -11,7 +11,7 @@ import str.rad.synthesizer.synth.tables.WaveTableFast;
 import str.rad.player.AudioPlayerPanel;
 import str.rad.util.Utilities;
 import str.rad.util.audio.wave.DoubleWave;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.io.*;
@@ -158,7 +158,7 @@ public class WaveTableGenerator extends Generator {
             loadWaveTable(line);
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -183,7 +183,7 @@ public class WaveTableGenerator extends Generator {
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 

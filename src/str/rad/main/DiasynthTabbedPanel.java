@@ -3,9 +3,9 @@ package str.rad.main;
 import str.rad.synthesizer.gui.SynthesizerMainPanel;
 import str.rad.util.audio.format.AudioFormatWithSign;
 import str.rad.player.AudioPlayerPanel;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.FrameWithFocusControl;
 import str.rad.analyzer.AnalyzerMainPanel;
-import str.rad.util.logging.MyLogger;
 import str.rad.util.swing.SwingUtils;
 
 import javax.swing.*;
@@ -17,24 +17,24 @@ import java.io.ByteArrayInputStream;
 
 public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayerIFace {
     public DiasynthTabbedPanel(FrameWithFocusControl frame) {
-        MyLogger.log("Creating parts", 1);
-        MyLogger.log("Creating Analyzer", 1);
+        DiasynthLogger.log("Creating parts", 1);
+        DiasynthLogger.log("Creating Analyzer", 1);
         analyzerTab = new AnalyzerMainPanel(frame, this);
         this.addTab("Analyser", null, analyzerTab, "Audio analyzer");
         this.setMnemonicAt(0, KeyEvent.VK_1);
-        MyLogger.log("Created Analyzer", -1);
+        DiasynthLogger.log("Created Analyzer", -1);
 
-        MyLogger.log("Creating Audio player", 1);
+        DiasynthLogger.log("Creating Audio player", 1);
         audioPlayerTab = new AudioPlayerPanel(frame);
         this.addTab("Audio player", null, audioPlayerTab, "Audio player");
         this.setMnemonicAt(1, KeyEvent.VK_2);
-        MyLogger.log("Created Audio player", -1);
+        DiasynthLogger.log("Created Audio player", -1);
 
-        MyLogger.log("Creating synthesizer", 1);
+        DiasynthLogger.log("Creating synthesizer", 1);
         synthTab = new SynthesizerMainPanel(frame, this);
         this.addTab("Diagram synthesizer", null, synthTab, "Diagram synthesizer");
         this.setMnemonicAt(2, KeyEvent.VK_3);
-        MyLogger.log("Created synthesizer", -1);
+        DiasynthLogger.log("Created synthesizer", -1);
 
 
         // Modified code from https://stackoverflow.com/questions/6799731/jtabbedpane-changelistener
@@ -51,7 +51,7 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
         });
 
         this.setSelectedIndex(2);
-        MyLogger.log("Created parts", -1);
+        DiasynthLogger.log("Created parts", -1);
     }
 
 
@@ -73,13 +73,13 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
         }
         catch(Exception e) {
             fontSize = 24;
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
         finally {
             MAX_LABEL_FONT_SIZE = fontSize;
         }
 
-        MyLogger.logWithoutIndentation("max FONT size: " + Integer.toString(MAX_LABEL_FONT_SIZE));
+        DiasynthLogger.logWithoutIndentation("max FONT size: " + Integer.toString(MAX_LABEL_FONT_SIZE));
     }
 
     private TabChangeIFace oldTab;
@@ -103,7 +103,7 @@ public class DiasynthTabbedPanel extends JTabbedPane implements AddToAudioPlayer
             case 2:
                 return synthTab;
             default:
-                MyLogger.logWithoutIndentation("Invalid selected index inside method " +
+                DiasynthLogger.logWithoutIndentation("Invalid selected index inside method " +
                                                "getPanelFromSelectedIndex in DiasynthTabbedPanel class");
                 System.exit(15);
                 return null;

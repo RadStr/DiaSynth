@@ -7,7 +7,7 @@ import str.rad.synthesizer.gui.diagram.panels.port.OutputPort;
 import str.rad.synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import str.rad.synthesizer.gui.tree.JTreeCellClickedCallbackIFace;
 import str.rad.synthesizer.UnitViewForGUIIFace;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -342,7 +342,7 @@ public abstract class Unit implements SerializeIFace, JTreeCellClickedCallbackIF
             shapedPanel.setRelativePosToReferencePanel(relX, relY);
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
     // SerializeIFace

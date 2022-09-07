@@ -17,7 +17,7 @@ import str.rad.synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInterna
 import str.rad.synthesizer.UnitViewForGUIIFace;
 import str.rad.player.AudioPlayerPanel;
 import str.rad.synthesizer.gui.diagram.panels.util.Direction;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.SwingUtils;
 
 import javax.swing.*;
@@ -824,7 +824,7 @@ public class MovableJPanel extends MovableJPanelBase implements MovablePanelIFac
                 break;
             case DOWN:
             default:
-                MyLogger.logWithoutIndentation("Invalid direction inside method setInputPortLoc.");
+                DiasynthLogger.logWithoutIndentation("Invalid direction inside method setInputPortLoc.");
                 System.exit(4987);
         }
     }

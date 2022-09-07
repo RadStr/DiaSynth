@@ -3,7 +3,7 @@ package str.rad.plugin.util;
 import str.rad.plugin.EnumWrapperForAnnotationPanelIFace;
 import str.rad.plugin.PluginParameterAnnotation;
 import str.rad.util.Pair;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -285,7 +285,7 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
                                                           tooltip, f, objectWithAnnotations, this::setField);
             }
             catch (Exception e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
                 return;
             }
             Pair<JLabel, JTextField> p = new Pair<>(parameterName, parameterValue);
@@ -368,8 +368,8 @@ public class AnnotationPanel extends JScrollPane implements FieldSetterIFace {
             }
         }
         catch (Exception e) {
-            MyLogger.log("Some error while creating annotation panel", 0);
-            MyLogger.logException(e);
+            DiasynthLogger.log("Some error while creating annotation panel", 0);
+            DiasynthLogger.logException(e);
         }
     }
 

@@ -3,7 +3,7 @@ package str.rad.synthesizer.gui.diagram.panels.port;
 import str.rad.synthesizer.gui.diagram.panels.ifaces.MovablePanelViewForPort;
 import str.rad.synthesizer.synth.SerializeIFace;
 import str.rad.synthesizer.synth.UnitGeneratedValuesInfo;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -264,7 +264,7 @@ public class OutputPort extends Port implements SerializeIFace {
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 }

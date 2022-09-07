@@ -4,7 +4,7 @@ import str.rad.synthesizer.gui.diagram.util.UnitArrayListSortedByY;
 import str.rad.synthesizer.synth.audio.AudioThread;
 import str.rad.util.audio.AudioUtilities;
 import str.rad.util.audio.format.AudioFormatWithSign;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.sound.sampled.AudioFormat;
 import java.util.ConcurrentModificationException;
@@ -139,7 +139,7 @@ public class SynthDiagram extends Thread {
                         lock.wait();        // Passive waiting
                     }
                     catch (InterruptedException e) {
-                        MyLogger.logException(e);
+                        DiasynthLogger.logException(e);
                         return;
                     }
                     waiting = false;

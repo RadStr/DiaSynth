@@ -1,8 +1,8 @@
 package str.rad.analyzer;
 
 import str.rad.util.Pair;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.ErrorFrame;
-import str.rad.util.logging.MyLogger;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -45,7 +45,7 @@ public class AnalyzerXML {
             transformer = transformerFactory.newTransformer();
         }
         catch (TransformerConfigurationException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             new ErrorFrame(callingFrame, "Unknown error in createXMLFile");
         }
 
@@ -64,7 +64,7 @@ public class AnalyzerXML {
             transformer.transform(source, result);
         }
         catch (TransformerException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             new ErrorFrame(callingFrame, "Unknown error in createXMLFile");
         }
     }
@@ -276,7 +276,7 @@ public class AnalyzerXML {
             dBuilder = dbFactory.newDocumentBuilder();
         }
         catch (ParserConfigurationException e1) {
-            MyLogger.logException(e1);
+            DiasynthLogger.logException(e1);
             new ErrorFrame(callingFrame, "Unknown error in loadXMLToDoc");
         }
         Document document = null;
@@ -284,11 +284,11 @@ public class AnalyzerXML {
             document = dBuilder.parse(file);
         }
         catch (SAXException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             new ErrorFrame(callingFrame, "SAX error");
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             new ErrorFrame(callingFrame, "IO error in loadXMLToDoc");
         }
 

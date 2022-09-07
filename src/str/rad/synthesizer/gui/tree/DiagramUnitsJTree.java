@@ -10,7 +10,7 @@ import str.rad.synthesizer.gui.diagram.DiagramPanel;
 import str.rad.synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import str.rad.synthesizer.synth.OutputUnit;
 import str.rad.synthesizer.synth.Unit;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import java.awt.*;
 import java.io.File;
@@ -132,7 +132,7 @@ public class DiagramUnitsJTree extends JTree {
                     // EMPTY
                 }
                 else if (constructor == null) {
-                    MyLogger.logWithoutIndentation("Doesn't have corresponding constructor");
+                    DiasynthLogger.logWithoutIndentation("Doesn't have corresponding constructor");
                 }
                 else {
                     Unit u;
@@ -142,7 +142,7 @@ public class DiagramUnitsJTree extends JTree {
             }
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -158,20 +158,20 @@ public class DiagramUnitsJTree extends JTree {
                     // EMPTY
                 }
                 else if (constructor == null) {
-                    MyLogger.logWithoutIndentation("Doesn't have corresponding constructor");
+                    DiasynthLogger.logWithoutIndentation("Doesn't have corresponding constructor");
                 }
                 else {
-                    MyLogger.log("Adding Unit: " + className, 0);
+                    DiasynthLogger.log("Adding Unit: " + className, 0);
                     Unit u;
                     u = (Unit) constructor.newInstance(new Object[]{diagramPanel});
                     treeCell.addChildren(u);
-                    MyLogger.log("Added Unit: " + className, 0);
+                    DiasynthLogger.log("Added Unit: " + className, 0);
                 }
             }
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
                 NoSuchMethodException | InvocationTargetException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 
@@ -208,8 +208,8 @@ public class DiagramUnitsJTree extends JTree {
                                                                   JTreeCellTextForUnits treeCell) {
         // + "/" Because I want it to behave as jar directory (which ends with /)
         String path = packageContainingPlugins.replace('.', '/') + "/";
-        MyLogger.log("packageContainingPlugins: " + path, 0);
-        MyLogger.log("PATH TO JAR: " + pathToJar, 0);
+        DiasynthLogger.log("packageContainingPlugins: " + path, 0);
+        DiasynthLogger.log("PATH TO JAR: " + pathToJar, 0);
 
 
         File file = new File(pathToJar);
@@ -219,7 +219,7 @@ public class DiagramUnitsJTree extends JTree {
             URL url = new URL("jar:file:" + file.getName() + "!/");
             URLClassLoader pluginLoader = new URLClassLoader(new URL[]{url});
 
-            MyLogger.log("JAR PATH: " + url, 0);
+            DiasynthLogger.log("JAR PATH: " + url, 0);
 
 
             Enumeration<JarEntry> entries = jarFile.entries();
@@ -244,7 +244,7 @@ public class DiagramUnitsJTree extends JTree {
 
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
 
         return treeCell;

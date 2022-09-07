@@ -9,7 +9,7 @@ import str.rad.synthesizer.gui.diagram.panels.shape.ShapedPanel;
 import str.rad.synthesizer.synth.Unit;
 import str.rad.plugin.PluginParameterAnnotation;
 import str.rad.util.Utilities;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -201,7 +201,7 @@ public class ConstantGenerator extends Unit implements PluginBaseIFace {
             updateAfterPropertiesCall();
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
     }
 

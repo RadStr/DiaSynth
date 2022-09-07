@@ -1,7 +1,7 @@
 package str.rad.synthesizer.gui;
 
 import str.rad.synthesizer.gui.diagram.DiagramPanel;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import javax.swing.*;
 import javax.swing.plaf.SplitPaneUI;
@@ -17,16 +17,16 @@ public class DiagramJSplitPane extends JSplitPane {
         this.synthesizerMainPanel = synthesizerMainPanel;
         setResizeWeight(THIS_SPLIT_DIVIDER_WEIGHT);
         setOneTouchExpandable(true);
-        MyLogger.log("Adding DiagramPanel", 1);
+        DiasynthLogger.log("Adding DiagramPanel", 1);
         leftPanel = new DiagramPanel(getBackground(), synthesizerMainPanel, waveVisualizer);
         this.setLeftComponent(leftPanel);
-        MyLogger.log("Added DiagramPanel", -1);
+        DiasynthLogger.log("Added DiagramPanel", -1);
 
-        MyLogger.log("Adding menu", 1);
+        DiasynthLogger.log("Adding menu", 1);
         // Set the menu
         DiagramItemsMenu menu = new DiagramItemsMenu(leftPanel);
         this.setRightComponent(menu);
-        MyLogger.log("Adding menu", -1);
+        DiasynthLogger.log("Adding menu", -1);
 
         addResizeListener();
 

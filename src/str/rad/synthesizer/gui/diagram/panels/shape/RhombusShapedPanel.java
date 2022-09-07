@@ -5,7 +5,7 @@ import str.rad.synthesizer.gui.diagram.panels.MovableJPanel;
 import str.rad.synthesizer.gui.diagram.panels.shape.internals.ShapedPanelInternals;
 import str.rad.synthesizer.UnitViewForGUIIFace;
 import str.rad.synthesizer.gui.diagram.panels.util.Direction;
-import str.rad.util.logging.MyLogger;
+import str.rad.util.logging.DiasynthLogger;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -248,7 +248,7 @@ public class RhombusShapedPanel extends ShapedPanel {
                         nextToLastPoint.y = 1;
                         break;
                     default:
-                        MyLogger.logWithoutIndentation("Invalid direction inside rhombus next to last method:\t" + direction);
+                        DiasynthLogger.logWithoutIndentation("Invalid direction inside rhombus next to last method:\t" + direction);
                         break;
                 }
             }

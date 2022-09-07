@@ -13,8 +13,8 @@ import str.rad.plugin.util.FieldSetterIFace;
 import str.rad.player.AudioPlayerPanel;
 import str.rad.util.audio.format.FileFilterAudioFormats;
 import str.rad.player.control.AudioControlPanelWithZoom;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.BooleanButton;
-import str.rad.util.logging.MyLogger;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
@@ -59,14 +59,14 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
             }
         });
 
-        MyLogger.log("Creating wave visualizer inside synth part", 1);
+        DiasynthLogger.log("Creating wave visualizer inside synth part", 1);
         waveVisualizer = new PlayedWaveVisualizer();
-        MyLogger.log("Created wave visualizer inside synth part", -1);
-        MyLogger.log("Creating bottom panel inside synth part", 1);
+        DiasynthLogger.log("Created wave visualizer inside synth part", -1);
+        DiasynthLogger.log("Creating bottom panel inside synth part", 1);
         botPanel = new DiagramJSplitPane(this, waveVisualizer);
-        MyLogger.log("Created bottom panel inside synth part", -1);
+        DiasynthLogger.log("Created bottom panel inside synth part", -1);
 
-        MyLogger.log("Adding rest of synth part", 1);
+        DiasynthLogger.log("Adding rest of synth part", 1);
         playerButtons = new AudioControlPanelWithZoom(
                 new ActionListener() {
                     @Override
@@ -155,7 +155,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                 (e) -> waveVisualizer.setShouldViewWave(e.getStateChange() == ItemEvent.SELECTED));
         menu.add(shouldViewWaveCheckbox);
         menuBar.add(menu);
-        MyLogger.log("Added rest of synth part", -1);
+        DiasynthLogger.log("Added rest of synth part", -1);
     }
 
     private AddToAudioPlayerIFace audioPlayerAddIFace;
@@ -240,14 +240,14 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                         f.createNewFile();
                     }
                     catch (IOException ex) {
-                        MyLogger.logException(ex);
+                        DiasynthLogger.logException(ex);
                         return;
                     }
                     try (PrintWriter pw = new PrintWriter(f)) {
                         botPanel.getDiagramPanel().save(pw);
                     }
                     catch (FileNotFoundException ex) {
-                        MyLogger.logException(ex);
+                        DiasynthLogger.logException(ex);
                     }
                 }
             }
@@ -349,7 +349,7 @@ public class SynthesizerMainPanel extends JPanel implements TabChangeIFace, Synt
                                                   field, this, this));
             }
             catch (IllegalAccessException e) {
-                MyLogger.logException(e);
+                DiasynthLogger.logException(e);
             }
 
             JLabel shouldConvertLabel = new JLabel("Convert to audio player output audio format:");

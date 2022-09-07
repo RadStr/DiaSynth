@@ -30,8 +30,8 @@ import str.rad.util.audio.format.AudioFormatWithSign;
 import str.rad.util.audio.format.ChannelCount;
 import str.rad.player.control.AudioControlPanel;
 import str.rad.util.audio.io.AudioWriter;
+import str.rad.util.logging.DiasynthLogger;
 import str.rad.util.swing.BooleanButton;
-import str.rad.util.logging.MyLogger;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -175,22 +175,22 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
         focusGained();
         setArrowVariables();
 
-        MyLogger.log("Adding audio thread to synth part", 1);
+        DiasynthLogger.log("Adding audio thread to synth part", 1);
         audioThread = new AudioThreadWithRecordingSupport(this, true);
         audioThread.setWaveVisualizer(waveVisualizer);
         setOutputAudioFormat(new AudioFormatWithSign(44100, 16, 1,
                                                      true, false));
-        MyLogger.log("Added audio thread to synth part", -1);
+        DiasynthLogger.log("Added audio thread to synth part", -1);
 
-        MyLogger.log("Starting audio thread to synth part", 1);
+        DiasynthLogger.log("Starting audio thread to synth part", 1);
         audioThread.start();
-        MyLogger.log("Started audio thread to synth part", -1);
-        MyLogger.log("Adding synth diagram to synth part", 1);
+        DiasynthLogger.log("Started audio thread to synth part", -1);
+        DiasynthLogger.log("Adding synth diagram to synth part", 1);
         synthDiagram = new SynthDiagram(panels, this, audioThread, true);
-        MyLogger.log("Added synth diagram to synth part", -1);
-        MyLogger.log("Starting synth diagram in synth part", 1);
+        DiasynthLogger.log("Added synth diagram to synth part", -1);
+        DiasynthLogger.log("Starting synth diagram in synth part", 1);
         synthDiagram.start();
-        MyLogger.log("Started synth diagram in synth part", -1);
+        DiasynthLogger.log("Started synth diagram in synth part", -1);
     }
 
 
@@ -2512,7 +2512,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
                 y += BORDER_ARROW_HALF_SPACE_Y;
                 break;
             default:
-                MyLogger.logWithoutIndentation("Unknown enum of type ArrowDirection in switch in method drawEdgeArrow");
+                DiasynthLogger.logWithoutIndentation("Unknown enum of type ArrowDirection in switch in method drawEdgeArrow");
                 System.exit(0);
         }
 
@@ -2754,7 +2754,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             sp.updateSize(new Dimension(this.getReferencePanelWidth(), this.getReferencePanelHeight()));
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             return null;
         }
 
@@ -2786,7 +2786,7 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             sp.updateSize(new Dimension(this.getReferencePanelWidth(), this.getReferencePanelHeight()));
         }
         catch (Exception e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
             return null;
         }
 
@@ -2966,10 +2966,10 @@ public class DiagramPanel extends JLayeredPane implements ZoomIFace, MovingPanel
             }
         }
         catch (IOException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
         catch (ClassNotFoundException e) {
-            MyLogger.logException(e);
+            DiasynthLogger.logException(e);
         }
 
         recalculateAllCables();

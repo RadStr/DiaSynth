@@ -4,8 +4,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MyLogger {
-    private MyLogger() { }          // To make only static access possible
+public class DiasynthLogger {
+    private DiasynthLogger() { }          // To make only static access possible
 
     private static File logFile = new File("LOG.log");
     private static PrintWriter logStream;
@@ -65,8 +65,8 @@ public class MyLogger {
 
 
     public static void logException(Exception e) {
-        String stackTrace = MyLogger.getStackTraceString(e);
-        MyLogger.logWithoutIndentation("Message:\t" + e.getMessage() + "\n" +
+        String stackTrace = DiasynthLogger.getStackTraceString(e);
+        DiasynthLogger.logWithoutIndentation("Message:\t" + e.getMessage() + "\n" +
                                        "Stack trace:\t" + stackTrace);
     }
 

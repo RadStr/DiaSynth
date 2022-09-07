@@ -31,6 +31,12 @@ public class DiasynthLogger {
         }
     }
 
+    /**
+     * Logs given message. Before the logging updates current indentation by value given in second argument.
+     * @param logMessage is the message to log
+     * @param indentationAddition reflects how many spaces should be added to the current indentation (Value can be negative).
+     *
+     */
     public static void log(String logMessage, int indentationAddition) {
         if (logStream != null) {
             if (indentationAddition != 0) {
@@ -48,6 +54,10 @@ public class DiasynthLogger {
         }
     }
 
+    /**
+     * Logs the message. Completely ignores current indentation.
+     * @param logMessage
+     */
     public static void logWithoutIndentation(String logMessage) {
         if (logStream != null) {
             logStream.println(logMessage);
@@ -64,6 +74,10 @@ public class DiasynthLogger {
     }
 
 
+    /**
+     * Logs given exception.
+     * @param e
+     */
     public static void logException(Exception e) {
         String stackTrace = DiasynthLogger.getStackTraceString(e);
         DiasynthLogger.logWithoutIndentation("Message:\t" + e.getMessage() + "\n" +
@@ -71,6 +85,12 @@ public class DiasynthLogger {
     }
 
     // Taken from: https://stackoverflow.com/questions/4812570/how-to-store-printstacktrace-into-a-string
+
+    /**
+     *
+     * @param ex
+     * @return Returns the stack trace of given exception as string.
+     */
     public static String getStackTraceString(Exception ex) {
         StringWriter errors = new StringWriter();
         ex.printStackTrace(new PrintWriter(errors));

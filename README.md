@@ -110,7 +110,7 @@ To open and launch the project in IDE the references to libraries needs to be re
 
 * The decibel meter's flickering in audio player may be really **unpleasant** for some, so turn it off in view tab. Same goes for the synthesized wave inside synthesizer (but that shouldn't be really annoying to most).
 
-* I won't probably do any updates on this project until july.
+* I am currently not updating this project, nor will I in near future. But hopefully I will get around to implement some of the interesting features in future.
 
 * Both analyzer and audio player load the whole song into memory, they are not using streaming.
 

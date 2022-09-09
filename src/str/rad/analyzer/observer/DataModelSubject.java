@@ -33,7 +33,7 @@ public class DataModelSubject implements DataModelSubjectIFace {
         observers.add(obs);
     }
     @Override
-    public void removeObserver(DataModelObserverIFace obs) {
+    public void unregisterObserver(DataModelObserverIFace obs) {
         observers.remove(obs);
     }
 

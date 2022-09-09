@@ -3,7 +3,7 @@ package str.rad.analyzer.observer;
 import org.w3c.dom.Node;
 
 public interface DataModelSubjectIFace {
-    public void addObserver(DataModelObserverIFace obs);
+    public void registerObserver(DataModelObserverIFace obs);
     public void removeObserver(DataModelObserverIFace obs);
     /**
      * Notify observers about removal of given node in the data model.

@@ -29,7 +29,7 @@ public class DataModelSubject implements DataModelSubjectIFace {
     }
 
     @Override
-    public void addObserver(DataModelObserverIFace obs) {
+    public void registerObserver(DataModelObserverIFace obs) {
         observers.add(obs);
     }
     @Override

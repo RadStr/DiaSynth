@@ -56,7 +56,7 @@ public class DataModelSubject implements DataModelSubjectIFace {
     public void notifyObservers() {
         AnalyzerXML.setXMLDoc(AnalyzerPanel.ANALYZED_AUDIO_XML_FILENAME, frame, "songs");
         for (DataModelObserverIFace o : observers) {
-            o.reloadDataModelFromXML();
+            o.reloadDataModel();
         }
     }
 }

@@ -77,7 +77,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
         dataModelSelectedFiles = null;
         selectedFilesObserver = new DataModelObserver(dataModelSelectedFiles, selectedFilesPairList) {
             @Override
-            public void reloadDataModelFromXML() {
+            public void reloadDataModel() {
                 selectedFilesPairList.clear();
                 dataModelSelectedFiles = new UneditableTableModel(new String[0][0], headerSelectedFiles);
                 selectedFilesTable.setModel(dataModelSelectedFiles);
@@ -86,7 +86,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
             }
         };
 
-        selectedFilesObserver.reloadDataModelFromXML();
+        selectedFilesObserver.reloadDataModel();
         selectedFilesPane = new JScrollPane(selectedFilesTable) {
             @Override
             public Dimension getPreferredSize() {
@@ -104,7 +104,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
 
         allFilesObserver = new DataModelObserver(dataModelAllFiles, allFilesPairList) {
             @Override
-            public void reloadDataModelFromXML() {
+            public void reloadDataModel() {
                 allFilesPairList = AnalyzerXML.getPairs(AnalyzerXML.getXMLDoc());
                 Comparator<Pair<String, Node>> comp =
                         (Pair<String, Node> p1, Pair<String, Node> p2) -> p1.getKey().compareTo(p2.getKey());
@@ -139,7 +139,7 @@ public class SongLibraryPanel extends JPanel implements LeavingPanelIFace {
                 return new Dimension(size.width, size.height / 3);
             }
         };
-        allFilesObserver.reloadDataModelFromXML();
+        allFilesObserver.reloadDataModel();
 
         boxAllFiles.add(allFilesLabel);
         boxAllFiles.add(allFilesPane);

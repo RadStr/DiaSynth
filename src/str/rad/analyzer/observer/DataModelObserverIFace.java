@@ -3,7 +3,7 @@ package str.rad.analyzer.observer;
 import org.w3c.dom.Node;
 
 public interface DataModelObserverIFace {
-    public void reloadDataModelFromXML();
+    public void reloadDataModel();
 
     /**
      * Update data model by removing given node, which was deleted from XML file.

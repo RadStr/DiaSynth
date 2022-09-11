@@ -7,7 +7,7 @@ public interface DataModelObserverIFace {
 
     /**
      * Update data model by removing given node, which was deleted from XML file.
-     * @return Returns True if the node was inside the dataModel, false otherwise
+     * @return Returns True if the node was inside the data model, false otherwise
      */
     public boolean update(Node nodeToBeRemoved);
 }

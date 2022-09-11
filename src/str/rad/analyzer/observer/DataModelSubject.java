@@ -39,7 +39,8 @@ public class DataModelSubject implements DataModelSubjectIFace {
 
 
     /**
-     * Notify observers about removal of given node.
+     * Notify observers about removal of XML node, which needs to be propagated to the data model.
+     * @param removedNode is the removed XML node
      */
     @Override
     public void notifyObservers(Node removedNode) {
@@ -49,8 +50,8 @@ public class DataModelSubject implements DataModelSubjectIFace {
     }
 
     /**
-     * Notify observers that there was non-trivial change in the data model.
-     * Therefore the data needs to be reloaded from the XML to the data model.
+     * Notify observers that there was non-trivial change in the XML file, which needs to be propagated to the data model.
+     * Therefore all the data needs to be reloaded from the XML file to the data model.
      */
     @Override
     public void notifyObservers() {

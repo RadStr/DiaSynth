@@ -54,7 +54,9 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" source="1.8" target="1.8"> 
+<!-- 		<compilerarg value="-Xlint"/>	-->
+	</javac>
     </target>
 
     <target name="run" depends="jar">
